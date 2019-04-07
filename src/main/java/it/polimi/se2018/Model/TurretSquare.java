@@ -13,13 +13,10 @@ public class TurretSquare extends Square {
 
     
     public Player getOwner() {
-        // TODO implement here
-        return null;
     }
 
     
     public void setOwner(Player player) {
-        // TODO implement here
     }
 
-}ÿ
+}

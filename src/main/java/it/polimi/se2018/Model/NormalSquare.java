@@ -13,8 +13,6 @@ public class NormalSquare extends Square {
 
     
     public OrderedCardList getAmmoCards() {
-        // TODO implement here
-        return null;
     }
 
 }

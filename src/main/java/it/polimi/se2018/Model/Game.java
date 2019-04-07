@@ -42,81 +42,43 @@ public class Game {
     private static boolean gameSingleton;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
     public KillShotTrack getKillshotTrack() {
-        // TODO implement here
-        return null;
     }
 
     
     public PlayersList getPlayers() {
-        // TODO implement here
-        return null;
     }
 
     
     public Turns getTurn() {
-        // TODO implement here
-        return null;
     }
 
     
     public Bot getBot() {
-        // TODO implement here
-        return null;
     }
 
     
     public OrderedCardList<PowerUpCard> getPowerUpDeck() {
-        // TODO implement here
-        return null;
     }
 
     
     public OrderedCardList<WeaponCard> getWeaponDeck() {
-        // TODO implement here
-        return null;
     }
 
     
     public OrderedCardList<AmmoCard> getAmmoDeck() {
-        // TODO implement here
-        return null;
     }
 
     
     public OrderedCardList<PowerUpCard> getPowerUpDiscardPile() {
-        // TODO implement here
-        return null;
     }
 
     
     public OrderedCardList<AmmoCard> getAmmoDiscardPile() {
-        // TODO implement here
-        return null;
     }
 
     
     public Board getMap() {
-        // TODO implement here
-        return null;
     }
 
-}ÿ
+}

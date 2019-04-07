@@ -15,8 +15,6 @@ public abstract class Card {
 
     
     public String getID() {
-        // TODO implement here
-        return "";
     }
 
-}ÿ
+}

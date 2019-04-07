@@ -13,7 +13,6 @@ public class Effect {
 
     
     public void Exec() {
-        // TODO implement here
     }
 
-}ÿ
+}

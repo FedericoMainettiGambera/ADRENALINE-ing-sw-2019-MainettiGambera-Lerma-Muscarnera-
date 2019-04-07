@@ -13,8 +13,6 @@ public class DominationSpawnPointSquare extends Square {
 
     
     public damagesTracker getDamageTracker() {
-        // TODO implement here
-        return null;
     }
 
-}ÿ
+}

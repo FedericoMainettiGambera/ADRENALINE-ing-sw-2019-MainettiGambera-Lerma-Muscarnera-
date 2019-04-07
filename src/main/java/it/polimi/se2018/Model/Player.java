@@ -12,18 +12,7 @@ public class Player extends Character {
     private PlayerHand hand;
 
 
-
-
-
-
-
-
-
-
-
-    
     public void getHand() {
-        // TODO implement here
     }
 
 }

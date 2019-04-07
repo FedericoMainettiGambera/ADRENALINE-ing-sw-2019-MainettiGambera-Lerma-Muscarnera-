@@ -14,8 +14,6 @@ public class TurretsModeTrack extends KillShotTrack {
 
     
     public OrderedCardList getAmmoCards() {
-        // TODO implement here
-        return null;
     }
 
-}ÿ
+}

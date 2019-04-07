@@ -23,37 +23,26 @@ public class WeaponCard extends Card {
 
     
     public AmmoList getPickUpCost() {
-        // TODO implement here
-        return null;
     }
 
     
     public AmmoList getRealoadCost() {
-        // TODO implement here
-        return null;
     }
 
     
     public boolean isLoaded() {
-        // TODO implement here
-        return false;
     }
 
     
     public void setLoaded(boolean value) {
-        // TODO implement here
     }
 
     
     public int getEffectListLength() {
-        // TODO implement here
-        return 0;
     }
 
     
     public Effect getEffect(int number) {
-        // TODO implement here
-        return null;
     }
 
-}ÿ
+}

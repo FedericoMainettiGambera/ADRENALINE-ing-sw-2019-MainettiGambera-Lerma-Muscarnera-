@@ -21,42 +21,22 @@ public class PlayerBoard {
     private int deathCounter;
 
 
-
-
-
-
-
-
-
-
-
-
-    
     public AmmoList getAmmoBox() {
-        // TODO implement here
-        return null;
     }
 
     
     public MarksTracker getMarksTracker() {
-        // TODO implement here
-        return null;
     }
 
     
     public damagesTracker getDamageTracker() {
-        // TODO implement here
-        return null;
     }
 
     
     public int getNumberOfDeaths() {
-        // TODO implement here
-        return 0;
     }
     
     public void addDeath() {
-        // TODO implement here
     }
 
 }

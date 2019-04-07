@@ -8,4 +8,4 @@ public class ExampleEffect extends Effect {
     public ExampleEffect() {
     }
 
-}ÿ
+}

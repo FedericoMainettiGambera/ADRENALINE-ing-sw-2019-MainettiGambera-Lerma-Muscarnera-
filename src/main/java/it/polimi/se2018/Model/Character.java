@@ -24,52 +24,27 @@ public abstract class Character {
     private PlayerBoard Board;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
     public String getNickname() {
-        // TODO implement here
-        return "";
     }
 
     
     public PlayersColors getColor() {
-        // TODO implement here
-        return null;
     }
 
     
     public void AddPoints() {
-        // TODO implement here
     }
 
     
     public int getScore() {
-        // TODO implement here
-        return 0;
     }
 
     
     public Position getPosition() {
-        // TODO implement here
-        return null;
     }
 
     
     public Board getBoard() {
-        // TODO implement here
-        return null;
     }
 
-}ÿ
+}

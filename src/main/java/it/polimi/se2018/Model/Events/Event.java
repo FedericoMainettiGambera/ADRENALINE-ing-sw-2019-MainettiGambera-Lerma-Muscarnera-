@@ -16,8 +16,6 @@ public class Event implements EventInterface {
 
     
     public Event Event() {
-        // TODO implement here
-        return null;
     }
 
 }

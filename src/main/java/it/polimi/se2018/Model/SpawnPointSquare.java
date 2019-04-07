@@ -16,14 +16,10 @@ public class SpawnPointSquare extends Square {
 
     
     public SpawnPointColors getColor() {
-        // TODO implement here
-        return null;
     }
 
     
     public OrderedCardList<WeaponCard> getWeaponCards() {
-        // TODO implement here
-        return null;
     }
 
-}ÿ
+}

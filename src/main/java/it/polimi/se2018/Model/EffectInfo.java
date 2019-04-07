@@ -18,4 +18,4 @@ public class EffectInfo {
     private int Param2;
 
 
-}ÿ
+}

@@ -42,32 +42,22 @@ public abstract class Square {
 
     
     public SquareSide getSide(CardinalPoint sideOrientation) {
-        // TODO implement here
-        return null;
     }
 
     
     public Position getCoordinates() {
-        // TODO implement here
-        return null;
     }
 
     
     public SquareType getSquareType() {
-        // TODO implement here
-        return null;
     }
 
     
     public boolean existsSquareOnCardinalPoint(CardinalPoint cardinalPoint) {
-        // TODO implement here
-        return false;
     }
 
     
     public Square getSquareOnCardinalPoint(CardinalPoint cardinalPoint) {
-        // TODO implement here
-        return null;
     }
 
-}ÿ
+}

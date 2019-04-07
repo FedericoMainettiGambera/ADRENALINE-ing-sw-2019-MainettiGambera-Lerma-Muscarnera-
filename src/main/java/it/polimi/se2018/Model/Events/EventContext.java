@@ -15,9 +15,4 @@ public class EventContext {
     
     public String message;
 
-    
-    public void etc...;
-
-
-
 }

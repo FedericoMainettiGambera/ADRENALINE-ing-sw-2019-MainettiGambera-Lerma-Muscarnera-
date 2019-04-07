@@ -14,7 +14,6 @@ public class ActionInfo {
 
     
     public void get() {
-        // TODO implement here
     }
 
-}ÿ
+}
