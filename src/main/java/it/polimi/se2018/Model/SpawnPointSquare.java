@@ -1,42 +1,29 @@
-package Model;
 
 import java.util.*;
 
-/**
- * 
- */
+
 public class SpawnPointSquare extends Square {
 
-    /**
-     * Default constructor
-     */
+    
     public SpawnPointSquare() {
     }
 
-    /**
-     * 
-     */
+    
     private SpawnPointColors color;
 
-    /**
-     * 
-     */
-    private OrderedCardList weaponCards;
+    
+    private OrderedCardList<WeaponCard> weaponCards;
 
-    /**
-     * @return
-     */
+    
     public SpawnPointColors getColor() {
         // TODO implement here
         return null;
     }
 
-    /**
-     * @return
-     */
-    public OrderedCardList getWeaponCards() {
+    
+    public OrderedCardList<WeaponCard> getWeaponCards() {
         // TODO implement here
         return null;
     }
 
-}
+}ÿ

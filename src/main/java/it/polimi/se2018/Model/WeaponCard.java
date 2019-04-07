@@ -1,102 +1,59 @@
-package Model;
 
 import java.util.*;
 
-/**
- * 
- */
+
 public class WeaponCard extends Card {
 
-    /**
-     * Default constructor
-     */
+    
     public WeaponCard() {
     }
 
-    /**
-     * 
-     */
-    private void pickUpCost;
+    
+    private AmmoList pickUpCost;
 
-    /**
-     * 
-     */
-    private void reloadCost;
+    
+    private AmmoList reloadCost;
 
-    /**
-     * 
-     */
+    
     private boolean isLoaded;
 
-    /**
-     * 
-     */
-    private Effect basicEffect;
-
-    /**
-     * 
-     */
-    private Effect optionalEffect;
-
-    /**
-     * 
-     */
-    private Effect alternativeFireMode;
+    
+    public list<Effect> effects;
 
 
-    /**
-     * @return
-     */
+    
     public AmmoList getPickUpCost() {
         // TODO implement here
         return null;
     }
 
-    /**
-     * @return
-     */
+    
     public AmmoList getRealoadCost() {
         // TODO implement here
         return null;
     }
 
-    /**
-     * @return
-     */
+    
     public boolean isLoaded() {
         // TODO implement here
         return false;
     }
 
-    /**
-     * @param value
-     */
+    
     public void setLoaded(boolean value) {
         // TODO implement here
     }
 
-    /**
-     * @return
-     */
-    public Effect getBasicEffect() {
+    
+    public int getEffectListLength() {
+        // TODO implement here
+        return 0;
+    }
+
+    
+    public Effect getEffect(int number) {
         // TODO implement here
         return null;
     }
 
-    /**
-     * @return
-     */
-    public Effect getOptionalEffect() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @return
-     */
-    public Effect getAlternativeFireMode() {
-        // TODO implement here
-        return null;
-    }
-
-}
+}ÿ

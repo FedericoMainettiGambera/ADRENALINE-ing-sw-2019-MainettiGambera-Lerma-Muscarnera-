@@ -1,57 +1,49 @@
-package Model;
 
 import java.util.*;
 
-/**
- * 
- */
+
 public class Kill {
 
-    /**
-     * Default constructor
-     */
+    
     public Kill() {
     }
 
-    /**
-     * 
-     */
+    
     private boolean isSkull;
 
-    /**
-     * 
-     */
-    private Player player;
+    
+    private Player killingPlayer;
 
-    /**
-     * 
-     */
+    
     private boolean isOverKill;
 
+    
+    private Player overKillingPlayer;
 
 
-    /**
-     * @return
-     */
+
+    
     public boolean isSkull() {
         // TODO implement here
         return false;
     }
 
-    /**
-     * @return
-     */
-    public Player getPlayer() {
+    
+    public Player getKillingPlayer() {
         // TODO implement here
         return null;
     }
 
-    /**
-     * @return
-     */
+    
     public boolean isOverKill() {
         // TODO implement here
         return false;
+    }
+
+    
+    public Player getOverKillingPlayer() {
+        // TODO implement here
+        return null;
     }
 
 }

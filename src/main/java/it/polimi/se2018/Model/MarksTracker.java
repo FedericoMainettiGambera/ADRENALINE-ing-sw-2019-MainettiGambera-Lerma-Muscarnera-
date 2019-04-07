@@ -1,32 +1,27 @@
-package Model;
 
 import java.util.*;
 
-/**
- * 
- */
+
 public class MarksTracker {
 
-    /**
-     * Default constructor
-     */
+    
     public MarksTracker() {
     }
 
-    /**
-     * 
-     */
+    
     private List<MarkSlots> markSlotsList;
 
 
 
-    /**
-     * @param player 
-     * @return
-     */
-    public MarkSlots getMarksFrom(String player) {
+    
+    public MarkSlots getMarksFrom(Player player) {
         // TODO implement here
         return null;
+    }
+
+    
+    public void addMarksFrom(Player player, int quantity) {
+        // TODO implement here
     }
 
 }

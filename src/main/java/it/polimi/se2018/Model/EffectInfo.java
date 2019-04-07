@@ -1,27 +1,21 @@
-package Model;
 
 import java.util.*;
 
-/**
- * 
- */
+
 public class EffectInfo {
 
-    /**
-     * Default constructor
-     */
+    
     public EffectInfo() {
     }
 
-    /**
-     * 
-     */
+    
+    public void effectT;
+
+    
     private int Param1;
 
-    /**
-     * 
-     */
+    
     private int Param2;
 
 
-}
+}ÿ
