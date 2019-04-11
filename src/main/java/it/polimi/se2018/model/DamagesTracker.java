@@ -1,17 +1,19 @@
 package it.polimi.se2018.model;
 
-import java.util.*;
+import java.util.List;
 
+/***/
+public class DamagesTracker {
 
-public class damagesTracker {
+    /***/
+    public DamagesTracker() {
 
-    
-    public damagesTracker() {
     }
 
-    
+    /***/
     private List<DamageSlot> damageSlotsList;
-    
+
+    /***/
     public void addDamageSlot(DamageSlot Slot) {
     }
 

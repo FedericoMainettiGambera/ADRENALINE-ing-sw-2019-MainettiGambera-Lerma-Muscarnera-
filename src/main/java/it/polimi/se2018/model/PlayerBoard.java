@@ -1,29 +1,50 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.model.AmmoList;
-import it.polimi.se2018.model.MarksTracker;
-import it.polimi.se2018.model.damagesTracker;
-
-
+/***/
 public class PlayerBoard {
 
-    
+    /***/
     public PlayerBoard() {
+        this.ammoBox = new AmmoList();
+        this.damagesTracker = new DamagesTracker();
+        this.marksTracker = new MarksTracker();
+        this.deathCounter = 0;
     }
 
-    
+    /***/
     private AmmoList ammoBox;
 
-    
-    private it.polimi.se2018.model.damagesTracker damagesTracker;
+    /***/
+    private DamagesTracker damagesTracker;
 
-    
+    /***/
     private MarksTracker marksTracker;
 
-    
+    /***/
     private int deathCounter;
-    
+
+    /***/
     public void addDeath() {
+        deathCounter++;
     }
 
+    /***/
+    public int getDeathCounter() {
+        return deathCounter;
+    }
+
+    /***/
+    public AmmoList getAmmoBox() {
+        return ammoBox;
+    }
+
+    /***/
+    public DamagesTracker getDamagesTracker() {
+        return damagesTracker;
+    }
+
+    /***/
+    public MarksTracker getMarksTracker() {
+        return marksTracker;
+    }
 }
