@@ -6,7 +6,7 @@ import it.polimi.se2018.model.enumerations.PlayersColors;
 /***/
 public abstract class Person {
 
-    /** comment */
+    /***/
     public Person(String nickname, PlayersColors color, PlayerBoard board){
         this.nickname=nickname;
         this.color=color;
