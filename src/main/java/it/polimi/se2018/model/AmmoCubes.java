@@ -7,8 +7,11 @@ import java.util.*;
 
 public class AmmoCubes {
 
-    
-    public AmmoCubes() {
+    /***/
+    public AmmoCubes(AmmoCubesColor color){
+
+        quantity=0;
+        color=color;
     }
 
     
@@ -17,9 +20,24 @@ public class AmmoCubes {
     
     private AmmoCubesColor color;
 
+    public int getQuantity() {
+        return quantity;
+    }
 
-    
+    public AmmoCubesColor getColor() {
+        return color;
+    }
+
+
     public void addQuantity(int quantity) {
+
+        this.quantity+=quantity;
+        if(this.quantity>3){
+
+        }
+
+
+
     }
 
 }
