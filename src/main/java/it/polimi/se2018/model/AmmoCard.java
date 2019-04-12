@@ -6,7 +6,11 @@ import java.util.*;
 public class AmmoCard extends Card {
 
     /***/
-    public AmmoCard() {
+    public AmmoCard(){
+
+
+
+
     }
 
     /***/
