@@ -4,7 +4,8 @@ package it.polimi.se2018.model;
 public class TurretsModeTrack extends KillShotTrack{
 
     /***/
-    public TurretsModeTrack(){
+    public TurretsModeTrack(int numberOfStartingSkulls) throws Exception {
+        super(numberOfStartingSkulls);
         ammoCards=null;
     }
 
