@@ -8,7 +8,12 @@ import java.util.List;
 public class WeaponCard extends Card {
 
     /***/
-    public WeaponCard() {
+    public WeaponCard(String ID, AmmoList pickUpCost, AmmoList reloadCost, List<Effect> effects) {
+        super(ID);
+        this.isLoaded = true;
+        this.effects = effects;
+        this.pickUpCost = pickUpCost;
+        this.reloadCost = reloadCost;
     }
 
     /***/

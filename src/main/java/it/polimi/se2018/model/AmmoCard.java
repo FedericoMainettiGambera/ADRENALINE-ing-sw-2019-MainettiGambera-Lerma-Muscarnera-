@@ -5,7 +5,8 @@ package it.polimi.se2018.model;
 public class AmmoCard extends Card {
 
     /***/
-    public AmmoCard(AmmoList ammunitions, boolean isPowerUp){
+    public AmmoCard(String ID, AmmoList ammunitions, boolean isPowerUp){
+        super(ID);
         this.ammunitions = ammunitions;
         this.isPowerUp = isPowerUp;
     }
