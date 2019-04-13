@@ -1,16 +1,19 @@
 package it.polimi.se2018.model;
 
-import java.util.*;
 
-
+/***/
 public abstract class Card {
 
-    
-    public Card() {
+    /***/
+    public Card(String ID) {
+        this.ID = ID;
     }
 
-    
+    /***/
     private String ID;
 
-
+    /***/
+    public String getID() {
+        return ID;
+    }
 }

@@ -1,18 +1,21 @@
 package it.polimi.se2018.model;
 
-import java.util.*;
+
+import it.polimi.se2018.model.enumerations.PlayersColors;
 
 
+/***/
 public class Player extends Person {
 
-    
-    public Player() {
+    /***/
+    public Player(String nickname, PlayersColors color, PlayerBoard board) {
+        super(nickname, color, board);
     }
 
-    
+    /***/
     private PlayerHand hand;
 
-
+    /***/
     public void getHand() {
     }
 

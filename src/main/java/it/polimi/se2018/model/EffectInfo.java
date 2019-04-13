@@ -1,21 +1,21 @@
 package it.polimi.se2018.model;
 
-import java.util.*;
 
-
+/***/
 public class EffectInfo {
 
-    
+    /***/
     public EffectInfo() {
     }
 
-    
-    public void effectT(){};
+    /***/
+    public void effectT(){
+    };
 
-    
+    /***/
     private int Param1;
 
-    
+    /***/
     private int Param2;
 
 

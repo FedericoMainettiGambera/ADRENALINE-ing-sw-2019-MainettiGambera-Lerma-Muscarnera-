@@ -1,16 +1,14 @@
 package it.polimi.se2018.model;
 
-import java.util.*;
 
 /***/
 public class AmmoCard extends Card {
 
     /***/
-    public AmmoCard(){
-
-
-
-
+    public AmmoCard(String ID, AmmoList ammunitions, boolean isPowerUp){
+        super(ID);
+        this.ammunitions = ammunitions;
+        this.isPowerUp = isPowerUp;
     }
 
     /***/
@@ -19,4 +17,13 @@ public class AmmoCard extends Card {
     /***/
     private boolean isPowerUp;
 
+    /***/
+    public AmmoList getAmmunitions() {
+        return ammunitions;
+    }
+
+    /***/
+    public boolean isPowerUp() {
+        return isPowerUp;
+    }
 }

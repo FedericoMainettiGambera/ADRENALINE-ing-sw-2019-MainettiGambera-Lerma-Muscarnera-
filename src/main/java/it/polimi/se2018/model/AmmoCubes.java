@@ -14,10 +14,10 @@ public class AmmoCubes {
         color=color;
     }
 
-    
+    /***/
     private int quantity;
 
-    
+    /***/
     private AmmoCubesColor color;
 
     public int getQuantity() {
