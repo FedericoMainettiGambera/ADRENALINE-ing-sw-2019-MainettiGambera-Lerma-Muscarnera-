@@ -6,7 +6,13 @@ import java.util.*;
 public class Damage extends Action {
 
     /***/
-    public Damage() {
+    public Damage(ActionInfo actionInfo) {
+        super(actionInfo);
+    }
+
+    /***/
+    public void Exec() {
+
     }
 
 }
