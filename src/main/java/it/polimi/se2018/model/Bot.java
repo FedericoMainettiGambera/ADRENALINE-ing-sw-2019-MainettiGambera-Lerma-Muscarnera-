@@ -1,11 +1,13 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.model.enumerations.PlayersColors;
+
 /***/
 public class Bot extends Person {
 
     /***/
-    public Bot(boolean isBotActive) {
-        super();
+    public Bot(boolean isBotActive, String nickname, PlayersColors color, PlayerBoard board) {
+        super(nickname, color, board);
         this.isBotActive = isBotActive;
     }
 
@@ -15,11 +17,11 @@ public class Bot extends Person {
     /***/
     private Player owner;
 
+
     /***/
     public Player getOwner() {
         return owner;
     }
-
 
     /***/
     public boolean isBotActive() {

@@ -9,6 +9,6 @@ public class DominationSpawnPointSquare extends Square {
     }
 
     /***/
-    private damagesTracker damagesTracker;
+    private DamagesTracker damagesTracker;
 
 }
