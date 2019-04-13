@@ -4,7 +4,7 @@ package it.polimi.se2018.model;
 public class Board {
 
     /***/
-    public Board() {
+    public Board(int chosenMap) {
     }
 
     /***/
