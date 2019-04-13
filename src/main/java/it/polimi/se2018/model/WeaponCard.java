@@ -28,4 +28,23 @@ public class WeaponCard extends Card {
     /***/
     public List<Effect> effects;
 
+    /***/
+    public AmmoList getPickUpCost() {
+        return pickUpCost;
+    }
+
+    /***/
+    public AmmoList getReloadCost() {
+        return reloadCost;
+    }
+
+    /***/
+    public boolean isLoaded() {
+        return isLoaded;
+    }
+
+    /***/
+    public List<Effect> getEffects() {
+        return effects;
+    }
 }
