@@ -38,7 +38,55 @@ public class Game {
     /***/
     private Board board;
 
+
     /***/
-    private static boolean gameSingleton;
+    public Bot getBot() {
+        return bot;
+    }
+
+    /***/
+    public KillShotTrack getKillshotTrack() {
+        return killshotTrack;
+    }
+
+    /***/
+    public PlayersList getPlayers() {
+        return players;
+    }
+
+    /***/
+    public Turns getTurn() {
+        return turn;
+    }
+
+    /***/
+    public OrderedCardList<PowerUpCard> getPowerUpDeck() {
+        return powerUpDeck;
+    }
+
+    /***/
+    public OrderedCardList<AmmoCard> getAmmoDeck() {
+        return ammoDeck;
+    }
+
+    /***/
+    public OrderedCardList<WeaponCard> getWeaponDeck() {
+        return weaponDeck;
+    }
+
+    /***/
+    public Board getBoard() {
+        return board;
+    }
+
+    /***/
+    public OrderedCardList<AmmoCard> getAmmoDiscardPile() {
+        return ammoDiscardPile;
+    }
+
+    /***/
+    public OrderedCardList<PowerUpCard> getPowerUpDiscardPile() {
+        return powerUpDiscardPile;
+    }
 
 }
