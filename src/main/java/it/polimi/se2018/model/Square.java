@@ -51,6 +51,8 @@ public abstract class Square {
         else if(cardinalPoint == CardinalPoint.west){
             return this.west;
         }
+        
+        return null;
     }
 
     /***/
