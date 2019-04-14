@@ -7,6 +7,7 @@ public class DamagesTracker {
 
     /***/
     public DamagesTracker() {
+        this.damageSlotsList = null;
     }
 
     /***/
@@ -22,6 +23,11 @@ public class DamagesTracker {
                 System.out.println("Can't take more than twelve damages, sorry!");
             }
         }
+    }
+
+    /***/
+    public DamageSlot getDamageSlot(int slotNumber) {
+        return damageSlotsList.get(slotNumber);
     }
 
 }
