@@ -16,12 +16,7 @@ public class DamagesTracker {
     /***/
     public void addDamages(Player shootingPlayer, int numberOfDamages) {
         for(int i = 0; i<numberOfDamages; i++) {
-            if(damageSlotsList.size() < 12) {
-                damageSlotsList.add(new DamageSlot(shootingPlayer));
-            }
-            else{
-                System.out.println("Can't take more than twelve damages, sorry!");
-            }
+            damageSlotsList.add(new DamageSlot(shootingPlayer));
         }
     }
 
@@ -34,5 +29,5 @@ public class DamagesTracker {
     public void emptyList() {
         this.damageSlotsList = null;
     }
-    
+
 }
