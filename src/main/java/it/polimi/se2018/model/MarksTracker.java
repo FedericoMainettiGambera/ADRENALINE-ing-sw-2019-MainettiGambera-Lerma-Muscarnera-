@@ -9,6 +9,7 @@ public class MarksTracker {
 
     /***/
     public MarksTracker() {
+        markSlotsList = null;
     }
 
     /***/
@@ -16,6 +17,7 @@ public class MarksTracker {
 
     /***/
     public void addMarksFrom(Player player, int quantity) {
+
     }
 
 }
