@@ -9,7 +9,7 @@ public class TurretSquare extends Square {
 
     /***/
     public TurretSquare(int X, int Y, SquareSide north, SquareSide east, SquareSide south, SquareSide west, SquareTypes squareType){
-        super(X,Y,north,east,south,west,squareType)
+        super(X,Y,north,east,south,west,squareType);
         this.owner=null;
     }
 
