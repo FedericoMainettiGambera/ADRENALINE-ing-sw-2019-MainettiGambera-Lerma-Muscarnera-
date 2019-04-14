@@ -26,12 +26,16 @@ public class Board {
     private Square[][] buildMap0(){
         Square[][] map = new Square[3][4];
 
+        /* lettura da file della mappa*/
+
         return map;
     }
 
     /***/
     private Square[][] buildMap1(){
         Square[][] map = new Square[3][4];
+
+        /* lettura da file della mappa*/
 
         return map;
     }
@@ -40,12 +44,16 @@ public class Board {
     private Square[][] buildMap2(){
         Square[][] map = new Square[3][4];
 
+        /* lettura da file della mappa*/
+
         return map;
     }
 
     /***/
     private Square[][] buildMap3(){
         Square[][] map = new Square[3][4];
+
+        /* lettura da file della mappa*/
 
         return map;
     }
