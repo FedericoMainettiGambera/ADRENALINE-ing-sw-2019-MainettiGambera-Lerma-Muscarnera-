@@ -30,4 +30,9 @@ public class DamagesTracker {
         return damageSlotsList.get(slotNumber);
     }
 
+    /***/
+    public void emptyList() {
+        this.damageSlotsList = null;
+    }
+    
 }
