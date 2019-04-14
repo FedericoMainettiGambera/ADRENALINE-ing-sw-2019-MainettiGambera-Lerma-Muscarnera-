@@ -11,7 +11,7 @@ public class AmmoCubes {
     public AmmoCubes(AmmoCubesColor color){
 
         quantity=0;
-        color=color;
+        this.color=color;
     }
 
     /***/
@@ -20,38 +20,24 @@ public class AmmoCubes {
     /***/
     private AmmoCubesColor color;
 
+    /***/
     public int getQuantity() {
-        return quantity;
+        return this.quantity;
     }
 
+    /***/
     public AmmoCubesColor getColor(){
-        return color;
+        return this.color;
     }
 
-
+    /***/
     public void addQuantity(int quantity) throws Exception{
-
         this.quantity+=quantity;
         if(this.quantity>3){
-
             this.quantity=3;
-
         }
-
-
-            if(this.quantity < 0){
-
-
-
-                throw new Exception("Ammo aint sufficient for payment");
-
-
-
-
-            }
-
-
-
+        if(this.quantity < 0){
+            throw new Exception("Ammo aint sufficient for payment");
+        }
     }
-
 }
