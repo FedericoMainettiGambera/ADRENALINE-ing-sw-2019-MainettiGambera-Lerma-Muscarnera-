@@ -1,6 +1,7 @@
 package it.polimi.se2018.model;
 
 
+import it.polimi.se2018.model.enumerations.CardinalPoint;
 import it.polimi.se2018.model.enumerations.SquareSide;
 import it.polimi.se2018.model.enumerations.SquareTypes;
 
@@ -9,7 +10,13 @@ import it.polimi.se2018.model.enumerations.SquareTypes;
 public abstract class Square {
 
     /***/
-    public Square() {
+    public Square(int X, int Y, SquareSide north, SquareSide east, SquareSide south, SquareSide west, SquareTypes squareType){
+        this.coordinates = new Position(X,Y);
+        this.north = north;
+        this.east = east;
+        this.south = south;
+        this.west = west;
+        this.squareType = squareType;
     }
 
     /***/
@@ -31,15 +38,29 @@ public abstract class Square {
     private SquareTypes squareType;
 
     /***/
-    private Square northSquare;
+    public SquareSide getSide(CardinalPoint cardinalPoint){
+        if(cardinalPoint == CardinalPoint.north){
+            return this.north;
+        }
+        else if(cardinalPoint == CardinalPoint.east){
+            return this.east;
+        }
+        else if(cardinalPoint == CardinalPoint.south){
+            return this.south;
+        }
+        else if(cardinalPoint == CardinalPoint.west){
+            return this.west;
+        }
+    }
 
     /***/
-    private Square southSquare;
+    public Position getCoordinates() {
+        return coordinates;
+    }
 
     /***/
-    private Square westSquare;
-
-    /***/
-    private Square eastSquare;
+    public SquareTypes getSquareType() {
+        return squareType;
+    }
 
 }
