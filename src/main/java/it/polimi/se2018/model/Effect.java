@@ -14,7 +14,12 @@ public class Effect {
         this.actions = actions;
         this.effectType = effectType;
     }
+    public Effect() {
 
+        this.actions = null;
+        this.effectType = null;
+
+    }
     /***/
     private String description;
 
