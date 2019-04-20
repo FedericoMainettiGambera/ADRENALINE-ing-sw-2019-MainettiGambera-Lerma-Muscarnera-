@@ -7,11 +7,11 @@ import it.polimi.se2018.model.enumerations.PlayersColors;
 public abstract class Person {
 
     /***/
-    public Person(String nickname, PlayersColors color, PlayerBoard board){
+    public Person(String nickname, PlayersColors color){
         this.nickname=nickname;
         this.color=color;
-        this.board=board;
 
+        this.board = new PlayerBoard();
         this.score=0;
         this.position=null;
     }
@@ -33,7 +33,7 @@ public abstract class Person {
 
     /***/
     public void setPosition(int x, int y){
-        this.position=new Position(x,y);
+        this.position = new Position(x,y);
         return;
     }
 

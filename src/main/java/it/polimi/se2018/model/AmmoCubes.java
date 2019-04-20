@@ -9,7 +9,6 @@ public class AmmoCubes {
 
     /***/
     public AmmoCubes(AmmoCubesColor color){
-
         quantity=0;
         this.color=color;
     }
@@ -31,13 +30,12 @@ public class AmmoCubes {
     }
 
     /***/
-    public void addQuantity(int quantity) throws Exception{
-        this.quantity+=quantity;
-        if(this.quantity>3){
-            this.quantity=3;
+    public void addQuantity(int quantity){
+        if(this.quantity+quantity <= GameConstant.MaxNumberOfAmmoCubes){
+            this.quantity += quantity;
         }
-        if(this.quantity < 0){
-            throw new Exception("Ammo aint sufficient for payment");
+        else{
+            this.quantity = GameConstant.MaxNumberOfAmmoCubes;
         }
     }
 }

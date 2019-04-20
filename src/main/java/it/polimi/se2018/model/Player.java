@@ -16,7 +16,8 @@ public class Player extends Person {
     private PlayerHand hand;
 
     /***/
-    public void getHand() {
+    public PlayerHand getHand() {
+        return this.hand;
     }
 
 }

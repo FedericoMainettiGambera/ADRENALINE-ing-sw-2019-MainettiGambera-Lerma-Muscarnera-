@@ -1,13 +1,14 @@
 package it.polimi.se2018.model;
 
 /***/
-public class PlayerBoard {
+public class PlayerBoard{
 
     /***/
     public PlayerBoard() {
         this.ammoBox = new AmmoList();
         this.damagesTracker = new DamagesTracker();
         this.marksTracker = new MarksTracker();
+
         this.deathCounter = 0;
     }
 

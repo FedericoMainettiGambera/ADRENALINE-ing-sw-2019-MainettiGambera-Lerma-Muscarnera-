@@ -28,6 +28,11 @@ public class MarkSlots {
 
     /***/
     public void addQuantity(int quantity){
-        /*TODO*/
+        if(this.quantity+quantity <= GameConstant.MaxNumberOfMarkFromPlayer) {
+            this.quantity += quantity;
+        }
+        else{
+            this.quantity = GameConstant.MaxNumberOfMarkFromPlayer;
+        }
     }
 }

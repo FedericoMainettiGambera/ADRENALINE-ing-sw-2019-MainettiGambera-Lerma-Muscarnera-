@@ -12,6 +12,12 @@ public class GameConstant {
     public final static int maxPowerUpCardsPerHand = 0;
 
     /***/
+    public final static int MaxNumberOfAmmoCubes = 3;
+
+    /***/
+    public final static int MaxNumberOfMarkFromPlayer = 3;
+
+    /***/
     public final static int maxPowerUpOnHandIfDead = 0;
 
     /***/

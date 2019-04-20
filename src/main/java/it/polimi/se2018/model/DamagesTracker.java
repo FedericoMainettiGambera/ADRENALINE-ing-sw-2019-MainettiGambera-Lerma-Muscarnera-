@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /***/
@@ -7,7 +8,7 @@ public class DamagesTracker {
 
     /***/
     public DamagesTracker() {
-        this.damageSlotsList = null;
+        this.damageSlotsList = new ArrayList<>();
     }
 
     /***/
@@ -27,7 +28,7 @@ public class DamagesTracker {
 
     /***/
     public void emptyList() {
-        this.damageSlotsList = null;
+        this.damageSlotsList = new ArrayList<>();
     }
 
 }
