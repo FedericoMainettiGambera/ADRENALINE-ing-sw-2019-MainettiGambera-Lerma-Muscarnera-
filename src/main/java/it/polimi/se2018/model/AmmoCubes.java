@@ -2,44 +2,49 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.model.enumerations.AmmoCubesColor;
 
-import java.util.*;
-import java.io.*;
-
-/**The AmmoCubes class keeps track of the number of cubes of a specific color a player has.
- * THIS CLASS MUST NEVER BE USED, INSTEAD USE THE "Person" CLASS.
+/**
+ * THIS CLASS SHOULD NEVER BE DIRECTLY ACCESSED, INSTEAD USE METHODS FROM THE "Person" CLASS.
+ * The AmmoCubes class keeps track of the number of cubes of a specific color a player has.
+ * @author FedericoMainettiGambera
  * */
 public class AmmoCubes {
 
-    /**Constructor*/
+    /*-****************************************************************************************************CONSTRUCTOR*/
+    /**Constructor:
+     * Sets quantity to 0. Sets color.
+     * @param color
+     * */
     public AmmoCubes(AmmoCubesColor color){
         quantity=0;
         this.color=color;
     }
 
-
-    /*ATTRIBUTES*/
-
-    /***/
+    /*-*****************************************************************************************************ATTRIBUTES*/
+    /**quantity of ammo cubes of this.color*/
     private int quantity;
 
-    /***/
+    /**color*/
     private AmmoCubesColor color;
 
+    /*-********************************************************************************************************METHODS*/
+    /*Do not to use this methods directly. Instead use methods from the "Person" class.*/
 
-    /*METHODS*/
-
-    /***/
+    /**@return
+     * */
     public int getQuantity() {
         return this.quantity;
     }
 
-    /***/
+    /**@return
+     * */
     public AmmoCubesColor getColor(){
         return this.color;
     }
 
     /**add the specified amount of ammos, if the total quantity exceed the "GameConstant.MaxNumberOfAmmoCubes"
-     * this method will cut it to the max amount possible.*/
+     * this method will cut it to the max amount possible.
+     * @param quantity
+     * */
     public void addQuantity(int quantity){
         if(this.quantity+quantity <= GameConstant.MaxNumberOfAmmoCubes){
             this.quantity += quantity;
@@ -49,10 +54,13 @@ public class AmmoCubes {
         }
     }
 
-    /**Subtract a quantity of ammos. This method is used to pay ammos. If the resulting quantity is negative
-     * the class return false.*/
+    /**Subtract a quantity of ammos. This method is used to pay ammos.
+     * @param quantity
+     * @return Before making the payment the method checks if the resulting quantity is positive,
+     *         if it isn't it returns false;
+     * */
     public boolean subQuantity(int quantity){
-        if(this.quantity-quantity >= 0){
+        if(canSubQuantity(quantity)){
             this.quantity -= quantity;
             return true;
         }
@@ -60,7 +68,8 @@ public class AmmoCubes {
             return false;
         }
     }
-    /***/
+    
+    /**checks if a specified amount of ammos can be subbed*/
     public boolean canSubQuantity(int quantity){
         if(this.quantity-quantity >= 0){
             return true;
