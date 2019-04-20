@@ -5,6 +5,9 @@ import it.polimi.se2018.model.enumerations.AmmoCubesColor;
 import java.util.*;
 import java.io.*;
 
+/**The AmmoCubes class keeps track of the number of cubes of a specific color a player has.
+ * THIS CLASS MUST NEVER BE USED, INSTEAD USE THE "Player" CLASS.
+ * */
 public class AmmoCubes {
 
     /***/
@@ -36,6 +39,17 @@ public class AmmoCubes {
         }
         else{
             this.quantity = GameConstant.MaxNumberOfAmmoCubes;
+        }
+    }
+
+    /***/
+    public boolean subQuantity(int quantity){
+        if(this.quantity-quantity >= 0){
+            this.quantity -= quantity;
+            return true;
+        }
+        else{
+            return false;
         }
     }
 }

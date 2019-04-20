@@ -3,7 +3,9 @@ package it.polimi.se2018.model;
 import java.util.ArrayList;
 import java.util.List;
 
-/***/
+/**The DamagesTracker class keeps track of the damages taken from a player.
+ * THIS CLASS MUST NEVER BE USED, INSTEAD USE THE "Player" CLASS.
+ * */
 public class DamagesTracker {
 
     /***/

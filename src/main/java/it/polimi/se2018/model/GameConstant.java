@@ -15,6 +15,9 @@ public class GameConstant {
     public final static int MaxNumberOfAmmoCubes = 3;
 
     /***/
+    public final static int NumberOfStartingAmmos = 1;
+
+    /***/
     public final static int MaxNumberOfMarkFromPlayer = 3;
 
     /***/

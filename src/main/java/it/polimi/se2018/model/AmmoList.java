@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/***/
+/**The AmmoList class keeps track of the current number of ammos a player has.
+ * THIS CLASS MUST NEVER BE USED, INSTEAD USE THE "Player" CLASS.
+ * */
 public class AmmoList{
 
     /***/
@@ -32,6 +34,16 @@ public class AmmoList{
             }
         }
         this.ammoCubesList.add(new AmmoCubes(color));
+    }
+
+    /***/
+    public boolean payAmmoCubesOfColor(AmmoCubesColor color, int quantity){
+        for(int i = 0; i < this.ammoCubesList.size(); i++){
+            if(this.getAmmoCubesList().get(i).getColor() == color){
+                return this.getAmmoCubesList().get(i).subQuantity(quantity);
+            }
+        }
+        return false;
     }
 
 }

@@ -1,7 +1,9 @@
 package it.polimi.se2018.model;
 
 
-/***/
+/**The DamageSlot class keeps track of a single damage taken from a player.
+ * THIS CLASS MUST NEVER BE USED, INSTEAD USE THE "Player" CLASS.
+ * */
 public class DamageSlot {
 
     /***/

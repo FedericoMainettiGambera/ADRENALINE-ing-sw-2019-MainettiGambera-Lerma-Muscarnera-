@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/***/
+/**The MarksTracker class keeps track of the number of marks a player has from every enemies in game
+ * THIS CLASS MUST NEVER BE USED, INSTEAD USE THE "Player" CLASS.
+ * */
 public class MarksTracker {
 
     /***/
@@ -30,9 +32,7 @@ public class MarksTracker {
                 return markSlotsList.get(i).getQuantity();
             }
         }
-
         return 0;
-
     }
 
 }

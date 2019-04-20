@@ -1,7 +1,9 @@
 package it.polimi.se2018.model;
 
 
-/***/
+/**The MarksSlots class keeps track of the number of marks a player has given to another player
+ * THIS CLASS MUST NEVER BE USED, INSTEAD USE THE "Player" CLASS.
+ * */
 public class MarkSlots {
 
     /***/
