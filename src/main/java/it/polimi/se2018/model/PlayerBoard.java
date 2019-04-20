@@ -74,10 +74,25 @@ public class PlayerBoard {
 
     /***/
     public boolean payAmmoCubes(AmmoCubesColor color, int quantity){
-        return this.ammoBox.payAmmoCubesOfColor(color, quantity);
+        return this.ammoBox.payAmmoCubes(color, quantity);
     }
 
-                /*DamagesTracker*/
+    /***/
+    public boolean payAmmoCubes(AmmoList cost){
+        return this.ammoBox.payAmmoCubes(cost);
+    }
+
+    /***/
+    public boolean canPayAmmoCubes(AmmoCubesColor color, int quantity){
+        return this.ammoBox.canPayAmmoCubes(color,quantity);
+    }
+
+    /***/
+    public boolean canPayAmmoCubes(AmmoList cost){
+        return this.ammoBox.canPayAmmoCubes(cost);
+    }
+
+    /*DamagesTracker*/
 
     /** USELESS (?) -> probably YES*/
     public DamageSlot getDamagesSlot(int slotNumber) {

@@ -95,6 +95,14 @@ public abstract class Person {
         return this.board.payAmmoCubes(color, quantity);
     }
     /***/
+    public boolean payAmmoCubes(AmmoList cost){
+        return this.board.payAmmoCubes(cost);
+    }
+    /***/
+    public boolean canPayAmmoCubes(AmmoCubesColor color, int quantity){ return this.board.canPayAmmoCubes(color,quantity); }
+    /***/
+    public boolean canPayAmmoCubes(AmmoList cost){ return this.board.canPayAmmoCubes(cost); }
+    /***/
     public void addDamages (Player shootingPlayer, int numberOfDamages){
         this.board.addDamages(shootingPlayer,numberOfDamages);
     }
