@@ -15,6 +15,11 @@ public class OrderedCardList<Card> {
     private List<Card> cards;
 
     /***/
+    public List<Card> getCards() {
+        return cards;
+    }
+
+    /***/
     public void moveTo(OrderedCardList to, Card card) {
     }
 
