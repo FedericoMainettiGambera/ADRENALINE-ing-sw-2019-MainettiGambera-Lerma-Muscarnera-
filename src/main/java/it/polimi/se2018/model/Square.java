@@ -64,5 +64,8 @@ public abstract class Square {
     public SquareTypes getSquareType() {
         return squareType;
     }
+    public void        setSquareType(SquareTypes S) {
+       squareType = S;
+    }
 
 }

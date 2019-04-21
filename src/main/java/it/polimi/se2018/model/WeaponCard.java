@@ -68,62 +68,68 @@ public class WeaponCard extends Card {
             effects = new ArrayList<Effect>();
             this.pickUpCost = new AmmoList();
             this.reloadCost = new AmmoList();
-
             BufferedReader reader = new BufferedReader(new FileReader("Card" + ID + ".set"));
-            String line;
-            line = reader.readLine();
+            try {
+                String line;
+                line = reader.readLine();
 
-            while (line != null) {
+                while (line != null) {
                     if (line.equals("PICK UP COST")) {
                         line = reader.readLine();
                         String secondLine = reader.readLine();
 
-                            if(line.equals("y"))
-                                pickUpCost.addAmmoCubesOfColor(yellow,Integer.parseInt(secondLine));
-                            if(line.equals("b"))
-                                pickUpCost.addAmmoCubesOfColor(blue,Integer.parseInt(secondLine));
-                            if(line.equals("r"))
-                                pickUpCost.addAmmoCubesOfColor(red,Integer.parseInt(secondLine));
+                        if (line.equals("y"))
+                            pickUpCost.addAmmoCubesOfColor(yellow, Integer.parseInt(secondLine));
+                        if (line.equals("b"))
+                            pickUpCost.addAmmoCubesOfColor(blue, Integer.parseInt(secondLine));
+                        if (line.equals("r"))
+                            pickUpCost.addAmmoCubesOfColor(red, Integer.parseInt(secondLine));
                     }
 
                     if (line.equals("RELOAD COST")) {
                         line = reader.readLine();
                         String secondLine = reader.readLine();
                         this.reloadCost = new AmmoList();
-                        if(line.equals("y"))
-                            reloadCost.addAmmoCubesOfColor(yellow,Integer.parseInt(secondLine));
-                        if(line.equals("b"))
-                            reloadCost.addAmmoCubesOfColor(blue,Integer.parseInt(secondLine));
-                        if(line.equals("r"))
-                            reloadCost.addAmmoCubesOfColor(red,Integer.parseInt(secondLine));
+                        if (line.equals("y"))
+                            reloadCost.addAmmoCubesOfColor(yellow, Integer.parseInt(secondLine));
+                        if (line.equals("b"))
+                            reloadCost.addAmmoCubesOfColor(blue, Integer.parseInt(secondLine));
+                        if (line.equals("r"))
+                            reloadCost.addAmmoCubesOfColor(red, Integer.parseInt(secondLine));
                     }
 
                     if (line.equals("NEW EFFECT"))
                         effects.add(new Effect());
 
-                if (line.equals("ACTIONS")) {
-                    line = reader.readLine();                                    // seek the File Cursor to the next Line
-                    while (!line.equals("END")) {
+                    if (line.equals("ACTIONS")) {
+                        line = reader.readLine();                                    // seek the File Cursor to the next Line
+                        while (!line.equals("END")) {
 
-                        //System.out.println("AZIONE: " + line);
-                        try {
-                            Class<?> Cref = Class.forName(line);
-                            Action demo = (Action) Cref.newInstance();
-                            //System.out.println(effect.size());
-                            effects.get(effects.size() - 1).getActions().add(demo);
-                        } catch (Exception e) {
+                            //System.out.println("AZIONE: " + line);
+                            try {
+                                Class<?> Cref = Class.forName(line);
+                                Action demo = (Action) Cref.newInstance();
+                                //System.out.println(effect.size());
+                                effects.get(effects.size() - 1).getActions().add(demo);
+                            } catch (Exception e) {
 
-                            System.out.println("errore" + e.toString());
+                                System.out.println("errore" + e.toString());
+                            }
+
+                            line = reader.readLine();                                    //
+
+
                         }
-
-                        line = reader.readLine();                                    //
-
 
                     }
 
+                    line = reader.readLine();
                 }
-
-                line = reader.readLine();
+                reader.close();
+            } catch( IOException E) {
+                /**/
+            } finally {
+                reader.close();
             }
         }
 

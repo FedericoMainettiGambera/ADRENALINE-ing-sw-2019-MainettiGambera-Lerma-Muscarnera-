@@ -1,5 +1,10 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.model.enumerations.SquareTypes;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+
 /***/
 public class Board {
 
@@ -23,10 +28,15 @@ public class Board {
     private Square[][] board;
 
     /***/
+
+
     private Square[][] buildMap0(){
         Square[][] map = new Square[3][4];
 
         /* lettura da file della mappa*/
+
+
+
 
         return map;
     }

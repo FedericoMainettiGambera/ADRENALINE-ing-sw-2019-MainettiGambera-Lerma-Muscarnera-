@@ -42,6 +42,7 @@ public class PowerUpCard extends Card {
 
 
 
+
         BufferedReader reader = new BufferedReader(new FileReader("Card" + ID + ".set"));
         String line;
         line = reader.readLine();
