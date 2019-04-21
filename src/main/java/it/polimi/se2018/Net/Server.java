@@ -8,7 +8,7 @@ public class Server {
 
     ServerSocket server=null;
     Socket socketClient=null;
-    int porta=9333; //porta server
+    int port=9333; //porta server
 
     DataInputStream in;
     DataOutputStream out;
@@ -16,9 +16,14 @@ public class Server {
 public Socket waitRequest()
 {
 try {
-    server = new ServerSocket(porta);
+
+   //System.out.println("0.server inizializzato");
+    server = new ServerSocket(port);
+   // System.out.println("1.server pronto sulla porta"+ port);
     socketClient = server.accept(); //aspetto richieste sulla porta 9333 e in caso ci siano inizliazzo socketclient con la richiesta in entrata
-   // server.close();//evitare connessioni multiple //
+
+   // System.out.println("2.connection established");
+    // server.close();//evitare connessioni multiple //
 
     in=new DataInputStream(socketClient.getInputStream());
     out=new DataOutputStream(socketClient.getOutputStream());
