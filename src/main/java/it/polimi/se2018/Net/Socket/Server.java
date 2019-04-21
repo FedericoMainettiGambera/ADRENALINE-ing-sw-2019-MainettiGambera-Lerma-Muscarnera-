@@ -1,4 +1,4 @@
-package it.polimi.se2018.Net;
+package it.polimi.se2018.Net.Socket;
 
 import java.io.*;
 import java.net.*;

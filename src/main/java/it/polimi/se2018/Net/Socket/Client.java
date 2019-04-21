@@ -1,4 +1,4 @@
-package it.polimi.se2018.Net;
+package it.polimi.se2018.Net.Socket;
 import java.net.*;
 import java.io.*;
 
@@ -14,11 +14,11 @@ public class Client {
     public Socket connect() {
         try {
 
-            System.out.println("0.provo a connettermi al server");
+           // System.out.println("0.provo a connettermi al server");
             Socket server = new Socket(InetAddress.getLocalHost(), port); //connessione alla socket, in questo caso il server è su localhost
 
 
-            System.out.println("1.connesso!");
+           // System.out.println("1.connesso!");
             in= new DataInputStream(mySocket.getInputStream());
             out=new DataOutputStream(mySocket.getOutputStream());
 
