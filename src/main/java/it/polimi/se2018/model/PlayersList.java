@@ -1,11 +1,8 @@
 package it.polimi.se2018.model;
 
-
 import it.polimi.se2018.model.enumerations.PlayersColors;
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**keeps track of the Players playing the current game*/
 public class PlayersList {
