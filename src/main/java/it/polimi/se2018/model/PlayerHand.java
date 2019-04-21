@@ -1,11 +1,12 @@
 package it.polimi.se2018.model;
 
-
 /***/
 public class PlayerHand {
 
     /***/
     public PlayerHand() {
+        powerUpCards = new OrderedCardList<>();
+        weaponCards = new OrderedCardList<>();
     }
 
     /***/
@@ -13,6 +14,16 @@ public class PlayerHand {
 
     /***/
     private OrderedCardList<WeaponCard> weaponCards;
+
+    /***/
+    public OrderedCardList<WeaponCard> getWeaponCards() {
+        return weaponCards;
+    }
+
+    /***/
+    public OrderedCardList<PowerUpCard> getPowerUpCards() {
+        return powerUpCards;
+    }
 
 
 }

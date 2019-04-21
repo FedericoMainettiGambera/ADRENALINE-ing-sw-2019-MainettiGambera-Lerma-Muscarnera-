@@ -9,6 +9,9 @@ public class GameConstant {
     }
 
     /***/
+    public final static int numberOfStartingAmmoCubesForEachColor = 1;
+
+    /***/
     public final static int maxPowerUpCardsPerHand = 0;
 
     /***/
@@ -36,7 +39,10 @@ public class GameConstant {
     public final static int minPlayers= 0;
 
     /***/
-    public final static int startingSkullsNumber= 0;
+    public final static int minStartingSkullsNumber= 0;
+
+    /***/
+    public final static int maxStartingSkullsNumber= 0;
 
     /***/
     public final static int actionsPerTurn= 0;
