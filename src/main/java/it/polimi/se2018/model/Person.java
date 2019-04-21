@@ -47,13 +47,26 @@ public abstract class Person {
     /*-********************************************************************************************************METHODS*/
 
     /*POSITION*/
-    /***/
+    /**sets person position
+     * @param x
+     * @param y
+     * */
     public void setPosition(int x, int y){
-        this.position = new Position(x,y);
+        try{
+            this.position = new Position(x,y);
+        }
+        catch (IllegalArgumentException e){
+            System.out.println(e.toString());
+        }
     }
 
-    /***/
-    public Position getPosition() {
+    /**@return person's position
+     * @throws IllegalStateException
+     * */
+    public Position getPosition() throws IllegalStateException {
+        if(this.position == null){
+            throw new IllegalStateException("Position hasn't been set, it is NULL.");
+        }
         return position;
     }
 
