@@ -6,8 +6,8 @@ import it.polimi.se2018.model.enumerations.PlayersColors;
 public class Bot extends Person {
 
     /***/
-    public Bot(boolean isBotActive, String nickname, PlayersColors color, PlayerBoard board) {
-        super(nickname, color, board);
+    public Bot(boolean isBotActive, String nickname, PlayersColors color) {
+        super(nickname, color);
         this.isBotActive = isBotActive;
     }
 

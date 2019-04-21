@@ -68,7 +68,7 @@ public class AmmoCubes {
             return false;
         }
     }
-    
+
     /**checks if a specified amount of ammos can be subbed*/
     public boolean canSubQuantity(int quantity){
         if(this.quantity-quantity >= 0){
