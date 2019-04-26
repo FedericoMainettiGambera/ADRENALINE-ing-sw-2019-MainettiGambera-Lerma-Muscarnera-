@@ -2,7 +2,7 @@ package it.polimi.se2018.model;
 
 
 /***/
-public abstract class Card {
+public  class Card {
 
     /***/
     public Card(String ID) {

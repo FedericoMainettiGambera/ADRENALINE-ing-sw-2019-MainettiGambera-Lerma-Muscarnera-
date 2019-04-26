@@ -3,6 +3,7 @@ package it.polimi.se2018.model;
 
 /** each instance of this class represents a single box of the killshot track */
 public class Kill {
+    /*-****************************************************************************************************CONSTRUCTOR*/
 
     /** any boxes is constructed with a skull in it, any other parameter is set false*/
     public Kill(){
@@ -12,6 +13,7 @@ public class Kill {
         overKillingPlayer=null;
     }
 
+    /*-****************************************************************************************************ATTRIBUTES*/
     /** keeps track whether there is a skull or not (for graphical matters) */
     private boolean isSkull;
 
@@ -24,6 +26,7 @@ public class Kill {
     /***/
     private Player overKillingPlayer;
 
+    /*-****************************************************************************************************METHODS*/
 
     /***/
     public boolean isOverKill() {
