@@ -1,7 +1,7 @@
 package it.polimi.se2018.model;
 
-
-/**This is an abstract class that represent a card. it is extended in PowerUpCard, WeaponCard and AmmoCard*/
+/**This is an abstract class that represent a card. it is extended in PowerUpCard, WeaponCard and AmmoCard
+ * @author FedericoMainettiGambera*/
 public abstract class Card{
 
     /*-****************************************************************************************************CONSTRUCTOR*/

@@ -1,9 +1,8 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.model.enumerations.CardType;
-
 /**This class represents the current status of a player's hand.
- * It holds power ups and weapons.*/
+ * It holds power ups and weapons.
+ * @author FedericoMainettiGambera*/
 public class PlayerHand {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
