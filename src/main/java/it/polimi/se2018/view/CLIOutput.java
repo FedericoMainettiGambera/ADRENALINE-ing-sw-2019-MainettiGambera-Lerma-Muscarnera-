@@ -1,7 +1,5 @@
 package it.polimi.se2018.view;
 
-import it.polimi.se2018.model.events.OutputEvent;
-
 import java.util.Observable;
 
 public class CLIOutput extends Output {
