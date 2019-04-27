@@ -8,6 +8,6 @@ public class ViewEventHandlerContext {
 
     private State state;
 
-    public void update(InputEvent event) {
+    public void update() {
     }
 }

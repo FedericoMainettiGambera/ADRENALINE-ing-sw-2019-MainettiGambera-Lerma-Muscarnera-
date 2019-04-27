@@ -6,7 +6,7 @@ public class ModelEventHandler {
     }
 
 
-    public void update(ModelEvent event) {
+    public void update() {
     }
 
 }
