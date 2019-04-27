@@ -1,7 +1,8 @@
 package it.polimi.se2018.model;
 
 /**This class represents the current status of a player's hand.
- * It holds power ups and weapons.*/
+ * It holds power ups and weapons.
+ * @author FedericoMainettiGambera*/
 public class PlayerHand {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
@@ -36,23 +37,12 @@ public class PlayerHand {
     /**@return the specified card in the player's hand or null if the card doesn't exist
      * */
     public WeaponCard getWeaponCard(String ID){
-        for (int i = 0; i < this.weaponCards.getCards().size(); i++) {
-            if(this.weaponCards.getCards().get(i).getID() == ID){
-                return this.weaponCards.getCards().get(i);
-            }
-        }
-        return null;
+        return getWeaponCards().getCard(ID);
     }
 
     /**@return the specified card in the player's hand or null if the card doesn't exist
      * */
     public PowerUpCard getPowerUpCard(String ID){
-        for (int i = 0; i < this.powerUpCards.getCards().size(); i++) {
-            if(this.powerUpCards.getCards().get(i).getID() == ID){
-                return this.powerUpCards.getCards().get(i);
-            }
-        }
-        return null;
+        return getPowerUpCards().getCard(ID);
     }
-
 }
