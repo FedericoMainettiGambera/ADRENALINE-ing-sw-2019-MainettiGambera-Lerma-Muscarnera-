@@ -58,4 +58,12 @@ public class DamagesTracker {
     public void emptyList() {
         this.damageSlotsList = new ArrayList<>();
     }
+
+    /***/
+    public static String stringify(){
+    }
+
+    /***/
+    public static DamagesTracker parse(String informations){
+    }
 }
