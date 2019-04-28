@@ -37,8 +37,13 @@ public class DamagesTrackerMVEvent extends ModelViewEvent{
      * */
     @Override
     public void parse(String informations){
-        this.damagesTracker = DamagesTracker.parse(informations);
-        this.player =  Player.parse(informations);
+        try {
+            this.damagesTracker = DamagesTracker.parse(informations);
+            this.player = Player.parse(informations);
+        }
+        catch (Exception e){
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
 }
