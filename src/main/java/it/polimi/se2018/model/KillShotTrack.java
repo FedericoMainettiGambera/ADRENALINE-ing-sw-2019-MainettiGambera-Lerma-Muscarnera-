@@ -30,11 +30,16 @@ public class KillShotTrack{
     private List<Kill> kills;
     /*-*********************************************************************************************************METHODS*/
 
+    /**
+     * check if there number of skulls is equal to zero*/
     public boolean areThereSkulls()
     {
         return (kills.size() != 0);
     }
 
+    /**
+     *as the number of skull is set once for all at the beginning of the game, it is only allowed to delete'em
+     * */
     public  void deleteSkull() throws IllegalStateException {
         if (!areThereSkulls()) {
             kills.remove(kills.size()-1);

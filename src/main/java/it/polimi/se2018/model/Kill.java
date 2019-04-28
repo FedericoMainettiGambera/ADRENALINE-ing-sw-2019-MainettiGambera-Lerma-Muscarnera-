@@ -42,6 +42,7 @@ public class Kill {
      * @author Ludovica Lerma
      */
     public void setKillingPlayer(Player player){
+
         killingPlayer=player;
         isSkull=false;
     }
@@ -57,7 +58,7 @@ public class Kill {
      * Keeps track of the OverkillingPlayer for scores purposes
      */
     public void setOverkillingPlayer(Player player){
-        isOverKill= false;
+        isOverKill= true;
         overKillingPlayer=player;
     }
 
