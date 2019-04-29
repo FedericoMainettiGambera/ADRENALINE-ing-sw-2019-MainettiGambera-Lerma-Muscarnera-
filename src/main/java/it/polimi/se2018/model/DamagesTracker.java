@@ -22,9 +22,6 @@ public class DamagesTracker {
     /**damage slots list*/
     private List<DamageSlot> damageSlotsList;
 
-    /**for stringify method*/
-    final static String tag = "<DamageTracker>\n";
-
     /*-********************************************************************************************************METHODS*/
     /*Do not to use this methods directly. Instead use methods from the "Person" class.*/
 
@@ -67,38 +64,5 @@ public class DamagesTracker {
      * */
     public void emptyList() {
         this.damageSlotsList = new ArrayList<>();
-    }
-
-    /***/
-    public String stringify(){
-
-        String information = DamagesTracker.tag;
-        for (int i = 0; i < damageSlotsList.size(); i++) {
-            DamageSlot slot = getDamageSlot(i);
-            information += slot.stringify();
-        }
-        information += DamagesTracker.tag;
-        return information;
-    }
-
-    /***/
-    public static DamagesTracker parse(String informations) throws Exception {
-        String str;
-        String[] damageSlots;
-
-        if( informations.startsWith(DamagesTracker.tag) && informations.endsWith(DamagesTracker.tag) ) {
-            str = informations.replace(DamagesTracker.tag, "");
-
-            DamagesTracker tracker = new DamagesTracker();
-
-            damageSlots = str.split(DamageSlot.tag);
-            for (int i = 0; i < damageSlots.length; i++) {
-                tracker.addDamages(DamageSlot.parse(damageSlots[i]));
-            }
-            return tracker;
-        }
-        else {
-            throw new Exception("tryed to parse a wrong string as a DamageTracker: " + informations);
-        }
     }
 }

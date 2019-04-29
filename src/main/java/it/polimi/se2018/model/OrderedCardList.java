@@ -92,5 +92,4 @@ public class OrderedCardList<T>{
     public void shuffle() {
         Collections.shuffle(this.cards);
     }
-
 }

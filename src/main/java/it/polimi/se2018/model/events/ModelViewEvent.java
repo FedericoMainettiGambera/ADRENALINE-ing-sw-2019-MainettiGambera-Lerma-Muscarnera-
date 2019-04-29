@@ -1,7 +1,5 @@
 package it.polimi.se2018.model.events;
 
-import it.polimi.se2018.model.enumerations.ModelViewEventType;
-
 /**this class holds all the information needed to update the View when the Model changes*/
 public class ModelViewEvent extends Event {
 

@@ -23,8 +23,6 @@ public class DamageSlot {
     /**shooting player*/
     private Player shootingPlayer;
 
-    /**stringify tag*/
-    final static String tag = "<DamageSlot>\n";
 
     /*-********************************************************************************************************METHODS*/
     /*Do not to use this methods directly. Instead use methods from the "Person" class.*/
@@ -33,28 +31,5 @@ public class DamageSlot {
      * */
     public Player getShootingPlayer() {
         return shootingPlayer;
-    }
-
-
-    /***/
-    public String stringify(){
-
-        return DamageSlot.tag +
-               shootingPlayer.stringify() +
-               DamageSlot.tag;
-    }
-
-    /***/
-    public static DamageSlot parse(String informations) throws Exception {
-
-        String str;
-
-        if( informations.startsWith(DamageSlot.tag) && informations.endsWith(DamageSlot.tag) ) {
-            str = informations.replace(DamageSlot.tag, "");
-            return new DamageSlot(Player.parse(str));
-        }
-        else {
-            throw new Exception("tryed to parse a wrong string as a DamageSlot: " + informations);
-        }
     }
 }

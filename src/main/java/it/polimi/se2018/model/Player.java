@@ -41,11 +41,4 @@ public class Player extends Person{
         return this.hand.getPowerUpCards();
     }
 
-    /***/
-    public static String stringify(){
-    }
-
-    /***/
-    public static Player parse(String informations){
-    }
 }
