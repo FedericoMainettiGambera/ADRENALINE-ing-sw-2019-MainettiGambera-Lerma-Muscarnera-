@@ -1,9 +1,7 @@
 package it.polimi.se2018.model;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 /**
- * THIS CLASS SHOULD NEVER BE DIRECTLY ACCESSED, INSTEAD USE METHODS FROM THE "Person" CLASS.
+ * THIS CLASS SHOULD NEVER BE DIRECTLY ACCESSED, INSTEAD USE METHODS FROM THE "Person" or "Player" CLASS.
  * The DamageSlot class keeps track of a single damage taken from a player.
  * It represents a blood drop in the Game.
  * @author FedericoMainettiGambera
