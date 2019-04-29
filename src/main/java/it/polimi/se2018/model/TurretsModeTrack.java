@@ -1,18 +1,37 @@
 package it.polimi.se2018.model;
+import java.util.*;
 
 /***/
-public class TurretsModeTrack extends KillShotTrack{
+public class TurretsModeTrack{
     /*-****************************************************************************************************CONSTRUCTOR*/
 
-    /***/
-    public TurretsModeTrack(int numberOfStartingSkulls) throws Exception {
-        super(numberOfStartingSkulls);
-        ammoCards=null;
-    }
+    public TurretsModeTrack() {
+
+           for(int index=0; index< 8; index++){
+
+               skulls.add(new Kill());
+
+               }
+
+
+           ammoCards=new OrderedCardList();
+           for(int index=0; index<5; index++) {
+
+               ammoCards.addCard(ammoCard);
+           }
+           }
+
+
+
+
+
+
     /*-****************************************************************************************************ATTRIBUTES*/
 
     /***/
     private OrderedCardList ammoCards;
+    private List<Kill> skulls;
+    private AmmoCard ammoCard;
     /*-****************************************************************************************************METHODS*/
 
     /***/
