@@ -71,4 +71,12 @@ public class MarksTracker {
             }
         }
     }
+
+    /***/
+    public static String stringify(){
+    }
+
+    /***/
+    public static MarksTracker parse(String informations){
+    }
 }

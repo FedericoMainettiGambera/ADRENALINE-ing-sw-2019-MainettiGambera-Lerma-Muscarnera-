@@ -1,26 +1,28 @@
 package it.polimi.se2018.model.events;
 
-/**this class is extended in all the other Events*/
-public abstract class Event {
+/**this class holds all the user-input information*/
+public class ViewControllerEvent extends Event {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor
      * */
-    public Event(){
+    public ViewControllerEvent(){
     }
 
     /*-*****************************************************************************************************ATTRIBUTES*/
 
     /*-********************************************************************************************************METHODS*/
-
     /**@return all the information that contains but in a String version
      */
+    @Override
     public String stringify(){
-        return new String("Class not complete. Need to override method toString().");
+        return super.toString();
     }
 
     /**builds the event from a String ( inverse of toString())
      * */
+    @Override
     public void parse(String informations){
+        super.parse(informations);
     }
 }
