@@ -14,13 +14,13 @@ public class KillShotTrack{
      * as many skulls as indicated by number
      * */
     public KillShotTrack(int numberOfStartingSkulls) throws Exception{
-       if((numberOfStartingSkulls>4)&&(numberOfStartingSkulls<8)){
+       if((numberOfStartingSkulls>4)&&(numberOfStartingSkulls<=8)){
            for (int index = 0; index < numberOfStartingSkulls; index++) {
                kills.add(new Kill());
            }
        }
        else {
-           throw new Exception("illegal numberOfStartingSkulls");
+           throw new Exception("illegal numberOfStartingSkulls: " + Integer.toString(numberOfStartingSkulls));
        }
     }
 
