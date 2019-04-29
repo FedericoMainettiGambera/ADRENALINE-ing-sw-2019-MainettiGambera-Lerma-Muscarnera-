@@ -5,7 +5,9 @@ package it.polimi.se2018.model;
 public class Kill {
     /*-****************************************************************************************************CONSTRUCTOR*/
 
-    /** any boxes is constructed with a skull in it, any other parameter is set false*/
+    /**COnstructor:
+     * only isSkull is true
+     * */
     public Kill(){
         isSkull=true;
         killingPlayer=null;
@@ -14,52 +16,77 @@ public class Kill {
     }
 
     /*-****************************************************************************************************ATTRIBUTES*/
-    /** keeps track whether there is a skull or not (for graphical matters) */
+    /** keeps track whether there is a skull or not*/
     private boolean isSkull;
 
-    /***/
+    /**killing player*/
     private Player killingPlayer;
 
-    /***/
+    /**if the kill was an over kill*/
     private boolean isOverKill;
 
-    /***/
+    /**over killing player*/
     private Player overKillingPlayer;
 
     /*-****************************************************************************************************METHODS*/
 
-    /***/
+    /**@return if it is overkill*/
     public boolean isOverKill() {
         return isOverKill;
     }
 
-    /***/
-    public Player getKillingPlayer() {
-        return killingPlayer;
+    /**@return is it is still a Skull*/
+    public boolean isSkull() {
+        return isSkull;
+    }
+
+    /**@return the killing player if ther is, or an exception*/
+    public Player getKillingPlayer() throws Exception{
+        if(!isSkull && this.killingPlayer!=null) {
+            return killingPlayer;
+        }
+        else {
+            throw new Exception();
+        }
     }
 
     /**
-     * @author Ludovica Lerma
+     * @param player
      */
-    public void setKillingPlayer(Player player){
-
-        killingPlayer=player;
-        isSkull=false;
+    public void setKillingPlayer(Player player) throws Exception{
+        if(isSkull && player!=null) {
+            killingPlayer = player;
+            isSkull = false;
+        }
+        else {
+            throw new Exception();
+        }
     }
 
 
-    /***/
-    public Player getOverKillingPlayer() {
-        return overKillingPlayer;
+    /**@return
+     * */
+    public Player getOverKillingPlayer() throws Exception {
+        if(!isSkull && this.overKillingPlayer!=null) {
+            return overKillingPlayer;
+        }
+        else {
+            throw new Exception();
+        }
     }
 
 
-    /**
-     * Keeps track of the OverkillingPlayer for scores purposes
+    /**Keeps track of the OverkillingPlayer for scores purposes
+     * @param player
      */
-    public void setOverkillingPlayer(Player player){
-        isOverKill= true;
-        overKillingPlayer=player;
+    public void setOverkillingPlayer(Player player) throws Exception{
+        if(!isSkull && player!=null) {
+            isOverKill = true;
+            overKillingPlayer = player;
+        }
+        else {
+            throw new Exception();
+        }
     }
 
 

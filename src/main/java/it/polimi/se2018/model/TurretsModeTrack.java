@@ -1,33 +1,28 @@
 package it.polimi.se2018.model;
-import java.util.*;
 
-/***/
-public class TurretsModeTrack{
+
+/**Turrets mode killshot track*/
+public class TurretsModeTrack extends KillShotTrack{
     /*-****************************************************************************************************CONSTRUCTOR*/
 
+    /**Constructor:
+     * sets an orderedCardList for the ammos
+     */
     public TurretsModeTrack() {
-           for(int index=0; index< 8; index++){
-               skulls.add(new Kill());
-           }
-           ammos=new OrderedCardList();
+        super(GameConstant.numberOfStartingSkullsTurretsMode);
+
+        ammos=new OrderedCardList<>();
     }
 
     /*-****************************************************************************************************ATTRIBUTES*/
-    /***/
+    /**Ammos*/
     private OrderedCardList<AmmoCard> ammos;
-
-    private List<Kill> skulls;
 
     /*-****************************************************************************************************METHODS*/
 
-    /***/
+    /**@return
+     * */
     public OrderedCardList getAmmos() {
         return ammos;
     }
-
-    /***/
-    public void setAmmoCards(OrderedCardList ammoCards){
-        this.ammos = ammoCards;
-    }
-
 }

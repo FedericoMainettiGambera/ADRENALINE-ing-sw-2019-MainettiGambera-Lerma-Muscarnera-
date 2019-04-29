@@ -12,6 +12,15 @@ public class GameConstant {
     public final static int numberOfStartingAmmoCubesForEachColor = 1;
 
     /***/
+    public final static int numberOfStartingSkullsTurretsMode = 8;
+
+    /***/
+    public final static int maxStartingSkulls = 8;
+
+    /***/
+    public final static int minStartingSkulls = 5;
+
+    /***/
     public final static int maxPowerUpCardsPerHand = 0;
 
     /***/
