@@ -5,4 +5,5 @@ package it.polimi.se2018.virtualView;
  * E' observable dal controller (riceve ViewControllerEvent)
  */
 public class VirtualView {
+
 }
