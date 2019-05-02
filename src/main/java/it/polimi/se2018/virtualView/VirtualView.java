@@ -4,8 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * E' observer del model (inoltra ModelViewEvent)
- * E' observable dal controller (riceve ViewControllerEvent)
+ * E' observer del model
  */
 public class VirtualView implements Observer {
 
