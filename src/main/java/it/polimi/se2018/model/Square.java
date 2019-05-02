@@ -10,13 +10,14 @@ import it.polimi.se2018.model.enumerations.SquareTypes;
 public abstract class Square {
 
     /***/
-    public Square(int X, int Y, SquareSide north, SquareSide east, SquareSide south, SquareSide west, SquareTypes squareType){
+    public Square(int X, int Y, SquareSide north, SquareSide east, SquareSide south, SquareSide west, SquareTypes squareType, char color){
         this.coordinates = new Position(X,Y);
         this.north = north;
         this.east = east;
         this.south = south;
         this.west = west;
         this.squareType = squareType;
+        this.color=color;
     }
 
     /***/
@@ -36,6 +37,8 @@ public abstract class Square {
 
     /***/
     private SquareTypes squareType;
+
+    private char color;
 
     /***/
     public SquareSide getSide(CardinalPoint cardinalPoint){
@@ -67,5 +70,6 @@ public abstract class Square {
     public void        setSquareType(SquareTypes S) {
        squareType = S;
     }
+    public char getColor(){return this.color;}
 
 }
