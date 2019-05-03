@@ -1,0 +1,85 @@
+package it.polimi.se2018;
+
+import it.polimi.se2018.model.DamageSlot;
+import it.polimi.se2018.model.DamagesTracker;
+import it.polimi.se2018.model.Player;
+import it.polimi.se2018.model.enumerations.PlayersColors;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+public class TestDamagesTracker {
+    @Test
+    public void testAddDamage(){
+        DamagesTracker dt = new DamagesTracker();
+        Player p = new Player("test", PlayersColors.yellow);
+        int numberOfDamages = 2;
+
+        dt.addDamages(p,numberOfDamages);
+
+        assertEquals(p,dt.getDamageSlotsList().get(0).getShootingPlayer());
+        assertEquals(p,dt.getDamageSlotsList().get(1).getShootingPlayer());
+        assertEquals(numberOfDamages,dt.getDamageSlotsList().size());
+
+
+
+        dt = new DamagesTracker();
+        numberOfDamages = -2;
+
+        try {
+            dt.addDamages(p, numberOfDamages);
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals(0, dt.getDamageSlotsList().size() );
+        }
+
+
+
+
+        dt=new DamagesTracker();
+        numberOfDamages = 2;
+        try {
+            dt.addDamages(null, numberOfDamages);
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals(0, dt.getDamageSlotsList().size() );
+        }
+
+
+
+        dt = new DamagesTracker();
+        DamageSlot ds = new DamageSlot(p);
+
+        dt.addDamage(ds);
+        dt.addDamage(ds);
+
+        assertEquals(p,dt.getDamageSlotsList().get(0).getShootingPlayer());
+        assertEquals(p,dt.getDamageSlotsList().get(1).getShootingPlayer());
+        assertEquals(numberOfDamages,dt.getDamageSlotsList().size());
+
+
+
+        dt = new DamagesTracker();
+        try{
+            dt.addDamage(null);
+            fail();
+        }
+        catch (IllegalArgumentException e){
+            assertEquals(0, dt.getDamageSlotsList().size() );
+        }
+    }
+
+    @Test
+    public void testEmptyList(){
+        DamagesTracker dt = new DamagesTracker();
+        Player p = new Player("test", PlayersColors.yellow);
+        DamageSlot ds = new DamageSlot(p);
+
+        dt.addDamage(ds);
+        dt.addDamage(ds);
+
+        dt.emptyList();
+
+        assertEquals(0, dt.getDamageSlotsList().size());
+    }
+}

@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +37,14 @@ public class DamagesTracker {
      * @param shootingPlayer
      * @param numberOfDamages
      * */
-    public void addDamages(Player shootingPlayer, int numberOfDamages) {
-        for(int i = 0; i<numberOfDamages; i++) {
+    public void addDamages(Player shootingPlayer, int numberOfDamages) throws IllegalArgumentException {
+        if(shootingPlayer == null){
+            throw new IllegalArgumentException("The shooting player can't be null.");
+        }
+        if(numberOfDamages<1){
+            throw new IllegalArgumentException("the number of Damages can't be < 1 .");
+        }
+        for(int i = 0; i < numberOfDamages; i++) {
             damageSlotsList.add(new DamageSlot(shootingPlayer));
         }
     }
@@ -45,7 +52,10 @@ public class DamagesTracker {
     /**add Damages
      * @param damageSlot
      * */
-    public void addDamages(DamageSlot damageSlot) {
+    public void addDamage(DamageSlot damageSlot)throws IllegalArgumentException {
+        if(damageSlot == null){
+            throw new IllegalArgumentException("the DamageSlot can't be null.");
+        }
         damageSlotsList.add(damageSlot);
     }
 
