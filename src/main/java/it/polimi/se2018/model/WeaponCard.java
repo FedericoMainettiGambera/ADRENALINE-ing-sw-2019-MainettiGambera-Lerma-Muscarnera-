@@ -126,7 +126,7 @@ public class WeaponCard extends Card {
                                         if(line.equals("PRECONDITION"))
                                         {
 
-
+                                        /*test*/
 
                                         }
                                        if(line.equals("DAMAGE"))
