@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Observer;
 
-public class SocketConnectionHandlerVirtualView extends Thread {
+public class ConnectionHandlerVirtualView extends Thread {
 
     private ServerSocket serverSocket;
 
@@ -21,7 +21,7 @@ public class SocketConnectionHandlerVirtualView extends Thread {
     private Observer controller;
 
 
-    public SocketConnectionHandlerVirtualView(ServerSocket serverSocket, Observer controller){
+    public ConnectionHandlerVirtualView(ServerSocket serverSocket, Observer controller){
         this.serverSocket = serverSocket;
         this.isServerSocketLive = true;
         this.oos = new ArrayList<>();
@@ -70,7 +70,7 @@ public class SocketConnectionHandlerVirtualView extends Thread {
             catch (IOException e){
                 e.printStackTrace();
             }
-            SocketListenerClientHandlerVirtualView sl = new SocketListenerClientHandlerVirtualView(this.tempSocket, ois, controller);
+            ClientListenerVirtualView sl = new ClientListenerVirtualView(this.tempSocket, ois, controller);
             //starts the Thread that listen for Object sent from the NetworkHandler.
             new Thread(sl).start();
         }

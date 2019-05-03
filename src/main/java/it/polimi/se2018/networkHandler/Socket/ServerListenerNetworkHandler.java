@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
 
-public class SocketListenerClientHandlerNetworkHandler extends Observable implements Runnable {
+public class ServerListenerNetworkHandler extends Observable implements Runnable {
 
     private Socket socket;
 
@@ -18,7 +18,7 @@ public class SocketListenerClientHandlerNetworkHandler extends Observable implem
 
     private Observer view;
 
-    public SocketListenerClientHandlerNetworkHandler(Socket socket, ObjectInputStream ois, Observer view){
+    public ServerListenerNetworkHandler(Socket socket, ObjectInputStream ois, Observer view){
             this.socket = socket;
             this.isSocketLive = true;
             this.ois = ois;

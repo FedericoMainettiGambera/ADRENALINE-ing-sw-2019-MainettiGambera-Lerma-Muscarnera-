@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class ServerSocketVirtualView extends VirtualView {
+public class SocketVirtualView extends VirtualView {
 
     private ServerSocket serverSocket;
 
@@ -20,11 +20,11 @@ public class ServerSocketVirtualView extends VirtualView {
 
     private List<ObjectOutputStream> oos;
 
-    private SocketConnectionHandlerVirtualView connectionHandler;
+    private ConnectionHandlerVirtualView connectionHandler;
 
     private Observer controller;
 
-    public void ServerSocketVirtualView(int port, Observer controller){
+    public void SocketVirtualView(int port, Observer controller){
         this.port = port;
 
         this.controller = controller;
@@ -46,7 +46,7 @@ public class ServerSocketVirtualView extends VirtualView {
     }
 
     public void startServer() throws IOException{
-        this.connectionHandler = new SocketConnectionHandlerVirtualView(this.serverSocket, this.controller);
+        this.connectionHandler = new ConnectionHandlerVirtualView(this.serverSocket, this.controller);
         this.connectionHandler.start();
     }
 

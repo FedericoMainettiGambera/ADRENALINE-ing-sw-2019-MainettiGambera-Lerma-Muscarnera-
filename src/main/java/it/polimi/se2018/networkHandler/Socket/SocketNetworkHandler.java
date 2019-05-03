@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
 
-public class ClientSocketNetworkHandler extends NetworkHandler implements Observer{
+public class SocketNetworkHandler extends NetworkHandler implements Observer{
 
     private Socket socket;
 
@@ -25,7 +25,7 @@ public class ClientSocketNetworkHandler extends NetworkHandler implements Observ
 
     private Observer view;
 
-    public ClientSocketNetworkHandler(InetAddress inetAddress, int port, Observer view){
+    public SocketNetworkHandler(InetAddress inetAddress, int port, Observer view){
         this.view = view;
 
         this.port = port;
@@ -47,7 +47,7 @@ public class ClientSocketNetworkHandler extends NetworkHandler implements Observ
         try {
             this.ois = new ObjectInputStream(this.socket.getInputStream());
 
-            SocketListenerClientHandlerNetworkHandler sl = new SocketListenerClientHandlerNetworkHandler(socket, ois, view);
+            ServerListenerNetworkHandler sl = new ServerListenerNetworkHandler(socket, ois, view);
 
             new Thread(sl).start();
 
