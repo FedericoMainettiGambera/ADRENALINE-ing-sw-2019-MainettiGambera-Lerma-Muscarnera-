@@ -82,4 +82,24 @@ public class TestDamagesTracker {
 
         assertEquals(0, dt.getDamageSlotsList().size());
     }
+
+    @Test
+    public void testGetDamageSlot(){
+        DamagesTracker dt = new DamagesTracker();
+        try{
+            dt.getDamageSlot(10);
+            fail();
+        }
+        catch (IndexOutOfBoundsException e){
+            boolean value = (dt.getDamageSlotsList().size() < 10);
+            assertTrue(value);
+        }
+
+        Player p = new Player("test", PlayersColors.purple);
+        DamageSlot ds = new DamageSlot(p);
+
+        dt.addDamage(ds);
+
+        assertEquals(ds, dt.getDamageSlot(0));
+    }
 }

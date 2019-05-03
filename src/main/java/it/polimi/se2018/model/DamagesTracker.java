@@ -1,6 +1,6 @@
 package it.polimi.se2018.model;
 
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,11 +62,11 @@ public class DamagesTracker {
     /**@param slotNumber
      * @return the slotNumber DamageSlot
      * */
-    public DamageSlot getDamageSlot(int slotNumber) {
+    public DamageSlot getDamageSlot(int slotNumber) throws IndexOutOfBoundsException {
         if(damageSlotsList.size()>= slotNumber) {
             return damageSlotsList.get(slotNumber);
         }
-        return null;
+        throw new IndexOutOfBoundsException("requested a slot number higher than the number of DamageSlots existing: " +slotNumber);
     }
 
     /**empty the damageSlotsList
