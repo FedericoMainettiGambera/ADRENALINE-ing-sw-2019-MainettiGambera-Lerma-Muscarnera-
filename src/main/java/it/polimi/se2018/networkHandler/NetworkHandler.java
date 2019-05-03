@@ -1,13 +1,9 @@
-package it.polimi.se2018.virtualView;
+package it.polimi.se2018.networkHandler;
 
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- * E' observer del model
- */
-public class VirtualView implements Observer {
-
+public class NetworkHandler implements Observer {
     @Override
     public void update(Observable o, Object arg) {
 
