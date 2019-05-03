@@ -36,17 +36,17 @@ public class WeaponCard extends Card {
          * The parser is quite simple.
          * Every Line contains info about the content of the next lines or is informative content per se.
          * It also uses the "Class" class to determinate Classes of actions.
-         *     Example Content: "cards17.set"
+         *     Example Content: "cards17.set"  ''' the code is indentated only to be more readable,the final file is not.
          *
          *         PICK UP COST
-         *         r
-         *         3
+         *          r
+         *          3
          *         PICK UP COST
-         *         y
-         *         1
+         *          y
+         *          1
          *         RELOAD COST
-         *         b
-         *         5
+         *          b
+         *          5
          *         NEW EFFECT
          *           ACTION
          *               %X%
@@ -55,14 +55,17 @@ public class WeaponCard extends Card {
          *                              ThereAreNoWallsBetweenPlayerAndTarget
          *                          DAMAGE
          *                              3
+         *                          SQUARE MOVEMENT
+         *                              1
          *                  END
          *              %Y%
+         *              %Z%
          *         ...
          *         END
          *         NEW EFFECT
-         *         ACTION
-         *         %Z%
-         *         END
+         *          ACTION
+         *              %Z%
+         *          END
          *
          * This File describes a card that needs 3 red cubes and 1 yellow cubes to be picked up,5 blue cubes  to reload
          * and has 2 effects: The first executes the atomic actions %X% and %Y%, the second executes the atomic action
@@ -133,6 +136,12 @@ public class WeaponCard extends Card {
                                         {
                                             line = reader.readLine();                                        // changes Damage
                                             actionInfo.getActionDetails().setDamage(Integer.parseInt(line));
+
+                                        }
+                                        if(line.equals("SQUARE MOVEMENT"))
+                                        {
+                                            line = reader.readLine();                                        // changes Damage
+                                            actionInfo.getActionDetails().setSquareMovement(Integer.parseInt(line));
 
                                         }
                                         line = reader.readLine();
