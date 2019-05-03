@@ -52,11 +52,6 @@ public class Game {
     }
 
     /***/
-    public Turns getTurn() {
-        return turn;
-    }
-
-    /***/
     public OrderedCardList<PowerUpCard> getPowerUpDeck() {
         return powerUpDeck;
     }
