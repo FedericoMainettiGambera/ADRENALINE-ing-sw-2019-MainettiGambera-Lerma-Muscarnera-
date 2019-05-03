@@ -48,57 +48,80 @@ public class ActionInfo {
         return false;               // if it throws exception it returns false
     }
     class ActionDetails {
-        private int damage;             // specified in card file
+        class UserSelectedActionDetails {
+            public CardinalPoint getDirection() {
+                return direction;
+            }
+            public void setDirection(CardinalPoint direction) {
+                this.direction = direction;
+            }
+            private CardinalPoint direction;
+            public Square getChosenSquare() {
+                return chosenSquare;
+            }
 
-        public CardinalPoint getDirection() {
-            return direction;
+
+
+            private Square chosenSquare;                // selected square
+
+
+
+            public void setChosenSquare(Square chosenSquare) {
+                this.chosenSquare = chosenSquare;
+            }
+            public Player getTarget() {
+                return target;
+            }
+
+            public void setTarget(Player target) {
+                this.target = target;
+            }
+
+            private Player target;
+
+        }
+        class FileSelectedActionDetails {
+
+            public int getDamage() {
+                return damage;
+            }
+            public void setDamage(int damage) {
+                this.damage = damage;
+            }
+            private int damage;             // specified in card file
+
+            public int getTargetsQuantity() {
+                return targetsQuantity;
+            }
+
+            public void setTargetsQuantity(int targetsQuantity) {
+                this.targetsQuantity = targetsQuantity;
+            }
+
+            private int targetsQuantity;
+
+            public int getSquareMovement() {
+                return squareMovement;
+            }
+
+            public void setSquareMovement(int squareMovement) {
+                this.squareMovement = squareMovement;
+            }
+
+            private int squareMovement;                             // maximum movements possible
+
         }
 
-        public void setDirection(CardinalPoint direction) {
-            this.direction = direction;
+        public UserSelectedActionDetails getUserSelectedActionDetails() {
+            return userSelectedActionDetails;
+        }
+        public FileSelectedActionDetails getFileSelectedActionDetails() {
+            return fileSelectedActionDetails;
         }
 
-        private CardinalPoint direction;
+        private UserSelectedActionDetails userSelectedActionDetails;
+        private FileSelectedActionDetails fileSelectedActionDetails;
 
-        public int getTargetsQuantity() {
-            return targetsQuantity;
-        }
-
-        public void setTargetsQuantity(int targetsQuantity) {
-            this.targetsQuantity = targetsQuantity;
-        }
-
-        private int targetsQuantity;
-
-        public int getSquareMovement() {
-            return squareMovement;
-        }
-
-        public void setSquareMovement(int squareMovement) {
-            this.squareMovement = squareMovement;
-        }
-
-        private int squareMovement;
-
-        public Square getChosenSquare() {
-            return chosenSquare;
-        }
-
-        public void setDamage(int damage) {
-            this.damage = damage;
-        }
-
-        private Square chosenSquare;                // selected square
-
-        public Player getTarget() {
-            return target;
-        }
-
-        public void setChosenSquare(Square chosenSquare) {
-            this.chosenSquare = chosenSquare;
-        }
-
-        private Player target;
     }
 
     class ActionContext {

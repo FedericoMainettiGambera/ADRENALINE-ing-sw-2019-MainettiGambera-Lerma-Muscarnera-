@@ -135,13 +135,13 @@ public class WeaponCard extends Card {
                                         if(line.equals("DAMAGE"))
                                         {
                                             line = reader.readLine();                                        // changes Damage
-                                            actionInfo.getActionDetails().setDamage(Integer.parseInt(line));
+                                            actionInfo.getActionDetails().getFileSelectedActionDetails().setDamage(Integer.parseInt(line));
 
                                         }
                                         if(line.equals("SQUARE MOVEMENT"))
                                         {
                                             line = reader.readLine();                                        // changes Damage
-                                            actionInfo.getActionDetails().setSquareMovement(Integer.parseInt(line));
+                                            actionInfo.getActionDetails().getFileSelectedActionDetails().setSquareMovement(Integer.parseInt(line));
 
                                         }
                                         line = reader.readLine();
