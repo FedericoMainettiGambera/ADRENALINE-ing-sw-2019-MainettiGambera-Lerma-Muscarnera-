@@ -19,7 +19,42 @@ public class PlayersList {
     /**list of players*/
     private List<Player> players;
 
+    private Player currentPlayingPlayer;
+
+    private Player startingPlayer;
+
     /*-********************************************************************************************************METHODS*/
+
+    public Player getCurrentPlayingPlayer() {
+        return this.currentPlayingPlayer;
+    }
+
+    public void setCurrentPlayingPlayer(Player currentPlayingPlayer){
+        this.currentPlayingPlayer = currentPlayingPlayer;
+    }
+
+    public Player getStartingPlayer(){
+        return this.startingPlayer;
+    }
+
+    public void setStartingPlayer(Player startingPlayer){
+        this.startingPlayer = startingPlayer;
+    }
+
+    public void setNextPlayingPlayer(){
+        for(int i = 0; i < this.players.size(); i++){
+            if(this.players.get(i).getNickname() == this.currentPlayingPlayer.getNickname()){
+                if(i==this.players.size()-1){
+                    setCurrentPlayingPlayer(this.players.get(0));
+                }
+                else {
+                    setCurrentPlayingPlayer(this.players.get(i + 1));
+                }
+                break;
+            }
+        }
+    }
+
     /**create a new Player and add it to the playersList
      * @param nickname
      * @param color
