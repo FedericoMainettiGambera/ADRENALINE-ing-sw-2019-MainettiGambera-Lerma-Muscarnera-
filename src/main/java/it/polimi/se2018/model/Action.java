@@ -9,6 +9,14 @@ public abstract class Action {
         this.actionInfo = actionInfo;
     }
 
+    public void setActionInfo(ActionInfo actionInfo) {
+        this.actionInfo = actionInfo;
+    }
+
+    public ActionInfo getActionInfo() {
+        return actionInfo;
+    }
+
     /***/
     private ActionInfo actionInfo;
 
