@@ -9,6 +9,11 @@ import java.io.FileReader;
 public class Board {
 
     /***/
+    public Board(int ID) {
+
+
+
+    }
     public Board(String chosenMap) {
         if(chosenMap == "map 0 Name Here"){
             this.board=buildMap0();

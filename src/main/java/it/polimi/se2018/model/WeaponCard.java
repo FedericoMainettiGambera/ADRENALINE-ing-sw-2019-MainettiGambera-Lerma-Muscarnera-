@@ -104,11 +104,12 @@ public class WeaponCard extends Card {
                     if (line.equals("ACTIONS")) {
                         line = reader.readLine();                                    // seek the File Cursor to the next Line
                         while (!line.equals("END")) {
-
-                            //System.out.println("AZIONE: " + line);
                             try {
                                 Class<?> Cref = Class.forName(line);
                                 Action demo = (Action) Cref.newInstance();
+
+                                /* Action info */
+
                                 //System.out.println(effect.size());
                                 effects.get(effects.size() - 1).getActions().add(demo);
                             } catch (Exception e) {
@@ -117,7 +118,31 @@ public class WeaponCard extends Card {
                             }
 
                             line = reader.readLine();                                    //
+                            ActionInfo actionInfo = new ActionInfo();
+                            if(line.equals("ACTION INFO")) {
 
+                                line = reader.readLine();
+                                while(!line.equals("END")) {
+                                        if(line.equals("PRECONDITION"))
+                                        {
+
+
+
+                                        }
+                                       if(line.equals("DAMAGE"))
+                                        {
+
+
+
+                                        }
+                                    line = reader.readLine();
+                                }
+
+                            } else {
+
+                                /*nothing*/
+
+                            }
 
                         }
 
