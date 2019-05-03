@@ -1,42 +1,38 @@
 package it.polimi.se2018.model;
 
 
-import it.polimi.se2018.model.enumerations.EffectType;
-
 import java.util.List;
-import java.util.function.Consumer;
 
 /***/
 public class Effect {
-
+    /*-****************************************************************************************************CONSTRUCTOR*/
     /***/
-    public Effect(List<Action> actions, EffectType effectType) {
+    public Effect(String description, List<Action> actions) {
+        this.description = description;
         this.actions = actions;
-        this.effectType = effectType;
     }
+
+    /*TODO: delete*/
     public Effect() {
-
         this.actions = null;
-        this.effectType = null;
-
     }
+
+    /*-*****************************************************************************************************ATTRIBUTES*/
     /***/
     private String description;
 
     /***/
-    private EffectType effectType;
-
-    /***/
     private List<Action> actions;
 
+    /*-********************************************************************************************************METHODS*/
     /***/
     public List<Action> getActions() {
         return actions;
     }
 
     /***/
-    public EffectType getEffectType() {
-        return effectType;
+    public String getDescription() {
+        return description;
     }
 
     /***/

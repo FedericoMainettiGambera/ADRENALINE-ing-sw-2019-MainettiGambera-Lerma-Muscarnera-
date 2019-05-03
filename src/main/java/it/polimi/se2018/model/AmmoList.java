@@ -126,5 +126,4 @@ public class AmmoList{
         /*error case*/
         return false;
     }
-
 }

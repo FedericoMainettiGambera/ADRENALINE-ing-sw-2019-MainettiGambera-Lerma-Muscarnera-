@@ -1,7 +1,7 @@
 package it.polimi.se2018.model;
 
 /**
- * THIS CLASS SHOULD NEVER BE DIRECTLY ACCESSED, INSTEAD USE METHODS FROM THE "Person" CLASS.
+ * THIS CLASS SHOULD NEVER BE DIRECTLY ACCESSED, INSTEAD USE METHODS FROM THE "Person" or "Player" CLASS.
  * The DamageSlot class keeps track of a single damage taken from a player.
  * It represents a blood drop in the Game.
  * @author FedericoMainettiGambera
@@ -20,6 +20,7 @@ public class DamageSlot {
     /*-*****************************************************************************************************ATTRIBUTES*/
     /**shooting player*/
     private Player shootingPlayer;
+
 
     /*-********************************************************************************************************METHODS*/
     /*Do not to use this methods directly. Instead use methods from the "Person" class.*/

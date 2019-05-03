@@ -4,7 +4,7 @@ import it.polimi.se2018.model.enumerations.AmmoCubesColor;
 import it.polimi.se2018.model.enumerations.PlayersColors;
 
 /***/
-public class Player extends Person {
+public class Player extends Person{
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /***/
