@@ -59,7 +59,7 @@ public class WeaponCard extends Card {
          *20         END
          *
          * This File describes a card that needs 3 red cubes and 1 yellow cubes to be picked up,5 blue cubes  to reload
-         * and hass 2 effects: The first executes the atomic actions %X% and %Y%, the second executes the atomic action
+         * and has 2 effects: The first executes the atomic actions %X% and %Y%, the second executes the atomic action
          * %Z%
          * */
 

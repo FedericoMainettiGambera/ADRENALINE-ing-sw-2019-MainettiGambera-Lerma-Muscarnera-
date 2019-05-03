@@ -12,7 +12,7 @@ import java.io.*;
 public class Board {
 
     /***/
-    public Board(String chosenMap) throws IOException {
+    public Board(String chosenMap) throws IOException, NullPointerException {
 
             this.board=buildMap(chosenMap);
 
@@ -29,9 +29,10 @@ public class Board {
 
     private Square[][] buildMap(String chosenMap) throws IOException{
         Square[][] map = new Square[3][4];
-        SquareSide[] sides = null;
+        SquareSide[] sides = new SquareSide[4];
         SquareTypes type;
         char color, type2;
+        String line=null;
 
 
 
@@ -39,13 +40,14 @@ public class Board {
             try {
                 fileReader = new FileReader("/Users/LudoLerma/IdeaProjects/ing-sw-2019-MainettiGambera-Lerma-Muscarnera/src/main/Files/map");
                 bufferedReader = new BufferedReader(fileReader);
+                line=bufferedReader.readLine();
             } catch (IOException e) {
                 e.printStackTrace();
             }
             //cerca la linea dopo map0,1,2,o 3
-            while (!bufferedReader.readLine().contains(chosenMap)) {
+            while (!line.contains(chosenMap)) {
 
-                bufferedReader.readLine();
+                line=bufferedReader.readLine();
 
             }
 
@@ -57,7 +59,7 @@ public class Board {
             for (int i = 0; i < 3; i++) {
 
 
-                for (int j = 0; j < 4; j++) {
+                for(int j = 0; j < 4; j++){
 
                     if (string[0] != '-') {
                         int index = 0; //serve per creare un array di sides
