@@ -15,9 +15,6 @@ public class Game {
     private PlayersList players;
 
     /***/
-    private Turns turn;
-
-    /***/
     private Bot bot;
 
     /***/
