@@ -35,7 +35,7 @@ public class ActionInfo {
     public  boolean preCondition() {
         try {
             java.lang.reflect.Method method;
-            Class<?> c = Class.forName("class name");
+            Class<?> c = Class.forName("PreConditionMethods");
             Class<?>[] paramTypes = {ActionDetails.class, ActionContext.class};
             method = c.getDeclaredMethod(preConditionMethodName, null);
             Object returnValue = method.invoke(preConditionMethods,this.actionDetails,this.actionContext);
