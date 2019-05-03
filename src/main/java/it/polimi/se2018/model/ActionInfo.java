@@ -4,6 +4,14 @@ import it.polimi.se2018.model.enumerations.CardinalPoint;
 
 /***/
 public class ActionInfo {
+    public String getPreConditionMethodName() {
+        return preConditionMethodName;
+    }
+
+    public void setPreConditionMethodName(String preConditionMethodName) {
+        this.preConditionMethodName = preConditionMethodName;
+    }
+
     private String preConditionMethodName;
     public ActionInfo()  {
 
@@ -41,14 +49,67 @@ public class ActionInfo {
     }
     class ActionDetails {
         private int damage;             // specified in card file
+
+        public CardinalPoint getDirection() {
+            return direction;
+        }
+
+        public void setDirection(CardinalPoint direction) {
+            this.direction = direction;
+        }
+
         private CardinalPoint direction;
+
+        public int getTargetsQuantity() {
+            return targetsQuantity;
+        }
+
+        public void setTargetsQuantity(int targetsQuantity) {
+            this.targetsQuantity = targetsQuantity;
+        }
+
         private int targetsQuantity;
+
+        public int getSquareMovement() {
+            return squareMovement;
+        }
+
+        public void setSquareMovement(int squareMovement) {
+            this.squareMovement = squareMovement;
+        }
+
         private int squareMovement;
+
+        public Square getChosenSquare() {
+            return chosenSquare;
+        }
+
+        public void setDamage(int damage) {
+            this.damage = damage;
+        }
+
         private Square chosenSquare;                // selected square
+
+        public Player getTarget() {
+            return target;
+        }
+
+        public void setChosenSquare(Square chosenSquare) {
+            this.chosenSquare = chosenSquare;
+        }
+
         private Player target;
     }
 
     class ActionContext {
+        public Player getPlayer() {
+            return player;
+        }
+
+        public void setPlayer(Player player) {
+            this.player = player;
+        }
+
         private Player player;          // context of the action: initialized during Effect.exec()
     }
 
