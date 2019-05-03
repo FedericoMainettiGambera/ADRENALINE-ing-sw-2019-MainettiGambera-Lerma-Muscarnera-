@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
 
-public class SocketListenerClientHandlerVirtualView extends Observable implements Runnable{
+public class ClientListenerVirtualView extends Observable implements Runnable{
 
     private Socket socket;
 
@@ -18,7 +18,7 @@ public class SocketListenerClientHandlerVirtualView extends Observable implement
 
     private ViewControllerEvent VCE;
 
-    public SocketListenerClientHandlerVirtualView(Socket socket, ObjectInputStream ois, Observer controller){
+    public ClientListenerVirtualView(Socket socket, ObjectInputStream ois, Observer controller){
         this.socket = socket;
         this.isSocketLive = true;
         this.ois = ois;
