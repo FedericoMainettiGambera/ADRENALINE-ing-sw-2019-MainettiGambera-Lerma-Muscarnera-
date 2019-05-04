@@ -91,8 +91,8 @@ public class Game {
     }
 
     /***/
-    public Board getBoard() {
-        return board;
+    public  Board getBoard() {
+        return this.board;
     }
 
     public void setBoard(Board board) {

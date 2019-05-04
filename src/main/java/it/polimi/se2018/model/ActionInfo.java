@@ -21,10 +21,36 @@ public class ActionInfo {
 
     }
     class PreConditionMethods {
+            public boolean validPayment(ActionDetails actionDetails,ActionContext actionContext) {
+                Player player = actionContext.getPlayer();
+                AmmoCubes ammoCost = actionDetails.getFileSelectedActionDetails().getAmmoCubesCost();
+                if(player.getPlayerBoard().canPayAmmoCubes(ammoCost.getColor(), ammoCost.getQuantity() )) {
+
+                    return true;
+
+                }
+
+                return false;
+
+            }
             public boolean alwaysTrue() {
 
                 return true;
 
+            }
+            public boolean itsValidPosition(ActionDetails actionDetails,ActionContext actionContext) {
+                int x = actionDetails.getUserSelectedActionDetails().getNewPosition().getX();
+                int y = actionDetails.getUserSelectedActionDetails().getNewPosition().getY();
+                try {
+                    Board board = new Board(""); // example. TODO: insert board reference here
+                    if(board.getBoard()[x][y] != null) {
+                        return true;
+                    }
+                    return false;
+                } catch (Exception e) {}
+                finally {
+                    return false;
+                }
             }
             public boolean thereAreNotWallsBetweenTargetAndPlayer(ActionDetails actionDetails,ActionContext actionContext) {
 
@@ -78,11 +104,27 @@ public class ActionInfo {
             }
 
 
+            public int getGenericQuantity() {
+                return genericQuantity;
+            }
 
+            public void setGenericQuantity(int genericQuantity) {
+                this.genericQuantity = genericQuantity;
+            }
+
+            private int genericQuantity;
             private Square chosenSquare;                // selected square
 
 
+            public Position getNewPosition() {
+                return newPosition;
+            }
 
+            public void setNewPosition(Position newPosition) {
+                this.newPosition = newPosition;
+            }
+
+            private Position newPosition;
             public void setChosenSquare(Square chosenSquare) {
                 this.chosenSquare = chosenSquare;
             }
@@ -126,6 +168,17 @@ public class ActionInfo {
             }
 
             private int squareMovement;                             // maximum movements possible
+
+
+            public AmmoCubes getAmmoCubesCost() {
+                return ammoCubesCost;
+            }
+
+            public void setAmmoCubesCost(AmmoCubes ammoCubesCost) {
+                this.ammoCubesCost = ammoCubesCost;
+            }
+
+            private AmmoCubes ammoCubesCost;
 
         }
 

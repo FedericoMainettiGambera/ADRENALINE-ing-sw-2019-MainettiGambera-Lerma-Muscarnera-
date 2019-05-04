@@ -6,6 +6,10 @@ import java.util.*;
 public class Damage extends Action {
 
     /***/
+    public Damage() {
+        super();
+        getActionInfo().setPreConditionMethodName("thereAreNotWallsBetweenTargetAndPlayer");
+    }
     public Damage(ActionInfo actionInfo) {
         super(actionInfo);
     }

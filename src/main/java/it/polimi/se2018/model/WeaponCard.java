@@ -120,6 +120,7 @@ public class WeaponCard extends Card {
                                 /* Action info */
                                 line = reader.readLine();                                    //
                                 ActionInfo actionInfo = new ActionInfo();
+                                boolean useDefaultPreCondition = true;
 
                                 if(line.equals("ACTION INFO")) {
 
@@ -127,7 +128,7 @@ public class WeaponCard extends Card {
                                     while(!line.equals("END")) {
                                         if(line.equals("PRECONDITION"))
                                         {
-
+                                            useDefaultPreCondition = false;
                                             line = reader.readLine();                                       // set PreCondition Method
                                             actionInfo.setPreConditionMethodName(line);
 
@@ -154,6 +155,9 @@ public class WeaponCard extends Card {
 
                                 }
                                 //System.out.println(effect.size());
+                                if(useDefaultPreCondition) {
+                                    actionInfo.setPreConditionMethodName (demo.getActionInfo().getPreConditionMethodName()); /* # */
+                                }
                                 demo.setActionInfo(actionInfo);
                                 effects.get(effects.size() - 1).getActions().add(demo);
                             } catch (Exception e) {

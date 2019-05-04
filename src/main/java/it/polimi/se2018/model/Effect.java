@@ -47,7 +47,10 @@ public class Effect {
         if(isExecutable)
             for(Action a:this.actions) {
                 a.Exec();
-            }
+            } else {
+                // Notify to the User
+
+        }
     }
 
 }
