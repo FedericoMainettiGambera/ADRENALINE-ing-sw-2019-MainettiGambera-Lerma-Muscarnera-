@@ -38,6 +38,20 @@ public class ActionInfo {
                 return true;
 
             }
+            public boolean itsValidPosition(ActionDetails actionDetails,ActionContext actionContext) {
+                int x = actionDetails.getUserSelectedActionDetails().getNewPosition().getX();
+                int y = actionDetails.getUserSelectedActionDetails().getNewPosition().getY();
+                try {
+                    Board board = new Board(""); // example. TODO: insert board reference here
+                    if(board.getBoard()[x][y] != null) {
+                        return true;
+                    }
+                    return false;
+                } catch (Exception e) {}
+                finally {
+                    return false;
+                }
+            }
             public boolean thereAreNotWallsBetweenTargetAndPlayer(ActionDetails actionDetails,ActionContext actionContext) {
 
                 return false;
@@ -102,7 +116,15 @@ public class ActionInfo {
             private Square chosenSquare;                // selected square
 
 
+            public Position getNewPosition() {
+                return newPosition;
+            }
 
+            public void setNewPosition(Position newPosition) {
+                this.newPosition = newPosition;
+            }
+
+            private Position newPosition;
             public void setChosenSquare(Square chosenSquare) {
                 this.chosenSquare = chosenSquare;
             }

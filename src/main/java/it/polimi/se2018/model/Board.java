@@ -18,6 +18,10 @@ public class Board {
 
     }
 
+    public Square[][] getBoard() {
+        return board;
+    }
+
     /***/
     private Square[][] board;
     private FileReader fileReader;
