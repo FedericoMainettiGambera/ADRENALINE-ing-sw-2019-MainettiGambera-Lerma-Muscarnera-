@@ -21,6 +21,18 @@ public class ActionInfo {
 
     }
     class PreConditionMethods {
+            public boolean validPayment(ActionDetails actionDetails,ActionContext actionContext) {
+                Player player = actionContext.getPlayer();
+                AmmoCubes ammoCost = actionDetails.getFileSelectedActionDetails().getAmmoCubesCost();
+                if(player.getPlayerBoard().canPayAmmoCubes(ammoCost.getColor(), ammoCost.getQuantity() )) {
+
+                    return true;
+
+                }
+
+                return false;
+
+            }
             public boolean alwaysTrue() {
 
                 return true;
@@ -126,6 +138,17 @@ public class ActionInfo {
             }
 
             private int squareMovement;                             // maximum movements possible
+
+
+            public AmmoCubes getAmmoCubesCost() {
+                return ammoCubesCost;
+            }
+
+            public void setAmmoCubesCost(AmmoCubes ammoCubesCost) {
+                this.ammoCubesCost = ammoCubesCost;
+            }
+
+            private AmmoCubes ammoCubesCost;
 
         }
 
