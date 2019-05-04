@@ -14,8 +14,6 @@ public class GameSetUp {
         this.isDoubleKill=false;
         this.isFinalFrenzy=false;
         this.mapChoice=null;
-
-
     }
 
     /***/

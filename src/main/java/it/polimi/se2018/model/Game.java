@@ -41,9 +41,17 @@ public class Game {
         return bot;
     }
 
+    public void setBot(Bot bot) {
+        this.bot = bot;
+    }
+
     /***/
     public KillShotTrack getKillshotTrack() {
         return killshotTrack;
+    }
+
+    public void setKillshotTrack(KillShotTrack killshotTrack) {
+        this.killshotTrack = killshotTrack;
     }
 
     /***/
@@ -51,9 +59,17 @@ public class Game {
         return players;
     }
 
+    public void setPlayers(PlayersList players) {
+        this.players = players;
+    }
+
     /***/
     public OrderedCardList<PowerUpCard> getPowerUpDeck() {
         return powerUpDeck;
+    }
+
+    public void setPowerUpDeck(OrderedCardList<PowerUpCard> powerUpDeck) {
+        this.powerUpDeck = powerUpDeck;
     }
 
     /***/
@@ -61,9 +77,17 @@ public class Game {
         return ammoDeck;
     }
 
+    public void setAmmoDeck(OrderedCardList<AmmoCard> ammoDeck) {
+        this.ammoDeck = ammoDeck;
+    }
+
     /***/
     public OrderedCardList<WeaponCard> getWeaponDeck() {
         return weaponDeck;
+    }
+
+    public void setWeaponDeck(OrderedCardList<WeaponCard> weaponDeck) {
+        this.weaponDeck = weaponDeck;
     }
 
     /***/
@@ -71,9 +95,17 @@ public class Game {
         return board;
     }
 
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
     /***/
     public OrderedCardList<AmmoCard> getAmmoDiscardPile() {
         return ammoDiscardPile;
+    }
+
+    public void setAmmoDiscardPile(OrderedCardList<AmmoCard> ammoDiscardPile) {
+        this.ammoDiscardPile = ammoDiscardPile;
     }
 
     /***/
@@ -81,4 +113,7 @@ public class Game {
         return powerUpDiscardPile;
     }
 
+    public void setPowerUpDiscardPile(OrderedCardList<PowerUpCard> powerUpDiscardPile) {
+        this.powerUpDiscardPile = powerUpDiscardPile;
+    }
 }

@@ -11,7 +11,6 @@ public class ViewControllerEventHandlerContext implements Observer {
 
     private static State state;
 
-
     public ViewControllerEventHandlerContext() {
         state = new InitialState();
     }
