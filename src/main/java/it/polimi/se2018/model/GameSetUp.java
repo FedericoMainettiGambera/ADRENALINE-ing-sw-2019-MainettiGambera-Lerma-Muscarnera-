@@ -66,11 +66,12 @@ public class GameSetUp {
     /**getters*/
 
     public GameMode getGameMode(){return this.gameMode; }
+
     public  String getMapChoice(){ return this.mapChoice;}
+
     public boolean getIsDoubleKill(){ return this.isDoubleKill;}
+
     public int getNumberOfStartingSkulls(){ return this.numberOfStartingSkulls;}
+
     public boolean getIsFinalFrenzy(){ return this.isFinalFrenzy; }
-
-
-
 }
