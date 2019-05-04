@@ -12,6 +12,15 @@ public class Damage extends Action {
 
     /***/
     public void Exec() {
+        getActionInfo().getActionDetails().getUserSelectedActionDetails().itNeeds(                  /*it needs this field to be fillen by the user*/
+                getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget()
+        );
+        Player shooter = getActionInfo().getActionContext().getPlayer();
+        Player target = getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
+        int    damageEntity = getActionInfo().getActionDetails().getFileSelectedActionDetails().getDamage();
+
+        target.addDamages(shooter,
+                        damageEntity);
 
     }
     

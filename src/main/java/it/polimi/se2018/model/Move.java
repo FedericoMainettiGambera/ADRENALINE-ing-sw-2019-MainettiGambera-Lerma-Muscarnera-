@@ -17,6 +17,10 @@ public class Move extends Action {
         * the user fills the direction field of CARD>actionInfo>userSelectedActionDetails>direction
         * and the exec function takes the Player from the context. ( it is fillen when card played )
         * */
+        getActionInfo().getActionDetails().getUserSelectedActionDetails().itNeeds(                  /*it needs this field to be fillen by the user*/
+                getActionInfo().getActionDetails().getUserSelectedActionDetails().getDirection()
+        );
+
         CardinalPoint direction = getActionInfo().getActionDetails().getUserSelectedActionDetails().getDirection();
         int a = 0;
         int b = 0;

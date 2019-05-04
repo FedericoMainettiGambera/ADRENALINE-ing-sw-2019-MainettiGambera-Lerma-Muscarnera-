@@ -2,6 +2,8 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.model.enumerations.CardinalPoint;
 
+import java.util.List;
+
 /***/
 public class ActionInfo {
     public String getPreConditionMethodName() {
@@ -49,6 +51,21 @@ public class ActionInfo {
     }
     class ActionDetails {
         class UserSelectedActionDetails {
+        public void itNeeds(Object ... neededObjects) {           // notify the model/view that these fields need to be filled by the user
+                boolean isOk = true;
+                for(Object n: neededObjects ) {
+                    if(n == null) {
+                        // notify system
+                        isOk = false;
+                    }
+                if(!isOk) {
+
+                    itNeeds(neededObjects);
+
+                }
+                }
+
+            }
             public CardinalPoint getDirection() {
                 return direction;
             }
