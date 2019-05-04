@@ -64,6 +64,7 @@ public class GameSetUpState implements State {
 
             this.createGame();
 
+            //set the next state function:
             //ViewControllerEventHandlerContext.setNextState(new nextState());
 
             //ask for ...
@@ -73,6 +74,7 @@ public class GameSetUpState implements State {
     }
 
     private void createGame(){
-        //create the game based on the user inputs
+        //create the game based on the user inputs:
+        //ModelGate.model.etc...
     }
 }
