@@ -65,7 +65,7 @@ public class GameSetUpState implements State {
             this.createGame();
 
             //set the next state function:
-            //ViewControllerEventHandlerContext.setNextState(new nextState());
+            //ViewControllerEventHandlerContext.setNextState( ** put here next State ** );
 
             //ask for ...
 
