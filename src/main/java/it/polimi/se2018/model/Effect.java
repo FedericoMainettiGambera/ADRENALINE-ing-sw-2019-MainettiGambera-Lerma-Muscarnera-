@@ -37,9 +37,17 @@ public class Effect {
 
     /***/
     public void Exec() {
+        boolean isExecutable = true;
         for(Action a:this.actions){
-            a.Exec();
+            if(a.getActionInfo().preCondition() == false ) {            // checks if all the preConditions are true
+                isExecutable = false;
+            }
         }
+
+        if(isExecutable)
+            for(Action a:this.actions) {
+                a.Exec();
+            }
     }
 
 }

@@ -36,27 +36,36 @@ public class WeaponCard extends Card {
          * The parser is quite simple.
          * Every Line contains info about the content of the next lines or is informative content per se.
          * It also uses the "Class" class to determinate Classes of actions.
-         *     Example Content: "cards17.set"
-         *1
-         *2          PICK UP COST
-         *3          r
-         *4          3
-         *5          PICK UP COST
-         *6          y
-         *7          1
-         *8          RELOAD COST
-         *9          b
-         *10         5
-         *11         NEW EFFECT
-         *12         ACTION
-         *13         %X%
-         *14         %Y%
-         *15         ...
-         *16         END
-         *17         NEW EFFECT
-         *18         ACTION
-         *19         %Z%
-         *20         END
+         *     Example Content: "cards17.set"  ''' the code is indentated only to be more readable,the final file is not.
+         *
+         *         PICK UP COST
+         *          r
+         *          3
+         *         PICK UP COST
+         *          y
+         *          1
+         *         RELOAD COST
+         *          b
+         *          5
+         *         NEW EFFECT
+         *           ACTION
+         *               %X%
+         *                  ACTION INFO
+         *                          PRECONDITION
+         *                              ThereAreNoWallsBetweenPlayerAndTarget
+         *                          DAMAGE
+         *                              3
+         *                          SQUARE MOVEMENT
+         *                              1
+         *                  END
+         *              %Y%
+         *              %Z%
+         *         ...
+         *         END
+         *         NEW EFFECT
+         *          ACTION
+         *              %Z%
+         *          END
          *
          * This File describes a card that needs 3 red cubes and 1 yellow cubes to be picked up,5 blue cubes  to reload
          * and has 2 effects: The first executes the atomic actions %X% and %Y%, the second executes the atomic action
@@ -109,40 +118,50 @@ public class WeaponCard extends Card {
                                 Action demo = (Action) Cref.newInstance();
 
                                 /* Action info */
+                                line = reader.readLine();                                    //
+                                ActionInfo actionInfo = new ActionInfo();
 
+                                if(line.equals("ACTION INFO")) {
+
+                                    line = reader.readLine();
+                                    while(!line.equals("END")) {
+                                        if(line.equals("PRECONDITION"))
+                                        {
+
+                                            line = reader.readLine();                                       // set PreCondition Method
+                                            actionInfo.setPreConditionMethodName(line);
+
+                                        }
+                                        if(line.equals("DAMAGE"))
+                                        {
+                                            line = reader.readLine();                                        // changes Damage
+                                            actionInfo.getActionDetails().getFileSelectedActionDetails().setDamage(Integer.parseInt(line));
+
+                                        }
+                                        if(line.equals("SQUARE MOVEMENT"))
+                                        {
+                                            line = reader.readLine();                                        // changes Damage
+                                            actionInfo.getActionDetails().getFileSelectedActionDetails().setSquareMovement(Integer.parseInt(line));
+
+                                        }
+                                        line = reader.readLine();
+                                    }
+                                    line = reader.readLine();
+
+                                } else {
+
+                                    /*nothing*/
+
+                                }
                                 //System.out.println(effect.size());
+                                demo.setActionInfo(actionInfo);
                                 effects.get(effects.size() - 1).getActions().add(demo);
                             } catch (Exception e) {
 
                                 System.out.println("errore" + e.toString());
                             }
 
-                            line = reader.readLine();                                    //
-                            ActionInfo actionInfo = new ActionInfo();
-                            if(line.equals("ACTION INFO")) {
 
-                                line = reader.readLine();
-                                while(!line.equals("END")) {
-                                        if(line.equals("PRECONDITION"))
-                                        {
-
-                                        /*test*/
-
-                                        }
-                                       if(line.equals("DAMAGE"))
-                                        {
-
-
-
-                                        }
-                                    line = reader.readLine();
-                                }
-
-                            } else {
-
-                                /*nothing*/
-
-                            }
 
                         }
 
