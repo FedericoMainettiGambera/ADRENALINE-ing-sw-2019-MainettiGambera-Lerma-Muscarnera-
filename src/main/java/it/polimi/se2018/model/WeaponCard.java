@@ -156,7 +156,7 @@ public class WeaponCard extends Card {
                                 }
                                 //System.out.println(effect.size());
                                 if(useDefaultPreCondition) {
-                                    actionInfo.setPreConditionMethodName (null);
+                                    actionInfo.setPreConditionMethodName (demo.getActionInfo().getPreConditionMethodName()); /* # */
                                 }
                                 demo.setActionInfo(actionInfo);
                                 effects.get(effects.size() - 1).getActions().add(demo);

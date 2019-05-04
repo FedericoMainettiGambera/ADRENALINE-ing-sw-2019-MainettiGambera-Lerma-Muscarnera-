@@ -90,7 +90,15 @@ public class ActionInfo {
             }
 
 
+            public int getGenericQuantity() {
+                return genericQuantity;
+            }
 
+            public void setGenericQuantity(int genericQuantity) {
+                this.genericQuantity = genericQuantity;
+            }
+
+            private int genericQuantity;
             private Square chosenSquare;                // selected square
 
 
