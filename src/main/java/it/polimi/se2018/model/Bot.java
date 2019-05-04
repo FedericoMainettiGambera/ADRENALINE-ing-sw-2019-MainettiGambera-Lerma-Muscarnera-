@@ -33,9 +33,9 @@ public class Bot extends Person {
     }
 
     /**sets the bot owner to the next playing Player
-     * @param turns
+     * @param  nextOwner
      * */
-    public void setToNextOwner(Turns turns){
+    public void setToNextOwner(Player nextOwner){
         /*TODO*/
     }
 
