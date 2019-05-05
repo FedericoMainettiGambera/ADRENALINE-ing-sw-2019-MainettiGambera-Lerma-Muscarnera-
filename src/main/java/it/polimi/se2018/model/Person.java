@@ -86,7 +86,7 @@ public abstract class Person {
     /*NICKNAME*/
     /***/
     public String getNickname(){
-      return nickname;
+      return this.nickname;
     }
 
     /*COLOR*/

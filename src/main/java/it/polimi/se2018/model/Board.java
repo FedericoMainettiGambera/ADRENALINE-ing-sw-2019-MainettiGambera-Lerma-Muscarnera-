@@ -14,9 +14,7 @@ public class Board {
     /***/
     public Board(String chosenMap) throws IOException, NullPointerException {
 
-            this.board=buildMap(chosenMap);
-
-    }
+            this.board=buildMap(chosenMap);  }
 
     public Square[][] getBoard() {
         return board;
@@ -63,7 +61,7 @@ public class Board {
             for (int i = 0; i < 3; i++) {
 
 
-                for(int j = 0; j < 4; j++){
+                for(int j = 0; j < 4; j++) {
 
                     if (string[0] != '-') {
                         int index = 0; //serve per creare un array di sides
@@ -114,12 +112,12 @@ public class Board {
 
                 //c'è uno spazio bianco che separa le righe della mappa
                 //il while serve a posizionarsi sulla riga giusta
-                string = bufferedReader.readLine().toCharArray();
+              //  string = bufferedReader.readLine().toCharArray();
 
+                    while (string[0] == '\b') {
+                        string = bufferedReader.readLine().toCharArray();
+                    }
 
-                while (string[0] == '\b') {
-                    string = bufferedReader.readLine().toCharArray();
-                }
 
             }
             return map;

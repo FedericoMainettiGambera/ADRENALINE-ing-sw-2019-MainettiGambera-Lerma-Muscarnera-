@@ -68,7 +68,7 @@ public class PlayersList {
      * */
     public Player getPlayer(String nickname) {
         for(int i = 0; i < this.players.size(); i++){
-            if(this.players.get(i).getNickname() == nickname){
+            if(this.players.get(i).getNickname().equals(nickname)){
                 return this.players.get(i);
             }
         }

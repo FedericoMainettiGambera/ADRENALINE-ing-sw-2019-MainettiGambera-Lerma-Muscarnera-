@@ -1,7 +1,6 @@
 package it.polimi.se2018.networkHandler.Socket;
 
 import it.polimi.se2018.model.events.ViewControllerEvent;
-import it.polimi.se2018.model.events.ViewControllerEventClientIP;
 import it.polimi.se2018.networkHandler.NetworkHandler;
 
 import java.io.*;
