@@ -56,7 +56,7 @@ public class ConnectionHandlerVirtualView extends Thread {
         PlayersList pl = new PlayersList();
         ModelGate.model.setPlayerList(pl);
 
-        while(this.isServerSocketLive){
+        while(this.isServerSocketLive && numberOfConnections <= 4){
             try{
                 this.tempSocket = serverSocket.accept();
                 this.numberOfConnections++;
@@ -99,5 +99,8 @@ public class ConnectionHandlerVirtualView extends Thread {
             //starts the Thread that listen for Object sent from the NetworkHandler.
             new Thread(sl).start();
         }
+
+        System.out.println("<SERVER>Not accepting connections anymore.");
+
     }
 }
