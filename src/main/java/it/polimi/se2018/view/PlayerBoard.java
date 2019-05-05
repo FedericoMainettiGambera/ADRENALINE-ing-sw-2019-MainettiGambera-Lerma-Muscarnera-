@@ -1,0 +1,47 @@
+package it.polimi.se2018.view;
+
+
+
+public class PlayerBoard {
+
+    private ActionList actionList;
+    private DamageTracker damageTracker;
+    private MarksTracker marksTracker;
+    private AmmoBox ammoBox;
+    private DeathTracker deathTracker;
+
+    public PlayerBoard(){
+
+
+        this.actionList=new ActionList();
+        this.damageTracker=new DamageTracker();
+        this.marksTracker=new MarksTracker();
+        this.ammoBox=new AmmoBox();
+        this.deathTracker=new DeathTracker();
+
+
+
+
+    }
+
+
+    public ActionList getActionList() {
+        return actionList;
+    }
+
+    public DamageTracker getDamageTracker() {
+        return damageTracker;
+    }
+
+    public MarksTracker getMarksTracker() {
+        return marksTracker;
+    }
+
+    public AmmoBox getAmmoBox() {
+        return ammoBox;
+    }
+
+    public DeathTracker getDeathTracker() {
+        return deathTracker;
+    }
+}
