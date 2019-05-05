@@ -15,7 +15,7 @@ public class Teleport extends Action {
        /*it doesn't need anything from file specification*/
     }
     public Teleport() {
-
+        super();
         getActionInfo().setPreConditionMethodName("itsValidPosition");
 
     }
