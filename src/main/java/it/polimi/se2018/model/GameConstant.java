@@ -9,6 +9,9 @@ public class GameConstant {
     }
 
     /***/
+    public final static int maxNumberOfPlayerPerGame = 1;
+
+    /***/
     public final static int numberOfStartingAmmoCubesForEachColor = 1;
 
     /***/

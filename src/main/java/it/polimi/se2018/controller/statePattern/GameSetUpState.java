@@ -19,8 +19,9 @@ public class GameSetUpState implements State {
     }
     @Override
     public void doAction(ViewControllerEvent VCE){
-        System.out.println("gimmi info");
+
         if(numberOfEvents==0) {
+             System.out.println(ModelGate.model.getPlayerList().getPlayer("User1").getNickname());
             this.objectOutputStream = ModelGate.model.getPlayerList().getPlayer("User1").getOos();
             //ask for gameSetUp
             numberOfEvents++;

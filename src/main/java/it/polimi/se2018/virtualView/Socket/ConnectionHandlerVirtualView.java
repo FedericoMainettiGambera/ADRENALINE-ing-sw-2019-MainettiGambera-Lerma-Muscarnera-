@@ -4,6 +4,7 @@ import it.polimi.se2018.controller.ModelGate;
 import it.polimi.se2018.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2018.controller.statePattern.GameSetUpState;
 import it.polimi.se2018.model.Game;
+import it.polimi.se2018.model.GameConstant;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayersList;
 import it.polimi.se2018.model.events.ViewControllerEvent;
@@ -61,7 +62,7 @@ public class ConnectionHandlerVirtualView extends Thread {
         PlayersList pl = new PlayersList();
         ModelGate.model.setPlayerList(pl);
 
-        while(this.isServerSocketLive && numberOfConnections <= 4){
+        while(this.isServerSocketLive && numberOfConnections <= GameConstant.maxNumberOfPlayerPerGame-1){
             try{
                 this.tempSocket = serverSocket.accept();
                 this.numberOfConnections++;
