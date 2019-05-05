@@ -76,5 +76,6 @@ public class GameSetUpState implements State {
     private void createGame(){
         //create the game based on the user inputs:
         //ModelGate.model.etc...
+        ;
     }
 }
