@@ -50,6 +50,8 @@ public class GameSetUpState implements State {
                 System.out.println("<SERVER>Setting a Bot: "+ VCEGameSetUp.isBotActive());
                 ModelGate.model.setBot(new Bot(VCEGameSetUp.isBotActive()));
 
+                //crea le carte
+
 
                 //setting next State
                 ViewControllerEventHandlerContext.setNextState(new PlayerSetUpState());

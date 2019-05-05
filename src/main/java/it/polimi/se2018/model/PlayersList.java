@@ -76,6 +76,10 @@ public class PlayersList {
         return null; // ?
     }
 
+    public List<Player> getPlayers(){
+        return this.players;
+    }
+
     /**@return the number of players in the playersList
      * */
     public int getNumberOfPlayers(){
