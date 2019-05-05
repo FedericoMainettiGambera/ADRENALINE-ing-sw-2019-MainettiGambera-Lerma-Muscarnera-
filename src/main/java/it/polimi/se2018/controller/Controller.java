@@ -1,6 +1,5 @@
 package it.polimi.se2018.controller;
 
-import it.polimi.se2018.controller.statePattern.GameSetUpState;
 import it.polimi.se2018.controller.statePattern.HandleConnectionState;
 import it.polimi.se2018.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2018.view.View;
@@ -59,20 +58,5 @@ public class Controller {
         //creating the Client for the user who holds the server and connecting it to the server
         this.SNH = new SocketNetworkHandler(InetAddress.getByName(address), Integer.parseInt(port) , this.V);
 
-    }
-
-    public static void main(String[] args){
-        Controller user1 = new Controller();
-
-        user1.startGameWithSocketAsServer();
-
-
-        Controller user2 = new Controller();
-
-        try {
-            user2.startGameWithSocketAsClient();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
