@@ -5,6 +5,15 @@ package it.polimi.se2018.model;
 public class Teleport extends Action {
 
     /***/
+    @Override
+    public void setDefaultSetting() {
+        return;
+        /*it doesn't need anything from file specification*/
+    }
+    public void updateSettingsFromFile() {
+        return;
+       /*it doesn't need anything from file specification*/
+    }
     public Teleport() {
 
         getActionInfo().setPreConditionMethodName("itsValidPosition");
