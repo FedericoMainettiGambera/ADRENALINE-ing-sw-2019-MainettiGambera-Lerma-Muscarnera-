@@ -21,6 +21,7 @@ public class PlayerSetUpState implements State {
             ModelGate.model.getPlayerList().getPlayers().get(numberOfEventReceived).setNickname(VCEPlayerSetUp.getNickname());
             ModelGate.model.getPlayerList().getPlayers().get(numberOfEventReceived).setColor(VCEPlayerSetUp.getColor());
 
+            //fai pescare due power up 
         }
         else{
             //set next State
