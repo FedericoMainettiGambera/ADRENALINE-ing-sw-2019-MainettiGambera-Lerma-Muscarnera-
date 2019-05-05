@@ -40,7 +40,7 @@ public class Board {
 
             //apre file
             try {
-                fileReader = new FileReader("C:\\Users\\Federico\\IdeaProjects\\ing-sw-2019-MainettiGambera-Lerma-Muscarnera\\src\\main\\Files\\map");
+                fileReader = new FileReader("src/main/Files/map");
                 bufferedReader = new BufferedReader(fileReader);
                 line=bufferedReader.readLine();
             } catch (IOException e) {
