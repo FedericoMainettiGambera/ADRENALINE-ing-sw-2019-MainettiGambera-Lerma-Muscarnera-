@@ -1,6 +1,7 @@
 package it.polimi.se2018.model;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 /***/
@@ -14,7 +15,7 @@ public class Effect {
 
     /*TODO: delete*/
     public Effect() {
-        this.actions = null;
+        this.actions = new ArrayList<Action>();
     }
 
     /*-*****************************************************************************************************ATTRIBUTES*/

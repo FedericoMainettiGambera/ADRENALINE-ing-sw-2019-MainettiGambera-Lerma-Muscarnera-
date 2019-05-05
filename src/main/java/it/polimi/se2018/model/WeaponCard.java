@@ -1,8 +1,6 @@
 package it.polimi.se2018.model;
 
 
-import it.polimi.se2018.model.enumerations.AmmoCubesColor;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -77,7 +75,7 @@ public class WeaponCard extends Card {
             effects = new ArrayList<Effect>();
             this.pickUpCost = new AmmoList();
             this.reloadCost = new AmmoList();
-            BufferedReader reader = new BufferedReader(new FileReader("Card" + ID + ".set"));
+            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Luca\\IdeaProjects\\ing-sw-2019-MainettiGambera-Lerma-Muscarnera\\src\\main\\Files\\card"+ID+".set"));
             try {
                 String line;
                 line = reader.readLine();
