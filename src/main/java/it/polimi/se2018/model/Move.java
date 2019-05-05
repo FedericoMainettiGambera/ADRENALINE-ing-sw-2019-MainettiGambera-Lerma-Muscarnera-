@@ -7,6 +7,25 @@ import it.polimi.se2018.model.enumerations.CardinalPoint;
 public class Move extends Action {
 
     /***/
+    public void setDefaultSetting() {
+        getActionInfo().getActionDetails().getFileSelectedActionDetails().setSquareMovement(1); // the default number of moves is 1
+    }
+    public void updateSettingsFromFile() {
+        setDefaultSetting(); // if not changed it uses the default ones
+        Object a = getActionInfo().getActionDetails().getFileSelectedActionDetails().getFileSettingData().get(0); // number of moves
+        Integer a_i = 0;
+        if (ActionInfo.notNullAndNotDefault(a)) {
+            try {
+                a_i = (Integer) a;
+                getActionInfo().getActionDetails().getFileSelectedActionDetails().setSquareMovement(a_i);
+            } catch (Exception e) {
+                return;
+            }
+        } else {
+            return;
+        }
+
+    }
     public Move(ActionInfo actionInfo) {
         super(actionInfo);
     }

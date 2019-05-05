@@ -140,6 +140,7 @@ public class WeaponCard extends Card {
                                         }
                                         line = reader.readLine();
                                     }
+
                                     line = reader.readLine();
 
                                 } else {
@@ -151,6 +152,7 @@ public class WeaponCard extends Card {
                                 if(useDefaultPreCondition) {
                                     actionInfo.setPreConditionMethodName (demo.getActionInfo().getPreConditionMethodName()); /* # */
                                 }
+                                demo.updateSettingsFromFile();
                                 demo.setActionInfo(actionInfo);
                                 effects.get(effects.size() - 1).getActions().add(demo);
                             } catch (Exception e) {

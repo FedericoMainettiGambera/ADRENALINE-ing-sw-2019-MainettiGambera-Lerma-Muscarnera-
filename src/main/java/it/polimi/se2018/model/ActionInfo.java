@@ -147,6 +147,7 @@ public class ActionInfo {
         }
         class FileSelectedActionDetails {
             List<Object> fileSettingData;       // lista dei dati inseriti via file
+
             public void addFileSettingData(Object o) {
                 fileSettingData.add(o);
             }
@@ -191,6 +192,17 @@ public class ActionInfo {
             }
 
             private AmmoCubes ammoCubesCost;
+
+
+            public int getMarksQuantity() {
+                return marksQuantity;
+            }
+
+            public void setMarksQuantity(int marksQuantity) {
+                this.marksQuantity = marksQuantity;
+            }
+
+            private int marksQuantity;
 
         }
 

@@ -15,6 +15,9 @@ public abstract class Action {
         return;
 
     }
+    public void setDefaultSetting() {
+        return;
+    }
     public void setActionInfo(ActionInfo actionInfo) {
         this.actionInfo = actionInfo;
     }
