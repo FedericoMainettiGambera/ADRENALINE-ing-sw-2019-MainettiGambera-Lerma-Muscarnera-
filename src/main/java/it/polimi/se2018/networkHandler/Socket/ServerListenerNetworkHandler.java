@@ -5,6 +5,7 @@ import it.polimi.se2018.model.events.ModelViewEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Observable;
 import java.util.Observer;
 

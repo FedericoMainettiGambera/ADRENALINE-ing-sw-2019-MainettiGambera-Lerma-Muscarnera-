@@ -40,7 +40,8 @@ public class ClientListenerVirtualView extends Observable implements Runnable{
             catch (IOException|ClassNotFoundException e){
                 e.printStackTrace();
             }
-            //Should notify the controller using Observer/Observable Pattern and the method notifyObservers(this.VCE).
+
+            System.out.println("<SERVER>Thread \"ClientListenerVirtualView\" has received an object");
             setChanged();
             this.notifyObservers(this.VCE);
         }

@@ -23,29 +23,38 @@ public class HandleConnectionState implements State {
 
         System.out.println("<SERVER>Event received from client. Content: " + VCECIP.getInetAddress().getHostAddress());
 
-        if(this.numberOfConnections<=5){
-
-            this.numberOfConnections++;
-            System.out.println("<SERVER>Number of Clients connected: " + numberOfConnections);
+        if(this.numberOfConnections<=4){
 
             if(this.numberOfConnections == 0){
                 System.out.println("<SERVER>Creating new Game");
                 ModelGate.model=new Game();
 
-                System.out.println("<SERVER>Creating new PlayerList");
-                ModelGate.model.setPlayerList(new PlayersList());
+                System.out.println("<SERVER>Creating new PlayerList with the new Player \"user" + numberOfConnections + "\".");
+                Player p = new Player();
+                p.setNickname("user" + numberOfConnections);
+                p.setIP(VCECIP.getInetAddress().getHostAddress());
+                PlayersList pl = new PlayersList();
+                pl.addPlayer(p);
+                ModelGate.model.setPlayerList(pl);
             }
+            else {
+                Player p = new Player();
+                p.setNickname("user" + numberOfConnections);
+                p.setIP(VCECIP.getInetAddress().getHostAddress());
 
-            Player p = new Player();
-            p.setIP(VCECIP.getInetAddress().getHostAddress());
-
-            System.out.println("<SERVER>Adding new Player");
-            ModelGate.model.getPlayerList().addPlayer(p);
+                System.out.println("<SERVER>Adding new Player \"user" + numberOfConnections + "\".");
+                synchronized (ModelGate.model.getPlayerList()) {
+                    ModelGate.model.getPlayerList().addPlayer(p);
+                }
+            }
+            this.numberOfConnections++;
+            System.out.println("<SERVER>Number of Clients connected: " + numberOfConnections);
 
         }
         else{
             //do nothing and throw away the connection
-        }
 
+            //set NextState
+        }
     }
 }

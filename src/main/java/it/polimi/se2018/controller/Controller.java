@@ -66,6 +66,7 @@ public class Controller {
 
         user1.startGameWithSocketAsServer();
 
+
         Controller user2 = new Controller();
 
         try {
