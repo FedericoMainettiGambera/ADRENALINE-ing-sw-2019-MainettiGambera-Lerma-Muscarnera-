@@ -13,6 +13,9 @@ public class PreConditionMethods {
         return false;
 
     }
+    public boolean alwaysFalse() {
+        return false;
+    }
     public boolean alwaysTrue() {
 
         return true;
