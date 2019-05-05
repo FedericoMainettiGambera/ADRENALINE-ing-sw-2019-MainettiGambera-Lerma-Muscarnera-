@@ -133,17 +133,10 @@ public class WeaponCard extends Card {
                                             actionInfo.setPreConditionMethodName(line);
 
                                         }
-                                        if(line.equals("DAMAGE"))
+                                        if(line.equals("SET"))
                                         {
                                             line = reader.readLine();                                        // changes Damage
-                                            actionInfo.getActionDetails().getFileSelectedActionDetails().setDamage(Integer.parseInt(line));
-
-                                        }
-                                        if(line.equals("SQUARE MOVEMENT"))
-                                        {
-                                            line = reader.readLine();                                        // changes Damage
-                                            actionInfo.getActionDetails().getFileSelectedActionDetails().setSquareMovement(Integer.parseInt(line));
-
+                                            actionInfo.getActionDetails().getFileSelectedActionDetails().addFileSettingData((Object) line);
                                         }
                                         line = reader.readLine();
                                     }

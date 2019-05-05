@@ -5,7 +5,19 @@ import java.util.*;
 /***/
 public class Damage extends Action {
 
+    @Override
+    public void updateSettingsFromFile() {
+        Object a = getActionInfo().getActionDetails().getFileSelectedActionDetails().getFileSettingData().get(0);
+        if(ActionInfo.notNullAndNotDefault(a)) {
+            /*nothing*/
+        } else {
+            return;
+        }
+        getActionInfo().getActionDetails().getFileSelectedActionDetails().setDamage((Integer) a);
+    }
+
     /***/
+
     public Damage() {
         super();
         getActionInfo().setPreConditionMethodName("thereAreNotWallsBetweenTargetAndPlayer");

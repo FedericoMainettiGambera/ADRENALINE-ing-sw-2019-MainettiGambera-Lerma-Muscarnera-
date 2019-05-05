@@ -6,6 +6,12 @@ import java.util.List;
 
 /***/
 public class ActionInfo {
+    public static boolean notNullAndNotDefault(Object a) {
+        if( !(((String) a ).equals("DEFAULT"))  && (a != null) ) {
+            return true;
+        }
+        return false;
+    }
     public String getPreConditionMethodName() {
         return preConditionMethodName;
     }
@@ -86,7 +92,7 @@ public class ActionInfo {
                     }
                 if(!isOk) {
 
-                    itNeeds(neededObjects);
+                    itNeeds(neededObjects);         //TODO: it stops the execution of the program while all the fields are fillen... to improve
 
                 }
                 }
@@ -140,7 +146,13 @@ public class ActionInfo {
 
         }
         class FileSelectedActionDetails {
-
+            List<Object> fileSettingData;       // lista dei dati inseriti via file
+            public void addFileSettingData(Object o) {
+                fileSettingData.add(o);
+            }
+            public List<Object> getFileSettingData() {
+                return fileSettingData;
+            }
             public int getDamage() {
                 return damage;
             }
