@@ -11,7 +11,7 @@ public class Player extends Person{
     /*-****************************************************************************************************CONSTRUCTOR*/
     /***/
     public Player() {
-
+        super();
         /*sets the starting ammo cubes: GameConstant.numberOfStartingAmmoCubesForEachColor AmmoCubes for each color*/
         AmmoList list = new AmmoList();
         for(AmmoCubesColor i: AmmoCubesColor.values()){

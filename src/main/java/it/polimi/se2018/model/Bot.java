@@ -11,6 +11,7 @@ public class Bot extends Person {
      * @param isBotActive
      * */
     public Bot(boolean isBotActive) {
+        super();
         this.isBotActive = isBotActive;
         this.owner = null;
     }
