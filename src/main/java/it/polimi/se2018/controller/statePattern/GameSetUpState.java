@@ -33,7 +33,7 @@ public class GameSetUpState implements State {
             if(VCEGameSetUp.getGameMode().equals("normalMode")){
                 System.out.println("<SERVER>Setting up Game in normal mode.");
                 try {
-                    System.out.println("<SERVER>created Map: " + VCEGameSetUp.getMapChoice());
+                    System.out.println("<SERVER>creating Map: " + VCEGameSetUp.getMapChoice());
                     ModelGate.model.setBoard(new Board(VCEGameSetUp.getMapChoice()));
                 }
                 catch (IOException e){
@@ -48,6 +48,8 @@ public class GameSetUpState implements State {
                 ModelGate.model.setFinalFrenzy(VCEGameSetUp.isFinalFrezy());
                 System.out.println("<SERVER>Setting a Bot: "+ VCEGameSetUp.isBotActive());
                 ModelGate.model.setBot(new Bot(VCEGameSetUp.isBotActive()));
+
+
 
             } else if(VCEGameSetUp.getGameMode().equals("turretMode")){
                 //build game in turret mode

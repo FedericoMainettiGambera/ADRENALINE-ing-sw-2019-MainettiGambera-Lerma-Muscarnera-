@@ -40,7 +40,7 @@ public class Board {
 
             //apre file
             try {
-                fileReader = new FileReader("/Users/LudoLerma/IdeaProjects/ing-sw-2019-MainettiGambera-Lerma-Muscarnera/src/main/Files/map");
+                fileReader = new FileReader("C:\\Users\\Federico\\IdeaProjects\\ing-sw-2019-MainettiGambera-Lerma-Muscarnera\\src\\main\\Files\\map");
                 bufferedReader = new BufferedReader(fileReader);
                 line=bufferedReader.readLine();
             } catch (IOException e) {
@@ -112,7 +112,8 @@ public class Board {
 
                 //c'è uno spazio bianco che separa le righe della mappa
                 //il while serve a posizionarsi sulla riga giusta
-              //  string = bufferedReader.readLine().toCharArray();
+
+                 string = bufferedReader.readLine().toCharArray();
 
                     while (string[0] == '\b') {
                         string = bufferedReader.readLine().toCharArray();

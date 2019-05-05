@@ -1,12 +1,14 @@
 package it.polimi.se2018.networkHandler.Socket;
 
 import it.polimi.se2018.model.events.ViewControllerEvent;
+import it.polimi.se2018.model.events.ViewControllerEventGameSetUp;
 import it.polimi.se2018.networkHandler.NetworkHandler;
 
 import java.io.*;
 import java.net.*;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Scanner;
 
 public class SocketNetworkHandler extends NetworkHandler implements Observer{
 
@@ -58,7 +60,40 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //da cancellare quando scriveremo la view.
+        this.testingGameWithFakeInputs();
     }
+
+
+    public void testingGameWithFakeInputs(){
+        Scanner br = new Scanner(System.in);
+
+        String gameMode;
+        String mapChoice;
+        int numberOFSkulls;
+        boolean isFinalFrenzy;
+        boolean isBot;
+
+        System.out.println("<CLIENT>Insert gameMode:");
+        gameMode = br.next();
+        System.out.println("<CLIENT>Insert mapChoice:");
+        mapChoice = br.next();
+        System.out.println("<CLIENT>Insert numberOfStartingSKulls:");
+        numberOFSkulls = br.nextInt();
+        System.out.println("<CLIENT>Insert Final frazy:");
+        isFinalFrenzy = br.nextBoolean();
+        System.out.println("<CLIENT>Insert bot:");
+        isBot = br.nextBoolean();
+
+        ViewControllerEvent VCE = new ViewControllerEventGameSetUp(gameMode,mapChoice,numberOFSkulls,isFinalFrenzy,isBot);
+        try {
+            this.oos.writeObject(VCE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void update(Observable o, Object arg) {
