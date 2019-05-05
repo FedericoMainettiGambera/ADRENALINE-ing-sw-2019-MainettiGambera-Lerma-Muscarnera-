@@ -25,11 +25,15 @@ public class GameSetUpState implements State {
 
         if(numberOfEvents==0) {
             this.objectOutputStream = ModelGate.model.getPlayerList().getPlayer("User1").getOos();
+
             //ask for gameSetUp to the player
             numberOfEvents++;
         }
         else if(numberOfEvents==1){
             ViewControllerEventGameSetUp VCEGameSetUp = (ViewControllerEventGameSetUp)VCE;
+
+            System.out.println("<SERVER>Setting Starting Player.");
+            ModelGate.model.getPlayerList().setStartingPlayer(ModelGate.model.getPlayerList().getPlayer("User1"));
 
             if(VCEGameSetUp.getGameMode().equals("normalMode")){
                 System.out.println("<SERVER>Setting up Game in normal mode.");
