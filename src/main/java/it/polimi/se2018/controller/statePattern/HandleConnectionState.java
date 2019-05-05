@@ -1,6 +1,7 @@
 package it.polimi.se2018.controller.statePattern;
 
 import it.polimi.se2018.controller.ModelGate;
+import it.polimi.se2018.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2018.model.Game;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayersList;
@@ -47,14 +48,14 @@ public class HandleConnectionState implements State {
                     ModelGate.model.getPlayerList().addPlayer(p);
                 }
             }
+
             this.numberOfConnections++;
             System.out.println("<SERVER>Number of Clients connected: " + numberOfConnections);
 
-        }
-        else{
-            //do nothing and throw away the connection
-
-            //set NextState
+            //TODO
+            if(this.numberOfConnections == 2){
+                ViewControllerEventHandlerContext.setNextState(new PlayerSetUpState());
+            }
         }
     }
 }

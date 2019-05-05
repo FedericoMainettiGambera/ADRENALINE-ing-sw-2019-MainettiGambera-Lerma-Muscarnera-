@@ -64,6 +64,15 @@ public class SocketVirtualView extends VirtualView {
         }
     }
 
+
+    public void sendToClient(ObjectOutputStream oos, Object o){
+        try{
+            oos.writeObject(o);
+        }catch (IOException e ){
+            e.printStackTrace();
+        }
+    }
+
     public ServerSocket getServerSocket(){
         return this.serverSocket;
     }

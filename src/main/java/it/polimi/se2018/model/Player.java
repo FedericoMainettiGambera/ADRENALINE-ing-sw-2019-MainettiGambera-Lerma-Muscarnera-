@@ -3,6 +3,8 @@ package it.polimi.se2018.model;
 import it.polimi.se2018.model.enumerations.AmmoCubesColor;
 import it.polimi.se2018.model.enumerations.PlayersColors;
 
+import java.io.ObjectOutputStream;
+
 /***/
 public class Player extends Person{
 
@@ -27,7 +29,18 @@ public class Player extends Person{
     /***/
     private String IP;
 
+    /***/
+    private ObjectOutputStream oos;
+
     /*-********************************************************************************************************METHODS*/
+
+    public void setOos(ObjectOutputStream oos){
+        this.oos = oos;
+    }
+
+    public ObjectOutputStream getOos(){
+        return this.oos;
+    }
 
     public void setIP(String IP){
         this.IP = IP;
