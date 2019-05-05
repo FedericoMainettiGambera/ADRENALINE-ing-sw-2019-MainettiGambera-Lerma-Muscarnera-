@@ -1,6 +1,7 @@
 package it.polimi.se2018.controller.statePattern;
 
 import it.polimi.se2018.controller.ModelGate;
+import it.polimi.se2018.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Bot;
 import it.polimi.se2018.model.KillShotTrack;
@@ -50,6 +51,10 @@ public class GameSetUpState implements State {
                 ModelGate.model.setBot(new Bot(VCEGameSetUp.isBotActive()));
 
 
+                //setting next State
+                ViewControllerEventHandlerContext.setNextState(new PlayerSetUpState());
+
+                //ask first player to Set Up player
 
             } else if(VCEGameSetUp.getGameMode().equals("turretMode")){
                 //build game in turret mode
