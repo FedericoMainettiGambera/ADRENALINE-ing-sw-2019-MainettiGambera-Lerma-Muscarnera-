@@ -6,7 +6,11 @@ public abstract class Action {
 
     /***/
 
-    public Action() {}
+    public Action() {
+        this.actionInfo = new ActionInfo();
+        this.actionInfo.setActionDetails(new ActionDetails());
+
+    }
     public Action(ActionInfo actionInfo){
         this.actionInfo = actionInfo;
     }

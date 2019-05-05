@@ -38,7 +38,11 @@ public class MarksTracker {
      * @param markingPlayer
      * @param quantity
      * */
-    public void addMarksFrom(Player markingPlayer, int quantity) {
+    public void addMarksFrom(Player markingPlayer, int quantity) throws IllegalArgumentException {
+        if(quantity < 0)
+            throw new IllegalArgumentException();
+        if(markingPlayer == null)
+            throw new IllegalArgumentException();
         for(int i = 0; i<markSlotsList.size(); i++) {
             if(markSlotsList.get(i).getMarkingPlayer() == markingPlayer){
                 markSlotsList.get(i).addQuantity(quantity);
