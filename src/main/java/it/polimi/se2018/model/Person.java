@@ -11,14 +11,8 @@ public abstract class Person {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor
-     * Initialize nickname and color with the parameters, create a new board, set the score to zero
-     * and position to null.
-     * @param color
-     * @param nickname
      * */
-    public Person(String nickname, PlayersColors color){
-        this.nickname=nickname;
-        this.color=color;
+    public Person(){
 
         this.board = new PlayerBoard();
         this.score=0;
@@ -45,6 +39,14 @@ public abstract class Person {
     private PlayerBoard board;
 
     /*-********************************************************************************************************METHODS*/
+
+    public void setColor(PlayersColors color) {
+        this.color = color;
+    }
+
+    public void setNickname(String nickname){
+        this.nickname = nickname;
+    }
 
     /*POSITION*/
     /**sets person position

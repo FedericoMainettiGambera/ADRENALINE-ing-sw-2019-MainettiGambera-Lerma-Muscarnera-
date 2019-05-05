@@ -8,8 +8,7 @@ public class Player extends Person{
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /***/
-    public Player(String nickname, PlayersColors color) {
-        super(nickname, color);
+    public Player() {
 
         /*sets the starting ammo cubes: GameConstant.numberOfStartingAmmoCubesForEachColor AmmoCubes for each color*/
         AmmoList list = new AmmoList();
@@ -25,7 +24,19 @@ public class Player extends Person{
     /***/
     private PlayerHand hand;
 
+    /***/
+    private String IP;
+
     /*-********************************************************************************************************METHODS*/
+
+    public void setIP(String IP){
+        this.IP = IP;
+    }
+
+    public String getIp(){
+        return this.IP;
+    }
+
     /***/
     public PlayerHand getHand() {
         return this.hand;

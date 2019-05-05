@@ -1,13 +1,11 @@
 package it.polimi.se2018.networkHandler.Socket;
 
 import it.polimi.se2018.model.events.ViewControllerEvent;
+import it.polimi.se2018.model.events.ViewControllerEventClientIP;
 import it.polimi.se2018.networkHandler.NetworkHandler;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.InetAddress;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -32,7 +30,14 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
         this.inetAddress = inetAddress;
 
         try {
+            System.out.println("<CLIENT>New Client with IP: " + InetAddress.getLocalHost().getHostAddress());
+        } catch (UnknownHostException e ){
+            e.printStackTrace();
+        }
+        System.out.println("<CLIENT>Trying to connect to: " + this.inetAddress.getHostAddress() + ":" + this.port);
+        try {
             this.socket = new Socket(this.inetAddress, this.port);
+            System.out.println("<CLIENT>Connected to: " + this.inetAddress.getHostAddress() + ":" + this.port);
         }
         catch (IOException e){
             e.printStackTrace();
@@ -40,6 +45,9 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
 
         try {
             this.oos = new ObjectOutputStream(this.socket.getOutputStream());
+            System.out.println("<CLIENT>Sending event to Server. Content: " + InetAddress.getLocalHost().getHostAddress());
+            ViewControllerEventClientIP VCECIP = new ViewControllerEventClientIP(InetAddress.getLocalHost());
+            this.oos.writeObject(VCECIP);
         } catch (IOException e) {
             e.printStackTrace();
         }

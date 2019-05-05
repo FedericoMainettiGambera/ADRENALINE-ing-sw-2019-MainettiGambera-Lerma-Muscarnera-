@@ -1,6 +1,7 @@
 package it.polimi.se2018.virtualView.Socket;
 
 
+import it.polimi.se2018.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2018.model.events.ModelViewEvent;
 import it.polimi.se2018.virtualView.VirtualView;
 
@@ -22,23 +23,17 @@ public class SocketVirtualView extends VirtualView {
 
     private ConnectionHandlerVirtualView connectionHandler;
 
-    private Observer controller;
+    private ViewControllerEventHandlerContext controller;
 
-    public void SocketVirtualView(int port, Observer controller){
-        this.port = port;
+    public SocketVirtualView(ViewControllerEventHandlerContext controller){
 
         this.controller = controller;
 
         try{
-            serverSocket = new ServerSocket(port);
+            serverSocket = new ServerSocket(0);
+            this.port = serverSocket.getLocalPort();
         }
         catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            startServer();
-        }
-        catch (IOException e){
             e.printStackTrace();
         }
 
@@ -48,6 +43,7 @@ public class SocketVirtualView extends VirtualView {
     public void startServer() throws IOException{
         this.connectionHandler = new ConnectionHandlerVirtualView(this.serverSocket, this.controller);
         this.connectionHandler.start();
+        System.out.println("<SERVER>Running Server on: " + this.serverSocket.getInetAddress().getHostAddress() + ":" + this.serverSocket.getLocalPort());
     }
 
     public void setOos(ArrayList<ObjectOutputStream> oos){
@@ -66,6 +62,10 @@ public class SocketVirtualView extends VirtualView {
                 }
             }
         }
+    }
+
+    public ServerSocket getServerSocket(){
+        return this.serverSocket;
     }
 
     @Override

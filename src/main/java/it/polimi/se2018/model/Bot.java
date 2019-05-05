@@ -8,12 +8,9 @@ public class Bot extends Person {
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
      * uses the Person constructor, also set isBotActive and set owner to null
-     * @param color
-     * @param nickname
      * @param isBotActive
      * */
-    public Bot(boolean isBotActive, String nickname, PlayersColors color) {
-        super(nickname, color);
+    public Bot(boolean isBotActive) {
         this.isBotActive = isBotActive;
         this.owner = null;
     }

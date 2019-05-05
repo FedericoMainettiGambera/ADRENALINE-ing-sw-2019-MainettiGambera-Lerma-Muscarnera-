@@ -55,11 +55,11 @@ public class Game {
     }
 
     /***/
-    public PlayersList getPlayers() {
+    public PlayersList getPlayerList() {
         return players;
     }
 
-    public void setPlayers(PlayersList players) {
+    public void setPlayerList(PlayersList players) {
         this.players = players;
     }
 

@@ -1,5 +1,6 @@
 package it.polimi.se2018.virtualView.Socket;
 
+import it.polimi.se2018.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2018.model.events.ViewControllerEvent;
 
 import java.io.IOException;
@@ -18,7 +19,7 @@ public class ClientListenerVirtualView extends Observable implements Runnable{
 
     private ViewControllerEvent VCE;
 
-    public ClientListenerVirtualView(Socket socket, ObjectInputStream ois, Observer controller){
+    public ClientListenerVirtualView(Socket socket, ObjectInputStream ois, ViewControllerEventHandlerContext controller){
         this.socket = socket;
         this.isSocketLive = true;
         this.ois = ois;

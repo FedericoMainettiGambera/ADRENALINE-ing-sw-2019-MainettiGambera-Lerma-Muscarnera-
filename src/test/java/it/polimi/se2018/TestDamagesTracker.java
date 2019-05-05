@@ -12,7 +12,9 @@ public class TestDamagesTracker {
     @Test
     public void testAddDamage(){
         DamagesTracker dt = new DamagesTracker();
-        Player p = new Player("test", PlayersColors.yellow);
+        Player p = new Player();
+        p.setColor(PlayersColors.yellow);
+        p.setNickname("test");
         int numberOfDamages = 2;
 
         dt.addDamages(p,numberOfDamages);
@@ -72,7 +74,9 @@ public class TestDamagesTracker {
     @Test
     public void testEmptyList(){
         DamagesTracker dt = new DamagesTracker();
-        Player p = new Player("test", PlayersColors.yellow);
+        Player p = new Player();
+        p.setColor(PlayersColors.yellow);
+        p.setNickname("test");
         DamageSlot ds = new DamageSlot(p);
 
         dt.addDamage(ds);
@@ -95,7 +99,9 @@ public class TestDamagesTracker {
             assertTrue(value);
         }
 
-        Player p = new Player("test", PlayersColors.purple);
+        Player p = new Player();
+        p.setColor(PlayersColors.yellow);
+        p.setNickname("test");
         DamageSlot ds = new DamageSlot(p);
 
         dt.addDamage(ds);

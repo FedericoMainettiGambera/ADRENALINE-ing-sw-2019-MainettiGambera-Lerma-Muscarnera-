@@ -65,9 +65,9 @@ public class GameSetUpState implements State {
             this.createGame();
 
             //set the next state function:
-            //ViewControllerEventHandlerContext.setNextState( ** put here next State ** );
+            ViewControllerEventHandlerContext.setNextState(new HandleConnectionState());
 
-            //ask for ...
+            //waiting for other player to connect to the server
 
             return;
         }

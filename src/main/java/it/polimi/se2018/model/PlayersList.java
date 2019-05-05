@@ -55,13 +55,6 @@ public class PlayersList {
         }
     }
 
-    /**create a new Player and add it to the playersList
-     * @param nickname
-     * @param color
-     * */
-    public void createPlayer(String nickname, PlayersColors color) {
-        this.players.add(new Player(nickname, color));
-    }
 
     /**add a player to the player list
      * @param player

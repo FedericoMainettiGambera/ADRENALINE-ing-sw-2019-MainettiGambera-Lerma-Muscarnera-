@@ -1,5 +1,7 @@
 package it.polimi.se2018.virtualView.Socket;
 
+import it.polimi.se2018.controller.ViewControllerEventHandlerContext;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -18,10 +20,10 @@ public class ConnectionHandlerVirtualView extends Thread {
 
     private Socket tempSocket;
 
-    private Observer controller;
+    private ViewControllerEventHandlerContext controller;
 
 
-    public ConnectionHandlerVirtualView(ServerSocket serverSocket, Observer controller){
+    public ConnectionHandlerVirtualView(ServerSocket serverSocket, ViewControllerEventHandlerContext controller){
         this.serverSocket = serverSocket;
         this.isServerSocketLive = true;
         this.oos = new ArrayList<>();
@@ -43,6 +45,7 @@ public class ConnectionHandlerVirtualView extends Thread {
         while(this.isServerSocketLive){
             try{
                 this.tempSocket = serverSocket.accept();
+                System.out.println("<SERVER>New Connection from: " + this.tempSocket.getInetAddress().getHostAddress());
             }
             catch(IOException e){
                 e.printStackTrace();
