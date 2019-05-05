@@ -6,18 +6,18 @@ public class ViewControllerEventGameSetUp extends ViewControllerEvent {
 
     private String mapChoice;
 
-    private int numberOfStratingSkulls;
+    private int numberOfStartingSkulls;
 
     private boolean isFinalFrenzy;
 
-    private boolean isDoubleKill;
+    private boolean isBotActive;
 
-    public ViewControllerEventGameSetUp(String gameMode, String mapChoice, int numberOfStratingSkulls, boolean isFinalFrenzy, boolean isDoubleKill){
+    public ViewControllerEventGameSetUp(String gameMode, String mapChoice, int numberOfStartingSkulls, boolean isFinalFrenzy, boolean isBotActive){
         this.gameMode = gameMode;
         this.mapChoice = mapChoice;
-        this.numberOfStratingSkulls = numberOfStratingSkulls;
+        this.numberOfStartingSkulls = numberOfStartingSkulls;
         this.isFinalFrenzy = isFinalFrenzy;
-        this.isDoubleKill = isDoubleKill;
+        this.isBotActive = isBotActive;
     }
 
     public String getGameMode(){
@@ -26,14 +26,11 @@ public class ViewControllerEventGameSetUp extends ViewControllerEvent {
     public String getMapChoice(){
         return this.mapChoice;
     }
-    public int getNumberOfStratingSkulls(){
-        return this.numberOfStratingSkulls;
+    public int getNumberOfStartingSkulls(){
+        return this.numberOfStartingSkulls;
     }
-    public boolean getIsFinalFrezy(){
+    public boolean isFinalFrezy(){
         return isFinalFrenzy;
     }
-
-    public boolean getisDoubleKill() {
-        return isDoubleKill;
-    }
+    public boolean isBotActive(){ return isBotActive;}
 }

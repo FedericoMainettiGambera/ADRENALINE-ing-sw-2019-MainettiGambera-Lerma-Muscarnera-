@@ -35,6 +35,16 @@ public class Game {
     /***/
     private Board board;
 
+    private boolean isFinalFrenzy;
+
+    public void setFinalFrenzy(boolean isFinalFrenzy){
+        this.isFinalFrenzy = isFinalFrenzy;
+    }
+
+    public boolean getFinalFrenzy(){
+        return this.isFinalFrenzy;
+    }
+
 
     /***/
     public Bot getBot() {
