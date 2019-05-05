@@ -1,6 +1,6 @@
 package it.polimi.se2018.controller;
 
-import it.polimi.se2018.controller.statePattern.HandleConnectionState;
+import it.polimi.se2018.controller.statePattern.FirstState;
 import it.polimi.se2018.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2018.view.View;
 import it.polimi.se2018.virtualView.Socket.SocketVirtualView;
@@ -26,7 +26,7 @@ public class Controller {
 
         //Setting the state pattern
         this.VCEHC = new ViewControllerEventHandlerContext();
-        VCEHC.setNextState(new HandleConnectionState());
+        VCEHC.setNextState(new FirstState());
 
         //Starting the Server
         this.SVV = new SocketVirtualView(this.VCEHC);

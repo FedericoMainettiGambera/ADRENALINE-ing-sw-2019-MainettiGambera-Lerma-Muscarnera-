@@ -1,6 +1,5 @@
 package it.polimi.se2018.controller;
 
-import java.io.IOException;
 
 public class testServer {
     public static void main(String[] args){

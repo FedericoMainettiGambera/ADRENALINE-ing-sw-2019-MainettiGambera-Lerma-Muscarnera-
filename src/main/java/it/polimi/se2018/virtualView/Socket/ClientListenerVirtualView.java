@@ -40,8 +40,6 @@ public class ClientListenerVirtualView extends Observable implements Runnable{
             catch (IOException|ClassNotFoundException e){
                 e.printStackTrace();
             }
-
-            System.out.println("<SERVER>Thread \"ClientListenerVirtualView\" has received an object");
             setChanged();
             this.notifyObservers(this.VCE);
         }

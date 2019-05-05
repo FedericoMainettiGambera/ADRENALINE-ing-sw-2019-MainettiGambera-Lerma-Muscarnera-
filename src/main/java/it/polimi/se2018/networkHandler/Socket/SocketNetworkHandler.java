@@ -45,9 +45,6 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
 
         try {
             this.oos = new ObjectOutputStream(this.socket.getOutputStream());
-            System.out.println("<CLIENT>Sending event to Server. Content: " + InetAddress.getLocalHost().getHostAddress());
-            ViewControllerEventClientIP VCECIP = new ViewControllerEventClientIP(InetAddress.getLocalHost());
-            this.oos.writeObject(VCECIP);
         } catch (IOException e) {
             e.printStackTrace();
         }

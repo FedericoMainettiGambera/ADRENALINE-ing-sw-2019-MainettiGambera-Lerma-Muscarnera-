@@ -1,6 +1,10 @@
 package it.polimi.se2018.virtualView.Socket;
 
+import it.polimi.se2018.controller.ModelGate;
 import it.polimi.se2018.controller.ViewControllerEventHandlerContext;
+import it.polimi.se2018.model.Game;
+import it.polimi.se2018.model.Player;
+import it.polimi.se2018.model.PlayersList;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -22,6 +26,8 @@ public class ConnectionHandlerVirtualView extends Thread {
 
     private ViewControllerEventHandlerContext controller;
 
+    private int numberOfConnections;
+
 
     public ConnectionHandlerVirtualView(ServerSocket serverSocket, ViewControllerEventHandlerContext controller){
         this.serverSocket = serverSocket;
@@ -29,6 +35,7 @@ public class ConnectionHandlerVirtualView extends Thread {
         this.oos = new ArrayList<>();
         this.tempSocket = null;
         this.controller = controller;
+        this.numberOfConnections = 0;
     }
 
     public void CloseServerSocket() throws IOException{
@@ -42,10 +49,19 @@ public class ConnectionHandlerVirtualView extends Thread {
 
     @Override
     public void run(){
+
+        System.out.println("<SERVER>Creating the Game.");
+        ModelGate.model = new Game();
+        System.out.println("<SERVER>Creating a PlayerList.");
+        PlayersList pl = new PlayersList();
+        ModelGate.model.setPlayerList(pl);
+
         while(this.isServerSocketLive){
             try{
                 this.tempSocket = serverSocket.accept();
+                this.numberOfConnections++;
                 System.out.println("<SERVER>New Connection from: " + this.tempSocket.getInetAddress().getHostAddress());
+                System.out.println("<SERVER>Number of Connections: " + this.numberOfConnections);
             }
             catch(IOException e){
                 e.printStackTrace();
@@ -57,9 +73,15 @@ public class ConnectionHandlerVirtualView extends Thread {
                 }
             }
 
+
             //ObjectOutputStream
             try {
-                this.oos.add(new ObjectOutputStream(this.tempSocket.getOutputStream()));
+                System.out.println("<SERVER>Creating a Player.");
+                Player p = new Player();
+                p.setOos(new ObjectOutputStream(this.tempSocket.getOutputStream()));
+                p.setNickname("User"+numberOfConnections);
+                System.out.println("<SERVER>Adding Player (" + p.getNickname() + ") to the PlayerList.");
+                ModelGate.model.getPlayerList().addPlayer(p);
             }
             catch(IOException e){
                 e.printStackTrace();
