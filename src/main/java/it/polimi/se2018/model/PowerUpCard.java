@@ -103,4 +103,8 @@ public class PowerUpCard extends Card {
         return specialEffect;
     }
 
+    public void Play() {
+        getSpecialEffect().Exec();
+
+    }
 }
