@@ -9,7 +9,7 @@ public abstract class Action {
     public Action() {
         this.actionInfo = new ActionInfo();
         this.actionInfo.setActionDetails(new ActionDetails());
-
+        this.actionInfo.setActionContext(new ActionContext());
     }
     public Action(ActionInfo actionInfo){
         this.actionInfo = actionInfo;
