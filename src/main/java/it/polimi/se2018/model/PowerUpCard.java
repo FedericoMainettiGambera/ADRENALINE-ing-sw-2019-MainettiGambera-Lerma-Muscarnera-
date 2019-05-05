@@ -66,6 +66,47 @@ public class PowerUpCard extends Card {
                             Class<?> Cref = Class.forName(line);
                             Action demo = (Action) Cref.newInstance();
                             //System.out.println(effect.size());
+
+
+                            line = reader.readLine();                                    //
+                            ActionInfo actionInfo = new ActionInfo();
+                            boolean useDefaultPreCondition = true;
+
+                            if(line.equals("ACTION INFO")) {
+
+                                line = reader.readLine();
+                                while(!line.equals("END")) {
+                                    if(line.equals("PRECONDITION"))
+                                    {
+                                        useDefaultPreCondition = false;
+                                        line = reader.readLine();                                       // set PreCondition Method
+                                        actionInfo.setPreConditionMethodName(line);
+
+                                    }
+                                    if(line.equals("SET"))
+                                    {
+                                        line = reader.readLine();                                        // changes Damage
+                                        actionInfo.getActionDetails().getFileSelectedActionDetails().addFileSettingData((Object) line);
+                                    }
+                                    line = reader.readLine();
+                                }
+
+                                line = reader.readLine();
+
+                            } else {
+
+                                /*nothing*/
+
+                            }
+                            //System.out.println(effect.size());
+                            if(useDefaultPreCondition) {
+                                actionInfo.setPreConditionMethodName (demo.getActionInfo().getPreConditionMethodName()); /* # */
+                            }
+                            demo.updateSettingsFromFile();
+                            demo.setActionInfo(actionInfo);
+
+
+
                             specialEffect.getActions().add(demo);
                         } catch (Exception e) {
 
