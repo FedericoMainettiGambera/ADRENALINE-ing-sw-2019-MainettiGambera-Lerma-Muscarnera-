@@ -55,11 +55,17 @@ public class ActionInfo {
                     return false;
                 } catch (Exception e) {}
                 finally {
-                    return false;
+                  //  return false;
                 }
+                return false;
             }
             public boolean thereAreNotWallsBetweenTargetAndPlayer(ActionDetails actionDetails,ActionContext actionContext) {
-
+                Position playerPos = actionContext.getPlayer().getPosition();
+                Position targetPos = actionDetails.getUserSelectedActionDetails().getTarget().getPosition();
+                boolean noWalls = true;
+                /*
+                *
+                * */
                 return false;
 
             }
@@ -222,11 +228,12 @@ public class ActionInfo {
         public Player getPlayer() {
             return player;
         }
-
         public void setPlayer(Player player) {
             this.player = player;
         }
-
+        public ActionContext ( Player player) {
+            setPlayer(player);
+        }
         private Player player;          // context of the action: initialized during Effect.exec()
     }
 

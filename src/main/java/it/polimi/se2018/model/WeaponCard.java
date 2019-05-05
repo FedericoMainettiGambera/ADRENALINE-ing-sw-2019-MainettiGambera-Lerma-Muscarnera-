@@ -49,13 +49,13 @@ public class WeaponCard extends Card {
          *          5
          *         NEW EFFECT
          *           ACTION
-         *               %X%
+         *               Pay
          *                  ACTION INFO
          *                          PRECONDITION
-         *                              ThereAreNoWallsBetweenPlayerAndTarget
-         *                          DAMAGE
+         *                              alwaysTrue
+         *                          SET
          *                              3
-         *                          SQUARE MOVEMENT
+         *                          SET
          *                              1
          *                  END
          *              %Y%
@@ -208,5 +208,10 @@ public class WeaponCard extends Card {
     /***/
     public List<Effect> getEffects() {
         return effects;
+    }
+
+    public void Play(int effectNumber) {
+        getEffects().get(effectNumber).Exec();
+
     }
 }
