@@ -2,9 +2,11 @@ package it.polimi.se2018.virtualView.Socket;
 
 import it.polimi.se2018.controller.ModelGate;
 import it.polimi.se2018.controller.ViewControllerEventHandlerContext;
+import it.polimi.se2018.controller.statePattern.GameSetUpState;
 import it.polimi.se2018.model.Game;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayersList;
+import it.polimi.se2018.model.events.ViewControllerEvent;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,6 +15,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Observer;
+
+import static it.polimi.se2018.controller.ViewControllerEventHandlerContext.setNextState;
+import static it.polimi.se2018.controller.ViewControllerEventHandlerContext.state;
 
 public class ConnectionHandlerVirtualView extends Thread {
 
@@ -101,6 +106,10 @@ public class ConnectionHandlerVirtualView extends Thread {
         }
 
         System.out.println("<SERVER>Not accepting connections anymore.");
+        setNextState(new GameSetUpState());
+        state.doAction(new ViewControllerEvent());
 
     }
+
+
 }

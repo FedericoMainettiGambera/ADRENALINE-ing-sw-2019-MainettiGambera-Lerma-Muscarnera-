@@ -114,11 +114,12 @@ public class Board {
 
                 //c'è uno spazio bianco che separa le righe della mappa
                 //il while serve a posizionarsi sulla riga giusta
+                string = bufferedReader.readLine().toCharArray();
 
-                while (string[0] == ' ') {
+
+                while (string[0] == '\b') {
                     string = bufferedReader.readLine().toCharArray();
                 }
-
 
             }
             return map;

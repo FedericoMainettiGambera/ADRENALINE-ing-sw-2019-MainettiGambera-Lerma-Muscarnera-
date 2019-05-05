@@ -8,7 +8,7 @@ import java.util.Observer;
 
 public class ViewControllerEventHandlerContext implements Observer {
 
-    private static State state;
+    public static State state;
 
     public static void setNextState(State nextState) {
         state = nextState;
