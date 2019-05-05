@@ -38,7 +38,6 @@ public class TestBoard {
            assertEquals(null, map[0][3]);
            assertEquals(SquareTypes.spawnPoint, map[1][0].getSquareType());
            assertEquals(SquareTypes.spawnPoint, map[2][3].getSquareType());
-           assertEquals(map,map );
 
 
     }
