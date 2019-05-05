@@ -13,7 +13,7 @@ public class Effect {
         this.actions = actions;
     }
 
-    /*TODO: delete*/
+
     public Effect() {
         this.actions = new ArrayList<Action>();
     }
@@ -21,6 +21,14 @@ public class Effect {
     /*-*****************************************************************************************************ATTRIBUTES*/
     /***/
     private String description;
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setActions(List<Action> actions) {
+        this.actions = actions;
+    }
 
     /***/
     private List<Action> actions;
@@ -37,21 +45,20 @@ public class Effect {
     }
 
     /***/
-    public void Exec() {
+    public boolean Exec() {
         boolean isExecutable = true;
         for(Action a:this.actions){
             if(a.getActionInfo().preCondition() == false ) {            // checks if all the preConditions are true
                 isExecutable = false;
             }
         }
-
-        if(isExecutable)
-            for(Action a:this.actions) {
+        if(isExecutable) {
+            for (Action a : this.actions) {
                 a.Exec();
-            } else {
-                // Notify to the User
-
+            }
+            return true;
         }
+        return false;
     }
 
 }
