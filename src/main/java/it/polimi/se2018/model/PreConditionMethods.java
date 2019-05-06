@@ -13,6 +13,10 @@ public class PreConditionMethods {
         return false;
 
     }
+    public boolean alwaysExceptional(ActionDetails actionDetails, ActionContext actionContext) throws Exception {
+        throw new Exception("");
+    }
+
     public boolean alwaysFalse(ActionDetails actionDetails, ActionContext actionContext) {
         return false;
     }
