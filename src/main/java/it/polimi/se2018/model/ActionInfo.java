@@ -18,25 +18,35 @@ public class ActionInfo {
 
     private String preConditionMethodName;
     public ActionInfo()  {
-        preConditionMethodName = new String("alwaysTrue");
+        actionDetails = new ActionDetails();
+        actionContext = new ActionContext();
+        preConditionMethods = new PreConditionMethods();
+        preConditionMethodName = "alwaysTrue";
 
     }
 
     private  PreConditionMethods preConditionMethods;
-    public  boolean preCondition() {
+    public  boolean preCondition()  {
         try {
+
             java.lang.reflect.Method method;
-            Class<?> c = Class.forName("PreConditionMethods");
+
+            Class<?> c = Class.forName("it.polimi.se2018.model.PreConditionMethods");
+
             Class<?>[] paramTypes = {ActionDetails.class, ActionContext.class};
-            method = c.getDeclaredMethod(preConditionMethodName, null);
+
+            method = c.getDeclaredMethod(preConditionMethodName, paramTypes);
+
             Object returnValue = method.invoke(preConditionMethods,this.actionDetails,this.actionContext);
+
             return (boolean) returnValue;
         }
         catch(Exception E) {
 
-            ;
+            return false;
+
         }
-        return false;               // if it throws exception it returns false
+        //return false;               // if it throws exception it returns false
     }
 
 

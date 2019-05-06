@@ -13,10 +13,10 @@ public class PreConditionMethods {
         return false;
 
     }
-    public boolean alwaysFalse() {
+    public boolean alwaysFalse(ActionDetails actionDetails, ActionContext actionContext) {
         return false;
     }
-    public boolean alwaysTrue() {
+    public boolean alwaysTrue(ActionDetails actionDetails, ActionContext actionContext) {
 
         return true;
 

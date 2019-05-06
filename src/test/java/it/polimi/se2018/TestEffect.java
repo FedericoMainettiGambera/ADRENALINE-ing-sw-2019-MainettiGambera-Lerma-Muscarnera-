@@ -11,19 +11,31 @@ import static org.junit.Assert.assertEquals;
 
 public class TestEffect {
     @Test
+    public void testPreCondition() {
+        Action y = (Action) new Damage();
+        y.getActionInfo().setPreConditionMethodName("alwaysTrue");
+        assertEquals(true,y.getActionInfo().preCondition());
+    }
+    @Test
     public void testEffectExec() {
         Effect x = new Effect();
         Action y = (Action) new Damage();
-
+        Action z = (Action) new Damage();
+        y.getActionInfo().setPreConditionMethodName("alwaysTrue");
+        z.getActionInfo().setPreConditionMethodName("alwaysTrue");
        // y.setActionInfo(new ActionInfo());
         Player p = new Player();
+        y.getActionInfo().getActionContext().setPlayer(p);
+        z.getActionInfo().getActionContext().setPlayer(p);
+        y.getActionInfo().getActionDetails().getFileSelectedActionDetails().setDamage(1);
+        z.getActionInfo().getActionDetails().getFileSelectedActionDetails().setDamage(1);
+
         y.getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(p);
-            x.getActions().add(y);
-        try {
-            x.Exec();
-        } catch(Exception e) {
-            fail();
-        }
+        z.getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(p);
+        x.getActions().add(y);
+        x.getActions().add(z);
+        if(!x.Exec()) fail();
+
     }
     @Test
     public void testEffectExecNotExecutable() {
