@@ -29,6 +29,7 @@ public class TestNormalSquare {
 
         N.setSquareType(SquareTypes.spawnPoint);
         N.getSquareType();
+        N.getColor();
         // 70 - 73
 
     }
@@ -41,5 +42,6 @@ public class TestNormalSquare {
     public void testCoords() {
         NormalSquare N = new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r');
         N.getCoordinates();
+
     }
 }
