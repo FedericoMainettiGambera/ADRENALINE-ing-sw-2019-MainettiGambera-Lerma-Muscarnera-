@@ -71,30 +71,55 @@ public class TurnState implements State {
         }
     }
 
+    //TODO
     public void grabStuff(ViewControllerEvent VCE){
-        if(numberOfActionDone == 1){
-            ViewControllerEventString VCEString = (ViewControllerEventString)VCE;
-            if(VCEString.getInput().equals("grab")){
+        if(numberOfActionDone == 1) {
+            this.numberOfEventReceived = 1;
+        }
+        if(this.numberOfEventReceived == 1) {
+            ViewControllerEventString VCEString = (ViewControllerEventString) VCE;
+            if (VCEString.getInput().equals("grab")) {
                 int X = ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPosition().getX();
                 int Y = ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPosition().getY();
-                if(ModelGate.model.getBoard().getBoard()[X][Y].getSquareType()== SquareTypes.spawnPoint){
+                if (ModelGate.model.getBoard().getBoard()[X][Y].getSquareType() == SquareTypes.spawnPoint) {
+                    SpawnPointSquare spawnPointSquare = ((SpawnPointSquare) ModelGate.model.getBoard().getBoard()[X][Y]);
+                    //ask what weapon he wants ( spawnPointSquare.getWeaponCards(); )
+                } else if (ModelGate.model.getBoard().getBoard()[X][Y].getSquareType() == SquareTypes.normal) {
+                    AmmoList ammoList = ((AmmoCard) ((NormalSquare) ModelGate.model.getBoard().getBoard()[X][Y]).getAmmoCards().getFirstCard()).getAmmunitions();
+                    ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPlayerBoard().addAmmoList(ammoList);
 
-                }
-                else if(ModelGate.model.getBoard().getBoard()[X][Y].getSquareType()== SquareTypes.normal){
-                    AmmoList ammoList = ((AmmoCard)((NormalSquare)ModelGate.model.getBoard().getBoard()[X][Y]).getAmmoCards().getFirstCard()).getAmmunitions();
-
-                    ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPlayerBoard().getAmmoBox().addAmmoList(ammoList);
-
-                    ((NormalSquare)ModelGate.model.getBoard().getBoard()[X][Y]).getAmmoCards().moveAllCardsTo(
+                    ((NormalSquare) ModelGate.model.getBoard().getBoard()[X][Y]).getAmmoCards().moveAllCardsTo(
                             ModelGate.model.getAmmoDiscardPile()
                     );
+                    if(this.numberOfActionDone == 0) {
+                        //ask for second action
+                    }
+                    else if(this.numberOfActionDone == 1){
+                        this.actionChosen = "reload";
+                    }
                 }
-            }
-            else if(VCEString.getInput().equals("move")){
+            } else if (VCEString.getInput().equals("move")) {
 
             }
         }
+        else if(this.numberOfEventReceived == 2){
+            ViewControllerEventString VCEString = (ViewControllerEventString) VCE;
+            int X = ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPosition().getX();
+            int Y = ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPosition().getY();
+            SpawnPointSquare spawnPointSquare = ((SpawnPointSquare) ModelGate.model.getBoard().getBoard()[X][Y]);
+            spawnPointSquare.getWeaponCards().moveCardTo(
+                    ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getWeaponCardsInHand(),
+                    VCEString.getInput()
+            );
+            if(this.numberOfActionDone == 0) {
+                //ask for second action
+            }
+            else if(this.numberOfActionDone == 1){
+                this.actionChosen = "reload";
+            }
+        }
     }
+
 
     public void shootPeople(ViewControllerEvent VCE){
 
