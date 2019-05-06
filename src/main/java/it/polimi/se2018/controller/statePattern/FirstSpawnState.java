@@ -16,7 +16,7 @@ public class FirstSpawnState implements State {
     }
 
     @Override
-    public void doAction(ViewControllerEvent VCE) {
+    public void doAction(ViewControllerEvent VCE) throws NullPointerException {
 
         ViewControllerEventPowerUp VCEPowerUp = (ViewControllerEventPowerUp)VCE;
 
