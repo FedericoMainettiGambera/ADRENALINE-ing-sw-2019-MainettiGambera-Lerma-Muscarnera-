@@ -41,6 +41,10 @@ public class OrderedCardList<T>{
         return null;
     }
 
+    public T getFirstCard(){
+        return this.cards.get(0);
+    }
+
     /**Add a card to the list
      * @param card
      */

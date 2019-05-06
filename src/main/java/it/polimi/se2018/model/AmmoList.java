@@ -24,6 +24,13 @@ public class AmmoList{
 
     /*-********************************************************************************************************METHODS*/
 
+    public void addAmmoList(AmmoList ammoList){
+        for (int i = 0; i < ammoList.getAmmoCubesList().size(); i++) {
+            this.addAmmoCubesOfColor(ammoList.getAmmoCubesList().get(i).getColor(), ammoList.getAmmoCubesList().get(i).getQuantity());
+        }
+    }
+
+
     /**avoid this method if possible, do not access directly attributes, but use method that interact with them for you.
      * @return
      * */
