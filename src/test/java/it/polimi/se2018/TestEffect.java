@@ -13,8 +13,10 @@ public class TestEffect {
     @Test
     public void testPreCondition() {
         Action y = (Action) new Damage();
-        y.getActionInfo().setPreConditionMethodName("alwaysTrue");
-        assertEquals(true,y.getActionInfo().preCondition());
+        Effect z = new Effect();
+        z.getActions().add(y);
+        z.getActions().get(0).getActionInfo().setPreConditionMethodName("alwaysTrue");
+        assertEquals(true,z.getActions().get(0).getActionInfo().preCondition());
     }
     @Test
     public void testEffectExec() {
@@ -37,6 +39,7 @@ public class TestEffect {
         if(!x.Exec()) fail();
 
     }
+
     @Test
     public void testEffectExecNotExecutable() {
         Effect x = new Effect();

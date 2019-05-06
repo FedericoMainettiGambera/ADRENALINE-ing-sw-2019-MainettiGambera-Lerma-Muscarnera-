@@ -11,7 +11,7 @@ public class Damage extends Action {
         } else {
             return;
         }
-        getActionInfo().getActionDetails().getFileSelectedActionDetails().setDamage((Integer) a);
+        getActionInfo().getActionDetails().getFileSelectedActionDetails().setDamage(Integer.parseInt((String)a));
     }
 
     /***/

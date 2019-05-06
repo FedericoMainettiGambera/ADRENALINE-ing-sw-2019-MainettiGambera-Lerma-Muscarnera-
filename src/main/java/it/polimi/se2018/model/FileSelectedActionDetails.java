@@ -1,10 +1,13 @@
 package it.polimi.se2018.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FileSelectedActionDetails {
     List<Object> fileSettingData;       // lista dei dati inseriti via file
-
+    public FileSelectedActionDetails() {
+        fileSettingData = new ArrayList<Object>();
+    }
     public void addFileSettingData(Object o) {
         fileSettingData.add(o);
     }
