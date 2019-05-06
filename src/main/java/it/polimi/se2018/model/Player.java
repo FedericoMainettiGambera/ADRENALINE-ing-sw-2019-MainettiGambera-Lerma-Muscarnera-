@@ -36,6 +36,8 @@ public class Player extends Person{
 
     public void setOos(ObjectOutputStream oos){
         this.oos = oos;
+        setChanged();
+        notifyObservers();
     }
 
     public ObjectOutputStream getOos(){
@@ -44,6 +46,8 @@ public class Player extends Person{
 
     public void setIP(String IP){
         this.IP = IP;
+        setChanged();
+        notifyObservers();
     }
 
     public String getIp(){

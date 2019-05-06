@@ -1,8 +1,10 @@
 package it.polimi.se2018.model;
 
 
+import java.util.Observable;
+
 /***/
-public class Game {
+public class Game extends Observable {
 
     /***/
     public Game() {
@@ -39,6 +41,8 @@ public class Game {
 
     public void setFinalFrenzy(boolean isFinalFrenzy){
         this.isFinalFrenzy = isFinalFrenzy;
+        setChanged();
+        notifyObservers();
     }
 
     public boolean getFinalFrenzy(){
@@ -53,6 +57,8 @@ public class Game {
 
     public void setBot(Bot bot) {
         this.bot = bot;
+        setChanged();
+        notifyObservers();
     }
 
     /***/
@@ -62,6 +68,8 @@ public class Game {
 
     public void setKillshotTrack(KillShotTrack killshotTrack) {
         this.killshotTrack = killshotTrack;
+        setChanged();
+        notifyObservers();
     }
 
     /***/
@@ -71,6 +79,8 @@ public class Game {
 
     public void setPlayerList(PlayersList players) {
         this.players = players;
+        setChanged();
+        notifyObservers();
     }
 
     /***/
@@ -80,6 +90,8 @@ public class Game {
 
     public void setPowerUpDeck(OrderedCardList<PowerUpCard> powerUpDeck) {
         this.powerUpDeck = powerUpDeck;
+        setChanged();
+        notifyObservers();
     }
 
     /***/
@@ -89,6 +101,8 @@ public class Game {
 
     public void setAmmoDeck(OrderedCardList<AmmoCard> ammoDeck) {
         this.ammoDeck = ammoDeck;
+        setChanged();
+        notifyObservers();
     }
 
     /***/
@@ -98,6 +112,8 @@ public class Game {
 
     public void setWeaponDeck(OrderedCardList<WeaponCard> weaponDeck) {
         this.weaponDeck = weaponDeck;
+        setChanged();
+        notifyObservers();
     }
 
     /***/
@@ -107,6 +123,8 @@ public class Game {
 
     public void setBoard(Board board) {
         this.board = board;
+        setChanged();
+        notifyObservers();
     }
 
     /***/
@@ -116,6 +134,8 @@ public class Game {
 
     public void setAmmoDiscardPile(OrderedCardList<AmmoCard> ammoDiscardPile) {
         this.ammoDiscardPile = ammoDiscardPile;
+        setChanged();
+        notifyObservers();
     }
 
     /***/
@@ -125,5 +145,7 @@ public class Game {
 
     public void setPowerUpDiscardPile(OrderedCardList<PowerUpCard> powerUpDiscardPile) {
         this.powerUpDiscardPile = powerUpDiscardPile;
+        setChanged();
+        notifyObservers();
     }
 }

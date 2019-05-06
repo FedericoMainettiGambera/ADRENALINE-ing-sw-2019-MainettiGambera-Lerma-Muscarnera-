@@ -1,8 +1,10 @@
 package it.polimi.se2018.model;
 
 
+import java.util.Observable;
+
 /** each instance of this class represents a single box of the killshot track */
-public class Kill {
+public class Kill extends Observable {
     /*-****************************************************************************************************CONSTRUCTOR*/
 
     /**COnstructor:
@@ -57,6 +59,8 @@ public class Kill {
         if(isSkull && player!=null) {
             killingPlayer = player;
             isSkull = false;
+            setChanged();
+            notifyObservers();
         }
         else {
             throw new Exception();

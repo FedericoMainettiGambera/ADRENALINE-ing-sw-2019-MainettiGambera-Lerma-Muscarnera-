@@ -2,13 +2,14 @@ package it.polimi.se2018.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * THIS CLASS SHOULD NEVER BE DIRECTLY ACCESSED, INSTEAD USE METHODS FROM THE "Person" CLASS.
  * The MarksTracker class keeps track of the number of marks a player has received from each player in game.
  * @author FedericoMainettiGambera
  * */
-public class MarksTracker {
+public class MarksTracker extends Observable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
@@ -46,10 +47,15 @@ public class MarksTracker {
         for(int i = 0; i<markSlotsList.size(); i++) {
             if(markSlotsList.get(i).getMarkingPlayer() == markingPlayer){
                 markSlotsList.get(i).addQuantity(quantity);
+                setChanged();
+                notifyObservers();
                 return;
             }
         }
         markSlotsList.add(new MarkSlots(markingPlayer, quantity));
+        setChanged();
+        notifyObservers();
+        return;
     }
 
     /**@param markingPlayer
@@ -71,6 +77,8 @@ public class MarksTracker {
         for(int i = 0; i<markSlotsList.size(); i++) {
             if(markSlotsList.get(i).getMarkingPlayer() == markingPlayer){
                 markSlotsList.remove(i);
+                setChanged();
+                notifyObservers();
                 return;
             }
         }

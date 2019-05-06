@@ -3,12 +3,13 @@ package it.polimi.se2018.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Observable;
 
 /**this class is an ordered card list of a specified type of cards, it is used to represents WeaponCards and
  * PowerUpCards in game decks or players hands.
  * @author FedericoMainettiGambera
  * */
-public class OrderedCardList<T>{
+public class OrderedCardList<T> extends Observable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
@@ -50,6 +51,8 @@ public class OrderedCardList<T>{
      */
     public void addCard(T card){
         this.cards.add(card);
+        setChanged();
+        notifyObservers();
     }
 
     /**Remove card from the list
@@ -60,6 +63,8 @@ public class OrderedCardList<T>{
         for (int i = 0; i < this.cards.size(); i++) {
             if( ((Card)this.cards.get(i)).getID() == ID ){
                 this.cards.remove(i);
+                setChanged();
+                notifyObservers();
                 return true;
             }
         }
@@ -75,6 +80,8 @@ public class OrderedCardList<T>{
         if(this.getCard(cardID) != null) {
             to.addCard(this.getCard(cardID));
             this.removeCard(cardID);
+            setChanged();
+            notifyObservers();
             return true;
         }
         else{
@@ -89,11 +96,15 @@ public class OrderedCardList<T>{
         for (int i = 0; i < this.cards.size(); i++) {
             to.addCard(this.cards.get(i));
             this.cards.remove(i);
+            setChanged();
+            notifyObservers();
         }
     }
 
     /**shuffles all cards in this ordered card list*/
     public void shuffle() {
         Collections.shuffle(this.cards);
+        setChanged();
+        notifyObservers();
     }
 }

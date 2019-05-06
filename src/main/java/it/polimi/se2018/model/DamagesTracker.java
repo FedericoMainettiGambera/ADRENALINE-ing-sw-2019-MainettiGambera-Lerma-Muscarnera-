@@ -3,13 +3,14 @@ package it.polimi.se2018.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * THIS CLASS SHOULD NEVER BE DIRECTLY ACCESSED, INSTEAD USE METHODS FROM THE "Person" CLASS.
  * The DamagesTracker class keeps track of the damages taken from a player.
  * @author FedericoMainettiGambera
  * */
-public class DamagesTracker {
+public class DamagesTracker extends Observable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
@@ -46,6 +47,8 @@ public class DamagesTracker {
         }
         for(int i = 0; i < numberOfDamages; i++) {
             damageSlotsList.add(new DamageSlot(shootingPlayer));
+            setChanged();
+            notifyObservers();
         }
     }
 
@@ -57,6 +60,8 @@ public class DamagesTracker {
             throw new IllegalArgumentException("the DamageSlot can't be null.");
         }
         damageSlotsList.add(damageSlot);
+        setChanged();
+        notifyObservers();
     }
 
     /**@param slotNumber
@@ -74,5 +79,7 @@ public class DamagesTracker {
      * */
     public void emptyList() {
         this.damageSlotsList = new ArrayList<>();
+        setChanged();
+        notifyObservers();
     }
 }

@@ -3,12 +3,13 @@ package it.polimi.se2018.model;
 import it.polimi.se2018.model.enumerations.AmmoCubesColor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * The AmmoList class keeps track of the current number of ammos a player has.
  * @author FedericoMainettiGambera
  * */
-public class AmmoList{
+public class AmmoList extends Observable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
@@ -28,6 +29,8 @@ public class AmmoList{
         for (int i = 0; i < ammoList.getAmmoCubesList().size(); i++) {
             this.addAmmoCubesOfColor(ammoList.getAmmoCubesList().get(i).getColor(), ammoList.getAmmoCubesList().get(i).getQuantity());
         }
+        setChanged();
+        notifyObservers();
     }
 
 
@@ -48,10 +51,14 @@ public class AmmoList{
         for(int i = 0; i < this.ammoCubesList.size(); i++){
             if(this.getAmmoCubesList().get(i).getColor() == color){
                 this.getAmmoCubesList().get(i).addQuantity(quantity);
+                setChanged();
+                notifyObservers();
                 return;
             }
         }
         this.ammoCubesList.add(new AmmoCubes(color));
+        setChanged();
+        notifyObservers();
     }
 
     /**checks if an amount of ammos can be payed with the current this.ammoCubesList status
@@ -102,6 +109,8 @@ public class AmmoList{
         for(int i = 0; i < this.ammoCubesList.size(); i++){
             if(this.ammoCubesList.get(i).getColor()==color){
                 if(this.ammoCubesList.get(i).subQuantity(quantity)){
+                    setChanged();
+                    notifyObservers();
                     return true;
                 }
             }
@@ -127,6 +136,8 @@ public class AmmoList{
             }
             /*to return true at the end*/
             if(i == cost.getAmmoCubesList().size()-1){
+                setChanged();
+                notifyObservers();
                 return true;
             }
         }

@@ -35,6 +35,8 @@ public class Bot extends Person {
      * */
     public void setToNextOwner(Player nextPlayingPlayer){
         /*TODO*/
+        setChanged();
+        notifyObservers();
     }
 
     /**@return isBotActive

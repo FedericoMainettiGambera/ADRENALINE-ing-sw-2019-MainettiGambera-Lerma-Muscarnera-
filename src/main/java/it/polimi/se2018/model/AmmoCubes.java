@@ -2,12 +2,14 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.model.enumerations.AmmoCubesColor;
 
+import java.util.Observable;
+
 /**
  * THIS CLASS SHOULD NEVER BE DIRECTLY ACCESSED, INSTEAD USE METHODS FROM THE "Person" CLASS.
  * The AmmoCubes class keeps track of the number of cubes of a specific color a player has.
  * @author FedericoMainettiGambera
  * */
-public class AmmoCubes {
+public class AmmoCubes extends Observable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
@@ -52,6 +54,8 @@ public class AmmoCubes {
         else{
             this.quantity = GameConstant.MaxNumberOfAmmoCubes;
         }
+        setChanged();
+        notifyObservers();
     }
 
     /**Subtract a quantity of ammos. This method is used to pay ammos.
@@ -62,6 +66,8 @@ public class AmmoCubes {
     public boolean subQuantity(int quantity){
         if(canSubQuantity(quantity)){
             this.quantity -= quantity;
+            setChanged();
+            notifyObservers();
             return true;
         }
         else{

@@ -3,11 +3,13 @@ package it.polimi.se2018.model;
 import it.polimi.se2018.model.enumerations.AmmoCubesColor;
 import it.polimi.se2018.model.enumerations.PlayersColors;
 
+import java.util.Observable;
+
 /**Abstract class that represents a character.
  * There are all the methods needed to do any action required during the game.
  * @author FedericoMainettiGambera
  * */
-public abstract class Person {
+public abstract class Person extends Observable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor
@@ -42,10 +44,14 @@ public abstract class Person {
 
     public void setColor(PlayersColors color) {
         this.color = color;
+        setChanged();
+        notifyObservers();
     }
 
     public void setNickname(String nickname){
         this.nickname = nickname;
+        setChanged();
+        notifyObservers();
     }
 
     /*POSITION*/
@@ -56,6 +62,8 @@ public abstract class Person {
     public void setPosition(int x, int y){
         try{
             this.position = new Position(x,y);
+            setChanged();
+            notifyObservers();
         }
         catch (IllegalArgumentException e){
             System.out.println(e.toString());
@@ -76,6 +84,8 @@ public abstract class Person {
     /***/
     public void AddPoints(int points) {
         this.score+=points;
+        setChanged();
+        notifyObservers();
     }
 
     /***/
@@ -105,6 +115,8 @@ public abstract class Person {
     /**increment the death counter by one*/
     public void addDeath() {
         this.board.addDeath();
+        setChanged();
+        notifyObservers();
     }
 
     /**return the number of times the player has died.
@@ -131,6 +143,8 @@ public abstract class Person {
      * */
     public void addAmmoCubes(AmmoCubesColor color, int quantity) {
         this.board.addAmmoCubes(color, quantity);
+        setChanged();
+        notifyObservers();
     }
 
     /**adding ammo to the player ammo box
@@ -138,6 +152,8 @@ public abstract class Person {
      */
     public void addAmmoCubes(AmmoList ammoList){
         this.board.addAmmoCubes(ammoList);
+        setChanged();
+        notifyObservers();
     }
 
     /**subtract a specific amount of ammos.
@@ -147,7 +163,12 @@ public abstract class Person {
      * @return
      * */
     public boolean payAmmoCubes(AmmoCubesColor color, int quantity){
-        return this.board.payAmmoCubes(color, quantity);
+        if(this.board.payAmmoCubes(color, quantity)) {
+            setChanged();
+            notifyObservers();
+            return true;
+        }
+        else return false;
     }
     /**subtract a specific amount of ammos
      * Before doing any operation checks if it is possible to subtract the specified amount.
@@ -155,7 +176,14 @@ public abstract class Person {
      * @return
      * */
     public boolean payAmmoCubes(AmmoList cost){
-        return this.board.payAmmoCubes(cost);
+        if(this.board.payAmmoCubes(cost)){
+            setChanged();
+            notifyObservers();
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     /**checks if it is possible to subtract a specific amount of ammos
      * @param color
@@ -180,12 +208,16 @@ public abstract class Person {
         if(isOverkilled()){
             shootingPlayer.addMarksFrom( (Player)this, 1);
         }
+        setChanged();
+        notifyObservers();
     }
 
     /** takes away all the damages from the player board.
      * (this method will be used when the player dies)*/
     public void emptyDamagesTracker(){
         this.board.emptyDamagesTracker();
+        setChanged();
+        notifyObservers();
     }
 
     /**checks if the player has received at least 11 damages (is dead)
@@ -230,6 +262,8 @@ public abstract class Person {
      * */
     public void addMarksFrom(Player markingPlayer, int quantity){
         this.board.addMarksFrom(markingPlayer,quantity);
+        setChanged();
+        notifyObservers();
     }
 
     /**return the number of marks the player has received from the markingPlayer
@@ -245,6 +279,8 @@ public abstract class Person {
      * */
     public void deleteMarksFromPlayer(Player markingPlayer){
         this.board.deleteMarksFromPlayer(markingPlayer);
+        setChanged();
+        notifyObservers();
     }
 
     /**takes all the marks from a player and tranform them in dadmages
@@ -253,5 +289,7 @@ public abstract class Person {
     public void applyMarksFromPlayer(Player shootingPlayer){
         addDamages(shootingPlayer, this.getMarksFrom(shootingPlayer));
         deleteMarksFromPlayer(shootingPlayer);
+        setChanged();
+        notifyObservers();
     }
 }

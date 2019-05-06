@@ -1,11 +1,13 @@
 package it.polimi.se2018.model;
 
+import java.util.Observable;
+
 /**
  * THIS CLASS SHOULD NEVER BE DIRECTLY ACCESSED, INSTEAD USE METHODS FROM THE "Person" CLASS.
  * The MarksSlots class keeps track of the number of marks a player has received from another player.
  * @author FedericoMainettiGambera
  * */
-public class MarkSlots {
+public class MarkSlots extends Observable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
@@ -44,9 +46,13 @@ public class MarkSlots {
     public void addQuantity(int quantity){
         if(this.quantity+quantity <= GameConstant.MaxNumberOfMarkFromPlayer) {
             this.quantity += quantity;
+            setChanged();
+            notifyObservers();
         }
         else{
             this.quantity = GameConstant.MaxNumberOfMarkFromPlayer;
+            setChanged();
+            notifyObservers();
         }
     }
 }

@@ -3,9 +3,10 @@ package it.polimi.se2018.model;
 import it.polimi.se2018.model.enumerations.PlayersColors;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 /**keeps track of the Players playing the current game*/
-public class PlayersList {
+public class PlayersList extends Observable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
@@ -31,6 +32,8 @@ public class PlayersList {
 
     public void setCurrentPlayingPlayer(Player currentPlayingPlayer){
         this.currentPlayingPlayer = currentPlayingPlayer;
+        setChanged();
+        notifyObservers();
     }
 
     public Player getStartingPlayer(){
@@ -39,6 +42,8 @@ public class PlayersList {
 
     public void setStartingPlayer(Player startingPlayer){
         this.startingPlayer = startingPlayer;
+        setChanged();
+        notifyObservers();
     }
 
     public void setNextPlayingPlayer(){
@@ -53,6 +58,8 @@ public class PlayersList {
                 break;
             }
         }
+        setChanged();
+        notifyObservers();
     }
 
 
@@ -61,6 +68,8 @@ public class PlayersList {
      * */
     public void addPlayer(Player player) {
         this.players.add(player);
+        setChanged();
+        notifyObservers();
     }
 
     /**@param nickname
@@ -92,6 +101,8 @@ public class PlayersList {
     public boolean removePlayer(String nickname) {
         if(this.players.contains(getPlayer(nickname))){
             this.players.remove(getPlayer(nickname));
+            setChanged();
+            notifyObservers();
             return true;
         }
         else{
@@ -106,6 +117,8 @@ public class PlayersList {
     public boolean removePlayer(Player player){
         if(this.players.contains(player)){
             this.players.remove(player);
+            setChanged();
+            notifyObservers();
             return true;
         }
         else{

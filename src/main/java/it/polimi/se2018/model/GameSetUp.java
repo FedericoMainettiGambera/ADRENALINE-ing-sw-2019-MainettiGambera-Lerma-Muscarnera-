@@ -2,10 +2,11 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.model.enumerations.GameMode;
 import java.lang.*;
+import java.util.Observable;
 
 
 /***/
-public class GameSetUp {
+public class GameSetUp extends Observable {
 
     /***/
     public GameSetUp(){
@@ -35,35 +36,40 @@ public class GameSetUp {
 
     /** setters  */
     public void setGameMode(GameMode gameMode){
-
         this.gameMode=gameMode;
+        setChanged();
+        notifyObservers();
     }
 
     public void setMapChoice(String chosenMap){
-
         this.mapChoice=chosenMap;
-
+        setChanged();
+        notifyObservers();
     }
 
     public void setDoubleKill(boolean isDoubleKill){
-
         this.isDoubleKill=isDoubleKill;
-
+        setChanged();
+        notifyObservers();
     }
 
     public void setNumberOfStartingSkulls(int numberOfStartingSkulls){
-
         this.numberOfStartingSkulls=numberOfStartingSkulls;;
-
+        setChanged();
+        notifyObservers();
     }
 
     public void setFinalFrenzy(boolean finalFrenzy) {
         isFinalFrenzy = finalFrenzy;
+        setChanged();
+        notifyObservers();
     }
 
     /**getters*/
 
-    public GameMode getGameMode(){return this.gameMode; }
+    public GameMode getGameMode(){
+        return this.gameMode;
+    }
 
     public  String getMapChoice(){ return this.mapChoice;}
 

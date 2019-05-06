@@ -2,13 +2,15 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.model.enumerations.AmmoCubesColor;
 
+import java.util.Observable;
+
 /**
  * THIS CLASS SHOULD NEVER BE DIRECTLY ACCESSED, INSTEAD USE METHODS FROM THE "Person" CLASS.
  * The PlayerBoard class represents a player's board and keeps track of the current ammunitions, the current damage
  * taken and the number of marks and deaths.
  * @author FedericoMainettiGambera
  * */
-public class PlayerBoard {
+public class PlayerBoard extends Observable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
@@ -50,6 +52,8 @@ public class PlayerBoard {
     /**increment the deathCounter by one*/
     public void addDeath() {
         deathCounter++;
+        setChanged();
+        notifyObservers();
     }
 
     /**@return number of times the player has died
@@ -66,12 +70,20 @@ public class PlayerBoard {
         return ammoBox;
     }
 
+    public void addAmmoList(AmmoList ammoList){
+        this.getAmmoBox().addAmmoList(ammoList);
+        setChanged();
+        notifyObservers();
+    }
+
     /**add ammo cubes
      * @param color
      * @param quantity
      * */
     public void addAmmoCubes(AmmoCubesColor color, int quantity) {
         this.ammoBox.addAmmoCubesOfColor(color, quantity);
+        setChanged();
+        notifyObservers();
     }
     /**add ammo cubes
      * @param ammoList
@@ -81,6 +93,8 @@ public class PlayerBoard {
             this.ammoBox.addAmmoCubesOfColor( ammoList.getAmmoCubesList().get(i).getColor(),
                                               ammoList.getAmmoCubesList().get(i).getQuantity() );
         }
+        setChanged();
+        notifyObservers();
     }
 
     /**pay ammo cubes
@@ -88,13 +102,27 @@ public class PlayerBoard {
      * @param color
      * @return */
     public boolean payAmmoCubes(AmmoCubesColor color, int quantity){
-        return this.ammoBox.payAmmoCubes(color, quantity);
+        if(this.ammoBox.payAmmoCubes(color, quantity)){
+            setChanged();
+            notifyObservers();
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     /**pay ammo cubes
      * @param cost
      * @return */
     public boolean payAmmoCubes(AmmoList cost){
-        return this.ammoBox.payAmmoCubes(cost);
+        if(this.ammoBox.payAmmoCubes(cost)){
+            setChanged();
+            notifyObservers();
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     /**checks if it is possible to pay an amount of ammo
@@ -136,11 +164,15 @@ public class PlayerBoard {
      * */
     public void addDamages (Player shootingPlayer, int numberOfDamages){
         this.damagesTracker.addDamages(shootingPlayer,numberOfDamages);
+        setChanged();
+        notifyObservers();
     }
 
     /**empty the damages Tracker*/
     public void emptyDamagesTracker(){
         this.damagesTracker.emptyList();
+        setChanged();
+        notifyObservers();
     }
 
     /*MARKS TRACKER*/
@@ -157,6 +189,8 @@ public class PlayerBoard {
      * */
     public void addMarksFrom(Player markingPlayer, int quantity){
         this.marksTracker.addMarksFrom(markingPlayer,quantity);
+        setChanged();
+        notifyObservers();
     }
 
     /**@param markingPlayer
@@ -170,6 +204,8 @@ public class PlayerBoard {
      * */
     public void deleteMarksFromPlayer(Player markingPlayer){
         this.marksTracker.deleteMarksFromPlayer(markingPlayer);
+        setChanged();
+        notifyObservers();
     }
 
 }

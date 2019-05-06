@@ -3,9 +3,10 @@ package it.polimi.se2018.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 /**regular killshot track*/
-public class KillShotTrack{
+public class KillShotTrack extends Observable {
     /* **************************************************************************CONSTRUCTOR*/
 
     /**
@@ -42,7 +43,7 @@ public class KillShotTrack{
      * @param isOverKill
      * @param killingPlayer
      * */
-    public  void deathOfPlayer(Player killingPlayer, boolean isOverKill) throws IllegalStateException {
+    public void deathOfPlayer(Player killingPlayer, boolean isOverKill) throws IllegalStateException {
         if (numberOfRemainingSkulls>0) {
             try {
                 kills.get(numberOfRemainingSkulls).setKillingPlayer(killingPlayer);
@@ -50,9 +51,11 @@ public class KillShotTrack{
                     kills.get(numberOfRemainingSkulls).setOverkillingPlayer(killingPlayer);
                 }
                 numberOfRemainingSkulls--;
+                setChanged();
+                notifyObservers();
             }
             catch(Exception e){
-                /**/
+                e.printStackTrace();
             }
         }
         else throw new IllegalStateException();
