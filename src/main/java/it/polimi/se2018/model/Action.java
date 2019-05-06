@@ -16,7 +16,6 @@ public abstract class Action {
     }
     public void updateSettingsFromFile() {          // this function takes the fileSetting and uses them to fill the parameters of setters of actionInfo
 
-        return;
 
     }
     public void setDefaultSetting() {
