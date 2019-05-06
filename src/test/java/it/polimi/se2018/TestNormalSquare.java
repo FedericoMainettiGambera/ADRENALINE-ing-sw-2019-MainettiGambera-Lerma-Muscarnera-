@@ -1,6 +1,7 @@
 package it.polimi.se2018;
 
 import it.polimi.se2018.model.NormalSquare;
+import it.polimi.se2018.model.enumerations.CardinalPoint;
 import it.polimi.se2018.model.enumerations.SquareSide;
 import it.polimi.se2018.model.enumerations.SquareTypes;
 import org.junit.Test;
@@ -16,5 +17,29 @@ public class TestNormalSquare {
     public void testGetAmmoCards() {
         NormalSquare N = new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r');
         N.getAmmoCards();
+    }
+    @Test
+    public void testCardinal() {
+        // 45 - 58
+        NormalSquare N = new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r');
+        N.getSide(CardinalPoint.north);
+        N.getSide(CardinalPoint.east);
+        N.getSide(CardinalPoint.south);
+        N.getSide(CardinalPoint.west);
+
+        N.setSquareType(SquareTypes.spawnPoint);
+        N.getSquareType();
+        // 70 - 73
+
+    }
+    @Test
+    public void testNullCardinal() {
+        NormalSquare N = new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r');
+        N.getSide(null);
+    }
+    @Test
+    public void testCoords() {
+        NormalSquare N = new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r');
+        N.getCoordinates();
     }
 }
