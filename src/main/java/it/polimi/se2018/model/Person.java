@@ -70,6 +70,10 @@ public abstract class Person extends Observable {
         }
     }
 
+    public void setPosition(Position position){
+        this.position = position;
+    }
+
     /**@return person's position
      * @throws IllegalStateException
      * */

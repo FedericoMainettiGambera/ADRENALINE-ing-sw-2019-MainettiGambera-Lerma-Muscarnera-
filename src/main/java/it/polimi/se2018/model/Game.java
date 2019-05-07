@@ -40,6 +40,14 @@ public class Game extends Observable {
 
     private boolean isFinalFrenzy;
 
+    public Player getCurrentPlayingPlayer(){
+        return this.getPlayerList().getCurrentPlayingPlayer();
+    }
+
+    public void setNextPlayingPlayer(){
+        this.getPlayerList().setNextPlayingPlayer();
+    }
+
     public void setFinalFrenzy(boolean isFinalFrenzy){
         this.isFinalFrenzy = isFinalFrenzy;
         setChanged();
@@ -89,8 +97,7 @@ public class Game extends Observable {
         //builds weapon cards
         File directory = new File("Cards");     // insert here path to weapon cards folder
         int fileCount = directory.list().length;
-        int i = 0;
-        for(i = 0; i< fileCount;i++) {
+        for(int i = 0; i< fileCount;i++) {
              try {
                  this.weaponDeck.addCard(new WeaponCard("" + i));
              }
@@ -103,8 +110,7 @@ public class Game extends Observable {
         //builds power up cards
         directory = new File("Cards");          // insert here path to power up cards folder
         fileCount = directory.list().length;
-        i = 0;
-        for(i = 0; i< fileCount;i++) {
+        for(int i = 0; i< fileCount;i++) {
             try {
                 this.powerUpDeck.addCard(new PowerUpCard("" + i));
             }
@@ -117,8 +123,7 @@ public class Game extends Observable {
         //builds ammo cards
         directory = new File("Cards");          // insert here path to ammo cards folder
         fileCount = directory.list().length;
-        i = 0;
-        for(i = 0; i< fileCount;i++) {
+        for(int i = 0; i< fileCount;i++) {
             try {
                 //TODO: this.ammoDeck.addCard(new AmmoCard("" + i));
             }
