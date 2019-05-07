@@ -8,25 +8,24 @@ import it.polimi.se2018.model.events.ViewControllerEventPlayerSetUp;
 public class PlayerSetUpState implements State {
 
     private int numberOfPlayer;
-
-    private int numberOfEventReceived;
+    private int numberOfPlayersSetted;
 
     public PlayerSetUpState(){
         this.numberOfPlayer = ModelGate.model.getPlayerList().getNumberOfPlayers();
-        this.numberOfEventReceived = 0;
+        this.numberOfPlayersSetted = 0;
     }
     @Override
-    public void doAction(ViewControllerEvent VCE) {
-        ViewControllerEventPlayerSetUp VCEPlayerSetUp = (ViewControllerEventPlayerSetUp)VCE;
+    public void doAction(ViewControllerEvent VCE){
 
-        ModelGate.model.getPlayerList().getPlayers().get(numberOfEventReceived).setNickname(VCEPlayerSetUp.getNickname());
-        ModelGate.model.getPlayerList().getPlayers().get(numberOfEventReceived).setColor(VCEPlayerSetUp.getColor());
+        ViewControllerEventPlayerSetUp VCEPlayerSetUp = (ViewControllerEventPlayerSetUp)VCE;
+        ModelGate.model.getPlayerList().getPlayers().get(numberOfPlayersSetted).setNickname(VCEPlayerSetUp.getNickname());
+        ModelGate.model.getPlayerList().getPlayers().get(numberOfPlayersSetted).setColor(VCEPlayerSetUp.getColor());
 
         //fai pescare due power up
 
-        numberOfEventReceived++;
+        numberOfPlayersSetted++;
 
-        if(numberOfEventReceived < numberOfPlayer -1){ //not sure
+        if(numberOfPlayersSetted < numberOfPlayer -1){ //not sure
             //ask next player to Set up
         }
         else{

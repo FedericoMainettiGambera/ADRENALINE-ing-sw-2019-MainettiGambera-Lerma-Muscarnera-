@@ -1,5 +1,6 @@
 package it.polimi.se2018.controller.statePattern;
 
+import com.sun.tools.internal.xjc.model.Model;
 import it.polimi.se2018.controller.ModelGate;
 import it.polimi.se2018.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2018.model.Board;
@@ -16,7 +17,7 @@ public class GameSetUpState implements State {
     private ObjectOutputStream objectOutputStream;
     private int numberOfEvents;
 
-    public void GameSetUpState(){
+    public GameSetUpState(){
         this.numberOfEvents=0;
 
     }
@@ -24,9 +25,10 @@ public class GameSetUpState implements State {
     public void doAction(ViewControllerEvent VCE){
 
         if(numberOfEvents==0) {
-            this.objectOutputStream = ModelGate.model.getPlayerList().getPlayer("User1").getOos();
 
+            //this.objectOutputStream = ModelGate.model.getPlayerList().getPlayer("User1").getOos();
             //ask for gameSetUp to the player
+
             numberOfEvents++;
         }
         else if(numberOfEvents==1){
@@ -34,6 +36,7 @@ public class GameSetUpState implements State {
 
             System.out.println("<SERVER>Setting Starting Player.");
             ModelGate.model.getPlayerList().setStartingPlayer(ModelGate.model.getPlayerList().getPlayer("User1"));
+            ModelGate.model.getPlayerList().setCurrentPlayingPlayer(ModelGate.model.getPlayerList().getStartingPlayer());
 
             if(VCEGameSetUp.getGameMode().equals("normalMode")){
                 System.out.println("<SERVER>Setting up Game in normal mode.");
@@ -55,6 +58,7 @@ public class GameSetUpState implements State {
                 ModelGate.model.setBot(new Bot(VCEGameSetUp.isBotActive()));
 
                 //crea le carte
+                ModelGate.model.buildDecks();
 
 
                 //setting next State
