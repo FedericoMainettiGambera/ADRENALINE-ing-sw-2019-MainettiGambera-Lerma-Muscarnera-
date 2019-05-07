@@ -1,76 +1,45 @@
 package it.polimi.se2018.controller.statePattern;
 
 import it.polimi.se2018.controller.ModelGate;
-import it.polimi.se2018.model.AmmoCard;
-import it.polimi.se2018.model.AmmoList;
-import it.polimi.se2018.model.NormalSquare;
-import it.polimi.se2018.model.SpawnPointSquare;
+import it.polimi.se2018.controller.ViewControllerEventHandlerContext;
+import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.enumerations.SquareTypes;
 import it.polimi.se2018.model.events.ViewControllerEvent;
-import it.polimi.se2018.model.events.ViewControllerEventPosition;
 import it.polimi.se2018.model.events.ViewControllerEventString;
 
 public class TurnState implements State {
 
-    private int numberOfEventReceived;
+    private int actionNumber;
 
-    private int numberOfActionDone;
+    public TurnState(int actionNumber){
+        this.actionNumber = actionNumber;
+    }
 
-    private String actionChosen;
-
-    public TurnState(){
-        this.numberOfEventReceived = 0;
-        this.numberOfActionDone = 0;
+    @Override
+    public void askForInput(Player playerToAsk) {
+        //ask for input
     }
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
-        if(numberOfEventReceived == 0){
-            this.actionChosen = ((ViewControllerEventString)VCE).getInput();
-            if(this.actionChosen.equals("run around")){
-                //ask the position
-            }
-            else if(this.actionChosen.equals("grab stuff")){
-                //ask if move or grab
-            }
-            else if(this.actionChosen.equals("shoot people")){
-                //ask
-            }
-            numberOfEventReceived++;
+        String actionChosen = ((ViewControllerEventString)VCE).getInput();
+        //set correct next state
+        if(actionChosen.equals("run around")){
+            ViewControllerEventHandlerContext.setNextState(new RunAroundState(this.actionNumber));
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
-        else if(numberOfEventReceived > 0){
-            if(this.actionChosen.equals("run around")){
-                this.runAround(VCE);
-            }
-            else if(this.actionChosen.equals("grab stuff")){
-                this.grabStuff(VCE);
-            }
-            else if(this.actionChosen.equals("shoot people")){
-                this.shootPeople(VCE);
-            }
-            else if(this.actionChosen.equals("reload")){
-                this.reload(VCE);
-            }
-            numberOfEventReceived++;
+        else if(actionChosen.equals("grab stuff")){
+            ViewControllerEventHandlerContext.setNextState(new GrabStuffState(this.actionNumber));
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        }
+        else{
+            //if(actionChosen.equals("shoot people"))
+            ViewControllerEventHandlerContext.setNextState(new ShootPeopleState(this.actionNumber));
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
     }
 
-    public void runAround(ViewControllerEvent VCE){
-        if(this.numberOfActionDone == 0){
-            ViewControllerEventPosition VCEPosition = (ViewControllerEventPosition)VCE;
-            ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setPosition(VCEPosition.getPosition().getX(), VCEPosition.getPosition().getY());
-            this.numberOfActionDone = 1;
-            //ask For Second Action
-        }
-        else if(this.numberOfActionDone == 1){
-            ViewControllerEventPosition VCEPosition = (ViewControllerEventPosition)VCE;
-            ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setPosition(VCEPosition.getPosition().getX(), VCEPosition.getPosition().getY());
-            this.numberOfActionDone = 2;
-            this.actionChosen = "reload";
-            //ask For Reload
-        }
-    }
-
+    /*
     //TODO
     public void grabStuff(ViewControllerEvent VCE){
         if(numberOfActionDone == 1) {
@@ -129,4 +98,5 @@ public class TurnState implements State {
 
     }
 
+    */
 }

@@ -56,10 +56,14 @@ public class GameSetUpState implements State {
                 catch (NullPointerException e){
                     e.printStackTrace();
                 }
-                System.out.println("<SERVER>creating Killshot Track with " + VCEGameSetUp.getNumberOfStartingSkulls() + " number of starting skulls.");
+                System.out.println("<SERVER>creating Killshot Track with " +
+                                    VCEGameSetUp.getNumberOfStartingSkulls() +
+                                    " number of starting skulls.");
                 ModelGate.model.setKillshotTrack(new KillShotTrack(VCEGameSetUp.getNumberOfStartingSkulls()));
+
                 System.out.println("<SERVER>Setting Final Frenzy: " + VCEGameSetUp.isFinalFrezy());
                 ModelGate.model.setFinalFrenzy(VCEGameSetUp.isFinalFrezy());
+
                 System.out.println("<SERVER>Setting a Bot: "+ VCEGameSetUp.isBotActive());
                 ModelGate.model.setBot(new Bot(VCEGameSetUp.isBotActive()));
 
@@ -74,8 +78,7 @@ public class GameSetUpState implements State {
 
                 //setting next State
                 ViewControllerEventHandlerContext.setNextState(new PlayerSetUpState());
-                //start next state
-                ViewControllerEventHandlerContext.state.doAction(null);
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
 
             } else if(VCEGameSetUp.getGameMode().equals("turretMode")){
                 //build game in turret mode

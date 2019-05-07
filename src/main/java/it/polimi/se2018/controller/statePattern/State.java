@@ -4,9 +4,9 @@ import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.events.ViewControllerEvent;
 
 public interface State {
-    public void doAction(ViewControllerEvent VCE);
-
     public void askForInput(Player playerToAsk);
+
+    public void doAction(ViewControllerEvent VCE);
 }
 
 /* The state pattern can access the model using:

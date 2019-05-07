@@ -23,46 +23,21 @@ public class FirstSpawnState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) throws NullPointerException {
-        if(VCE == null){ //ask player
-            Player playingPlayer = ModelGate.model.getPlayerList().getCurrentPlayingPlayer();
-            this.askForInput(playingPlayer);
-        }
-        else {
-            ViewControllerEventString VCEPowerUpId = (ViewControllerEventString) VCE;
+        ViewControllerEventString VCEPowerUpId = (ViewControllerEventString) VCE;
 
-            PowerUpCard cardChosen = ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPowerUpCardsInHand().getCard(VCEPowerUpId.getInput());
+        //set spawning position
+        PowerUpCard cardChosen = ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCard(VCEPowerUpId.getInput());
+        Position spawnPosition = ModelGate.model.getBoard().getSpawnpointOfColor(cardChosen.getColor());
+        ModelGate.model.getCurrentPlayingPlayer().setPosition(spawnPosition);
 
-            char spawnPointColor;
-            if (cardChosen.getColor() == AmmoCubesColor.red) {
-                spawnPointColor = 'r';
-            } else if (cardChosen.getColor() == AmmoCubesColor.blue) {
-                spawnPointColor = 'b';
-            } else {
-                spawnPointColor = 'y';
-            }
+        //discard the power up card
+        ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
+                ModelGate.model.getPowerUpDiscardPile(),
+                VCEPowerUpId.getInput()
+        );
 
-            //find the Position
-            Position position = null;
-            Square[][] map = ModelGate.model.getBoard().getBoard();
-
-
-            for (int i = 0; i < map.length; i++) {
-                for (int j = 0; j < map[0].length; j++) {
-                    if ((map[i][j].getColor() == spawnPointColor) && (map[i][j].getSquareType() == SquareTypes.spawnPoint)) {
-                        position = map[i][j].getCoordinates();
-                    }
-                }
-            }
-            ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setPosition(position.getX(), position.getY());
-
-
-            //discard the Power up card
-            ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(ModelGate.model.getPowerUpDiscardPile(), VCEstring.getPowerUpCard().getID());
-
-            //set next State
-            ViewControllerEventHandlerContext.setNextState(new TurnState());
-
-            //ask to CurrentPlayingPlayer to Take his turn.
-        }
+        //set next State
+        ViewControllerEventHandlerContext.setNextState(new TurnState(1));
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 }

@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.controller.ModelGate;
 import it.polimi.se2018.model.enumerations.AmmoCubesColor;
 import it.polimi.se2018.model.enumerations.SquareSide;
 import it.polimi.se2018.model.enumerations.SquareTypes;
@@ -31,7 +32,31 @@ public class Board {
 
     public Position getSpawnpointOfColor(AmmoCubesColor color){
         //TODO
-        return new Position(0,0);
+        //il codice che c'è qua dentro è quello che prima era nello state pattern:
+
+        char spawnPointColor;
+        if (color == AmmoCubesColor.red) {
+            spawnPointColor = 'r';
+        } else if (color == AmmoCubesColor.blue) {
+            spawnPointColor = 'b';
+        } else {
+            spawnPointColor = 'y';
+        }
+
+        //find the Position
+        Position position = null;
+        Square[][] map = ModelGate.model.getBoard().getBoard();
+
+
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[0].length; j++) {
+                if ((map[i][j].getColor() == spawnPointColor) && (map[i][j].getSquareType() == SquareTypes.spawnPoint)) {
+                    position = map[i][j].getCoordinates();
+                }
+            }
+        }
+
+        return position;
     }
 
 

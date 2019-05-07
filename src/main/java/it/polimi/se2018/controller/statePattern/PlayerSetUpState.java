@@ -25,42 +25,38 @@ public class PlayerSetUpState implements State {
 
    @Override
     public void doAction(ViewControllerEvent VCE){
-        if(VCE == null){ //ask player
-            Player playingPlayer = ModelGate.model.getPlayerList().getCurrentPlayingPlayer();
-            this.askForInput(playingPlayer);
-        }
-        else{
-            ViewControllerEventPlayerSetUp VCEPlayerSetUp = (ViewControllerEventPlayerSetUp) VCE;
+        ViewControllerEventPlayerSetUp VCEPlayerSetUp = (ViewControllerEventPlayerSetUp) VCE;
 
-            //set nickname and color
-            ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setNickname(VCEPlayerSetUp.getNickname());
-            ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setColor(VCEPlayerSetUp.getColor());
+        //set nickname and color
+       ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setNickname(VCEPlayerSetUp.getNickname());
+       ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setColor(VCEPlayerSetUp.getColor());
 
-            //draw two power up cards
-            for(int i = 0; i < 2; i++){
-                ModelGate.model.getPowerUpDeck().moveCardTo(
-                        ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPowerUpCardsInHand(),
-                        ModelGate.model.getPowerUpDeck().getFirstCard().getID()
-                );
-            }
+       //draw two power up cards
+       for(int i = 0; i < 2; i++){
+           ModelGate.model.getPowerUpDeck().moveCardTo(
+                   ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPowerUpCardsInHand(),
+                   ModelGate.model.getPowerUpDeck().getFirstCard().getID()
+           );
+       }
 
-            //set starting ammocubes
-            for(AmmoCubesColor color: AmmoCubesColor.values() ) {
-               ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPlayerBoard().addAmmoCubes(color, GameConstant.NumberOfStartingAmmos);
-            }
+       //set starting ammocubes
+       for(AmmoCubesColor color: AmmoCubesColor.values() ) {
+           ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPlayerBoard().addAmmoCubes(color, GameConstant.NumberOfStartingAmmos);
+       }
 
-            numberOfPlayersSet++;
+       numberOfPlayersSet++;
 
-            if(numberOfPlayersSet < numberOfPlayer - 1) {
-                ModelGate.model.getPlayerList().setNextPlayingPlayer();
-                ViewControllerEventHandlerContext.state.doAction(null);
-            }
-            else{
-                ModelGate.model.getPlayerList().setCurrentPlayingPlayer(ModelGate.model.getPlayerList().getStartingPlayer());
-                //set next State
-                ViewControllerEventHandlerContext.setNextState(new FirstSpawnState());
-                ViewControllerEventHandlerContext.state.doAction(null);
-            }
-        }
+       if(numberOfPlayersSet < numberOfPlayer - 1) {
+           ModelGate.model.getPlayerList().setNextPlayingPlayer();
+           ViewControllerEventHandlerContext.state.doAction(null);
+       }
+       else{
+           //set Current Playing player
+           ModelGate.model.getPlayerList().setCurrentPlayingPlayer(ModelGate.model.getPlayerList().getStartingPlayer());
+
+           //set next State
+           ViewControllerEventHandlerContext.setNextState(new FirstSpawnState());
+           ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+       }
     }
 }
