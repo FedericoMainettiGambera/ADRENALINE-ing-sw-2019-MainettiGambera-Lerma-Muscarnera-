@@ -28,6 +28,13 @@ public class Board {
     private FileReader fileReader;
     private BufferedReader bufferedReader;
 
+    public Square getSquare(Position position){
+        return this.board[position.getX()][position.getY()];
+    }
+
+    public Square getSquare(int X, int Y){
+        return this.board[X][Y];
+    }
 
 
     public Position getSpawnpointOfColor(AmmoCubesColor color){
