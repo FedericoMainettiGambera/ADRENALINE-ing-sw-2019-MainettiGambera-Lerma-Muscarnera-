@@ -4,6 +4,7 @@ import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.NormalSquare;
 import it.polimi.se2018.model.Position;
 import it.polimi.se2018.model.Square;
+import it.polimi.se2018.model.enumerations.AmmoCubesColor;
 import it.polimi.se2018.model.enumerations.CardinalPoint;
 import it.polimi.se2018.model.enumerations.SquareSide;
 import it.polimi.se2018.model.enumerations.SquareTypes;
@@ -24,6 +25,7 @@ public class TestBoard {
            Square[][] map=null;
            Position pos=new Position(0,0);
 
+
            Board c;
            Board b = new Board(s);
            map=b.getBoard();
@@ -38,6 +40,10 @@ public class TestBoard {
            assertEquals(null, map[0][3]);
            assertEquals(SquareTypes.spawnPoint, map[1][0].getSquareType());
            assertEquals(SquareTypes.spawnPoint, map[2][3].getSquareType());
+
+           pos=b.getSpawnpointOfColor(AmmoCubesColor.blue);
+
+           assertEquals(pos,map[0][2].getCoordinates() );
 
 
     }

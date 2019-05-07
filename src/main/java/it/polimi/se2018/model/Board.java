@@ -1,6 +1,5 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.controller.ModelGate;
 import it.polimi.se2018.model.enumerations.AmmoCubesColor;
 import it.polimi.se2018.model.enumerations.SquareSide;
 import it.polimi.se2018.model.enumerations.SquareTypes;
@@ -27,6 +26,7 @@ public class Board {
     private Square[][] board;
     private FileReader fileReader;
     private BufferedReader bufferedReader;
+    SpawnPointSquare[] SpawnPointslist=null;
 
     public Square getSquare(Position position){
         return this.board[position.getX()][position.getY()];
@@ -35,45 +35,54 @@ public class Board {
     public Square getSquare(int X, int Y){
         return this.board[X][Y];
     }
+    //function used in controller to get the SpawnSquare where players want to spawn
+    public Position getSpawnpointOfColor(AmmoCubesColor color)throws NullPointerException{
 
 
-    public Position getSpawnpointOfColor(AmmoCubesColor color){
-        //TODO
-        //il codice che c'è qua dentro è quello che prima era nello state pattern:
-
-        char spawnPointColor;
-        if (color == AmmoCubesColor.red) {
-            spawnPointColor = 'r';
-        } else if (color == AmmoCubesColor.blue) {
-            spawnPointColor = 'b';
-        } else {
-            spawnPointColor = 'y';
-        }
-
-        //find the Position
-        Position position = null;
-        Square[][] map = ModelGate.model.getBoard().getBoard();
-
-
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[0].length; j++) {
-                if ((map[i][j].getColor() == spawnPointColor) && (map[i][j].getSquareType() == SquareTypes.spawnPoint)) {
-                    position = map[i][j].getCoordinates();
+        if(color.equals("yellow")){
+            for (int g = 0; g < SpawnPointslist.length; g++) {
+                if (SpawnPointslist[g].getColor() == 'y') {
+                    return SpawnPointslist[g].getCoordinates();
                 }
+
             }
         }
+              else if(color.equals("red")){
 
-        return position;
+
+            for(int g=0; g<SpawnPointslist.length; g++)
+            {
+                if(SpawnPointslist[g].getColor()=='r'){return SpawnPointslist[g].getCoordinates();}
+
+            }
+
+              }
+
+              else{
+
+
+            for(int g=0; g<SpawnPointslist.length; g++)
+            {
+                if(SpawnPointslist[g].getColor()=='b'){return SpawnPointslist[g].getCoordinates();}
+
+            }
+
+        }
+
+
+        return new Position(0,0);
     }
 
 
 
-    private Square[][] buildMap(String chosenMap) throws IOException {
+    private Square[][] buildMap(String chosenMap) throws IOException{
         Square[][] map = new Square[3][4];
         SquareSide[] sides = new SquareSide[4];
         SquareTypes type;
         char color, type2;
         String line = null;
+
+        int s=0;
 
 
         //apre file
@@ -136,6 +145,9 @@ public class Board {
 
                         type = SquareTypes.spawnPoint;
                         map[i][j] = new SpawnPointSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color);
+                        SpawnPointslist[s]=(SpawnPointSquare)map[i][j];
+                        s++;
+
 
                     }
 
