@@ -1,11 +1,11 @@
 package it.polimi.se2018.controller.statePattern;
 
-import com.sun.tools.internal.xjc.model.Model;
 import it.polimi.se2018.controller.ModelGate;
 import it.polimi.se2018.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Bot;
 import it.polimi.se2018.model.KillShotTrack;
+import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.events.ViewControllerEvent;
 import it.polimi.se2018.model.events.ViewControllerEventGameSetUp;
 
@@ -21,6 +21,12 @@ public class GameSetUpState implements State {
         this.numberOfEvents=0;
 
     }
+
+    @Override
+    public void askForInput(Player playerToAsk) {
+
+    }
+
     @Override
     public void doAction(ViewControllerEvent VCE){
 
@@ -57,14 +63,19 @@ public class GameSetUpState implements State {
                 System.out.println("<SERVER>Setting a Bot: "+ VCEGameSetUp.isBotActive());
                 ModelGate.model.setBot(new Bot(VCEGameSetUp.isBotActive()));
 
-                //crea le carte
+                //create cards
                 ModelGate.model.buildDecks();
+
+                //shuffles cards
+                ModelGate.model.getPowerUpDeck().shuffle();
+                ModelGate.model.getAmmoDeck().shuffle();
+                ModelGate.model.getWeaponDeck().shuffle();
 
 
                 //setting next State
                 ViewControllerEventHandlerContext.setNextState(new PlayerSetUpState());
-
-                //ask first player to Set Up player
+                //start next state
+                ViewControllerEventHandlerContext.state.doAction(null);
 
             } else if(VCEGameSetUp.getGameMode().equals("turretMode")){
                 //build game in turret mode

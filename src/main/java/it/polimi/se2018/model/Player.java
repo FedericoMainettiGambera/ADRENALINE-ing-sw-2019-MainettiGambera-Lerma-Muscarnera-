@@ -12,12 +12,6 @@ public class Player extends Person{
     /***/
     public Player() {
         super();
-        /*sets the starting ammo cubes: GameConstant.numberOfStartingAmmoCubesForEachColor AmmoCubes for each color*/
-        AmmoList list = new AmmoList();
-        for(AmmoCubesColor i: AmmoCubesColor.values()){
-            list.addAmmoCubesOfColor(i, GameConstant.numberOfStartingAmmoCubesForEachColor);
-        }
-        this.addAmmoCubes(list);
 
         this.hand = new PlayerHand();
     }

@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.model.enumerations.AmmoCubesColor;
 import it.polimi.se2018.model.enumerations.SquareSide;
 import it.polimi.se2018.model.enumerations.SquareTypes;
 
@@ -26,7 +27,13 @@ public class Board {
     private FileReader fileReader;
     private BufferedReader bufferedReader;
 
-    /***/
+
+
+    public Position getSpawnpointOfColor(AmmoCubesColor color){
+        //TODO
+        return new Position(0,0);
+    }
+
 
 
     private Square[][] buildMap(String chosenMap) throws IOException {
