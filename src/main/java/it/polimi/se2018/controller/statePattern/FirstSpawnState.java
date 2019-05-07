@@ -57,7 +57,7 @@ public class FirstSpawnState implements State {
 
 
             //discard the Power up card
-            ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(ModelGate.model.getPowerUpDiscardPile(), VCEstring.getPowerUpCard().getID());
+            ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(ModelGate.model.getPowerUpDiscardPile(), VCEPowerUpId.toString());
 
             //set next State
             ViewControllerEventHandlerContext.setNextState(new TurnState());

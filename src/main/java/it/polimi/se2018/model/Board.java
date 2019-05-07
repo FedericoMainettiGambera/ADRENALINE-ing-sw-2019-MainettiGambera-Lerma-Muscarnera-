@@ -26,22 +26,57 @@ public class Board {
     private Square[][] board;
     private FileReader fileReader;
     private BufferedReader bufferedReader;
+    SpawnPointSquare[] SpawnPointslist=null;
+
+    //function used in controller to get the SpawnSquare where players want to spawn
+
+    public Position getSpawnpointOfColor(AmmoCubesColor color)throws NullPointerException{
 
 
+        if(color.equals("yellow")){
+            for (int g = 0; g < SpawnPointslist.length; g++) {
+                if (SpawnPointslist[g].getColor() == 'y') {
+                    return SpawnPointslist[g].getCoordinates();
+                }
 
-    public Position getSpawnpointOfColor(AmmoCubesColor color){
-        //TODO
+            }
+        }
+              else if(color.equals("red")){
+
+
+            for(int g=0; g<SpawnPointslist.length; g++)
+            {
+                if(SpawnPointslist[g].getColor()=='r'){return SpawnPointslist[g].getCoordinates();}
+
+            }
+
+              }
+
+              else{
+
+
+            for(int g=0; g<SpawnPointslist.length; g++)
+            {
+                if(SpawnPointslist[g].getColor()=='b'){return SpawnPointslist[g].getCoordinates();}
+
+            }
+
+        }
+
+
         return new Position(0,0);
     }
 
 
 
-    private Square[][] buildMap(String chosenMap) throws IOException {
+    private Square[][] buildMap(String chosenMap) throws IOException{
         Square[][] map = new Square[3][4];
         SquareSide[] sides = new SquareSide[4];
         SquareTypes type;
         char color, type2;
         String line = null;
+
+        int s=0;
 
 
         //apre file
@@ -104,6 +139,9 @@ public class Board {
 
                         type = SquareTypes.spawnPoint;
                         map[i][j] = new SpawnPointSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color);
+                        SpawnPointslist[s]=(SpawnPointSquare)map[i][j];
+                        s++;
+
 
                     }
 
