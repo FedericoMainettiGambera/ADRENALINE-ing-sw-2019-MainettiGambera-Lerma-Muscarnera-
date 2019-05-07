@@ -107,6 +107,8 @@ public class ConnectionHandlerVirtualView extends Thread {
         }
 
         System.out.println("<SERVER>Not accepting connections anymore.");
+
+        //make the game start
         setNextState(new GameSetUpState());
         state.doAction(new ViewControllerEvent());
 
