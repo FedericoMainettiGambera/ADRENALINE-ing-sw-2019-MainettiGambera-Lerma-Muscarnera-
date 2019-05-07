@@ -1,6 +1,7 @@
 package it.polimi.se2018.model;
 
 
+import java.io.File;
 import java.util.Observable;
 
 /***/
@@ -75,6 +76,58 @@ public class Game extends Observable {
     /***/
     public PlayersList getPlayerList() {
         return players;
+    }
+
+    public void buildDecks() {
+
+        this.powerUpDeck = new OrderedCardList<>();
+        this.weaponDeck = new OrderedCardList<>();
+        this.ammoDeck = new OrderedCardList<>();
+        this.ammoDiscardPile = new OrderedCardList<>();
+        this.powerUpDiscardPile = new OrderedCardList<>();
+
+        //builds weapon cards
+        File directory = new File("Cards");     // insert here path to weapon cards folder
+        int fileCount = directory.list().length;
+        int i = 0;
+        for(i = 0; i< fileCount;i++) {
+             try {
+                 this.weaponDeck.addCard(new WeaponCard("" + i));
+             }
+             catch(Exception e) {
+                 e.printStackTrace();
+                 return;
+             }
+        }
+
+        //builds power up cards
+        directory = new File("Cards");          // insert here path to power up cards folder
+        fileCount = directory.list().length;
+        i = 0;
+        for(i = 0; i< fileCount;i++) {
+            try {
+                this.powerUpDeck.addCard(new PowerUpCard("" + i));
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+                return;
+            }
+        }
+
+        //builds ammo cards
+        directory = new File("Cards");          // insert here path to ammo cards folder
+        fileCount = directory.list().length;
+        i = 0;
+        for(i = 0; i< fileCount;i++) {
+            try {
+                //TODO: this.ammoDeck.addCard(new AmmoCard("" + i));
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+                return;
+            }
+        }
+
     }
 
     public void setPlayerList(PlayersList players) {

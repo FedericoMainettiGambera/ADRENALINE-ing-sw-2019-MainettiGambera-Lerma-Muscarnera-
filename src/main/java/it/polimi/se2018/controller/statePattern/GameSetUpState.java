@@ -5,6 +5,7 @@ import it.polimi.se2018.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Bot;
 import it.polimi.se2018.model.KillShotTrack;
+import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.events.ViewControllerEvent;
 import it.polimi.se2018.model.events.ViewControllerEventGameSetUp;
 
@@ -16,17 +17,24 @@ public class GameSetUpState implements State {
     private ObjectOutputStream objectOutputStream;
     private int numberOfEvents;
 
-    public void GameSetUpState(){
+    public GameSetUpState(){
         this.numberOfEvents=0;
 
     }
+
+    @Override
+    public void askForInput(Player playerToAsk) {
+
+    }
+
     @Override
     public void doAction(ViewControllerEvent VCE){
 
         if(numberOfEvents==0) {
-            this.objectOutputStream = ModelGate.model.getPlayerList().getPlayer("User1").getOos();
 
+            //this.objectOutputStream = ModelGate.model.getPlayerList().getPlayer("User1").getOos();
             //ask for gameSetUp to the player
+
             numberOfEvents++;
         }
         else if(numberOfEvents==1){
@@ -34,6 +42,7 @@ public class GameSetUpState implements State {
 
             System.out.println("<SERVER>Setting Starting Player.");
             ModelGate.model.getPlayerList().setStartingPlayer(ModelGate.model.getPlayerList().getPlayer("User1"));
+            ModelGate.model.getPlayerList().setCurrentPlayingPlayer(ModelGate.model.getPlayerList().getStartingPlayer());
 
             if(VCEGameSetUp.getGameMode().equals("normalMode")){
                 System.out.println("<SERVER>Setting up Game in normal mode.");
@@ -54,13 +63,19 @@ public class GameSetUpState implements State {
                 System.out.println("<SERVER>Setting a Bot: "+ VCEGameSetUp.isBotActive());
                 ModelGate.model.setBot(new Bot(VCEGameSetUp.isBotActive()));
 
-                //crea le carte
+                //create cards
+                ModelGate.model.buildDecks();
+
+                //shuffles cards
+                ModelGate.model.getPowerUpDeck().shuffle();
+                ModelGate.model.getAmmoDeck().shuffle();
+                ModelGate.model.getWeaponDeck().shuffle();
 
 
                 //setting next State
                 ViewControllerEventHandlerContext.setNextState(new PlayerSetUpState());
-
-                //ask first player to Set Up player
+                //start next state
+                ViewControllerEventHandlerContext.state.doAction(null);
 
             } else if(VCEGameSetUp.getGameMode().equals("turretMode")){
                 //build game in turret mode

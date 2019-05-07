@@ -20,9 +20,6 @@ public class PlayerBoard extends Observable {
      * */
     public PlayerBoard() {
         this.ammoBox = new AmmoList();
-        for (AmmoCubesColor color: AmmoCubesColor.values() ) {
-            addAmmoCubes(color, GameConstant.NumberOfStartingAmmos);
-        }
 
         this.damagesTracker = new DamagesTracker();
         this.marksTracker = new MarksTracker();
