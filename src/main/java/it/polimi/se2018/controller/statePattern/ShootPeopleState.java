@@ -18,6 +18,6 @@ public class ShootPeopleState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
-        
+
     }
 }
