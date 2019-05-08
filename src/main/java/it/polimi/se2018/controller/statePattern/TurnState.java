@@ -36,7 +36,7 @@ public class TurnState implements State {
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
         else{
-            //error
+            this.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
     }
 }

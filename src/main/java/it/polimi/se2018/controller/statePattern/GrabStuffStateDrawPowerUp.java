@@ -5,10 +5,10 @@ import it.polimi.se2018.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.events.ViewControllerEvent;
 
-public class GrabStuffStateGrabAmmo implements State {
+public class GrabStuffStateDrawPowerUp implements State {
     private int actionNumber;
 
-    public GrabStuffStateGrabAmmo(int actionNumber){
+    public GrabStuffStateDrawPowerUp(int actionNumber){
         this.actionNumber = actionNumber;
     }
 

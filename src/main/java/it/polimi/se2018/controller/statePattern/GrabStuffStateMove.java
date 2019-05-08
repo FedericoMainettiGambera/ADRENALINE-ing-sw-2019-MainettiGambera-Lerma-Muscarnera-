@@ -15,8 +15,7 @@ public class GrabStuffStateMove implements State {
         this.actionNumber = actionNumber;
     }
     @Override
-    public void askForInput(Player playerToAsk) {
-        //ask input
+    public void askForInput(Player playerToAsk){
         this.numberOfMovement = 1;
         if(ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineGrabAction()){
             this.numberOfMovement = 2;
