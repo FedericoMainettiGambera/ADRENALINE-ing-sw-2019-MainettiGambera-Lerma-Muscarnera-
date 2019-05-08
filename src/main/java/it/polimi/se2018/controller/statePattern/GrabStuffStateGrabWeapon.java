@@ -1,6 +1,7 @@
 package it.polimi.se2018.controller.statePattern;
 
 import it.polimi.se2018.controller.ModelGate;
+import it.polimi.se2018.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.events.ViewControllerEvent;
 import it.polimi.se2018.model.events.ViewControllerEventString;
@@ -52,6 +53,15 @@ public class GrabStuffStateGrabWeapon implements  State {
             //draw the weapon
             squareWeapons.moveCardTo(playerWeapons, toDraw.getID());
         }
+
+        //set next state
+        if(this.actionNumber == 1){
+            ViewControllerEventHandlerContext.setNextState(new TurnState(2));
+        }
+        if(this.actionNumber == 2){
+            ViewControllerEventHandlerContext.setNextState(new ReloadState());
+        }
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
 
     }
 }
