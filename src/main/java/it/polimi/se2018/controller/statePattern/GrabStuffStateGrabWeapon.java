@@ -52,7 +52,7 @@ public class GrabStuffStateGrabWeapon implements  State {
             ViewControllerEventString VCEString = (ViewControllerEventString) VCE;
             WeaponCard toDraw = squareWeapons.getCard(VCEString.getInput());
 
-            //draw the weapon 
+            //draw the weapon
             ModelGate.model.getCurrentPlayingPlayer().payAmmoCubes(toDraw.getPickUpCost());
             squareWeapons.moveCardTo(playerWeapons, toDraw.getID());
         }
