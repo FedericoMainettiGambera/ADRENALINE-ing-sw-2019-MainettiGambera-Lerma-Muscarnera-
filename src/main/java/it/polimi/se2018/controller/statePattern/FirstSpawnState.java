@@ -22,13 +22,19 @@ public class FirstSpawnState implements State {
     }
 
     @Override
-    public void doAction(ViewControllerEvent VCE) throws NullPointerException {
+    public void doAction(ViewControllerEvent VCE) throws NullPointerException{
         ViewControllerEventString VCEPowerUpId = (ViewControllerEventString) VCE;
 
         //set spawning position
         PowerUpCard cardChosen = ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCard(VCEPowerUpId.getInput());
-        Position spawnPosition = ModelGate.model.getBoard().getSpawnpointOfColor(cardChosen.getColor());
+        Position spawnPosition = null;
+        try {
+            spawnPosition = ModelGate.model.getBoard().getSpawnpointOfColor(cardChosen.getColor());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ModelGate.model.getCurrentPlayingPlayer().setPosition(spawnPosition);
+
 
         //discard the power up card
         ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(

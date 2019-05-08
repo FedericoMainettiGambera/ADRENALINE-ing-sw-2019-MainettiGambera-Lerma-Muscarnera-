@@ -41,7 +41,7 @@ public class TestBoard {
            assertEquals(SquareTypes.spawnPoint, map[1][0].getSquareType());
            assertEquals(SquareTypes.spawnPoint, map[2][3].getSquareType());
 
-           pos=b.getSpawnpointOfColor(AmmoCubesColor.blue);
+          pos=b.getSpawnpointOfColor(AmmoCubesColor.blue);
 
            assertEquals(pos,map[0][2].getCoordinates() );
 

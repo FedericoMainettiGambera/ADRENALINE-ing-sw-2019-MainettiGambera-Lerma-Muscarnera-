@@ -26,45 +26,42 @@ public class Board {
     private Square[][] board;
     private FileReader fileReader;
     private BufferedReader bufferedReader;
-    SpawnPointSquare[] SpawnPointslist=null;
+    private Square[] spawnPointslist = new Square[3];
 
     //function used in controller to get the SpawnSquare where players want to spawn
 
-    public Position getSpawnpointOfColor(AmmoCubesColor color)throws NullPointerException{
 
+
+   public Position getSpawnpointOfColor(AmmoCubesColor color)throws NullPointerException, Exception{
+        int g=0;
 
         if(color.equals("yellow")){
-            for (int g = 0; g < SpawnPointslist.length; g++) {
-                if (SpawnPointslist[g].getColor() == 'y') {
-                    return SpawnPointslist[g].getCoordinates();
-                }
-
+            while(spawnPointslist[g].getColor()!='y'){
+                g++;
+            }
+            if(spawnPointslist[g].getColor()=='y'){
+                return spawnPointslist[g].getCoordinates();
             }
         }
-              else if(color.equals("red")){
 
-
-            for(int g=0; g<SpawnPointslist.length; g++)
-            {
-                if(SpawnPointslist[g].getColor()=='r'){return SpawnPointslist[g].getCoordinates();}
-
+        else if(color.equals("red")){
+            while(spawnPointslist[g].getColor()!='r'){
+                g++;
             }
-
-              }
-
-              else{
-
-
-            for(int g=0; g<SpawnPointslist.length; g++)
-            {
-                if(SpawnPointslist[g].getColor()=='b'){return SpawnPointslist[g].getCoordinates();}
-
+            if(spawnPointslist[g].getColor()=='r'){
+                return spawnPointslist[g].getCoordinates();
             }
-
+        }
+        else{
+            while(spawnPointslist[g].getColor()!='b'){
+                g++;
+            }
+            if(spawnPointslist[g].getColor()=='b'){
+                return spawnPointslist[g].getCoordinates();
+            }
         }
 
-
-        return new Position(0,0);
+        throw new Exception("Square not found.");
     }
 
 
@@ -75,12 +72,14 @@ public class Board {
         SquareTypes type;
         char color, type2;
         String line = null;
+        int s =0;
 
-        int s=0;
+
+
 
 
         //apre file
-        try {
+        try{
             fileReader = new FileReader("src/main/Files/map");
             bufferedReader = new BufferedReader(fileReader);
             line = bufferedReader.readLine();
@@ -88,7 +87,7 @@ public class Board {
             e.printStackTrace();
         }
         //cerca la linea dopo map0,1,2,o 3
-        while (!line.contains(chosenMap)) {
+        while (!line.contains(chosenMap)){
 
             line = bufferedReader.readLine();
 
@@ -104,7 +103,7 @@ public class Board {
 
             for (int j = 0; j < 4; j++) {
 
-                if (string[0] != '-') {
+                if (string[0] != '-'){
                     int index = 0; //serve per creare un array di sides
                     type2 = string[0];   //il primo carattere indica il tipo di square
                     color = string[1];   //il secondo il colore
@@ -139,7 +138,8 @@ public class Board {
 
                         type = SquareTypes.spawnPoint;
                         map[i][j] = new SpawnPointSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color);
-                        SpawnPointslist[s]=(SpawnPointSquare)map[i][j];
+                        System.out.println(map[i][j].getColor());
+                        spawnPointslist[s]=map[i][j];
                         s++;
 
 
