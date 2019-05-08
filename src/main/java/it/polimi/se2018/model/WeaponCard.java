@@ -203,6 +203,14 @@ public class WeaponCard extends Card {
         return isLoaded;
     }
 
+    public void reload(){
+        this.isLoaded = true;
+    }
+
+    public void unload(){
+        this.isLoaded = false;
+    }
+
     /***/
     public List<Effect> getEffects() {
         return effects;
@@ -210,6 +218,5 @@ public class WeaponCard extends Card {
 
     public void Play(int effectNumber) {
         getEffects().get(effectNumber).Exec();
-
     }
 }
