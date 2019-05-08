@@ -30,7 +30,7 @@ public class PreConditionMethods {
         int y = actionDetails.getUserSelectedActionDetails().getNewPosition().getY();
         try {
             Board board = new Board(""); // example. TODO: insert board reference here
-            if(board.getBoard()[x][y] != null) {
+            if(board.getMap()[x][y] != null) {
                 return true;
             }
             return false;
