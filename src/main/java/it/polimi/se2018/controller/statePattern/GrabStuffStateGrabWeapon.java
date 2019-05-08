@@ -36,6 +36,7 @@ public class GrabStuffStateGrabWeapon implements  State {
 
             ViewControllerEventTwoString VCETwoString = (ViewControllerEventTwoString) VCE;
             WeaponCard toDiscard = playerWeapons.getCard(VCETwoString.getInput1());
+
             WeaponCard toDraw = squareWeapons.getCard(VCETwoString.getInput2());
 
             //reload toDiscard
@@ -44,13 +45,15 @@ public class GrabStuffStateGrabWeapon implements  State {
             playerWeapons.moveCardTo(squareWeapons,toDiscard.getID());
 
             //draw new weapon
+            ModelGate.model.getCurrentPlayingPlayer().payAmmoCubes(toDraw.getPickUpCost());
             squareWeapons.moveCardTo(playerWeapons, toDraw.getID());
         }
         else {
             ViewControllerEventString VCEString = (ViewControllerEventString) VCE;
             WeaponCard toDraw = squareWeapons.getCard(VCEString.getInput());
 
-            //draw the weapon
+            //draw the weapon 
+            ModelGate.model.getCurrentPlayingPlayer().payAmmoCubes(toDraw.getPickUpCost());
             squareWeapons.moveCardTo(playerWeapons, toDraw.getID());
         }
 
