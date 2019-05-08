@@ -18,7 +18,7 @@ public class Board {
         this.board = buildMap(chosenMap);
     }
 
-    public Square[][] getBoard() {
+    public Square[][] getMap() {
         return board;
     }
 

@@ -2,10 +2,8 @@ package it.polimi.se2018.controller.statePattern;
 
 import it.polimi.se2018.controller.ModelGate;
 import it.polimi.se2018.controller.ViewControllerEventHandlerContext;
-import it.polimi.se2018.model.Board;
-import it.polimi.se2018.model.Bot;
-import it.polimi.se2018.model.KillShotTrack;
-import it.polimi.se2018.model.Player;
+import it.polimi.se2018.model.*;
+import it.polimi.se2018.model.enumerations.SquareTypes;
 import it.polimi.se2018.model.events.ViewControllerEvent;
 import it.polimi.se2018.model.events.ViewControllerEventGameSetUp;
 
@@ -75,6 +73,28 @@ public class GameSetUpState implements State {
                 ModelGate.model.getAmmoDeck().shuffle();
                 ModelGate.model.getWeaponDeck().shuffle();
 
+                //place cards on the board
+                for(int i =0; i<ModelGate.model.getBoard().getMap().length;i++){
+                    for(int j=0; j<ModelGate.model.getBoard().getMap()[0].length; j++){
+                        Square timeSquare=ModelGate.model.getBoard().getSquare(i,j);//lol cuz its a temporary square
+                        if( timeSquare.getSquareType()== SquareTypes.normal){
+                            OrderedCardList<AmmoCard> ammoCards=((NormalSquare)timeSquare).getAmmoCards();
+                            ModelGate.model.getAmmoDeck().moveCardTo(
+                                    ammoCards,
+                                    ModelGate.model.getAmmoDeck().getFirstCard().getID()
+                            );
+                        }
+                        else if(timeSquare.getSquareType()==SquareTypes.spawnPoint){
+                            OrderedCardList<WeaponCard> weaponCards=((SpawnPointSquare)timeSquare).getWeaponCards();
+                            for(int t=0; t<3; t++){
+                                ModelGate.model.getWeaponDeck().moveCardTo(
+                                        weaponCards,
+                                        ModelGate.model.getWeaponDeck().getFirstCard().getID()
+                                );
+                            }
+                        }
+                    }
+                }
 
                 //setting next State
                 ViewControllerEventHandlerContext.setNextState(new PlayerSetUpState());
