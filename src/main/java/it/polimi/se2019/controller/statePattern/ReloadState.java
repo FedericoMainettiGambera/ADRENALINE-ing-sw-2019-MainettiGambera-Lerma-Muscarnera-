@@ -14,7 +14,7 @@ public class ReloadState implements State{
             //ask if they want to reload
         }
         else{
-            ViewControllerEventHandlerContext.setNextState(new PassTurnState());
+            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
             ViewControllerEventHandlerContext.state.doAction(null);
         }
 
@@ -29,7 +29,7 @@ public class ReloadState implements State{
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
         else{
-            ViewControllerEventHandlerContext.setNextState(new PassTurnState());
+            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
             ViewControllerEventHandlerContext.state.doAction(null);
         }
     }
