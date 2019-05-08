@@ -223,6 +223,15 @@ public abstract class Person extends Observable {
         return finalResult;
     }
 
+    public DamageSlot getDamageSlot(int i){
+        return this.board.getDamagesSlot(i);
+    }
+
+    public PlayerBoard getBoard(){
+        return this.board;
+    }
+
+
 
     /**adding ammo to the player ammo box
      * @param color
