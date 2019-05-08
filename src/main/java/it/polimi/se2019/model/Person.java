@@ -3,6 +3,8 @@ package it.polimi.se2019.model;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Observable;
 
 /**Abstract class that represents a character.
@@ -86,7 +88,7 @@ public abstract class Person extends Observable {
 
     /*POINTS*/
     /***/
-    public void AddPoints(int points) {
+    public void addPoints(int points) {
         this.score+=points;
         setChanged();
         notifyObservers();
@@ -133,13 +135,94 @@ public abstract class Person extends Observable {
     /**@return returns an array of integer that represents the amount of points the first (second, third, etc..) player
      * with more hits will get. (es: 8,6,4,2,1,1,1,1,1,1)
      * */
-    public int[] getPointsList(){
-        int[] pointsList = new int[10];
+    public ArrayList<Integer> getPointsList(){
+        ArrayList<Integer> pointsList = new ArrayList<>();
         for(int i = 0; i < 10; i++){
-            pointsList[i]= Math.max( (8-(2*i)-(this.getDeathCounter()*2)) , 1);
+            pointsList.add(Math.max( (8-(2*i)-(this.getDeathCounter()*2)) , 1));
         }
         return pointsList;
     }
+
+    public ArrayList<Player> getPlayersDamageRank(){
+
+        class PlayerScore{
+            Player player;
+            int quantity;
+
+            public PlayerScore(Player player){
+                this.player = player;
+                this.quantity = 0;
+            }
+        }
+
+        class ListOfPlayerScore{
+            ArrayList<PlayerScore> list = new ArrayList<>();
+
+            public void add(PlayerScore p){
+                this.list.add(p);
+            }
+
+            public int size(){
+                return this.list.size();
+            }
+
+            public PlayerScore get(int i){
+                return this.list.get(i);
+            }
+
+            public boolean contains(Player player){
+                for (int i = 0; i < list.size() ; i++) {
+                    if(list.get(i).player == player){
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            public void swapElements(ArrayList<PlayerScore> list, int i, int j){
+                Collections.swap(list, i, j);
+            }
+        }
+
+        ListOfPlayerScore playersShooting = new ListOfPlayerScore();
+
+        for (int i = 0; i < this.board.getDamagesTracker().getDamageSlotsList().size(); i++) {
+            if(!playersShooting.contains(this.board.getDamagesTracker().getDamageSlotsList().get(i).getShootingPlayer())){
+                playersShooting.add(new PlayerScore(
+                        this.board.getDamagesTracker().getDamageSlotsList().get(i).getShootingPlayer()
+                        ));
+            }
+        }
+
+        for (int i = 0; i < this.board.getDamagesTracker().getDamageSlotsList().size() ; i++) {
+            for(int j = 0; j < playersShooting.size(); j++){
+                Player tempI = this.board.getDamagesTracker().getDamageSlotsList().get(i).getShootingPlayer();
+                Player tempJ = playersShooting.get(j).player;
+                if(tempI == tempJ){
+                    playersShooting.get(j).quantity++;
+                    break;
+                }
+            }
+        }
+
+
+        for (int i = 0; i < playersShooting.size()-1; i++) {
+            for (int j = i+1; j < playersShooting.size(); j++) {
+                if(playersShooting.list.get(i).quantity < playersShooting.list.get(j).quantity){
+                    playersShooting.swapElements(playersShooting.list, i, j);
+                }
+            }
+        }
+
+        ArrayList<Player> finalResult = new ArrayList<>();
+
+        for(int i = 0; i<playersShooting.size(); i++){
+            finalResult.add(playersShooting.list.get(i).player);
+        }
+
+        return finalResult;
+    }
+
 
     /**adding ammo to the player ammo box
      * @param color
