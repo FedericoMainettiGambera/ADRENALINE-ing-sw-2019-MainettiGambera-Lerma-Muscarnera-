@@ -26,15 +26,29 @@ public class GrabStuffStateGrab implements State {
         else if(ModelGate.model.getBoard().getSquare(ModelGate.model.getCurrentPlayingPlayer().getPosition()).getSquareType() == SquareTypes.normal){
             AmmoCard ammoCard = (AmmoCard)((NormalSquare)ModelGate.model.getBoard().getSquare(
                     ModelGate.model.getCurrentPlayingPlayer().getPosition())
-                    ).getAmmoCards().getFirstCard();
+            ).getAmmoCards().getFirstCard();
 
-            if((ammoCard.isPowerUp())&&(ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().size() >= 2)){
-                ViewControllerEventHandlerContext.setNextState(new GrabStuffStateGrabAmmoAndDiscardPowerUp(this.actionNumber));
+            //draw ammocubes
+            ModelGate.model.getCurrentPlayingPlayer().addAmmoCubes(ammoCard.getAmmunitions());
+
+            //set next state
+            if((ammoCard.isPowerUp())&&(ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().size() >=2)){
+                ViewControllerEventHandlerContext.setNextState(new GrabStuffStateDrawAndDiscardPowerUp(this.actionNumber));
                 ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
             }
-            else{
-                ViewControllerEventHandlerContext.setNextState(new GrabStuffStateGrabAmmo(this.actionNumber));
+            else if(ammoCard.isPowerUp()){
+                ViewControllerEventHandlerContext.setNextState(new GrabStuffStateDrawPowerUp(this.actionNumber));
                 ViewControllerEventHandlerContext.state.doAction(null);
+            }
+            else{
+                if(actionNumber==1){
+                    ViewControllerEventHandlerContext.setNextState(new TurnState(2));
+                }
+                else if(actionNumber==2){
+                    ViewControllerEventHandlerContext.setNextState(new ReloadState());
+
+                }
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
             }
         }
 

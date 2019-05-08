@@ -28,10 +28,12 @@ public class GrabStuffState implements State {
             ViewControllerEventHandlerContext.setNextState(new GrabStuffStateMove(this.actionNumber));
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
-        else{
-            //if(choice.equals("grab")
+        else if(choice.equals("grab")){
             ViewControllerEventHandlerContext.setNextState(new GrabStuffStateGrab(this.actionNumber));
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        }
+        else{
+            this.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
     }
 }

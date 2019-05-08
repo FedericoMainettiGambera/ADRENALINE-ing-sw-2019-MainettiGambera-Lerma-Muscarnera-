@@ -6,11 +6,11 @@ import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.events.ViewControllerEvent;
 import it.polimi.se2018.model.events.ViewControllerEventString;
 
-public class GrabStuffStateGrabAmmoAndDiscardPowerUp implements State {
+public class GrabStuffStateDrawAndDiscardPowerUp implements State {
 
     private int actionNumber;
 
-    public GrabStuffStateGrabAmmoAndDiscardPowerUp(int actionNumber){
+    public GrabStuffStateDrawAndDiscardPowerUp(int actionNumber){
         this.actionNumber = actionNumber;
     }
 
@@ -30,7 +30,7 @@ public class GrabStuffStateGrabAmmoAndDiscardPowerUp implements State {
         );
 
         //continue with normal grab of ammo and power up
-        ViewControllerEventHandlerContext.setNextState(new GrabStuffStateGrabAmmo(this.actionNumber));
+        ViewControllerEventHandlerContext.setNextState(new GrabStuffStateDrawPowerUp(this.actionNumber));
         ViewControllerEventHandlerContext.state.doAction(null);
     }
 }
