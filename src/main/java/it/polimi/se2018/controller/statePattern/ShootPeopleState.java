@@ -13,7 +13,7 @@ public class ShootPeopleState implements State {
 
     @Override
     public void askForInput(Player playerToAsk) {
-
+        //ask for input
     }
 
     @Override
