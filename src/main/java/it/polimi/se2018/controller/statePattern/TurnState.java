@@ -3,7 +3,6 @@ package it.polimi.se2018.controller.statePattern;
 import it.polimi.se2018.controller.ModelGate;
 import it.polimi.se2018.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2018.model.*;
-import it.polimi.se2018.model.enumerations.SquareTypes;
 import it.polimi.se2018.model.events.ViewControllerEvent;
 import it.polimi.se2018.model.events.ViewControllerEventString;
 

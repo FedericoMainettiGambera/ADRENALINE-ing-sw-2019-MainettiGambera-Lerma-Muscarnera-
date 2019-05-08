@@ -28,6 +28,13 @@ public class Board {
     private BufferedReader bufferedReader;
     private Square[] spawnPointslist = new Square[3];
 
+    public Square getSquare(Position position){
+        return this.board[position.getX()][position.getY()];
+    }
+
+    public Square getSquare(int X, int Y){
+        return this.board[X][Y];
+    }
     //function used in controller to get the SpawnSquare where players want to spawn
 
 

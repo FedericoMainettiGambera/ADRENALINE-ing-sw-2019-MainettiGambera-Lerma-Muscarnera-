@@ -1,5 +1,8 @@
 package it.polimi.se2018.controller.statePattern;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
+import it.polimi.se2018.controller.ModelGate;
+import it.polimi.se2018.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.events.ViewControllerEvent;
 import it.polimi.se2018.model.events.ViewControllerEventString;
@@ -23,11 +26,13 @@ public class GrabStuffState implements State {
         String choice = VCEString.getInput();
 
         if(choice.equals("move")){
-
+            ViewControllerEventHandlerContext.setNextState(new GrabStuffStateMove(this.actionNumber));
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
         else{
             //if(choice.equals("grab")
-
+            ViewControllerEventHandlerContext.setNextState(new GrabStuffStateGrab(this.actionNumber));
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
     }
 }
