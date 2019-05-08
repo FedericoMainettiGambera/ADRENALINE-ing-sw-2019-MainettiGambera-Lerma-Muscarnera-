@@ -26,11 +26,7 @@ public class GrabStuffState implements State {
         String choice = VCEString.getInput();
 
         if(choice.equals("move")){
-            int numberOfMoves = 1;
-            if(ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineGrabAction()){
-                numberOfMoves = 2;
-            }
-            ViewControllerEventHandlerContext.setNextState(new GrabStuffStateMove(this.actionNumber, numberOfMoves));
+            ViewControllerEventHandlerContext.setNextState(new GrabStuffStateMove(this.actionNumber));
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
         else{

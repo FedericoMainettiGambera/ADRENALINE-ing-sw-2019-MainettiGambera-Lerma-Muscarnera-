@@ -9,15 +9,19 @@ import it.polimi.se2018.model.events.ViewControllerEventPosition;
 public class GrabStuffStateMove implements State {
 
     private int actionNumber;
-    private int numberOfMove;
+    private int numberOfMovement;
 
-    public GrabStuffStateMove(int actionNumber, int numberOfMove){
+    public GrabStuffStateMove(int actionNumber){
         this.actionNumber = actionNumber;
-        this.numberOfMove = numberOfMove;
     }
     @Override
     public void askForInput(Player playerToAsk) {
         //ask input
+        this.numberOfMovement = 1;
+        if(ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineGrabAction()){
+            this.numberOfMovement = 2;
+        }
+        //ask using the numberOfMovement
     }
 
     @Override
@@ -31,5 +35,6 @@ public class GrabStuffStateMove implements State {
         );
 
         ViewControllerEventHandlerContext.setNextState(new GrabStuffStateGrab(this.actionNumber));
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 }
