@@ -11,6 +11,7 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
     private int actionNumber;
 
     public GrabStuffStateDrawAndDiscardPowerUp(int actionNumber){
+        System.out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 

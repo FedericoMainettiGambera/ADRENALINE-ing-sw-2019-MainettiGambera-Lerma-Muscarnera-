@@ -16,8 +16,8 @@ public class GameSetUpState implements State {
     private int numberOfEvents;
 
     public GameSetUpState(){
+        System.out.println("<SERVER> New state: " + this.getClass());
         this.numberOfEvents=0;
-
     }
 
     @Override

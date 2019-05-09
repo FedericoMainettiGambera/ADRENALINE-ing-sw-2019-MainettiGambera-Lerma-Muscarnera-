@@ -11,6 +11,7 @@ public class RunAroundState implements State {
     private int actionNumber;
 
     public RunAroundState(int actionNumber){
+        System.out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 

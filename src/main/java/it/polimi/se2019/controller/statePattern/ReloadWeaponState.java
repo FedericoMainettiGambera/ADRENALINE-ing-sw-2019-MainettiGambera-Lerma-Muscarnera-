@@ -7,6 +7,10 @@ import it.polimi.se2019.model.events.ViewControllerEvent;
 import it.polimi.se2019.model.events.ViewControllerEventString;
 
 public class ReloadWeaponState implements State {
+
+    public  ReloadWeaponState(){
+        System.out.println("<SERVER> New state: " + this.getClass());
+    }
     @Override
     public void askForInput(Player playerToAsk){
         //ask which weapon to reload

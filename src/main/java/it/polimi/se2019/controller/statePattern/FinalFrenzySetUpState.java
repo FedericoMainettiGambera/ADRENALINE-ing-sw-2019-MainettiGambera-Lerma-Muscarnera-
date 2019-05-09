@@ -9,6 +9,7 @@ public class FinalFrenzySetUpState implements State {
     private int actionNumber;
 
     public FinalFrenzySetUpState(int actionNumber){
+        System.out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 

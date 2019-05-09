@@ -9,6 +9,7 @@ public class GrabStuffStateDrawPowerUp implements State {
     private int actionNumber;
 
     public GrabStuffStateDrawPowerUp(int actionNumber){
+        System.out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 

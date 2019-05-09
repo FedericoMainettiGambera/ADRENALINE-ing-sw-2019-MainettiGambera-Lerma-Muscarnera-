@@ -19,6 +19,7 @@ public class SpawnState implements State {
     private int numberOfSpawnedPlayers;
 
     public SpawnState(ArrayList<Player> deadPlayers){
+        System.out.println("<SERVER> New state: " + this.getClass());
         this.deadPlayers = deadPlayers;
         this.numberOfSpawnedPlayers = 0;
     }

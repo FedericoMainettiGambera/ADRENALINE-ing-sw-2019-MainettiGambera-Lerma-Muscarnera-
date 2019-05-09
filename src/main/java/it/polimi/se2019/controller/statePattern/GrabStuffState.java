@@ -11,6 +11,7 @@ public class GrabStuffState implements State {
     private int actionNumber;
 
     public GrabStuffState(int actionNumber){
+        System.out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 

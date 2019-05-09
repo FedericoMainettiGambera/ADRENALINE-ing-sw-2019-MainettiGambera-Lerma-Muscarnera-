@@ -8,6 +8,11 @@ import it.polimi.se2019.model.events.ViewControllerEvent;
 import java.util.ArrayList;
 
 public class ScoreKillsState implements State {
+
+    public ScoreKillsState(){
+        System.out.println("<SERVER> New state: " + this.getClass());
+    }
+
     @Override
     public void askForInput(Player playerToAsk) {
 

@@ -13,6 +13,7 @@ public class GrabStuffStateGrab implements State {
     private int actionNumber;
 
     public GrabStuffStateGrab(int actionNumber){
+        System.out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 

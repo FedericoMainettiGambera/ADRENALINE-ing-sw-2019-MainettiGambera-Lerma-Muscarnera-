@@ -14,6 +14,7 @@ public class PlayerSetUpState implements State {
     private int numberOfPlayersSet;
 
     public PlayerSetUpState(){
+        System.out.println("<SERVER> New state: " + this.getClass());
         this.numberOfPlayer = ModelGate.model.getPlayerList().getNumberOfPlayers();
         this.numberOfPlayersSet = 0;
     }

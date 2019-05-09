@@ -12,8 +12,10 @@ public class GrabStuffStateMove implements State {
     private int numberOfMovement;
 
     public GrabStuffStateMove(int actionNumber){
+        System.out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
+
     @Override
     public void askForInput(Player playerToAsk){
         this.numberOfMovement = 1;

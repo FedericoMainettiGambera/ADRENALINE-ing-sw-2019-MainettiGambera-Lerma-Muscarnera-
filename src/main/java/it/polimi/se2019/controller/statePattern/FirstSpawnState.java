@@ -11,6 +11,7 @@ import it.polimi.se2019.model.events.ViewControllerEventString;
 public class FirstSpawnState implements State {
 
     public FirstSpawnState(){
+        System.out.println("<SERVER> New state: " + this.getClass());
     }
 
     @Override

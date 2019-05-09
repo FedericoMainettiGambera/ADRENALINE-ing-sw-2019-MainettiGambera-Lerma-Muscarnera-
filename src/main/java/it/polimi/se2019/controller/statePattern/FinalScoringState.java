@@ -4,9 +4,14 @@ import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.ViewControllerEvent;
 
 public class FinalScoringState implements State {
+
+    public FinalScoringState(){
+        System.out.println("<SERVER> New state: " + this.getClass());
+    }
+
     @Override
     public void askForInput(Player playerToAsk) {
-        
+
     }
 
     @Override

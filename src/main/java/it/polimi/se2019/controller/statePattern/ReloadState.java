@@ -8,6 +8,10 @@ import it.polimi.se2019.model.events.ViewControllerEvent;
 import it.polimi.se2019.model.events.ViewControllerEventBoolean;
 
 public class ReloadState implements State{
+
+    public ReloadState(){
+        System.out.println("<SERVER> New state: " + this.getClass());
+    }
     @Override
     public void askForInput(Player playerToAsk){
         if(canReload()){
