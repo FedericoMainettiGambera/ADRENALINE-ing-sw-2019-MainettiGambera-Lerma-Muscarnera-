@@ -59,6 +59,10 @@ public class PlayerBoard extends Observable {
         return deathCounter;
     }
 
+    public void resetDeathCounter(){
+        this.deathCounter = 0;
+    }
+
     /*AMMO BOX*/
     /**avoid this method if possible, do not access directly attributes, but use method that interact with them for you.
      * @return

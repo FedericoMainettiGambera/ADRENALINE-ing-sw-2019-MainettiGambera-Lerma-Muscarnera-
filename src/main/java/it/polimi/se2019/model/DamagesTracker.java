@@ -52,6 +52,10 @@ public class DamagesTracker extends Observable {
         }
     }
 
+    public boolean isEmpty(){
+        return this.damageSlotsList.isEmpty();
+    }
+
     /**add Damages
      * @param damageSlot
      * */

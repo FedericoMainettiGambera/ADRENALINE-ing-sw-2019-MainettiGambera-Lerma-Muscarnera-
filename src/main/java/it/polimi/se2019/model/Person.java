@@ -17,7 +17,7 @@ public abstract class Person extends Observable {
     /**Constructor
      * */
     public Person(){
-
+        this.hasFinalFrenzyBoard = false;
         this.board = new PlayerBoard();
         this.score=0;
         this.position=null;
@@ -26,6 +26,8 @@ public abstract class Person extends Observable {
     /*-*****************************************************************************************************ATTRIBUTES*/
     /**nickname*/
     private String nickname;
+
+    private boolean hasFinalFrenzyBoard;
 
     /**color*/
     private PlayersColors color;
@@ -136,30 +138,36 @@ public abstract class Person extends Observable {
      * with more hits will get. (es: 8,6,4,2,1,1,1,1,1,1)
      * */
     public ArrayList<Integer> getPointsList(){
-        ArrayList<Integer> pointsList = new ArrayList<>();
-        for(int i = 0; i < 10; i++){
-            pointsList.add(Math.max( (8-(2*i)-(this.getDeathCounter()*2)) , 1));
+        if(this.hasFinalFrenzyBoard){
+            ArrayList<Integer> pointsList = new ArrayList<>();
+            if(this.getDeathCounter() > 0){
+                for (int i = 0; i < 20; i++) {
+                    pointsList.add(1);
+                }
+            }
+            else{
+                pointsList.add(2);
+                for (int i = 0; i < 19; i++) {
+                    pointsList.add(1);
+                }
+            }
+            return pointsList;
         }
-        for(int i = 0; i < 10; i++){
-            pointsList.add(1);
+        else {
+            ArrayList<Integer> pointsList = new ArrayList<>();
+            for (int i = 0; i < 10; i++) {
+                pointsList.add(Math.max((8 - (2 * i) - (this.getDeathCounter() * 2)), 1));
+            }
+            for (int i = 0; i < 10; i++) {
+                pointsList.add(1);
+            }
+            return pointsList;
         }
-        return pointsList;
     }
 
-    public ArrayList<Integer> getPointsListOfADeadPlayerDuringFinalFrenzy(){
-        ArrayList<Integer> pointsList = new ArrayList<>();
-        if(this.getDeathCounter() > 0){
-            for (int i = 0; i < 20; i++) {
-                pointsList.add(1);
-            }
-        }
-        else{
-            pointsList.add(2);
-            for (int i = 0; i < 19; i++) {
-                pointsList.add(1);
-            }
-        }
-        return pointsList;
+    public void makePlayerBoardFinalFrenzy(){
+        this.hasFinalFrenzyBoard = true;
+        this.board.resetDeathCounter();
     }
 
     public ArrayList<Player> getPlayersDamageRank(){

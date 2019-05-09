@@ -27,25 +27,15 @@ public class SpawnState implements State {
     public void askForInput(Player playerToAsk) {
         //(playerToAsk is null)
 
-        if(ModelGate.model.getFinalFrenzy() && ModelGate.model.getKillshotTrack().areSkullsOver()){
-            ViewControllerEventHandlerContext.setNextState(new FinalFrenzySetUpState());
-            ViewControllerEventHandlerContext.state.doAction(null);
-        }
-        else if(ModelGate.model.getKillshotTrack().areSkullsOver()){
-            ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
-            ViewControllerEventHandlerContext.state.doAction(null);
-        }
-        else {
-            this.playerToSpawn = deadPlayers.get(numberOfSpawnedPlayers);
+        this.playerToSpawn = deadPlayers.get(numberOfSpawnedPlayers);
 
-            //draw a power up
-            ModelGate.model.getPowerUpDeck().moveCardTo(
-                    playerToSpawn.getPowerUpCardsInHand(),
-                    ModelGate.model.getPowerUpDeck().getFirstCard().getID()
-            );
+        //draw a power up
+        ModelGate.model.getPowerUpDeck().moveCardTo(
+                playerToSpawn.getPowerUpCardsInHand(),
+                ModelGate.model.getPowerUpDeck().getFirstCard().getID()
+        );
 
-            //ask which power up he wants to discard
-        }
+        //ask which power up he wants to discard
     }
 
     @Override

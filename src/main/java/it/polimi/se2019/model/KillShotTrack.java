@@ -15,6 +15,7 @@ public class KillShotTrack extends Observable {
      * as many skulls as indicated by number
      * */
     public KillShotTrack(int numberOfStartingSkulls){
+
         kills = new ArrayList<>();
 
         if((numberOfStartingSkulls >= GameConstant.minStartingSkulls )&&(numberOfStartingSkulls<=GameConstant.maxStartingSkulls)){
