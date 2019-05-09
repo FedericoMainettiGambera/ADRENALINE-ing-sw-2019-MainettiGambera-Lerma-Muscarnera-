@@ -8,6 +8,10 @@ public class FinalFrenzySetUpState implements State {
 
     private int actionNumber;
 
+    public FinalFrenzySetUpState(int actionNumber){
+        this.actionNumber = actionNumber;
+    }
+
     @Override
     public void askForInput(Player playerToAsk) {
 
@@ -15,10 +19,16 @@ public class FinalFrenzySetUpState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
+        //makes the players boards that has no damages in FinalFrenzy mode
         for(Player player : ModelGate.model.getPlayerList().getPlayers()){
             if(player.getBoard().getDamagesTracker().isEmpty()){
                 player.makePlayerBoardFinalFrenzy();
             }
         }
+
+        //TODO: other stuff
+
+        //set state
+        //based on the action number we start a single turn for every player...
     }
 }

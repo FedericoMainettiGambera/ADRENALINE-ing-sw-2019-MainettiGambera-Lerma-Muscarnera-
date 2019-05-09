@@ -58,10 +58,12 @@ public class SpawnState implements State {
         );
 
         this.numberOfSpawnedPlayers++;
+
         if(this.numberOfSpawnedPlayers == this.deadPlayers.size()){
             //set next state & change current playing player
             ModelGate.model.getPlayerList().setNextPlayingPlayer();
             ViewControllerEventHandlerContext.setNextState(new TurnState(1));
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
         else {
             ViewControllerEventHandlerContext.state.askForInput(null);
