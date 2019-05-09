@@ -18,6 +18,8 @@ public class GrabStuffStateGrabWeapon implements  State {
 
     @Override
     public void askForInput(Player playerToAsk) {
+        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+
         if(ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards().size() >= 3){
             //ask what weapon in hand to discard and what weapon to pick up.
         }

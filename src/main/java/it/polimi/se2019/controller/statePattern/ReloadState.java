@@ -14,6 +14,8 @@ public class ReloadState implements State{
     }
     @Override
     public void askForInput(Player playerToAsk){
+        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+
         if(canReload()){
             //ask if they want to reload
         }

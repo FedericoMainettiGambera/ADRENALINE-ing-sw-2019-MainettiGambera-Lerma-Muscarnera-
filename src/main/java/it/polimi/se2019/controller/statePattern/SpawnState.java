@@ -29,6 +29,7 @@ public class SpawnState implements State {
         //(playerToAsk is null)
 
         this.playerToSpawn = deadPlayers.get(numberOfSpawnedPlayers);
+        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToSpawn.getNickname() + "\"");
 
         //draw a power up
         ModelGate.model.getPowerUpDeck().moveCardTo(

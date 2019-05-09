@@ -17,6 +17,7 @@ public class GrabStuffState implements State {
 
     @Override
     public void askForInput(Player playerToAsk) {
+        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
         //ask for input
     }
 

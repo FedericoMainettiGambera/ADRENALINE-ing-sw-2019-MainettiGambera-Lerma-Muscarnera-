@@ -11,7 +11,7 @@ public class FinalScoringState implements State {
 
     @Override
     public void askForInput(Player playerToAsk) {
-
+        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
     }
 
     @Override

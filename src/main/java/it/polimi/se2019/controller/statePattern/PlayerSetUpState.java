@@ -21,6 +21,8 @@ public class PlayerSetUpState implements State {
 
     @Override
     public void askForInput(Player playerToAsk){
+        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+
         //ask to "playerToAsk" inputs
     }
 

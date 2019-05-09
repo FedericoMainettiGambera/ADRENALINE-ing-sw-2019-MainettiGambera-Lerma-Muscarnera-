@@ -18,6 +18,8 @@ public class GrabStuffStateMove implements State {
 
     @Override
     public void askForInput(Player playerToAsk){
+        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+
         this.numberOfMovement = 1;
         if(ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineGrabAction()){
             this.numberOfMovement = 2;
