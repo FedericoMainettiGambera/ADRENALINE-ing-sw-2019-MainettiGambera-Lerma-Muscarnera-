@@ -24,6 +24,8 @@ public class RunAroundState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+
         ViewControllerEventPosition VCEPosition = (ViewControllerEventPosition)VCE;
 
         //set new position for the player

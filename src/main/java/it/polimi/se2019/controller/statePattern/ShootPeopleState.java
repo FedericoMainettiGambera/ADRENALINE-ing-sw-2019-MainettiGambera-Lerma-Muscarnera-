@@ -23,7 +23,7 @@ public class ShootPeopleState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
-
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         /*
         //can make the game became in FinalFrenzy mode

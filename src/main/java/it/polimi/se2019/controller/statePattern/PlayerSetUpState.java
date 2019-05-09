@@ -28,7 +28,9 @@ public class PlayerSetUpState implements State {
 
    @Override
     public void doAction(ViewControllerEvent VCE){
-        ViewControllerEventPlayerSetUp VCEPlayerSetUp = (ViewControllerEventPlayerSetUp) VCE;
+       System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+
+       ViewControllerEventPlayerSetUp VCEPlayerSetUp = (ViewControllerEventPlayerSetUp) VCE;
 
         //set nickname and color
        ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setNickname(VCEPlayerSetUp.getNickname());

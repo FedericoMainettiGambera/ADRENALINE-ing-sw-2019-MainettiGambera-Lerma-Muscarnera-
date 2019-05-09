@@ -24,7 +24,10 @@ public class TurnState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+
         String actionChosen = ((ViewControllerEventString)VCE).getInput();
+
         //set correct next state
         if(actionChosen.equals("run around")){
             ViewControllerEventHandlerContext.setNextState(new RunAroundState(this.actionNumber));

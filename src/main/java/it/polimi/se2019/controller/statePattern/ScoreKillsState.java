@@ -20,6 +20,7 @@ public class ScoreKillsState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ArrayList<Player> deadPlayers = new ArrayList<>();
 

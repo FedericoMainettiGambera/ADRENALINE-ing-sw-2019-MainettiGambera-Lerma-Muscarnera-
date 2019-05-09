@@ -22,6 +22,8 @@ public class FirstSpawnState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) throws NullPointerException{
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+
         ViewControllerEventString VCEPowerUpId = (ViewControllerEventString) VCE;
 
         //set spawning position

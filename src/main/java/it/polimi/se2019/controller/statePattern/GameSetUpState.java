@@ -27,6 +27,7 @@ public class GameSetUpState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE){
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         if(numberOfEvents==0) {
 

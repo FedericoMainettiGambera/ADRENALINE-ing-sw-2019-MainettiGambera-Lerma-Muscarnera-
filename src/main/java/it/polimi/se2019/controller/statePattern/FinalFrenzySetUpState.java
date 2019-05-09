@@ -20,6 +20,8 @@ public class FinalFrenzySetUpState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+
         //makes the players boards that has no damages in FinalFrenzy mode
         for(Player player : ModelGate.model.getPlayerList().getPlayers()){
             if(player.getBoard().getDamagesTracker().isEmpty()){

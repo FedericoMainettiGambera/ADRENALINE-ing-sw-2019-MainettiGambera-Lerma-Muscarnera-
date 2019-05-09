@@ -21,6 +21,8 @@ public class GrabStuffStateDrawPowerUp implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+
         Position PlayerPosition = ModelGate.model.getCurrentPlayingPlayer().getPosition();
         OrderedCardList<AmmoCard> squareCards = ((NormalSquare)ModelGate.model.getBoard().getSquare(PlayerPosition)).getAmmoCards();
         AmmoCard ammoCard = squareCards.getFirstCard();

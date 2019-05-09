@@ -23,6 +23,8 @@ public class GrabStuffState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+
         ViewControllerEventString VCEString = (ViewControllerEventString)VCE;
         String choice = VCEString.getInput();
 

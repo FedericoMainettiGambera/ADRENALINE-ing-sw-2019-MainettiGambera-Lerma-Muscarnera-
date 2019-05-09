@@ -28,6 +28,8 @@ public class ReloadState implements State{
 
     @Override
     public void doAction(ViewControllerEvent VCE){
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+
         ViewControllerEventBoolean VCEBoolean=(ViewControllerEventBoolean)VCE;
 
         if(VCEBoolean.getInput()){

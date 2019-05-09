@@ -30,6 +30,7 @@ public class GrabStuffStateGrabWeapon implements  State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         Position playerPosition = ModelGate.model.getCurrentPlayingPlayer().getPosition();
         OrderedCardList<WeaponCard> playerWeapons = ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand();

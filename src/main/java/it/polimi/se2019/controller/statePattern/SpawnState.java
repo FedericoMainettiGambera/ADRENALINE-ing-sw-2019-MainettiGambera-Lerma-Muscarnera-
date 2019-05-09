@@ -42,6 +42,8 @@ public class SpawnState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+
         ViewControllerEventString VCEString = (ViewControllerEventString)VCE;
 
         //set spawning position
