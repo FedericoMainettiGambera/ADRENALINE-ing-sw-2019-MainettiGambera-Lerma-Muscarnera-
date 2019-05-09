@@ -61,5 +61,8 @@ public class KillShotTrack extends Observable {
         else throw new IllegalStateException();
     }
 
+    public boolean areSkullsOver(){
+        return (this.numberOfRemainingSkulls <= 0);
+    }
 
 }

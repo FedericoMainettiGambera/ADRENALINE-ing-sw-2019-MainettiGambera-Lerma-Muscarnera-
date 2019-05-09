@@ -140,6 +140,25 @@ public abstract class Person extends Observable {
         for(int i = 0; i < 10; i++){
             pointsList.add(Math.max( (8-(2*i)-(this.getDeathCounter()*2)) , 1));
         }
+        for(int i = 0; i < 10; i++){
+            pointsList.add(1);
+        }
+        return pointsList;
+    }
+
+    public ArrayList<Integer> getPointsListOfADeadPlayerDuringFinalFrenzy(){
+        ArrayList<Integer> pointsList = new ArrayList<>();
+        if(this.getDeathCounter() > 0){
+            for (int i = 0; i < 20; i++) {
+                pointsList.add(1);
+            }
+        }
+        else{
+            pointsList.add(2);
+            for (int i = 0; i < 19; i++) {
+                pointsList.add(1);
+            }
+        }
         return pointsList;
     }
 

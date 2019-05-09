@@ -15,10 +15,24 @@ public class ScoreKillsState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
+
+        ArrayList<Player> deadPlayers = new ArrayList<>();
+
+        //score dead players
         for (int i = 0; i < ModelGate.model.getPlayerList().getNumberOfPlayers(); i++) {
             if(ModelGate.model.getPlayerList().getPlayers().get(i).isDead()){
                 this.scoreKill(ModelGate.model.getPlayerList().getPlayers().get(i));
+                deadPlayers.add(ModelGate.model.getPlayerList().getPlayers().get(i));
             }
+        }
+
+        if(deadPlayers.isEmpty()){
+            ModelGate.model.getPlayerList().setNextPlayingPlayer();
+            ViewControllerEventHandlerContext.setNextState(new TurnState(1));
+        }
+        else{
+            ViewControllerEventHandlerContext.setNextState(new SpawnState(deadPlayers));
+            ViewControllerEventHandlerContext.state.askForInput(null);
         }
     }
 
@@ -47,10 +61,6 @@ public class ScoreKillsState implements State {
         //adding skull to the dead player
         deadPlayer.addDeath();
         deadPlayer.emptyDamagesTracker();
-
-        //set next state
-        ViewControllerEventHandlerContext.setNextState(new SpawnState());
-        ViewControllerEventHandlerContext.state.askForInput(deadPlayer);
     }
 
 }

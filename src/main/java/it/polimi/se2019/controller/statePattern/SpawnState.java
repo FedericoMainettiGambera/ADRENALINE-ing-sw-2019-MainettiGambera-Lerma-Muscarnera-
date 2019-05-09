@@ -8,21 +8,44 @@ import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.events.ViewControllerEvent;
 import it.polimi.se2019.model.events.ViewControllerEventString;
 
+import java.util.ArrayList;
+
 public class SpawnState implements State {
 
     private Player playerToSpawn;
 
+    private ArrayList<Player> deadPlayers;
+
+    private int numberOfSpawnedPlayers;
+
+    public SpawnState(ArrayList<Player> deadPlayers){
+        this.deadPlayers = deadPlayers;
+        this.numberOfSpawnedPlayers = 0;
+    }
+
     @Override
     public void askForInput(Player playerToAsk) {
-        this.playerToSpawn=playerToAsk;
+        //(playerToAsk is null)
 
-        //draw a power up
-        ModelGate.model.getPowerUpDeck().moveCardTo(
-                playerToSpawn.getPowerUpCardsInHand(),
-                ModelGate.model.getPowerUpDeck().getFirstCard().getID()
-                );
+        if(ModelGate.model.getFinalFrenzy() && ModelGate.model.getKillshotTrack().areSkullsOver()){
+            ViewControllerEventHandlerContext.setNextState(new FinalFrenzySetUpState());
+            ViewControllerEventHandlerContext.state.doAction(null);
+        }
+        else if(ModelGate.model.getKillshotTrack().areSkullsOver()){
+            ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
+            ViewControllerEventHandlerContext.state.doAction(null);
+        }
+        else {
+            this.playerToSpawn = deadPlayers.get(numberOfSpawnedPlayers);
 
-        //ask which power up he wants to discard
+            //draw a power up
+            ModelGate.model.getPowerUpDeck().moveCardTo(
+                    playerToSpawn.getPowerUpCardsInHand(),
+                    ModelGate.model.getPowerUpDeck().getFirstCard().getID()
+            );
+
+            //ask which power up he wants to discard
+        }
     }
 
     @Override
@@ -44,8 +67,14 @@ public class SpawnState implements State {
                 VCEString.getInput()
         );
 
-        //set next state & change current playing player
-        ModelGate.model.getPlayerList().setNextPlayingPlayer();
-        ViewControllerEventHandlerContext.setNextState(new TurnState(1));
+        this.numberOfSpawnedPlayers++;
+        if(this.numberOfSpawnedPlayers == this.deadPlayers.size()){
+            //set next state & change current playing player
+            ModelGate.model.getPlayerList().setNextPlayingPlayer();
+            ViewControllerEventHandlerContext.setNextState(new TurnState(1));
+        }
+        else {
+            ViewControllerEventHandlerContext.state.askForInput(null);
+        }
     }
 }
