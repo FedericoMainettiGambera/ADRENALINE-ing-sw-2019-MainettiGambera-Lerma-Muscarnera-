@@ -105,7 +105,7 @@ public class Game extends Observable {
         this.powerUpDiscardPile = new OrderedCardList<>();
 
         //builds weapon cards
-        File directory = new File("Cards");     // insert here path to weapon cards folder
+        File directory = new File("src/main/Files/cards/weaponCards");     // insert here path to weapon cards folder
         int fileCount = directory.list().length;
         for(int i = 0; i< fileCount;i++) {
              try {
@@ -118,7 +118,7 @@ public class Game extends Observable {
         }
 
         //builds power up cards
-        directory = new File("Cards");          // insert here path to power up cards folder
+        directory = new File("src/main/Files/cards/powerUpCards");          // insert here path to power up cards folder
         fileCount = directory.list().length;
         for(int i = 0; i< fileCount;i++) {
             try {
@@ -131,7 +131,7 @@ public class Game extends Observable {
         }
 
         //builds ammo cards
-        directory = new File("Cards");          // insert here path to ammo cards folder
+        directory = new File("src/main/Files/cards/ammoCards");          // insert here path to ammo cards folder
         fileCount = directory.list().length;
         for(int i = 0; i< fileCount;i++) {
             try {

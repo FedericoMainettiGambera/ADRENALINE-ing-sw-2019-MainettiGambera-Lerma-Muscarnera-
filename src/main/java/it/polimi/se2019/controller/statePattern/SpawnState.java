@@ -30,7 +30,7 @@ public class SpawnState implements State {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToSpawn.getNickname() + "\"");
 
         //end of the Game if the death of a Player caused the end of skulls and FinalFrenzy is off
-        if(!deadPlayers.isEmpty() && !ModelGate.model.getFinalFrenzy() && ModelGate.model.getKillshotTrack().areSkullsOver()){
+        if(!deadPlayers.isEmpty() && !ModelGate.model.isFinalFrenzy() && ModelGate.model.getKillshotTrack().areSkullsOver()){
             ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
         }
 
@@ -70,7 +70,7 @@ public class SpawnState implements State {
 
         if(this.numberOfSpawnedPlayers == this.deadPlayers.size()){
             ModelGate.model.getPlayerList().setNextPlayingPlayer();
-            if(ModelGate.model.getKillshotTrack().areSkullsOver() && ModelGate.model.getFinalFrenzy()){
+            if(ModelGate.model.getKillshotTrack().areSkullsOver() && ModelGate.model.isFinalFrenzy()){
                 //trigger FinalFrenzy
                 ViewControllerEventHandlerContext.setNextState(new FFSetUpState());
                 ViewControllerEventHandlerContext.state.doAction(null);
