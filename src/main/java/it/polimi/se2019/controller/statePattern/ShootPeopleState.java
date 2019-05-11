@@ -16,26 +16,30 @@ public class ShootPeopleState implements State {
 
     @Override
     public void askForInput(Player playerToAsk) {
-        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        if(canShoot()) {
+            System.out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
-        //ask for input
+            //ask for input
+        }
+        else{
+            ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
+        }
     }
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        /*
-        //can make the game became in FinalFrenzy mode
-        if(ModelGate.model.getFinalFrenzy() && ModelGate.model.getKillshotTrack().areSkullsOver()){
-            ViewControllerEventHandlerContext.setNextState(new FinalFrenzySetUpState());
-            ViewControllerEventHandlerContext.state.doAction(null);
-        }
-        //can make the game end
-        else if(ModelGate.model.getKillshotTrack().areSkullsOver()){
-            ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
-            ViewControllerEventHandlerContext.state.doAction(null);
-        }
-        */
+        // do things to shoot
+
+        //set State
+        //TurnState
+        //ReloadState
+        //(based on actionNumber)
+    }
+
+    public boolean canShoot(){
+        //Stuff here
+        return false; //(or true)
     }
 }

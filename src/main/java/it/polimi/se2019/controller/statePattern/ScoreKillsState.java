@@ -22,6 +22,7 @@ public class ScoreKillsState implements State {
     public void doAction(ViewControllerEvent VCE) {
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
+        //list used to respawn dead players in SpawnState
         ArrayList<Player> deadPlayers = new ArrayList<>();
 
         //score dead players
@@ -36,10 +37,6 @@ public class ScoreKillsState implements State {
             ModelGate.model.getPlayerList().setNextPlayingPlayer();
             ViewControllerEventHandlerContext.setNextState(new TurnState(1));
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
-        }
-        else if(!ModelGate.model.getFinalFrenzy() && ModelGate.model.getKillshotTrack().areSkullsOver()){
-            ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
-            ViewControllerEventHandlerContext.state.doAction(null);
         }
         else{
             ViewControllerEventHandlerContext.setNextState(new SpawnState(deadPlayers));

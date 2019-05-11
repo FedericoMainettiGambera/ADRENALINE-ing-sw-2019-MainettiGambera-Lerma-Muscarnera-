@@ -1,16 +1,18 @@
 package it.polimi.se2019.controller.statePattern;
 
 import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.ViewControllerEvent;
 
-public class FinalFrenzySetUpState implements State {
+public class FFSetUpState implements State {
 
-    private int actionNumber;
 
-    public FinalFrenzySetUpState(int actionNumber){
+    private int numberOfPlayerTurnsToEndGame;
+
+    public FFSetUpState(){
         System.out.println("<SERVER> New state: " + this.getClass());
-        this.actionNumber = actionNumber;
+        this.numberOfPlayerTurnsToEndGame = ModelGate.model.getPlayerList().getNumberOfPlayers();
     }
 
     @Override
@@ -22,6 +24,8 @@ public class FinalFrenzySetUpState implements State {
     public void doAction(ViewControllerEvent VCE) {
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
+        ModelGate.model.triggerFinalFrenzy(true);
+
         //makes the players boards that has no damages in FinalFrenzy mode
         for(Player player : ModelGate.model.getPlayerList().getPlayers()){
             if(player.getBoard().getDamagesTracker().isEmpty()){
@@ -29,9 +33,10 @@ public class FinalFrenzySetUpState implements State {
             }
         }
 
-        //TODO: other stuff
+        //TODO STUFF HERE (setuf the FINAL FRENZY)
 
-        //set state
-        //based on the action number we start a single turn for every player...
+        ViewControllerEventHandlerContext.setNextState(new FFTurnState(1));
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+
     }
 }

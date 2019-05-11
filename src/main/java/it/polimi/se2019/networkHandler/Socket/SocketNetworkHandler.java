@@ -76,9 +76,9 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
         boolean isBot;
 
         System.out.println("<CLIENT>Insert gameMode:");
-        gameMode = br.next();
+        gameMode = br.nextLine();
         System.out.println("<CLIENT>Insert mapChoice:");
-        mapChoice = br.next();
+        mapChoice = br.nextLine();
         System.out.println("<CLIENT>Insert numberOfStartingSKulls:");
         numberOFSkulls = br.nextInt();
         System.out.println("<CLIENT>Insert Final frazy:");

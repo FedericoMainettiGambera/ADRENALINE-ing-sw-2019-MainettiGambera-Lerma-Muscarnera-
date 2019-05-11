@@ -35,6 +35,8 @@ public class Game extends Observable {
     /***/
     private OrderedCardList<AmmoCard> ammoDiscardPile;
 
+    private boolean hasFinalFrenzyBegun;
+
     /***/
     private Board board;
 
@@ -54,8 +56,16 @@ public class Game extends Observable {
         notifyObservers();
     }
 
-    public boolean getFinalFrenzy(){
+    public boolean isFinalFrenzy(){
         return this.isFinalFrenzy;
+    }
+
+    public boolean hasFinalFrenzyBegun(){
+        return this.hasFinalFrenzyBegun;
+    }
+
+    public void triggerFinalFrenzy(boolean hasFinalFrenzyBegun){
+        this.hasFinalFrenzyBegun = hasFinalFrenzyBegun;
     }
 
 

@@ -27,9 +27,14 @@ public class SpawnState implements State {
     @Override
     public void askForInput(Player playerToAsk) {
         //(playerToAsk is null)
+        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToSpawn.getNickname() + "\"");
+
+        //end of the Game if the death of a Player caused the end of skulls and FinalFrenzy is off
+        if(!deadPlayers.isEmpty() && !ModelGate.model.getFinalFrenzy() && ModelGate.model.getKillshotTrack().areSkullsOver()){
+            ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
+        }
 
         this.playerToSpawn = deadPlayers.get(numberOfSpawnedPlayers);
-        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToSpawn.getNickname() + "\"");
 
         //draw a power up
         ModelGate.model.getPowerUpDeck().moveCardTo(
@@ -64,12 +69,21 @@ public class SpawnState implements State {
         this.numberOfSpawnedPlayers++;
 
         if(this.numberOfSpawnedPlayers == this.deadPlayers.size()){
-            //set next state & change current playing player
             ModelGate.model.getPlayerList().setNextPlayingPlayer();
-            ViewControllerEventHandlerContext.setNextState(new TurnState(1));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            if(ModelGate.model.getKillshotTrack().areSkullsOver() && ModelGate.model.getFinalFrenzy()){
+                //trigger FinalFrenzy
+                ViewControllerEventHandlerContext.setNextState(new FFSetUpState());
+                ViewControllerEventHandlerContext.state.doAction(null);
+            }
+            else{
+                //state next turn
+                ViewControllerEventHandlerContext.setNextState(new TurnState(1));
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            }
         }
         else {
+            //there are more Players to respawn
+            //(the state remains the SpawnState)
             ViewControllerEventHandlerContext.state.askForInput(null);
         }
     }
