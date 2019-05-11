@@ -30,7 +30,10 @@ public class GrabStuffStateDrawPowerUp implements State {
 
         OrderedCardList<PowerUpCard> playerPowerUpHand = ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand();
         if(ammoCard.isPowerUp()){
-            squareCards.moveAllCardsTo(ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand());
+            ModelGate.model.getPowerUpDeck().moveCardTo(
+                    ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand(),
+                    ModelGate.model.getPowerUpDeck().getFirstCard().getID()
+            );
         }
 
         //set next state

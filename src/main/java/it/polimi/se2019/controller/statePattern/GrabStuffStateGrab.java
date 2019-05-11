@@ -26,9 +26,10 @@ public class GrabStuffStateGrab implements State {
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
         else if(ModelGate.model.getBoard().getSquare(ModelGate.model.getCurrentPlayingPlayer().getPosition()).getSquareType() == SquareTypes.normal){
+
             AmmoCard ammoCard = (AmmoCard)((NormalSquare)ModelGate.model.getBoard().getSquare(
                     ModelGate.model.getCurrentPlayingPlayer().getPosition())
-            ).getAmmoCards().getFirstCard();
+                    ).getAmmoCards().getFirstCard();
 
             //draw ammocubes
             ModelGate.model.getCurrentPlayingPlayer().addAmmoCubes(ammoCard.getAmmunitions());

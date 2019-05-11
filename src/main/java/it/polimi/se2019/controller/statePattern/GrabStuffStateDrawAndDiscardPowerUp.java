@@ -18,6 +18,12 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
     @Override
     public void askForInput(Player playerToAsk) {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+
+        //draw a new power up
+        ModelGate.model.getPowerUpDeck().moveCardTo(
+                ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand(),
+                ModelGate.model.getPowerUpDeck().getFirstCard().getID()
+        );
         //ask which power up to discard
     }
 
@@ -33,8 +39,14 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
                 VCEString.getInput()
         );
 
-        //continue with normal grab of ammo and power up
-        ViewControllerEventHandlerContext.setNextState(new GrabStuffStateDrawPowerUp(this.actionNumber));
-        ViewControllerEventHandlerContext.state.doAction(null);
+        //set next state
+        if(this.actionNumber == 1){
+            ViewControllerEventHandlerContext.setNextState(new TurnState(2));
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        }
+        if(this.actionNumber == 2) {
+            ViewControllerEventHandlerContext.setNextState(new ReloadState());
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        }
     }
 }
