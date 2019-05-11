@@ -25,6 +25,7 @@ public class GameSetUpState implements State {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //ask for gameSetUp to the player
+        SelectorGate.selector.setPlayerToAsk(playerToAsk);
         SelectorGate.selector.askGameSetUp();
     }
 

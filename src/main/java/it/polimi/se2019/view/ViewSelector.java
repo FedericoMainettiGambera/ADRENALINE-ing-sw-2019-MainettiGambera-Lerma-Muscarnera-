@@ -8,9 +8,10 @@ import it.polimi.se2019.virtualView.Selector;
 import java.util.ArrayList;
 
 public class ViewSelector implements Selector {
+
     @Override
     public void askGameSetUp() {
-        
+
     }
 
     @Override
