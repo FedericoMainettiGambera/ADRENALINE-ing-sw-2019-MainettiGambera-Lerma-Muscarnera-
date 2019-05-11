@@ -1,11 +1,9 @@
-package it.polimi.se2019.view;
+package it.polimi.se2019.virtualView;
 
-import it.polimi.se2019.model.AmmoCard;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.WeaponCard;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public interface Selector {

@@ -109,7 +109,7 @@ public class ConnectionHandlerVirtualView extends Thread {
 
         //make the game start
         setNextState(new GameSetUpState());
-        state.doAction(new ViewControllerEvent());
+        state.askForInput(ModelGate.model.getPlayerList().getPlayer("User1"));
 
     }
 

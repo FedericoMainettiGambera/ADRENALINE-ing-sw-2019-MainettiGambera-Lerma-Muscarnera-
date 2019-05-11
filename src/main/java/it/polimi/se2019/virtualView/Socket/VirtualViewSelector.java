@@ -1,5 +1,6 @@
-package it.polimi.se2019.view;
+package it.polimi.se2019.virtualView.Socket;
 
+import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.WeaponCard;
@@ -7,10 +8,10 @@ import it.polimi.se2019.virtualView.Selector;
 
 import java.util.ArrayList;
 
-public class ViewSelector implements Selector {
+public class VirtualViewSelector implements Selector {
     @Override
-    public void askGameSetUp() {
-        
+    public  void askGameSetUp() {
+
     }
 
     @Override
