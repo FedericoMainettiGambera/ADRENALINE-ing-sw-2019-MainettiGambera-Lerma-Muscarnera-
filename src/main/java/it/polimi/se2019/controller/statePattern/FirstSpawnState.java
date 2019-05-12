@@ -1,12 +1,15 @@
 package it.polimi.se2019.controller.statePattern;
 
 import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.events.ViewControllerEvent;
 import it.polimi.se2019.model.events.ViewControllerEventString;
+
+import java.util.ArrayList;
 
 public class FirstSpawnState implements State {
 
@@ -18,6 +21,8 @@ public class FirstSpawnState implements State {
     public void askForInput(Player playerToAsk){
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
         //ask to "playerToAsk" inputs
+        SelectorGate.selector.setPlayerToAsk(playerToAsk);
+        SelectorGate.selector.askFirstSpawnPosition((ArrayList)playerToAsk.getPowerUpCardsInHand().getCards());
     }
 
     @Override

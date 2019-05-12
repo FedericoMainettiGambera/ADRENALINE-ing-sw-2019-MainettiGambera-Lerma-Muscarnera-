@@ -1,10 +1,14 @@
 package it.polimi.se2019.controller.statePattern;
 
 import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
+import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.events.ViewControllerEvent;
 import it.polimi.se2019.model.events.ViewControllerEventPosition;
+
+import java.util.ArrayList;
 
 public class RunAroundState implements State {
 
@@ -20,6 +24,9 @@ public class RunAroundState implements State {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //ask for input
+        SelectorGate.selector.setPlayerToAsk(playerToAsk);
+        ArrayList<Position> possiblePositions = ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(), 3);
+        SelectorGate.selector.askRunAroundPosition(possiblePositions);
     }
 
     @Override

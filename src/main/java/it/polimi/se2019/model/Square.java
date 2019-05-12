@@ -67,7 +67,7 @@ public abstract class Square {
     public SquareTypes getSquareType() {
         return squareType;
     }
-    public void        setSquareType(SquareTypes S) {
+    public void setSquareType(SquareTypes S) {
        squareType = S;
     }
     public char getColor(){return this.color;}

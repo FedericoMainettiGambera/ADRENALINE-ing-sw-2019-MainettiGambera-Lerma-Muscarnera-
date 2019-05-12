@@ -1,6 +1,7 @@
 package it.polimi.se2019.controller.statePattern;
 
 import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.GameConstant;
 import it.polimi.se2019.model.Player;
@@ -24,6 +25,8 @@ public class PlayerSetUpState implements State {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //ask to "playerToAsk" inputs
+        SelectorGate.selector.setPlayerToAsk(playerToAsk);
+        SelectorGate.selector.askPlayerSetUp();
     }
 
    @Override

@@ -1,6 +1,7 @@
 package it.polimi.se2019.controller.statePattern;
 
 import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.events.ViewControllerEvent;
@@ -20,6 +21,8 @@ public class TurnState implements State {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //ask for input
+        SelectorGate.selector.setPlayerToAsk(playerToAsk);
+        SelectorGate.selector.askTurnAction(this.actionNumber);
     }
 
     @Override
