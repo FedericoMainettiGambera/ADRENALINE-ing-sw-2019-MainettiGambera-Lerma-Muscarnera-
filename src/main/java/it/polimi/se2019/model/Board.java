@@ -1,12 +1,14 @@
 package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
+import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.SquareTypes;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.*;
+import java.util.ArrayList;
 
 
 /***/
@@ -72,8 +74,7 @@ public class Board {
     }
 
 
-
-    private Square[][] buildMap(String chosenMap) throws IOException{
+   private Square[][] buildMap(String chosenMap) throws IOException{
         Square[][] map = new Square[3][4];
         SquareSide[] sides = new SquareSide[4];
         SquareTypes type;
@@ -169,9 +170,44 @@ public class Board {
             //  while (string[0] == '\b') {
             //     string = bufferedReader.readLine().toCharArray();
             //  }
-
-
         }
         return map;
+    }
+
+    public ArrayList<Position> possiblePositions(Position startingPosition, int numberOfMoves){
+        ArrayList<Position> possiblePositions = new ArrayList<>();
+        possiblePositions.add(startingPosition);
+        Square tempSquare;
+        Position tempPos;
+        for (int i = 0; i < numberOfMoves; i++) {
+            for (int j = 0; j < possiblePositions.size(); j++) {
+                tempSquare = this.board[possiblePositions.get(j).getX()][possiblePositions.get(j).getY()];
+                if( (!(tempSquare.getSide(CardinalPoint.north)==SquareSide.wall)) //non ci sia un muro
+                        && (possiblePositions.get(j).getY()>=1)  //non siamo sul bordo della mappa
+                        && (this.board[possiblePositions.get(j).getX()][possiblePositions.get(j).getY()-1]!=null)){ //la casella che stiamo osservando non sia vuota
+                    tempPos = new Position(possiblePositions.get(j).getX(),possiblePositions.get(j).getY()-1);
+                    possiblePositions.add(tempPos);
+                }
+                if( (!(tempSquare.getSide(CardinalPoint.south) == SquareSide.wall)) //non ci sia un muro
+                        && (possiblePositions.get(j).getY()<this.board[0].length-1)  //non siamo sul bordo della mappa
+                        && (this.board[possiblePositions.get(j).getX()][possiblePositions.get(j).getY()+1]!=null)){ //la casella che stiamo osservando non sia vuota
+                    tempPos = new Position(possiblePositions.get(j).getX(),possiblePositions.get(j).getY()+1);
+                    possiblePositions.add(tempPos);
+                }
+                if((!(tempSquare.getSide(CardinalPoint.east) == SquareSide.wall)) //non ci sia un muro
+                        && (possiblePositions.get(j).getX()>1)  //non siamo sul bordo della mappa
+                        && (this.board[possiblePositions.get(j).getX()-1][possiblePositions.get(j).getY()]!=null)){ //la casella che stiamo osservando non sia vuota
+                    tempPos = new Position(possiblePositions.get(j).getX(),possiblePositions.get(j).getY()+1);
+                    possiblePositions.add(tempPos);
+                }
+                if((!(tempSquare.getSide(CardinalPoint.west) == SquareSide.wall)) //non ci sia un muro
+                        && (possiblePositions.get(j).getX()<this.board.length)  //non siamo sul bordo della mappa
+                        && (this.board[possiblePositions.get(j).getX()+1][possiblePositions.get(j).getY()]!=null)){ //la casella che stiamo osservando non sia vuota
+                    tempPos = new Position(possiblePositions.get(j).getX(),possiblePositions.get(j).getY()+1);
+                    possiblePositions.add(tempPos);
+                }
+            }
+        }
+        return possiblePositions;
     }
 }
