@@ -1,6 +1,7 @@
 package it.polimi.se2019.controller.statePattern;
 
 import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.ViewControllerEvent;
@@ -19,6 +20,8 @@ public class GrabStuffState implements State {
     public void askForInput(Player playerToAsk) {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
         //ask for input
+        SelectorGate.selector.setPlayerToAsk(playerToAsk);
+        SelectorGate.selector.askGrabStuffAction();
     }
 
     @Override
@@ -34,7 +37,7 @@ public class GrabStuffState implements State {
         }
         else if(choice.equals("grab")){
             ViewControllerEventHandlerContext.setNextState(new GrabStuffStateGrab(this.actionNumber));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            ViewControllerEventHandlerContext.state.doAction(null);
         }
         else{
             this.askForInput(ModelGate.model.getCurrentPlayingPlayer());

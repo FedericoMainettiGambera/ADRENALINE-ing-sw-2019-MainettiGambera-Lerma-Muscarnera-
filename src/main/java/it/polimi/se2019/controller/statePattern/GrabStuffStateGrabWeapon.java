@@ -1,11 +1,15 @@
 package it.polimi.se2019.controller.statePattern;
 
 import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.events.ViewControllerEvent;
 import it.polimi.se2019.model.events.ViewControllerEventString;
 import it.polimi.se2019.model.events.ViewControllerEventTwoString;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class GrabStuffStateGrabWeapon implements  State {
 
@@ -20,11 +24,19 @@ public class GrabStuffStateGrabWeapon implements  State {
     public void askForInput(Player playerToAsk) {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
+        SelectorGate.selector.setPlayerToAsk(playerToAsk);
+
+        SpawnPointSquare playerSquare = ((SpawnPointSquare)(ModelGate.model.getBoard().getSquare(playerToAsk.getPosition().getX(), playerToAsk.getPosition().getY())));
+        ArrayList<WeaponCard> toPickUp = (ArrayList)playerSquare.getWeaponCards().getCards();
+
         if(ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards().size() >= 3){
             //ask what weapon in hand to discard and what weapon to pick up.
+            ArrayList<WeaponCard> toDiscard = (ArrayList)playerToAsk.getWeaponCardsInHand().getCards();
+            SelectorGate.selector.askGrabStuffSwitchWeapon(toPickUp, toDiscard);
         }
         else {
             //ask what weapon
+            SelectorGate.selector.askGrabStuffGrabWeapon(toPickUp);
         }
     }
 
