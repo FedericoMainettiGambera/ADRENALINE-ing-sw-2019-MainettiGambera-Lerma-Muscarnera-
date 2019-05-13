@@ -44,7 +44,7 @@ public class Board {
    public Position getSpawnpointOfColor(AmmoCubesColor color)throws NullPointerException, Exception{
         int g=0;
 
-        if(color.equals("yellow")){
+        if(color.equals(AmmoCubesColor.yellow)){
             while(spawnPointslist[g].getColor()!='y'){
                 g++;
             }
@@ -53,7 +53,7 @@ public class Board {
             }
         }
 
-        else if(color.equals("red")){
+        else if(color.equals(AmmoCubesColor.red)){
             while(spawnPointslist[g].getColor()!='r'){
                 g++;
             }
@@ -61,7 +61,7 @@ public class Board {
                 return spawnPointslist[g].getCoordinates();
             }
         }
-        else{
+        else if(color.equals(AmmoCubesColor.blue)){
             while(spawnPointslist[g].getColor()!='b'){
                 g++;
             }
