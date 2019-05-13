@@ -52,6 +52,8 @@ public class GameSetUpState implements State {
             catch (NullPointerException e){
                 e.printStackTrace();
             }
+            System.out.println("<SERVER> MAP: \n" + ModelGate.model.getBoard().toString());
+
             System.out.println("<SERVER>creating Killshot Track with " +
                                 VCEGameSetUp.getNumberOfStartingSkulls() +
                                 " number of starting skulls.");

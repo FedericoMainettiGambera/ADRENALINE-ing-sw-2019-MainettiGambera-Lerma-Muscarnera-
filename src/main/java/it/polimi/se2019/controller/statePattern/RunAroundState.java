@@ -35,8 +35,6 @@ public class RunAroundState implements State {
 
         ViewControllerEventPosition VCEPosition = (ViewControllerEventPosition)VCE;
 
-        System.out.println("<SERVER> MAP: \n" + ModelGate.model.getBoard().toString());
-
         //set new position for the player
         System.out.println("<SERVER> setting player position to: [" +VCEPosition.getX()+ "][" +VCEPosition.getY() + "]");
         ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setPosition(
