@@ -1,10 +1,14 @@
 package it.polimi.se2019.controller.statePattern;
 
 import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
+import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.events.ViewControllerEvent;
 import it.polimi.se2019.model.events.ViewControllerEventString;
+
+import java.util.ArrayList;
 
 public class ReloadWeaponState implements State {
 
@@ -16,6 +20,14 @@ public class ReloadWeaponState implements State {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //ask which weapon to reload
+        SelectorGate.selector.setPlayerToAsk(playerToAsk);
+        ArrayList<WeaponCard> toReaload = new ArrayList<>();
+        for (WeaponCard wc: playerToAsk.getWeaponCardsInHand().getCards()) {
+            if (!wc.isLoaded()){
+                toReaload.add(wc);
+            }
+        }
+        SelectorGate.selector.askWhatReaload(toReaload);
     }
 
     @Override

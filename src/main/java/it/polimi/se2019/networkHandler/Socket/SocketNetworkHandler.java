@@ -1,14 +1,13 @@
 package it.polimi.se2019.networkHandler.Socket;
 
 import it.polimi.se2019.model.events.ViewControllerEvent;
-import it.polimi.se2019.model.events.ViewControllerEventGameSetUp;
 import it.polimi.se2019.networkHandler.NetworkHandler;
+import it.polimi.se2019.view.View;
 
 import java.io.*;
 import java.net.*;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Scanner;
 
 public class SocketNetworkHandler extends NetworkHandler implements Observer{
 
@@ -18,13 +17,13 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
 
     private InetAddress inetAddress;
 
-    private ObjectOutputStream oos;
+    public static ObjectOutputStream oos;
 
     private ObjectInputStream ois;
 
-    private Observer view;
+    private View view;
 
-    public SocketNetworkHandler(InetAddress inetAddress, int port, Observer view){
+    public SocketNetworkHandler(InetAddress inetAddress, int port, View view){
         this.view = view;
 
         this.port = port;
@@ -61,37 +60,6 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
             e.printStackTrace();
         }
 
-        //da cancellare quando scriveremo la view.
-        this.testingGameWithFakeInputs();
-    }
-
-
-    public void testingGameWithFakeInputs(){
-        Scanner br = new Scanner(System.in);
-
-        String gameMode;
-        String mapChoice;
-        int numberOFSkulls;
-        boolean isFinalFrenzy;
-        boolean isBot;
-
-        System.out.println("<CLIENT>Insert gameMode:");
-        gameMode = br.nextLine();
-        System.out.println("<CLIENT>Insert mapChoice:");
-        mapChoice = br.nextLine();
-        System.out.println("<CLIENT>Insert numberOfStartingSKulls:");
-        numberOFSkulls = br.nextInt();
-        System.out.println("<CLIENT>Insert Final frazy:");
-        isFinalFrenzy = br.nextBoolean();
-        System.out.println("<CLIENT>Insert bot:");
-        isBot = br.nextBoolean();
-
-        ViewControllerEvent VCE = new ViewControllerEventGameSetUp(gameMode,mapChoice,numberOFSkulls,isFinalFrenzy,isBot);
-        try {
-            this.oos.writeObject(VCE);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 

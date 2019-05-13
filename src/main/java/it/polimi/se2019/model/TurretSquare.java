@@ -4,8 +4,10 @@ package it.polimi.se2019.model;
 import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.SquareTypes;
 
+import java.io.Serializable;
+
 /***/
-public class TurretSquare extends Square {
+public class TurretSquare extends Square implements Serializable {
 
     /***/
     public TurretSquare(int X, int Y, SquareSide north, SquareSide east, SquareSide south, SquareSide west, SquareTypes squareType, char color){

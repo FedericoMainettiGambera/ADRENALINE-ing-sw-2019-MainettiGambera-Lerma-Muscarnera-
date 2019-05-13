@@ -1,7 +1,9 @@
 package it.polimi.se2019.model;
 
+import java.io.Serializable;
+
 /***/
-public class Damage extends Action {
+public class Damage extends Action implements Serializable {
 
     @Override
     public void updateSettingsFromFile() {

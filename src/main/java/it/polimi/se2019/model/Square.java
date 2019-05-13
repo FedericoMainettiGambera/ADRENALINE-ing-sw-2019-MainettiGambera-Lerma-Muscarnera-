@@ -5,9 +5,11 @@ import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.SquareTypes;
 
+import java.io.Serializable;
+
 
 /***/
-public abstract class Square {
+public abstract class Square implements Serializable {
 
     /***/
     public Square(int X, int Y, SquareSide north, SquareSide east, SquareSide south, SquareSide west, SquareTypes squareType, char color){

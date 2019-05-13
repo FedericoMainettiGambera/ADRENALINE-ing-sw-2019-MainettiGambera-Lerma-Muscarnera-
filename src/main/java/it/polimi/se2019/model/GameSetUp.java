@@ -1,12 +1,14 @@
 package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.enumerations.GameMode;
+
+import java.io.Serializable;
 import java.lang.*;
 import java.util.Observable;
 
 
 /***/
-public class GameSetUp extends Observable {
+public class GameSetUp extends Observable implements Serializable {
 
     /***/
     public GameSetUp(){

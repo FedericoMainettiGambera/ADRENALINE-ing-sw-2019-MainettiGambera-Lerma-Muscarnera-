@@ -1,8 +1,10 @@
 package it.polimi.se2019.model;
 
 
+import java.io.Serializable;
+
 /***/
-public class AmmoCard extends Card {
+public class AmmoCard extends Card implements Serializable {
 
     /***/
     public AmmoCard(String ID, AmmoList ammunitions, boolean isPowerUp){

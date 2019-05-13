@@ -4,7 +4,8 @@ public class ViewControllerEventString extends ViewControllerEvent {
 
     private String input;
 
-    public void ViewControllerEventString(String input){
+    public ViewControllerEventString(String input){
+        super();
         this.input = input;
     }
 

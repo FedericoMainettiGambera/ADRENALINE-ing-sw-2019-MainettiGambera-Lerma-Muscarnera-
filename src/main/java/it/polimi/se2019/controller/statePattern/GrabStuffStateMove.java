@@ -1,6 +1,7 @@
 package it.polimi.se2019.controller.statePattern;
 
 import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.ViewControllerEvent;
@@ -25,6 +26,8 @@ public class GrabStuffStateMove implements State {
             this.numberOfMovement = 2;
         }
         //ask using the numberOfMovement
+        SelectorGate.selector.setPlayerToAsk(playerToAsk);
+        SelectorGate.selector.askGrabStuffMove(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(),this.numberOfMovement));
     }
 
     @Override

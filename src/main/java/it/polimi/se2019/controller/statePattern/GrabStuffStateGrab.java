@@ -20,29 +20,41 @@ public class GrabStuffStateGrab implements State {
     @Override
     public void askForInput(Player playerToAsk) {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+    }
 
-        if(ModelGate.model.getBoard().getSquare(ModelGate.model.getCurrentPlayingPlayer().getPosition()).getSquareType() == SquareTypes.spawnPoint){
+    @Override
+    public void doAction(ViewControllerEvent VCE) {
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        //the player is in a spawnpoint
+        if(ModelGate.model.getBoard().getSquare(ModelGate.model.getCurrentPlayingPlayer().getPosition()).getSquareType()
+                == SquareTypes.spawnPoint){
             ViewControllerEventHandlerContext.setNextState(new GrabStuffStateGrabWeapon(this.actionNumber));
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
-        else if(ModelGate.model.getBoard().getSquare(ModelGate.model.getCurrentPlayingPlayer().getPosition()).getSquareType() == SquareTypes.normal){
+        //the player is in a normal square
+        else if(ModelGate.model.getBoard().getSquare(ModelGate.model.getCurrentPlayingPlayer().getPosition()).getSquareType()
+                == SquareTypes.normal){
 
             AmmoCard ammoCard = (AmmoCard)((NormalSquare)ModelGate.model.getBoard().getSquare(
                     ModelGate.model.getCurrentPlayingPlayer().getPosition())
-                    ).getAmmoCards().getFirstCard();
+            ).getAmmoCards().getFirstCard();
 
-            //draw ammocubes
+            //grab ammocubes
             ModelGate.model.getCurrentPlayingPlayer().addAmmoCubes(ammoCard.getAmmunitions());
 
-            //set next state
+            //set next state:
+
+            //grab a power up and the player's hand is already full
             if((ammoCard.isPowerUp())&&(ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().size() >=2)){
                 ViewControllerEventHandlerContext.setNextState(new GrabStuffStateDrawAndDiscardPowerUp(this.actionNumber));
                 ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
             }
+            //grab a power up and the player's hand is not full
             else if(ammoCard.isPowerUp()){
                 ViewControllerEventHandlerContext.setNextState(new GrabStuffStateDrawPowerUp(this.actionNumber));
                 ViewControllerEventHandlerContext.state.doAction(null);
             }
+            // the player doesn't have to grab a power up
             else{
                 if(actionNumber==1){
                     ViewControllerEventHandlerContext.setNextState(new TurnState(2));
@@ -54,11 +66,5 @@ public class GrabStuffStateGrab implements State {
                 ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
             }
         }
-
-    }
-
-    @Override
-    public void doAction(ViewControllerEvent VCE) {
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
     }
 }

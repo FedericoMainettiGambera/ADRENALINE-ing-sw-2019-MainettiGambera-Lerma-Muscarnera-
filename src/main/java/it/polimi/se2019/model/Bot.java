@@ -1,7 +1,9 @@
 package it.polimi.se2019.model;
 
+import java.io.Serializable;
+
 /***/
-public class Bot extends Person {
+public class Bot extends Person implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:

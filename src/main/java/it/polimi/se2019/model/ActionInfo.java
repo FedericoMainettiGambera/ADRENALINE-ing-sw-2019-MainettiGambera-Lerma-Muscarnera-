@@ -1,7 +1,9 @@
 package it.polimi.se2019.model;
 
+import java.io.Serializable;
+
 /***/
-public class ActionInfo {
+public class ActionInfo implements Serializable {
     public static boolean notNullAndNotDefault(Object a) {
         if( !(((String) a ).equals("DEFAULT"))  && (a != null) ) {
             return true;

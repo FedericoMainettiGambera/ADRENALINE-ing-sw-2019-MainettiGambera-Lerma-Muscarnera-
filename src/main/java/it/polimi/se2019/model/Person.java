@@ -3,6 +3,7 @@ package it.polimi.se2019.model;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Observable;
@@ -11,7 +12,7 @@ import java.util.Observable;
  * There are all the methods needed to do any action required during the game.
  * @author FedericoMainettiGambera
  * */
-public abstract class Person extends Observable {
+public abstract class Person extends Observable implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor

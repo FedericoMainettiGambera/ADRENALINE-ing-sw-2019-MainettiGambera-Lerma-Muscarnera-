@@ -1,6 +1,7 @@
 package it.polimi.se2019.controller.statePattern;
 
 import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.WeaponCard;
@@ -18,6 +19,8 @@ public class ReloadState implements State{
 
         if(canReload()){
             //ask if they want to reload
+            SelectorGate.selector.setPlayerToAsk(playerToAsk);
+            SelectorGate.selector.askIfReload();
         }
         else{
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());

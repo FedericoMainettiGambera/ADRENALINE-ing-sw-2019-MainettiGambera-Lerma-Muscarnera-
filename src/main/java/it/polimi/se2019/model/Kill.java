@@ -1,10 +1,11 @@
 package it.polimi.se2019.model;
 
 
+import java.io.Serializable;
 import java.util.Observable;
 
 /** each instance of this class represents a single box of the killshot track */
-public class Kill extends Observable {
+public class Kill extends Observable implements Serializable {
     /*-****************************************************************************************************CONSTRUCTOR*/
 
     /**COnstructor:

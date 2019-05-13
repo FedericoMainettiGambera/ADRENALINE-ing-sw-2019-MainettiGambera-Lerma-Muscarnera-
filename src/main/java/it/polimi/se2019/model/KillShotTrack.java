@@ -1,12 +1,13 @@
 package it.polimi.se2019.model;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
 /**regular killshot track*/
-public class KillShotTrack extends Observable {
+public class KillShotTrack extends Observable implements Serializable {
     /* **************************************************************************CONSTRUCTOR*/
 
     /**

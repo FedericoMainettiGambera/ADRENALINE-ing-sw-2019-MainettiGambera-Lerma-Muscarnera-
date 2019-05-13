@@ -13,6 +13,7 @@ public class ViewControllerEventGameSetUp extends ViewControllerEvent {
     private boolean isBotActive;
 
     public ViewControllerEventGameSetUp(String gameMode, String mapChoice, int numberOfStartingSkulls, boolean isFinalFrenzy, boolean isBotActive){
+        super();
         this.gameMode = gameMode;
         this.mapChoice = mapChoice;
         this.numberOfStartingSkulls = numberOfStartingSkulls;

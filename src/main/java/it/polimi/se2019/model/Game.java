@@ -2,13 +2,19 @@ package it.polimi.se2019.model;
 
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.Observable;
 
 /***/
-public class Game extends Observable {
+public class Game extends Observable implements Serializable {
 
     /***/
     public Game() {
+        this.powerUpDeck = new OrderedCardList<>();
+        this.weaponDeck = new OrderedCardList<>();
+        this.ammoDeck = new OrderedCardList<>();
+        this.ammoDiscardPile = new OrderedCardList<>();
+        this.powerUpDiscardPile = new OrderedCardList<>();
     }
 
     /***/
@@ -97,12 +103,6 @@ public class Game extends Observable {
     }
 
     public void buildDecks() {
-
-        this.powerUpDeck = new OrderedCardList<>();
-        this.weaponDeck = new OrderedCardList<>();
-        this.ammoDeck = new OrderedCardList<>();
-        this.ammoDiscardPile = new OrderedCardList<>();
-        this.powerUpDiscardPile = new OrderedCardList<>();
 
         //builds weapon cards
         File directory = new File("src/main/Files/cards/weaponCards");     // insert here path to weapon cards folder

@@ -1,9 +1,10 @@
 package it.polimi.se2019.model;
 
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /***/
-public class Player extends Person{
+public class Player extends Person implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /***/

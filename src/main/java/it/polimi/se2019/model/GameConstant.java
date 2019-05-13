@@ -1,8 +1,10 @@
 package it.polimi.se2019.model;
 
 
+import java.io.Serializable;
+
 /***/
-public class GameConstant {
+public class GameConstant implements Serializable {
 
     /***/
     public GameConstant() {

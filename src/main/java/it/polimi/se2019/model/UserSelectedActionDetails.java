@@ -2,7 +2,9 @@ package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.enumerations.CardinalPoint;
 
-public class UserSelectedActionDetails {
+import java.io.Serializable;
+
+public class UserSelectedActionDetails implements Serializable {
     public void itNeeds(Object ... neededObjects) {           // notify the model/view that these fields need to be filled by the user
         boolean isOk = true;
         for(Object n: neededObjects ) {

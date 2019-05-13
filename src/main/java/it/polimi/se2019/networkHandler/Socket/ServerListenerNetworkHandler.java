@@ -1,6 +1,8 @@
 package it.polimi.se2019.networkHandler.Socket;
 
+import it.polimi.se2019.model.events.Event;
 import it.polimi.se2019.model.events.ModelViewEvent;
+import it.polimi.se2019.view.View;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,9 +18,9 @@ public class ServerListenerNetworkHandler extends Observable implements Runnable
 
     private ObjectInputStream ois;
 
-    private Observer view;
+    private View view;
 
-    public ServerListenerNetworkHandler(Socket socket, ObjectInputStream ois, Observer view){
+    public ServerListenerNetworkHandler(Socket socket, ObjectInputStream ois, View view){
             this.socket = socket;
             this.isSocketLive = true;
             this.ois = ois;
@@ -41,10 +43,9 @@ public class ServerListenerNetworkHandler extends Observable implements Runnable
     public void run() {
         while(isSocketLive){
             try {
-                ModelViewEvent MVE = (ModelViewEvent)this.ois.readObject();
-
+                Event E = (Event)this.ois.readObject();
                 this.setChanged();
-                this.notifyObservers(MVE);
+                this.notifyObservers(E);
             }
             catch (IOException|ClassNotFoundException e) {
                 e.printStackTrace();

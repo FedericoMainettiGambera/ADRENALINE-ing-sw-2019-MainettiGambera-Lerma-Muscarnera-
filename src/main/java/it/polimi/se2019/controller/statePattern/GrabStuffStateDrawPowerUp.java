@@ -37,13 +37,14 @@ public class GrabStuffStateDrawPowerUp implements State {
         }
 
         //set next state
+        State state = null;
         if(this.actionNumber == 1){
-            ViewControllerEventHandlerContext.setNextState(new TurnState(2));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            state = new TurnState(2);
         }
         if(this.actionNumber == 2) {
-            ViewControllerEventHandlerContext.setNextState(new ReloadState());
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            state = new ReloadState();
         }
+        ViewControllerEventHandlerContext.setNextState(state);
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 }

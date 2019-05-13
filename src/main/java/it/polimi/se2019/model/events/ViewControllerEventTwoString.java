@@ -3,9 +3,10 @@ package it.polimi.se2019.model.events;
 public class ViewControllerEventTwoString extends ViewControllerEvent {
     private String input1;
 
-    private  String input2;
+    private String input2;
 
-    public void ViewControllerEventString(String input1, String input2){
+    public ViewControllerEventTwoString(String input1, String input2){
+        super();
         this.input1 = input1;
         this.input2 = input2;
 

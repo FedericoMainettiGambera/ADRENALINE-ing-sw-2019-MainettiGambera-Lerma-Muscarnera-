@@ -3,7 +3,8 @@ package it.polimi.se2019.model.events;
 public class ViewControllerEventInt extends ViewControllerEvent {
     private int input;
 
-    public void ViewControllerEventInt(int Input){
+    public ViewControllerEventInt(int Input){
+        super();
         this.input = input;
     }
 

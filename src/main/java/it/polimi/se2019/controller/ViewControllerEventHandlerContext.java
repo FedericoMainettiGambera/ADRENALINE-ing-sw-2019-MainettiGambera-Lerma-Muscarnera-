@@ -20,6 +20,5 @@ public class ViewControllerEventHandlerContext implements Observer {
     public void update(Observable o, Object arg) {
         ViewControllerEvent VCE = (ViewControllerEvent) arg;
         state.doAction(VCE);
-
     }
 }

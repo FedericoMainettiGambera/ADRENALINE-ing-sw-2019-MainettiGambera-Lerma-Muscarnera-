@@ -4,6 +4,7 @@ import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.*;
+import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.SquareTypes;
 import it.polimi.se2019.model.events.ViewControllerEvent;
 import it.polimi.se2019.model.events.ViewControllerEventGameSetUp;
@@ -63,7 +64,35 @@ public class GameSetUpState implements State {
             ModelGate.model.setBot(new Bot(VCEGameSetUp.isBotActive()));
 
             //create cards
-            ModelGate.model.buildDecks();
+            System.out.println("<SERVER> Building decks.");
+            //ModelGate.model.buildDecks();
+
+            System.out.println("<SERVER> adding 100 fake ammo cards to the ammoDeck.");
+            AmmoList ammoList = new AmmoList();
+            ammoList.addAmmoCubesOfColor(AmmoCubesColor.yellow, 2);
+            for (int i = 0; i < 100; i++) {
+                ModelGate.model.getAmmoDeck().getCards().add(new AmmoCard("fake", ammoList, false));
+            }
+            System.out.println("<SERVER> adding 100 fake WeaponCards to the weaponDeck.");
+            for (int i = 0; i < 100; i++) {
+                try {
+                    ModelGate.model.getWeaponDeck().getCards().add(new WeaponCard("fake"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println("<SERVER> adding 100 fake PowerUpCards to the powerUpDeck.");
+            for (int i = 0; i < 100; i++) {
+                try {
+                    ModelGate.model.getPowerUpDeck().getCards().add(new PowerUpCard("fake"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                }
+            }
 
             //shuffles cards
             ModelGate.model.getPowerUpDeck().shuffle();
@@ -72,23 +101,31 @@ public class GameSetUpState implements State {
 
             //place cards on the board
             for(int i =0; i<ModelGate.model.getBoard().getMap().length;i++){
+
                 for(int j=0; j<ModelGate.model.getBoard().getMap()[0].length; j++){
+
                     Square timeSquare=ModelGate.model.getBoard().getSquare(i,j);//lol cuz its a temporary square
-                    if( timeSquare.getSquareType()== SquareTypes.normal){
+
+                    if( (timeSquare!=null) && (timeSquare.getSquareType() == SquareTypes.normal) ){
                         OrderedCardList<AmmoCard> ammoCards=((NormalSquare)timeSquare).getAmmoCards();
                         ModelGate.model.getAmmoDeck().moveCardTo(
                                 ammoCards,
                                 ModelGate.model.getAmmoDeck().getFirstCard().getID()
                         );
+
                     }
-                    else if(timeSquare.getSquareType()==SquareTypes.spawnPoint){
+                    else if((timeSquare!=null) && (timeSquare.getSquareType()==SquareTypes.spawnPoint)){
+
                         OrderedCardList<WeaponCard> weaponCards=((SpawnPointSquare)timeSquare).getWeaponCards();
                         for(int t=0; t<3; t++){
+
                             ModelGate.model.getWeaponDeck().moveCardTo(
                                     weaponCards,
                                     ModelGate.model.getWeaponDeck().getFirstCard().getID()
                             );
+
                         }
+
                     }
                 }
             }

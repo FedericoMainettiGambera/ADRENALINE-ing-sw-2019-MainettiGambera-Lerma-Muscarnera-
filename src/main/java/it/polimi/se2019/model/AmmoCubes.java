@@ -2,6 +2,7 @@ package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 
+import java.io.Serializable;
 import java.util.Observable;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Observable;
  * The AmmoCubes class keeps track of the number of cubes of a specific color a player has.
  * @author FedericoMainettiGambera
  * */
-public class AmmoCubes extends Observable {
+public class AmmoCubes extends Observable implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:

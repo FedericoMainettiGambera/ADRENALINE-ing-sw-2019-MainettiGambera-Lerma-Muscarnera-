@@ -36,10 +36,13 @@ public class PlayerSetUpState implements State {
        ViewControllerEventPlayerSetUp VCEPlayerSetUp = (ViewControllerEventPlayerSetUp) VCE;
 
         //set nickname and color
+       System.out.println("<SERVER> Setting Nickname: " + VCEPlayerSetUp.getNickname());
        ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setNickname(VCEPlayerSetUp.getNickname());
+       System.out.println("<SERVER> Setting Color: " + VCEPlayerSetUp.getColor());
        ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setColor(VCEPlayerSetUp.getColor());
 
        //draw two power up cards
+       System.out.println("<SERVER> draw two power up cards.");
        for(int i = 0; i < 2; i++){
            ModelGate.model.getPowerUpDeck().moveCardTo(
                    ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPowerUpCardsInHand(),
@@ -48,11 +51,13 @@ public class PlayerSetUpState implements State {
        }
 
        //set starting ammocubes
+       System.out.println("<SERVER> setting starting ammo cubes");
        for(AmmoCubesColor color: AmmoCubesColor.values() ) {
            ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPlayerBoard().addAmmoCubes(color, GameConstant.NumberOfStartingAmmos);
        }
 
        numberOfPlayersSet++;
+       System.out.println("<SERVER> number of player ready to play: " + numberOfPlayersSet + " of " + numberOfPlayer);
 
        if(numberOfPlayersSet < numberOfPlayer - 1) {
            ModelGate.model.getPlayerList().setNextPlayingPlayer();
@@ -61,6 +66,7 @@ public class PlayerSetUpState implements State {
        else{
            //set Current Playing player
            ModelGate.model.getPlayerList().setCurrentPlayingPlayer(ModelGate.model.getPlayerList().getStartingPlayer());
+           System.out.println("<SERVER> All players are ready. Game begins with " + ModelGate.model.getCurrentPlayingPlayer().getNickname());
 
            //set next State
            ViewControllerEventHandlerContext.setNextState(new FirstSpawnState());

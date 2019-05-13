@@ -1,5 +1,6 @@
 package it.polimi.se2019.model;
 
+import java.io.Serializable;
 import java.util.Observable;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Observable;
  * The MarksSlots class keeps track of the number of marks a player has received from another player.
  * @author FedericoMainettiGambera
  * */
-public class MarkSlots extends Observable {
+public class MarkSlots extends Observable implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
