@@ -52,7 +52,7 @@ public class Game extends Observable implements Serializable {
         return this.getPlayerList().getCurrentPlayingPlayer();
     }
 
-    public void setNextPlayingPlayer(){
+    public void setNextPlayingPlayer(Player currentPlayingPlayer){
         this.getPlayerList().setNextPlayingPlayer();
     }
 
@@ -105,7 +105,7 @@ public class Game extends Observable implements Serializable {
     public void buildDecks() {
 
         //builds weapon cards
-        File directory = new File("src/main/Files/cards/weaponCards");     // insert here path to weapon cards folder
+        File directory = new File("src/main/Files/cards/weaponCards/cardfake.set");     // insert here path to weapon cards folder
         int fileCount = directory.list().length;
         for(int i = 0; i< fileCount;i++) {
              try {
@@ -118,7 +118,7 @@ public class Game extends Observable implements Serializable {
         }
 
         //builds power up cards
-        directory = new File("src/main/Files/cards/powerUpCards");          // insert here path to power up cards folder
+        directory = new File("src/main/Files/cards/powerUpCards/cardfake.set");          // insert here path to power up cards folder
         fileCount = directory.list().length;
         for(int i = 0; i< fileCount;i++) {
             try {
