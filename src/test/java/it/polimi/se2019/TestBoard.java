@@ -18,19 +18,32 @@ public class TestBoard {
     @Test
     public void testBuildMap()throws IOException,Exception {
 
-        String s="map0";
-        Square[][] map=null;
-        Position pos=new Position(0,0);
-
+        String s = "map0";
+        Square[][] map = null;
+        Position pos = new Position(0, 0);
+        Position pos2 = new Position(0, 2);
+        Position po3 = new Position(0, 0);
 
         Board c;
         Board b = new Board(s);
-        map=b.getMap();
+        map = b.getMap();
+//testin SpawnPointOfCOlorMethod
+        po3 = b.getSpawnpointOfColor(AmmoCubesColor.blue);
+        assertEquals(pos2.getX(), po3.getX());
+        assertEquals(pos2.getY(), po3.getY());
+
+        po3 = b.getSpawnpointOfColor(AmmoCubesColor.yellow);
+        pos2 = new Position(2, 3);
+        assertEquals(pos2.getX(), po3.getX());
+        assertEquals(pos2.getY(), po3.getY());
+
+        po3 = b.getSpawnpointOfColor(AmmoCubesColor.red);
+        pos2 = new Position(1, 0);
+        assertEquals(pos2.getX(), po3.getX());
+        assertEquals(pos2.getY(), po3.getY());
 
 
-        b.getSpawnpointOfColor(AmmoCubesColor.blue);
-
-
+//BuildMap method
         assertEquals(0, map[0][0].getCoordinates().getX());
         assertEquals(0, map[0][0].getCoordinates().getY());
         assertEquals(SquareSide.wall, map[0][0].getSide(CardinalPoint.north));
@@ -39,6 +52,11 @@ public class TestBoard {
         assertEquals(SquareTypes.spawnPoint, map[1][0].getSquareType());
         assertEquals(SquareTypes.spawnPoint, map[2][3].getSquareType());
 
+        String mapp="map1";
+        b=new Board(mapp);
+        map=b.getMap();
+        assertEquals(SquareSide.wall, map[0][0].getSide(CardinalPoint.north));
+        assertEquals(SquareSide.wall, map[0][3].getSide(CardinalPoint.north));
         /*
         try {
             pos=b.getSpawnpointOfColor(AmmoCubesColor.blue);
@@ -49,11 +67,14 @@ public class TestBoard {
         assertEquals(pos,map[0][2].getCoordinates() );
         */
 
-    }
+        //Possible Position
 
-    @Test
-    public void testBuildMapException(){
-
+        b=new Board(s);
+        pos2=new Position(0,0);
+        po3=new Position(0,2);
+        assertEquals(po3.getX(), b.possiblePositions(pos2,2).get(0).getX());
+        po3=new Position(1,1);
+        assertEquals(po3.getX(), b.possiblePositions(pos2,2).get(1).getX());
 
 
     }

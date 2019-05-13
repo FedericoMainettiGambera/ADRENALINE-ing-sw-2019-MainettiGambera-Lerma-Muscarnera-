@@ -45,7 +45,7 @@ public class Kill extends Observable implements Serializable {
 
     /**@return the killing player if ther is, or an exception*/
     public Player getKillingPlayer() throws Exception{
-        if(!isSkull && this.killingPlayer!=null) {
+        if(!isSkull && this.killingPlayer!=null){
             return killingPlayer;
         }
         else {
