@@ -3,6 +3,7 @@ package it.polimi.se2019;
 import it.polimi.se2019.model.Board;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.Square;
+import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.SquareTypes;
@@ -15,7 +16,7 @@ import static junit.framework.TestCase.assertEquals;
 
 public class TestBoard {
     @Test
-    public void testBuildMap()throws IOException {
+    public void testBuildMap()throws IOException,Exception {
 
         String s="map0";
         Square[][] map=null;
@@ -27,6 +28,7 @@ public class TestBoard {
         map=b.getMap();
 
 
+        b.getSpawnpointOfColor(AmmoCubesColor.blue);
 
 
         assertEquals(0, map[0][0].getCoordinates().getX());
