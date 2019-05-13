@@ -59,9 +59,9 @@ public class PlayerSetUpState implements State {
        numberOfPlayersSet++;
        System.out.println("<SERVER> number of player ready to play: " + numberOfPlayersSet + " of " + numberOfPlayer);
 
-       if(numberOfPlayersSet < numberOfPlayer - 1) {
+       if(numberOfPlayersSet < numberOfPlayer ) {
            ModelGate.model.getPlayerList().setNextPlayingPlayer();
-           ViewControllerEventHandlerContext.state.doAction(null);
+           ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
        }
        else{
            //set Current Playing player

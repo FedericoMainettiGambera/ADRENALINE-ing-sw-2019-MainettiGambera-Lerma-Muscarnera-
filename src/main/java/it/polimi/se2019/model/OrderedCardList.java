@@ -36,7 +36,7 @@ public class OrderedCardList<T> extends Observable implements Serializable {
      * */
     public T getCard(String ID){
         for (int i = 0; i < this.cards.size(); i++) {
-            if( ((Card)this.cards.get(i)).getID() == ID ){
+            if( ((Card)this.cards.get(i)).getID().equals(ID) ){
                 return this.cards.get(i);
             }
         }

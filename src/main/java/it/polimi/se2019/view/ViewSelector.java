@@ -6,6 +6,7 @@ import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.ViewControllerEventGameSetUp;
 import it.polimi.se2019.model.events.ViewControllerEventPlayerSetUp;
+import it.polimi.se2019.model.events.ViewControllerEventString;
 import it.polimi.se2019.networkHandler.NetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.virtualView.Selector;
@@ -97,12 +98,46 @@ public class ViewSelector implements Selector {
 
     @Override
     public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards) {
+        System.out.println("<CLIENT> choose the PowerUp to discard and spawn to: ");
+        for (int i = 0; i < powerUpCards.size(); i++) {
+            System.out.println("    " + powerUpCards.get(i).getID() + ": " + powerUpCards.get(i).getColor());
+        }
+
+        Scanner br = new Scanner(System.in);
+        String cardID = br.nextLine();
+
+        ViewControllerEventString VCEString = new ViewControllerEventString(cardID);
+        try {
+            SocketNetworkHandler.oos.writeObject(VCEString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
     @Override
     public void askTurnAction(int actionNumber) {
+        if(actionNumber == 1) {
+            System.out.println("<SERVER> Choose your first action");
+        }
+        else{
+            System.out.println("<SERVER> Choose your second action");
+        }
+        System.out.println(
+                "   run around\n"+
+                "   grab stuff\n"+
+                "   shoot people"
+        );
 
+        Scanner br = new Scanner(System.in);
+
+        ViewControllerEventString VCEString = new ViewControllerEventString(br.nextLine());
+        try {
+            SocketNetworkHandler.oos.writeObject(VCEString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

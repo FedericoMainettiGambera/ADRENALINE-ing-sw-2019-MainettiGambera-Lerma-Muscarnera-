@@ -20,7 +20,7 @@ public class FirstSpawnState implements State {
     @Override
     public void askForInput(Player playerToAsk){
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
-        //ask to "playerToAsk" inputs
+        //ask to "playerToAsk" what power up he want to discard to spawn on its correspondent SpawnPointColor
         SelectorGate.selector.setPlayerToAsk(playerToAsk);
         SelectorGate.selector.askFirstSpawnPosition((ArrayList)playerToAsk.getPowerUpCardsInHand().getCards());
     }
@@ -34,15 +34,19 @@ public class FirstSpawnState implements State {
         //set spawning position
         PowerUpCard cardChosen = ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCard(VCEPowerUpId.getInput());
         Position spawnPosition = null;
+        System.out.println("<SERVER> choosen card: " + cardChosen.getID());
+        System.out.println("<SERVER> choosen color: " + cardChosen.getColor());
         try {
             spawnPosition = ModelGate.model.getBoard().getSpawnpointOfColor(cardChosen.getColor());
         } catch (Exception e) {
             e.printStackTrace();
         }
         ModelGate.model.getCurrentPlayingPlayer().setPosition(spawnPosition);
+        System.out.println("<SERVER> Spawning in the SpawnPoint of color " + cardChosen.getColor() + ", in coordinates X:(" +spawnPosition.getX() + "), Y:(" + spawnPosition.getY() + ").");
 
 
         //discard the power up card
+        System.out.println("<SERVER> Discarding the choosen power up");
         ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
                 ModelGate.model.getPowerUpDiscardPile(),
                 VCEPowerUpId.getInput()

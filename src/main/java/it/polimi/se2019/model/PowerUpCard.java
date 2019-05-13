@@ -19,7 +19,7 @@ public class PowerUpCard extends Card implements Serializable {
 
     public PowerUpCard(){
         super("fake");
-        this.color = null;
+        this.color = yellow;
         this.specialEffect = null;
     }
 

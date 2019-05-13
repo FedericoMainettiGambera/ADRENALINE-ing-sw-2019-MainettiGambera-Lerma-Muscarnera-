@@ -117,7 +117,7 @@ public class AmmoList extends Observable implements Serializable {
                 }
             }
         }
-        //???
+        /*error case*/
         return false;
     }
 
@@ -145,7 +145,6 @@ public class AmmoList extends Observable implements Serializable {
             }
         }
         /*error case*/
-        ///?????
         return false;
     }
 }

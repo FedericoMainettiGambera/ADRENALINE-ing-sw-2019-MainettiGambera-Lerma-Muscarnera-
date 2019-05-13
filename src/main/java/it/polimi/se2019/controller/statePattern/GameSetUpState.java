@@ -85,13 +85,7 @@ public class GameSetUpState implements State {
             }
             System.out.println("<SERVER> adding 100 fake PowerUpCards to the powerUpDeck.");
             for (int i = 0; i < 100; i++) {
-                try {
-                    ModelGate.model.getPowerUpDeck().getCards().add(new PowerUpCard("fake"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                }
+                ModelGate.model.getPowerUpDeck().getCards().add(new PowerUpCard());
             }
 
             //shuffles cards
