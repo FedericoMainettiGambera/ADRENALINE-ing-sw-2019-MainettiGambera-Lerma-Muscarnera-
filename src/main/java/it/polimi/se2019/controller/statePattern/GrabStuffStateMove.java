@@ -37,12 +37,13 @@ public class GrabStuffStateMove implements State {
         ViewControllerEventPosition VCEPosition = (ViewControllerEventPosition)VCE;
 
         //set new position for the player
+        System.out.println("<SERVER> moving player to position: [" +VCEPosition.getX()+ "][" +VCEPosition.getY() + "]");
         ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setPosition(
                 VCEPosition.getX(),
                 VCEPosition.getY()
         );
 
         ViewControllerEventHandlerContext.setNextState(new GrabStuffStateGrab(this.actionNumber));
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        ViewControllerEventHandlerContext.state.doAction(null);
     }
 }

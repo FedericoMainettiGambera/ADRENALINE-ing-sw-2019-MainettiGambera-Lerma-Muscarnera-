@@ -4,10 +4,7 @@ import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.PlayersColors;
-import it.polimi.se2019.model.events.ViewControllerEventGameSetUp;
-import it.polimi.se2019.model.events.ViewControllerEventPlayerSetUp;
-import it.polimi.se2019.model.events.ViewControllerEventPosition;
-import it.polimi.se2019.model.events.ViewControllerEventString;
+import it.polimi.se2019.model.events.*;
 import it.polimi.se2019.networkHandler.NetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.virtualView.Selector;
@@ -162,22 +159,82 @@ public class ViewSelector implements Selector {
 
     @Override
     public void askGrabStuffAction() {
+        System.out.println("<CLIENT> Do you want to:\n" +
+                "   0) move to another position and grab there\n" +
+                "   1) grab where you are without moving\n" +
+                "   ?");
+        Scanner br = new Scanner(System.in);
 
+        int choosenAction = br.nextInt();
+        String action;
+        if(choosenAction == 0){
+            action = "move";
+        }
+        else{
+            action = "grab";
+        }
+        ViewControllerEventString VCEString = new ViewControllerEventString(action);
+        try {
+            SocketNetworkHandler.oos.writeObject(VCEString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void askGrabStuffMove(ArrayList<Position> positions) {
-
+        askRunAroundPosition(positions);
     }
 
     @Override
     public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp) {
+        System.out.println("Choose one to pick up:");
 
+        Scanner br = new Scanner(System.in);
+
+        for (int i = 0; i < toPickUp.size(); i++) {
+            System.out.println( "   " +i + ") " + toPickUp.get(i).getID() + ":\n" + toPickUp.get(i).getPickUpCost().toString());
+        }
+
+        String toPickUpID = toPickUp.get(br.nextInt()).getID();
+
+        ViewControllerEventString VCEString = new ViewControllerEventString(toPickUpID);
+        try {
+            SocketNetworkHandler.oos.writeObject(VCEString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void askGrabStuffSwitchWeapon(ArrayList<WeaponCard> toPickUp, ArrayList<WeaponCard> toSwitch) {
+        System.out.println("you already have the maximum quantity of weapon you can hold.");
+        System.out.println("Choose one to pick up and one to discard.");
+        System.out.println("To pick up:");
+        for (int i = 0; i < toPickUp.size(); i++) {
+            System.out.println( "   " +i + ") " + toPickUp.get(i).getID() + ":\n" + toPickUp.get(i).getPickUpCost().getAmmoCubesList().toString());
+        }
 
+        Scanner br = new Scanner(System.in);
+        int choosenToPickUp = br.nextInt();
+
+        String toPickUpID = toPickUp.get(choosenToPickUp).getID();
+
+        System.out.println("Switch with:");
+        for (int i = 0; i < toSwitch.size(); i++) {
+            System.out.println( "   " +i + ") " + toSwitch.get(i).getID());
+        }
+
+        int choosenToDiscard= br.nextInt();
+
+        String toDiscardID = toSwitch.get(choosenToDiscard).getID();
+
+        ViewControllerEventTwoString VCETwoString = new ViewControllerEventTwoString(toPickUpID, toDiscardID);
+        try {
+            SocketNetworkHandler.oos.writeObject(VCETwoString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

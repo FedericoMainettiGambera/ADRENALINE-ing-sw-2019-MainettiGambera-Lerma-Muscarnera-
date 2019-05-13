@@ -35,7 +35,7 @@ public class GrabStuffStateGrabWeapon implements  State {
             SelectorGate.selector.askGrabStuffSwitchWeapon(toPickUp, toDiscard);
         }
         else {
-            //ask what weapon
+            //ask what weapon to pick up
             SelectorGate.selector.askGrabStuffGrabWeapon(toPickUp);
         }
     }
@@ -58,9 +58,11 @@ public class GrabStuffStateGrabWeapon implements  State {
             //reload toDiscard
             toDiscard.reload();
             //discard old weapon
+            System.out.println("<SERVER> discarding card: " + toDiscard.getID());
             playerWeapons.moveCardTo(squareWeapons,toDiscard.getID());
 
             //draw new weapon
+            System.out.println("<SERVER> picking up new card: " + toDraw.getID());
             ModelGate.model.getCurrentPlayingPlayer().payAmmoCubes(toDraw.getPickUpCost());
             squareWeapons.moveCardTo(playerWeapons, toDraw.getID());
         }
@@ -69,6 +71,7 @@ public class GrabStuffStateGrabWeapon implements  State {
             WeaponCard toDraw = squareWeapons.getCard(VCEString.getInput());
 
             //draw the weapon
+            System.out.println("<SERVER> picking up new card: " + toDraw.getID());
             ModelGate.model.getCurrentPlayingPlayer().payAmmoCubes(toDraw.getPickUpCost());
             squareWeapons.moveCardTo(playerWeapons, toDraw.getID());
         }
