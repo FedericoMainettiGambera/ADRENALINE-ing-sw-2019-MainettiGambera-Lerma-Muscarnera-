@@ -5,10 +5,7 @@ import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
-import it.polimi.se2019.model.events.SelectorEvent;
-import it.polimi.se2019.model.events.SelectorEventInt;
-import it.polimi.se2019.model.events.SelectorEventPositions;
-import it.polimi.se2019.model.events.SelectorEventPowerUpCards;
+import it.polimi.se2019.model.events.*;
 import it.polimi.se2019.virtualView.Selector;
 
 import java.io.IOException;
@@ -89,7 +86,7 @@ public class VirtualViewSelector implements Selector {
     public void askGrabStuffMove(ArrayList<Position> positions) {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
-            oos.writeObject(new SelectorEvent(SelectorEventTypes.askGrabStuffMove));
+            oos.writeObject(new SelectorEventPositions(SelectorEventTypes.askGrabStuffMove, positions));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -99,7 +96,7 @@ public class VirtualViewSelector implements Selector {
     public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp) {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
-            oos.writeObject(new SelectorEvent(SelectorEventTypes.askGrabStuffGrabWeapon));
+            oos.writeObject(new SelectorEventWeaponCards(SelectorEventTypes.askGrabStuffGrabWeapon, toPickUp));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -109,7 +106,7 @@ public class VirtualViewSelector implements Selector {
     public void askGrabStuffSwitchWeapon(ArrayList<WeaponCard> toPickUp, ArrayList<WeaponCard> toSwitch) {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
-            oos.writeObject(new SelectorEvent(SelectorEventTypes.askGrabStuffSwitchWeapon));
+            oos.writeObject(new SelectorEventDoubleWeaponCards(SelectorEventTypes.askGrabStuffSwitchWeapon, toPickUp, toSwitch));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -119,7 +116,7 @@ public class VirtualViewSelector implements Selector {
     public void askPowerUpToDiscard(ArrayList<PowerUpCard> toDiscard) {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
-            oos.writeObject(new SelectorEvent(SelectorEventTypes.askPowerUpToDiscard));
+            oos.writeObject(new SelectorEventPowerUpCards(SelectorEventTypes.askPowerUpToDiscard,toDiscard));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -139,7 +136,7 @@ public class VirtualViewSelector implements Selector {
     public void askWhatReaload(ArrayList<WeaponCard> toReload) {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
-            oos.writeObject(new SelectorEvent(SelectorEventTypes.askWhatReaload));
+            oos.writeObject(new SelectorEventWeaponCards(SelectorEventTypes.askWhatReaload,toReload));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -149,7 +146,7 @@ public class VirtualViewSelector implements Selector {
     public void askSpawn(ArrayList<PowerUpCard> powerUpCards) {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
-            oos.writeObject(new SelectorEvent(SelectorEventTypes.askSpawn));
+            oos.writeObject(new SelectorEventPowerUpCards(SelectorEventTypes.askSpawn, powerUpCards));
         } catch (IOException e) {
             e.printStackTrace();
         }

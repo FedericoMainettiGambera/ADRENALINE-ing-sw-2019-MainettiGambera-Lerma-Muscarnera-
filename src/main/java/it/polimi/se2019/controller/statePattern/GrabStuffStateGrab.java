@@ -20,6 +20,7 @@ public class GrabStuffStateGrab implements State {
     @Override
     public void askForInput(Player playerToAsk) {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        //empty
     }
 
     @Override
@@ -28,18 +29,20 @@ public class GrabStuffStateGrab implements State {
         //the player is in a spawnpoint
         if(ModelGate.model.getBoard().getSquare(ModelGate.model.getCurrentPlayingPlayer().getPosition()).getSquareType()
                 == SquareTypes.spawnPoint){
+            System.out.println("<SERVER> Player is in a SpawnPointSquare");
             ViewControllerEventHandlerContext.setNextState(new GrabStuffStateGrabWeapon(this.actionNumber));
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
         //the player is in a normal square
         else if(ModelGate.model.getBoard().getSquare(ModelGate.model.getCurrentPlayingPlayer().getPosition()).getSquareType()
                 == SquareTypes.normal){
-
+            System.out.println("<SERVER> Player is in a NormalSquare");
             AmmoCard ammoCard = (AmmoCard)((NormalSquare)ModelGate.model.getBoard().getSquare(
                     ModelGate.model.getCurrentPlayingPlayer().getPosition())
             ).getAmmoCards().getFirstCard();
 
             //grab ammocubes
+            System.out.println("<SERVER> Grabbing ammo cubes");
             ModelGate.model.getCurrentPlayingPlayer().addAmmoCubes(ammoCard.getAmmunitions());
 
             //set next state:
