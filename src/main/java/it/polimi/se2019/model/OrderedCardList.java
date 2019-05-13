@@ -1,5 +1,6 @@
 package it.polimi.se2019.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Observable;
  * PowerUpCards in game decks or players hands.
  * @author FedericoMainettiGambera
  * */
-public class OrderedCardList<T> extends Observable {
+public class OrderedCardList<T> extends Observable implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:

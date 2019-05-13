@@ -1,11 +1,17 @@
 package it.polimi.se2019.model.events;
 
 
+import it.polimi.se2019.model.enumerations.EventTypes;
+
 public abstract class Event {
 
-    /*-****************************************************************************************************CONSTRUCTOR*/
+    private EventTypes eventType ;
 
-    /*-*****************************************************************************************************ATTRIBUTES*/
+    public void setEventType(EventTypes eventType){
+        this.eventType = eventType;
+    }
 
-    /*-********************************************************************************************************METHODS*/
+    public EventTypes getEventType(){
+        return this.eventType;
+    }
 }

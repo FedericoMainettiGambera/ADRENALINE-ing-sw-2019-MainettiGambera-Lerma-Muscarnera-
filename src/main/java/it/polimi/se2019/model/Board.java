@@ -146,7 +146,6 @@ public class Board {
 
                         type = SquareTypes.spawnPoint;
                         map[i][j] = new SpawnPointSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color);
-                        System.out.println(map[i][j].getColor());
                         spawnPointslist[s]=map[i][j];
                         s++;
 

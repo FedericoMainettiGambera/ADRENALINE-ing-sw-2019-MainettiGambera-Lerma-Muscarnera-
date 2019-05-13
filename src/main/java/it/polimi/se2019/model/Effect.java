@@ -1,11 +1,12 @@
 package it.polimi.se2019.model;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /***/
-public class Effect {
+public class Effect implements Serializable {
     /*-****************************************************************************************************CONSTRUCTOR*/
     /***/
     public Effect(String description, List<Action> actions) {

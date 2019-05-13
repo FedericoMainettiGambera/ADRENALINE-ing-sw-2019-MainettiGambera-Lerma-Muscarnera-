@@ -1,8 +1,10 @@
 package it.polimi.se2019.model;
 
 
+import java.io.Serializable;
+
 /***/
-public class Mark extends Action {
+public class Mark extends Action implements Serializable {
 
     @Override
     public void setDefaultSetting() {

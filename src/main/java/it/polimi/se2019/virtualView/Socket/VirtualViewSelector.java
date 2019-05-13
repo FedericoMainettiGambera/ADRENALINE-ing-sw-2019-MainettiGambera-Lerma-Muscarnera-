@@ -6,6 +6,7 @@ import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.SelectorEvent;
+import it.polimi.se2019.model.events.SelectorEventPowerUpCards;
 import it.polimi.se2019.virtualView.Selector;
 
 import java.io.IOException;
@@ -25,7 +26,8 @@ public class VirtualViewSelector implements Selector {
     public  void askGameSetUp() {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
-            oos.writeObject(new SelectorEvent(SelectorEventTypes.gameSetUp));
+            SelectorEvent SE = new SelectorEvent(SelectorEventTypes.askGameSetUp);
+            oos.writeObject(SE);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -33,61 +35,121 @@ public class VirtualViewSelector implements Selector {
 
     @Override
     public void askPlayerSetUp() {
-
+        ObjectOutputStream oos = this.playerToAsk.getOos();
+        try {
+            oos.writeObject(new SelectorEvent(SelectorEventTypes.askPlayerSetUp));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards) {
-
+        ObjectOutputStream oos = this.playerToAsk.getOos();
+        try {
+            oos.writeObject(new SelectorEventPowerUpCards(SelectorEventTypes.askFirstSpawnPosition, powerUpCards));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void askTurnAction(int actionNumber) {
-
+        ObjectOutputStream oos = this.playerToAsk.getOos();
+        try {
+            oos.writeObject(new SelectorEvent(SelectorEventTypes.askTurnAction));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void askRunAroundPosition(ArrayList<Position> positions) {
-
+        ObjectOutputStream oos = this.playerToAsk.getOos();
+        try {
+            oos.writeObject(new SelectorEvent(SelectorEventTypes.askRunAroundPosition));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void askGrabStuffAction() {
-
+        ObjectOutputStream oos = this.playerToAsk.getOos();
+        try {
+            oos.writeObject(new SelectorEvent(SelectorEventTypes.askGrabStuffAction));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void askGrabStuffMove(ArrayList<Position> positions) {
-
+        ObjectOutputStream oos = this.playerToAsk.getOos();
+        try {
+            oos.writeObject(new SelectorEvent(SelectorEventTypes.askGrabStuffMove));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp) {
-
+        ObjectOutputStream oos = this.playerToAsk.getOos();
+        try {
+            oos.writeObject(new SelectorEvent(SelectorEventTypes.askGrabStuffGrabWeapon));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void askGrabStuffSwitchWeapon(ArrayList<WeaponCard> toPickUp, ArrayList<WeaponCard> toSwitch) {
-
+        ObjectOutputStream oos = this.playerToAsk.getOos();
+        try {
+            oos.writeObject(new SelectorEvent(SelectorEventTypes.askGrabStuffSwitchWeapon));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void askGrabStuffGrabAndDiscardPowerUp(ArrayList<PowerUpCard> toDiscard) {
-
+    public void askPowerUpToDiscard(ArrayList<PowerUpCard> toDiscard) {
+        ObjectOutputStream oos = this.playerToAsk.getOos();
+        try {
+            oos.writeObject(new SelectorEvent(SelectorEventTypes.askPowerUpToDiscard));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void askIfReload() {
-
+        ObjectOutputStream oos = this.playerToAsk.getOos();
+        try {
+            oos.writeObject(new SelectorEvent(SelectorEventTypes.askIfReload));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void askWhatReaload(ArrayList<WeaponCard> toReload) {
-
+        ObjectOutputStream oos = this.playerToAsk.getOos();
+        try {
+            oos.writeObject(new SelectorEvent(SelectorEventTypes.askWhatReaload));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void askSpawn(ArrayList<PowerUpCard> powerUpCards) {
-
+        ObjectOutputStream oos = this.playerToAsk.getOos();
+        try {
+            oos.writeObject(new SelectorEvent(SelectorEventTypes.askSpawn));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,10 +1,13 @@
 package it.polimi.se2019.controller.statePattern;
 
 import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.ViewControllerEvent;
 import it.polimi.se2019.model.events.ViewControllerEventString;
+
+import java.util.ArrayList;
 
 public class GrabStuffStateDrawAndDiscardPowerUp implements State {
 
@@ -21,10 +24,12 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
 
         //draw a new power up
         ModelGate.model.getPowerUpDeck().moveCardTo(
-                ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand(),
+                playerToAsk.getPowerUpCardsInHand(),
                 ModelGate.model.getPowerUpDeck().getFirstCard().getID()
         );
         //ask which power up to discard
+        SelectorGate.selector.setPlayerToAsk(playerToAsk);
+        SelectorGate.selector.askPowerUpToDiscard((ArrayList)playerToAsk.getPowerUpCardsInHand().getCards());
     }
 
     @Override

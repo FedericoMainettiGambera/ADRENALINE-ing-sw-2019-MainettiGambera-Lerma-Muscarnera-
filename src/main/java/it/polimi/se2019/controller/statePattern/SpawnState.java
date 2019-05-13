@@ -1,6 +1,7 @@
 package it.polimi.se2019.controller.statePattern;
 
 import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.Position;
@@ -43,6 +44,8 @@ public class SpawnState implements State {
         );
 
         //ask which power up he wants to discard
+        SelectorGate.selector.setPlayerToAsk(playerToAsk);
+        SelectorGate.selector.askSpawn((ArrayList)playerToSpawn.getPowerUpCardsInHand().getCards());
     }
 
     @Override

@@ -2,6 +2,7 @@ package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 
+import java.io.Serializable;
 import java.util.Observable;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Observable;
  * taken and the number of marks and deaths.
  * @author FedericoMainettiGambera
  * */
-public class PlayerBoard extends Observable {
+public class PlayerBoard extends Observable implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:

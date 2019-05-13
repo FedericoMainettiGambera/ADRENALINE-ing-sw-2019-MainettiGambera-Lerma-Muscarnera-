@@ -1,12 +1,14 @@
 package it.polimi.se2019.model;
 
+import java.io.Serializable;
+
 /**
  * THIS CLASS SHOULD NEVER BE DIRECTLY ACCESSED, INSTEAD USE METHODS FROM THE "Person" or "Player" CLASS.
  * The DamageSlot class keeps track of a single damage taken from a player.
  * It represents a blood drop in the Game.
  * @author FedericoMainettiGambera
  * */
-public class DamageSlot {
+public class DamageSlot implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:

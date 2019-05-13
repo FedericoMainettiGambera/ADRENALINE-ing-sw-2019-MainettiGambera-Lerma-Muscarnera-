@@ -26,7 +26,7 @@ public interface Selector {
 
     public void askGrabStuffSwitchWeapon(ArrayList<WeaponCard> toPickUp, ArrayList<WeaponCard> toSwitch);
 
-    public void askGrabStuffGrabAndDiscardPowerUp(ArrayList<PowerUpCard> toDiscard);
+    public void askPowerUpToDiscard(ArrayList<PowerUpCard> toDiscard);
 
     public void askIfReload();
 

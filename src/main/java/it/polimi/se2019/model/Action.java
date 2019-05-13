@@ -1,8 +1,10 @@
 package it.polimi.se2019.model;
 
 
+import java.io.Serializable;
+
 /*_______**/
-public abstract class Action {
+public abstract class Action implements Serializable {
 
     /***/
 

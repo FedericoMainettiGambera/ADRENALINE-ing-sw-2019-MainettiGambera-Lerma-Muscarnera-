@@ -1,9 +1,11 @@
 package it.polimi.se2019.model;
 
+import java.io.Serializable;
+
 /**This class represents the current status of a player's hand.
  * It holds power ups and weapons.
  * @author FedericoMainettiGambera*/
-public class PlayerHand {
+public class PlayerHand implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:

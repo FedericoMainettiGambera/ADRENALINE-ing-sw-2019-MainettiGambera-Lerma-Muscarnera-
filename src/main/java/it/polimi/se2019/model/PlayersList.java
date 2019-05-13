@@ -1,11 +1,12 @@
 package it.polimi.se2019.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
 /**keeps track of the Players playing the current game*/
-public class PlayersList extends Observable {
+public class PlayersList extends Observable implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:

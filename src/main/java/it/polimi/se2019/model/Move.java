@@ -3,8 +3,10 @@ package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.enumerations.CardinalPoint;
 
+import java.io.Serializable;
+
 /***/
-public class Move extends Action {
+public class Move extends Action implements Serializable {
 
     /***/
     public void setDefaultSetting() {

@@ -7,6 +7,7 @@ public class ViewControllerEventPosition extends ViewControllerEvent {
     private int Y;
 
     public ViewControllerEventPosition(int X, int Y){
+        super();
         this.X = X;
         this.Y = Y;
     }

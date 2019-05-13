@@ -1,6 +1,8 @@
 package it.polimi.se2019.model;
 
-public class PreConditionMethods {
+import java.io.Serializable;
+
+public class PreConditionMethods implements Serializable {
     public boolean validPayment(ActionDetails actionDetails, ActionContext actionContext) {
         Player player = actionContext.getPlayer();
         AmmoCubes ammoCost = actionDetails.getFileSelectedActionDetails().getAmmoCubesCost();

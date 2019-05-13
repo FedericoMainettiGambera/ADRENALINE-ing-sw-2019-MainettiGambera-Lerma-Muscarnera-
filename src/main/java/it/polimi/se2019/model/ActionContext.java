@@ -1,6 +1,8 @@
 package it.polimi.se2019.model;
 
-public class ActionContext {
+import java.io.Serializable;
+
+public class ActionContext  implements Serializable {
     public Player getPlayer() {
         return player;
     }

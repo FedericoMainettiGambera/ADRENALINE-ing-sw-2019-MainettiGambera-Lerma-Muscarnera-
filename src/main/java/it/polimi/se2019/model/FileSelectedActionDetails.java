@@ -1,9 +1,10 @@
 package it.polimi.se2019.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileSelectedActionDetails {
+public class FileSelectedActionDetails implements Serializable {
     List<Object> fileSettingData;       // lista dei dati inseriti via file
     public FileSelectedActionDetails() {
         fileSettingData = new ArrayList<Object>();

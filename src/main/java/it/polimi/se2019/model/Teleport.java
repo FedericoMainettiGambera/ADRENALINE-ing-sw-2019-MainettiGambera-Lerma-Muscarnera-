@@ -1,8 +1,10 @@
 package it.polimi.se2019.model;
 
 
+import java.io.Serializable;
+
 /***/
-public class Teleport extends Action {
+public class Teleport extends Action implements Serializable {
 
     /***/
     @Override

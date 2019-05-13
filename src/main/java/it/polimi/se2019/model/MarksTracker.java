@@ -1,5 +1,6 @@
 package it.polimi.se2019.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -9,7 +10,7 @@ import java.util.Observable;
  * The MarksTracker class keeps track of the number of marks a player has received from each player in game.
  * @author FedericoMainettiGambera
  * */
-public class MarksTracker extends Observable {
+public class MarksTracker extends Observable implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:

@@ -3,21 +3,24 @@ package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 import static it.polimi.se2019.model.enumerations.AmmoCubesColor.*;
 
 /***/
-public class PowerUpCard extends Card {
+public class PowerUpCard extends Card implements Serializable {
 
     /***/
     public PowerUpCard(String ID, AmmoCubesColor color, Effect specialEffect) {
         super(ID);
         this.color = color;
         this.specialEffect = specialEffect;
+    }
+
+    public PowerUpCard(){
+        super("fake");
+        this.color = null;
+        this.specialEffect = null;
     }
 
     public PowerUpCard(String ID) throws FileNotFoundException, IOException ,InstantiationException {
@@ -41,7 +44,7 @@ public class PowerUpCard extends Card {
         this.specialEffect = new Effect();
 
 
-        BufferedReader reader = new BufferedReader(new FileReader("Card" + ID + ".set"));
+        BufferedReader reader = new BufferedReader(new FileReader("src/main/Files/cards/powerUpCards/card" + ID + ".set"));
         try {
             String line;
             line = reader.readLine();

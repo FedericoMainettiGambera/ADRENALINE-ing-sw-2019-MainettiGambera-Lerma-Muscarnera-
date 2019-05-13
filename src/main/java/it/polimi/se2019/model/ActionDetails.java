@@ -1,5 +1,8 @@
 package it.polimi.se2019.model;
-public class ActionDetails {
+
+import java.io.Serializable;
+
+public class ActionDetails implements Serializable {
     public ActionDetails() {
         this.userSelectedActionDetails = new UserSelectedActionDetails();
         this.fileSelectedActionDetails = new FileSelectedActionDetails();

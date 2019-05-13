@@ -1,6 +1,8 @@
 package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -9,7 +11,7 @@ import java.util.Observable;
  * The AmmoList class keeps track of the current number of ammos a player has.
  * @author FedericoMainettiGambera
  * */
-public class AmmoList extends Observable {
+public class AmmoList extends Observable implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:

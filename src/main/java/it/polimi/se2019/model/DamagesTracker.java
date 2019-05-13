@@ -1,6 +1,7 @@
 package it.polimi.se2019.model;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -10,7 +11,7 @@ import java.util.Observable;
  * The DamagesTracker class keeps track of the damages taken from a player.
  * @author FedericoMainettiGambera
  * */
-public class DamagesTracker extends Observable {
+public class DamagesTracker extends Observable implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:

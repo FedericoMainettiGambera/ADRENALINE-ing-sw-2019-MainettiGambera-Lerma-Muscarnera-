@@ -9,6 +9,7 @@ public class ViewControllerEventPlayerSetUp extends ViewControllerEvent {
     private PlayersColors color;
 
     public ViewControllerEventPlayerSetUp(String nickname, PlayersColors color){
+        super();
         this.nickname = nickname;
         this.color = color;
     }

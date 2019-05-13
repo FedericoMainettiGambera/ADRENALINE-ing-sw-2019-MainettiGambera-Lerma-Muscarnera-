@@ -1,8 +1,10 @@
 package it.polimi.se2019.model;
 
 
+import java.io.Serializable;
+
 /**Turrets mode killshot track*/
-public class TurretsModeTrack extends KillShotTrack{
+public class TurretsModeTrack extends KillShotTrack implements Serializable {
     /*-****************************************************************************************************CONSTRUCTOR*/
 
     /**Constructor:

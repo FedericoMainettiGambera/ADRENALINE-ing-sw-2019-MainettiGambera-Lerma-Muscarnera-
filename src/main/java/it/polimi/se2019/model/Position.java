@@ -1,9 +1,11 @@
 package it.polimi.se2019.model;
 
+import java.io.Serializable;
+
 /**Position is a pure class, it can't be modified.
  * @author FedericoMainettiGambera
  * */
-public class Position {
+public class Position implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
