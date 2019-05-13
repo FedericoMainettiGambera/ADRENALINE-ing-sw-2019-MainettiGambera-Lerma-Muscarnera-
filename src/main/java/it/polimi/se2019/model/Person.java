@@ -116,7 +116,7 @@ public abstract class Person extends Observable implements Serializable {
 
     /*PLAYER BOARD*/
     /**returns the player board.
-     * This method should be used as less as possible, instead search for the right method.
+     * This method should be used as less as possible, look for the right method instead.
      * @return
      * */
     public PlayerBoard getPlayerBoard() { return board; }
