@@ -49,7 +49,7 @@ public class AmmoList extends Observable implements Serializable {
      * @param quantity
      * @param color
      * */
-    public void addAmmoCubesOfColor(AmmoCubesColor color, int quantity) {
+    public void addAmmoCubesOfColor(AmmoCubesColor color, int quantity){
         for(int i = 0; i < this.ammoCubesList.size(); i++){
             if(this.getAmmoCubesList().get(i).getColor() == color){
                 this.getAmmoCubesList().get(i).addQuantity(quantity);
@@ -58,7 +58,10 @@ public class AmmoList extends Observable implements Serializable {
                 return;
             }
         }
+        int i=0;
         this.ammoCubesList.add(new AmmoCubes(color));
+        while( i<this.ammoCubesList.size()){i++;}
+        this.getAmmoCubesList().get(i-1).addQuantity(quantity);
         setChanged();
         notifyObservers();
     }
@@ -86,16 +89,13 @@ public class AmmoList extends Observable implements Serializable {
         for(int i = 0; i < cost.getAmmoCubesList().size(); i++){
             for(int j = 0; j < ammoCubesList.size(); j++){
                 if(cost.getAmmoCubesList().get(i).getColor() == ammoCubesList.get(j).getColor()){
-                    if(!ammoCubesList.get(j).canSubQuantity( cost.getAmmoCubesList().get(i).getQuantity() )){
-                        return false;
+                    if(ammoCubesList.get(j).canSubQuantity( cost.getAmmoCubesList().get(i).getQuantity() )){
+                        return true;
                     }
-                }
-                else{
-                    return false;
                 }
             }
         }
-        return true;
+        return false;
     }
 
     /**subtract a specified amount of ammos to the current this.ammoCubesList of the player.
@@ -117,6 +117,7 @@ public class AmmoList extends Observable implements Serializable {
                 }
             }
         }
+        //???
         return false;
     }
 
@@ -144,6 +145,7 @@ public class AmmoList extends Observable implements Serializable {
             }
         }
         /*error case*/
+        ///?????
         return false;
     }
 }
