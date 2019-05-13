@@ -176,47 +176,89 @@ public class Board {
     public ArrayList<Position> possiblePositions(Position startingPosition, int numberOfMoves){
         ArrayList<Position> possiblePositions = new ArrayList<>();
         possiblePositions.add(startingPosition);
+        ArrayList<Position> possiblePositionsToAddInNextCycle = new ArrayList<>();
         Square tempSquare;
-        Position tempPos;
+        Position tempPos = startingPosition;
         boolean toAdd = true;
         for (int i = 0; i < numberOfMoves; i++) {
             for (int j = 0; j < possiblePositions.size(); j++) {
+                //System.out.println("Considering coordinates (X: " + possiblePositions.get(j).getX() + ", Y: " + possiblePositions.get(j).getY() +")");
+                //pay attention to the this.board.lenght and the this.board[0].lenght, they are inverted and makes confusion.
+
                 tempSquare = this.board[possiblePositions.get(j).getX()][possiblePositions.get(j).getY()];
-                if( (!(tempSquare.getSide(CardinalPoint.north)==SquareSide.wall)) //non ci sia un muro
-                        && (possiblePositions.get(j).getY()>=1)  //non siamo sul bordo della mappa
-                        && (this.board[possiblePositions.get(j).getX()][possiblePositions.get(j).getY()-1]!=null)){ //la casella che stiamo osservando non sia vuota
+
+                //NORTH
+                if( ( tempSquare.getSide(CardinalPoint.north) != SquareSide.wall ) //non ci sia un muro
+                        && (possiblePositions.get(j).getX()!=0)  //non siamo sul bordo della mappa
+                        && (this.board[possiblePositions.get(j).getX()-1][possiblePositions.get(j).getY()] != null)){ //la casella che stiamo osservando non sia vuota
+                    tempPos = new Position(possiblePositions.get(j).getX()-1,possiblePositions.get(j).getY());
+                    if(!contains(possiblePositions, tempPos) && !contains(possiblePositionsToAddInNextCycle,tempPos)){
+                        //System.out.println("adding north: (X: " + tempPos.getX() + ", Y: " + tempPos.getY() +")");
+                        possiblePositionsToAddInNextCycle.add(tempPos);
+                    }
+                }
+
+                //SOUTH
+                if( ( tempSquare.getSide(CardinalPoint.south) != SquareSide.wall ) //non ci sia un muro
+                        && (possiblePositions.get(j).getX() != this.board.length-1)  //non siamo sul bordo della mappa
+                        && (this.board[possiblePositions.get(j).getX()+1][possiblePositions.get(j).getY()] != null)){ //la casella che stiamo osservando non sia vuota
+                    tempPos = new Position(possiblePositions.get(j).getX()+1,possiblePositions.get(j).getY());
+                    if(!contains(possiblePositions, tempPos) && !contains(possiblePositionsToAddInNextCycle,tempPos)){
+                        //System.out.println("adding south: (X: " + tempPos.getX() + ", Y: " + tempPos.getY() +")");
+                        possiblePositionsToAddInNextCycle.add(tempPos);
+                    }
+                }
+
+                //EAST
+                if(( tempSquare.getSide(CardinalPoint.east) != SquareSide.wall ) //non ci sia un muro
+                        && (possiblePositions.get(j).getY() != this.board[0].length-1)  //non siamo sul bordo della mappa
+                        && (this.board[possiblePositions.get(j).getX()][possiblePositions.get(j).getY()+1] != null)){ //la casella che stiamo osservando non sia vuota
+                    tempPos = new Position(possiblePositions.get(j).getX(),possiblePositions.get(j).getY()+1);
+                    if(!contains(possiblePositions, tempPos) && !contains(possiblePositionsToAddInNextCycle,tempPos)){
+                        //System.out.println("adding east: (X: " + tempPos.getX() + ", Y: " + tempPos.getY() +")");
+                        possiblePositionsToAddInNextCycle.add(tempPos);
+                    }
+                }
+
+                //WEST
+                if(( tempSquare.getSide(CardinalPoint.west) != SquareSide.wall ) //non ci sia un muro
+                        && (possiblePositions.get(j).getY() != 0)  //non siamo sul bordo della mappa
+                        && (this.board[possiblePositions.get(j).getX()][possiblePositions.get(j).getY()-1] != null)){ //la casella che stiamo osservando non sia vuota
                     tempPos = new Position(possiblePositions.get(j).getX(),possiblePositions.get(j).getY()-1);
-                    if(!contains(possiblePositions, tempPos)){
-                        possiblePositions.add(tempPos);
-                    }
-                }
-                if( (!(tempSquare.getSide(CardinalPoint.south) == SquareSide.wall)) //non ci sia un muro
-                        && (possiblePositions.get(j).getY()<this.board[0].length-1)  //non siamo sul bordo della mappa
-                        && (this.board[possiblePositions.get(j).getX()][possiblePositions.get(j).getY()+1]!=null)){ //la casella che stiamo osservando non sia vuota
-                    tempPos = new Position(possiblePositions.get(j).getX(),possiblePositions.get(j).getY()+1);
-                    if(!contains(possiblePositions, tempPos)){
-                        possiblePositions.add(tempPos);
-                    }
-                }
-                if((!(tempSquare.getSide(CardinalPoint.east) == SquareSide.wall)) //non ci sia un muro
-                        && (possiblePositions.get(j).getX()>1)  //non siamo sul bordo della mappa
-                        && (this.board[possiblePositions.get(j).getX()-1][possiblePositions.get(j).getY()]!=null)){ //la casella che stiamo osservando non sia vuota
-                    tempPos = new Position(possiblePositions.get(j).getX(),possiblePositions.get(j).getY()+1);
-                    if(!contains(possiblePositions, tempPos)){
-                        possiblePositions.add(tempPos);
-                    }
-                }
-                if((!(tempSquare.getSide(CardinalPoint.west) == SquareSide.wall)) //non ci sia un muro
-                        && (possiblePositions.get(j).getX()<this.board.length)  //non siamo sul bordo della mappa
-                        && (this.board[possiblePositions.get(j).getX()+1][possiblePositions.get(j).getY()]!=null)){ //la casella che stiamo osservando non sia vuota
-                    tempPos = new Position(possiblePositions.get(j).getX(),possiblePositions.get(j).getY()+1);
-                    if(!contains(possiblePositions, tempPos)){
-                        possiblePositions.add(tempPos);
+                    if(!contains(possiblePositions, tempPos) && !contains(possiblePositionsToAddInNextCycle,tempPos)){
+                        //System.out.println("adding west: (X: " + tempPos.getX() + ", Y: " + tempPos.getY() +")");
+                        possiblePositionsToAddInNextCycle.add(tempPos);
                     }
                 }
             }
+            possiblePositions.addAll(possiblePositionsToAddInNextCycle);
+            possiblePositionsToAddInNextCycle.clear();
         }
         return possiblePositions;
+    }
+
+    public String toString(){
+        String s = "";
+        for (int i = 0; i < this.board.length; i++) {
+            for (int j = 0; j < this.board[0].length; j++) {
+
+                if(this.board[i][j] == null){
+                    s+="----------------------------------";
+                }
+                else {
+                    s += this.board[i][j].getSquareType();
+                    s += " " + this.board[i][j].getColor();
+                    s += " [" + i + "][" + j + "]";
+                    s += " n:" + this.board[i][j].getSide(CardinalPoint.north);
+                    s += " e:" + this.board[i][j].getSide(CardinalPoint.east);
+                    s += " s:" + this.board[i][j].getSide(CardinalPoint.south);
+                    s += " w:" + this.board[i][j].getSide(CardinalPoint.west);
+                }
+                s+= "      ";
+            }
+            s+="\n\n";
+        }
+        return s;
     }
 
     public boolean contains(ArrayList<Position> positions, Position pos){

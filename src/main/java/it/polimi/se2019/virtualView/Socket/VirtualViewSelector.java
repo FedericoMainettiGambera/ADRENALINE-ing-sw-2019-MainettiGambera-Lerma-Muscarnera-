@@ -6,6 +6,8 @@ import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.SelectorEvent;
+import it.polimi.se2019.model.events.SelectorEventInt;
+import it.polimi.se2019.model.events.SelectorEventPositions;
 import it.polimi.se2019.model.events.SelectorEventPowerUpCards;
 import it.polimi.se2019.virtualView.Selector;
 
@@ -57,7 +59,7 @@ public class VirtualViewSelector implements Selector {
     public void askTurnAction(int actionNumber) {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
-            oos.writeObject(new SelectorEvent(SelectorEventTypes.askTurnAction));
+            oos.writeObject(new SelectorEventInt(SelectorEventTypes.askTurnAction, actionNumber));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -67,7 +69,7 @@ public class VirtualViewSelector implements Selector {
     public void askRunAroundPosition(ArrayList<Position> positions) {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
-            oos.writeObject(new SelectorEvent(SelectorEventTypes.askRunAroundPosition));
+            oos.writeObject(new SelectorEventPositions(SelectorEventTypes.askRunAroundPosition, positions));
         } catch (IOException e) {
             e.printStackTrace();
         }

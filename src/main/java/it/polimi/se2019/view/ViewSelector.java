@@ -6,6 +6,7 @@ import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.ViewControllerEventGameSetUp;
 import it.polimi.se2019.model.events.ViewControllerEventPlayerSetUp;
+import it.polimi.se2019.model.events.ViewControllerEventPosition;
 import it.polimi.se2019.model.events.ViewControllerEventString;
 import it.polimi.se2019.networkHandler.NetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
@@ -119,10 +120,10 @@ public class ViewSelector implements Selector {
     @Override
     public void askTurnAction(int actionNumber) {
         if(actionNumber == 1) {
-            System.out.println("<SERVER> Choose your first action");
+            System.out.println("<CLIENT> Choose your first action");
         }
         else{
-            System.out.println("<SERVER> Choose your second action");
+            System.out.println("<CLIENT> Choose your second action");
         }
         System.out.println(
                 "   run around\n"+
@@ -142,7 +143,21 @@ public class ViewSelector implements Selector {
 
     @Override
     public void askRunAroundPosition(ArrayList<Position> positions) {
+        System.out.println("<CLIENT> choose where to move: ");
+        for (int i = 0; i < positions.size(); i++) {
+            Position pos = positions.get(i);
+            System.out.println("    " + i + ") X:"+  pos.getX() + " Y:" + pos.getY());
+        }
+        Scanner br = new Scanner(System.in);
 
+        int choosenPosition = br.nextInt();
+
+        ViewControllerEventPosition VCEPosition = new ViewControllerEventPosition(positions.get(choosenPosition).getX(),positions.get(choosenPosition).getY());
+        try {
+            SocketNetworkHandler.oos.writeObject(VCEPosition);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
