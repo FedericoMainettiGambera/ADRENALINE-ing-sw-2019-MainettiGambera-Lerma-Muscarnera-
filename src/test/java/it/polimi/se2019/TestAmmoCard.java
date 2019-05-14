@@ -4,6 +4,8 @@ import it.polimi.se2019.model.AmmoCard;
 import it.polimi.se2019.model.AmmoList;
 import org.junit.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class TestAmmoCard {
     @Test
     public void testAmmoCard() {
@@ -15,6 +17,7 @@ public class TestAmmoCard {
         AmmoCard A = new AmmoCard("1",new AmmoList(),false);
         A.getAmmunitions();
         A.isPowerUp();
+        assertEquals("1",A.getID());
 
     }
 }

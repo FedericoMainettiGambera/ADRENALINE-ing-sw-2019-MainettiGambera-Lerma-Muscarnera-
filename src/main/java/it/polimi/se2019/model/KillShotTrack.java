@@ -48,9 +48,9 @@ public class KillShotTrack extends Observable implements Serializable {
     public void deathOfPlayer(Player killingPlayer, boolean isOverKill) throws IllegalStateException {
         if (numberOfRemainingSkulls>0) {
             try {
-                kills.get(numberOfRemainingSkulls).setKillingPlayer(killingPlayer);
+                kills.get(numberOfRemainingSkulls-1).setKillingPlayer(killingPlayer);
                 if (isOverKill) {
-                    kills.get(numberOfRemainingSkulls).setOverkillingPlayer(killingPlayer);
+                    kills.get(numberOfRemainingSkulls-1).setOverkillingPlayer(killingPlayer);
                 }
                 numberOfRemainingSkulls--;
                 setChanged();
