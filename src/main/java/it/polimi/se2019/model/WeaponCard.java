@@ -1,6 +1,8 @@
 package it.polimi.se2019.model;
 
 
+import it.polimi.se2019.model.enumerations.EffectInfoType;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -107,9 +109,13 @@ public class WeaponCard extends Card implements Serializable {
 
                     if (line.equals("EXPECTED INPUT"))
                     {
-                        line = reader.readLine();
+                        line = reader.readLine();                                    // seek the File Cursor to the next Line
                         EffectInfo effectInfo = new EffectInfo();
-                        effectInfo.setData(Integer.parseInt(line));
+
+                        while (!line.equals("END")) {
+                            effectInfo.getEffectInfoTypelist().add(EffectInfoType.valueOf(line));
+                            line = reader.readLine();
+                        }
 
                     }
 

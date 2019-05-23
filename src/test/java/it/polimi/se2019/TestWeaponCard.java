@@ -9,7 +9,7 @@ public class TestWeaponCard {
         try {
         for(int i = 1;i< 8;i++) {
             WeaponCard weaponCard = new WeaponCard(i + "");
-            System.out.println( i + "# reload " + weaponCard.getReloadCost());
+            System.out.println( i + "# reload " + weaponCard.getPickUpCost());
         }
 
         } catch (Exception e) {
