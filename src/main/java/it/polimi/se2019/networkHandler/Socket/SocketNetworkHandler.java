@@ -2,7 +2,7 @@ package it.polimi.se2019.networkHandler.Socket;
 
 import it.polimi.se2019.model.events.ViewControllerEvent;
 import it.polimi.se2019.networkHandler.NetworkHandler;
-import it.polimi.se2019.view.View;
+import it.polimi.se2019.view.components.View;
 
 import java.io.*;
 import java.net.*;

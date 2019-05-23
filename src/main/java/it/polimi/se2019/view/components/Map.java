@@ -1,6 +1,8 @@
-package it.polimi.se2019.view;
+package it.polimi.se2019.view.components;
 
-public class Map {
+import it.polimi.se2019.model.events.ModelViewEvent;
+
+public class Map implements ViewComponent {
 
 
     private Square[][] map;
@@ -17,5 +19,10 @@ public class Map {
 
     public void setMap(Square[][] map) {
         this.map = map;
+    }
+
+    @Override
+    public void display(ModelViewEvent MVE) {
+
     }
 }

@@ -1,14 +1,12 @@
 package it.polimi.se2019.networkHandler.Socket;
 
 import it.polimi.se2019.model.events.Event;
-import it.polimi.se2019.model.events.ModelViewEvent;
-import it.polimi.se2019.view.View;
+import it.polimi.se2019.view.components.View;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.Observable;
-import java.util.Observer;
 
 public class ServerListenerNetworkHandler extends Observable implements Runnable {
 

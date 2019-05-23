@@ -1,7 +1,7 @@
 package it.polimi.se2019.controller;
 
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
-import it.polimi.se2019.view.View;
+import it.polimi.se2019.view.components.View;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
 
 import java.io.BufferedReader;
