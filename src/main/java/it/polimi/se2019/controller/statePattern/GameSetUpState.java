@@ -89,28 +89,7 @@ public class GameSetUpState implements State {
             //create cards
             System.out.println("<SERVER> Building decks.");
             ModelGate.model.buildDecks();
-
-
-            WeaponCard tempCard = null;
-            System.out.println("\n\nchecking WeaponCards pick up cost.");
-            for (int i = 0; i < ModelGate.model.getWeaponDeck().getCards().size(); i++) {
-                tempCard = ModelGate.model.getWeaponDeck().getCards().get(i);
-                System.out.println("CARD ID: " + tempCard.getID());
-                for (int j = 0; j < tempCard.getPickUpCost().getAmmoCubesList().size(); j++) {
-                    System.out.println("   color: " + tempCard.getPickUpCost().getAmmoCubesList().get(j).getColor() +
-                                       ", quantity: " + tempCard.getPickUpCost().getAmmoCubesList().get(j).getQuantity());
-                }
-            }
-
-            System.out.println("\n\nchecking WeaponCards reload cost.");
-            for (int i = 0; i < ModelGate.model.getWeaponDeck().getCards().size(); i++) {
-                tempCard = ModelGate.model.getWeaponDeck().getCards().get(i);
-                System.out.println("CARD NUMBER: " + tempCard.getID());
-                for (int j = 0; j < tempCard.getReloadCost().getAmmoCubesList().size(); j++) {
-                    System.out.println("   color: " + tempCard.getReloadCost().getAmmoCubesList().get(j).getColor() +
-                            ", quantity: " + tempCard.getReloadCost().getAmmoCubesList().get(j).getQuantity());
-                }
-            }
+            
 
             //shuffles cards
             ModelGate.model.getPowerUpDeck().shuffle();
