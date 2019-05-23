@@ -1,0 +1,30 @@
+NAME
+LOCK RIFLE
+
+RELOAD COST
+b
+2
+
+NEW EFFECT
+ACTION
+Void
+ACTION INFO
+PRECONDITION
+YouCanSee
+END
+
+ACTION
+Damage
+ACTION INFO
+PRECONDITION
+alwaysTrue
+SET
+2
+END
+
+ACTION
+Mark
+PRECONDITION
+sameTargetOfPreviousAction      // TODO: gestione dell 'input da utente
+SET
+1
