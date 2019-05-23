@@ -195,7 +195,16 @@ public class WeaponCard extends Card implements Serializable {
 
     /***/
     public AmmoList getPickUpCost() {
-        return pickUpCost;
+        AmmoList r = new AmmoList();
+        int i = 0;
+        for(AmmoCubes c : reloadCost.getAmmoCubesList()) {
+            if(i == 0)  {
+                r.addAmmoCubesOfColor(c.getColor(),c.getQuantity());
+            }
+            i++;
+
+        }
+        return r;
     }
 
     /***/
