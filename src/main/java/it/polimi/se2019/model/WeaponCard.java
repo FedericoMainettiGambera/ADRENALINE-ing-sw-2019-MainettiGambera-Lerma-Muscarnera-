@@ -105,6 +105,13 @@ public class WeaponCard extends Card implements Serializable {
                     if (line.equals("NEW EFFECT"))
                         effects.add(new Effect());
 
+                    if (line.equals("EXPECTED INPUT"))
+                    {
+                        line = reader.readLine();
+                        if(line.equals(""))
+                          ;
+                    }
+
                     if (line.equals("ACTIONS")) {
                         line = reader.readLine();                                    // seek the File Cursor to the next Line
                         while (!line.equals("END")) {
