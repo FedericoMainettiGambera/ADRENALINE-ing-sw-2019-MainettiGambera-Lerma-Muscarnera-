@@ -1,0 +1,30 @@
+NAME
+WHISPER
+
+NEW EFFECT
+ACTION
+Action
+// void actioon
+ACTION INFO
+PRECONDITION
+AtLeast2Squares
+EJD
+//todo: communication
+
+ACTION
+Damage
+ACTION INFO
+PRECONDITION
+youCanSee
+SET
+3
+
+NEW EFFECT
+ACTION
+Mark
+ACTION INFO
+PRECONDITION
+youCanSee
+SET
+1
+

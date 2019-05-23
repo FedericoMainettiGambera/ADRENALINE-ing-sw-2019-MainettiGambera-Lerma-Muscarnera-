@@ -1,0 +1,19 @@
+NAME
+Hellion
+
+NEW EFFECT
+ACTION
+Damage
+ACTION INFO
+PRECONDITION
+youCanSee
+// TODO: youCanSee is a frequent precondition
+END
+ACTION
+Mark
+ACTION INFO
+PRECODINTION
+alwaysTrue
+SET
+1
+END
