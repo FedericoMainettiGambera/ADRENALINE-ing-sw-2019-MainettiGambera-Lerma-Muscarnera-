@@ -1,6 +1,11 @@
 NAME
 Hellion
-
+RELOAD COST
+r
+1
+RELOAD COST
+y
+1
 NEW EFFECT
 ACTION
 Damage

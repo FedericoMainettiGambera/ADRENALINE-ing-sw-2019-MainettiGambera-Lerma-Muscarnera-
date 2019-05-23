@@ -58,7 +58,7 @@ public class Effect implements Serializable {
     /***/
     public boolean Exec() {
         boolean isExecutable = true;
-        /*gestione effect info*/
+        /*gestione effect info */
         if(effectInfo.getData() == 0) {     //  input un solo target
             Player target = new Player();
             // TODO inserimento del target
@@ -79,6 +79,16 @@ public class Effect implements Serializable {
             }
         }
 
+        if(effectInfo.getData() == 2) {     //  onyoursquare
+            List<Player> targetList = new ArrayList<Player>();
+
+            // TODO inserimento della lista di target
+            for(Action a:this.actions){
+                if(a.getActionInfo().preCondition() == false ) {
+                    a.getActionInfo().getActionDetails().getUserSelectedActionDetails().setTargetList(targetList);
+                }
+            }
+        }
 
         for(Action a:this.actions){
             if(a.getActionInfo().preCondition() == false ) {            // checks if all the preConditions are true
