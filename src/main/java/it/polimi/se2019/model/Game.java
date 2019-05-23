@@ -109,7 +109,7 @@ public class Game extends Observable implements Serializable {
         //builds weapon cards
         File directory = new File("src/main/Files/cards/weaponCards");     // insert here path to weapon cards folder
         int fileCount = directory.list().length;
-        for(int i = 1; i< fileCount;i++) {
+        for(int i = 1; i< fileCount+1; i++) {
             System.out.println("<SERVER>building weapon cards ID: " + i);
             try {
                  this.weaponDeck.addCard(new WeaponCard("" + i));

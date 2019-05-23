@@ -11,6 +11,7 @@ import it.polimi.se2019.model.events.ViewControllerEventGameSetUp;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 public class GameSetUpState implements State {
 
@@ -73,14 +74,11 @@ public class GameSetUpState implements State {
             }
 
             System.out.println("<SERVER> adding 2 fake WeaponCards to the weaponDeck.");
+            AmmoList tempAmmoList = new AmmoList();
+            tempAmmoList.addAmmoCubesOfColor(AmmoCubesColor.blue,1);
+            tempAmmoList.addAmmoCubesOfColor(AmmoCubesColor.red,1);
             for (int i = 0; i < 2; i++) {
-                try {
-                    ModelGate.model.getWeaponDeck().getCards().add(new WeaponCard("fake"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                }
+                ModelGate.model.getWeaponDeck().getCards().add(new WeaponCard("fake", tempAmmoList, tempAmmoList, new ArrayList<Effect>()));
             }
 
             System.out.println("<SERVER> adding 100 fake PowerUpCards to the powerUpDeck.");
