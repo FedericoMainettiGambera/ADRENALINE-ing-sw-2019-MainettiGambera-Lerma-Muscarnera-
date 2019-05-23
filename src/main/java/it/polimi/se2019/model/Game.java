@@ -1,6 +1,8 @@
 package it.polimi.se2019.model;
 
 
+import it.polimi.se2019.controller.ModelGate;
+
 import java.io.File;
 import java.io.Serializable;
 import java.util.Observable;
@@ -105,22 +107,24 @@ public class Game extends Observable implements Serializable {
     public void buildDecks() {
 
         //builds weapon cards
-        File directory = new File("src/main/Files/cards/weaponCards/cardfake.set");     // insert here path to weapon cards folder
+        File directory = new File("src/main/Files/cards/weaponCards");     // insert here path to weapon cards folder
         int fileCount = directory.list().length;
-        for(int i = 0; i< fileCount;i++) {
-             try {
+        for(int i = 1; i< fileCount;i++) {
+            System.out.println("<SERVER>building weapon cards ID: " + i);
+            try {
                  this.weaponDeck.addCard(new WeaponCard("" + i));
-             }
-             catch(Exception e) {
-                 e.printStackTrace();
-                 return;
-             }
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+                return;
+            }
         }
-
+        /*
         //builds power up cards
-        directory = new File("src/main/Files/cards/powerUpCards/cardfake.set");          // insert here path to power up cards folder
+        directory = new File("src/main/Files/cards/powerUpCards");          // insert here path to power up cards folder
         fileCount = directory.list().length;
-        for(int i = 0; i< fileCount;i++) {
+        for(int i = 1; i< fileCount;i++) {
+            System.out.println("<SERVER>building weapon cards ID: " + i);
             try {
                 this.powerUpDeck.addCard(new PowerUpCard("" + i));
             }
@@ -133,7 +137,7 @@ public class Game extends Observable implements Serializable {
         //builds ammo cards
         directory = new File("src/main/Files/cards/ammoCards");          // insert here path to ammo cards folder
         fileCount = directory.list().length;
-        for(int i = 0; i< fileCount;i++) {
+        for(int i = 1; i< fileCount;i++) {
             try {
                 //TODO: this.ammoDeck.addCard(new AmmoCard("" + i));
             }
@@ -142,6 +146,7 @@ public class Game extends Observable implements Serializable {
                 return;
             }
         }
+        */
 
     }
 
