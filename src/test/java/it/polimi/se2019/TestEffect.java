@@ -10,6 +10,7 @@ import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 
 public class TestEffect {
+
     @Test
     public void testPreCondition() {
         Action y = (Action) new Damage();
@@ -87,4 +88,5 @@ public class TestEffect {
 
 
     }
+
 }
