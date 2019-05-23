@@ -188,12 +188,12 @@ public class ViewSelector implements Selector {
 
     @Override
     public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp) {
-        System.out.println("Choose one to pick up:");
+        System.out.println("Choose number to pick up:");
 
         Scanner br = new Scanner(System.in);
 
         for (int i = 0; i < toPickUp.size(); i++) {
-            System.out.println( "   " +i + ") " + toPickUp.get(i).getID() + ":\n" + toPickUp.get(i).getPickUpCost().toString());
+            System.out.println( "   " +i + ") " + toPickUp.get(i).getID() + ":\n" + toPickUp.get(i).getPickUpCost());
         }
 
         String toPickUpID = toPickUp.get(br.nextInt()).getID();
