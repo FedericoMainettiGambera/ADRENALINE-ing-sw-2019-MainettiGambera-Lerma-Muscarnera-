@@ -7,20 +7,17 @@ import java.rmi.registry.*;
 public class serverside{
 
 
-    public static void main(String arg[]){
-
+    public void creatreRMIRegistry(){
         try{
 
-
             interfaces obj=new interfacesinput();
-
             LocateRegistry.createRegistry(56678);
+            Naming.rebind("rmi://localhost:56678"+"/Adrenaline",obj);
 
-            Naming.rebind("rmi://localhost:56678"+"/ludo",obj);
+        }catch(Exception e){
 
-
-        }catch(Exception e)
-        {e.printStackTrace();}
+            e.printStackTrace();
+        }
 
 
 
