@@ -7,6 +7,7 @@ import java.util.List;
 
 /***/
 public class Effect implements Serializable {
+    /*-****************************************************************************************************CONSTRUCTOR*/
 
     public EffectInfo getEffectInfo() {
         return effectInfo;
@@ -16,7 +17,7 @@ public class Effect implements Serializable {
         this.effectInfo = effectInfo;
     }
 
-
+    /***/
     private EffectInfo effectInfo;
     public Effect(String description, List<Action> actions) {
         this.description = description;
@@ -28,7 +29,8 @@ public class Effect implements Serializable {
         this.actions = new ArrayList<Action>();
     }
 
-
+    /*-*****************************************************************************************************ATTRIBUTES*/
+    /***/
     private String description;
 
     public void setDescription(String description) {
@@ -39,23 +41,24 @@ public class Effect implements Serializable {
         this.actions = actions;
     }
 
-
+    /***/
     private List<Action> actions;
 
-
+    /*-********************************************************************************************************METHODS*/
+    /***/
     public List<Action> getActions() {
         return actions;
     }
 
-
+    /***/
     public String getDescription() {
         return description;
     }
 
-
+    /***/
     public boolean Exec() {
         boolean isExecutable = true;
-        //gestione effect info
+        /*gestione effect info */
         if(effectInfo.getData() == 0) {     //  input un solo target
             Player target = new Player();
             // TODO inserimento del target
@@ -76,6 +79,16 @@ public class Effect implements Serializable {
             }
         }
 
+        if(effectInfo.getData() == 2) {     //  onyoursquare
+            List<Player> targetList = new ArrayList<Player>();
+
+            // TODO inserimento della lista di target
+            for(Action a:this.actions){
+                if(a.getActionInfo().preCondition() == false ) {
+                    a.getActionInfo().getActionDetails().getUserSelectedActionDetails().setTargetList(targetList);
+                }
+            }
+        }
 
         for(Action a:this.actions){
             if(a.getActionInfo().preCondition() == false ) {            // checks if all the preConditions are true

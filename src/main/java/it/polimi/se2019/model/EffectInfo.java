@@ -9,6 +9,7 @@ public class EffectInfo {
         this.data = data;
     }
 
+    private Player executor;
     private int data;
 
 }

@@ -108,8 +108,9 @@ public class WeaponCard extends Card implements Serializable {
                     if (line.equals("EXPECTED INPUT"))
                     {
                         line = reader.readLine();
-                        if(line.equals(""))
-                          ;
+                        EffectInfo effectInfo = new EffectInfo();
+                        effectInfo.setData(Integer.parseInt(line));
+
                     }
 
                     if (line.equals("ACTIONS")) {
