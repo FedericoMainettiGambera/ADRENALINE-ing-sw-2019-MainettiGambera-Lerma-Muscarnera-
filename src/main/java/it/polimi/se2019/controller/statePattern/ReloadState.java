@@ -23,7 +23,7 @@ public class ReloadState implements State{
             SelectorGate.selector.askIfReload();
         }
         else{
-            System.out.println("<SERVER> Player can't reload anymore");
+            System.out.println("<SERVER>No weapon to be reloaded");
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
             ViewControllerEventHandlerContext.state.doAction(null);
         }

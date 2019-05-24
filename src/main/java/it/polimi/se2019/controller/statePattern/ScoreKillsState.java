@@ -47,7 +47,7 @@ public class ScoreKillsState implements State {
             }
         }
 
-        if(!deadPlayers.isEmpty()){
+        if(deadPlayers.isEmpty()){
             System.out.println("<SERVER>Ended scoring and spawning players.");
 
             ModelGate.model.getPlayerList().setNextPlayingPlayer();
