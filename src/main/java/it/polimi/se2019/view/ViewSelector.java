@@ -254,17 +254,60 @@ public class ViewSelector implements Selector {
 
     @Override
     public void askPowerUpToDiscard(ArrayList<PowerUpCard> toDiscard) {
+        System.out.println("<CLIENT>You have too many power up in hand. You need to discard one:");
+        for (int i = 0; i < toDiscard.size() ; i++) {
+            System.out.println("    " + i + ") " + toDiscard.get(i));
+        }
+        Scanner br = new Scanner(System.in);
+        int choosen = br.nextInt();
 
+        ViewControllerEventInt VCEInt = new ViewControllerEventInt(choosen);
+        try {
+            SocketNetworkHandler.oos.writeObject(VCEInt);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void askIfReload() {
+        System.out.println("<CLIENT>Do you want to reload? [Y/N]");
+        Scanner br = new Scanner(System.in);
+        String answer = br.nextLine();
+        answer = answer.toLowerCase();
 
+        try {
+            ViewControllerEventBoolean VCEBoolean = null;
+            if(answer.equals("n")){
+                VCEBoolean = new ViewControllerEventBoolean(false);
+            }
+            else{
+                VCEBoolean = new ViewControllerEventBoolean(true);
+            }
+
+            SocketNetworkHandler.oos.writeObject(VCEBoolean);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void askWhatReaload(ArrayList<WeaponCard> toReload) {
+        System.out.println("<SERVER>Which weapon do you want to reload?");
+        for (int i = 0; i < toReload.size() ; i++) {
+            System.out.println("    " + i + ") " + toReload.get(i).getID());
+        }
+        Scanner br = new Scanner(System.in);
+        int choosen = br.nextInt();
 
+        String choosenID = toReload.get(choosen).getID();
+
+        ViewControllerEventString VCEString = new ViewControllerEventString(choosenID);
+        try {
+            SocketNetworkHandler.oos.writeObject(VCEString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
