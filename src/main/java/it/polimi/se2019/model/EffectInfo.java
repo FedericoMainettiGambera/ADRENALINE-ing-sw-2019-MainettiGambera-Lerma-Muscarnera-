@@ -2,10 +2,11 @@ package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EffectInfo {
+public class EffectInfo implements Serializable {
 
     public List<EffectInfoType> getEffectInfoTypelist() {
         return effectInfoTypelist;

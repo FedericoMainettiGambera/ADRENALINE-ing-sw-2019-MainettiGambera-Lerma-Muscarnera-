@@ -52,7 +52,7 @@ public class ReloadState implements State{
     public boolean canReload(){
 
         for (WeaponCard weaponCard : ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards()){
-            if(ModelGate.model.getCurrentPlayingPlayer().canPayAmmoCubes(weaponCard.getReloadCost())){
+            if((ModelGate.model.getCurrentPlayingPlayer().canPayAmmoCubes(weaponCard.getReloadCost())) && (!weaponCard.isLoaded())){
                 return true;
             }
         }
