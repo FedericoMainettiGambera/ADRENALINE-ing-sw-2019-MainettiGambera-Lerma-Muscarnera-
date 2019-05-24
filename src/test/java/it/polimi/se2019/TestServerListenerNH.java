@@ -1,7 +1,7 @@
 package it.polimi.se2019;
 
 import it.polimi.se2019.networkHandler.Socket.ServerListenerNetworkHandler;
-import it.polimi.se2019.view.View;
+import it.polimi.se2019.view.components.View;
 import org.junit.Test;
 
 import java.io.ObjectInputStream;
