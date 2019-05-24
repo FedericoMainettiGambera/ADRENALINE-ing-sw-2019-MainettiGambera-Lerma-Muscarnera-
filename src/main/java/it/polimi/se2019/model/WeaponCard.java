@@ -116,6 +116,7 @@ public class WeaponCard extends Card implements Serializable {
                             effectInfo.getEffectInfoTypelist().add(EffectInfoType.valueOf(line));
                             line = reader.readLine();
                         }
+                        effects.get(effects.size() - 1).setEffectInfo(effectInfo);
 
                     }
 

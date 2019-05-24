@@ -10,8 +10,16 @@ public class EffectInfo {
     public List<EffectInfoType> getEffectInfoTypelist() {
         return effectInfoTypelist;
     }
+    public List<EffectInfoType> itNeeds() {                 // Alias of previous function
+        return effectInfoTypelist;
+    }
+
+    public void setEffectInfoTypelist(List<EffectInfoType> effectInfoTypelist) {
+        this.effectInfoTypelist = effectInfoTypelist;
+    }
 
     private List<EffectInfoType> effectInfoTypelist;
+
 
     public EffectInfo() {
 
