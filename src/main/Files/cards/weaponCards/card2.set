@@ -1,6 +1,14 @@
 NAME
 Electroscythe
+RELOAD COST
+b
+1
 NEW EFFECT
+
+EXPECTED INPUT
+targetListBySquare
+END
+
 ACTION
 DAMAGE
 ACTION INFO

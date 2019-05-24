@@ -1,13 +1,15 @@
-package it.polimi.se2019.view;
+package it.polimi.se2019.view.components;
 
-import it.polimi.se2019.model.enumerations.EventTypes;
+import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
-import it.polimi.se2019.model.enumerations.SpawnPointDamageTypes;
 import it.polimi.se2019.model.events.*;
-import it.polimi.se2019.virtualView.Selector;
+import it.polimi.se2019.view.ViewSelector;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+
+import static it.polimi.se2019.model.enumerations.SelectorEventTypes.askGrabStuffGrabWeapon;
 
 public class View implements Observer {
 
@@ -33,11 +35,32 @@ public class View implements Observer {
         ModelViewEvent MVE = null;
         if(arg.getClass().toString().contains("ModelViewEvent")){
             MVE = (ModelViewEvent)arg;
-            //TODO
+            this.callCorrectComponent(MVE, o);
+
         } else if(arg.getClass().toString().contains("SelectorEvent")){
             SE = (SelectorEvent)arg;
             this.callCorrectSelector(SE);
         }
+    }
+
+    public void callCorrectComponent(ModelViewEvent MVE, Observable o){
+        String component = o.getClass().toString();
+        String[] components = component.split(".");
+        component = components[components.length-1]; //contains the name of the class.
+
+        switch (component){
+            case "Board":
+                //pass the MVE to the correct component in the view.
+            case "Player":
+                //pass the MVE to the correct component in the view.
+            case "DeathTracker":
+                //pass the MVE to the correct component in the view.
+            case "etc with all the model classes that sends Model view events...":
+                //pass the MVE to the correct component in the view.
+            default:
+                //...
+        }
+
     }
 
     public void callCorrectSelector(SelectorEvent SE){
@@ -73,6 +96,7 @@ public class View implements Observer {
 
             case askGrabStuffGrabWeapon:
                 this.selector.askGrabStuffGrabWeapon(((SelectorEventWeaponCards)SE).getWeaponCards());
+
                 break;
 
             case askGrabStuffSwitchWeapon:

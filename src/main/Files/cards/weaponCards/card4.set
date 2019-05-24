@@ -1,7 +1,13 @@
 NAME
 TRACTOR BEAM
-// basic mode
+RELOAD COST
+b
+1
 NEW EFFECT
+EXPECTED INPUT
+singleTarget
+simpleSquareSelect
+END
 ACTION
 Move
 ACTION INFO

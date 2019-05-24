@@ -1,6 +1,8 @@
-package it.polimi.se2019.view;
+package it.polimi.se2019.view.components;
 
-public class GameTrack {
+import it.polimi.se2019.model.events.ModelViewEvent;
+
+public class GameTrack implements ViewComponent {
 
     private KillShotTrack killShotTrack;
     private DominationModeTrack dominationModeTrack;
@@ -27,5 +29,10 @@ public class GameTrack {
 
     public KillShotTrack getKillShotTrack() {
         return killShotTrack;
+    }
+
+    @Override
+    public void display(ModelViewEvent MVE) {
+
     }
 }

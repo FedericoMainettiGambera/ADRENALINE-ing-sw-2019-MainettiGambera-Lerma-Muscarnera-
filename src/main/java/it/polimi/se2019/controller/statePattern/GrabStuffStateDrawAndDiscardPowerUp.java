@@ -5,6 +5,7 @@ import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.ViewControllerEvent;
+import it.polimi.se2019.model.events.ViewControllerEventInt;
 import it.polimi.se2019.model.events.ViewControllerEventString;
 
 import java.util.ArrayList;
@@ -36,12 +37,12 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
     public void doAction(ViewControllerEvent VCE) {
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        ViewControllerEventString VCEString = (ViewControllerEventString)VCE;
+        ViewControllerEventInt VCEInt = (ViewControllerEventInt)VCE;
 
         //discard power up
         ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
                 ModelGate.model.getPowerUpDiscardPile(),
-                VCEString.getInput()
+                ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().get(VCEInt.getInput()).getID()
         );
 
         //set next state

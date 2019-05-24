@@ -1,6 +1,8 @@
-package it.polimi.se2019.view;
+package it.polimi.se2019.view.components;
 
-public class Player {
+import it.polimi.se2019.model.events.ModelViewEvent;
+
+public class Player implements ViewComponent {
 
     private PlayerHand playerHand;
     private PlayerBoard playerBoard;
@@ -27,6 +29,11 @@ public class Player {
 
         return playerHand;
 
+
+    }
+
+    @Override
+    public void display(ModelViewEvent MVE) {
 
     }
 }

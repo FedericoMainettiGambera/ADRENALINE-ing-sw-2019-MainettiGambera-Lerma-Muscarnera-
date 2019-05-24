@@ -8,10 +8,10 @@ import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.SquareTypes;
 import it.polimi.se2019.model.events.ViewControllerEvent;
 import it.polimi.se2019.model.events.ViewControllerEventGameSetUp;
-import it.polimi.se2019.virtualView.Socket.VirtualViewSelector;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 public class GameSetUpState implements State {
 
@@ -65,9 +65,6 @@ public class GameSetUpState implements State {
             System.out.println("<SERVER>Setting a Bot: "+ VCEGameSetUp.isBotActive());
             ModelGate.model.setBot(new Bot(VCEGameSetUp.isBotActive()));
 
-            //create cards
-            System.out.println("<SERVER> Building decks.");
-            //ModelGate.model.buildDecks();
 
             System.out.println("<SERVER> adding 100 fake ammo cards to the ammoDeck.");
             AmmoList ammoList = new AmmoList();
@@ -75,20 +72,24 @@ public class GameSetUpState implements State {
             for (int i = 0; i < 100; i++) {
                 ModelGate.model.getAmmoDeck().getCards().add(new AmmoCard("fake", ammoList, false));
             }
-            System.out.println("<SERVER> adding 100 fake WeaponCards to the weaponDeck.");
-            for (int i = 0; i < 100; i++) {
-                try {
-                    ModelGate.model.getWeaponDeck().getCards().add(new WeaponCard("fake"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                }
+
+            System.out.println("<SERVER> adding 5 fake WeaponCards to the weaponDeck.");
+            AmmoList tempAmmoList = new AmmoList();
+            tempAmmoList.addAmmoCubesOfColor(AmmoCubesColor.blue,1);
+            tempAmmoList.addAmmoCubesOfColor(AmmoCubesColor.red,1);
+            for (int i = 0; i < 5; i++) {
+                ModelGate.model.getWeaponDeck().getCards().add(new WeaponCard("fake", tempAmmoList, tempAmmoList, new ArrayList<Effect>()));
             }
+
             System.out.println("<SERVER> adding 100 fake PowerUpCards to the powerUpDeck.");
             for (int i = 0; i < 100; i++) {
                 ModelGate.model.getPowerUpDeck().getCards().add(new PowerUpCard());
             }
+
+            //create cards
+            System.out.println("<SERVER> Building decks.");
+            ModelGate.model.buildDecks();
+
 
             //shuffles cards
             ModelGate.model.getPowerUpDeck().shuffle();

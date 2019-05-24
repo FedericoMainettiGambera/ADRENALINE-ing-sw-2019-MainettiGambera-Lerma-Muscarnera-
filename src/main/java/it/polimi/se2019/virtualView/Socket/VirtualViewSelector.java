@@ -1,9 +1,7 @@
 package it.polimi.se2019.virtualView.Socket;
 
-import it.polimi.se2019.model.Player;
-import it.polimi.se2019.model.Position;
-import it.polimi.se2019.model.PowerUpCard;
-import it.polimi.se2019.model.WeaponCard;
+import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.*;
 import it.polimi.se2019.virtualView.Selector;
@@ -11,6 +9,9 @@ import it.polimi.se2019.virtualView.Selector;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
+
+import static it.polimi.se2019.model.enumerations.SelectorEventTypes.askGrabStuffGrabWeapon;
 
 public class VirtualViewSelector implements Selector {
 
@@ -95,8 +96,18 @@ public class VirtualViewSelector implements Selector {
     @Override
     public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp) {
         ObjectOutputStream oos = this.playerToAsk.getOos();
+        SelectorEventWeaponCards SE = new SelectorEventWeaponCards(SelectorEventTypes.askGrabStuffGrabWeapon, toPickUp);
         try {
-            oos.writeObject(new SelectorEventWeaponCards(SelectorEventTypes.askGrabStuffGrabWeapon, toPickUp));
+            //TODO: CAN'T UNDERSTAND WHY THIS KEEP HAPPENING (ALSO CHECK ServerListenerNetworkHandler CLASS)
+            if (SE.getSelectorEventTypes() == askGrabStuffGrabWeapon) {
+                List<WeaponCard> carte = SE.getWeaponCards();
+                System.out.println("<SERVER>OBJECT SENT CONTAINS:");
+                for (int i = 0; i < carte.size(); i++) {
+                    System.out.println("    <SERVER> " + i + ") " + carte.get(i).getID());
+                }
+            }
+
+            oos.writeObject(SE);
         } catch (IOException e) {
             e.printStackTrace();
         }

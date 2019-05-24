@@ -1,6 +1,8 @@
 package it.polimi.se2019.model;
 
 
+import it.polimi.se2019.model.enumerations.EffectInfoType;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,6 +107,19 @@ public class WeaponCard extends Card implements Serializable {
                     if (line.equals("NEW EFFECT"))
                         effects.add(new Effect());
 
+                    if (line.equals("EXPECTED INPUT"))
+                    {
+                        line = reader.readLine();                                    // seek the File Cursor to the next Line
+                        EffectInfo effectInfo = new EffectInfo();
+
+                        while (!line.equals("END")) {
+                            effectInfo.getEffectInfoTypelist().add(EffectInfoType.valueOf(line));
+                            line = reader.readLine();
+                        }
+                        effects.get(effects.size() - 1).setEffectInfo(effectInfo);
+
+                    }
+
                     if (line.equals("ACTIONS")) {
                         line = reader.readLine();                                    // seek the File Cursor to the next Line
                         while (!line.equals("END")) {
@@ -187,7 +202,16 @@ public class WeaponCard extends Card implements Serializable {
 
     /***/
     public AmmoList getPickUpCost() {
-        return pickUpCost;
+        AmmoList r = new AmmoList();
+        int i = 0;
+        for(AmmoCubes c : reloadCost.getAmmoCubesList()) {
+            if(i == 0)  {
+                r.addAmmoCubesOfColor(c.getColor(),c.getQuantity());
+            }
+            i++;
+
+        }
+        return r;
     }
 
     /***/

@@ -3,6 +3,7 @@ package it.polimi.se2019.model;
 import it.polimi.se2019.model.enumerations.CardinalPoint;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class UserSelectedActionDetails implements Serializable {
     public void itNeeds(Object ... neededObjects) {           // notify the model/view that these fields need to be filled by the user
@@ -69,4 +70,13 @@ public class UserSelectedActionDetails implements Serializable {
 
     private Player target;
 
+    public List<Player> getTargetList() {
+        return targetList;
+    }
+
+    public void setTargetList(List<Player> targetList) {
+        this.targetList = targetList;
+    }
+
+    private List<Player> targetList;
 }

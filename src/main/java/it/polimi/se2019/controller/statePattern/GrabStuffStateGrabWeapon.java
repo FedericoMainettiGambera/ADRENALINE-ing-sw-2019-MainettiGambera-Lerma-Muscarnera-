@@ -8,8 +8,8 @@ import it.polimi.se2019.model.events.ViewControllerEvent;
 import it.polimi.se2019.model.events.ViewControllerEventString;
 import it.polimi.se2019.model.events.ViewControllerEventTwoString;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+
 
 public class GrabStuffStateGrabWeapon implements  State {
 
@@ -31,12 +31,37 @@ public class GrabStuffStateGrabWeapon implements  State {
 
         if(ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards().size() >= 3){
             //ask what weapon in hand to discard and what weapon to pick up.
+
             ArrayList<WeaponCard> toDiscard = (ArrayList)playerToAsk.getWeaponCardsInHand().getCards();
+
+            for (int i = toPickUp.size()-1; i >= 0; i--) {
+                if(!playerToAsk.canPayAmmoCubes(toPickUp.get(i).getPickUpCost())){
+                    toPickUp.remove(i);
+                }
+            }
+
             SelectorGate.selector.askGrabStuffSwitchWeapon(toPickUp, toDiscard);
+
+            if(toPickUp.size()== 0){
+                ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
+                ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+            }
         }
         else {
             //ask what weapon to pick up
+
+            for (int i = toPickUp.size()-1; i >= 0; i--) {
+                if(!playerToAsk.canPayAmmoCubes(toPickUp.get(i).getPickUpCost())){
+                    toPickUp.remove(i);
+                }
+            }
+
             SelectorGate.selector.askGrabStuffGrabWeapon(toPickUp);
+
+            if(toPickUp.size()== 0){
+                ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
+                ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+            }
         }
     }
 
@@ -51,18 +76,18 @@ public class GrabStuffStateGrabWeapon implements  State {
         if(ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards().size() >= 3){
 
             ViewControllerEventTwoString VCETwoString = (ViewControllerEventTwoString) VCE;
-            WeaponCard toDiscard = playerWeapons.getCard(VCETwoString.getInput1());
+            WeaponCard toDiscard = playerWeapons.getCard(VCETwoString.getInput2());
 
-            WeaponCard toDraw = squareWeapons.getCard(VCETwoString.getInput2());
+            WeaponCard toDraw = squareWeapons.getCard(VCETwoString.getInput1());
 
             //reload toDiscard
             toDiscard.reload();
             //discard old weapon
-            System.out.println("<SERVER> discarding card: " + toDiscard.getID());
+            System.out.println("<SERVER> switching card: " + toDiscard.getID() + " ...");
             playerWeapons.moveCardTo(squareWeapons,toDiscard.getID());
 
             //draw new weapon
-            System.out.println("<SERVER> picking up new card: " + toDraw.getID());
+            System.out.println("<SERVER> ... for picking up card: " + toDraw.getID());
             ModelGate.model.getCurrentPlayingPlayer().payAmmoCubes(toDraw.getPickUpCost());
             squareWeapons.moveCardTo(playerWeapons, toDraw.getID());
         }
@@ -74,6 +99,12 @@ public class GrabStuffStateGrabWeapon implements  State {
             System.out.println("<SERVER> picking up new card: " + toDraw.getID());
             ModelGate.model.getCurrentPlayingPlayer().payAmmoCubes(toDraw.getPickUpCost());
             squareWeapons.moveCardTo(playerWeapons, toDraw.getID());
+
+            //replacing new card
+            System.out.println("<SERVER> replacing picked up card in the spawn point with card: " + ModelGate.model.getWeaponDeck().getFirstCard().getID());
+            if(!ModelGate.model.getWeaponDeck().getCards().isEmpty()){
+                ModelGate.model.getWeaponDeck().moveCardTo(squareWeapons, ModelGate.model.getWeaponDeck().getFirstCard().getID());
+            }
         }
 
         //set next state

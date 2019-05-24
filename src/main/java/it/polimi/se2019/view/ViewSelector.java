@@ -1,7 +1,9 @@
 package it.polimi.se2019.view;
 
+import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.PowerUpCard;
+import it.polimi.se2019.model.SpawnPointSquare;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.*;
@@ -13,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ViewSelector implements Selector {
@@ -188,12 +191,18 @@ public class ViewSelector implements Selector {
 
     @Override
     public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp) {
-        System.out.println("Choose one to pick up:");
+
+        if(toPickUp.size() == 0){
+            System.out.println("<CLIENT>you can't pick up any card.");
+            return;
+        }
+
+        System.out.println("<CLIENT>Choose number to pick up:");
 
         Scanner br = new Scanner(System.in);
 
         for (int i = 0; i < toPickUp.size(); i++) {
-            System.out.println( "   " +i + ") " + toPickUp.get(i).getID() + ":\n" + toPickUp.get(i).getPickUpCost().toString());
+            System.out.println( "   " +i + ") " + toPickUp.get(i).getID() + ":\n" + toPickUp.get(i).getPickUpCost());
         }
 
         String toPickUpID = toPickUp.get(br.nextInt()).getID();
@@ -208,11 +217,17 @@ public class ViewSelector implements Selector {
 
     @Override
     public void askGrabStuffSwitchWeapon(ArrayList<WeaponCard> toPickUp, ArrayList<WeaponCard> toSwitch) {
-        System.out.println("you already have the maximum quantity of weapon you can hold.");
-        System.out.println("Choose one to pick up and one to discard.");
-        System.out.println("To pick up:");
+
+        if(toPickUp.size() == 0){
+            System.out.println("<CLIENT>you can't pick up any card.");
+            return;
+        }
+
+        System.out.println("<CLIENT>you already have the maximum quantity of weapon you can hold.");
+        System.out.println("<CLIENT>Choose one to pick up and one to discard.");
+        System.out.println("<CLIENT>To pick up:");
         for (int i = 0; i < toPickUp.size(); i++) {
-            System.out.println( "   " +i + ") " + toPickUp.get(i).getID() + ":\n" + toPickUp.get(i).getPickUpCost().getAmmoCubesList().toString());
+            System.out.println( "   " +i + ") " + toPickUp.get(i).getID() + ":\n" + toPickUp.get(i).getPickUpCost().toString());
         }
 
         Scanner br = new Scanner(System.in);
@@ -220,7 +235,7 @@ public class ViewSelector implements Selector {
 
         String toPickUpID = toPickUp.get(choosenToPickUp).getID();
 
-        System.out.println("Switch with:");
+        System.out.println("<CLIENT>Switch with:");
         for (int i = 0; i < toSwitch.size(); i++) {
             System.out.println( "   " +i + ") " + toSwitch.get(i).getID());
         }
@@ -239,17 +254,60 @@ public class ViewSelector implements Selector {
 
     @Override
     public void askPowerUpToDiscard(ArrayList<PowerUpCard> toDiscard) {
+        System.out.println("<CLIENT>You have too many power up in hand. You need to discard one:");
+        for (int i = 0; i < toDiscard.size() ; i++) {
+            System.out.println("    " + i + ") " + toDiscard.get(i));
+        }
+        Scanner br = new Scanner(System.in);
+        int choosen = br.nextInt();
 
+        ViewControllerEventInt VCEInt = new ViewControllerEventInt(choosen);
+        try {
+            SocketNetworkHandler.oos.writeObject(VCEInt);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void askIfReload() {
+        System.out.println("<CLIENT>Do you want to reload? [Y/N]");
+        Scanner br = new Scanner(System.in);
+        String answer = br.nextLine();
+        answer = answer.toLowerCase();
 
+        try {
+            ViewControllerEventBoolean VCEBoolean = null;
+            if(answer.equals("n")){
+                VCEBoolean = new ViewControllerEventBoolean(false);
+            }
+            else{
+                VCEBoolean = new ViewControllerEventBoolean(true);
+            }
+
+            SocketNetworkHandler.oos.writeObject(VCEBoolean);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void askWhatReaload(ArrayList<WeaponCard> toReload) {
+        System.out.println("<SERVER>Which weapon do you want to reload?");
+        for (int i = 0; i < toReload.size() ; i++) {
+            System.out.println("    " + i + ") " + toReload.get(i).getID());
+        }
+        Scanner br = new Scanner(System.in);
+        int choosen = br.nextInt();
 
+        String choosenID = toReload.get(choosen).getID();
+
+        ViewControllerEventString VCEString = new ViewControllerEventString(choosenID);
+        try {
+            SocketNetworkHandler.oos.writeObject(VCEString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

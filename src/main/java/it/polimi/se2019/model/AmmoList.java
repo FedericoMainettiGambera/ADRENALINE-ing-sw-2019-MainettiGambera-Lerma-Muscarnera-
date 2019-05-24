@@ -149,7 +149,7 @@ public class AmmoList extends Observable implements Serializable {
     }
 
     public String toString(){
-        String s = "    ";
+        String s = "     ";
         for (int i = 0; i < this.ammoCubesList.size() ; i++) {
             s += this.ammoCubesList.get(i).getColor() + ": " + this.ammoCubesList.get(i).getQuantity() + "\n    ";
         }

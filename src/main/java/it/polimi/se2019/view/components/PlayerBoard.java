@@ -1,8 +1,9 @@
-package it.polimi.se2019.view;
+package it.polimi.se2019.view.components;
 
 
+import it.polimi.se2019.model.events.ModelViewEvent;
 
-public class PlayerBoard {
+public class PlayerBoard implements ViewComponent {
 
     private ActionList actionList;
     private DamageTracker damageTracker;
@@ -43,5 +44,10 @@ public class PlayerBoard {
 
     public DeathTracker getDeathTracker() {
         return deathTracker;
+    }
+
+    @Override
+    public void display(ModelViewEvent MVE) {
+
     }
 }
