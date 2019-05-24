@@ -8,6 +8,9 @@ y
 1
 
 NEW EFFECT
+EXPECTED INPUT
+singleTarget
+END
 ACTION
 Action
 // void actioon
