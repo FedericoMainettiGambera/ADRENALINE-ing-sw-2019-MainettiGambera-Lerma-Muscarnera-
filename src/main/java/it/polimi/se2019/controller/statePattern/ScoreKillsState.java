@@ -59,8 +59,10 @@ public class ScoreKillsState implements State {
                     ViewControllerEventHandlerContext.setNextState(new FirstSpawnState());
                     ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
                 }
-                ViewControllerEventHandlerContext.setNextState(new TurnState(1));
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                else {
+                    ViewControllerEventHandlerContext.setNextState(new TurnState(1));
+                    ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                }
             }
             //Game is ended and FinalFrenzy isn't active --> FinalScoringState
             else if(ModelGate.model.getKillshotTrack().areSkullsOver() && (!ModelGate.model.isFinalFrenzy())){
