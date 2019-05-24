@@ -54,6 +54,11 @@ public class ScoreKillsState implements State {
 
             //Game is not ended --> TurnState
             if(!ModelGate.model.getKillshotTrack().areSkullsOver()){
+
+                if(ModelGate.model.getCurrentPlayingPlayer().getPosition() == null){
+                    ViewControllerEventHandlerContext.setNextState(new FirstSpawnState());
+                    ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                }
                 ViewControllerEventHandlerContext.setNextState(new TurnState(1));
                 ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
             }

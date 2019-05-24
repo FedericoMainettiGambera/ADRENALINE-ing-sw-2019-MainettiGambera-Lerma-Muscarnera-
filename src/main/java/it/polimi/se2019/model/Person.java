@@ -83,9 +83,6 @@ public abstract class Person extends Observable implements Serializable {
      * @throws IllegalStateException
      * */
     public Position getPosition() throws IllegalStateException {
-        if(this.position == null){
-            throw new IllegalStateException("Position hasn't been set, it is NULL.");
-        }
         return position;
     }
 
