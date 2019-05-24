@@ -182,7 +182,9 @@ public class Board {
         boolean toAdd = true;
         for (int i = 0; i < numberOfMoves; i++) {
             for (int j = 0; j < possiblePositions.size(); j++) {
-                //System.out.println("Considering coordinates (X: " + possiblePositions.get(j).getX() + ", Y: " + possiblePositions.get(j).getY() +")");
+
+                //System.out.println("Starting position: " + startingPosition);
+                //System.out.println("Calculating possible position considering coordinates (X: " + possiblePositions.get(j).getX() + ", Y: " + possiblePositions.get(j).getY() +")");
                 //pay attention to the this.board.lenght and the this.board[0].lenght, they are inverted and makes confusion.
 
                 tempSquare = this.board[possiblePositions.get(j).getX()][possiblePositions.get(j).getY()];
