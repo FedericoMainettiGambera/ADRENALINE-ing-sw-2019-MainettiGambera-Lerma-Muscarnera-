@@ -8,9 +8,8 @@ import it.polimi.se2019.model.events.ViewControllerEvent;
 import it.polimi.se2019.model.events.ViewControllerEventString;
 import it.polimi.se2019.model.events.ViewControllerEventTwoString;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class GrabStuffStateGrabWeapon implements  State {
 
@@ -32,12 +31,37 @@ public class GrabStuffStateGrabWeapon implements  State {
 
         if(ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards().size() >= 3){
             //ask what weapon in hand to discard and what weapon to pick up.
+
             ArrayList<WeaponCard> toDiscard = (ArrayList)playerToAsk.getWeaponCardsInHand().getCards();
+
+            for (int i = toPickUp.size()-1; i >= 0; i--) {
+                if(!playerToAsk.canPayAmmoCubes(toPickUp.get(i).getPickUpCost())){
+                    toPickUp.remove(i);
+                }
+            }
+
             SelectorGate.selector.askGrabStuffSwitchWeapon(toPickUp, toDiscard);
+
+            if(toPickUp.size()== 0){
+                ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
+                ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+            }
         }
         else {
             //ask what weapon to pick up
+
+            for (int i = toPickUp.size()-1; i >= 0; i--) {
+                if(!playerToAsk.canPayAmmoCubes(toPickUp.get(i).getPickUpCost())){
+                    toPickUp.remove(i);
+                }
+            }
+
             SelectorGate.selector.askGrabStuffGrabWeapon(toPickUp);
+
+            if(toPickUp.size()== 0){
+                ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
+                ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+            }
         }
     }
 

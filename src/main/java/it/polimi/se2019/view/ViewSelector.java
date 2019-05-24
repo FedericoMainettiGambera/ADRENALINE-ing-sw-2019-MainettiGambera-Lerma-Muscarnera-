@@ -192,7 +192,12 @@ public class ViewSelector implements Selector {
     @Override
     public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp) {
 
-        System.out.println("Choose number to pick up:");
+        if(toPickUp.size() == 0){
+            System.out.println("<CLIENT>you can't pick up any card.");
+            return;
+        }
+
+        System.out.println("<CLIENT>Choose number to pick up:");
 
         Scanner br = new Scanner(System.in);
 
@@ -212,9 +217,15 @@ public class ViewSelector implements Selector {
 
     @Override
     public void askGrabStuffSwitchWeapon(ArrayList<WeaponCard> toPickUp, ArrayList<WeaponCard> toSwitch) {
-        System.out.println("you already have the maximum quantity of weapon you can hold.");
-        System.out.println("Choose one to pick up and one to discard.");
-        System.out.println("To pick up:");
+
+        if(toPickUp.size() == 0){
+            System.out.println("<CLIENT>you can't pick up any card.");
+            return;
+        }
+
+        System.out.println("<CLIENT>you already have the maximum quantity of weapon you can hold.");
+        System.out.println("<CLIENT>Choose one to pick up and one to discard.");
+        System.out.println("<CLIENT>To pick up:");
         for (int i = 0; i < toPickUp.size(); i++) {
             System.out.println( "   " +i + ") " + toPickUp.get(i).getID() + ":\n" + toPickUp.get(i).getPickUpCost().toString());
         }
@@ -224,7 +235,7 @@ public class ViewSelector implements Selector {
 
         String toPickUpID = toPickUp.get(choosenToPickUp).getID();
 
-        System.out.println("Switch with:");
+        System.out.println("<CLIENT>Switch with:");
         for (int i = 0; i < toSwitch.size(); i++) {
             System.out.println( "   " +i + ") " + toSwitch.get(i).getID());
         }
