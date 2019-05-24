@@ -1,7 +1,9 @@
 package it.polimi.se2019.view;
 
+import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.PowerUpCard;
+import it.polimi.se2019.model.SpawnPointSquare;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.*;
@@ -13,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ViewSelector implements Selector {
@@ -188,6 +191,7 @@ public class ViewSelector implements Selector {
 
     @Override
     public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp) {
+
         System.out.println("Choose number to pick up:");
 
         Scanner br = new Scanner(System.in);
@@ -212,7 +216,7 @@ public class ViewSelector implements Selector {
         System.out.println("Choose one to pick up and one to discard.");
         System.out.println("To pick up:");
         for (int i = 0; i < toPickUp.size(); i++) {
-            System.out.println( "   " +i + ") " + toPickUp.get(i).getID() + ":\n" + toPickUp.get(i).getPickUpCost().getAmmoCubesList().toString());
+            System.out.println( "   " +i + ") " + toPickUp.get(i).getID() + ":\n" + toPickUp.get(i).getPickUpCost().toString());
         }
 
         Scanner br = new Scanner(System.in);

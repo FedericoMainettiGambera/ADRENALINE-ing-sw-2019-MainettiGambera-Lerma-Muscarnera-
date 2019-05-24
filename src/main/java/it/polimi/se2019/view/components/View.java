@@ -1,11 +1,15 @@
 package it.polimi.se2019.view.components;
 
+import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.*;
 import it.polimi.se2019.view.ViewSelector;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+
+import static it.polimi.se2019.model.enumerations.SelectorEventTypes.askGrabStuffGrabWeapon;
 
 public class View implements Observer {
 
@@ -92,6 +96,7 @@ public class View implements Observer {
 
             case askGrabStuffGrabWeapon:
                 this.selector.askGrabStuffGrabWeapon(((SelectorEventWeaponCards)SE).getWeaponCards());
+
                 break;
 
             case askGrabStuffSwitchWeapon:
