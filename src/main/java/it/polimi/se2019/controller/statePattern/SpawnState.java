@@ -17,12 +17,10 @@ public class SpawnState implements State {
 
     private ArrayList<Player> deadPlayers;
 
-    private int numberOfSpawnedPlayers;
 
     public SpawnState(ArrayList<Player> deadPlayers){
         System.out.println("<SERVER> New state: " + this.getClass());
         this.deadPlayers = deadPlayers;
-        this.numberOfSpawnedPlayers = 0;
     }
 
     @Override
@@ -30,12 +28,9 @@ public class SpawnState implements State {
         //(playerToAsk is null)
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToSpawn.getNickname() + "\"");
 
-        //end of the Game if the death of a Player caused the end of skulls and FinalFrenzy is off
-        if(!deadPlayers.isEmpty() && !ModelGate.model.isFinalFrenzy() && ModelGate.model.getKillshotTrack().areSkullsOver()){
-            ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
+        if(!this.deadPlayers.isEmpty()) {
+            this.playerToSpawn = deadPlayers.get(0);
         }
-
-        this.playerToSpawn = deadPlayers.get(numberOfSpawnedPlayers);
 
         //draw a power up
         ModelGate.model.getPowerUpDeck().moveCardTo(
@@ -56,38 +51,28 @@ public class SpawnState implements State {
 
         //set spawning position
         PowerUpCard cardChosen = playerToSpawn.getPowerUpCardsInHand().getCard(VCEString.getInput());
+
         try {
             Position spawnPosition = ModelGate.model.getBoard().getSpawnpointOfColor(cardChosen.getColor());
+            System.out.println("<SERVER> Spawning player in position [" + spawnPosition.getX() + "][" + spawnPosition.getY() +"]");
             playerToSpawn.setPosition(spawnPosition);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         //discard the power up card
+        System.out.println("<SERVER>Discarding choosen power up: " + cardChosen.getID());
         playerToSpawn.getPowerUpCardsInHand().moveCardTo(
                 ModelGate.model.getPowerUpDiscardPile(),
                 VCEString.getInput()
         );
 
-        this.numberOfSpawnedPlayers++;
+        if(!this.deadPlayers.isEmpty()) {
+            this.deadPlayers.remove(0);
+        }
 
-        if(this.numberOfSpawnedPlayers == this.deadPlayers.size()){
-            ModelGate.model.getPlayerList().setNextPlayingPlayer();
-            if(ModelGate.model.getKillshotTrack().areSkullsOver() && ModelGate.model.isFinalFrenzy()){
-                //trigger FinalFrenzy
-                ViewControllerEventHandlerContext.setNextState(new FFSetUpState());
-                ViewControllerEventHandlerContext.state.doAction(null);
-            }
-            else{
-                //state next turn
-                ViewControllerEventHandlerContext.setNextState(new TurnState(1));
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
-            }
-        }
-        else {
-            //there are more Players to respawn
-            //(the state remains the SpawnState)
-            ViewControllerEventHandlerContext.state.askForInput(null);
-        }
+        ViewControllerEventHandlerContext.setNextState(new ScoreKillsState(this.deadPlayers));
+        ViewControllerEventHandlerContext.state.doAction(null);
+
     }
 }

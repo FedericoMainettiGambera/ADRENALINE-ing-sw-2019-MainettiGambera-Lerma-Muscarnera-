@@ -9,9 +9,19 @@ import java.util.ArrayList;
 
 public class ScoreKillsState implements State {
 
+    //list used to respawn dead players in SpawnState
+    private ArrayList<Player> deadPlayers;
+
     public ScoreKillsState(){
+        this.deadPlayers = new ArrayList<>();
         System.out.println("<SERVER> New state: " + this.getClass());
     }
+
+    public ScoreKillsState(ArrayList<Player> deadPlayers){
+        this.deadPlayers = deadPlayers;
+        System.out.println("<SERVER> New state: " + this.getClass());
+    }
+
 
     @Override
     public void askForInput(Player playerToAsk) {
@@ -21,32 +31,56 @@ public class ScoreKillsState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
+        //(VCE is null)
+
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        //list used to respawn dead players in SpawnState
-        ArrayList<Player> deadPlayers = new ArrayList<>();
-
-        //score dead players
-        for (int i = 0; i < ModelGate.model.getPlayerList().getNumberOfPlayers(); i++) {
-            if(ModelGate.model.getPlayerList().getPlayers().get(i).isDead()){
-                this.scoreKill(ModelGate.model.getPlayerList().getPlayers().get(i));
-                deadPlayers.add(ModelGate.model.getPlayerList().getPlayers().get(i));
+        //score dead players and create the list of dead players
+        if(this.deadPlayers.isEmpty()) {
+            System.out.println("<SERVER>Searching for dead players and creating the deadPlayers list");
+            for (int i = 0; i < ModelGate.model.getPlayerList().getNumberOfPlayers(); i++) {
+                if (ModelGate.model.getPlayerList().getPlayers().get(i).isDead()) {
+                    System.out.println("<SERVER>Scoring player: " + ModelGate.model.getPlayerList().getPlayers().get(i).getNickname());
+                    this.scoreKill(ModelGate.model.getPlayerList().getPlayers().get(i));
+                    deadPlayers.add(ModelGate.model.getPlayerList().getPlayers().get(i));
+                }
             }
         }
 
-        if(deadPlayers.isEmpty()){
+        if(!deadPlayers.isEmpty()){
+            System.out.println("<SERVER>Ended scoring and spawning players.");
+
             ModelGate.model.getPlayerList().setNextPlayingPlayer();
-            ViewControllerEventHandlerContext.setNextState(new TurnState(1));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+
+            //Game is not ended --> TurnState
+            if(!ModelGate.model.getKillshotTrack().areSkullsOver()){
+                ViewControllerEventHandlerContext.setNextState(new TurnState(1));
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            }
+            //Game is ended and FinalFrenzy isn't active --> FinalScoringState
+            else if(ModelGate.model.getKillshotTrack().areSkullsOver() && (!ModelGate.model.isFinalFrenzy())){
+                ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
+                ViewControllerEventHandlerContext.state.doAction(null);
+            }
+            //Game is ended and FinalFrenzy is active --> FFSetUpState
+            else if(ModelGate.model.getKillshotTrack().areSkullsOver() && (ModelGate.model.isFinalFrenzy())){
+                ViewControllerEventHandlerContext.setNextState(new FFSetUpState());
+                ViewControllerEventHandlerContext.state.doAction(null);
+            }
         }
         else{
-            ViewControllerEventHandlerContext.setNextState(new SpawnState(deadPlayers));
+            System.out.println("<SERVER>Spawning player: " + this.deadPlayers.get(0));
+
+            ViewControllerEventHandlerContext.setNextState(new SpawnState(this.deadPlayers));
             ViewControllerEventHandlerContext.state.askForInput(null);
         }
     }
 
     public void scoreKill(Player deadPlayer){
+        System.out.println("<SERVER>Scoring dead players.");
+
         //first blood
+        System.out.println("<SERVER>First blood goes to " + deadPlayer.getPlayerBoard().getDamagesSlot(0).getShootingPlayer().getNickname());
         Player firstBlood = deadPlayer.getPlayerBoard().getDamagesSlot(0).getShootingPlayer();
         firstBlood.addPoints(1);
 
@@ -56,6 +90,7 @@ public class ScoreKillsState implements State {
         ArrayList<Player> playerRankInOrder = deadPlayer.getPlayersDamageRank();
         //give points to each player
         for (int i = 0; i < playerRankInOrder.size(); i++) {
+            System.out.println("<SERVER> Player " + playerRankInOrder.get(i).getNickname() +" receives " + pointsList.get(i) + " points.");
             playerRankInOrder.get(i).addPoints(pointsList.get(i));
         }
 
@@ -69,6 +104,8 @@ public class ScoreKillsState implements State {
 
         //adding skull to the dead player
         deadPlayer.addDeath();
+
+        //restoring health to the player
         deadPlayer.emptyDamagesTracker();
     }
 
