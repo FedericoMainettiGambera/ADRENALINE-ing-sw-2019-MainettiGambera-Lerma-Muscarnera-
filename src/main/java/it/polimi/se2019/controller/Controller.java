@@ -19,7 +19,13 @@ public class  Controller{
 
     private View V;
 
+    public void startGameWithcRMIAsServer(){
 
+    }
+
+    public void startGmeWithRMIAsClient(){
+
+    }
 
     public void startGameWithSocketAsServer(){
 

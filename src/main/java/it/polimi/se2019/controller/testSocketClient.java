@@ -2,7 +2,7 @@ package it.polimi.se2019.controller;
 
 import java.io.IOException;
 
-public class testClient {
+public class testSocketClient {
     public static void main(String[] args){
         Controller user2 = new Controller();
 
