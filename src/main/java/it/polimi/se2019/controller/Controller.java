@@ -20,6 +20,44 @@ public class  Controller{
     private View V;
 
 
+    /////////////////////////////////////////////////////////////////
+    ///////////////////////    RMI    ///////////////////////////////
+    /////////////////////////////////////////////////////////////////
+
+
+    public void startGameWithcRMIAsServer(){
+        //Setting the state pattern
+        this.VCEHC = new ViewControllerEventHandlerContext();
+
+        //start the server
+
+        //creating the View for the user who holds the server
+        this.V = new View();
+
+        //start the client for the user who holds the server and connecting it to the server
+    }
+
+    public void startGmeWithRMIAsClient() throws IOException {
+        //creating the View for the user who holds the server
+        this.V = new View();
+
+        //ask for IP and PORT
+        /*
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("<CLIENT>Insert Server's IP:");
+        String address = br.readLine();
+        System.out.println("<CLIENT>Insert Port:");
+        String port = br.readLine();
+        */
+
+        //create the Client for the user who holds the server and connecting it to the server
+
+    }
+
+
+    //////////////////////////////////////////////////////////////////
+    //////////////////////   SOCKET    ///////////////////////////////
+    //////////////////////////////////////////////////////////////////
 
     public void startGameWithSocketAsServer(){
 

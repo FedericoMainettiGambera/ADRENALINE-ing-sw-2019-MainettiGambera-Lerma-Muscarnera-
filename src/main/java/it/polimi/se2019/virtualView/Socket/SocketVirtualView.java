@@ -2,11 +2,13 @@ package it.polimi.se2019.virtualView.Socket;
 
 
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
+import it.polimi.se2019.model.GameConstant;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.virtualView.VirtualView;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,7 @@ public class SocketVirtualView extends VirtualView {
         this.controller = controller;
 
         try{
-            serverSocket = new ServerSocket(0);
+            serverSocket = new ServerSocket(0, GameConstant.maxNumberOfPlayerPerGame, InetAddress.getLocalHost());
             this.port = serverSocket.getLocalPort();
         }
         catch (IOException e) {

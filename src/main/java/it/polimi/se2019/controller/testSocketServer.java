@@ -6,7 +6,7 @@ import it.polimi.se2019.model.Player;
 
 import java.io.IOException;
 
-public class testServer {
+public class testSocketServer {
     public static void main(String[] args){
 
         Controller user1 = new Controller();
