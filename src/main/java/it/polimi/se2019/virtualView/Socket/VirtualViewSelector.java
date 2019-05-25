@@ -97,16 +97,8 @@ public class VirtualViewSelector implements Selector {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         SelectorEventWeaponCards SE = new SelectorEventWeaponCards(SelectorEventTypes.askGrabStuffGrabWeapon, toPickUp);
         try {
-            //TODO: CAN'T UNDERSTAND WHY THIS KEEP HAPPENING (ALSO CHECK ServerListenerNetworkHandler CLASS)
-            if (SE.getSelectorEventTypes() == askGrabStuffGrabWeapon) {
-                List<WeaponCard> carte = SE.getWeaponCards();
-                System.out.println("<SERVER>OBJECT SENT CONTAINS:");
-                for (int i = 0; i < carte.size(); i++) {
-                    System.out.println("    <SERVER> " + i + ") " + carte.get(i).getID());
-                }
-            }
-
             oos.writeObject(SE);
+            oos.reset(); //IMPORTANT FOR CACHE PROBLEM
         } catch (IOException e) {
             e.printStackTrace();
         }
