@@ -9,7 +9,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class TestServerListenerNH{
+    //TODO : COMMENTED OUT FOR SONAR QUBE PURPOSE
 
+    /*
     Socket socket;
     ObjectInputStream oos;
     View view;
@@ -19,6 +21,6 @@ public class TestServerListenerNH{
     public void TestServer(){
 
     }
-
+    */
 
 }
