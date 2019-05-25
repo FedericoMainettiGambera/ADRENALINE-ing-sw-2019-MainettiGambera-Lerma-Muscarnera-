@@ -24,7 +24,7 @@ public class  Controller{
     ///////////////////////    RMI    ///////////////////////////////
     /////////////////////////////////////////////////////////////////
 
-    
+
     public void startGameWithcRMIAsServer(){
         //Setting the state pattern
         this.VCEHC = new ViewControllerEventHandlerContext();
