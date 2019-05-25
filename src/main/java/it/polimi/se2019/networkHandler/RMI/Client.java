@@ -1,15 +1,19 @@
 package it.polimi.se2019.networkHandler.RMI;
 
 
+import it.polimi.se2019.virtualView.RMI.ChatInterface;
+import it.polimi.se2019.virtualView.RMI.Message;
+import sun.rmi.registry.RegistryImpl_Stub;
+
 import java.rmi.*;
 
+import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Client extends UnicastRemoteObject implements ChatInterface , Runnable {
+public class Client extends UnicastRemoteObject implements ChatInterface, Runnable {
     private static final long serialVersionUID = 1L;
     private ChatInterface server;
     private String ClientName;
@@ -90,7 +94,8 @@ public class Client extends UnicastRemoteObject implements ChatInterface , Runna
         clientName = scanner.nextLine();
         System.out.println("\nConnecting To RMI Server...\n");
 
-        ChatInterface chatinterface = (ChatInterface) Naming.lookup("rmi://0.0.0.0:56678" + "/chat");
+        Registry reg=LocateRegistry.getRegistry("localhost", 6799);
+        ChatInterface chatinterface = (ChatInterface)reg.lookup("rmi://localhost:6799");
 
         if( chatinterface.numberOfConnection()+1<3    )
         { client= new Client(chatinterface, clientName );
