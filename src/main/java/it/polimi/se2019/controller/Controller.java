@@ -23,6 +23,8 @@ public class  Controller{
     /////////////////////////////////////////////////////////////////
     ///////////////////////    RMI    ///////////////////////////////
     /////////////////////////////////////////////////////////////////
+
+    
     public void startGameWithcRMIAsServer(){
         //Setting the state pattern
         this.VCEHC = new ViewControllerEventHandlerContext();
@@ -49,7 +51,7 @@ public class  Controller{
         */
 
         //create the Client for the user who holds the server and connecting it to the server
-        
+
     }
 
 
