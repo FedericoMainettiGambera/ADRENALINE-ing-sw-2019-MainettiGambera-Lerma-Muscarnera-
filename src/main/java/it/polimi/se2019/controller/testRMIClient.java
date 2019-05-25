@@ -8,7 +8,7 @@ public class testRMIClient {
         Controller user1 = new Controller();
 
         try {
-            user1.startGmeWithRMIAsClient();
+            user1.startGameWithRMIAsClient();
         } catch (IOException e) {
             e.printStackTrace();
         }

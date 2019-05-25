@@ -1,4 +1,4 @@
-package it.polimi.se2019.networkHandler.RMI;
+package it.polimi.se2019.virtualView.RMI;
 
 import java.io.Serializable;
 

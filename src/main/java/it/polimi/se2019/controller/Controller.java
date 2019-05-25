@@ -2,16 +2,20 @@ package it.polimi.se2019.controller;
 
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.view.components.View;
+import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.rmi.RemoteException;
 
 public class  Controller{
 
     private SocketVirtualView SVV;
+    private RMIVirtualView RMIVV;
 
     private SocketNetworkHandler SNH;
 
@@ -25,11 +29,21 @@ public class  Controller{
     /////////////////////////////////////////////////////////////////
 
 
-    public void startGameWithcRMIAsServer(){
+    public void startGameWithRMIAsServer(){
         //Setting the state pattern
         this.VCEHC = new ViewControllerEventHandlerContext();
 
         //start the server
+
+        try {
+            RMIVV=new RMIVirtualView();
+            RMIVV.startServer();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
 
         //creating the View for the user who holds the server
         this.V = new View();
@@ -37,7 +51,7 @@ public class  Controller{
         //start the client for the user who holds the server and connecting it to the server
     }
 
-    public void startGmeWithRMIAsClient() throws IOException {
+    public void startGameWithRMIAsClient() throws IOException {
         //creating the View for the user who holds the server
         this.V = new View();
 

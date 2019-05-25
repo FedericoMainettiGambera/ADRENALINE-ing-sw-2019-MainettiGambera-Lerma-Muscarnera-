@@ -5,7 +5,7 @@ public class testRMIServer {
 
         Controller user1 = new Controller();
 
-        user1.startGameWithcRMIAsServer();
+        user1.startGameWithRMIAsServer();
 
     }
 }
