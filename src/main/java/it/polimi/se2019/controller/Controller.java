@@ -39,13 +39,17 @@ public class  Controller{
         //creating the View for the user who holds the server
         this.V = new View();
 
+        //ask for IP and PORT
+        /*
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("<CLIENT>Insert Server's IP:");
         String address = br.readLine();
         System.out.println("<CLIENT>Insert Port:");
         String port = br.readLine();
+        */
 
-        //creating the Client for the user who holds the server and connecting it to the server
+        //create the Client for the user who holds the server and connecting it to the server
+        
     }
 
 
