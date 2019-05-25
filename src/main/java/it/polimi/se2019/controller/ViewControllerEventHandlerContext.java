@@ -10,11 +10,11 @@ public class ViewControllerEventHandlerContext implements Observer {
 
     public static State state;
 
+    public static String networkConnection;
 
     public static void setNextState(State nextState) {
         state = nextState;
     }
-
 
     @Override
     public void update(Observable o, Object arg) {

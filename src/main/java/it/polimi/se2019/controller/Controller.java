@@ -64,6 +64,7 @@ public class  Controller{
         //Setting the state pattern
         this.VCEHC = new ViewControllerEventHandlerContext();
 
+        ViewControllerEventHandlerContext.networkConnection = "SOCKET";
 
         //Starting the Server
         this.SVV = new SocketVirtualView(this.VCEHC);

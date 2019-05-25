@@ -30,8 +30,14 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
         );
 
         //ask which power up to discard
-        SelectorGate.selector.setPlayerToAsk(playerToAsk);
-        SelectorGate.selector.askPowerUpToDiscard((ArrayList)playerToAsk.getPowerUpCardsInHand().getCards());
+        if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
+            SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
+            SelectorGate.selectorSocket.askPowerUpToDiscard((ArrayList)playerToAsk.getPowerUpCardsInHand().getCards());
+        }
+        else{
+            SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
+            SelectorGate.selectorRMI.askGameSetUp();
+        }
     }
 
     @Override
