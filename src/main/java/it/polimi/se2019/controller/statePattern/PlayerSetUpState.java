@@ -6,8 +6,8 @@ import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.GameConstant;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
-import it.polimi.se2019.model.events.ViewControllerEvent;
-import it.polimi.se2019.model.events.ViewControllerEventPlayerSetUp;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPlayerSetUp;
 
 public class PlayerSetUpState implements State {
 

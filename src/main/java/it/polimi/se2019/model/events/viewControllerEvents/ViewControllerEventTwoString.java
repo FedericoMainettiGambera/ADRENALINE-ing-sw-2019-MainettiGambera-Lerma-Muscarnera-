@@ -1,4 +1,4 @@
-package it.polimi.se2019.model.events;
+package it.polimi.se2019.model.events.viewControllerEvents;
 
 public class ViewControllerEventTwoString extends ViewControllerEvent {
     private String input1;

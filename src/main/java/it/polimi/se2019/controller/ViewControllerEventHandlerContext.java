@@ -1,7 +1,7 @@
 package it.polimi.se2019.controller;
 
 import it.polimi.se2019.controller.statePattern.State;
-import it.polimi.se2019.model.events.ViewControllerEvent;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 
 import java.util.Observable;
 import java.util.Observer;

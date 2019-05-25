@@ -4,9 +4,9 @@ import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.*;
-import it.polimi.se2019.model.events.ViewControllerEvent;
-import it.polimi.se2019.model.events.ViewControllerEventString;
-import it.polimi.se2019.model.events.ViewControllerEventTwoString;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventTwoString;
 
 import java.util.ArrayList;
 

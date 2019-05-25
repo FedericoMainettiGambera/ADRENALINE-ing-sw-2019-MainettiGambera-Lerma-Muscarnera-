@@ -2,8 +2,8 @@ package it.polimi.se2019.networkHandler.Socket;
 
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.events.Event;
-import it.polimi.se2019.model.events.SelectorEvent;
-import it.polimi.se2019.model.events.SelectorEventWeaponCards;
+import it.polimi.se2019.model.events.selectorEvents.SelectorEvent;
+import it.polimi.se2019.model.events.selectorEvents.SelectorEventWeaponCards;
 import it.polimi.se2019.view.components.View;
 
 import java.io.IOException;

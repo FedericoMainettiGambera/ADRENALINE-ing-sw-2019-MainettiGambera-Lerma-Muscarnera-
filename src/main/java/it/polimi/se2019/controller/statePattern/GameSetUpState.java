@@ -6,8 +6,8 @@ import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.SquareTypes;
-import it.polimi.se2019.model.events.ViewControllerEvent;
-import it.polimi.se2019.model.events.ViewControllerEventGameSetUp;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventGameSetUp;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

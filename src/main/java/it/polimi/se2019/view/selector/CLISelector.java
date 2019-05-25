@@ -1,13 +1,10 @@
-package it.polimi.se2019.view;
+package it.polimi.se2019.view.selector;
 
-import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.PowerUpCard;
-import it.polimi.se2019.model.SpawnPointSquare;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.PlayersColors;
-import it.polimi.se2019.model.events.*;
-import it.polimi.se2019.networkHandler.NetworkHandler;
+import it.polimi.se2019.model.events.viewControllerEvents.*;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.virtualView.Selector;
 
@@ -15,10 +12,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
-public class ViewSelector implements Selector {
+public class CLISelector implements Selector {
 
     @Override
     public void askGameSetUp() {
@@ -127,8 +123,8 @@ public class ViewSelector implements Selector {
         }
         System.out.println(
                 "   run around\n"+
-                "   grab stuff\n"+
-                "   shoot people"
+                        "   grab stuff\n"+
+                        "   shoot people"
         );
 
         Scanner br = new Scanner(System.in);

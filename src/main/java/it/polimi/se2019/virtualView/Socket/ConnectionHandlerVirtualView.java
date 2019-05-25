@@ -7,7 +7,6 @@ import it.polimi.se2019.model.Game;
 import it.polimi.se2019.model.GameConstant;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.PlayersList;
-import it.polimi.se2019.model.events.ViewControllerEvent;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

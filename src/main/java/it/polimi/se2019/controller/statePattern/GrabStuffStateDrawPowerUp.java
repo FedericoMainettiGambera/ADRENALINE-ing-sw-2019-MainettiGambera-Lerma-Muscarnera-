@@ -3,7 +3,7 @@ package it.polimi.se2019.controller.statePattern;
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.*;
-import it.polimi.se2019.model.events.ViewControllerEvent;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 
 public class GrabStuffStateDrawPowerUp implements State {
     private int actionNumber;

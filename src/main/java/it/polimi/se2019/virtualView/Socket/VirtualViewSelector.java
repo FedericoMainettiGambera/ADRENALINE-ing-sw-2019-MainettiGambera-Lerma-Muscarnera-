@@ -1,9 +1,8 @@
 package it.polimi.se2019.virtualView.Socket;
 
-import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
-import it.polimi.se2019.model.events.*;
+import it.polimi.se2019.model.events.selectorEvents.*;
 import it.polimi.se2019.virtualView.Selector;
 
 import java.io.IOException;

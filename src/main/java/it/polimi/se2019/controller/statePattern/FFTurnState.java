@@ -1,10 +1,8 @@
 package it.polimi.se2019.controller.statePattern;
 
-import it.polimi.se2019.controller.ModelGate;
-import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
-import it.polimi.se2019.model.events.ViewControllerEvent;
-import it.polimi.se2019.model.events.ViewControllerEventString;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
 
 public class FFTurnState implements State {
 

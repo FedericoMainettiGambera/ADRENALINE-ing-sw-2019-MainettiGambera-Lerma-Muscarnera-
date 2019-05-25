@@ -1,6 +1,6 @@
 package it.polimi.se2019.view.components;
 
-import it.polimi.se2019.model.events.ModelViewEvent;
+import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 
 public class AmmoBox implements ViewComponent {
     @Override

@@ -2,7 +2,7 @@ package it.polimi.se2019.virtualView.Socket;
 
 
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
-import it.polimi.se2019.model.events.ModelViewEvent;
+import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.virtualView.VirtualView;
 
 import java.io.IOException;

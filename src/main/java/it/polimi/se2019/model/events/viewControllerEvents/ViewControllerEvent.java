@@ -1,6 +1,7 @@
-package it.polimi.se2019.model.events;
+package it.polimi.se2019.model.events.viewControllerEvents;
 
 import it.polimi.se2019.model.enumerations.EventTypes;
+import it.polimi.se2019.model.events.Event;
 
 import java.io.Serializable;
 

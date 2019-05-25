@@ -6,7 +6,7 @@ import it.polimi.se2019.model.AmmoCard;
 import it.polimi.se2019.model.NormalSquare;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.enumerations.SquareTypes;
-import it.polimi.se2019.model.events.ViewControllerEvent;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 
 public class GrabStuffStateGrab implements State {
 

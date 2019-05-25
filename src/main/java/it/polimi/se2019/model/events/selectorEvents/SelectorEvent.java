@@ -1,7 +1,8 @@
-package it.polimi.se2019.model.events;
+package it.polimi.se2019.model.events.selectorEvents;
 
 import it.polimi.se2019.model.enumerations.EventTypes;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
+import it.polimi.se2019.model.events.Event;
 
 import java.io.Serializable;
 
