@@ -1,5 +1,7 @@
 package it.polimi.se2019.virtualView.RMI;
 
+import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.virtualView.VirtualView;
 
 import java.rmi.*;
@@ -8,77 +10,103 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class RMIVirtualView extends VirtualView implements ChatInterface{
+public class RMIVirtualView extends VirtualView implements RMIInterface{
 
     private static final long serialVersionUID = 1L;
-    protected static ArrayList<ChatInterface> clientList;
-    protected int numberOfConnection=0;
+    protected static ArrayList<RMIInterface> clientList;
+    protected NumberOfConnection numberOfConnection = new NumberOfConnection();
+    private int port=6799;
+    private String name="//rmi:localhost:";
+    int rmiIdentifier=0;
 
 
     public RMIVirtualView() throws RemoteException {
         clientList = new ArrayList<>();
 
-
     }
     @Override
-    public void broadcastMessage(String clientname, Message message) throws RemoteException{
+    public void sendAllClient(Object o) throws RemoteException{
         for(int i=0; i<clientList.size(); i++) {
-        clientList.get(i).sendMessageToClient(clientname.toUpperCase() + " : "+ message.getString());
-    }
-    }
-
-    @Override
-    public void sendMessageToClient(String message) throws RemoteException {
-
+            //TODO INOLTRARE IL MESSAGGIO A TUTTI
+            // clientList.get(i).sendMessageToClient();
+        }
     }
 
     @Override
-    public void addClientToList(ChatInterface client) throws RemoteException {
+    public void sendToClient(int RmiIdentifier, Object o) throws RemoteException {
 
-        if(numberOfConnection+1<3)
+    }
+
+    @Override
+    public void addClientToList(RMIInterface client) throws RemoteException {
+
+        if(numberOfConnection.getNumber()+1<3)
         {   clientList.add(client);
 
             System.out.println(client.getName()+" is connected");
-            numberOfConnection++;
-            System.out.println("number of connection is\n"+ numberOfConnection);}
-        else System.out.println("sorry we are full, number of connection is\n"+numberOfConnection);
+            numberOfConnection.addNumber();
+            System.out.println("number of connection is\n"+ numberOfConnection.getNumber());}
+        else System.out.println("sorry we are full, number of connection is\n"+numberOfConnection.getNumber());
 
     }
 
     @Override
-    public String getName() throws RemoteException {
-        return null;
+    public int getName() throws RemoteException {
+        return 0;
     }
 
     @Override
-    public int numberOfConnection() throws RemoteException {
+    public NumberOfConnection numberOfConnection() throws RemoteException {
         return numberOfConnection;
     }
 
-    public void startServer()throws RemoteException, MalformedURLException{
+    @Override
+    public int getRmiIdentifier() throws RemoteException {
+        return this.rmiIdentifier;
+    }
 
-        ChatInterface RMIS= new RMIVirtualView();
-      // try {
-           ChatInterface stub = (ChatInterface) UnicastRemoteObject.exportObject(RMIS, 6799);
-           Registry reg = LocateRegistry.createRegistry(6799);
-           reg.rebind("rmi://localhost:6799",stub);
-           System.out.println("ciao");
-     //  }catch (RemoteException e){}
+    @Override
+    public void setRmiIdentifier() throws RemoteException {
+
+        this.rmiIdentifier=rmiIdentifier+1;
+
+    }
+
+
+    public void startServer()throws RemoteException{
+
+
+        RMIInterface RMIS= new RMIVirtualView();
+
+
+           RMIInterface stub = (RMIInterface) UnicastRemoteObject.exportObject(RMIS, port);
+           Registry reg = LocateRegistry.createRegistry(port);
+           reg.rebind(name+port,stub);
+           System.out.println("Ciao\n"+"sei connesso al server Rmi di Adrenaline! Benvenuto!\n");
+
         //System.setProperty("java.rmi.Server.hostname", "192.168.x.x");
 
     }
 
-/*public static void main(String[] rgs) throws RemoteException, MalformedURLException{
+    public int getPort(){
+        return port;
+    }
 
-    LocateRegistry.createRegistry(6799);
-    // ChatInterface RMIS= new RMIVirtualView();
-    // ChatInterface stub=(ChatInterface)UnicastRemoteObject.exportObject(RMIS, 0);
-    // Registry reg=LocateRegistry.getRegistry();
-    //System.setProperty("java.rmi.Server.hostname", "192.168.x.x");
-     Naming.rebind("rmi://localhost:6799"+"/chat", new RMIVirtualView());
+    public String getServerName(){
+        return name;
+    }
 
-}
-*/
+    @Override
+    public void update(Observable o, Object arg){
+        ModelViewEvent MVE= (ModelViewEvent)arg;
+        try {
+            this.sendAllClient(MVE);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

@@ -1,5 +1,7 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.virtualView.RMI.RMIInterface;
+
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
@@ -24,8 +26,32 @@ public class Player extends Person implements Serializable {
     /***/
     private ObjectOutputStream oos;
 
+    private RMIInterface rmiInterface;
+
+    private int rmiIdentifier;
+
     /*-********************************************************************************************************METHODS*/
 
+
+    ////rmi
+    public void setRmiInterface(RMIInterface rmi){
+        this.rmiInterface=rmi;
+    }
+
+    public RMIInterface getRmiInterface(){
+
+        return this.rmiInterface;
+    }
+
+    public void setRmiIdentifier(int identifier){
+        this.rmiIdentifier=identifier;
+    }
+
+    public int getRmiIdentifier(){
+        return rmiIdentifier;
+    }
+
+    ///socket
     public void setOos(ObjectOutputStream oos){
         this.oos = oos;
         setChanged();

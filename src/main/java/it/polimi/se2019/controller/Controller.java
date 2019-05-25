@@ -1,5 +1,6 @@
 package it.polimi.se2019.controller;
 
+import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.view.components.View;
 import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 public class  Controller{
@@ -22,6 +24,7 @@ public class  Controller{
     private ViewControllerEventHandlerContext VCEHC;
 
     private View V;
+    private RMINetworkHandler RMINH;
 
 
     /////////////////////////////////////////////////////////////////
@@ -29,9 +32,10 @@ public class  Controller{
     /////////////////////////////////////////////////////////////////
 
 
-    public void startGameWithRMIAsServer(){
+    public void startGameWithRMIAsServer() throws RemoteException, NotBoundException {
         //Setting the state pattern
         this.VCEHC = new ViewControllerEventHandlerContext();
+        ViewControllerEventHandlerContext.networkConnection="RMI";
 
         //start the server
 
@@ -40,8 +44,6 @@ public class  Controller{
             RMIVV.startServer();
         } catch (RemoteException e) {
             e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         }
 
 
@@ -49,6 +51,7 @@ public class  Controller{
         this.V = new View();
 
         //start the client for the user who holds the server and connecting it to the server
+        RMINH=new RMINetworkHandler(this.RMIVV.getServerName(), this.RMIVV.getPort(),this.V);
     }
 
     public void startGameWithRMIAsClient() throws IOException {
