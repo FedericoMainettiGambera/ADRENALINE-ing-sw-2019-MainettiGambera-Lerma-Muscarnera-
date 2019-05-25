@@ -91,7 +91,7 @@ public class GrabStuffStateGrabWeapon implements  State {
             }
             else{
                 if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
-                    SelectorGate.selector.askGrabStuffGrabWeapon(toPickUp);
+                    SelectorGate.selectorSocket.askGrabStuffGrabWeapon(toPickUp);
                 }
                 else{
                     SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
