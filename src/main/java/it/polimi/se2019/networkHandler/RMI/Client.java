@@ -1,12 +1,9 @@
 package it.polimi.se2019.networkHandler.RMI;
 
 
-import com.sun.tools.javac.util.Abort;
 import it.polimi.se2019.virtualView.RMI.RMIInterface;
 import it.polimi.se2019.virtualView.RMI.Message;
 import it.polimi.se2019.virtualView.RMI.NumberOfConnection;
-import it.polimi.se2019.virtualView.RMI.RMIInterface;
-import sun.rmi.registry.RegistryImpl_Stub;
 
 import java.rmi.*;
 
