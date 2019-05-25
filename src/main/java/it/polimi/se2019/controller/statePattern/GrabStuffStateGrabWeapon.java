@@ -30,7 +30,7 @@ public class GrabStuffStateGrabWeapon implements  State {
         ArrayList<WeaponCard> toPickUp = (ArrayList)playerSquare.getWeaponCards().getCards();
         System.out.println("<Server> Cards from the Spawn point:");
         String toPrintln = "";
-        for (int i = 0; i < toPickUp.size() ; i++) {
+        for (int i = 0; i < toPickUp.size() ; i++){
             toPrintln += "    " + toPickUp.get(i).getID();
         }
         System.out.println(toPrintln);
