@@ -1,8 +1,5 @@
 package it.polimi.se2019.view.outputHandler;
 
-import it.polimi.se2019.view.outputHandler.CLIOutputHandler;
-import it.polimi.se2019.view.outputHandler.GUIOutputHandler;
-
 public class OutputHandler {
 
     private it.polimi.se2019.view.outputHandler.GUIOutputHandler GUIOutputHandler = new GUIOutputHandler();

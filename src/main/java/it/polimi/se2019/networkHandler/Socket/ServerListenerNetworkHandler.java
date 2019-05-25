@@ -54,6 +54,9 @@ public class ServerListenerNetworkHandler extends Observable implements Runnable
                     SelectorEvent SE = (SelectorEvent) E;
                     if (SE.getSelectorEventTypes() == askGrabStuffGrabWeapon) {
                         List<WeaponCard> carte = ((SelectorEventWeaponCards) SE).getWeaponCards();
+                        if(carte == ((SelectorEventWeaponCards) SE).getWeaponCards()){
+                            new Exception("stopping for debug").printStackTrace();
+                        }
                         System.out.println("<CLIENT>OBJECT LISTEN CONTAINS:");
                         for (int i = 0; i < carte.size(); i++) {
                             System.out.println("    <CLIENT> " + i + ") " + carte.get(i).getID());
