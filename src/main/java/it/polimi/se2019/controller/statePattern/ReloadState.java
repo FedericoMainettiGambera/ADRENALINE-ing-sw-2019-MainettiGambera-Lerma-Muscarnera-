@@ -20,8 +20,14 @@ public class ReloadState implements State{
         if(canReload()){
             System.out.println("<SERVER> The player can reload");
             //ask if they want to reload
-            SelectorGate.selector.setPlayerToAsk(playerToAsk);
-            SelectorGate.selector.askIfReload();
+            if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
+                SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
+                SelectorGate.selectorSocket.askIfReload();
+            }
+            else{
+                SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
+                SelectorGate.selectorRMI.askGameSetUp();
+            }
         }
         else{
             System.out.println("<SERVER> The player can't reload");

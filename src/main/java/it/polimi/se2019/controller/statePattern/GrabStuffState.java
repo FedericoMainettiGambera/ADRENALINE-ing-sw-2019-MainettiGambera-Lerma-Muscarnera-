@@ -21,8 +21,14 @@ public class GrabStuffState implements State {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //ask for input
-        SelectorGate.selector.setPlayerToAsk(playerToAsk);
-        SelectorGate.selector.askGrabStuffAction();
+        if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
+            SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
+            SelectorGate.selectorSocket.askGrabStuffAction();
+        }
+        else{
+            SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
+            SelectorGate.selectorRMI.askGameSetUp();
+        }
     }
 
     @Override

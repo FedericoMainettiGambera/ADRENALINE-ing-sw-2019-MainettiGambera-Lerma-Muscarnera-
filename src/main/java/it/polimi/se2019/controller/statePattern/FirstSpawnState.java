@@ -22,8 +22,14 @@ public class FirstSpawnState implements State {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //ask to "playerToAsk" what power up he want to discard to spawn on its correspondent SpawnPointColor
-        SelectorGate.selector.setPlayerToAsk(playerToAsk);
-        SelectorGate.selector.askFirstSpawnPosition((ArrayList)playerToAsk.getPowerUpCardsInHand().getCards());
+        if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
+            SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
+            SelectorGate.selectorSocket.askFirstSpawnPosition((ArrayList)playerToAsk.getPowerUpCardsInHand().getCards());
+        }
+        else{
+            SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
+            SelectorGate.selectorRMI.askGameSetUp();
+        }
     }
 
     @Override

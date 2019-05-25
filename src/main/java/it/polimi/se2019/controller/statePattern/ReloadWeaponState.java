@@ -32,8 +32,15 @@ public class ReloadWeaponState implements State {
         }
         System.out.println("<SERVER> Possible weapons that can be reloaded: " + toPrintln);
 
-        SelectorGate.selector.setPlayerToAsk(playerToAsk);
-        SelectorGate.selector.askWhatReaload(toReaload);
+
+        if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
+            SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
+            SelectorGate.selectorSocket.askWhatReaload(toReaload);
+        }
+        else{
+            SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
+            SelectorGate.selectorRMI.askGameSetUp();
+        }
     }
 
     @Override

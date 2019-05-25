@@ -38,9 +38,16 @@ public class SpawnState implements State {
                     ModelGate.model.getPowerUpDeck().getFirstCard().getID()
             );
         }
+
         //ask which power up he wants to discard
-        SelectorGate.selector.setPlayerToAsk(playerToAsk);
-        SelectorGate.selector.askSpawn((ArrayList)playerToSpawn.getPowerUpCardsInHand().getCards());
+        if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
+            SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
+            SelectorGate.selectorSocket.askSpawn((ArrayList)playerToSpawn.getPowerUpCardsInHand().getCards());
+        }
+        else{
+            SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
+            SelectorGate.selectorRMI.askGameSetUp();
+        }
     }
 
     @Override

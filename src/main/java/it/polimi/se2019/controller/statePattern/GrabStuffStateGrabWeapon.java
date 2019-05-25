@@ -24,7 +24,13 @@ public class GrabStuffStateGrabWeapon implements  State {
     public void askForInput(Player playerToAsk) {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
-        SelectorGate.selector.setPlayerToAsk(playerToAsk);
+        if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
+            SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
+        }
+        else{
+            SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
+            SelectorGate.selectorRMI.askGameSetUp();
+        }
 
         SpawnPointSquare playerSquare = ((SpawnPointSquare)(ModelGate.model.getBoard().getSquare(playerToAsk.getPosition().getX(), playerToAsk.getPosition().getY())));
         ArrayList<WeaponCard> toPickUp = (ArrayList)playerSquare.getWeaponCards().getCards();
@@ -66,7 +72,13 @@ public class GrabStuffStateGrabWeapon implements  State {
                 ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
             }
             else {
-                SelectorGate.selector.askGrabStuffSwitchWeapon(toPickUp, toDiscard);
+                if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
+                    SelectorGate.selectorSocket.askGrabStuffSwitchWeapon(toPickUp, toDiscard);
+                }
+                else{
+                    SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
+                    SelectorGate.selectorRMI.askGameSetUp();
+                }
             }
         }
         else {
@@ -78,7 +90,13 @@ public class GrabStuffStateGrabWeapon implements  State {
                 ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
             }
             else{
-                SelectorGate.selector.askGrabStuffGrabWeapon(toPickUp);
+                if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
+                    SelectorGate.selector.askGrabStuffGrabWeapon(toPickUp);
+                }
+                else{
+                    SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
+                    SelectorGate.selectorRMI.askGameSetUp();
+                }
             }
         }
     }

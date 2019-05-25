@@ -25,8 +25,14 @@ public class PlayerSetUpState implements State {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //ask to "playerToAsk" inputs
-        SelectorGate.selector.setPlayerToAsk(playerToAsk);
-        SelectorGate.selector.askPlayerSetUp();
+        if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
+            SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
+            SelectorGate.selectorSocket.askPlayerSetUp();
+        }
+        else{
+            SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
+            SelectorGate.selectorRMI.askGameSetUp();
+        }
     }
 
    @Override
