@@ -30,14 +30,14 @@ public class SpawnState implements State {
 
         if(!this.deadPlayers.isEmpty()) {
             this.playerToSpawn = deadPlayers.get(0);
+
+            System.out.println("<SERVER> Making " + playerToSpawn.getNickname() + " draw a power");
+            //draw a power up
+            ModelGate.model.getPowerUpDeck().moveCardTo(
+                    playerToSpawn.getPowerUpCardsInHand(),
+                    ModelGate.model.getPowerUpDeck().getFirstCard().getID()
+            );
         }
-
-        //draw a power up
-        ModelGate.model.getPowerUpDeck().moveCardTo(
-                playerToSpawn.getPowerUpCardsInHand(),
-                ModelGate.model.getPowerUpDeck().getFirstCard().getID()
-        );
-
         //ask which power up he wants to discard
         SelectorGate.selector.setPlayerToAsk(playerToAsk);
         SelectorGate.selector.askSpawn((ArrayList)playerToSpawn.getPowerUpCardsInHand().getCards());
@@ -61,13 +61,14 @@ public class SpawnState implements State {
         }
 
         //discard the power up card
-        System.out.println("<SERVER>Discarding choosen power up: " + cardChosen.getID());
+        System.out.println("<SERVER>Discarding the chosen power up: " + cardChosen.getID());
         playerToSpawn.getPowerUpCardsInHand().moveCardTo(
                 ModelGate.model.getPowerUpDiscardPile(),
                 VCEString.getInput()
         );
 
         if(!this.deadPlayers.isEmpty()) {
+            System.out.println("<SERVER> Player spawned and removed from the list of dead players");
             this.deadPlayers.remove(0);
         }
 

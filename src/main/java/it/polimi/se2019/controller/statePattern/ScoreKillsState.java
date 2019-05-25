@@ -52,7 +52,7 @@ public class ScoreKillsState implements State {
 
             ModelGate.model.getPlayerList().setNextPlayingPlayer();
 
-            //Game is not ended --> TurnState
+            //Game is not ended --> TurnState or FirstSpawnState
             if(!ModelGate.model.getKillshotTrack().areSkullsOver()){
 
                 if(ModelGate.model.getCurrentPlayingPlayer().getPosition() == null){

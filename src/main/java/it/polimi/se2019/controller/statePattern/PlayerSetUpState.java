@@ -38,6 +38,7 @@ public class PlayerSetUpState implements State {
         //set nickname and color
        System.out.println("<SERVER> Setting Nickname: " + VCEPlayerSetUp.getNickname());
        ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setNickname(VCEPlayerSetUp.getNickname());
+
        System.out.println("<SERVER> Setting Color: " + VCEPlayerSetUp.getColor());
        ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setColor(VCEPlayerSetUp.getColor());
 

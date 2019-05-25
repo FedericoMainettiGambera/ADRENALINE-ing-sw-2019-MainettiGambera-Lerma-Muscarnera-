@@ -26,10 +26,11 @@ public class GrabStuffStateDrawPowerUp implements State {
         Position PlayerPosition = ModelGate.model.getCurrentPlayingPlayer().getPosition();
         OrderedCardList<AmmoCard> squareCards = ((NormalSquare)ModelGate.model.getBoard().getSquare(PlayerPosition)).getAmmoCards();
         AmmoCard ammoCard = squareCards.getFirstCard();
+        System.out.println("<SERVER> The ammo card makes the player gain ammo: " + ammoCard.getAmmunitions().toString());
         ModelGate.model.getCurrentPlayingPlayer().addAmmoCubes(ammoCard.getAmmunitions());
 
-        OrderedCardList<PowerUpCard> playerPowerUpHand = ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand();
         if(ammoCard.isPowerUp()){
+            System.out.println("<SERVER> The ammo card makes the player draw a power up");
             ModelGate.model.getPowerUpDeck().moveCardTo(
                     ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand(),
                     ModelGate.model.getPowerUpDeck().getFirstCard().getID()

@@ -30,6 +30,8 @@ public class TurnState implements State {
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         String actionChosen = ((ViewControllerEventString)VCE).getInput();
+        System.out.println("<SERVER> Player's choice is : " + actionChosen);
+
 
         //set correct next state
         if(actionChosen.equals("run around")){

@@ -23,9 +23,16 @@ public class RunAroundState implements State {
     public void askForInput(Player playerToAsk) {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
+        ArrayList<Position> possiblePositions = ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(), 3);
+        System.out.println("<SERVER> Possible positions to move calculated:");
+        String toPrintln = "";
+        for (int i = 0; i < possiblePositions.size() ; i++) {
+            toPrintln += "[" + possiblePositions.get(i).getX()+ "][" + possiblePositions.get(i).getY() + "]    ";
+        }
+        System.out.println("    " + toPrintln);
+
         //ask for input
         SelectorGate.selector.setPlayerToAsk(playerToAsk);
-        ArrayList<Position> possiblePositions = ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(), 3);
         SelectorGate.selector.askRunAroundPosition(possiblePositions);
     }
 
@@ -36,7 +43,7 @@ public class RunAroundState implements State {
         ViewControllerEventPosition VCEPosition = (ViewControllerEventPosition)VCE;
 
         //set new position for the player
-        System.out.println("<SERVER> setting player position to: [" +VCEPosition.getX()+ "][" +VCEPosition.getY() + "]");
+        System.out.println("<SERVER> Setting player position to: [" +VCEPosition.getX()+ "][" +VCEPosition.getY() + "]");
         ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setPosition(
                 VCEPosition.getX(),
                 VCEPosition.getY()

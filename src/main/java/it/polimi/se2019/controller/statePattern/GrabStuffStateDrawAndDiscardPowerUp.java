@@ -24,10 +24,12 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //draw a new power up
+        System.out.println("<Server> The player draws a power up: " + ModelGate.model.getPowerUpDeck().getFirstCard().getID());
         ModelGate.model.getPowerUpDeck().moveCardTo(
                 playerToAsk.getPowerUpCardsInHand(),
                 ModelGate.model.getPowerUpDeck().getFirstCard().getID()
         );
+
         //ask which power up to discard
         SelectorGate.selector.setPlayerToAsk(playerToAsk);
         SelectorGate.selector.askPowerUpToDiscard((ArrayList)playerToAsk.getPowerUpCardsInHand().getCards());
@@ -40,6 +42,7 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
         ViewControllerEventInt VCEInt = (ViewControllerEventInt)VCE;
 
         //discard power up
+        System.out.println("<SERVER> The player discards power up: " + ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().get(VCEInt.getInput()).getID());
         ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
                 ModelGate.model.getPowerUpDiscardPile(),
                 ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().get(VCEInt.getInput()).getID()

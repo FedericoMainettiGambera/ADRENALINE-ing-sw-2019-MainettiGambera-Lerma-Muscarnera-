@@ -20,13 +20,19 @@ public class ReloadWeaponState implements State {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //ask which weapon to reload
-        SelectorGate.selector.setPlayerToAsk(playerToAsk);
         ArrayList<WeaponCard> toReaload = new ArrayList<>();
         for (WeaponCard wc: playerToAsk.getWeaponCardsInHand().getCards()) {
             if (!wc.isLoaded()){
                 toReaload.add(wc);
             }
         }
+        String toPrintln = "";
+        for (int i = 0; i < toReaload.size() ; i++) {
+            toPrintln += "[" + toReaload.get(i).getID() + "]  ";
+        }
+        System.out.println("<SERVER> Possible weapons that can be reloaded: " + toPrintln);
+
+        SelectorGate.selector.setPlayerToAsk(playerToAsk);
         SelectorGate.selector.askWhatReaload(toReaload);
     }
 
@@ -36,6 +42,7 @@ public class ReloadWeaponState implements State {
 
         ViewControllerEventString VCEString=(ViewControllerEventString) VCE;
 
+        System.out.println("<SERVER> Reloading and paying reload cost for weapon card: " + VCEString.getInput());
         ModelGate.model.getCurrentPlayingPlayer().payAmmoCubes(
                 ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCard(VCEString.getInput()).getReloadCost()
                 );

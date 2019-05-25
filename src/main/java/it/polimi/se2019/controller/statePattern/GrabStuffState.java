@@ -19,6 +19,7 @@ public class GrabStuffState implements State {
     @Override
     public void askForInput(Player playerToAsk) {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+
         //ask for input
         SelectorGate.selector.setPlayerToAsk(playerToAsk);
         SelectorGate.selector.askGrabStuffAction();
@@ -30,6 +31,8 @@ public class GrabStuffState implements State {
 
         ViewControllerEventString VCEString = (ViewControllerEventString)VCE;
         String choice = VCEString.getInput();
+
+        System.out.println("<SERVER> Player's choice: " + choice);
 
         if(choice.equals("move")){
             ViewControllerEventHandlerContext.setNextState(new GrabStuffStateMove(this.actionNumber));

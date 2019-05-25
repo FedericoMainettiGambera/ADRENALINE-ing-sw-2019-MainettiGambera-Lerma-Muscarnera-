@@ -36,14 +36,15 @@ public class GameSetUpState implements State {
 
         ViewControllerEventGameSetUp VCEGameSetUp = (ViewControllerEventGameSetUp)VCE;
 
-        System.out.println("<SERVER>Setting Starting Player.");
+        System.out.println("<SERVER> Setting Starting Player.");
         ModelGate.model.getPlayerList().setStartingPlayer(ModelGate.model.getPlayerList().getPlayer("User1"));
         ModelGate.model.getPlayerList().setCurrentPlayingPlayer(ModelGate.model.getPlayerList().getStartingPlayer());
 
         if(VCEGameSetUp.getGameMode().equals("normalMode")){
-            System.out.println("<SERVER>Setting up Game in normal mode.");
+            System.out.println("<SERVER> Setting up Game in normal mode.");
+
             try {
-                System.out.println("<SERVER>creating Map: " + VCEGameSetUp.getMapChoice());
+                System.out.println("<SERVER> Creating Map: " + VCEGameSetUp.getMapChoice());
                 ModelGate.model.setBoard(new Board(VCEGameSetUp.getMapChoice()));
             }
             catch (IOException e){
@@ -54,34 +55,34 @@ public class GameSetUpState implements State {
             }
             System.out.println("<SERVER> MAP: \n" + ModelGate.model.getBoard().toString());
 
-            System.out.println("<SERVER>creating Killshot Track with " +
+            System.out.println("<SERVER> Creating Killshot Track with " +
                                 VCEGameSetUp.getNumberOfStartingSkulls() +
                                 " number of starting skulls.");
             ModelGate.model.setKillshotTrack(new KillShotTrack(VCEGameSetUp.getNumberOfStartingSkulls()));
 
-            System.out.println("<SERVER>Setting Final Frenzy: " + VCEGameSetUp.isFinalFrezy());
+            System.out.println("<SERVER> Setting Final Frenzy: " + VCEGameSetUp.isFinalFrezy());
             ModelGate.model.setFinalFrenzy(VCEGameSetUp.isFinalFrezy());
 
-            System.out.println("<SERVER>Setting a Bot: "+ VCEGameSetUp.isBotActive());
+            System.out.println("<SERVER> Setting a Bot: "+ VCEGameSetUp.isBotActive());
             ModelGate.model.setBot(new Bot(VCEGameSetUp.isBotActive()));
 
 
-            System.out.println("<SERVER> adding 100 fake ammo cards to the ammoDeck.");
+            System.out.println("<SERVER> Adding 100 fake ammo cards to the ammoDeck.");
             AmmoList ammoList = new AmmoList();
             ammoList.addAmmoCubesOfColor(AmmoCubesColor.yellow, 2);
             for (int i = 0; i < 100; i++) {
                 ModelGate.model.getAmmoDeck().getCards().add(new AmmoCard("fake", ammoList, false));
             }
 
-            System.out.println("<SERVER> adding 5 fake WeaponCards to the weaponDeck.");
+            System.out.println("<SERVER> Adding 10 fake WeaponCards to the weaponDeck.");
             AmmoList tempAmmoList = new AmmoList();
             tempAmmoList.addAmmoCubesOfColor(AmmoCubesColor.blue,1);
             tempAmmoList.addAmmoCubesOfColor(AmmoCubesColor.red,1);
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 10; i++) {
                 ModelGate.model.getWeaponDeck().getCards().add(new WeaponCard("fake", tempAmmoList, tempAmmoList, new ArrayList<Effect>()));
             }
 
-            System.out.println("<SERVER> adding 100 fake PowerUpCards to the powerUpDeck.");
+            System.out.println("<SERVER> Adding 100 fake PowerUpCards to the powerUpDeck.");
             for (int i = 0; i < 100; i++) {
                 ModelGate.model.getPowerUpDeck().getCards().add(new PowerUpCard());
             }
@@ -92,6 +93,7 @@ public class GameSetUpState implements State {
 
 
             //shuffles cards
+            System.out.println("<SERVER> Shuffling decks");
             ModelGate.model.getPowerUpDeck().shuffle();
             ModelGate.model.getAmmoDeck().shuffle();
             ModelGate.model.getWeaponDeck().shuffle();
@@ -109,7 +111,7 @@ public class GameSetUpState implements State {
                                 ammoCards,
                                 ModelGate.model.getAmmoDeck().getFirstCard().getID()
                         );
-
+                        System.out.println("<SERVER> Placed Ammo card on square [" + i + "][" + j + "]");
                     }
                     else if((timeSquare!=null) && (timeSquare.getSquareType()==SquareTypes.spawnPoint)){
 
@@ -122,6 +124,7 @@ public class GameSetUpState implements State {
                             );
 
                         }
+                        System.out.println("<SERVER> Placed Weapond cards on square [" + i + "][" + j + "]");
 
                     }
                 }

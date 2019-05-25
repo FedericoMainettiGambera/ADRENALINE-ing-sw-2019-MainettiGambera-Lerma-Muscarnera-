@@ -18,12 +18,13 @@ public class ReloadState implements State{
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         if(canReload()){
+            System.out.println("<SERVER> The player can reload");
             //ask if they want to reload
             SelectorGate.selector.setPlayerToAsk(playerToAsk);
             SelectorGate.selector.askIfReload();
         }
         else{
-            System.out.println("<SERVER>No weapon to be reloaded");
+            System.out.println("<SERVER> The player can't reload");
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
             ViewControllerEventHandlerContext.state.doAction(null);
         }
@@ -37,12 +38,12 @@ public class ReloadState implements State{
         ViewControllerEventBoolean VCEBoolean=(ViewControllerEventBoolean)VCE;
 
         if(VCEBoolean.getInput()){
-            System.out.println("<SERVER>Player decided to reload.");
+            System.out.println("<SERVER> Player decided to reload.");
             ViewControllerEventHandlerContext.setNextState(new ReloadWeaponState());
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
         else{
-            System.out.println("<SERVER>Player decided not to reload.");
+            System.out.println("<SERVER> Player decided not to reload.");
             ModelGate.model.getPlayerList().setNextPlayingPlayer();
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
             ViewControllerEventHandlerContext.state.doAction(null);

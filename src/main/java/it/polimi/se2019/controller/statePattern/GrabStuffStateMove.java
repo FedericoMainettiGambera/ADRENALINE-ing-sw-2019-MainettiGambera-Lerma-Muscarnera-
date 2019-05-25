@@ -4,8 +4,12 @@ import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
+import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.events.ViewControllerEvent;
 import it.polimi.se2019.model.events.ViewControllerEventPosition;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 public class GrabStuffStateMove implements State {
 
@@ -25,9 +29,19 @@ public class GrabStuffStateMove implements State {
         if(ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineGrabAction()){
             this.numberOfMovement = 2;
         }
-        //ask using the numberOfMovement
+
+        System.out.println("<SERVER> The player can make " + this.numberOfMovement + " number of moves");
+
+        ArrayList<Position> possiblePositions = ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(),this.numberOfMovement);
+        System.out.println("<SERVER> Possible positions to move before grabbing calculated:");
+        String toPrintln = "";
+        for (int i = 0; i < possiblePositions.size() ; i++) {
+            toPrintln += "    [" + possiblePositions.get(i).getX()+ "][" + possiblePositions.get(i).getY() + "]";
+        }
+        System.out.println(toPrintln);
+
         SelectorGate.selector.setPlayerToAsk(playerToAsk);
-        SelectorGate.selector.askGrabStuffMove(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(),this.numberOfMovement));
+        SelectorGate.selector.askGrabStuffMove(possiblePositions);
     }
 
     @Override

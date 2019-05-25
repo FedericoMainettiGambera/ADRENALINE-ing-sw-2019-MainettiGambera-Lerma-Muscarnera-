@@ -28,39 +28,57 @@ public class GrabStuffStateGrabWeapon implements  State {
 
         SpawnPointSquare playerSquare = ((SpawnPointSquare)(ModelGate.model.getBoard().getSquare(playerToAsk.getPosition().getX(), playerToAsk.getPosition().getY())));
         ArrayList<WeaponCard> toPickUp = (ArrayList)playerSquare.getWeaponCards().getCards();
+        System.out.println("<Server> Cards from the Spawn point:");
+        String toPrintln = "";
+        for (int i = 0; i < toPickUp.size() ; i++) {
+            toPrintln += "    " + toPickUp.get(i).getID();
+        }
+        System.out.println(toPrintln);
+
+        for (int i = toPickUp.size()-1; i >= 0; i--) {
+            if(!playerToAsk.canPayAmmoCubes(toPickUp.get(i).getPickUpCost())){
+                System.out.println("<SERVER> Player can't pay for card: " + toPickUp.get(i).getID());
+                toPickUp.remove(i);
+            }
+        }
+        System.out.println("<Server> Possible cards to pick up from the spawn Point:");
+        toPrintln = "";
+        for (int i = 0; i < toPickUp.size() ; i++) {
+            toPrintln += "    " + toPickUp.get(i).getID();
+        }
+        System.out.println(toPrintln);
 
         if(ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards().size() >= 3){
+            System.out.println("<SERVER> The player has already three weapons");
+
             //ask what weapon in hand to discard and what weapon to pick up.
-
             ArrayList<WeaponCard> toDiscard = (ArrayList)playerToAsk.getWeaponCardsInHand().getCards();
-
-            for (int i = toPickUp.size()-1; i >= 0; i--) {
-                if(!playerToAsk.canPayAmmoCubes(toPickUp.get(i).getPickUpCost())){
-                    toPickUp.remove(i);
-                }
+            System.out.println("<Server> Possible cards to discard from hand:");
+            toPrintln = "";
+            for (int i = 0; i < toDiscard.size() ; i++) {
+                toPrintln += toDiscard.get(i).getID() + "    ";
             }
-
-            SelectorGate.selector.askGrabStuffSwitchWeapon(toPickUp, toDiscard);
+            System.out.println("    " + toPrintln);
 
             if(toPickUp.size()== 0){
+                System.out.println("<SERVER> There are no weapon to pick up, asking another action to the user.");
                 ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
                 ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+            }
+            else {
+                SelectorGate.selector.askGrabStuffSwitchWeapon(toPickUp, toDiscard);
             }
         }
         else {
             //ask what weapon to pick up
 
-            for (int i = toPickUp.size()-1; i >= 0; i--) {
-                if(!playerToAsk.canPayAmmoCubes(toPickUp.get(i).getPickUpCost())){
-                    toPickUp.remove(i);
-                }
-            }
-
-            SelectorGate.selector.askGrabStuffGrabWeapon(toPickUp);
-
             if(toPickUp.size()== 0){
+                System.out.println("<SERVER> There are no weapon to pick up, asking another action to the user.");
                 ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
                 ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+            }
+            else{
+                SelectorGate.selector.askGrabStuffGrabWeapon(toPickUp);
             }
         }
     }
@@ -76,34 +94,48 @@ public class GrabStuffStateGrabWeapon implements  State {
         if(ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards().size() >= 3){
 
             ViewControllerEventTwoString VCETwoString = (ViewControllerEventTwoString) VCE;
+
             WeaponCard toDiscard = playerWeapons.getCard(VCETwoString.getInput2());
 
             WeaponCard toDraw = squareWeapons.getCard(VCETwoString.getInput1());
 
+            System.out.println("<SERVER> The player decided to switch his card " + toDiscard.getID() + " with the card " + toDraw.getID());
+
             //reload toDiscard
+            System.out.println("<SERVER> Loading the card to discard (for free)");
             toDiscard.reload();
+            System.out.println("<SERVER> Loading the card to pickUp (for free)");
+            toDraw.reload();
+
             //discard old weapon
-            System.out.println("<SERVER> switching card: " + toDiscard.getID() + " ...");
+            System.out.println("<SERVER> Switching card: " + toDiscard.getID() + " ...");
             playerWeapons.moveCardTo(squareWeapons,toDiscard.getID());
 
             //draw new weapon
             System.out.println("<SERVER> ... for picking up card: " + toDraw.getID());
-            ModelGate.model.getCurrentPlayingPlayer().payAmmoCubes(toDraw.getPickUpCost());
             squareWeapons.moveCardTo(playerWeapons, toDraw.getID());
+
+            System.out.println("<SERVER> Paying the pick up cost");
+            ModelGate.model.getCurrentPlayingPlayer().payAmmoCubes(toDraw.getPickUpCost());
         }
         else {
             ViewControllerEventString VCEString = (ViewControllerEventString) VCE;
             WeaponCard toDraw = squareWeapons.getCard(VCEString.getInput());
 
             //draw the weapon
-            System.out.println("<SERVER> picking up new card: " + toDraw.getID());
-            ModelGate.model.getCurrentPlayingPlayer().payAmmoCubes(toDraw.getPickUpCost());
+            System.out.println("<SERVER> Picking up new card: " + toDraw.getID());
             squareWeapons.moveCardTo(playerWeapons, toDraw.getID());
 
+            System.out.println("<SERVER> Paying the pick up cost");
+            ModelGate.model.getCurrentPlayingPlayer().payAmmoCubes(toDraw.getPickUpCost());
+
             //replacing new card
-            System.out.println("<SERVER> replacing picked up card in the spawn point with card: " + ModelGate.model.getWeaponDeck().getFirstCard().getID());
             if(!ModelGate.model.getWeaponDeck().getCards().isEmpty()){
+                System.out.println("<SERVER> Replacing picked up card in the spawn point with card: " + ModelGate.model.getWeaponDeck().getFirstCard().getID());
                 ModelGate.model.getWeaponDeck().moveCardTo(squareWeapons, ModelGate.model.getWeaponDeck().getFirstCard().getID());
+            }
+            else{
+                System.out.println("<SERVER> The weapon deck is empty, so the space left in the SpawnPoint from the picked up card is not replaced.");
             }
         }
 

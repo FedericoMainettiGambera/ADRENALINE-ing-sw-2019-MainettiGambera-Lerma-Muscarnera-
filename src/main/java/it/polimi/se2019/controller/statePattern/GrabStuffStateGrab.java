@@ -26,6 +26,7 @@ public class GrabStuffStateGrab implements State {
     @Override
     public void doAction(ViewControllerEvent VCE) {
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+
         //the player is in a spawnpoint
         if(ModelGate.model.getBoard().getSquare(ModelGate.model.getCurrentPlayingPlayer().getPosition()).getSquareType()
                 == SquareTypes.spawnPoint){
