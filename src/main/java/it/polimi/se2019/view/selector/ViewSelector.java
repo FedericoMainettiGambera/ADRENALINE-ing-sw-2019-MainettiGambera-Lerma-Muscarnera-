@@ -9,9 +9,17 @@ import java.util.ArrayList;
 
 public class ViewSelector implements Selector {
 
-    private it.polimi.se2019.view.selector.CLISelector CLISelector = new CLISelector();
+    private String networkConnection;
 
-    private it.polimi.se2019.view.selector.GUISelector GUISelector = new GUISelector();
+    private it.polimi.se2019.view.selector.CLISelector CLISelector;
+
+    private it.polimi.se2019.view.selector.GUISelector GUISelector;
+
+    public ViewSelector(String networConnection){
+        this.networkConnection = networConnection;
+        this.CLISelector = new CLISelector(networkConnection);
+        this.GUISelector = new GUISelector(networkConnection);
+    }
 
 
     @Override

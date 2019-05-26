@@ -18,9 +18,12 @@ public class View implements Observer {
 
     private ViewSelector selector;
 
+    private String networkConnection;
 
-    public View(){
-        this.selector = new ViewSelector();
+
+    public View(String networkConnection){
+        this.networkConnection = networkConnection;
+        this.selector = new ViewSelector(networkConnection);
         this.player=new Player();
         this.map=new Map();
         this.gameTrack=new GameTrack();
