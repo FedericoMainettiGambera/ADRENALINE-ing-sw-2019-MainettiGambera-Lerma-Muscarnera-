@@ -16,6 +16,26 @@ import java.util.Scanner;
 
 public class CLISelector implements Selector {
 
+    private String networkConnection;
+
+    public void sendToServer(Object o){
+        if(networkConnection.equals("SOCKET")){
+            try {
+                SocketNetworkHandler.oos.writeObject(o);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            //TODO
+        }
+    }
+
+
+    public CLISelector(String networkConnection){
+        this.networkConnection = networkConnection;
+    }
+
     @Override
     public void askGameSetUp() {
 
@@ -42,11 +62,8 @@ public class CLISelector implements Selector {
         numberOfStartingSkulls = br.nextInt();
 
         ViewControllerEventGameSetUp VCEGameSetUp = new ViewControllerEventGameSetUp(gameMode,mapChoice,numberOfStartingSkulls,isFinalFrenzy,isBotActive);
-        try {
-            SocketNetworkHandler.oos.writeObject(VCEGameSetUp);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        sendToServer(VCEGameSetUp);
     }
 
     @Override
@@ -86,11 +103,7 @@ public class CLISelector implements Selector {
             e.printStackTrace();
         }
         ViewControllerEventPlayerSetUp VCEPlayerSetUp = new ViewControllerEventPlayerSetUp(nickaname, color);
-        try {
-            SocketNetworkHandler.oos.writeObject(VCEPlayerSetUp);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        sendToServer(VCEPlayerSetUp);
     }
 
     @Override
@@ -104,13 +117,8 @@ public class CLISelector implements Selector {
         String cardID = br.nextLine();
 
         ViewControllerEventString VCEString = new ViewControllerEventString(cardID);
-        try {
-            SocketNetworkHandler.oos.writeObject(VCEString);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-
+        sendToServer(VCEString);
     }
 
     @Override
@@ -130,11 +138,8 @@ public class CLISelector implements Selector {
         Scanner br = new Scanner(System.in);
 
         ViewControllerEventString VCEString = new ViewControllerEventString(br.nextLine());
-        try {
-            SocketNetworkHandler.oos.writeObject(VCEString);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        sendToServer(VCEString);
     }
 
     @Override
@@ -149,11 +154,8 @@ public class CLISelector implements Selector {
         int choosenPosition = br.nextInt();
 
         ViewControllerEventPosition VCEPosition = new ViewControllerEventPosition(positions.get(choosenPosition).getX(),positions.get(choosenPosition).getY());
-        try {
-            SocketNetworkHandler.oos.writeObject(VCEPosition);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        sendToServer(VCEPosition);
     }
 
     @Override
@@ -173,11 +175,8 @@ public class CLISelector implements Selector {
             action = "grab";
         }
         ViewControllerEventString VCEString = new ViewControllerEventString(action);
-        try {
-            SocketNetworkHandler.oos.writeObject(VCEString);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        sendToServer(VCEString);
     }
 
     @Override
@@ -204,11 +203,8 @@ public class CLISelector implements Selector {
         String toPickUpID = toPickUp.get(br.nextInt()).getID();
 
         ViewControllerEventString VCEString = new ViewControllerEventString(toPickUpID);
-        try {
-            SocketNetworkHandler.oos.writeObject(VCEString);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        sendToServer(VCEString);
     }
 
     @Override
@@ -241,11 +237,8 @@ public class CLISelector implements Selector {
         String toDiscardID = toSwitch.get(choosenToDiscard).getID();
 
         ViewControllerEventTwoString VCETwoString = new ViewControllerEventTwoString(toPickUpID, toDiscardID);
-        try {
-            SocketNetworkHandler.oos.writeObject(VCETwoString);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        sendToServer(VCETwoString);
     }
 
     @Override
@@ -258,11 +251,8 @@ public class CLISelector implements Selector {
         int choosen = br.nextInt();
 
         ViewControllerEventInt VCEInt = new ViewControllerEventInt(choosen);
-        try {
-            SocketNetworkHandler.oos.writeObject(VCEInt);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        sendToServer(VCEInt);
     }
 
     @Override
@@ -272,19 +262,16 @@ public class CLISelector implements Selector {
         String answer = br.nextLine();
         answer = answer.toLowerCase();
 
-        try {
-            ViewControllerEventBoolean VCEBoolean = null;
-            if(answer.equals("n")){
-                VCEBoolean = new ViewControllerEventBoolean(false);
-            }
-            else{
-                VCEBoolean = new ViewControllerEventBoolean(true);
-            }
 
-            SocketNetworkHandler.oos.writeObject(VCEBoolean);
-        } catch (IOException e) {
-            e.printStackTrace();
+        ViewControllerEventBoolean VCEBoolean = null;
+        if(answer.equals("n")){
+            VCEBoolean = new ViewControllerEventBoolean(false);
         }
+        else{
+            VCEBoolean = new ViewControllerEventBoolean(true);
+        }
+
+        sendToServer(VCEBoolean);
     }
 
     @Override
@@ -299,11 +286,8 @@ public class CLISelector implements Selector {
         String choosenID = toReload.get(choosen).getID();
 
         ViewControllerEventString VCEString = new ViewControllerEventString(choosenID);
-        try {
-            SocketNetworkHandler.oos.writeObject(VCEString);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        sendToServer(VCEString);
     }
 
     @Override

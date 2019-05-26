@@ -8,6 +8,13 @@ import it.polimi.se2019.virtualView.Selector;
 import java.util.ArrayList;
 
 public class GUISelector implements Selector {
+
+    private String networkConnection;
+
+    public GUISelector(String networkConnection){
+        this.networkConnection = networkConnection;
+    }
+
     @Override
     public void askGameSetUp() {
 
