@@ -1,16 +1,23 @@
 package it.polimi.se2019.networkHandler.RMI;
 
 
+import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.model.Player;
+import it.polimi.se2019.model.events.Event;
 import it.polimi.se2019.virtualView.RMI.RMIInterface;
 import it.polimi.se2019.virtualView.RMI.Message;
 import it.polimi.se2019.virtualView.RMI.NumberOfConnection;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.rmi.*;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.RemoteObjectInvocationHandler;
 import java.rmi.server.UnicastRemoteObject;
 import java.net.MalformedURLException;
+import java.util.Observable;
 import java.util.Scanner;
 
 public class Client extends UnicastRemoteObject implements RMIInterface, Runnable {
@@ -18,14 +25,19 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
     private RMIInterface server;
     private int rmiIdentifier;
     boolean chkExit = true;
+    RMIObsHandler rmiObsHandler;
 
+
+    public void setRmiObsHandler(RMIObsHandler rmiObsHandler){
+        this.rmiObsHandler=rmiObsHandler;
+    }
 
 
     protected Client(RMIInterface chatinterface,int clientname) throws RemoteException {
 
         this.server = chatinterface;
         this.rmiIdentifier = clientname;
-        System.out.println("hola") ;
+        System.out.println("<SEVERINO> " + "hola") ;
 
     }
 
@@ -35,6 +47,9 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
 
     @Override
     public void sendToClient(int RmiIdentifier, Object o) throws RemoteException {
+        System.out.println("Am i here?");
+            Event E = (Event)o;
+            this.rmiObsHandler.notify(E);
 
     }
 
@@ -60,7 +75,7 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
 
     @Override
     public int getRmiIdentifier() throws RemoteException {
-        return 0;
+        return rmiIdentifier;
     }
 
     @Override
@@ -68,20 +83,32 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
 
     }
 
+    @Override
+    public void createPlayer(RMIInterface rmiInterface) throws RemoteException {
+
+    }
+
+    @Override
+    public RMIInterface getClient(int rmiIdentifier) throws RemoteException {
+        return null;
+    }
+
+
     public void run(){
 
-        System.out.println("Successfully Connected To RMI Adrenaline Server");
-        System.out.println("NOTE : Type LOGOUT to Exit From The Service");
-        System.out.println("Now Your Online To Play!\nPlease have fun!");
+
+
         Scanner scanner = new Scanner(System.in);
         Message message=new Message();
-        RMIInterface chatInterface;
+
+        try {
+            server.createPlayer(server);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
 
-
-
-
-        while(chkExit) {
+       /* while(chkExit) {
             message.setString(scanner.nextLine());
             if(message.getString().equals("LOGOUT")) {
                 chkExit = false;
@@ -101,7 +128,7 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
             server.numberOfConnection().lessNumber();
         } catch (RemoteException e) {
             e.printStackTrace();
-        }
+        }*/
 
 
     }
@@ -115,24 +142,27 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
         Client client;
 
 
-        System.out.println("\n~~ Welcome To RMI Adrenaline Server~~\n"+"Ready to Play?\n Cool!\njust a few steps before!");
-        System.out.print("Inserisci un nickname: ");
+        System.out.println("<PLAYERINO>~~ Welcome To RMI Adrenaline Server~~"+"  Ready to Play? Cool! just a few steps before!");
+        System.out.print("<PLAYERINO>Inserisci un nickname: ");
         clientName = scanner.nextLine();
-        System.out.println("\nConnecting To RMI Server...\n");
+        System.out.println("<Playerino>Connecting To RMI Server...");
 
         Registry reg=LocateRegistry.getRegistry("localhost", 6799);
         RMIInterface chatinterface = (RMIInterface) reg.lookup("rmi://localhost:6799");
 
-        if( chatinterface.numberOfConnection().getNumber()+1<3    )
+
+        if( chatinterface.numberOfConnection().getNumber()<5   )
         { client= new Client(chatinterface, chatinterface.getRmiIdentifier());
             chatinterface.setRmiIdentifier();
             chatinterface.addClientToList(client);
+            chatinterface.numberOfConnection().addNumber();
             new Thread(client).start();
+
 
 
         }
 
-        else {System.out.println("Sorry you cant play we are full\n"+"number of connection is already\n"+chatinterface.numberOfConnection());}
+        else {System.out.println("<PlYAERINO> Sorry you cant play we are full, "+"number of connection is already"+chatinterface.numberOfConnection());}
 
 
 

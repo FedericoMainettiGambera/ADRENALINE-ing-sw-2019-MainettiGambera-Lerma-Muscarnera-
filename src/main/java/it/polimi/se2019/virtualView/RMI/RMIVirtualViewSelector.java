@@ -25,7 +25,8 @@ public class RMIVirtualViewSelector implements Selector{
     public  void askGameSetUp(){
         try {
             SelectorEvent SE = new SelectorEvent(SelectorEventTypes.askGameSetUp);
-            playerToAsk.getRmiInterface().sendToClient(playerToAsk.getRmiIdentifier(), SE);
+            System.out.println(playerToAsk.getRmiIdentifier());
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(), SE);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,7 +36,7 @@ public class RMIVirtualViewSelector implements Selector{
     public void askPlayerSetUp() {
 
         try {
-            playerToAsk.getRmiInterface().sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEvent(SelectorEventTypes.askPlayerSetUp));
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEvent(SelectorEventTypes.askPlayerSetUp));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,7 +45,7 @@ public class RMIVirtualViewSelector implements Selector{
     @Override
     public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards) {
         try {
-            playerToAsk.getRmiInterface().sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEventPowerUpCards(SelectorEventTypes.askFirstSpawnPosition, powerUpCards));
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEventPowerUpCards(SelectorEventTypes.askFirstSpawnPosition, powerUpCards));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,7 +54,7 @@ public class RMIVirtualViewSelector implements Selector{
     @Override
     public void askTurnAction(int actionNumber) {
         try {
-            playerToAsk.getRmiInterface().sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEventInt(SelectorEventTypes.askTurnAction, actionNumber));
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEventInt(SelectorEventTypes.askTurnAction, actionNumber));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,7 +63,7 @@ public class RMIVirtualViewSelector implements Selector{
     @Override
     public void askRunAroundPosition(ArrayList<Position> positions) {
         try {
-          playerToAsk.getRmiInterface().sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEventPositions(SelectorEventTypes.askRunAroundPosition, positions));
+          playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEventPositions(SelectorEventTypes.askRunAroundPosition, positions));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -71,7 +72,7 @@ public class RMIVirtualViewSelector implements Selector{
     @Override
     public void askGrabStuffAction() {
         try {
-            playerToAsk.getRmiInterface().sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEvent(SelectorEventTypes.askGrabStuffAction));
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEvent(SelectorEventTypes.askGrabStuffAction));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,7 +81,7 @@ public class RMIVirtualViewSelector implements Selector{
     @Override
     public void askGrabStuffMove(ArrayList<Position> positions) {
         try {
-            playerToAsk.getRmiInterface().sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEventPositions(SelectorEventTypes.askGrabStuffMove, positions));
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEventPositions(SelectorEventTypes.askGrabStuffMove, positions));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -90,7 +91,7 @@ public class RMIVirtualViewSelector implements Selector{
     public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp) {
         SelectorEventWeaponCards SE = new SelectorEventWeaponCards(SelectorEventTypes.askGrabStuffGrabWeapon, toPickUp);
         try {
-           playerToAsk.getRmiInterface().sendToClient(playerToAsk.getRmiIdentifier(),SE);
+           playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),SE);
             //oos.reset(); //IMPORTANT FOR CACHE PROBLEM
         } catch (IOException e) {
             e.printStackTrace();
@@ -100,7 +101,7 @@ public class RMIVirtualViewSelector implements Selector{
     @Override
     public void askGrabStuffSwitchWeapon(ArrayList<WeaponCard> toPickUp, ArrayList<WeaponCard> toSwitch) {
         try {
-            playerToAsk.getRmiInterface().sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEventDoubleWeaponCards(SelectorEventTypes.askGrabStuffSwitchWeapon, toPickUp, toSwitch));
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEventDoubleWeaponCards(SelectorEventTypes.askGrabStuffSwitchWeapon, toPickUp, toSwitch));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -109,7 +110,7 @@ public class RMIVirtualViewSelector implements Selector{
     @Override
     public void askPowerUpToDiscard(ArrayList<PowerUpCard> toDiscard) {
         try {
-            playerToAsk.getRmiInterface().sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEventPowerUpCards(SelectorEventTypes.askPowerUpToDiscard,toDiscard));
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEventPowerUpCards(SelectorEventTypes.askPowerUpToDiscard,toDiscard));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,7 +119,7 @@ public class RMIVirtualViewSelector implements Selector{
     @Override
     public void askIfReload() {
         try {
-           playerToAsk.getRmiInterface().sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEvent(SelectorEventTypes.askIfReload));
+           playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEvent(SelectorEventTypes.askIfReload));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -128,7 +129,7 @@ public class RMIVirtualViewSelector implements Selector{
     public void askWhatReaload(ArrayList<WeaponCard> toReload) {
 
         try {
-            playerToAsk.getRmiInterface().sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEventWeaponCards(SelectorEventTypes.askWhatReaload,toReload));
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEventWeaponCards(SelectorEventTypes.askWhatReaload,toReload));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -137,7 +138,7 @@ public class RMIVirtualViewSelector implements Selector{
     @Override
     public void askSpawn(ArrayList<PowerUpCard> powerUpCards) {
         try {
-            playerToAsk.getRmiInterface().sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEventPowerUpCards(SelectorEventTypes.askSpawn, powerUpCards));
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEventPowerUpCards(SelectorEventTypes.askSpawn, powerUpCards));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -13,30 +13,37 @@ import java.util.Scanner;
 public class RMINetworkHandler extends NetworkHandler{
 
     Client client;
+    RMIObsHandler rmiObsHandler;
+
 
     public RMINetworkHandler(String name, int port, View view) throws RemoteException, NotBoundException {
 
         Scanner scanner = new Scanner(System.in);
-        String clientName = "";
+        int rmiIdentifier;
         Client client;
+        rmiObsHandler=new RMIObsHandler(view);
 
 
-        System.out.println("\n~~ Welcome To RMI Adrenaline Server~~\n"+"Ready to Play?\n Cool!\njust a few steps before!");
-        System.out.print("Inserisci un nickname: ");
-        clientName = scanner.nextLine();
-        System.out.println("\nConnecting To RMI Server...\n");
+
+        System.out.println("<CLIENT> " + "~~ Welcome To RMI Adrenaline Server~~   "+"Ready to Play? Cool! just a few steps before!");
+        System.out.print("<CLIENT> " + "Inserisci un nickname: ");
+
+        System.out.println("<CLIENT> " + "Connecting To RMI Server...\n");
 
         Registry reg=LocateRegistry.getRegistry("localhost", port);
         RMIInterface rmiInterface = (RMIInterface) reg.lookup(name+port);
 
+
+
         if( rmiInterface.numberOfConnection().getNumber()+1<3    )
-        { client= new Client(rmiInterface, clientName );
+        { client= new Client(rmiInterface, rmiInterface.getRmiIdentifier() );
+        System.out.println("rdmiIdentifier in Network handler is" + rmiInterface.getRmiIdentifier());
             rmiInterface.addClientToList(client);
             new Thread(client).start();
-
+            client.setRmiObsHandler(rmiObsHandler);
         }
 
-        else {System.out.println("Sorry you cant play we are full\n"+"number of connection is already\n"+rmiInterface.numberOfConnection());}
+        else {System.out.println("<CLIENT> " + "Sorry you cant play we are full, "+"number of connection is already"+rmiInterface.numberOfConnection());}
 
 
     }
