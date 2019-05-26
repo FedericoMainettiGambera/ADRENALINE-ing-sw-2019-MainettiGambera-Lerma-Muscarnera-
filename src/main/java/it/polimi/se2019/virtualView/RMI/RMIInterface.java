@@ -13,5 +13,6 @@ public interface RMIInterface extends java.rmi.Remote {
     public void setRmiIdentifier()throws RemoteException;
     public void createPlayer(RMIInterface rmiInterface)throws RemoteException;
     public RMIInterface getClient(int rmiIdentifier)throws RemoteException;
+    public void sendToServer(Object o)throws  RemoteException;
 
 }

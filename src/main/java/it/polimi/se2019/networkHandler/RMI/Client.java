@@ -93,6 +93,12 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
         return null;
     }
 
+    @Override
+    public void sendToServer(Object o) throws RemoteException{
+
+
+    }
+
 
     public void run(){
 

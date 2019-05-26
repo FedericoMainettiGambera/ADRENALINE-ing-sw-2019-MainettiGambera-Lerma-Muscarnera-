@@ -119,6 +119,11 @@ public class RMIVirtualView extends VirtualView implements RMIInterface{
         return null;
     }
 
+    @Override
+    public void sendToServer(Object o) throws RemoteException {
+
+    }
+
 
     public void startServer()throws RemoteException{
 
