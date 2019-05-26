@@ -28,7 +28,7 @@ public class FirstSpawnState implements State {
         }
         else{
             SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
-            SelectorGate.selectorRMI.askGameSetUp();
+            SelectorGate.selectorRMI.askFirstSpawnPosition((ArrayList)playerToAsk.getPowerUpCardsInHand().getCards());
         }
     }
 

@@ -40,7 +40,7 @@ public class  Controller{
         //start the server
 
         try {
-            RMIVV=new RMIVirtualView();
+            RMIVV=new RMIVirtualView(VCEHC);
             RMIVV.startServer();
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -52,6 +52,7 @@ public class  Controller{
 
         //start the client for the user who holds the server and connecting it to the server
         RMINH=new RMINetworkHandler(this.RMIVV.getServerName(), this.RMIVV.getPort(),this.V);
+
     }
 
     public void startGameWithRMIAsClient() throws IOException {

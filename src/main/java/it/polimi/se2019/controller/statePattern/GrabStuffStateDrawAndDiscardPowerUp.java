@@ -36,7 +36,7 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
         }
         else{
             SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
-            SelectorGate.selectorRMI.askGameSetUp();
+            SelectorGate.selectorRMI.askPowerUpToDiscard((ArrayList)playerToAsk.getPowerUpCardsInHand().getCards());
         }
     }
 

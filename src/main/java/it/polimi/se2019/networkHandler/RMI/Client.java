@@ -37,19 +37,20 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
 
         this.server = chatinterface;
         this.rmiIdentifier = clientname;
-        System.out.println("<SEVERINO> " + "hola") ;
+        System.out.println("<SEVERINO> " + "hola guapa") ;
 
     }
 
 
+    public RMIInterface returnInterface(){return this.server;}
     @Override
     public void sendAllClient(Object o) throws RemoteException {}
 
     @Override
     public void sendToClient(int RmiIdentifier, Object o) throws RemoteException {
-        System.out.println("Am i here?");
-            Event E = (Event)o;
-            this.rmiObsHandler.notify(E);
+
+        Event E = (Event)o;
+        this.rmiObsHandler.notify(E);
 
     }
 
@@ -95,8 +96,6 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
 
     @Override
     public void sendToServer(Object o) throws RemoteException{
-
-
     }
 
 

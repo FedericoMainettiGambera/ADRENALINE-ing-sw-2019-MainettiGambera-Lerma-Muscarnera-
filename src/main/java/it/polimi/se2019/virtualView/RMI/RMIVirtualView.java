@@ -9,6 +9,7 @@ import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.PlayersList;
 import it.polimi.se2019.model.events.Event;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.virtualView.VirtualView;
 
 import java.rmi.*;
@@ -23,16 +24,22 @@ public class RMIVirtualView extends VirtualView implements RMIInterface{
 
     private static final long serialVersionUID = 1L;
     protected static ArrayList<RMIInterface> clientList;
-  public static NumberOfConnection numberOfConnection = new NumberOfConnection();
+    public static NumberOfConnection numberOfConnection = new NumberOfConnection();
     private int port=6799;
     private String name="rmi://localhost:";
     int rmiIdentifier=1;
 
+    private RMIObsVirtualView RmiObsVirtualView;
 
-    public RMIVirtualView() throws RemoteException {
+    private ViewControllerEventHandlerContext controller;
+
+
+    public RMIVirtualView(ViewControllerEventHandlerContext controller) throws RemoteException {
         clientList = new ArrayList<>();
-
+        this.controller = controller;
+        this.RmiObsVirtualView = new RMIObsVirtualView(controller);
     }
+
     @Override
     public void sendAllClient(Object o) throws RemoteException{
         for(int i=0; i<clientList.size(); i++) {
@@ -110,10 +117,6 @@ public class RMIVirtualView extends VirtualView implements RMIInterface{
 
         for(int i=0;i< clientList.size(); i++){
             if(clientList.get(i).getRmiIdentifier()==rmiIdentifier)
-                System.out.println("Am i here?");
-            System.out.println(clientList.get(i).getRmiIdentifier());
-            System.out.println(rmiIdentifier);
-
             return clientList.get(i);
         }
         return null;
@@ -121,7 +124,8 @@ public class RMIVirtualView extends VirtualView implements RMIInterface{
 
     @Override
     public void sendToServer(Object o) throws RemoteException {
-
+        ViewControllerEvent VCE= (ViewControllerEvent)o;
+        this.RmiObsVirtualView.notify(VCE);
     }
 
 
@@ -133,7 +137,7 @@ public class RMIVirtualView extends VirtualView implements RMIInterface{
          PlayersList pl = new PlayersList();
          ModelGate.model.setPlayerList(pl);
 
-         RMIInterface RMIS= new RMIVirtualView();
+         RMIInterface RMIS= new RMIVirtualView(controller);
 
 
          RMIInterface stub = (RMIInterface) UnicastRemoteObject.exportObject(RMIS, port);

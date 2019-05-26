@@ -36,7 +36,9 @@ public class RMIVirtualViewSelector implements Selector{
     public void askPlayerSetUp() {
 
         try {
-            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEvent(SelectorEventTypes.askPlayerSetUp));
+            SelectorEvent SE= new SelectorEvent(SelectorEventTypes.askPlayerSetUp);
+            System.out.println("ciao sonola VVselector");
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),SE);
         } catch (IOException e) {
             e.printStackTrace();
         }

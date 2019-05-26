@@ -5,12 +5,14 @@ import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.viewControllerEvents.*;
+import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.virtualView.Selector;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -27,7 +29,11 @@ public class CLISelector implements Selector {
             }
         }
         else{
-            //TODO
+            try {
+                RMINetworkHandler.client.returnInterface().sendToServer(o);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class RMINetworkHandler extends NetworkHandler{
 
-    Client client;
+    public static Client client;
     RMIObsHandler rmiObsHandler;
 
 
@@ -20,7 +20,7 @@ public class RMINetworkHandler extends NetworkHandler{
 
         Scanner scanner = new Scanner(System.in);
         int rmiIdentifier;
-        Client client;
+
         rmiObsHandler=new RMIObsHandler(view);
 
 

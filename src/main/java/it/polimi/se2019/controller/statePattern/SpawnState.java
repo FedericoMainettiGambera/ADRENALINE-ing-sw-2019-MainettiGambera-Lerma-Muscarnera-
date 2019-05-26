@@ -46,7 +46,7 @@ public class SpawnState implements State {
         }
         else{
             SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
-            SelectorGate.selectorRMI.askGameSetUp();
+            SelectorGate.selectorRMI.askSpawn((ArrayList)playerToSpawn.getPowerUpCardsInHand().getCards());
         }
     }
 

@@ -29,7 +29,6 @@ public class GrabStuffStateGrabWeapon implements  State {
         }
         else{
             SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
-            SelectorGate.selectorRMI.askGameSetUp();
         }
 
         SpawnPointSquare playerSquare = ((SpawnPointSquare)(ModelGate.model.getBoard().getSquare(playerToAsk.getPosition().getX(), playerToAsk.getPosition().getY())));
@@ -76,8 +75,7 @@ public class GrabStuffStateGrabWeapon implements  State {
                     SelectorGate.selectorSocket.askGrabStuffSwitchWeapon(toPickUp, toDiscard);
                 }
                 else{
-                    SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
-                    SelectorGate.selectorRMI.askGameSetUp();
+                    SelectorGate.selectorRMI.askGrabStuffSwitchWeapon(toPickUp, toDiscard);
                 }
             }
         }
@@ -94,8 +92,7 @@ public class GrabStuffStateGrabWeapon implements  State {
                     SelectorGate.selectorSocket.askGrabStuffGrabWeapon(toPickUp);
                 }
                 else{
-                    SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
-                    SelectorGate.selectorRMI.askGameSetUp();
+                    SelectorGate.selectorRMI.askGrabStuffGrabWeapon(toPickUp);
                 }
             }
         }

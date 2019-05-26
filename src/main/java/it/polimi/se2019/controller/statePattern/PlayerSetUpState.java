@@ -31,7 +31,7 @@ public class PlayerSetUpState implements State {
         }
         else{
             SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
-            SelectorGate.selectorRMI.askGameSetUp();
+            SelectorGate.selectorRMI.askPlayerSetUp();
         }
     }
 

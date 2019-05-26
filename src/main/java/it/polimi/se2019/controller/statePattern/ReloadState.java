@@ -26,7 +26,7 @@ public class ReloadState implements State{
             }
             else{
                 SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
-                SelectorGate.selectorRMI.askGameSetUp();
+                SelectorGate.selectorRMI.askIfReload();
             }
         }
         else{

@@ -45,7 +45,7 @@ public class GrabStuffStateMove implements State {
         }
         else{
             SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
-            SelectorGate.selectorRMI.askGameSetUp();
+            SelectorGate.selectorRMI.askGrabStuffMove(possiblePositions);
         }
     }
 

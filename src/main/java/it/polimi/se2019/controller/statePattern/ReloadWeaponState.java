@@ -39,7 +39,7 @@ public class ReloadWeaponState implements State {
         }
         else{
             SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
-            SelectorGate.selectorRMI.askGameSetUp();
+            SelectorGate.selectorRMI.askWhatReaload(toReaload);
         }
     }
 
