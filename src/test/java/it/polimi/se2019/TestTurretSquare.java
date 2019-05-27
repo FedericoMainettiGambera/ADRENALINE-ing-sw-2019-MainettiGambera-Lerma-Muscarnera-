@@ -1,9 +1,11 @@
 package it.polimi.se2019;
 
+import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.TurretSquare;
 import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.SquareTypes;
+import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -18,7 +20,7 @@ public class TestTurretSquare {
         SquareSide E = SquareSide.wall;
         SquareSide S = SquareSide.wall;
         SquareSide O = SquareSide.wall;
-        TurretSquare T = new TurretSquare(X,Y,N,E,S,O, SquareTypes.spawnPoint,'r', null);
+        TurretSquare T = new TurretSquare(X,Y,N,E,S,O, SquareTypes.spawnPoint,'r', new SocketVirtualView(new ViewControllerEventHandlerContext()));
     }
     @Test
     public void testGetOwner() {
@@ -28,7 +30,7 @@ public class TestTurretSquare {
         SquareSide E = SquareSide.wall;
         SquareSide S = SquareSide.wall;
         SquareSide O = SquareSide.wall;
-        TurretSquare T = new TurretSquare(X,Y,N,E,S,O, SquareTypes.spawnPoint,'r', null);
+        TurretSquare T = new TurretSquare(X,Y,N,E,S,O, SquareTypes.spawnPoint,'r', new SocketVirtualView(new ViewControllerEventHandlerContext()));
         Player p = new Player();
         T.setOwner(p);
         assertEquals(T.getOwner(),p);

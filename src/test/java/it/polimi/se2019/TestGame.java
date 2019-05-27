@@ -1,9 +1,12 @@
 package it.polimi.se2019;
 
+import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.SquareTypes;
+import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
+import it.polimi.se2019.virtualView.VirtualView;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,7 +17,7 @@ public class TestGame{
     Game game=new Game();
     Player player= new Player();
     PlayersList playerList= new PlayersList();
-    KillShotTrack killShotTrack= new KillShotTrack(6, null);
+    KillShotTrack killShotTrack= new KillShotTrack(6, new VirtualView());
     Bot bot= new Bot(true);
 
 
@@ -24,7 +27,7 @@ public class TestGame{
 
         playerList.addPlayer(player);
         String s="map0";
-        Board board= new Board(s, null);
+        Board board= new Board(s, new VirtualView());
         OrderedCardList<PowerUpCard> ppc=new OrderedCardList<>();
         OrderedCardList<AmmoCard> ac= new OrderedCardList<>();
         OrderedCardList<WeaponCard> wc= new OrderedCardList<>();
