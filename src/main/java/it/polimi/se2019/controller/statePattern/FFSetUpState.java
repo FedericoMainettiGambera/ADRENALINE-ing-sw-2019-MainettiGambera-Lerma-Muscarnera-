@@ -23,6 +23,7 @@ public class FFSetUpState implements State {
     @Override
     public void doAction(ViewControllerEvent VCE) {
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        int position=-1;
 
         ModelGate.model.triggerFinalFrenzy(true);
 
@@ -31,9 +32,24 @@ public class FFSetUpState implements State {
             if(player.getBoard().getDamagesTracker().isEmpty()){
                 player.makePlayerBoardFinalFrenzy();
             }
+
+            if(position<0) {
+                player.setBeforeorafterStartingPlayer(position);
+                position--;
+            }
+            if(ModelGate.model.getPlayerList().getStartingPlayer().getNickname().equals(player.getNickname())){
+                player.setBeforeorafterStartingPlayer(0);
+                position=1;
+            }
+            if(position>0){
+                player.setBeforeorafterStartingPlayer(position);
+                position++;
+            }
+
+
+
         }
 
-        //TODO STUFF HERE (setuf the FINAL FRENZY)
 
         ViewControllerEventHandlerContext.setNextState(new FFTurnState(1));
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());

@@ -25,8 +25,11 @@ public class GrabStuffStateMove implements State {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         this.numberOfMovement = 1;
-        if(ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineGrabAction()){
+        if((ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineGrabAction())||(ModelGate.model.hasFinalFrenzyBegun()&&(playerToAsk.getBeforeorafterStartingPlayer()<0))){
             this.numberOfMovement = 2;
+        }
+        else if(ModelGate.model.hasFinalFrenzyBegun()&&playerToAsk.getBeforeorafterStartingPlayer()>=0){
+            this.numberOfMovement=3;
         }
 
         System.out.println("<SERVER> The player can make " + this.numberOfMovement + " number of moves");

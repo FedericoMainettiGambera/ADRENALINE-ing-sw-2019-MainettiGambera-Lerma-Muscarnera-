@@ -87,9 +87,11 @@ public class ScoreKillsState implements State {
         System.out.println("<SERVER>Scoring dead players.");
 
         //first blood
-        System.out.println("<SERVER>First blood goes to " + deadPlayer.getPlayerBoard().getDamagesSlot(0).getShootingPlayer().getNickname());
-        Player firstBlood = deadPlayer.getPlayerBoard().getDamagesSlot(0).getShootingPlayer();
-        firstBlood.addPoints(1);
+        if(!ModelGate.model.hasFinalFrenzyBegun()){
+            System.out.println("<SERVER>First blood goes to " + deadPlayer.getPlayerBoard().getDamagesSlot(0).getShootingPlayer().getNickname());
+            Player firstBlood = deadPlayer.getPlayerBoard().getDamagesSlot(0).getShootingPlayer();
+            firstBlood.addPoints(1);
+           }
 
         //list of points (es 8,6,4,2,1,1)
         ArrayList<Integer> pointsList = deadPlayer.getPointsList();
