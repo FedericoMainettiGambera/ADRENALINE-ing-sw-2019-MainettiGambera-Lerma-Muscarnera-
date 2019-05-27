@@ -24,6 +24,7 @@ public class FFSetUpState implements State {
     public void doAction(ViewControllerEvent VCE) {
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
         int position=-1;
+        int number=0;
 
         ModelGate.model.triggerFinalFrenzy(true);
 
@@ -31,21 +32,27 @@ public class FFSetUpState implements State {
         for(Player player : ModelGate.model.getPlayerList().getPlayers()){
             if(player.getBoard().getDamagesTracker().isEmpty()){
                 player.makePlayerBoardFinalFrenzy();
+
             }
 
             if(position<0) {
                 player.setBeforeorafterStartingPlayer(position);
                 position--;
+                number++;
             }
             if(ModelGate.model.getPlayerList().getStartingPlayer().getNickname().equals(player.getNickname())){
                 player.setBeforeorafterStartingPlayer(0);
                 position=1;
+                number++;
             }
             if(position>0){
                 player.setBeforeorafterStartingPlayer(position);
                 position++;
+                number++;
             }
-
+            if(number==ModelGate.model.getPlayerList().getNumberOfPlayers()){
+                player.setLastPlayingPlayer();
+            }
 
 
         }

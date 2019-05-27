@@ -54,9 +54,18 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
         );
 
         //set next state
+
         if(this.actionNumber == 1){
-            ViewControllerEventHandlerContext.setNextState(new TurnState(2));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+
+//if you are in final frenzy mode and you are or come after the starting player
+            if (ModelGate.model.hasFinalFrenzyBegun() && ModelGate.model.getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0) {
+                ViewControllerEventHandlerContext.setNextState(new ReloadState());
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            }
+           else{
+                ViewControllerEventHandlerContext.setNextState(new TurnState(2));
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            }
         }
         if(this.actionNumber == 2) {
             ViewControllerEventHandlerContext.setNextState(new ReloadState());
