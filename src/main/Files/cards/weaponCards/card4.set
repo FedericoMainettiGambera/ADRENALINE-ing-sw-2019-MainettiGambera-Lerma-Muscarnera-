@@ -3,19 +3,31 @@ TRACTOR BEAM
 RELOAD COST
 b
 1
+
 NEW EFFECT
 EXPECTED INPUT
 singleTarget
-simpleSquareSelect
+TO
+ALL
 END
-ACTION
+simpleSquareSelect
+TO
+1
+2
+END
+END
+
+ACTIONS
 Move
 ACTION INFO
 PRECONDITION
 moveOtherPlayer
 END
-
-ACTION
+Action
+ACTION INFO
+PRECONDITION
+distanceNotBiggerThan2
+END
 Damage
 ACTION INFO
 PRECONDITION
@@ -23,4 +35,30 @@ youCanSee
 SET
 1
 END
+END
 
+NEW EFFECT
+EXPECTED INPUT
+singleTarget
+TO
+ALL
+END
+playerSquare
+TO
+ALL
+END
+END
+ACTIONS
+Move
+ACTION INFO
+PRECONDITION
+distanceOfTargetFromPlayerSquareLessThan2Moves
+END
+Damage
+ACTION INFO
+PRECONDITION
+alwaysTrue
+SET
+3
+END
+END

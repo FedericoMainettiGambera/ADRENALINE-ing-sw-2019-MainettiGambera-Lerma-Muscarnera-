@@ -6,14 +6,20 @@ r
 RELOAD COST
 y
 1
+
 NEW EFFECT
 EXPECTED INPUT
 singleTarget
+TO
+ALL
 END
-ACTION
+END
+ACTIONS
 Damage
 ACTION INFO
 PRECONDITION
-        youCantSee
+youCantSee
 SET
 3
+END
+END

@@ -2,8 +2,8 @@ package it.polimi.se2019;
 
 import it.polimi.se2019.model.Action;
 import it.polimi.se2019.model.Effect;
+import it.polimi.se2019.model.EffectInfoElement;
 import it.polimi.se2019.model.WeaponCard;
-import it.polimi.se2019.model.enumerations.EffectInfoType;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -19,8 +19,8 @@ public class TestWeaponCard {
             WeaponCard weaponCard = new WeaponCard(i + "");
             System.out.println("#" + i + ":");
             try {
-                for(EffectInfoType e: weaponCard.getEffects().get(0).getEffectInfo().getEffectInfoTypelist())
-                System.out.println(" input mode " + e);
+                for(EffectInfoElement e: weaponCard.getEffects().get(0).getEffectInfo().getEffectInfoElement())
+                System.out.println(" input mode " + e.getEffectInfoTypelist());
             } catch( NullPointerException e) {
                     System.out.println("errore:" + "non specificato");
 
@@ -68,15 +68,26 @@ public class TestWeaponCard {
     @Test
     public void testCard9() {
         try {
-        WeaponCard weaponCard = new WeaponCard("Test");
+            System.out.println(".");
+        WeaponCard weaponCard = new WeaponCard("7");
+        System.out.println(".");
         System.out.println(weaponCard.getEffects().size());
         for(Effect e:weaponCard.getEffects() ) {
+
+            for(EffectInfoElement ei: e.getEffectInfo().getEffectInfoElement()) {
+                System.out.println("questo input '" + ei.getEffectInfoTypelist().toString() +"'");
+                for(Integer x:ei.getEffectInfoTypeDestination())
+                    System.out.println("\te' per:" + x);
+            }
             System.out.println(e.toString());
             for(Action a: e.getActions()) {
-
-                System.out.println(a.toString());
+                System.out.println("quando " + a.getActionInfo().getPreConditionMethodName() + "() e' vera, allora" );
+                System.out.println("\t" + a.toString());
+                for(Object o : a.getActionInfo().getActionDetails().getFileSelectedActionDetails().getFileSettingData()) {
+                    System.out.println("\t\tValue : "+ o.toString());
+                }
             }
-
+                System.out.println("--");
 
         }
         } catch(Exception e) {

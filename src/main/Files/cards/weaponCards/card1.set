@@ -1,4 +1,3 @@
-
 NAME
 LOCK RIFLE
 
@@ -9,26 +8,45 @@ b
 NEW EFFECT
 EXPECTED INPUT
 singleTarget
+TO
+ALL
 END
-ACTION
-Void
-ACTION INFO
-PRECONDITION
-YouCanSee
 END
-
-ACTION
+ACTIONS
 Damage
 ACTION INFO
 PRECONDITION
-alwaysTrue
+youCanSee
 SET
 2
 END
-
-ACTION
 Mark
+ACTION INFO
 PRECONDITION
-sameTargetOfPreviousAction      // TODO: gestione dell 'input da utente
+youCanSee
 SET
 1
+END
+END
+
+NEW EFFECT
+EXPECTED INPUT
+singleTarget
+TO
+ALL
+END
+END
+ACTIONS
+Mark
+ACTION INFO
+PRECONDITION
+youCanSee
+SET
+1
+END
+Action
+ACTION INFO
+PRECONDITION
+notPreviousTarget
+END
+END

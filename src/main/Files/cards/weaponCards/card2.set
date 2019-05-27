@@ -4,23 +4,35 @@ RELOAD COST
 b
 1
 NEW EFFECT
-
 EXPECTED INPUT
-targetListBySquare
+targetListBySameSquareOfPlayer
+TO
+ALL
 END
-
-ACTION
-DAMAGE
+END
+ACTIONS
+Damage
 ACTION INFO
 PRECONDITION
-SameSquareTarget
+alwaysTrue
 SET
 1
 END
+END
+
 NEW EFFECT
-DAMAGE
+EXPECTED INPUT
+targetListBySameSquareOfPlayer
+TO
+ALL
+END
+END
+ACTIONS
+Damage
 ACTION INFO
 PRECONDITION
 isReaperMode
 SET
 2
+END
+END

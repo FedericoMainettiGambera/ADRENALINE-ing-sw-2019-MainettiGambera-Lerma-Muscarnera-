@@ -64,8 +64,23 @@ public class WeaponCard extends Card implements Serializable {
                     while(!line.equals("END")) {
 
                         ///*@*/ System.out.println("parametro input del parametro atteso:\t <" + line + ">");
-                        effectInfo.getEffectInfoTypelist().add(EffectInfoType.valueOf(line));	//aggiunge il tipo di input
+
+
+                        effectInfo.getEffectInfoElement().add(new EffectInfoElement());
+                        effectInfo.getEffectInfoElement().get(effectInfo.getEffectInfoElement().size() - 1).setEffectInfoTypelist(EffectInfoType.valueOf(line));
                         line = reader.readLine(); 	//parametro
+                        if(line.equals("TO")) {     // a quale azione è destinato l'input
+                            line = reader.readLine(); //parametro numerico
+                            if(line.equals("ALL")) {
+                                effectInfo.getEffectInfoElement().get(effectInfo.getEffectInfoElement().size() - 1).getEffectInfoTypeDestination().add(0);
+                                line = reader.readLine();
+                            }
+                            while(!line.equals("END")) {
+                                effectInfo.getEffectInfoElement().get(effectInfo.getEffectInfoElement().size() - 1).getEffectInfoTypeDestination().add(Integer.parseInt(line));
+                                line = reader.readLine(); // parametro
+                            }
+                            line = reader.readLine();   // input successivo
+                        }
                     }
                     effects.get(effects.size() - 1).setEffectInfo(effectInfo);					//setta gli input
                     line = reader.readLine();	//istruzione successiva

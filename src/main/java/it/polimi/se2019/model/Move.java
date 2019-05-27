@@ -28,6 +28,10 @@ public class Move extends Action implements Serializable {
         }
 
     }
+    public Move() {
+        super();
+    }
+
     public Move(ActionInfo actionInfo) {
         super(actionInfo);
     }

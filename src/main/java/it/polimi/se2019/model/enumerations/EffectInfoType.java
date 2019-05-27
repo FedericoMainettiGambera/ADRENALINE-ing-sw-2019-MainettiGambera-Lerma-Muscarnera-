@@ -7,6 +7,8 @@ public enum EffectInfoType {
         /*      SECTION                             DESCRIPTION                                                        NUMBER OF DIRECT INPUTS FROM THE USER*/
         //      TARGET SELECTION
                     singleTarget,                   // select a target                                                 1
+                    twoTargets,                     // select two targets max                                          1<=x<=2
+                    threeTargets,                   // select three targets max                                        1<=x<=3
                     multipleTargets,                // select a targetList of n targets                                n
                     targetListBySquare,             // select a targetlist of n targets by the square                  1
                     targetListByRoom,               // select a targetlist of n targets by the room                    1
