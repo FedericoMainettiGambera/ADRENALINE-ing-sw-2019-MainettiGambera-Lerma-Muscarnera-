@@ -26,6 +26,7 @@ public class VirtualViewSelectorSocket implements Selector {
         try {
             SelectorEvent SE = new SelectorEvent(SelectorEventTypes.askGameSetUp);
             oos.writeObject(SE);
+            oos.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -36,6 +37,7 @@ public class VirtualViewSelectorSocket implements Selector {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
             oos.writeObject(new SelectorEvent(SelectorEventTypes.askPlayerSetUp));
+            oos.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,6 +48,7 @@ public class VirtualViewSelectorSocket implements Selector {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
             oos.writeObject(new SelectorEventPowerUpCards(SelectorEventTypes.askFirstSpawnPosition, powerUpCards));
+            oos.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,6 +59,7 @@ public class VirtualViewSelectorSocket implements Selector {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
             oos.writeObject(new SelectorEventInt(SelectorEventTypes.askTurnAction, actionNumber));
+            oos.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,6 +70,7 @@ public class VirtualViewSelectorSocket implements Selector {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
             oos.writeObject(new SelectorEventPositions(SelectorEventTypes.askRunAroundPosition, positions));
+            oos.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,6 +81,7 @@ public class VirtualViewSelectorSocket implements Selector {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
             oos.writeObject(new SelectorEvent(SelectorEventTypes.askGrabStuffAction));
+            oos.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -86,6 +92,7 @@ public class VirtualViewSelectorSocket implements Selector {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
             oos.writeObject(new SelectorEventPositions(SelectorEventTypes.askGrabStuffMove, positions));
+            oos.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -108,6 +115,7 @@ public class VirtualViewSelectorSocket implements Selector {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
             oos.writeObject(new SelectorEventDoubleWeaponCards(SelectorEventTypes.askGrabStuffSwitchWeapon, toPickUp, toSwitch));
+            oos.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,6 +126,7 @@ public class VirtualViewSelectorSocket implements Selector {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
             oos.writeObject(new SelectorEventPowerUpCards(SelectorEventTypes.askPowerUpToDiscard,toDiscard));
+            oos.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -128,6 +137,7 @@ public class VirtualViewSelectorSocket implements Selector {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
             oos.writeObject(new SelectorEvent(SelectorEventTypes.askIfReload));
+            oos.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -138,6 +148,7 @@ public class VirtualViewSelectorSocket implements Selector {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
             oos.writeObject(new SelectorEventWeaponCards(SelectorEventTypes.askWhatReaload,toReload));
+            oos.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -148,6 +159,7 @@ public class VirtualViewSelectorSocket implements Selector {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
             oos.writeObject(new SelectorEventPowerUpCards(SelectorEventTypes.askSpawn, powerUpCards));
+            oos.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }

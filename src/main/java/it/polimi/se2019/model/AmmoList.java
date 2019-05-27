@@ -11,7 +11,7 @@ import java.util.Observable;
  * The AmmoList class keeps track of the current number of ammos a player has.
  * @author FedericoMainettiGambera
  * */
-public class AmmoList extends Observable implements Serializable {
+public class AmmoList implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
@@ -31,8 +31,6 @@ public class AmmoList extends Observable implements Serializable {
         for (int i = 0; i < ammoList.getAmmoCubesList().size(); i++) {
             this.addAmmoCubesOfColor(ammoList.getAmmoCubesList().get(i).getColor(), ammoList.getAmmoCubesList().get(i).getQuantity());
         }
-        setChanged();
-        notifyObservers();
     }
 
 
@@ -53,8 +51,6 @@ public class AmmoList extends Observable implements Serializable {
         for(int i = 0; i < this.ammoCubesList.size(); i++){
             if(this.getAmmoCubesList().get(i).getColor() == color){
                 this.getAmmoCubesList().get(i).addQuantity(quantity);
-                setChanged();
-                notifyObservers();
                 return;
             }
         }
@@ -62,8 +58,6 @@ public class AmmoList extends Observable implements Serializable {
         this.ammoCubesList.add(new AmmoCubes(color));
         while( i<this.ammoCubesList.size()){i++;}
         this.getAmmoCubesList().get(i-1).addQuantity(quantity);
-        setChanged();
-        notifyObservers();
     }
 
     /**checks if an amount of ammos can be payed with the current this.ammoCubesList status
@@ -111,8 +105,6 @@ public class AmmoList extends Observable implements Serializable {
         for(int i = 0; i < this.ammoCubesList.size(); i++){
             if(this.ammoCubesList.get(i).getColor()==color){
                 if(this.ammoCubesList.get(i).subQuantity(quantity)){
-                    setChanged();
-                    notifyObservers();
                     return true;
                 }
             }
@@ -139,8 +131,6 @@ public class AmmoList extends Observable implements Serializable {
             }
             /*to return true at the end*/
             if(i == cost.getAmmoCubesList().size()-1){
-                setChanged();
-                notifyObservers();
                 return true;
             }
         }

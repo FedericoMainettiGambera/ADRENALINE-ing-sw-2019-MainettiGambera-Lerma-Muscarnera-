@@ -2,6 +2,7 @@ package it.polimi.se2019.model;
 
 
 import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.virtualView.VirtualView;
 
 import java.io.File;
 import java.io.Serializable;
@@ -50,18 +51,36 @@ public class Game extends Observable implements Serializable {
 
     private boolean isFinalFrenzy;
 
-    public Player getCurrentPlayingPlayer(){
-        return this.getPlayerList().getCurrentPlayingPlayer();
+    //reference to the VV so that it can be registered in all the model.
+    private transient VirtualView VV;
+
+    public void setVirtualView(VirtualView VV){
+        this.VV = VV;
     }
 
-    public void setNextPlayingPlayer(Player currentPlayingPlayer){
-        this.getPlayerList().setNextPlayingPlayer();
+    public VirtualView getVirtualView(){
+        return this.VV;
+    }
+
+    public void registerVirtualView(){
+        this.addObserver(this.VV);
+        System.out.println("    VirtualView added to the Game's observers");
+        this.getPlayerList().addObserver(this.VV);
+        System.out.println("    VirtualView added to the PlayerList's observers");
+        for (int i = 0; i < this.getPlayerList().getPlayers().size() ; i++) {
+            this.getPlayerList().getPlayers().get(i).addObserver(this.VV);
+        }
+        System.out.println("    VirtualView added to the Players' observers");
+    }
+
+    public Player getCurrentPlayingPlayer(){
+        return this.getPlayerList().getCurrentPlayingPlayer();
     }
 
     public void setFinalFrenzy(boolean isFinalFrenzy){
         this.isFinalFrenzy = isFinalFrenzy;
         setChanged();
-        notifyObservers();
+        notifyObservers("FINAL FRENZY SETTED");
     }
 
     public boolean isFinalFrenzy(){
@@ -74,6 +93,8 @@ public class Game extends Observable implements Serializable {
 
     public void triggerFinalFrenzy(boolean hasFinalFrenzyBegun){
         this.hasFinalFrenzyBegun = hasFinalFrenzyBegun;
+        setChanged();
+        notifyObservers("FINAL FRENZY HAS BEGUN");
     }
 
 
@@ -96,7 +117,7 @@ public class Game extends Observable implements Serializable {
     public void setKillshotTrack(KillShotTrack killshotTrack) {
         this.killshotTrack = killshotTrack;
         setChanged();
-        notifyObservers();
+        notifyObservers(this.killshotTrack);
     }
 
     /***/
@@ -107,12 +128,13 @@ public class Game extends Observable implements Serializable {
     public void buildDecks() {
 
         //builds weapon cards
+        OrderedCardList<WeaponCard> tempWeaponDeck = new OrderedCardList<>();
         File directory = new File("src/main/Files/cards/weaponCards");     // insert here path to weapon cards folder
         int fileCount = directory.list().length;
         for(int i = 1; i< fileCount+1; i++) {
             System.out.println("<SERVER>building weapon cards ID: " + i);
             try {
-                 this.weaponDeck.addCard(new WeaponCard("" + i));
+                 tempWeaponDeck.addCard(new WeaponCard("" + i));
             }
             catch(Exception e) {
                 e.printStackTrace();
@@ -121,12 +143,13 @@ public class Game extends Observable implements Serializable {
         }
         /*
         //builds power up cards
+        OrderedCardList<PowerUpCard> tempPowerUpDeck = new OrderedCardList<>();
         directory = new File("src/main/Files/cards/powerUpCards");          // insert here path to power up cards folder
         fileCount = directory.list().length;
         for(int i = 1; i< fileCount;i++) {
             System.out.println("<SERVER>building weapon cards ID: " + i);
             try {
-                this.powerUpDeck.addCard(new PowerUpCard("" + i));
+                tempPowerUpDeck.addCard(new PowerUpCard("" + i));
             }
             catch(Exception e) {
                 e.printStackTrace();
@@ -135,11 +158,12 @@ public class Game extends Observable implements Serializable {
         }
 
         //builds ammo cards
+        OrderedCardList<AmmoCard> tempAmmoDeck = new OrderedCardList<>();
         directory = new File("src/main/Files/cards/ammoCards");          // insert here path to ammo cards folder
         fileCount = directory.list().length;
         for(int i = 1; i< fileCount;i++) {
             try {
-                //TODO: this.ammoDeck.addCard(new AmmoCard("" + i));
+                //TODO: tempAmmoDeck.addCard(new AmmoCard("" + i));
             }
             catch(Exception e) {
                 e.printStackTrace();
@@ -148,12 +172,16 @@ public class Game extends Observable implements Serializable {
         }
         */
 
+        this.getWeaponDeck().getCards().addAll(tempWeaponDeck.getCards());
+        //this.getAmmoDeck().getCards().addAll(tempAmmoDeck.getCards());
+        //this.getPowerUpDeck.getCards().addAll(tempPowerUpDeck.getCards());
+
     }
 
     public void setPlayerList(PlayersList players) {
         this.players = players;
         setChanged();
-        notifyObservers();
+        notifyObservers(this.players);
     }
 
     /***/
@@ -164,7 +192,7 @@ public class Game extends Observable implements Serializable {
     public void setPowerUpDeck(OrderedCardList<PowerUpCard> powerUpDeck) {
         this.powerUpDeck = powerUpDeck;
         setChanged();
-        notifyObservers();
+        notifyObservers(this.powerUpDeck);
     }
 
     /***/
@@ -175,7 +203,7 @@ public class Game extends Observable implements Serializable {
     public void setAmmoDeck(OrderedCardList<AmmoCard> ammoDeck) {
         this.ammoDeck = ammoDeck;
         setChanged();
-        notifyObservers();
+        notifyObservers(this.ammoDeck);
     }
 
     /***/
@@ -186,7 +214,7 @@ public class Game extends Observable implements Serializable {
     public void setWeaponDeck(OrderedCardList<WeaponCard> weaponDeck) {
         this.weaponDeck = weaponDeck;
         setChanged();
-        notifyObservers();
+        notifyObservers(weaponDeck);
     }
 
     /***/
@@ -197,7 +225,7 @@ public class Game extends Observable implements Serializable {
     public void setBoard(Board board) {
         this.board = board;
         setChanged();
-        notifyObservers();
+        notifyObservers(this.board);
     }
 
     /***/
@@ -205,20 +233,8 @@ public class Game extends Observable implements Serializable {
         return ammoDiscardPile;
     }
 
-    public void setAmmoDiscardPile(OrderedCardList<AmmoCard> ammoDiscardPile) {
-        this.ammoDiscardPile = ammoDiscardPile;
-        setChanged();
-        notifyObservers();
-    }
-
     /***/
     public OrderedCardList<PowerUpCard> getPowerUpDiscardPile() {
         return powerUpDiscardPile;
-    }
-
-    public void setPowerUpDiscardPile(OrderedCardList<PowerUpCard> powerUpDiscardPile) {
-        this.powerUpDiscardPile = powerUpDiscardPile;
-        setChanged();
-        notifyObservers();
     }
 }

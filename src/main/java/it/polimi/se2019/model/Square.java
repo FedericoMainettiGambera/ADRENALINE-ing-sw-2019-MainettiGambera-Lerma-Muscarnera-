@@ -4,15 +4,17 @@ package it.polimi.se2019.model;
 import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.SquareTypes;
+import it.polimi.se2019.virtualView.VirtualView;
 
 import java.io.Serializable;
+import java.util.Observable;
 
 
 /***/
-public abstract class Square implements Serializable {
+public abstract class Square extends Observable implements Serializable {
 
     /***/
-    public Square(int X, int Y, SquareSide north, SquareSide east, SquareSide south, SquareSide west, SquareTypes squareType, char color){
+    public Square(int X, int Y, SquareSide north, SquareSide east, SquareSide south, SquareSide west, SquareTypes squareType, char color, VirtualView VV){
         this.coordinates = new Position(X,Y);
         this.north = north;
         this.east = east;
@@ -20,6 +22,8 @@ public abstract class Square implements Serializable {
         this.west = west;
         this.squareType = squareType;
         this.color=color;
+
+        this.addObserver(VV);
     }
 
     /***/
@@ -69,9 +73,8 @@ public abstract class Square implements Serializable {
     public SquareTypes getSquareType() {
         return squareType;
     }
-    public void setSquareType(SquareTypes S) {
-       squareType = S;
-    }
+
+
     public char getColor(){return this.color;}
 
 }

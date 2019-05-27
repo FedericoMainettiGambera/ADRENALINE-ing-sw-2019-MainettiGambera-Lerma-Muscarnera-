@@ -8,8 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestKillShotTrack{
 
-    KillShotTrack killShotTrack= new KillShotTrack(8);
-    KillShotTrack killShotTrack2= new KillShotTrack(2);
+    KillShotTrack killShotTrack= new KillShotTrack(8, null);
+    KillShotTrack killShotTrack2= new KillShotTrack(2, null);
     Player p=new Player();
 
     @Test

@@ -11,7 +11,7 @@ import java.util.Observable;
  * The DamagesTracker class keeps track of the damages taken from a player.
  * @author FedericoMainettiGambera
  * */
-public class DamagesTracker extends Observable implements Serializable {
+public class DamagesTracker implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
@@ -48,8 +48,6 @@ public class DamagesTracker extends Observable implements Serializable {
         }
         for(int i = 0; i < numberOfDamages; i++) {
             damageSlotsList.add(new DamageSlot(shootingPlayer));
-            setChanged();
-            notifyObservers();
         }
     }
 
@@ -65,8 +63,6 @@ public class DamagesTracker extends Observable implements Serializable {
             throw new IllegalArgumentException("the DamageSlot can't be null.");
         }
         damageSlotsList.add(damageSlot);
-        setChanged();
-        notifyObservers();
     }
 
     /**@param slotNumber
@@ -84,7 +80,5 @@ public class DamagesTracker extends Observable implements Serializable {
      * */
     public void emptyList() {
         this.damageSlotsList = new ArrayList<>();
-        setChanged();
-        notifyObservers();
     }
 }

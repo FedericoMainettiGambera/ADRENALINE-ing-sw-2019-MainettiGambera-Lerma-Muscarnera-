@@ -10,7 +10,7 @@ import java.util.Observable;
  * The MarksTracker class keeps track of the number of marks a player has received from each player in game.
  * @author FedericoMainettiGambera
  * */
-public class MarksTracker extends Observable implements Serializable {
+public class MarksTracker implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
@@ -48,14 +48,10 @@ public class MarksTracker extends Observable implements Serializable {
         for(int i = 0; i<markSlotsList.size(); i++) {
             if(markSlotsList.get(i).getMarkingPlayer() == markingPlayer){
                 markSlotsList.get(i).addQuantity(quantity);
-                setChanged();
-                notifyObservers();
                 return;
             }
         }
         markSlotsList.add(new MarkSlots(markingPlayer, quantity));
-        setChanged();
-        notifyObservers();
         return;
     }
 
@@ -78,8 +74,6 @@ public class MarksTracker extends Observable implements Serializable {
         for(int i = 0; i<markSlotsList.size(); i++) {
             if(markSlotsList.get(i).getMarkingPlayer() == markingPlayer){
                 markSlotsList.remove(i);
-                setChanged();
-                notifyObservers();
                 return;
             }
         }

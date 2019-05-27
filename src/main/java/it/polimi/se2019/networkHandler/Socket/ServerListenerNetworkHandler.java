@@ -48,7 +48,6 @@ public class ServerListenerNetworkHandler extends Observable implements Runnable
         while(isSocketLive){
             try {
                 Event E = (Event)this.ois.readObject();
-
                 this.setChanged();
                 this.notifyObservers(E);
             }

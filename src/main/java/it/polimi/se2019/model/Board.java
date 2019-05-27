@@ -4,19 +4,24 @@ import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.SquareTypes;
+import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
+import it.polimi.se2019.virtualView.VirtualView;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Observable;
 
 
 /***/
-public class Board {
+public class Board implements Serializable{
+
+    public transient VirtualView VV;
 
     /***/
-    public Board(String chosenMap) throws IOException, NullPointerException {
-
+    public Board(String chosenMap, VirtualView VV) throws IOException, NullPointerException {
+        this.VV = VV;
         this.board = buildMap(chosenMap);
     }
 
@@ -25,10 +30,10 @@ public class Board {
     }
 
     /***/
-    private Square[][] board;
-    private FileReader fileReader;
-    private BufferedReader bufferedReader;
-    private Square[] spawnPointslist = new Square[3];
+    private transient Square[][] board;
+    private transient FileReader fileReader;
+    private transient BufferedReader bufferedReader;
+    private transient Square[] spawnPointslist = new Square[3];
 
     public Square getSquare(Position position){
         return this.board[position.getX()][position.getY()];
@@ -138,14 +143,14 @@ public class Board {
 
                     if (type2 == 'N') {
                         type = SquareTypes.normal;
-                        map[i][j] = new NormalSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color);
+                        map[i][j] = new NormalSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color, this.VV);
 
                     }
                     //se no crea uno spawnPoint
                     else {
 
                         type = SquareTypes.spawnPoint;
-                        map[i][j] = new SpawnPointSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color);
+                        map[i][j] = new SpawnPointSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color, this.VV);
                         spawnPointslist[s]=map[i][j];
                         s++;
 

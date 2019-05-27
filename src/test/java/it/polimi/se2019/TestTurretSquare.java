@@ -18,7 +18,7 @@ public class TestTurretSquare {
         SquareSide E = SquareSide.wall;
         SquareSide S = SquareSide.wall;
         SquareSide O = SquareSide.wall;
-        TurretSquare T = new TurretSquare(X,Y,N,E,S,O, SquareTypes.spawnPoint,'r');
+        TurretSquare T = new TurretSquare(X,Y,N,E,S,O, SquareTypes.spawnPoint,'r', null);
     }
     @Test
     public void testGetOwner() {
@@ -28,7 +28,7 @@ public class TestTurretSquare {
         SquareSide E = SquareSide.wall;
         SquareSide S = SquareSide.wall;
         SquareSide O = SquareSide.wall;
-        TurretSquare T = new TurretSquare(X,Y,N,E,S,O, SquareTypes.spawnPoint,'r');
+        TurretSquare T = new TurretSquare(X,Y,N,E,S,O, SquareTypes.spawnPoint,'r', null);
         Player p = new Player();
         T.setOwner(p);
         assertEquals(T.getOwner(),p);

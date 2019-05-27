@@ -53,7 +53,7 @@ public class OrderedCardList<T> extends Observable implements Serializable {
     public void addCard(T card){
         this.cards.add(card);
         setChanged();
-        notifyObservers();
+        notifyObservers(card);
     }
 
     /**Remove card from the list
@@ -64,8 +64,6 @@ public class OrderedCardList<T> extends Observable implements Serializable {
         for (int i = 0; i < this.cards.size(); i++) {
             if( ((Card)this.cards.get(i)).getID() == ID ){
                 this.cards.remove(i);
-                setChanged();
-                notifyObservers();
                 return true;
             }
         }
@@ -79,10 +77,10 @@ public class OrderedCardList<T> extends Observable implements Serializable {
      * */
     public boolean moveCardTo(OrderedCardList to, String cardID) {
         if(this.getCard(cardID) != null) {
-            to.addCard(this.getCard(cardID));
+            to.getCards().add(this.getCard(cardID));
             this.removeCard(cardID);
             setChanged();
-            notifyObservers();
+            notifyObservers(to);
             return true;
         }
         else{
@@ -95,10 +93,10 @@ public class OrderedCardList<T> extends Observable implements Serializable {
      * */
     public void moveAllCardsTo(OrderedCardList to) {
         for (int i = 0; i < this.cards.size(); i++) {
-            to.addCard(this.cards.get(i));
+            to.getCards().add(this.cards.get(i));
             this.cards.remove(i);
             setChanged();
-            notifyObservers();
+            notifyObservers(to);
         }
     }
 
@@ -106,6 +104,6 @@ public class OrderedCardList<T> extends Observable implements Serializable {
     public void shuffle() {
         Collections.shuffle(this.cards);
         setChanged();
-        notifyObservers();
+        notifyObservers("");
     }
 }

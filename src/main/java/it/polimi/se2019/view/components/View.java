@@ -1,10 +1,13 @@
 package it.polimi.se2019.view.components;
 
+import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.selectorEvents.*;
 import it.polimi.se2019.view.selector.ViewSelector;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -36,7 +39,6 @@ public class View implements Observer {
         if(arg.getClass().toString().contains("ModelViewEvent")){
             MVE = (ModelViewEvent)arg;
             this.callCorrectComponent(MVE, o);
-
         } else if(arg.getClass().toString().contains("SelectorEvent")){
             SE = (SelectorEvent)arg;
             this.callCorrectSelector(SE);
@@ -44,21 +46,47 @@ public class View implements Observer {
     }
 
     public void callCorrectComponent(ModelViewEvent MVE, Observable o){
-        String component = o.getClass().toString();
-        String[] components = component.split(".");
-        component = components[components.length-1]; //contains the name of the class.
+        String className = MVE.getO().getClass().toString();
+        String[] classNames = className.split("\\.");
+        className = classNames[classNames.length-1]; //contains the name of the class.
+        System.out.println("                                        <CLIENT> RECEIVED MVE FROM: " + className);
 
-        switch (component){
-            case "Board":
+        String classNameArg = MVE.getO().getClass().toString();
+        String[] classNamesArg = classNameArg.split("\\.");
+        classNameArg = classNamesArg[classNamesArg.length-1]; //contains the name of the class.
+        System.out.println("<CLIENT> The " + className + " in the server has changed and it has sent this object: " + classNameArg);
+
+        switch (className){
+            case "Game":
+                System.out.println("<CLIENT> MVE RECOGNIZED: Game");
                 //pass the MVE to the correct component in the view.
+                break;
+            case "KillShotTrack":
+                System.out.println("<CLIENT> MVE RECOGNIZED: KillShotTrack");
+                //pass the MVE to the correct component in the view.
+                break;
+            case "NormalSquare":
+                System.out.println("<CLIENT> MVE RECOGNIZED: NormalSquare");
+                //pass the MVE to the correct component in the view.
+                break;
+            case "OrderedCardList":
+                System.out.println("<CLIENT> MVE RECOGNIZED: OrderedCardList");
+                //pass the MVE to the correct component in the view.
+                break;
             case "Player":
+                System.out.println("<CLIENT> MVE RECOGNIZED: Player");
                 //pass the MVE to the correct component in the view.
-            case "DeathTracker":
+                break;
+            case "PlayersList":
+                System.out.println("<CLIENT> MVE RECOGNIZED: PlayersList");
                 //pass the MVE to the correct component in the view.
-            case "etc with all the model classes that sends Model view events...":
+                break;
+            case "SpawnPointSquare":
+                System.out.println("<CLIENT> MVE RECOGNIZED: SpawnPointSquare");
                 //pass the MVE to the correct component in the view.
+                break;
             default:
-                //...
+                System.out.println("<CLIENT> MVE RECOGNIZED.");
         }
 
     }

@@ -8,7 +8,7 @@ import java.util.Observable;
  * The MarksSlots class keeps track of the number of marks a player has received from another player.
  * @author FedericoMainettiGambera
  * */
-public class MarkSlots extends Observable implements Serializable {
+public class MarkSlots implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
@@ -47,13 +47,9 @@ public class MarkSlots extends Observable implements Serializable {
     public void addQuantity(int quantity){
         if(this.quantity+quantity <= GameConstant.MaxNumberOfMarkFromPlayer) {
             this.quantity += quantity;
-            setChanged();
-            notifyObservers();
         }
         else{
             this.quantity = GameConstant.MaxNumberOfMarkFromPlayer;
-            setChanged();
-            notifyObservers();
         }
     }
 }

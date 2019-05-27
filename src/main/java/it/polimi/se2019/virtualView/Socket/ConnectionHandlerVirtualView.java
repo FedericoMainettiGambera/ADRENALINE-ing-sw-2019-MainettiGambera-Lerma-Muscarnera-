@@ -24,8 +24,6 @@ public class ConnectionHandlerVirtualView extends Thread {
 
     private boolean isServerSocketLive;
 
-    private ArrayList<ObjectOutputStream> oos;
-
     private Socket tempSocket;
 
     private ViewControllerEventHandlerContext controller;
@@ -36,7 +34,6 @@ public class ConnectionHandlerVirtualView extends Thread {
     public ConnectionHandlerVirtualView(ServerSocket serverSocket, ViewControllerEventHandlerContext controller){
         this.serverSocket = serverSocket;
         this.isServerSocketLive = true;
-        this.oos = new ArrayList<>();
         this.tempSocket = null;
         this.controller = controller;
         this.numberOfConnections = 0;
@@ -45,10 +42,6 @@ public class ConnectionHandlerVirtualView extends Thread {
     public void CloseServerSocket() throws IOException{
         this.serverSocket.close();
         this.isServerSocketLive = false;
-    }
-
-    public ArrayList<ObjectOutputStream> getOos(){
-        return this.oos;
     }
 
     @Override

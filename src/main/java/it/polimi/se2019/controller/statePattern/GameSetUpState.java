@@ -25,6 +25,16 @@ public class GameSetUpState implements State {
     public void askForInput(Player playerToAsk) {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
+        //Registering the VirtualView as an observer of the model so it can receive the MVEs
+        System.out.println("<SERVER> Registering the VirtualView as an observer of the Model");
+        if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
+            ModelGate.model.setVirtualView(ViewControllerEventHandlerContext.socketVV);
+        }
+        else{
+            ModelGate.model.setVirtualView(ViewControllerEventHandlerContext.RMIVV);
+        }
+        ModelGate.model.registerVirtualView();
+
         //ask for gameSetUp to the player
         if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
             SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
@@ -51,7 +61,7 @@ public class GameSetUpState implements State {
 
             try {
                 System.out.println("<SERVER> Creating Map: " + VCEGameSetUp.getMapChoice());
-                ModelGate.model.setBoard(new Board(VCEGameSetUp.getMapChoice()));
+                ModelGate.model.setBoard(new Board(VCEGameSetUp.getMapChoice(), ModelGate.model.getVirtualView()));
             }
             catch (IOException e){
                 e.printStackTrace();
@@ -64,13 +74,21 @@ public class GameSetUpState implements State {
             System.out.println("<SERVER> Creating Killshot Track with " +
                                 VCEGameSetUp.getNumberOfStartingSkulls() +
                                 " number of starting skulls.");
-            ModelGate.model.setKillshotTrack(new KillShotTrack(VCEGameSetUp.getNumberOfStartingSkulls()));
+            ModelGate.model.setKillshotTrack(new KillShotTrack(VCEGameSetUp.getNumberOfStartingSkulls(), ModelGate.model.getVirtualView()));
 
             System.out.println("<SERVER> Setting Final Frenzy: " + VCEGameSetUp.isFinalFrezy());
             ModelGate.model.setFinalFrenzy(VCEGameSetUp.isFinalFrezy());
 
             System.out.println("<SERVER> Setting a Bot: "+ VCEGameSetUp.isBotActive());
             ModelGate.model.setBot(new Bot(VCEGameSetUp.isBotActive()));
+
+            //registering VV as Observer of the Decks
+            ModelGate.model.getWeaponDeck().addObserver(ModelGate.model.getVirtualView());
+            ModelGate.model.getPowerUpDeck().addObserver(ModelGate.model.getVirtualView());
+            ModelGate.model.getAmmoDeck().addObserver(ModelGate.model.getVirtualView());
+            //create cards
+            System.out.println("<SERVER> Building decks.");
+            ModelGate.model.buildDecks();
 
 
             System.out.println("<SERVER> Adding 100 fake ammo cards to the ammoDeck.");
@@ -92,11 +110,6 @@ public class GameSetUpState implements State {
             for (int i = 0; i < 100; i++) {
                 ModelGate.model.getPowerUpDeck().getCards().add(new PowerUpCard());
             }
-
-            //create cards
-            System.out.println("<SERVER> Building decks.");
-            ModelGate.model.buildDecks();
-
 
             //shuffles cards
             System.out.println("<SERVER> Shuffling decks");
@@ -123,12 +136,10 @@ public class GameSetUpState implements State {
 
                         OrderedCardList<WeaponCard> weaponCards=((SpawnPointSquare)timeSquare).getWeaponCards();
                         for(int t=0; t<3; t++){
-
                             ModelGate.model.getWeaponDeck().moveCardTo(
                                     weaponCards,
                                     ModelGate.model.getWeaponDeck().getFirstCard().getID()
                             );
-
                         }
                         System.out.println("<SERVER> Placed Weapond cards on square [" + i + "][" + j + "]");
 

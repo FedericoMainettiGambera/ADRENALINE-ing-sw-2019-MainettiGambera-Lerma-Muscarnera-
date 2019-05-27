@@ -12,7 +12,6 @@ public class Player extends Person implements Serializable {
     /***/
     public Player() {
         super();
-
         this.hand = new PlayerHand();
     }
 
@@ -24,9 +23,9 @@ public class Player extends Person implements Serializable {
     private String IP;
 
     /***/
-    private ObjectOutputStream oos;
+    private transient ObjectOutputStream oos;
 
-    private RMIInterface rmiInterface;
+    private transient RMIInterface rmiInterface;
 
     private int rmiIdentifier;
 
@@ -39,7 +38,6 @@ public class Player extends Person implements Serializable {
     }
 
     public RMIInterface getRmiInterface(){
-
         return this.rmiInterface;
     }
 

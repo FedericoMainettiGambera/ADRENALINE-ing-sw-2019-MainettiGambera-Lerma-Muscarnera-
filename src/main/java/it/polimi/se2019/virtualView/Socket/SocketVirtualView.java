@@ -1,8 +1,11 @@
 package it.polimi.se2019.virtualView.Socket;
 
 
+import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.GameConstant;
+import it.polimi.se2019.model.Kill;
+import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.virtualView.VirtualView;
 
@@ -47,23 +50,6 @@ public class SocketVirtualView extends VirtualView {
         System.out.println("<SERVER>Running Server on: " + this.serverSocket.getInetAddress().getHostAddress() + ":" + this.serverSocket.getLocalPort());
     }
 
-    public void setOos(ArrayList<ObjectOutputStream> oos){
-        this.oos = oos;
-    }
-
-    public void sendAllClient(Object o){
-        this.setOos(this.connectionHandler.getOos());
-        if(!(this.oos == null)){
-            for (ObjectOutputStream out: this.oos) {
-                try {
-                    out.writeObject(o);
-                }
-                catch (IOException e){
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
 
     public static void sendToClient(ObjectOutputStream oos, Object o){
@@ -80,10 +66,21 @@ public class SocketVirtualView extends VirtualView {
 
     @Override
     public void update(Observable o, Object arg) {
-
-        ModelViewEvent MVE = (ModelViewEvent)arg;
-
+        System.out.println("                                        <SERVER> SENDING MVE FROM: " +o.getClass());
+        ModelViewEvent MVE = new ModelViewEvent(o, arg);
         this.sendAllClient(MVE);
+    }
 
+    public void sendAllClient(Object o) {
+        if (ModelGate.model.getPlayerList().getPlayers().get(0).getOos() != null) {
+            for (Player p : ModelGate.model.getPlayerList().getPlayers()) {
+                try {
+                    p.getOos().writeObject(o);
+                    p.getOos().reset();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

@@ -11,7 +11,7 @@ import java.util.Observable;
  * taken and the number of marks and deaths.
  * @author FedericoMainettiGambera
  * */
-public class PlayerBoard extends Observable implements Serializable {
+public class PlayerBoard implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
@@ -50,8 +50,6 @@ public class PlayerBoard extends Observable implements Serializable {
     /**increment the deathCounter by one*/
     public void addDeath() {
         deathCounter++;
-        setChanged();
-        notifyObservers();
     }
 
     /**@return number of times the player has died
@@ -74,8 +72,6 @@ public class PlayerBoard extends Observable implements Serializable {
 
     public void addAmmoList(AmmoList ammoList){
         this.getAmmoBox().addAmmoList(ammoList);
-        setChanged();
-        notifyObservers();
     }
 
     /**add ammo cubes
@@ -84,8 +80,6 @@ public class PlayerBoard extends Observable implements Serializable {
      * */
     public void addAmmoCubes(AmmoCubesColor color, int quantity) {
         this.ammoBox.addAmmoCubesOfColor(color, quantity);
-        setChanged();
-        notifyObservers();
     }
     /**add ammo cubes
      * @param ammoList
@@ -95,8 +89,6 @@ public class PlayerBoard extends Observable implements Serializable {
             this.ammoBox.addAmmoCubesOfColor( ammoList.getAmmoCubesList().get(i).getColor(),
                                               ammoList.getAmmoCubesList().get(i).getQuantity() );
         }
-        setChanged();
-        notifyObservers();
     }
 
     /**pay ammo cubes
@@ -105,8 +97,6 @@ public class PlayerBoard extends Observable implements Serializable {
      * @return */
     public boolean payAmmoCubes(AmmoCubesColor color, int quantity){
         if(this.ammoBox.payAmmoCubes(color, quantity)){
-            setChanged();
-            notifyObservers();
             return true;
         }
         else {
@@ -118,8 +108,6 @@ public class PlayerBoard extends Observable implements Serializable {
      * @return */
     public boolean payAmmoCubes(AmmoList cost){
         if(this.ammoBox.payAmmoCubes(cost)){
-            setChanged();
-            notifyObservers();
             return true;
         }
         else{
@@ -166,15 +154,11 @@ public class PlayerBoard extends Observable implements Serializable {
      * */
     public void addDamages (Player shootingPlayer, int numberOfDamages){
         this.damagesTracker.addDamages(shootingPlayer,numberOfDamages);
-        setChanged();
-        notifyObservers();
     }
 
     /**empty the damages Tracker*/
     public void emptyDamagesTracker(){
         this.damagesTracker.emptyList();
-        setChanged();
-        notifyObservers();
     }
 
     /*MARKS TRACKER*/
@@ -191,8 +175,6 @@ public class PlayerBoard extends Observable implements Serializable {
      * */
     public void addMarksFrom(Player markingPlayer, int quantity){
         this.marksTracker.addMarksFrom(markingPlayer,quantity);
-        setChanged();
-        notifyObservers();
     }
 
     /**@param markingPlayer
@@ -206,8 +188,6 @@ public class PlayerBoard extends Observable implements Serializable {
      * */
     public void deleteMarksFromPlayer(Player markingPlayer){
         this.marksTracker.deleteMarksFromPlayer(markingPlayer);
-        setChanged();
-        notifyObservers();
     }
 
 }

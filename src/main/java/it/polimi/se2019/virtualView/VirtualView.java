@@ -1,5 +1,6 @@
 package it.polimi.se2019.virtualView;
 
+import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 

@@ -1,6 +1,8 @@
 package it.polimi.se2019.model;
 
 
+import it.polimi.se2019.virtualView.VirtualView;
+
 import java.io.Serializable;
 
 /**Turrets mode killshot track*/
@@ -10,8 +12,8 @@ public class TurretsModeTrack extends KillShotTrack implements Serializable {
     /**Constructor:
      * sets an orderedCardList for the ammos
      */
-    public TurretsModeTrack() {
-        super(GameConstant.numberOfStartingSkullsTurretsMode);
+    public TurretsModeTrack(VirtualView VV) {
+        super(GameConstant.numberOfStartingSkullsTurretsMode, VV);
 
         ammos=new OrderedCardList<>();
     }

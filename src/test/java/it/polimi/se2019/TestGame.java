@@ -14,7 +14,7 @@ public class TestGame{
     Game game=new Game();
     Player player= new Player();
     PlayersList playerList= new PlayersList();
-    KillShotTrack killShotTrack= new KillShotTrack(6);
+    KillShotTrack killShotTrack= new KillShotTrack(6, null);
     Bot bot= new Bot(true);
 
 
@@ -24,7 +24,7 @@ public class TestGame{
 
         playerList.addPlayer(player);
         String s="map0";
-        Board board= new Board(s);
+        Board board= new Board(s, null);
         OrderedCardList<PowerUpCard> ppc=new OrderedCardList<>();
         OrderedCardList<AmmoCard> ac= new OrderedCardList<>();
         OrderedCardList<WeaponCard> wc= new OrderedCardList<>();
@@ -46,12 +46,7 @@ public class TestGame{
         game.setPowerUpDeck(ppc);
         game.setAmmoDeck(ac);
         game.setWeaponDeck(wc);
-        game.setPowerUpDiscardPile(game.getPowerUpDeck());
         wc=game.getWeaponDeck();
-        game.setAmmoDiscardPile(game.getAmmoDeck());
-
-
-
 
     }
 }

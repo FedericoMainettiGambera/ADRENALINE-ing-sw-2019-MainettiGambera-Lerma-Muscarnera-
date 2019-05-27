@@ -46,6 +46,8 @@ public class  Controller{
             e.printStackTrace();
         }
 
+        ViewControllerEventHandlerContext.RMIVV = this.RMIVV;
+
 
         //creating the View for the user who holds the server
         this.V = new View("RMI");
@@ -92,6 +94,8 @@ public class  Controller{
         catch (IOException e){
             e.printStackTrace();
         }
+
+        ViewControllerEventHandlerContext.socketVV = this.SVV;
 
         //creating the View for the user who holds the server
         this.V = new View("SOCKET");

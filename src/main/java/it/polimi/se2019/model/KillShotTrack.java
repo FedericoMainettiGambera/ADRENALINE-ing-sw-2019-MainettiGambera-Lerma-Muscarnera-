@@ -1,6 +1,8 @@
 package it.polimi.se2019.model;
 
 
+import it.polimi.se2019.virtualView.VirtualView;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +17,9 @@ public class KillShotTrack extends Observable implements Serializable {
      * @param numberOfStartingSkulls
      * as many skulls as indicated by number
      * */
-    public KillShotTrack(int numberOfStartingSkulls){
+    public KillShotTrack(int numberOfStartingSkulls, VirtualView VV){
+
+        this.addObserver(VV);
 
         kills = new ArrayList<>();
 
@@ -54,7 +58,7 @@ public class KillShotTrack extends Observable implements Serializable {
                 }
                 numberOfRemainingSkulls--;
                 setChanged();
-                notifyObservers();
+                notifyObservers(null);
             }
             catch(Exception e){
                 e.printStackTrace();

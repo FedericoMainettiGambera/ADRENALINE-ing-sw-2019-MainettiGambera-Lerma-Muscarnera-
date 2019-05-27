@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Observable;
 
 /** each instance of this class represents a single box of the killshot track */
-public class Kill extends Observable implements Serializable {
+public class Kill implements Serializable {
     /*-****************************************************************************************************CONSTRUCTOR*/
 
     /**COnstructor:
@@ -60,8 +60,6 @@ public class Kill extends Observable implements Serializable {
         if(isSkull && player!=null) {
             killingPlayer = player;
             isSkull = false;
-            setChanged();
-            notifyObservers();
         }
         else {
             throw new Exception();

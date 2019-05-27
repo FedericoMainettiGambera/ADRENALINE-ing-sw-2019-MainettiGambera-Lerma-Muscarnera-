@@ -33,7 +33,7 @@ public class PlayersList extends Observable implements Serializable {
     public void setCurrentPlayingPlayer(Player currentPlayingPlayer){
         this.currentPlayingPlayer = currentPlayingPlayer;
         setChanged();
-        notifyObservers();
+        notifyObservers("CURRENT PLAYING PLAYER");
     }
 
     public Player getStartingPlayer(){
@@ -43,7 +43,7 @@ public class PlayersList extends Observable implements Serializable {
     public void setStartingPlayer(Player startingPlayer){
         this.startingPlayer = startingPlayer;
         setChanged();
-        notifyObservers();
+        notifyObservers("STARTING PLAYER");
     }
 
     public void setNextPlayingPlayer(){
@@ -59,7 +59,7 @@ public class PlayersList extends Observable implements Serializable {
             }
         }
         setChanged();
-        notifyObservers();
+        notifyObservers("CURRENT PLAYING PLAYER");
     }
 
 
@@ -69,7 +69,7 @@ public class PlayersList extends Observable implements Serializable {
     public void addPlayer(Player player) {
         this.players.add(player);
         setChanged();
-        notifyObservers();
+        notifyObservers("NEW PLAYER");
     }
 
     /**@param nickname
@@ -93,37 +93,6 @@ public class PlayersList extends Observable implements Serializable {
      * */
     public int getNumberOfPlayers(){
         return this.players.size();
-    }
-
-    /**deletes a player from the playersList
-     * @param nickname
-     * */
-    public boolean removePlayer(String nickname) {
-        if(this.players.contains(getPlayer(nickname))){
-            this.players.remove(getPlayer(nickname));
-            setChanged();
-            notifyObservers();
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    /**deletes a player from the playersList
-     * @param player
-     * @return
-     * */
-    public boolean removePlayer(Player player){
-        if(this.players.contains(player)){
-            this.players.remove(player);
-            setChanged();
-            notifyObservers();
-            return true;
-        }
-        else{
-            return false;
-        }
     }
 
 }

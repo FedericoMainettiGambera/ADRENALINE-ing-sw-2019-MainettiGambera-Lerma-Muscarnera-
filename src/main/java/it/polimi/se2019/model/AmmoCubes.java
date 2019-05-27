@@ -10,7 +10,7 @@ import java.util.Observable;
  * The AmmoCubes class keeps track of the number of cubes of a specific color a player has.
  * @author FedericoMainettiGambera
  * */
-public class AmmoCubes extends Observable implements Serializable {
+public class AmmoCubes implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
@@ -55,8 +55,6 @@ public class AmmoCubes extends Observable implements Serializable {
         else{
             this.quantity = GameConstant.MaxNumberOfAmmoCubes;
         }
-        setChanged();
-        notifyObservers();
     }
 
     /**Subtract a quantity of ammos. This method is used to pay ammos.
@@ -67,8 +65,6 @@ public class AmmoCubes extends Observable implements Serializable {
     public boolean subQuantity(int quantity){
         if(canSubQuantity(quantity)){
             this.quantity -= quantity;
-            setChanged();
-            notifyObservers();
             return true;
         }
         else{
