@@ -47,7 +47,7 @@ public class OrderedCardList<T> extends Observable implements Serializable {
         return this.cards.get(0);
     }
 
-    /**Add a card to the list
+    /**Add a card to the list, TO BE USED ONLY IN GAME CLASS DURING THE BUIDING OF THE DECKS
      * @param card
      */
     public void addCard(T card){
@@ -104,6 +104,6 @@ public class OrderedCardList<T> extends Observable implements Serializable {
     public void shuffle() {
         Collections.shuffle(this.cards);
         setChanged();
-        notifyObservers("");
+        notifyObservers(null);
     }
 }

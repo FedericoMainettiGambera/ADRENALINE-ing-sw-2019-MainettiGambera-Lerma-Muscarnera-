@@ -12,12 +12,9 @@ import java.io.Serializable;
 public class DominationSpawnPointSquare extends SpawnPointSquare implements Serializable {
 
     /***/
-    public DominationSpawnPointSquare(int X, int Y, SquareSide north, SquareSide east, SquareSide south, SquareSide west, SquareTypes squareType, char color, VirtualView VV) {
-        super(X, Y, north, east, south, west, squareType, color, VV);
+    public DominationSpawnPointSquare(int X, int Y, SquareSide north, SquareSide east, SquareSide south, SquareSide west, SquareTypes squareType, char color) {
+        super(X, Y, north, east, south, west, squareType, color);
         this.damagesTracker = new DamagesTracker();
-
-        setChanged();
-        notifyObservers(null);
     }
 
     /***/

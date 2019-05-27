@@ -42,6 +42,11 @@ public class GrabStuffStateGrab implements State {
                     ModelGate.model.getCurrentPlayingPlayer().getPosition())
             ).getAmmoCards().getFirstCard();
 
+            //moving the grabbed ammo card to the discard pile
+            ((NormalSquare)ModelGate.model.getBoard().getSquare(
+                    ModelGate.model.getCurrentPlayingPlayer().getPosition())
+            ).getAmmoCards().moveCardTo(ModelGate.model.getAmmoDiscardPile(), ammoCard.getID());
+
             //grab ammocubes
             System.out.println("<SERVER> Grabbing ammo cubes");
             ModelGate.model.getCurrentPlayingPlayer().addAmmoCubes(ammoCard.getAmmunitions());

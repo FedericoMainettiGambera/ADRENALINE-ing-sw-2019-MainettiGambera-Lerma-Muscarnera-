@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SquareTest{
     NormalSquare normalSquare=new NormalSquare(0,0,null,SquareSide.nothing,SquareSide.nothing,SquareSide.wall,
-            SquareTypes.normal,'r', new VirtualView());
+            SquareTypes.normal,'r');
 
     @Test
     public void testWhatsLeft(){/*

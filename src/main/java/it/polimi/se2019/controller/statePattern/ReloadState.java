@@ -3,8 +3,10 @@ package it.polimi.se2019.controller.statePattern;
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
+import it.polimi.se2019.model.NormalSquare;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.WeaponCard;
+import it.polimi.se2019.model.enumerations.SquareTypes;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventBoolean;
 
@@ -21,7 +23,7 @@ public class ReloadState implements State{
             ViewControllerEventHandlerContext.state.doAction(null);
         }
 
-            System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
 
         if(canReload()){
@@ -38,6 +40,23 @@ public class ReloadState implements State{
         }
         else{
             System.out.println("<SERVER> The player can't reload");
+
+            System.out.println("<SERVER> Placing Ammo cards on all empty NormalSquares");
+            for (int i = 0; i < ModelGate.model.getBoard().getMap().length; i++) {
+                for (int j = 0; j < ModelGate.model.getBoard().getMap()[0].length; j++) {
+                    if((ModelGate.model.getBoard().getMap()[i][j]!=null)
+                            &&   (ModelGate.model.getBoard().getMap()[i][j].getSquareType() == SquareTypes.normal)){
+                        if(((NormalSquare)ModelGate.model.getBoard().getMap()[i][j]).getAmmoCards().getCards().size() == 0){
+                            ModelGate.model.getAmmoDeck().moveCardTo(
+                                    ((NormalSquare)ModelGate.model.getBoard().getMap()[i][j]).getAmmoCards(),
+                                    ModelGate.model.getAmmoDeck().getFirstCard().getID()
+                            );
+                            System.out.println("<SERVER> Added Ammo card to square [" + i + "][" + j + "]");
+                        }
+                    }
+                }
+            }
+
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
             ViewControllerEventHandlerContext.state.doAction(null);
         }

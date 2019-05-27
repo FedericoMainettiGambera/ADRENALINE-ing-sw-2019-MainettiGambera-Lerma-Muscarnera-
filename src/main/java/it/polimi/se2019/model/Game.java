@@ -105,8 +105,8 @@ public class Game extends Observable implements Serializable {
 
     public void setBot(Bot bot) {
         this.bot = bot;
-        setChanged();
-        notifyObservers();
+        //setChanged();
+        //notifyObservers();
     }
 
     /***/
@@ -189,32 +189,14 @@ public class Game extends Observable implements Serializable {
         return powerUpDeck;
     }
 
-    public void setPowerUpDeck(OrderedCardList<PowerUpCard> powerUpDeck) {
-        this.powerUpDeck = powerUpDeck;
-        setChanged();
-        notifyObservers(this.powerUpDeck);
-    }
-
     /***/
     public OrderedCardList<AmmoCard> getAmmoDeck() {
         return ammoDeck;
     }
 
-    public void setAmmoDeck(OrderedCardList<AmmoCard> ammoDeck) {
-        this.ammoDeck = ammoDeck;
-        setChanged();
-        notifyObservers(this.ammoDeck);
-    }
-
     /***/
     public OrderedCardList<WeaponCard> getWeaponDeck() {
         return weaponDeck;
-    }
-
-    public void setWeaponDeck(OrderedCardList<WeaponCard> weaponDeck) {
-        this.weaponDeck = weaponDeck;
-        setChanged();
-        notifyObservers(weaponDeck);
     }
 
     /***/

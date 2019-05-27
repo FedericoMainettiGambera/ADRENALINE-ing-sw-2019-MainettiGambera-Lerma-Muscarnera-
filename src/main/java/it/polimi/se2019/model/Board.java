@@ -143,14 +143,14 @@ public class Board implements Serializable{
 
                     if (type2 == 'N') {
                         type = SquareTypes.normal;
-                        map[i][j] = new NormalSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color, this.VV);
+                        map[i][j] = new NormalSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color);
 
                     }
                     //se no crea uno spawnPoint
                     else {
 
                         type = SquareTypes.spawnPoint;
-                        map[i][j] = new SpawnPointSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color, this.VV);
+                        map[i][j] = new SpawnPointSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color);
                         spawnPointslist[s]=map[i][j];
                         s++;
 

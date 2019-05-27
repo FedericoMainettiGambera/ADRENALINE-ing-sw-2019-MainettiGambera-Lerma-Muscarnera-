@@ -11,8 +11,8 @@ import java.io.Serializable;
 public class TurretSquare extends Square implements Serializable {
 
     /***/
-    public TurretSquare(int X, int Y, SquareSide north, SquareSide east, SquareSide south, SquareSide west, SquareTypes squareType, char color, VirtualView VV){
-        super(X,Y,north,east,south,west,squareType,color, VV);
+    public TurretSquare(int X, int Y, SquareSide north, SquareSide east, SquareSide south, SquareSide west, SquareTypes squareType, char color){
+        super(X,Y,north,east,south,west,squareType,color);
         this.owner=null;
     }
 

@@ -60,7 +60,7 @@ public class PlayersList extends Observable implements Serializable {
             }
         }
         setChanged();
-        notifyObservers("CURRENT PLAYING PLAYER");
+        notifyObservers("NEXT PLAYING PLAYER");
     }
 
 

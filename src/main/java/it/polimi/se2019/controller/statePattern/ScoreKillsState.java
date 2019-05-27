@@ -37,10 +37,10 @@ public class ScoreKillsState implements State {
 
         //score dead players and create the list of dead players
         if(this.deadPlayers.isEmpty()) {
-            System.out.println("<SERVER>Searching for dead players and creating the deadPlayers list");
+            System.out.println("<SERVER> Searching for dead players and creating the deadPlayers list");
             for (int i = 0; i < ModelGate.model.getPlayerList().getNumberOfPlayers(); i++) {
                 if (ModelGate.model.getPlayerList().getPlayers().get(i).isDead()) {
-                    System.out.println("<SERVER>Scoring player: " + ModelGate.model.getPlayerList().getPlayers().get(i).getNickname());
+                    System.out.println("<SERVER> Scoring player: " + ModelGate.model.getPlayerList().getPlayers().get(i).getNickname());
                     this.scoreKill(ModelGate.model.getPlayerList().getPlayers().get(i));
                     deadPlayers.add(ModelGate.model.getPlayerList().getPlayers().get(i));
                 }
@@ -48,7 +48,7 @@ public class ScoreKillsState implements State {
         }
 
         if(deadPlayers.isEmpty()){
-            System.out.println("<SERVER>Ended scoring and spawning players.");
+            System.out.println("<SERVER> Ended scoring and spawning players.");
 
             ModelGate.model.getPlayerList().setNextPlayingPlayer();
 
@@ -82,7 +82,7 @@ public class ScoreKillsState implements State {
             }
         }
         else{
-            System.out.println("<SERVER>Spawning player: " + this.deadPlayers.get(0));
+            System.out.println("<SERVER> Spawning player: " + this.deadPlayers.get(0));
 
             ViewControllerEventHandlerContext.setNextState(new SpawnState(this.deadPlayers));
             ViewControllerEventHandlerContext.state.askForInput(null);
@@ -90,11 +90,11 @@ public class ScoreKillsState implements State {
     }
 
     public void scoreKill(Player deadPlayer){
-        System.out.println("<SERVER>Scoring dead players.");
+        System.out.println("<SERVER> Scoring dead players.");
 
         //first blood
         if(!ModelGate.model.hasFinalFrenzyBegun()){
-            System.out.println("<SERVER>First blood goes to " + deadPlayer.getPlayerBoard().getDamagesSlot(0).getShootingPlayer().getNickname());
+            System.out.println("<SERVER> First blood goes to " + deadPlayer.getPlayerBoard().getDamagesSlot(0).getShootingPlayer().getNickname());
             Player firstBlood = deadPlayer.getPlayerBoard().getDamagesSlot(0).getShootingPlayer();
             firstBlood.addPoints(1);
            }

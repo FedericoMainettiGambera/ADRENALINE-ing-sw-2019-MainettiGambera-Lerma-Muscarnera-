@@ -46,9 +46,6 @@ public class TestGame{
         Square[][] map=board.getMap();
         assertEquals(SquareSide.wall,game.getBoard().getSquare(0,0).getSide(CardinalPoint.north));
 
-        game.setPowerUpDeck(ppc);
-        game.setAmmoDeck(ac);
-        game.setWeaponDeck(wc);
         wc=game.getWeaponDeck();
 
     }

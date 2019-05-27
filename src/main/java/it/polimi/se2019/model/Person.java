@@ -123,7 +123,7 @@ public abstract class Person extends Observable implements Serializable {
     public void addDeath() {
         this.board.addDeath();
         setChanged();
-        notifyObservers(this.getDeathCounter());
+        notifyObservers("DEATH");
     }
 
     /**return the number of times the player has died.

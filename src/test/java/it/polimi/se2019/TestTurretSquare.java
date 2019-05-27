@@ -20,7 +20,7 @@ public class TestTurretSquare {
         SquareSide E = SquareSide.wall;
         SquareSide S = SquareSide.wall;
         SquareSide O = SquareSide.wall;
-        TurretSquare T = new TurretSquare(X,Y,N,E,S,O, SquareTypes.spawnPoint,'r', new SocketVirtualView(new ViewControllerEventHandlerContext()));
+        TurretSquare T = new TurretSquare(X,Y,N,E,S,O, SquareTypes.spawnPoint,'r');
     }
     @Test
     public void testGetOwner() {
@@ -30,7 +30,7 @@ public class TestTurretSquare {
         SquareSide E = SquareSide.wall;
         SquareSide S = SquareSide.wall;
         SquareSide O = SquareSide.wall;
-        TurretSquare T = new TurretSquare(X,Y,N,E,S,O, SquareTypes.spawnPoint,'r', new SocketVirtualView(new ViewControllerEventHandlerContext()));
+        TurretSquare T = new TurretSquare(X,Y,N,E,S,O, SquareTypes.spawnPoint,'r');
         Player p = new Player();
         T.setOwner(p);
         assertEquals(T.getOwner(),p);

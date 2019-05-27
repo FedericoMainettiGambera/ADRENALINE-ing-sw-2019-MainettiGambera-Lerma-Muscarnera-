@@ -11,10 +11,10 @@ import java.util.Observable;
 
 
 /***/
-public abstract class Square extends Observable implements Serializable {
+public abstract class Square implements Serializable {
 
     /***/
-    public Square(int X, int Y, SquareSide north, SquareSide east, SquareSide south, SquareSide west, SquareTypes squareType, char color, VirtualView VV){
+    public Square(int X, int Y, SquareSide north, SquareSide east, SquareSide south, SquareSide west, SquareTypes squareType, char color){
         this.coordinates = new Position(X,Y);
         this.north = north;
         this.east = east;
@@ -22,8 +22,6 @@ public abstract class Square extends Observable implements Serializable {
         this.west = west;
         this.squareType = squareType;
         this.color=color;
-
-        this.addObserver(VV);
     }
 
     /***/

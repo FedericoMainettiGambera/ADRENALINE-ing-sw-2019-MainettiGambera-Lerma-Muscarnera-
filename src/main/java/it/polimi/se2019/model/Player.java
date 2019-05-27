@@ -72,8 +72,6 @@ public class Player extends Person implements Serializable {
     ///socket
     public void setOos(ObjectOutputStream oos){
         this.oos = oos;
-        setChanged();
-        notifyObservers();
     }
 
     public ObjectOutputStream getOos(){
@@ -82,8 +80,6 @@ public class Player extends Person implements Serializable {
 
     public void setIP(String IP){
         this.IP = IP;
-        setChanged();
-        notifyObservers();
     }
 
     public String getIp(){

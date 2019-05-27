@@ -13,18 +13,18 @@ public class TestNormalSquare {
     @Test
     public void testNormalSquare() {
 
-        NormalSquare N = new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r', new VirtualView());
+        NormalSquare N = new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r');
 
     }
     @Test
     public void testGetAmmoCards() {
-        NormalSquare N = new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r', new VirtualView());
+        NormalSquare N = new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r');
         N.getAmmoCards();
     }
     @Test
     public void testCardinal() {
         // 45 - 58
-        NormalSquare N = new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r', new VirtualView());
+        NormalSquare N = new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r');
         N.getSide(CardinalPoint.north);
         N.getSide(CardinalPoint.east);
         N.getSide(CardinalPoint.south);
@@ -37,12 +37,12 @@ public class TestNormalSquare {
     }
     @Test
     public void testNullCardinal() {
-        NormalSquare N = new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r', new VirtualView());
+        NormalSquare N = new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r');
         N.getSide(null);
     }
     @Test
     public void testCoords() {
-        NormalSquare N = new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r', new VirtualView());
+        NormalSquare N = new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r');
         N.getCoordinates();
 
     }
