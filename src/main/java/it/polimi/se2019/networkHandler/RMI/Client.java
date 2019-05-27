@@ -165,6 +165,7 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
 
 
 
+
         }
 
         else {System.out.println("<PlYAERINO> Sorry you cant play we are full, "+"number of connection is already"+chatinterface.numberOfConnection());}

@@ -17,17 +17,11 @@ public class RMINetworkHandler extends NetworkHandler{
 
 
     public RMINetworkHandler(String name, int port, View view) throws RemoteException, NotBoundException {
-
-        Scanner scanner = new Scanner(System.in);
-        int rmiIdentifier;
-
         rmiObsHandler=new RMIObsHandler(view);
 
 
 
         System.out.println("<CLIENT> " + "~~ Welcome To RMI Adrenaline Server~~   "+"Ready to Play? Cool! just a few steps before!");
-        System.out.print("<CLIENT> " + "Inserisci un nickname: ");
-
         System.out.println("<CLIENT> " + "Connecting To RMI Server...\n");
 
         Registry reg=LocateRegistry.getRegistry("localhost", port);

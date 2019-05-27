@@ -61,7 +61,13 @@ public class GrabStuffStateGrab implements State {
             // the player doesn't have to grab a power up
             else{
                 if(actionNumber==1){
-                    ViewControllerEventHandlerContext.setNextState(new TurnState(2));
+
+                    if (ModelGate.model.hasFinalFrenzyBegun() && ModelGate.model.getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0) {
+
+                       ViewControllerEventHandlerContext.setNextState(new ReloadState());//TODO same of all of this ifs
+
+                    }
+                        else ViewControllerEventHandlerContext.setNextState(new TurnState(2));
                 }
                 else if(actionNumber==2){
                     ViewControllerEventHandlerContext.setNextState(new ReloadState());

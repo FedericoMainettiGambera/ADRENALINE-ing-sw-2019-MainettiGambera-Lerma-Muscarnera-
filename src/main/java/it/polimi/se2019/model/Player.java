@@ -29,8 +29,28 @@ public class Player extends Person implements Serializable {
 
     private int rmiIdentifier;
 
+    private int beforeOrAfterStartingPlayer;
+
+    private boolean isLastPlayingPlayer=false;
+
     /*-********************************************************************************************************METHODS*/
 
+    public void setBeforeorafterStartingPlayer(int position){
+        this.beforeOrAfterStartingPlayer=position;
+    }
+
+    public int getBeforeorafterStartingPlayer(){
+        return this.beforeOrAfterStartingPlayer;
+    }
+
+    public void setLastPlayingPlayer(){
+        this.isLastPlayingPlayer=true;
+
+    }
+
+    public boolean getLastPlayingPlayer() {
+        return isLastPlayingPlayer;
+    }
 
     ////rmi
     public void setRmiInterface(RMIInterface rmi){

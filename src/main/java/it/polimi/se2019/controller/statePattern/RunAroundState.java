@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class RunAroundState implements State {
 
     private int actionNumber;
+    private int numberOfMoves;
 
     public RunAroundState(int actionNumber){
         System.out.println("<SERVER> New state: " + this.getClass());
@@ -23,7 +24,10 @@ public class RunAroundState implements State {
     public void askForInput(Player playerToAsk) {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
-        ArrayList<Position> possiblePositions = ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(), 3);
+        if(ModelGate.model.hasFinalFrenzyBegun()&&playerToAsk.getBeforeorafterStartingPlayer()<0){numberOfMoves=4;}
+        else{numberOfMoves=3;}
+
+        ArrayList<Position> possiblePositions = ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(), numberOfMoves);
         System.out.println("<SERVER> Possible positions to move calculated:");
         String toPrintln = "";
         for (int i = 0; i < possiblePositions.size() ; i++) {

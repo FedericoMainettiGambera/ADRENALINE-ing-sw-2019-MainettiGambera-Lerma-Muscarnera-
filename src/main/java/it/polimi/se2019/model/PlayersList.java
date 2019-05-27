@@ -46,6 +46,7 @@ public class PlayersList extends Observable implements Serializable {
         notifyObservers("STARTING PLAYER");
     }
 
+
     public void setNextPlayingPlayer(){
         for(int i = 0; i < this.players.size(); i++){
             if(this.players.get(i).getNickname() == this.currentPlayingPlayer.getNickname()){

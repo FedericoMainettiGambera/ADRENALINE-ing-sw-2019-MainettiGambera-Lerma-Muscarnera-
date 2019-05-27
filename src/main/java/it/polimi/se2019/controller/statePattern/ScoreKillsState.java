@@ -53,16 +53,22 @@ public class ScoreKillsState implements State {
             ModelGate.model.getPlayerList().setNextPlayingPlayer();
 
             //Game is not ended --> TurnState or FirstSpawnState
-            if(!ModelGate.model.getKillshotTrack().areSkullsOver()){
-
+            if((!ModelGate.model.getKillshotTrack().areSkullsOver())||ModelGate.model.hasFinalFrenzyBegun()){
+           //we are in final frenzy and this was the last playin player-> Final Scoring state
+                if(ModelGate.model.getCurrentPlayingPlayer().getLastPlayingPlayer()){
+                    ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
+                    ViewControllerEventHandlerContext.state.doAction(null);
+                }
+                else{
                 if(ModelGate.model.getCurrentPlayingPlayer().getPosition() == null){
                     ViewControllerEventHandlerContext.setNextState(new FirstSpawnState());
                     ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
                 }
-                else {
+                else{
                     ViewControllerEventHandlerContext.setNextState(new TurnState(1));
                     ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
                 }
+            }
             }
             //Game is ended and FinalFrenzy isn't active --> FinalScoringState
             else if(ModelGate.model.getKillshotTrack().areSkullsOver() && (!ModelGate.model.isFinalFrenzy())){
@@ -87,9 +93,11 @@ public class ScoreKillsState implements State {
         System.out.println("<SERVER>Scoring dead players.");
 
         //first blood
-        System.out.println("<SERVER>First blood goes to " + deadPlayer.getPlayerBoard().getDamagesSlot(0).getShootingPlayer().getNickname());
-        Player firstBlood = deadPlayer.getPlayerBoard().getDamagesSlot(0).getShootingPlayer();
-        firstBlood.addPoints(1);
+        if(!ModelGate.model.hasFinalFrenzyBegun()){
+            System.out.println("<SERVER>First blood goes to " + deadPlayer.getPlayerBoard().getDamagesSlot(0).getShootingPlayer().getNickname());
+            Player firstBlood = deadPlayer.getPlayerBoard().getDamagesSlot(0).getShootingPlayer();
+            firstBlood.addPoints(1);
+           }
 
         //list of points (es 8,6,4,2,1,1)
         ArrayList<Integer> pointsList = deadPlayer.getPointsList();
