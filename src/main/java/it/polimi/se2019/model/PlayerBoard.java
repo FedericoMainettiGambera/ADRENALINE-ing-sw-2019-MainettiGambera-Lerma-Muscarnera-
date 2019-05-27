@@ -190,4 +190,15 @@ public class PlayerBoard implements Serializable {
         this.marksTracker.deleteMarksFromPlayer(markingPlayer);
     }
 
+    public void setAmmoBox(AmmoList ammoBox){
+        this.ammoBox = ammoBox;
+    }
+
+    public void setDamagesTracker(DamagesTracker damagesTracker){
+        this.damagesTracker = damagesTracker;
+    }
+
+    public void setMarksTracker (MarksTracker marksTracker){
+        this.marksTracker = marksTracker;
+    }
 }

@@ -14,7 +14,6 @@ import java.util.Observer;
 
 public class View implements Observer {
 
-
     private ViewSelector selector;
 
     private String networkConnection;
@@ -23,6 +22,7 @@ public class View implements Observer {
     public View(String networkConnection){
         this.networkConnection = networkConnection;
         this.selector = new ViewSelector(networkConnection);
+        ViewModelGate.model = new Game();
     }
 
     @Override
@@ -58,110 +58,151 @@ public class View implements Observer {
             classNameArg = "null";
         }
 
-        System.out.println("                                        <CLIENT> The " + className + " in the server has changed and it has sent this object: " + classNameArg);
+        //System.out.println("                                        <CLIENT> The " + className + " in the server has changed and it has sent this object: " + classNameArg);
 
         switch (className){
             case "Game":
                 if(classNameArg.equals("String")){
                     String arg = (String)MVE.getArg();
-                    if(arg.equals("FINAL FRENZY SETTED")){
-                        System.out.println("<CLIENT> FF SETTED");
+                    Game obs = (Game)MVE.getO();
+                    if(arg.contains("FINAL FRENZY SETTED")){
+                        if(arg.contains("true")) {
+                            ViewModelGate.model = obs;
+                            System.out.println("<CLIENT> FF SETTED TO TRUE");
+                        }
+                        else{
+                            ViewModelGate.model = obs;
+                            System.out.println("<CLIENT> FF SETTED TO FALSE");
+                        }
                     }
-                    else if(arg.equals("FINAL FRENZY HAS BEGUN")){
-                        System.out.println("<CLIENT> FF BEGUN");
+                    else if(arg.contains("FINAL FRENZY HAS BEGUN")){
+                        if(arg.contains("true")) {
+                            ViewModelGate.model = obs;
+                            System.out.println("<CLIENT> FF BEGUN");
+                        }
+                        else{
+                            ViewModelGate.model = obs;
+                            System.out.println("<CLIENT> FF NOT BEGUN");
+                        }
                     }
                 }
                 else if(classNameArg.equals("KillshotTrack")) {
                     KillShotTrack arg = (KillShotTrack) MVE.getArg();
                     System.out.println("<CLIENT> KILLSHOTTRACK SETTED");
+                    ViewModelGate.model.setKillshotTrack(arg);
                 }
                 else if(classNameArg.equals("PlayersList")) {
                     PlayersList arg = (PlayersList)MVE.getArg();
                     System.out.println("<CLIENT> PLAYERLIST SETTED");
+                    ViewModelGate.model.setPlayerList(arg);
                 }
                 else if(classNameArg.equals("Board")) {
                     Board arg = (Board)MVE.getArg();
                     System.out.println("<CLIENT> BOARD SETTED");
+                    ViewModelGate.model.setBoard(arg);
                 }
                 break;
 
             case "KillShotTrack":
                 //MVE.getArg() is null
                 System.out.println("<CLIENT> DEATH OF A PLAYER");
+                ViewModelGate.model.setKillshotTrack((KillShotTrack)MVE.getO());
                 break;
 
             case "OrderedCardList":
                 if(classNameArg.equals("WeaponCard")){
-                    System.out.println("<CLIENT> CARD HAS BEEN ADDED TO WEAPONCARD DECK");
+                    System.out.println("<CLIENT> CARD HAS BEEN ADDED TO WEAPONCARD DECK, how can i know what ordered card list has changed???");
                 }
                 else if(classNameArg.equals("PowerUpCard")){
-                    System.out.println("<CLIENT> CARD HAS BEEN ADDED TO POWER UP DECK");
+                    System.out.println("<CLIENT> CARD HAS BEEN ADDED TO POWER UP DECK, how can i know what ordered card list has changed???");
                 }
                 else if(classNameArg.equals("AmmoCard")){
-                    System.out.println("<CLIENT> CARD HAS BEEN ADDED TO AMMO CARD DECK");
+                    System.out.println("<CLIENT> CARD HAS BEEN ADDED TO AMMO CARD DECK, how can i know what ordered card list has changed???");
                 }
                 else if(classNameArg.equals("OrderedCardList")){
-                    System.out.println("<CLIENT> ONE OR MORE CARDS HAS BEEN MOVED TO ARG FROM O");
+                    System.out.println("<CLIENT> ONE OR MORE CARDS HAS BEEN MOVED, how can i know what ordered card list has changed???");
                 }
                 else if(classNameArg.equals("null")){
                     //MVE.getArg() is null
-                    System.out.println("<CLIENT> O HAS BEEN SHUFFLED");
+                    System.out.println("<CLIENT> ORDERED CARD LIST HAS BEEN SHUFFLED, how can i know what ordered card list has changed???");
                 }
                 break;
 
             case "Player":
                 if(classNameArg.equals("PlayersColors")){
                     PlayersColors arg = (PlayersColors)MVE.getArg();
-                    System.out.println("<CLIENT> PLAYER'S COLOR HAS BEEN SETTED");
+                    Player obs = (Player)MVE.getO();
+                    System.out.println("<CLIENT> PLAYER'S COLOR HAS BEEN SET");
+                    ViewModelGate.model.getPlayerList().getPlayer((obs).getNickname()).setColor(arg);
                 }
                 else if(classNameArg.equals("String")){
                     String arg = (String)MVE.getArg();
+                    Player obs = (Player)MVE.getO();
                     if(arg.equals("DEATH")){
-                        System.out.println("<CLIENT> PLAYER'S DEATH COUNTER HAS BEEN UPDATED");
+                        System.out.println("<CLIENT> PLAYER'S DEATH COUNTER++");
+                        ViewModelGate.model.getPlayerList().getPlayer(obs.getNickname()).addDeath();
                     }
                     else if(arg.equals("FINAL FRENZY BOARD SETTED")){
                         System.out.println("<CLIENT> PLAYER'S FINAL FRENZY BOARD HAS BEEN SET");
+                        ViewModelGate.model.getPlayerList().getPlayer(obs.getNickname()).makePlayerBoardFinalFrenzy();
                     }
                     else {
                         System.out.println("<CLIENT> PLAYER'S NICKNAME HAS BEEN SET");
+                        ViewModelGate.model.getPlayerList().getPlayer(obs.getNickname()).setNickname(arg);
                     }
                 }
                 else if(classNameArg.equals("Position")){
+                    Player obs = (Player)MVE.getO();
                     Position arg = (Position)MVE.getArg();
                     System.out.println("<CLIENT> PLAYER'S POSITION HAS BEEN SET");
+                    ViewModelGate.model.getPlayerList().getPlayer(obs.getNickname()).setPosition(arg);
+
                 }
                 else if(classNameArg.equals("Integer")){
+                    Player obs = (Player)MVE.getO();
                     Integer arg = (Integer)MVE.getArg();
                     System.out.println("<CLIENT> PLAYER'S SCORE HAS BEEN SET");
+                    ViewModelGate.model.getPlayerList().getPlayer(obs.getNickname()).setScore(arg);
                 }
                 else if(classNameArg.equals("AmmoList")){
+                    Player obs = (Player)MVE.getO();
                     AmmoList arg = (AmmoList)MVE.getArg();
                     System.out.println("<CLIENT> PLAYER'S AMMO BOX HAS CHANGED (ADDED OR REMOVED AMMO CUBES...)");
+                    ViewModelGate.model.getPlayerList().getPlayer(obs.getNickname()).getBoard().setAmmoBox(arg);
                 }
                 else if(classNameArg.equals("DamageTracker")){
+                    Player obs = (Player)MVE.getO();
                     DamagesTracker arg = (DamagesTracker)MVE.getArg();
                     System.out.println("<CLIENT> PLAYER'S DAMAGE TRACKER HAS CHANGED (RESET OR ADDED DAMAGES)");
+                    ViewModelGate.model.getPlayerList().getPlayer(obs.getNickname()).getBoard().setDamagesTracker(arg);
                 }
                 else if(classNameArg.equals("MarksTracker")){
+                    Player obs = (Player)MVE.getO();
                     MarksTracker arg = (MarksTracker)MVE.getArg();
                     System.out.println("<CLIENT> PLAYER'S MARKS TRACKER HAS CHANGED (ADDED OR DELETED MARKS)");
+                    ViewModelGate.model.getPlayerList().getPlayer(obs.getNickname()).getBoard().setMarksTracker(arg);
                 }
                 break;
 
             case "PlayersList":
                 if(classNameArg.equals("String")){
                     String arg = (String)MVE.getArg();
+                    PlayersList obs = (PlayersList)MVE.getO();
                     if(arg.equals("CURRENT PLAYING PLAYER")){
                         System.out.println("<CLIENT> CURRENT PLAYING PLAYER HAS BEEN SETTED");
+                        ViewModelGate.model.setPlayerList(obs);
                     }
                     else if(arg.equals("STARTING PLAYER")){
                         System.out.println("<CLIENT> STARTING PLAYING PLAYER HAS BEEN SETTED");
+                        ViewModelGate.model.setPlayerList(obs);
                     }
                     else if(arg.equals("NEXT PLAYING PLAYER")){
                         System.out.println("<CLIENT> CURRENT PLAYING PLAYER HAS CHANGED AS NExT PLAYING PLAYER");
+                        ViewModelGate.model.setPlayerList(obs);
                     }
                     else if(arg.equals("NEW PLAYER")){
                         System.out.println("<CLIENT> NEW PLAYER HAS BEEN ADDED TO THE PLAYERS LIST");
+                        ViewModelGate.model.setPlayerList(obs);
                     }
                 }
                 break;

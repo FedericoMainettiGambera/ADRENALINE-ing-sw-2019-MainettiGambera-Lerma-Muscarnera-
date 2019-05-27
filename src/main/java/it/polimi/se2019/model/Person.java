@@ -126,6 +126,10 @@ public abstract class Person extends Observable implements Serializable {
         notifyObservers("DEATH");
     }
 
+    public void setScore(int score){
+        this.score = score;
+    }
+
     /**return the number of times the player has died.
      * @return
      * */

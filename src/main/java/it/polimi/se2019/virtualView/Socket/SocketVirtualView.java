@@ -66,7 +66,7 @@ public class SocketVirtualView extends VirtualView {
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("                                        <SERVER> SENDING MVE FROM: " +o.getClass());
+        //System.out.println("                                        <SERVER> SENDING MVE FROM: " +o.getClass());
         ModelViewEvent MVE = new ModelViewEvent(o, arg);
         this.sendAllClient(MVE);
     }

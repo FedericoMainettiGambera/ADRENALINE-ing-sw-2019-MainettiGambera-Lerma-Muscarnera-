@@ -80,7 +80,7 @@ public class Game extends Observable implements Serializable {
     public void setFinalFrenzy(boolean isFinalFrenzy){
         this.isFinalFrenzy = isFinalFrenzy;
         setChanged();
-        notifyObservers("FINAL FRENZY SETTED");
+        notifyObservers("FINAL FRENZY SETTED :" + this.isFinalFrenzy);
     }
 
     public boolean isFinalFrenzy(){
@@ -94,7 +94,7 @@ public class Game extends Observable implements Serializable {
     public void triggerFinalFrenzy(boolean hasFinalFrenzyBegun){
         this.hasFinalFrenzyBegun = hasFinalFrenzyBegun;
         setChanged();
-        notifyObservers("FINAL FRENZY HAS BEGUN");
+        notifyObservers("FINAL FRENZY HAS BEGUN :" + this.hasFinalFrenzyBegun);
     }
 
 

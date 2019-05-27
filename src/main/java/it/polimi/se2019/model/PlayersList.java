@@ -96,4 +96,8 @@ public class PlayersList extends Observable implements Serializable {
         return this.players.size();
     }
 
+    public void overwritePlayer(String nickname, Player player){
+
+    }
+
 }
