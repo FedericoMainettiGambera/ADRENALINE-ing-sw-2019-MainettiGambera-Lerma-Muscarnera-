@@ -1,0 +1,54 @@
+NAME
+T.H.O.R
+RELOAD COST
+b
+1
+RELOAD COST
+r
+1
+
+NEW EFFECT
+#   effetto base
+    EXPECTED INPUT
+        singleTarget
+    END
+
+    ACTIONS
+        Damage
+            ACTION INFO
+                PRECONDITION
+                    youCanSee
+                SET
+                    2
+        END
+
+NEW EFFECT
+#   effetto con chain reaction
+    ACTIONS
+        Action
+            PRECONDITION
+                withChainReaction
+        Damage
+            PRECONDITION
+                previousTargetCanSee
+            SET
+                1
+    END
+
+NEW EFFECT
+#   effetto con alto voltaggio
+    ACTIONS
+        Action
+            PRECONDITION
+            previousPreviousTargetDifferent
+        #   il target deve essere diverso dal primo
+        Action
+            PRECONDITION
+                withHighVoltage
+        Damage
+            PRECONDITION
+                previousTargetCanSee
+            SET
+                2
+
+

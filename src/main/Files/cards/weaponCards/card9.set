@@ -1,0 +1,51 @@
+NAME
+T.H.O.R
+RELOAD COST
+b
+1
+RELOAD COST
+r
+1
+NEW EFFECT
+EXPECTED INPUT
+singleTarget
+END
+ACTIONS
+Damage
+ACTION INFO
+PRECONDITION
+youCanSee
+SET
+2
+END
+NEW EFFECT
+EXPECTED INPUT
+singleTarget
+END
+ACTIONS
+Action
+PRECONDITION
+withChainReaction
+Damage
+PRECONDITION
+previousTargetCanSee
+SET
+1
+END
+NEW EFFECT
+EXPECTED INPUT
+singleTarget
+END
+ACTIONS
+Action
+PRECONDITION
+previousPreviousTargetDifferent
+Action
+PRECONDITION
+withHighVoltage
+Damage
+PRECONDITION
+previousTargetCanSee
+SET
+2
+
