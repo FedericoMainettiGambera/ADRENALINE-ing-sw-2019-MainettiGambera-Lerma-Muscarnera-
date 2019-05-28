@@ -98,13 +98,14 @@ public class GameSetUpState implements State {
                 ModelGate.model.getAmmoDeck().getCards().add(new AmmoCard("fake", ammoList, false));
             }
 
-            System.out.println("<SERVER> Adding 10 fake WeaponCards to the weaponDeck.");
+            /*System.out.println("<SERVER> Adding 100 fake WeaponCards to the weaponDeck.");
             AmmoList tempAmmoList = new AmmoList();
             tempAmmoList.addAmmoCubesOfColor(AmmoCubesColor.blue,1);
             tempAmmoList.addAmmoCubesOfColor(AmmoCubesColor.red,1);
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 100; i++) {
                 ModelGate.model.getWeaponDeck().getCards().add(new WeaponCard("fake", tempAmmoList, tempAmmoList, new ArrayList<Effect>()));
             }
+            */
 
             System.out.println("<SERVER> Adding 100 fake PowerUpCards to the powerUpDeck.");
             for (int i = 0; i < 100; i++) {

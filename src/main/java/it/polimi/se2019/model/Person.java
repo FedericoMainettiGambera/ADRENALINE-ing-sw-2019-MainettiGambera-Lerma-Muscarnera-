@@ -54,9 +54,9 @@ public abstract class Person extends Observable implements Serializable {
     }
 
     public void setNickname(String nickname){
-        this.nickname = nickname;
         setChanged();
-        notifyObservers(nickname);
+        notifyObservers(nickname + "_" + this.nickname);
+        this.nickname = nickname;
     }
 
     /*POSITION*/
