@@ -15,7 +15,7 @@ public class UserSelectedActionDetails implements Serializable {
             }
             if(!isOk) {
 
-                itNeeds(neededObjects);         //TODO: it stops the execution of the program while all the fields are fillen... to improve  ; COMUNICATION WITH THE USER
+                //itNeeds(neededObjects);         //TODO: it stops the execution of the program while all the fields are fillen... to improve  ; COMUNICATION WITH THE USER
 
             }
         }

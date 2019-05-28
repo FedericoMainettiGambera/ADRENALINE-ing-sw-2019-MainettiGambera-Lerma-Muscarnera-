@@ -1,8 +1,6 @@
 package it.polimi.se2019.model;
 
 
-import it.polimi.se2019.model.enumerations.CardinalPoint;
-
 import java.io.Serializable;
 
 /***/
@@ -46,7 +44,7 @@ public class Move extends Action implements Serializable {
                 getActionInfo().getActionDetails().getUserSelectedActionDetails().getDirection()
         );
 
-        CardinalPoint direction = getActionInfo().getActionDetails().getUserSelectedActionDetails().getDirection();
+        /*CardinalPoint direction = getActionInfo().getActionDetails().getUserSelectedActionDetails().getDirection();
         int a = 0;
         int b = 0;
         switch(direction) {
@@ -70,6 +68,13 @@ public class Move extends Action implements Serializable {
         getActionInfo().getActionContext().getPlayer().setPosition(
                 getActionInfo().getActionContext().getPlayer().getPosition().getX() + a,
                 getActionInfo().getActionContext().getPlayer().getPosition().getY() + b
-                );
+                );*/
+        Player target = getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
+        Square square = getActionInfo().getActionDetails().getUserSelectedActionDetails().getChosenSquare();
+            target.setPosition(
+                square.getCoordinates().getX(),
+                square.getCoordinates().getY()
+        );
+        System.out.println("\t\t\tsposto " + target.getNickname() + " in [" + square.getCoordinates().getX() + "," + square.getCoordinates().getY() + "]");
     }
 }

@@ -1,0 +1,33 @@
+NAME
+test2
+RELOAD COST
+r
+1
+
+NEW EFFECT
+EXPECTED INPUT
+player
+TO
+ALL
+END
+simpleSquareSelect
+TO
+1
+END
+simpleSquareSelect
+TO
+2
+END
+END
+ACTIONS
+Move
+ACTION INFO
+PRECONDITION
+alwaysTrue
+END
+Move
+ACTION INFO
+PRECONDITION
+sameCardinalDirectionOfPreviousSquare
+END
+END

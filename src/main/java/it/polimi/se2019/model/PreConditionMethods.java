@@ -1,6 +1,11 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.model.enumerations.SquareSide;
+import it.polimi.se2019.model.enumerations.SquareTypes;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PreConditionMethods implements Serializable {
     public boolean validPayment(ActionDetails actionDetails, ActionContext actionContext) {
@@ -142,6 +147,22 @@ public class PreConditionMethods implements Serializable {
     public boolean distanceOfTargetFromPlayerExactlyOne(ActionDetails actionDetails,ActionContext actionContext) {
         return distanceOfTargetFromPlayerSquareIs1(actionDetails,actionContext); // alias function
     }
+    public boolean distanceFromLastSelectedSquareExactlyOne(ActionDetails actionDetails,ActionContext actionContext) {
+        /*square,square*/
+        Square A = actionDetails.getUserSelectedActionDetails().getChosenSquare();
+
+        for(int i = actionContext.getActionContextFilteredInputs().size()-2;i >= 0; i--) {
+
+            System.out.println(">" + actionContext.getActionContextFilteredInputs().get(i).getType());
+            if(actionContext.getActionContextFilteredInputs().get(i).getType().equals("Square")) {
+                        Square B = (Square) actionContext.getActionContextFilteredInputs().get(i).getContent()[0];
+                        int Distance = (A.getCoordinates().getX() -  B.getCoordinates().getX()) * (A.getCoordinates().getX() -  B.getCoordinates().getX()) +
+                                (A.getCoordinates().getY() -  B.getCoordinates().getY()) * (A.getCoordinates().getY() -  B.getCoordinates().getY());
+                        return (Distance == 1);
+                }
+            }
+        return false;
+    }
     public boolean previousPreviousTargetDifferent(ActionDetails actionDetails,ActionContext actionContext) {
         /*@*/ System.out.println("verifico notPreviousTarget" +  actionContext.getPlayer().toString() + ":" + actionContext.getActionContextFilteredInputs().size());
 
@@ -171,6 +192,80 @@ public class PreConditionMethods implements Serializable {
         }
         return true;
 
+    }
+    private List<Square> squareSelect(List<ActionContextFilteredInput> l) {
+        List<Square> ret = new ArrayList<>();
+        for(ActionContextFilteredInput a: l) {
+            if(a.getType().equals("Square")) {
+                ret.add((Square) a.getContent()[0]);
+                System.out.println("#" + ret.get(ret.size()-1).getCoordinates().getX() + "," + ret.get(ret.size()-1).getCoordinates().getY()  );
+            }
+        }
+
+        return ret;
+    }
+
+    public boolean sameCardinalDirectionOfPreviousSquare(ActionDetails actionDetails,ActionContext actionContext) {
+        Square A = actionDetails.getUserSelectedActionDetails().getChosenSquare();
+        Square B = new NormalSquare(1, 0, SquareSide.wall, SquareSide.wall, SquareSide.wall, SquareSide.wall, SquareTypes.normal, 'r');
+        ;
+        squareSelect(actionContext.getActionContextFilteredInputs());
+        for (int i = actionContext.getActionContextFilteredInputs().size() - 2; i >= 0; i--) {
+            System.out.println(">" + ((Square) actionContext.getActionContextFilteredInputs().get(i).getContent()[0]).getCoordinates().getX() +
+                    "," + ((Square) actionContext.getActionContextFilteredInputs().get(i).getContent()[0]).getCoordinates().getY());
+
+            if (actionContext.getActionContextFilteredInputs().get(i).getType().equals("Square")) {
+                B = (Square) actionContext.getActionContextFilteredInputs().get(i).getContent()[0];
+                Position A_coords = A.getCoordinates();
+                Position B_coords = B.getCoordinates();
+                Position P_coords = actionContext.getPlayer().getPosition();
+
+                //  AB + BP = AP -- same cardinal point
+                System.out.println("confronto...");
+
+                System.out.println("A " + A.getCoordinates().getX() + "," + A.getCoordinates().getY());
+                System.out.println("B "+ B.getCoordinates().getX() + "," + B.getCoordinates().getY());
+                System.out.println("P " + P_coords.getX() + "," + P_coords.getY());
+                boolean val1 = (A_coords.getX() == B_coords.getX()) && (A_coords.getX() == P_coords.getX()) && (B_coords.getX() == P_coords.getX());
+                boolean val2 = (A_coords.getY() == B_coords.getY()) && (A_coords.getY() == P_coords.getY()) && (B_coords.getY() == P_coords.getY());
+
+                return val1 || val2;
+
+            }
+
+        }
+        return false;
+    }
+
+    public boolean targetNotOnYourSquare(ActionDetails actionDetails,ActionContext actionContext) {
+        System.out.println("verifico che il target non sia sullo stesso square del player");
+        Player target = actionDetails.getUserSelectedActionDetails().getTarget();
+        Player player = actionContext.getPlayer();
+
+        Position targetPosition = target.getPosition();
+        Position playerPosition = player.getPosition();
+
+        boolean val1 = (targetPosition.getX() == playerPosition.getX()) && ((targetPosition.getY() == playerPosition.getY()));
+        return !val1;
+
+    }
+    public boolean targetInLastSquareSelected(ActionDetails actionDetails,ActionContext actionContext) {
+        Position A = actionDetails.getUserSelectedActionDetails().getTarget().getPosition();
+        Position B;
+
+        for (int i = actionContext.getActionContextFilteredInputs().size() - 2; i >= 0; i--) {
+            System.out.println(">" + ((Square) actionContext.getActionContextFilteredInputs().get(i).getContent()[0]).getCoordinates().getX() +
+                    "," + ((Square) actionContext.getActionContextFilteredInputs().get(i).getContent()[0]).getCoordinates().getY());
+
+            if (actionContext.getActionContextFilteredInputs().get(i).getType().equals("Square")) {
+                B = ((Square) actionContext.getActionContextFilteredInputs().get(i).getContent()[0]).getCoordinates();
+
+                boolean val1 = (A.getX() == B.getX()) && (A.getY() == B.getY());
+                return val1;
+            }
+
+        }
+        return false;
     }
     public boolean distanceFromOriginalPositionIs1(ActionDetails actionDetails,ActionContext actionContext) {
         /*Target.square, ChosenSquare*/

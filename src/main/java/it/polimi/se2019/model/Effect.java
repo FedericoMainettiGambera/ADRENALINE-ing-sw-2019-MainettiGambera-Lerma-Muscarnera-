@@ -60,17 +60,60 @@ public class Effect implements Serializable {
     public void handleInput(Object[][] input) {
         int i= 0;
         for(EffectInfoElement e: this.getEffectInfo().getEffectInfoElement()) {
-            for(Integer position: e.getEffectInfoTypeDestination()) {
+            List<Integer> p_arr = e.getEffectInfoTypeDestination();
+            List<Integer> p_arr_2 = new ArrayList<>();
+            if(p_arr.get(0) == 0) {     // TO ALL END
+                int k = 0;
+                for(Action a: this.getActions())
+                    p_arr_2.add((++k));
+
+            } else {
+                p_arr_2 = p_arr;
+            }
+            for(Integer p: p_arr_2) {
+
+                Integer position = p - 1;
                 //parser dell'input
                 System.out.println("<"+e.getEffectInfoTypelist().toString()+">");
+
+                // player select -- same Player
+                if(e.getEffectInfoTypelist().toString().equals(player.toString())) {
+                    System.out.println("settaggio del target tramite " +  getActions().get(position).getActionInfo().getActionContext().getPlayer());
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
+                            getActions().get(position).getActionInfo().getActionContext().getPlayer()
+                    );
+                    // i++; /* 0 input */
+
+                    Object[] adaptor = new Object[10];
+                    adaptor[0] = getActions().get(position).getActionInfo().getActionContext().getPlayer();
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(adaptor,"Target"));
+                }
+
+
+                // singleTarget select
                 if(e.getEffectInfoTypelist().toString().equals(singleTarget.toString())) {
-                   this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget((Player)input[i][0]);
-                   /***/
+                   this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
+                           (Player)input[i][0]
+                   );
 
                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
                             a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input[i],"Target"));
+                    i++;
                 }
-                i++;
+
+
+
+                // simpleSquareSelect
+                if(e.getEffectInfoTypelist().toString().equals(simpleSquareSelect.toString())) {
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setChosenSquare((Square)input[i][0]);
+
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input[i],"Square"));
+                    i++;
+                }
+
+
             }
 
 
@@ -88,7 +131,7 @@ public class Effect implements Serializable {
         }
         if(isExecutable) {
             for (Action a : this.actions) {
-                /*@*/ System.out.println("esecuzione" + a.toString());
+                /*@*/ System.out.println("esecuzione > " + a.toString());
                 //System.out.println("> " + a.getActionInfo().getActionContext().getActionContextFilteredInputs().get(0));
                 a.Exec();
                 /*refreshing the context of the action*/

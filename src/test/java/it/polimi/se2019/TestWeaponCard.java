@@ -1,6 +1,8 @@
 package it.polimi.se2019;
 
 import it.polimi.se2019.model.*;
+import it.polimi.se2019.model.enumerations.SquareSide;
+import it.polimi.se2019.model.enumerations.SquareTypes;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -73,26 +75,42 @@ public class TestWeaponCard {
 
             user.setNickname("Paolo");
             user.setPosition(0,0);
+
             target.setNickname("Luca");
             target2.setNickname("Marco");
+
+            Square A = new NormalSquare(1,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r');
+            Square B = new NormalSquare(2,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareTypes.normal,'g');
 
 
             target2.setPosition(1,0);
 
 
-            WeaponCard weaponCard = new WeaponCard("Test");
+            WeaponCard weaponCard = new WeaponCard("Test2");
             Object i[][] = new Object[10][10];
-            i[0][0] = target;
-            i[1][0] = target2;
+            i[0][0] = B;
+            i[1][0] = A;
+            for(Action a : weaponCard.getEffects().get(0).getActions())
+                a.getActionInfo().getActionContext().setPlayer(user);
+
+
+
 
             weaponCard.getEffects().get(0).handleInput(i);
 
+
+
             for(Action a : weaponCard.getEffects().get(0).getActions()) {
+
+                System.out.println("utente: " + a.getActionInfo().getActionContext().getPlayer().getNickname());
+
+
                 System.out.println("precondizione\t" + a.getActionInfo().getPreConditionMethodName());
                 for(ActionContextFilteredInput b:  a.getActionInfo().getActionContext().getActionContextFilteredInputs()) {
                     System.out.println(a.toString() + "ha ricevuto come input " + Arrays.deepToString(b.getContent()) + " di tipo " + b.getType());
                 }
                 a.getActionInfo().getActionContext().setPlayer(user);
+
             }
 
             if(weaponCard.getEffects().get(0).Exec()) {
