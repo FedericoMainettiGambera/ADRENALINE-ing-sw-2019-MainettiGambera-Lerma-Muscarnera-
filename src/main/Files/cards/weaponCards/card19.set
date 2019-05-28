@@ -1,42 +1,41 @@
 NAME
-RAILGUN
+SHOCKWAVE
 RELOAD COST
 y
-2
-RELOAD COST
-b
 1
-
 NEW EFFECT
 EXPECTED INPUT
-singleTargetByCardinalDirection
+threeTargets
 TO
 ALL
 END
 END
+
+ACTIONS
+Damage
+ACTION INFO
+PRECONDITION
+distanceOfTargetFromPlayerExactlyOne
+SET
+1
+END
+END
+
+NEW EFFECT
+EXPECTED INPUT
+targetListByDistance1
+TO
+ALL
+END
+END
+
 ACTIONS
 Damage
 ACTION INFO
 PRECONDITION
 alwaysTrue
 SET
-3
+1
 END
 END
 
-NEW EFFECT
-EXPECTED INPUT
-twoTargetsByCardinalDirection
-TO
-ALL
-END
-END
-ACTIONS
-Damage
-ACTION INFO
-PRECONDITION
-alwaysTrue
-SET
-2
-END
-END

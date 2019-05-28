@@ -1,32 +1,11 @@
 NAME
-RAILGUN
+SLEDGEHAMMER
 RELOAD COST
 y
-2
-RELOAD COST
-b
 1
-
 NEW EFFECT
 EXPECTED INPUT
-singleTargetByCardinalDirection
-TO
-ALL
-END
-END
-ACTIONS
-Damage
-ACTION INFO
-PRECONDITION
-alwaysTrue
-SET
-3
-END
-END
-
-NEW EFFECT
-EXPECTED INPUT
-twoTargetsByCardinalDirection
+singleTargetBySameSquareOfPlayer
 TO
 ALL
 END
@@ -38,5 +17,31 @@ PRECONDITION
 alwaysTrue
 SET
 2
+END
+END
+
+NEW EFFECT
+EXPECTED INPUT
+singleTargetBySameSquareOfPlayer
+TO
+ALL
+END
+simpleSquareSelect
+TO
+2
+END
+END
+ACTIONS
+Damage
+ACTION INFO
+PRECONDITION
+isPolverizeMode
+SET
+2
+END
+Move
+ACTION INFO
+PRECONDITION
+distanceFromOriginalPositionLessThan2
 END
 END
