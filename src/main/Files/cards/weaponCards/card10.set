@@ -1,14 +1,15 @@
 NAME
-ZX-2
+FURNACE
+RELOAD COST
+r
+2
 RELOAD COST
 y
 1
-RELOAD COST
-r
-1
+
 NEW EFFECT
 EXPECTED INPUT
-singleTarget
+targetListByRoom
 TO
 ALL
 END
@@ -17,37 +18,31 @@ ACTIONS
 Damage
 ACTION INFO
 PRECONDITION
-youCanSee
+notInYourRoom
+SET
+1
+END
+END
+
+NEW EFFECT
+EXPECTED INPUT
+targetListBySquare
+TO
+ALL
+END
+END
+ACTIONS
+Damage
+ACTION INFO
+PRECONDITION
+distanceOfTargetFromPlayerExactlyOne
 SET
 1
 END
 Mark
 ACTION INFO
 PRECONDITION
-youCanSee
-SET
-2
-END
-END
-
-
-NEW EFFECT
-EXPECTED INPUT
-threeTargets
-TO
-ALL
-END
-END
-ACTIONS
-Action
-ACTION INFO
-PRECONDITION
-isScannerMode
-END
-Mark
-ACTION INFO
-PRECONDITION
-youCanSee
+distanceOfTargetFromPlayerExactlyOne
 SET
 1
 END

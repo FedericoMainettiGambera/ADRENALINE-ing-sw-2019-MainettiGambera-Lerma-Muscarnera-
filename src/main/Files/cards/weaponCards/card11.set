@@ -1,11 +1,12 @@
 NAME
-ZX-2
+PLASMA GUN
+RELOAD COST
+b
+1
 RELOAD COST
 y
 1
-RELOAD COST
-r
-1
+
 NEW EFFECT
 EXPECTED INPUT
 singleTarget
@@ -19,36 +20,25 @@ ACTION INFO
 PRECONDITION
 youCanSee
 SET
-1
-END
-Mark
-ACTION INFO
-PRECONDITION
-youCanSee
-SET
 2
 END
 END
 
-
 NEW EFFECT
 EXPECTED INPUT
-threeTargets
+simpleSquareSelect
+TO
+ALL
+END
+player
 TO
 ALL
 END
 END
 ACTIONS
-Action
+Move
 ACTION INFO
 PRECONDITION
-isScannerMode
-END
-Mark
-ACTION INFO
-PRECONDITION
-youCanSee
-SET
-1
+distanceFromOriginalPositionLessThan2
 END
 END

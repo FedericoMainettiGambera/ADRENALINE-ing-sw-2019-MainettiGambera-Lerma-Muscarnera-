@@ -6,6 +6,7 @@ public enum EffectInfoType {
 
         /*      SECTION                             DESCRIPTION                                                        NUMBER OF DIRECT INPUTS FROM THE USER*/
         //      TARGET SELECTION
+                    player,                         // select player                                                   0
                     singleTarget,                   // select a target                                                 1
                     twoTargets,                     // select two targets max                                          1<=x<=2
                     threeTargets,                   // select three targets max                                        1<=x<=3
@@ -20,5 +21,5 @@ public enum EffectInfoType {
                     squareByTarget,                 // select a square by one of the player on it                      1
                     playerSquare,                   // square of current player                                        0
         //      ROOM SELECTION
-
+                    singleRoom                     // the room is not yours                                           0
 }

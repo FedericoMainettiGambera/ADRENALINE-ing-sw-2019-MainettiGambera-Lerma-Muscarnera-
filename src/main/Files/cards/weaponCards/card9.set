@@ -6,9 +6,13 @@ b
 RELOAD COST
 r
 1
+
 NEW EFFECT
 EXPECTED INPUT
 singleTarget
+TO
+ALL
+END
 END
 ACTIONS
 Damage
@@ -18,34 +22,48 @@ youCanSee
 SET
 2
 END
+END
+
 NEW EFFECT
 EXPECTED INPUT
 singleTarget
 END
 ACTIONS
 Action
+ACTION INFO
 PRECONDITION
 withChainReaction
+END
 Damage
+ACTION INFO
 PRECONDITION
 previousTargetCanSee
 SET
 1
 END
+END
+
 NEW EFFECT
 EXPECTED INPUT
 singleTarget
 END
 ACTIONS
 Action
+ACTION INFO
 PRECONDITION
 previousPreviousTargetDifferent
+END
 Action
+ACTION INFO
 PRECONDITION
 withHighVoltage
+END
 Damage
+ACTION INFO
 PRECONDITION
 previousTargetCanSee
 SET
 2
+END
+END
 

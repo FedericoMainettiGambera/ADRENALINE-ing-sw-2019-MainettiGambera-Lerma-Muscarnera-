@@ -1,39 +1,46 @@
 NAME
-ZX-2
-RELOAD COST
-y
-1
+VORTEX CANNON
 RELOAD COST
 r
 1
+RELOAD COST
+b
+1
+
+
 NEW EFFECT
 EXPECTED INPUT
+simpleSquareSelect
+TO
+ALL
+END
 singleTarget
 TO
 ALL
 END
 END
 ACTIONS
+Move
+ACTION INFO
+PRECONDITION
+distanceFromOriginalPositionIs1
+END
 Damage
 ACTION INFO
 PRECONDITION
-youCanSee
-SET
-1
-END
-Mark
-ACTION INFO
-PRECONDITION
-youCanSee
+alwaysTrue
 SET
 2
 END
 END
 
-
 NEW EFFECT
 EXPECTED INPUT
-threeTargets
+simpleSquareSelect
+TO
+ALL
+END
+twoTargets
 TO
 ALL
 END
@@ -42,13 +49,19 @@ ACTIONS
 Action
 ACTION INFO
 PRECONDITION
-isScannerMode
+isBlackHole
 END
-Mark
+Move
 ACTION INFO
 PRECONDITION
-youCanSee
+distanceFromOriginalPositionIs1
+END
+Damage
+ACTION INFO
+PRECONDITION
+alwaysTrue
 SET
 1
 END
 END
+
