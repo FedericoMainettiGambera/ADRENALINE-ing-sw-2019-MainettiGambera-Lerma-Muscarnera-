@@ -23,7 +23,7 @@ END
 Damage
 ACTION INFO
 PRECONDITION
-notPreviousTarget
+distanceOfTargetFromPlayerSquareIs1
 SET
 1
 END

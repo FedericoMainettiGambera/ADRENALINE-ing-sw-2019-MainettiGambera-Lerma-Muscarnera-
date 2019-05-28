@@ -18,11 +18,7 @@ public class PreConditionMethods implements Serializable {
     public boolean alwaysExceptional(ActionDetails actionDetails, ActionContext actionContext) throws Exception {
         throw new Exception("");
     }
-    public boolean moveOtherPlayer(ActionDetails actionDetails, ActionContext actionContext) throws Exception {
-        // TODO: communication with user
-        // not a real precondition
-        return true;
-    }
+
     public boolean alwaysFalse(ActionDetails actionDetails, ActionContext actionContext) {
         return false;
     }
@@ -87,8 +83,108 @@ public class PreConditionMethods implements Serializable {
         return true;
 
     }
+    public boolean distanceOfTargetFromPlayerSquareIs1(ActionDetails actionDetails,ActionContext actionContext) {
+        Player target = actionDetails.getUserSelectedActionDetails().getTarget();
+        Player user   = actionContext.getPlayer();
+        int Distance = (target.getPosition().getX() - user.getPosition().getX()) * (target.getPosition().getX() - user.getPosition().getX() )
+                + (target.getPosition().getY() - user.getPosition().getY()) * (target.getPosition().getY() - user.getPosition().getY());
+
+        if(Distance==1) {
+            return true;
+        }
+        return false;
+
+    }
     public boolean distanceOfTargetFromPlayerSquareLessThan2Moves(ActionDetails actionDetails,ActionContext actionContext) {
+        Player target = actionDetails.getUserSelectedActionDetails().getTarget();
+        Player user   = actionContext.getPlayer();
+
+        int Distance = (target.getPosition().getX() - user.getPosition().getX()) * (target.getPosition().getX() - user.getPosition().getX() )
+        + (target.getPosition().getY() - user.getPosition().getY()) * (target.getPosition().getY() - user.getPosition().getY());
+        System.out.println(Distance);
+        if(Distance<=4) {
+            return true;
+        }
+        return false;
+    }
+    public boolean distanceFromOriginalPositionLessThan2(ActionDetails actionDetails,ActionContext actionContext) {
+    /*Target.square, ChosenSquare*/
+        Position A = actionDetails.getUserSelectedActionDetails().getTarget().getPosition();
+        Position B = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
+
+        int Distance = ( A.getX() - B.getX()) * ( A.getX() - B.getX()) +
+                       ( A.getY() - B.getY()) * ( A.getY() - B.getY())  ;
+
+        return (Distance <= 4);
+
+    }
+    public boolean moveOtherPlayer(ActionDetails actionDetails,ActionContext actionContext) {
+        Player A = actionContext.getPlayer();
+        Player B = actionDetails.getUserSelectedActionDetails().getTarget();
+        return !A.equals(B);
+    }
+    public boolean atLeastOneMoveAway(ActionDetails actionDetails,ActionContext actionContext) {
+        Player target = actionDetails.getUserSelectedActionDetails().getTarget();
+        Player user   = actionContext.getPlayer();
+
+        int Distance = (target.getPosition().getX() - user.getPosition().getX()) * (target.getPosition().getX() - user.getPosition().getX() )
+                + (target.getPosition().getY() - user.getPosition().getY()) * (target.getPosition().getY() - user.getPosition().getY());
+        System.out.println(Distance);
+        if(Distance>=1) {
+            return true;
+        }
+        return false;
+    }
+    public boolean notInYourRoom(ActionDetails actionDetails,ActionContext actionContext) {
+        /*TODO: LE STANZE COME SONO GESTITE???*/
+        return false;
+    }
+    public boolean distanceOfTargetFromPlayerExactlyOne(ActionDetails actionDetails,ActionContext actionContext) {
+        return distanceOfTargetFromPlayerSquareIs1(actionDetails,actionContext); // alias function
+    }
+    public boolean previousPreviousTargetDifferent(ActionDetails actionDetails,ActionContext actionContext) {
+        /*@*/ System.out.println("verifico notPreviousTarget" +  actionContext.getPlayer().toString() + ":" + actionContext.getActionContextFilteredInputs().size());
+
+        boolean FLAG = false;
+        for(int i = actionContext.getActionContextFilteredInputs().size()-2;i >= 0; i--) {
+
+            System.out.println(">" + actionContext.getActionContextFilteredInputs().get(i).getType());
+            if(actionContext.getActionContextFilteredInputs().get(i).getType().equals("Target")) {
+                System.out.println(actionDetails.getUserSelectedActionDetails().getTarget().getNickname() +
+                        " == " +  ((Player) actionContext.getActionContextFilteredInputs().get(i).getContent()[0]).getNickname() +"?" );
+                if (actionDetails.getUserSelectedActionDetails().getTarget().equals(
+                        actionContext.getActionContextFilteredInputs().get(i).getContent()[0]
+                )
+                ) {
+                    if(FLAG) {
+
+                    } else {
+                        return false;
+                    }
+                    FLAG = true;
+                }
+            } else {
+                if(FLAG) {
+                    return true;
+                }
+            }
+        }
         return true;
+
+    }
+    public boolean distanceFromOriginalPositionIs1(ActionDetails actionDetails,ActionContext actionContext) {
+        /*Target.square, ChosenSquare*/
+        Position A = actionDetails.getUserSelectedActionDetails().getTarget().getPosition();
+        Position B = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
+
+        int Distance = ( A.getX() - B.getX()) * ( A.getX() - B.getX()) +
+                ( A.getY() - B.getY()) * ( A.getY() - B.getY())  ;
+
+        return (Distance == 1);
+
+    }
+    public boolean distanceOfTargetFromPlayerSquareMoreThan2Moves(ActionDetails actionDetails,ActionContext actionContext) {
+        return !distanceOfTargetFromPlayerSquareLessThan2Moves(actionDetails,actionContext);
     }
     public boolean notPreviousTarget(ActionDetails actionDetails, ActionContext actionContext) {
 

@@ -67,15 +67,18 @@ public class TestWeaponCard {
     public void testExecuting() {
         try {
             Player user   = new Player();
+
             Player target = new Player();
             Player target2 = new Player();
-            user.setNickname("Paolo");
 
+            user.setNickname("Paolo");
+            user.setPosition(0,0);
             target.setNickname("Luca");
             target2.setNickname("Marco");
 
-            target.setPosition(1,1);
-            user.setPosition(1,1);
+
+            target2.setPosition(1,0);
+
 
             WeaponCard weaponCard = new WeaponCard("Test");
             Object i[][] = new Object[10][10];

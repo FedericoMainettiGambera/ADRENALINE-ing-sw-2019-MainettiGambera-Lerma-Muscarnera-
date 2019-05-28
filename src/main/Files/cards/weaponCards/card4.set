@@ -26,7 +26,7 @@ END
 Action
 ACTION INFO
 PRECONDITION
-distanceNotBiggerThan2
+distanceFromOriginalPositionLessThan2
 END
 Damage
 ACTION INFO
