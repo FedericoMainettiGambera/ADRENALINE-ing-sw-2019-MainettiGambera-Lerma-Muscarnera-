@@ -24,5 +24,15 @@ public class ActionContext  implements Serializable {
 
     List<ActionContextFilteredInput>  actionContextFilteredInputs;
 
-    private Player player;          // context of the action: initialized during Effect.exec()
+    private Player player;          // context of the action: initialized during Effect.exec() -- current player
+
+    public PlayersList getPlayerList() {
+        return playerList;
+    }
+
+    public void setPlayerList(PlayersList playerList) {
+        this.playerList = playerList;
+    }
+
+    private PlayersList playerList; // context of action :    initialized during effect.exec() -- list of players
 }

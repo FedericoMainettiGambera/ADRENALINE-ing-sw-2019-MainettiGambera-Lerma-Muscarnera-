@@ -8,6 +8,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PreConditionMethods implements Serializable {
+
+    /**EFFECT CHOOSE PRE CONDITION*/
+    /*TODO gestione dall'input*/
+    boolean isReaperMode(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    boolean isFocusShot(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    boolean isTurretTripod(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    boolean isNanoTracerMode(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    boolean withChainReaction(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    boolean withHighVoltage(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    boolean isBlackHole(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    boolean isLongBarrelMode(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    boolean withRocketJump(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    boolean withFragmentingWarHead(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    boolean inRocketFistMode(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    boolean withShadowStep(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    boolean isPolverizeMode(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+
+    /*CONTEXT - INPUT PRECODITION*/
     public boolean validPayment(ActionDetails actionDetails, ActionContext actionContext) {
         Player player = actionContext.getPlayer();
         AmmoCubes ammoCost = actionDetails.getFileSelectedActionDetails().getAmmoCubesCost();
@@ -33,10 +51,7 @@ public class PreConditionMethods implements Serializable {
 
     }
 
-        public boolean isReaperMode(ActionDetails actionDetails, ActionContext actionContext) {
-        // TODO: it needs a static reference to game mode.
-        return true;
-        }
+
         public boolean sameSquareTarget(ActionDetails actionDetails, ActionContext actionContext) {
         actionDetails.getUserSelectedActionDetails().setTarget(null); // TODO : important info : this is not a proper precondition but a it forces the selection of the target to the players in the same square
         // TODO there is no connection between player and board so it cant select the players,
