@@ -1,14 +1,12 @@
 package it.polimi.se2019;
 
-import it.polimi.se2019.model.Action;
-import it.polimi.se2019.model.Effect;
-import it.polimi.se2019.model.EffectInfoElement;
-import it.polimi.se2019.model.WeaponCard;
+import it.polimi.se2019.model.*;
 import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TestWeaponCard {
@@ -64,6 +62,46 @@ public class TestWeaponCard {
         } catch(Exception e) {;}
     System.out.println("---");
     System.out.println(effects.size());
+    }
+    @Test
+    public void testExecuting() {
+        try {
+            Player user   = new Player();
+            Player target = new Player();
+            Player target2 = new Player();
+            user.setNickname("Paolo");
+
+            target.setNickname("Luca");
+            target2.setNickname("Marco");
+
+            target.setPosition(1,1);
+            user.setPosition(1,1);
+
+            WeaponCard weaponCard = new WeaponCard("Test");
+            Object i[][] = new Object[10][10];
+            i[0][0] = target;
+            i[1][0] = target2;
+
+            weaponCard.getEffects().get(0).handleInput(i);
+
+            for(Action a : weaponCard.getEffects().get(0).getActions()) {
+                System.out.println("precondizione\t" + a.getActionInfo().getPreConditionMethodName());
+                for(ActionContextFilteredInput b:  a.getActionInfo().getActionContext().getActionContextFilteredInputs()) {
+                    System.out.println(a.toString() + "ha ricevuto come input " + Arrays.deepToString(b.getContent()) + " di tipo " + b.getType());
+                }
+                a.getActionInfo().getActionContext().setPlayer(user);
+            }
+
+            if(weaponCard.getEffects().get(0).Exec()) {
+                System.out.println("Eseguita!");
+                } else {
+                System.out.println("non eseguita");
+            }
+        } catch(Exception e) {
+
+            System.out.println("##" + e.toString());
+        }
+
     }
     @Test
     public void testCard9() {

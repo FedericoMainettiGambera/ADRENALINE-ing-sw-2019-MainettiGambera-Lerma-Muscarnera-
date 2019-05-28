@@ -27,7 +27,7 @@ public class PreConditionMethods implements Serializable {
         return false;
     }
     public boolean alwaysTrue(ActionDetails actionDetails, ActionContext actionContext) {
-
+        /*@*/ System.out.println("verifico alwaysTrue, sempre vera!" + actionContext.getPlayer().getNickname());
         return true;
 
     }
@@ -87,7 +87,30 @@ public class PreConditionMethods implements Serializable {
         return true;
 
     }
+    public boolean distanceOfTargetFromPlayerSquareLessThan2Moves(ActionDetails actionDetails,ActionContext actionContext) {
+        return true;
+    }
+    public boolean notPreviousTarget(ActionDetails actionDetails, ActionContext actionContext) {
 
+       /*@*/ System.out.println("verifico notPreviousTarget" +  actionContext.getPlayer().toString() + ":" + actionContext.getActionContextFilteredInputs().size());
+       for(int i = actionContext.getActionContextFilteredInputs().size()-2;i >= 0; i--) {
+
+        System.out.println(">" + actionContext.getActionContextFilteredInputs().get(i).getType());
+        if(actionContext.getActionContextFilteredInputs().get(i).getType().equals("Target")) {
+            System.out.println(actionDetails.getUserSelectedActionDetails().getTarget().getNickname() +
+                    " == " +  ((Player) actionContext.getActionContextFilteredInputs().get(i).getContent()[0]).getNickname() +"?" );
+            if (actionDetails.getUserSelectedActionDetails().getTarget().equals(
+                    actionContext.getActionContextFilteredInputs().get(i).getContent()[0]
+            )
+            ) {
+                return false;
+            }
+        } else {
+        return true;
+        }
+       }
+       return true;
+    }
     public boolean itsValidPosition(ActionDetails actionDetails, ActionContext actionContext) {
         int x = actionDetails.getUserSelectedActionDetails().getNewPosition().getX();
         int y = actionDetails.getUserSelectedActionDetails().getNewPosition().getY();

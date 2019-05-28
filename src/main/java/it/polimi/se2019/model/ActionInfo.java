@@ -38,7 +38,7 @@ public class ActionInfo implements Serializable {
             Class<?>[] paramTypes = {ActionDetails.class, ActionContext.class};
 
             method = c.getDeclaredMethod(preConditionMethodName, paramTypes);
-
+            System.out.println(">> " + getActionContext().getPlayer().getNickname());
             Object returnValue = method.invoke(preConditionMethods,this.actionDetails,this.actionContext);
 
             return (boolean) returnValue;

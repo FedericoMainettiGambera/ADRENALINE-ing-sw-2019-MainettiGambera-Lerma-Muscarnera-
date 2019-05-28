@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.se2019.model.enumerations.EffectInfoType.*;
+
 /***/
 public class Effect implements Serializable {
     /*-****************************************************************************************************CONSTRUCTOR*/
@@ -54,41 +56,30 @@ public class Effect implements Serializable {
     public String getDescription() {
         return description;
     }
+    /***/
+    public void handleInput(Object[][] input) {
+        int i= 0;
+        for(EffectInfoElement e: this.getEffectInfo().getEffectInfoElement()) {
+            for(Integer position: e.getEffectInfoTypeDestination()) {
+                //parser dell'input
+                System.out.println("<"+e.getEffectInfoTypelist().toString()+">");
+                if(e.getEffectInfoTypelist().toString().equals(singleTarget.toString())) {
+                   this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget((Player)input[i][0]);
+                   /***/
 
+                   for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
+                            a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input[i],"Target"));
+                }
+                i++;
+            }
+
+
+        }
+    }
     /***/
     public boolean Exec() {
         boolean isExecutable = true;
         /*gestione effect info */
-        if(effectInfo.getData() == 0) {     //  input un solo target
-            Player target = new Player();
-            // TODO inserimento del target
-            for(Action a:this.actions){
-                if(a.getActionInfo().preCondition() == false ) {
-                    a.getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(target);
-                }
-            }
-        }
-
-        if(effectInfo.getData() == 1) {     //  input di più target
-            List<Player> targetList = new ArrayList<Player>();
-            // TODO inserimento della lista di target
-            for(Action a:this.actions){
-                if(a.getActionInfo().preCondition() == false ) {
-                  a.getActionInfo().getActionDetails().getUserSelectedActionDetails().setTargetList(targetList);
-                }
-            }
-        }
-
-        if(effectInfo.getData() == 2) {     //  onyoursquare
-            List<Player> targetList = new ArrayList<Player>();
-
-            // TODO inserimento della lista di target
-            for(Action a:this.actions){
-                if(a.getActionInfo().preCondition() == false ) {
-                    a.getActionInfo().getActionDetails().getUserSelectedActionDetails().setTargetList(targetList);
-                }
-            }
-        }
 
         for(Action a:this.actions){
             if(a.getActionInfo().preCondition() == false ) {            // checks if all the preConditions are true
@@ -97,7 +88,13 @@ public class Effect implements Serializable {
         }
         if(isExecutable) {
             for (Action a : this.actions) {
+                /*@*/ System.out.println("esecuzione" + a.toString());
+                //System.out.println("> " + a.getActionInfo().getActionContext().getActionContextFilteredInputs().get(0));
                 a.Exec();
+                /*refreshing the context of the action*/
+                for(Action b: this.actions) {
+                  //  a.getActionInfo().setActionContext();
+                }
             }
             return true;
         }
