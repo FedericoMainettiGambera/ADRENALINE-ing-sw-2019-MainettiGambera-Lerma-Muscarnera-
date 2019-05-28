@@ -101,6 +101,73 @@ public class Effect implements Serializable {
                             a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input[i],"Target"));
                     i++;
                 }
+                // twoTargets select
+                if(e.getEffectInfoTypelist().toString().equals(twoTargets.toString())) {
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
+                            (Player)input[i][0]
+                    );
+
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
+                            (Player)input[i][1]
+                    );
+
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
+
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input[i], "Target"));
+                    }
+                    i ++;
+                }
+                // threeTargets select
+                if(e.getEffectInfoTypelist().toString().equals(threeTargets.toString())) {
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
+                            (Player)input[i][0]
+                    );
+
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
+                            (Player)input[i][1]
+                    );
+
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
+                            (Player)input[i][2]
+                    );
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
+
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input[i], "Target"));
+                    }
+                    i ++;
+                }
+                // targetListBySquare
+                if(e.getEffectInfoTypelist().toString().equals(targetListBySquare.toString())) {
+                    Square A = (Square) input[i][0];
+
+                    System.out.println("y");
+                    PlayersList ret = new PlayersList();
+
+                    System.out.println("len " + this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers().size());
+
+                    for(Player x: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+
+                            if(x.getPosition().getY() == A.getCoordinates().getY())
+                                if(x.getPosition().getX() == A.getCoordinates().getX()) {
+
+                                    ret.addPlayer(x);
+                                    System.out.println("nome");
+                                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
+                                            x
+                                    );
+                                }
+
+
+
+
+                    }
+                    System.out.println(".");
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input[i], "Target"));
+                    }
+                    i++;
+
+                }
 
 
 
@@ -114,6 +181,38 @@ public class Effect implements Serializable {
                 }
 
 
+                // singleTargetBySquare
+                if(e.getEffectInfoTypelist().toString().equals(singleTargetBySquare.toString())) {
+                    Square A = (Square) input[i][0];
+                    String Name = (String) input[i][1];
+                    System.out.println("y");
+                    Player ret = new Player();
+                    System.out.println("len " + this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers().size());
+                    for(Player x: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+                        if(x.getNickname().equals(Name)) {
+                            System.out.println("nome");
+
+                            if(x.getPosition().getY() == A.getCoordinates().getY())
+                                if(x.getPosition().getX() == A.getCoordinates().getX()) {
+
+                                ret = x;
+                                System.out.println("nome");
+                                this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
+                                        x
+                                );
+                            }
+
+
+                        }
+
+                    }
+                    System.out.println(".");
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input[i], "Target"));
+                    }
+                    i++;
+
+                }
             }
 
 
