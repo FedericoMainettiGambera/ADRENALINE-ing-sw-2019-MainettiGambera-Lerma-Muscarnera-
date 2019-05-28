@@ -17,7 +17,9 @@ public enum EffectInfoType {
                     targetListBySameSquareOfPlayer, // select a targetlist of n targets on the square of the player    0
                     targetBySameSquareOfPlayer,     // select a target the square of the player                        0
                     targetListByCardinalDirection,   // select a targetlist of n targets
+                    targetListByLastTargetSelectedSquare,   // select a targetlist from last square selected           0
         //      SQUARE SELECTION
+                    squareOfLastTargetSelected,     // select the square by the last player attacked                   0
                     simpleSquareSelect,             // select a square by id                                           1
                     multipleSquareSelect,           // select n squares by id                                          n
                     squareByTarget,                 // select a square by one of the player on it                      1

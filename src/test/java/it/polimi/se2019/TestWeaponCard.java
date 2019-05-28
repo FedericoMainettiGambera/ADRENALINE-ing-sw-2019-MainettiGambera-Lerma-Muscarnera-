@@ -69,7 +69,7 @@ public class TestWeaponCard {
     public void testCard9() {
         try {
             System.out.println(".");
-        WeaponCard weaponCard = new WeaponCard("15");
+        WeaponCard weaponCard = new WeaponCard("17");
         System.out.println(".");
         System.out.println(weaponCard.getEffects().size());
         for(Effect e:weaponCard.getEffects() ) {
@@ -80,9 +80,10 @@ public class TestWeaponCard {
                     System.out.println("\te' per:" + x);
             }
             System.out.println(e.toString());
+            int j = 0;
             for(Action a: e.getActions()) {
                 System.out.println("quando " + a.getActionInfo().getPreConditionMethodName() + "() e' vera, allora" );
-                System.out.println("\t" + a.toString());
+                System.out.println((++j) + "\t" + a.toString());
                 for(Object o : a.getActionInfo().getActionDetails().getFileSelectedActionDetails().getFileSettingData()) {
                     System.out.println("\t\tValue : "+ o.toString());
                 }

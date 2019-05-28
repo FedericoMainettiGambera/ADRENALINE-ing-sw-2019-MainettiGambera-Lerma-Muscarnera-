@@ -1,0 +1,93 @@
+NAME
+POWER GLOVE
+RELOAD COST
+y
+1
+RELOAD COST
+b
+1
+NEW EFFECT
+EXPECTED INPUT
+player
+TO
+1
+END
+singleTarget
+TO
+ALL
+END
+squareOfLastTargetSelected
+TO
+1
+END
+END
+ACTIONS
+Move
+ACTION INFO
+PRECONDITION
+distanceOfTargetFromPlayerExactlyOne
+END
+Damage
+ACTION INFO
+PRECONDITION
+alwaysTrue
+SET
+1
+END
+Mark
+ACTION INFO
+PRECONDITION
+alwaysTrue
+SET
+2
+END
+END
+
+NEW EFFECT
+EXPECTED INPUT
+player
+TO
+1
+3
+END
+singleTarget
+TO
+2
+END
+squareOfLastTargetSelected
+TO
+1
+END
+simpleSquareSelect
+TO
+ALL
+END
+singleTarget
+TO
+4
+END
+END
+ACTIONS
+Move
+ACTION INFO
+PRECONDITION
+distanceOfTargetFromPlayerExactlyOne
+END
+Damage
+ACTION INFO
+PRECONDITION
+alwaysTrue
+SET
+2
+END
+Move
+ACTION INFO
+PRECONDITION
+distanceFromLastSelectedSquareExactlyOne
+END
+Damage
+ACTION INFO
+PRECONDITION
+targetInLastSquareSelected
+END
+END
