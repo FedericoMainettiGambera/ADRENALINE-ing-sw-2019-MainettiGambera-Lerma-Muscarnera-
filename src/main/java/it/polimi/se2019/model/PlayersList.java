@@ -97,7 +97,11 @@ public class PlayersList extends Observable implements Serializable {
     }
 
     public void overwritePlayer(String nickname, Player player){
-
+        for (int i = 0; i < this.players.size(); i++) {
+            if(this.players.get(i).getNickname().equals(nickname)){
+                this.players.set(i, player);
+            }
+        }
     }
 
 }

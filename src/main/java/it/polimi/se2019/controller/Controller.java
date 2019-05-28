@@ -50,7 +50,7 @@ public class  Controller{
 
 
         //creating the View for the user who holds the server
-        this.V = new View("RMI");
+        this.V = new View("RMI", "CLI");
 
         //start the client for the user who holds the server and connecting it to the server
         RMINH=new RMINetworkHandler(this.RMIVV.getServerName(), this.RMIVV.getPort(),this.V);
@@ -59,7 +59,7 @@ public class  Controller{
 
     public void startGameWithRMIAsClient() throws IOException {
         //creating the View for the user who holds the server
-        this.V = new View("RMI");
+        this.V = new View("RMI", "CLI");
 
         //ask for IP and PORT
         /*
@@ -98,7 +98,7 @@ public class  Controller{
         ViewControllerEventHandlerContext.socketVV = this.SVV;
 
         //creating the View for the user who holds the server
-        this.V = new View("SOCKET");
+        this.V = new View("SOCKET", "CLI");
 
         //creating the Client for the user who holds the server and connecting it to the server
         this.SNH = new SocketNetworkHandler(this.SVV.getServerSocket().getInetAddress(), this.SVV.getServerSocket().getLocalPort(), this.V);
@@ -107,7 +107,7 @@ public class  Controller{
 
     public void startGameWithSocketAsClient() throws IOException {
         //creating the View for the user who holds the server
-        this.V = new View("SOCKET");
+        this.V = new View("SOCKET", "CLI");
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("<CLIENT>Insert Server IP:");

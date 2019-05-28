@@ -3,6 +3,7 @@ package it.polimi.se2019.model;
 import it.polimi.se2019.model.enumerations.CardinalPoint;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserSelectedActionDetails implements Serializable {
@@ -22,7 +23,8 @@ public class UserSelectedActionDetails implements Serializable {
 
     }
     public UserSelectedActionDetails() {
-
+        targetList = new ArrayList<>();
+       // targetList.add(new Player());
     }
     public CardinalPoint getDirection() {
         return direction;
@@ -61,12 +63,19 @@ public class UserSelectedActionDetails implements Serializable {
         this.chosenSquare = chosenSquare;
     }
     public Player getTarget() {
-        return target;
+        return targetList.get(0);
     }
 
     public void setTarget(Player target) {
-        this.target = target;
+       targetList.set(0,target);
     }
+    public void addTarget(Player target) {
+
+
+        targetList.add(target);
+    }
+
+
 
     private Player target;
 

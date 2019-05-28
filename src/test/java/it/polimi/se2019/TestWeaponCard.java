@@ -72,12 +72,20 @@ public class TestWeaponCard {
 
             Player target = new Player();
             Player target2 = new Player();
+            Player target3 = new Player();
 
             user.setNickname("Paolo");
             user.setPosition(0,0);
 
             target.setNickname("Luca");
             target2.setNickname("Marco");
+            target3.setNickname("Pippo");
+
+            PlayersList playerList = new PlayersList();
+            playerList.addPlayer(user);
+            playerList.addPlayer(target);
+            playerList.addPlayer(target2);
+            playerList.addPlayer(target3);
 
             Square A = new NormalSquare(1,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r');
             Square B = new NormalSquare(2,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareTypes.normal,'g');
@@ -88,11 +96,13 @@ public class TestWeaponCard {
 
             WeaponCard weaponCard = new WeaponCard("Test2");
             Object i[][] = new Object[10][10];
-            i[0][0] = B;
-            i[1][0] = A;
-            for(Action a : weaponCard.getEffects().get(0).getActions())
+            i[0][0] = target;
+            i[0][1] = target2;
+            i[0][2] = target3;
+            for(Action a : weaponCard.getEffects().get(0).getActions()) {
                 a.getActionInfo().getActionContext().setPlayer(user);
-
+                a.getActionInfo().getActionContext().setPlayerList(playerList);
+            }
 
 
 
@@ -122,6 +132,52 @@ public class TestWeaponCard {
 
             System.out.println("##" + e.toString());
         }
+
+    }
+    @Test
+    public void testAttackBySquare() throws Exception {
+        WeaponCard weaponCard = new WeaponCard("Test2");
+
+        Player user1 = new Player();
+        Player user2 = new Player();
+        Player user3 = new Player();
+        Player user4 = new Player();
+        System.out.println(".");
+        user1.setNickname("Aldo");
+        user2.setNickname("Bruno");
+        user3.setNickname("Carlo");
+        user4.setNickname("Dario");
+        System.out.println(".");
+        PlayersList playerList = new PlayersList();
+        playerList.getPlayers().add(user1);
+        playerList.getPlayers().add(user2);
+        playerList.getPlayers().add(user3);
+        playerList.getPlayers().add(user4);
+
+
+        user1.setPosition(0,0);
+        user2.setPosition(3,2);
+        user3.setPosition(1,1);                 /*   same position          */
+        user4.setPosition(1,1);                 /*                  users   */
+        System.out.println(".");
+        Object[][] o = new Object[10][10];
+        Square A =  new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r');
+        String B =  "Bruno";
+        System.out.println("x");
+        o[0][0]      =  A;
+
+        // caricamento contesto
+        for(Action a : weaponCard.getEffects().get(0).getActions()) {
+            a.getActionInfo().getActionContext().setPlayer(user1);
+            a.getActionInfo().getActionContext().setPlayerList(playerList);
+        }
+        // gestione dell'input
+        weaponCard.getEffects().get(0).handleInput(o);
+
+
+        System.out.println("/--/");
+        for(Player p: weaponCard.getEffects().get(0).getActions().get(0).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList())
+                 System.out.println(p.getNickname());
 
     }
     @Test

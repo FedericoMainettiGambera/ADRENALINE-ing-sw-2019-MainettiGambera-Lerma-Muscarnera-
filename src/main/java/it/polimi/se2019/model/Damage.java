@@ -29,18 +29,26 @@ public class Damage extends Action implements Serializable {
 
     /***/
     public void Exec() {
-        /*@*/ System.out.println("Eseguo azione");
-        /*@*/ System.out.println("colpisco " + getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget().getNickname());
-        getActionInfo().getActionDetails().getUserSelectedActionDetails().itNeeds(                  /*it needs this field to be fillen by the user*/
-                getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget()
-        );
-        Player shooter = getActionInfo().getActionContext().getPlayer();
-        Player target = getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
-        int    damageEntity = Integer.parseInt((String) getActionInfo().getActionDetails().getFileSelectedActionDetails().getFileSettingData().get(0));
+        /*@*/
+        System.out.println("Eseguo azione");
+        /*@*/
+         for (Player t : getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList()) {
+         //Player t =    getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList().get(0);
+             if(t != null) {
+                 System.out.println("colpisco " + t.getNickname());
+                 getActionInfo().getActionDetails().getUserSelectedActionDetails().itNeeds(                  /*it needs this field to be fillen by the user*/
+                         t
+                 );
 
-        target.addDamages(shooter,
-                        damageEntity);
+                 Player shooter = getActionInfo().getActionContext().getPlayer();
+                 Player target = t;
 
+                 int damageEntity = Integer.parseInt((String) getActionInfo().getActionDetails().getFileSelectedActionDetails().getFileSettingData().get(0));
+                 System.out.println(".");
+                 target.addDamages(shooter,
+                         damageEntity);
+             }
+        }
     }
     
 }
