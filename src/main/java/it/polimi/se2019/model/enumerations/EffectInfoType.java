@@ -11,9 +11,11 @@ public enum EffectInfoType {
                     twoTargets,                     // select two targets max                                          1<=x<=2
                     threeTargets,                   // select three targets max                                        1<=x<=3
                     multipleTargets,                // select a targetList of n targets                                n
+                    singleTargetBySquare,           // select a target froma  square
                     targetListBySquare,             // select a targetlist of n targets by the square                  1
                     targetListByRoom,               // select a targetlist of n targets by the room                    1
                     targetListBySameSquareOfPlayer, // select a targetlist of n targets on the square of the player    0
+                    targetBySameSquareOfPlayer,     // select a target the square of the player                        0
                     targetListByCardinalDirection,   // select a targetlist of n targets
         //      SQUARE SELECTION
                     simpleSquareSelect,             // select a square by id                                           1

@@ -1,0 +1,54 @@
+NAME
+SHOTGUN
+RELOAD COST
+y
+1
+RELOAD COST
+y
+1
+
+
+NEW EFFECT
+EXPECTED INPUT
+targetBySameSquareOfPlayer
+TO
+ALL
+END
+simpleSquareSelect
+END
+ACTIONS
+Damage
+ACTION INFO
+PRECONDITION
+alwaysTrue
+SET
+3
+END
+Move
+ACTION INFO
+PRECONDITION
+distanceFromOriginalPositionIs1
+END
+END
+
+NEW EFFECT
+EXPECTED INPUT
+singleTargetBySquare
+TO
+ALL
+END
+END
+ACTIONS
+Action
+ACTION INFO
+PRECONDITION
+isLongBarrelMode
+END
+Damage
+ACTION INFO
+PRECONDITION
+distanceOfTargetFromPlayerSquareIs1
+SET
+2
+END
+END

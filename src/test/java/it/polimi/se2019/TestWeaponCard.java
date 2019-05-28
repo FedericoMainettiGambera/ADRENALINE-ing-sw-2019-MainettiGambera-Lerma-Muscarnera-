@@ -69,7 +69,7 @@ public class TestWeaponCard {
     public void testCard9() {
         try {
             System.out.println(".");
-        WeaponCard weaponCard = new WeaponCard("11");
+        WeaponCard weaponCard = new WeaponCard("15");
         System.out.println(".");
         System.out.println(weaponCard.getEffects().size());
         for(Effect e:weaponCard.getEffects() ) {

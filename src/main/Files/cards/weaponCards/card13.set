@@ -1,0 +1,66 @@
+NAME
+FLAMETHROWER
+RELOAD COST
+r
+1
+
+NEW EFFECT
+EXPECTED INPUT
+singleTargetBySquare
+TO
+1
+END
+singleTargetBySquare
+TO
+2
+END
+END
+ACTIONS
+Damage
+ACTION INFO
+PRECONDITION
+distanceFromOriginalPositionIs1
+SET
+1
+END
+Damage
+ACTION INFO
+PRECONDITION
+sameCardinalDirectionOfPreviousSquare
+SET
+1
+END
+END
+
+NEW EFFECT
+EXPECTED INPUT
+targetListBySquare
+TO
+1
+END
+targetListBySquare
+TO
+2
+END
+END
+ACTIONS
+Action
+ACTION INFO
+PRECONDITION
+isBarbequeMode
+END
+Damage
+ACTION INFO
+PRECONDITION
+distanceFromOriginalPositionIs1
+SET
+2
+END
+Damage
+ACTION INFO
+PRECONDITION
+sameCardinalDirectionOfPreviousSquare
+SET
+1
+END
+END
