@@ -95,4 +95,9 @@ public class ViewSelector implements Selector {
     public void askSpawn(ArrayList<PowerUpCard> powerUpCards) {
         this.CLISelector.askSpawn(powerUpCards);
     }
+
+    @Override
+    public void askShootOrMove(){
+      this.CLISelector.askShootOrMove();
+    }
 }

@@ -35,17 +35,19 @@ public class FFSetUpState implements State {
 
             }
 
-            if(position<0) {
-                player.setBeforeorafterStartingPlayer(position);
-                position--;
-                number++;
-            }
             if(ModelGate.model.getPlayerList().getStartingPlayer().getNickname().equals(player.getNickname())){
                 player.setBeforeorafterStartingPlayer(0);
                 position=1;
                 number++;
             }
-            if(position>0){
+
+           else if(position<0) {
+                player.setBeforeorafterStartingPlayer(position);
+                position--;
+                number++;
+            }
+
+           else if(position>0){
                 player.setBeforeorafterStartingPlayer(position);
                 position++;
                 number++;
@@ -53,7 +55,6 @@ public class FFSetUpState implements State {
             if(number==ModelGate.model.getPlayerList().getNumberOfPlayers()){
                 player.setLastPlayingPlayer();
             }
-
 
         }
 

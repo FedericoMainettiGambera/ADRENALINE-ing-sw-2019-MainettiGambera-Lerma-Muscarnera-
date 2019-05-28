@@ -164,4 +164,18 @@ public class VirtualViewSelectorSocket implements Selector {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void askShootOrMove(){
+
+        ObjectOutputStream oos = this.playerToAsk.getOos();
+        try {
+            SelectorEvent SE = new SelectorEvent(SelectorEventTypes.askShootOrMove);
+            oos.writeObject(SE);
+            oos.reset();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

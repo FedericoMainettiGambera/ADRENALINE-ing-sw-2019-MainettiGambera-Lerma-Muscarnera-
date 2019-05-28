@@ -50,9 +50,9 @@ public class ScoreKillsState implements State {
         if(deadPlayers.isEmpty()){
             System.out.println("<SERVER> Ended scoring and spawning players.");
 
-            ModelGate.model.getPlayerList().setNextPlayingPlayer();
 
-            //Game is not ended --> TurnState or FirstSpawnState
+
+//Game is not ended --> TurnState or FirstSpawnState
             if((!ModelGate.model.getKillshotTrack().areSkullsOver())||ModelGate.model.hasFinalFrenzyBegun()){
            //we are in final frenzy and this was the last playin player-> Final Scoring state
                 if(ModelGate.model.getCurrentPlayingPlayer().getLastPlayingPlayer()){
@@ -60,15 +60,17 @@ public class ScoreKillsState implements State {
                     ViewControllerEventHandlerContext.state.doAction(null);
                 }
                 else{
-                if(ModelGate.model.getCurrentPlayingPlayer().getPosition() == null){
-                    ViewControllerEventHandlerContext.setNextState(new FirstSpawnState());
-                    ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                    if(ModelGate.model.getCurrentPlayingPlayer().getPosition() == null){
+                        ModelGate.model.getPlayerList().setNextPlayingPlayer();
+                        ViewControllerEventHandlerContext.setNextState(new FirstSpawnState());
+                        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                    }
+                    else{
+                        ModelGate.model.getPlayerList().setNextPlayingPlayer();
+                        ViewControllerEventHandlerContext.setNextState(new TurnState(1));
+                        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                    }
                 }
-                else{
-                    ViewControllerEventHandlerContext.setNextState(new TurnState(1));
-                    ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
-                }
-            }
             }
             //Game is ended and FinalFrenzy isn't active --> FinalScoringState
             else if(ModelGate.model.getKillshotTrack().areSkullsOver() && (!ModelGate.model.isFinalFrenzy())){
@@ -77,6 +79,7 @@ public class ScoreKillsState implements State {
             }
             //Game is ended and FinalFrenzy is active --> FFSetUpState
             else if(ModelGate.model.getKillshotTrack().areSkullsOver() && (ModelGate.model.isFinalFrenzy())){
+                ModelGate.model.getPlayerList().setNextPlayingPlayer();
                 ViewControllerEventHandlerContext.setNextState(new FFSetUpState());
                 ViewControllerEventHandlerContext.state.doAction(null);
             }

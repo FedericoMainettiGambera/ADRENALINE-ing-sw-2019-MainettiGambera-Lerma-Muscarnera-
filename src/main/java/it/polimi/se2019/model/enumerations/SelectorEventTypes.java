@@ -13,5 +13,6 @@ public enum SelectorEventTypes {
     askPowerUpToDiscard,
     askIfReload,
     askWhatReaload,
-    askSpawn
+    askSpawn,
+    askShootOrMove
 }

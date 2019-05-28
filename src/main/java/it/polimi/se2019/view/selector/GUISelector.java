@@ -79,4 +79,9 @@ public class GUISelector implements Selector {
     public void askSpawn(ArrayList<PowerUpCard> powerUpCards) {
 
     }
+
+    @Override
+    public void askShootOrMove() {
+
+    }
 }

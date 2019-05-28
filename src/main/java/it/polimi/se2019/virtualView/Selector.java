@@ -34,4 +34,6 @@ public interface Selector {
 
     public void askSpawn(ArrayList<PowerUpCard> powerUpCards);
 
+    public void askShootOrMove();
+
 }

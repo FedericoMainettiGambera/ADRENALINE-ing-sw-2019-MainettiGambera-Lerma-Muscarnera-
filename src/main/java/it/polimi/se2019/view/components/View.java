@@ -31,12 +31,12 @@ public class View implements Observer {
         ModelViewEvent MVE = null;
         if(arg.getClass().toString().contains("ModelViewEvent")){
             MVE = (ModelViewEvent)arg;
-            try {
+            try{
                 this.callCorrectComponent(MVE, o);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if(arg.getClass().toString().contains("SelectorEvent")){
+        }else if(arg.getClass().toString().contains("SelectorEvent")){
             SE = (SelectorEvent)arg;
             this.callCorrectSelector(SE);
         }
@@ -268,6 +268,10 @@ public class View implements Observer {
 
             case askSpawn:
                 this.selector.askSpawn(((SelectorEventPowerUpCards)SE).getPowerUpCards());
+                break;
+
+            case askShootOrMove:
+                this.selector.askShootOrMove();
                 break;
 
             default: break;

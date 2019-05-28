@@ -1,5 +1,6 @@
 package it.polimi.se2019.view.selector;
 
+import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.WeaponCard;
@@ -298,6 +299,49 @@ public class CLISelector implements Selector {
 
     @Override
     public void askSpawn(ArrayList<PowerUpCard> powerUpCards) {
+
+    }
+
+    @Override
+    public void askShootOrMove(){
+
+        int numberOfMoves;
+        numberOfMoves=1;
+        Scanner br = new Scanner(System.in);
+
+
+        if(!ModelGate.model.hasFinalFrenzyBegun()){
+            System.out.println("<CLIENT> Do you want to:\n" +
+                    "   0) Press 0 if you wanna move before taking your shot\n" +
+                    "   1) Press 1 if you want to stay still\n" +
+                    "   ");
+            System.out.println("remember, you can move up to:"+numberOfMoves);
+
+        }
+       else if(ModelGate.model.hasFinalFrenzyBegun()&&ModelGate.model.getCurrentPlayingPlayer().getBeforeorafterStartingPlayer()<0)
+        {
+            numberOfMoves=1;
+            System.out.println("<CLIENT> Do you want to:\n" +
+                    "   0) Press 0 if you wanna move before taking your shot\n" +
+                    "   1) Press 1 if you want to stay still\n" +
+                    "   ");
+            System.out.println("remember, you can move up to:"+numberOfMoves);
+
+        }
+        else if(ModelGate.model.hasFinalFrenzyBegun()&&ModelGate.model.getCurrentPlayingPlayer().getBeforeorafterStartingPlayer()>=0){
+            numberOfMoves=2;
+            System.out.println("<CLIENT> Do you want to:\n" +
+                    "   0) Press 0 if you wanna move and/or reload before taking your shot\n" +
+                    "   1) Press 1 if you want to stay still\n" +
+                    "   ");
+            System.out.println("remember, you can move up to:"+numberOfMoves);
+        }
+
+        int choosen = br.nextInt();
+        ViewControllerEventInt VCEint = new ViewControllerEventInt(choosen);
+
+        sendToServer(VCEint);
+
 
     }
 }

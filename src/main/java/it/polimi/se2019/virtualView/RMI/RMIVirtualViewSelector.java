@@ -21,6 +21,8 @@ public class RMIVirtualViewSelector implements Selector{
         this.playerToAsk = playerToAsk;
     }
 
+
+
     @Override
     public  void askGameSetUp(){
         try {
@@ -140,8 +142,21 @@ public class RMIVirtualViewSelector implements Selector{
     @Override
     public void askSpawn(ArrayList<PowerUpCard> powerUpCards) {
         try {
-            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEventPowerUpCards(SelectorEventTypes.askSpawn, powerUpCards));
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(), new SelectorEventPowerUpCards(SelectorEventTypes.askSpawn, powerUpCards));
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void askShootOrMove(){
+
+        try{
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(), new SelectorEvent(SelectorEventTypes.askShootOrMove));
+
+        }catch(IOException e)
+        {
             e.printStackTrace();
         }
     }

@@ -1,8 +1,13 @@
 package it.polimi.se2019.controller.statePattern;
 
+import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
+import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
+
+import java.util.ArrayList;
 
 public class ShootPeopleState implements State {
 
@@ -17,9 +22,15 @@ public class ShootPeopleState implements State {
     public void askForInput(Player playerToAsk) {
         if(canShoot()) {
             System.out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
-
-            //ask for input
-        }
+//ask for input
+            if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
+                SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
+                SelectorGate.selectorSocket.askShootOrMove();
+            }
+            else{
+                SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
+                SelectorGate.selectorRMI.askShootOrMove();
+            }        }
         else{
             ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
         }
@@ -29,7 +40,7 @@ public class ShootPeopleState implements State {
     public void doAction(ViewControllerEvent VCE) {
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        // do things to shoot
+        if(canShoot()){}
 
         //set State
         //TurnState
@@ -37,8 +48,24 @@ public class ShootPeopleState implements State {
         //(based on actionNumber)
     }
 
+    public ArrayList<WeaponCard> LoadedWep(){
+        ArrayList<WeaponCard> UsableWep=new ArrayList<>();
+
+        for (WeaponCard card:ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards()) {
+
+          if(card.isLoaded()){
+              UsableWep.add(card);
+          }
+
+        }
+        return UsableWep;
+    }
+
     public boolean canShoot(){
-        //Stuff here
-        return false; //(or true)
+
+        if(LoadedWep().isEmpty()){
+            return false;
+        }
+        else return true;
     }
 }
