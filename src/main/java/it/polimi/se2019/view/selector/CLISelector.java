@@ -310,7 +310,7 @@ public class CLISelector implements Selector {
         Scanner br = new Scanner(System.in);
 
 
-        if(!ModelGate.model.hasFinalFrenzyBegun()){
+        if(!ModelGate.model.hasFinalFrenzyBegun()&&ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineShootAction()){
             System.out.println("<CLIENT> Do you want to:\n" +
                     "   0) Press 0 if you wanna move before taking your shot\n" +
                     "   1) Press 1 if you want to stay still\n" +

@@ -20,8 +20,9 @@ public class ShootPeopleState implements State {
 
     @Override
     public void askForInput(Player playerToAsk) {
+        System.out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+
         if(canShoot()) {
-            System.out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 //ask for input
             if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
                 SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
@@ -32,7 +33,9 @@ public class ShootPeopleState implements State {
                 SelectorGate.selectorRMI.askShootOrMove();
             }        }
         else{
+            System.out.println("<SERVER> Player can't shoot");
             ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
     }
 
@@ -40,12 +43,13 @@ public class ShootPeopleState implements State {
     public void doAction(ViewControllerEvent VCE) {
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        if(canShoot()){}
-
-        //set State
-        //TurnState
-        //ReloadState
-        //(based on actionNumber)
+        if(canShoot()){
+            //set State
+            ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            //TurnState
+            //ReloadState
+        }  //(based on actionNumber)
     }
 
     public ArrayList<WeaponCard> LoadedWep(){
