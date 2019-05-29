@@ -23,6 +23,49 @@ public class WeaponCard extends Card implements Serializable {
         this.reloadCost = reloadCost;
     }
     /***/
+
+    public List<Effect> usable(Player player,Board board,PlayersList playersList) {
+        List<Effect> effectList = new ArrayList<>();                //effetti finali -- inizializzata vuota
+        List<Effect> potentialEffects = this.effects;    //effetti iniziali -- inizializzata piena
+        for(Effect e: potentialEffects) {       // controllo ogni effetto
+            ActionContext context = new ActionContext();
+            context.setBoard(board);
+            context.setPlayerList(playersList);
+            context.setPlayer(player);
+            e.setContext(context);                         // costruisce un contesto fittizio
+            System.out.println("start");
+            for(EffectInfoType input:e.requestedInputs()) {
+
+                    if(input == EffectInfoType.singleTarget) {
+
+                        /* esiste un target che rispetta le precondizioni?*/
+                        boolean correct = true;
+                            for(Player p: playersList.getPlayers()) {
+
+                                for( Action a: e.getActions()) {
+                                    System.out.println("verifico la condizione di " + a.toString());
+                                    if (a.getActionInfo().preCondition() == false) {
+                                        correct = false;
+                                    }
+
+                                }
+                                if(correct) break;
+                            }
+                        if(correct) {
+
+                            effectList.add(e);
+
+                        }
+
+                    }
+            }
+                return effectList;
+            }
+
+            return effectList;
+        }
+
+
     // WeaponCard from File, polymorphic constructor
 
     public WeaponCard(String ID) throws FileNotFoundException, IOException,InstantiationException, Exception  {

@@ -1,18 +1,39 @@
 package it.polimi.se2019;
 
-import it.polimi.se2019.model.*;
+import it.polimi.se2019.model.Board;
+import it.polimi.se2019.model.Player;
+import it.polimi.se2019.model.PlayersList;
+import it.polimi.se2019.model.WeaponCard;
+import it.polimi.se2019.virtualView.VirtualView;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static junit.framework.TestCase.fail;
-import static org.junit.Assert.assertEquals;
 
 public class TestEffect {
 
 /* TODO : !!!!!!!!!!!!!!!!!!! COMMENTED OUT BECAUSE OF SONAR REPORTS !!!!!!!!!!!!!!!!!! */
+@Test
+    public void testAlpha() {
+    try {
+        WeaponCard weaponCard = new WeaponCard("test");
+        Player user = new Player();
+        Player user2 = new Player();
+        Player user3 = new Player();
+        PlayersList playerList = new PlayersList();
+        playerList.addPlayer(user);
+        playerList.addPlayer(user2);
+        playerList.addPlayer(user3);
 
+        Board board = new Board("0",new VirtualView());
+        user.setNickname("Luca");
+        user.setPosition(0,0);
+        user2.setPosition(1,1);
+        user3.setPosition(2,2);
+
+        System.out.println(weaponCard.usable(user,board,playerList).toString());
+
+    }catch(Exception e) {
+        System.out.println(e.toString());
+    }
+    }
 /*
     @Test
     public void testPreCondition() {

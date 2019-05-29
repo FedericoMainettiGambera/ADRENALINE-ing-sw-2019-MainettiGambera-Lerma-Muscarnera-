@@ -159,7 +159,9 @@ public class Board{
 
                 } else map[i][j] = null;   //- indica che non c'è quell'elemento della mappa
 
-                string = bufferedReader.readLine().toCharArray();
+                line=bufferedReader.readLine();
+                if(line!=null)
+                {string=line.toCharArray();}
                 //c'è uno spazio bianco che separa le righe della mappa
                 //il while serve a posizionarsi sulla riga giusta
 
@@ -169,10 +171,12 @@ public class Board{
             //c'è uno spazio bianco che separa le righe della mappa
             //il while serve a posizionarsi sulla riga giusta
 
-            string = bufferedReader.readLine().toCharArray();
+            line=bufferedReader.readLine();
+            if(line!=null)
+            {string=line.toCharArray();}
 
-            //  while (string[0] == '\b') {
-            //     string = bufferedReader.readLine().toCharArray();
+         //    while (string[0] == '\b') {
+          //       string = bufferedReader.readLine().toCharArray();
             //  }
         }
         return map;
