@@ -1,6 +1,8 @@
 package it.polimi.se2019.model;
 
 
+import it.polimi.se2019.model.enumerations.EffectInfoType;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +59,32 @@ public class Effect implements Serializable {
         return description;
     }
     /***/
+    public boolean valuateAllPrecondition() {
+
+        boolean retVal = true;
+        for(Action a: actions) {
+            if(!a.getActionInfo().preCondition()) {
+                retVal = false;
+            }
+        }
+        return retVal;
+
+    }
+    public boolean validContext(Player player,Board board,PlayersList playersList) {
+        ActionContext context = new ActionContext();
+        context.setPlayer(player);
+        context.setPlayerList(playersList);
+        context.setBoard(board);
+        setContext(context);
+        return valuateAllPrecondition();
+    }
+    public List<EffectInfoType> requestedInputs() {
+        List<EffectInfoType> returnValue = new ArrayList<>();
+        for(EffectInfoElement a: getEffectInfo().getEffectInfoElement()) {
+           returnValue.add(a.getEffectInfoTypelist());
+        }
+        return returnValue;
+    }
     public void handleInput(Object[][] input) {
         int i= 0;
         for(EffectInfoElement e: this.getEffectInfo().getEffectInfoElement()) {
@@ -169,8 +197,52 @@ public class Effect implements Serializable {
 
                 }
 
+                // playerSquare
+                if(e.getEffectInfoTypelist().toString().equals(playerSquare.toString())) {
 
+                    Player me = getActions().get(position).getActionInfo().getActionContext().getPlayer();
+                    Object[] adaptor = new Object[10];
+                    adaptor[0] = getActions().get(position).getActionInfo().getActionContext().getBoard().getMap()[me.getPosition().getX()][me.getPosition().getY()];
 
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setChosenSquare(
+                            getActions().get(position).getActionInfo().getActionContext().getBoard().getMap()[me.getPosition().getX()][me.getPosition().getY()]
+                    );
+
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(adaptor,"Target"));
+                }
+                // squareByTarget
+                if(e.getEffectInfoTypelist().toString().equals(squareByTarget.toString())) {
+                    Player target = (Player) input[i][0];
+                    Board  board = getActions().get(0).getActionInfo().getActionContext().getBoard();
+
+                    int I = 0;
+                    int J = 0;
+
+                    int x = 0;
+                    int y = 0;
+                    for(Square[] a: board.getMap()) {
+                        for (Square b : a) {
+                            if(target.getPosition().getX() == J)
+                                if(target.getPosition().getY() == I)
+                                {
+                                    x = J;
+                                    y = I;
+                                }
+                            J++;
+                        }
+                        I++;
+                    }
+
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setChosenSquare(
+                            getActions().get(position).getActionInfo().getActionContext().getBoard().getMap()[x][y]
+                    );
+                    Object[][] adaptor = new Object[10][10];
+                    adaptor[0][0] = getActions().get(position).getActionInfo().getActionContext().getBoard().getMap()[x][y];
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(adaptor,"Target"));
+                    i++;
+                }
                 // simpleSquareSelect
                 if(e.getEffectInfoTypelist().toString().equals(simpleSquareSelect.toString())) {
                     this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setChosenSquare((Square)input[i][0]);
@@ -219,6 +291,13 @@ public class Effect implements Serializable {
         }
     }
     /***/
+    public void setContext(ActionContext actionContext) {
+
+        for(Action a : getActions()) {
+            a.getActionInfo().setActionContext(actionContext);
+        }
+
+    }
     public boolean Exec() {
         boolean isExecutable = true;
         /*gestione effect info */
