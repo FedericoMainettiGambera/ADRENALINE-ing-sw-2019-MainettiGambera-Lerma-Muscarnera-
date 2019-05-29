@@ -34,5 +34,14 @@ public class ActionContext  implements Serializable {
         this.playerList = playerList;
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    private Board board;
     private PlayersList playerList; // context of action :    initialized during effect.exec() -- list of players
 }

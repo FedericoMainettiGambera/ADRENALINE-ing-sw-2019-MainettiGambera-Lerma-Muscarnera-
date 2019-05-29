@@ -9,20 +9,20 @@ import java.util.Observable;
 /**this class holds all the information needed to update the view when the Model changes*/
 public class ModelViewEvent extends Event implements Serializable {
 
-    private Observable o;
-    private Object arg;
+    private Object component;
+    private String information;
 
-    public ModelViewEvent(Observable o, Object arg){
+    public ModelViewEvent(Object component, String information){
         this.setEventType(EventTypes.ModelViewEvent);
-        this.o = o;
-        this.arg = arg;
+        this.component = component;
+        this.information = information;
     }
 
-    public Observable getO(){
-        return  this.o;
+    public Object getComponent(){
+        return this.component;
     }
 
-    public Object getArg(){
-        return  this.arg;
+    public String getInformation(){
+        return this.information;
     }
 }

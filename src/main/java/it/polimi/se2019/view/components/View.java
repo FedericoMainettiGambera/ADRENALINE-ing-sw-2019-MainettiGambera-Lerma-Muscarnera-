@@ -25,7 +25,7 @@ public class View implements Observer {
         this.userInterface = userInterface;
         this.networkConnection = networkConnection;
         this.selector = new ViewSelector(networkConnection);
-        ViewModelGate.model = new Game();
+        ViewModelGate.setModel(new GameV());
     }
 
     @Override
@@ -35,7 +35,7 @@ public class View implements Observer {
         if(arg.getClass().toString().contains("ModelViewEvent")){
             MVE = (ModelViewEvent)arg;
             try{
-                this.callCorrectComponent(MVE, o);
+                this.callCorrectComponent(MVE);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -45,27 +45,19 @@ public class View implements Observer {
         }
     }
 
-    public void callCorrectComponent(ModelViewEvent MVE, Observable o) throws Exception {
-        //Observer that sent the data
-        String className = MVE.getO().getClass().toString();
-        String[] classNames = className.split("\\.");
-        className = classNames[classNames.length-1]; //contains the name of the class.
+    public void callCorrectComponent(ModelViewEvent MVE) throws Exception {
+        //Component name
+        String componentClassName = MVE.getComponent().getClass().toString();
+        String[] parts = componentClassName.split("\\.");
+        componentClassName = parts[componentClassName.length()-1];
 
-        //Data sent
-        String classNameArg = "";
-        if(MVE.getArg() != null) {
-            classNameArg = MVE.getArg().getClass().toString();
-            String[] classNamesArg = classNameArg.split("\\.");
-            classNameArg = classNamesArg[classNamesArg.length - 1]; //contains the name of the class.
-        }
-        else{
-            classNameArg = "null";
-        }
+        //data
+        String information = MVE.getInformation();
 
         //System.out.println("                                        <CLIENT> The " + className + " in the server has changed and it has sent this object: " + classNameArg);
 
-        switch (className){
-            case "Game":
+        switch (componentClassName){/*
+            case "GameV":
                 if(classNameArg.equals("String")){
                     String arg = (String)MVE.getArg();
                     Game obs = (Game)MVE.getO();
@@ -144,7 +136,7 @@ public class View implements Observer {
                 }
                 break;
 
-            case "KillShotTrack":
+            case "KillShotTrackV":
                 //MVE.getArg() is null
                 if(this.userInterface.equals("CLI")) {
                     ViewModelGate.model.setKillshotTrack((KillShotTrack) MVE.getO());
@@ -156,7 +148,7 @@ public class View implements Observer {
                 }
                 break;
 
-            case "OrderedCardList":
+            case "OrderedCardListV":
                 if(classNameArg.equals("WeaponCard")){
                     if(this.userInterface.equals("CLI")) {
                         System.out.println("<CLIENT> CARD HAS BEEN ADDED TO WEAPONCARD DECK, how can i know what ordered card list has changed???");
@@ -200,7 +192,7 @@ public class View implements Observer {
                 }
                 break;
 
-            case "Player":
+            case "PlayerV":
                 if(classNameArg.equals("PlayersColors")){
                     PlayersColors arg = (PlayersColors)MVE.getArg();
                     Player obs = (Player)MVE.getO();
@@ -304,7 +296,7 @@ public class View implements Observer {
                 }
                 break;
 
-            case "PlayersList":
+            case "PlayersListV":
                 if(classNameArg.equals("String")){
                     String arg = (String)MVE.getArg();
                     PlayersList obs = (PlayersList)MVE.getO();
@@ -349,6 +341,7 @@ public class View implements Observer {
 
             default:
                 throw new Exception("<CLIENT> MVE NOT RECOGNIZED");
+            */
 
         }
 
