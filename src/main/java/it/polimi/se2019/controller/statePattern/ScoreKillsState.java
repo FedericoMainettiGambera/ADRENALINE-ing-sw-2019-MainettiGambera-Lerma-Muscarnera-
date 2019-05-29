@@ -85,6 +85,13 @@ public class ScoreKillsState implements State {
             }
         }
         else{
+          //If player died during FF
+            if(ModelGate.model.hasFinalFrenzyBegun()){
+                for(Player player : deadPlayers){
+                    player.makePlayerBoardFinalFrenzy();
+                }
+            }
+
             System.out.println("<SERVER> Spawning player: " + this.deadPlayers.get(0));
 
             ViewControllerEventHandlerContext.setNextState(new SpawnState(this.deadPlayers));
