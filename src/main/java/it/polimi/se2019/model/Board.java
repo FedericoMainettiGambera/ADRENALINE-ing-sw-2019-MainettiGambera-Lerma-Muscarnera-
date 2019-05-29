@@ -15,9 +15,9 @@ import java.util.Observable;
 
 
 /***/
-public class Board implements Serializable{
+public class Board{
 
-    public transient VirtualView VV;
+    public VirtualView VV;
 
     /***/
     public Board(String chosenMap, VirtualView VV) throws IOException, NullPointerException {
@@ -30,10 +30,10 @@ public class Board implements Serializable{
     }
 
     /***/
-    private transient Square[][] board;
-    private transient FileReader fileReader;
-    private transient BufferedReader bufferedReader;
-    private transient Square[] spawnPointslist = new Square[3];
+    private Square[][] board;
+    private FileReader fileReader;
+    private BufferedReader bufferedReader;
+    private Square[] spawnPointslist = new Square[3];
 
     public Square getSquare(Position position){
         return this.board[position.getX()][position.getY()];

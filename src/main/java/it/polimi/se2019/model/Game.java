@@ -1,7 +1,7 @@
 package it.polimi.se2019.model;
 
-
-import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
+import it.polimi.se2019.view.components.GameV;
 import it.polimi.se2019.virtualView.VirtualView;
 
 import java.io.File;
@@ -80,7 +80,7 @@ public class Game extends Observable implements Serializable {
     public void setFinalFrenzy(boolean isFinalFrenzy){
         this.isFinalFrenzy = isFinalFrenzy;
         setChanged();
-        notifyObservers("FINAL FRENZY SETTED :" + this.isFinalFrenzy);
+        notifyObservers(new ModelViewEvent(this.buildGameV(), "FINAL FRENZY SETTED :" + this.isFinalFrenzy));
     }
 
     public boolean isFinalFrenzy(){
@@ -221,5 +221,12 @@ public class Game extends Observable implements Serializable {
     /***/
     public OrderedCardList<PowerUpCard> getPowerUpDiscardPile() {
         return powerUpDiscardPile;
+    }
+
+    public GameV buildGameV(){
+        GameV gameV = new GameV();
+        //gameV.setAmmoDeck(this.getAmmoDeck().buildDeckV());
+        //gameV.setAmmoDiscardPile(this.getAmmoDiscardPile().buildDeckV());
+        return gameV;
     }
 }
