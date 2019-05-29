@@ -66,11 +66,6 @@ public class GUISelector implements Selector {
     }
 
     @Override
-    public void askIfReload() {
-
-    }
-
-    @Override
     public void askWhatReaload(ArrayList<WeaponCard> toReload) {
 
     }
@@ -82,6 +77,11 @@ public class GUISelector implements Selector {
 
     @Override
     public void askShootOrMove() {
+
+    }
+
+    @Override
+    public void askShootReloadMove() {
 
     }
 }

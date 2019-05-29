@@ -9,32 +9,50 @@ import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.SquareTypes;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventBoolean;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
+
+import java.util.ArrayList;
 
 public class ReloadState implements State{
 
-    public ReloadState(){
+    private boolean CalledFromShootPeople;
+
+    public ReloadState(boolean CalledFromShootPeople){
+        this.CalledFromShootPeople = CalledFromShootPeople;
         System.out.println("<SERVER> New state: " + this.getClass());
     }
+
     @Override
     public void askForInput(Player playerToAsk){
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
-
-        if (ModelGate.model.hasFinalFrenzyBegun() && ModelGate.model.getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0) {
+        if ((ModelGate.model.hasFinalFrenzyBegun()  && !CalledFromShootPeople)) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
             ViewControllerEventHandlerContext.state.doAction(null);
         }
-
-         else if(canReload()){
+        else if(canReload()){
             System.out.println("<SERVER> The player can reload");
-            //ask if they want to reload
+            //ask which weapon to reload
+            ArrayList<WeaponCard> toReaload = new ArrayList<>();
+            for (WeaponCard wc: playerToAsk.getWeaponCardsInHand().getCards()) {
+                if (!wc.isLoaded()&&playerToAsk.canPayAmmoCubes(wc.getReloadCost())){
+                    toReaload.add(wc);
+                }
+            }
+            String toPrintln = "";
+            for (int i = 0; i < toReaload.size() ; i++) {
+                toPrintln += "[" + toReaload.get(i).getID() + "]  ";
+            }
+            System.out.println("<SERVER> Possible weapons that can be reloaded: " + toPrintln);
+
+
             if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
                 SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
-                SelectorGate.selectorSocket.askIfReload();
+                SelectorGate.selectorSocket.askWhatReaload(toReaload);
             }
             else{
                 SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
-                SelectorGate.selectorRMI.askIfReload();
+                SelectorGate.selectorRMI.askWhatReaload(toReaload);
             }
         }
         else{
@@ -55,9 +73,14 @@ public class ReloadState implements State{
                     }
                 }
             }
-
-            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            if(CalledFromShootPeople){
+                ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState());
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            }
+            else {
+                ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+                ViewControllerEventHandlerContext.state.doAction(null);
+            }
         }
 
     }
@@ -66,18 +89,34 @@ public class ReloadState implements State{
     public void doAction(ViewControllerEvent VCE){
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        ViewControllerEventBoolean VCEBoolean=(ViewControllerEventBoolean)VCE;
+        ViewControllerEventString VCEString=(ViewControllerEventString)VCE;
 
-        if(VCEBoolean.getInput()){
-            System.out.println("<SERVER> Player decided to reload.");
-            ViewControllerEventHandlerContext.setNextState(new ReloadWeaponState());
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        if( ! VCEString.getInput().equals("SKIP")){
+            System.out.println("<SERVER> Reloading and paying reload cost for weapon card: " + VCEString.getInput());
+            ModelGate.model.getCurrentPlayingPlayer().payAmmoCubes(
+                    ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCard(VCEString.getInput()).getReloadCost()
+            );
+            ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCard(VCEString.getInput()).reload();
+
+            if(CalledFromShootPeople){
+                ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState());
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            }
+            else {
+                ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            }
         }
         else{
             System.out.println("<SERVER> Player decided not to reload.");
-            ModelGate.model.getPlayerList().setNextPlayingPlayer();
-            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            if(CalledFromShootPeople){
+                ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState());
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            }
+            else {
+                ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+                ViewControllerEventHandlerContext.state.doAction(null);
+            }
         }
     }
 

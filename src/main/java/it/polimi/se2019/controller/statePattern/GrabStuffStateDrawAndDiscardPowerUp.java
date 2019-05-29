@@ -59,7 +59,7 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
 
 //if you are in final frenzy mode and you are or come after the starting player
             if (ModelGate.model.hasFinalFrenzyBegun() && ModelGate.model.getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0) {
-                ViewControllerEventHandlerContext.setNextState(new ReloadState());
+                ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
                 ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
             }
            else{
@@ -68,7 +68,7 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
             }
         }
         if(this.actionNumber == 2) {
-            ViewControllerEventHandlerContext.setNextState(new ReloadState());
+            ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
     }

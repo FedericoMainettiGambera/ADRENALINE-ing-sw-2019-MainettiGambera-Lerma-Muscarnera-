@@ -28,12 +28,12 @@ public interface Selector {
 
     public void askPowerUpToDiscard(ArrayList<PowerUpCard> toDiscard);
 
-    public void askIfReload();
-
     public void askWhatReaload(ArrayList<WeaponCard> toReload);
 
     public void askSpawn(ArrayList<PowerUpCard> powerUpCards);
 
     public void askShootOrMove();
+
+    public void askShootReloadMove();
 
 }

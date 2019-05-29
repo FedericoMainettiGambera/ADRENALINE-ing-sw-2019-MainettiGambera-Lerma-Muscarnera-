@@ -133,17 +133,6 @@ public class VirtualViewSelectorSocket implements Selector {
     }
 
     @Override
-    public void askIfReload() {
-        ObjectOutputStream oos = this.playerToAsk.getOos();
-        try {
-            oos.writeObject(new SelectorEvent(SelectorEventTypes.askIfReload));
-            oos.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public void askWhatReaload(ArrayList<WeaponCard> toReload) {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
@@ -171,6 +160,19 @@ public class VirtualViewSelectorSocket implements Selector {
         ObjectOutputStream oos = this.playerToAsk.getOos();
         try {
             SelectorEvent SE = new SelectorEvent(SelectorEventTypes.askShootOrMove);
+            oos.writeObject(SE);
+            oos.reset();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void askShootReloadMove(){
+        ObjectOutputStream oos = this.playerToAsk.getOos();
+        try {
+            SelectorEvent SE = new SelectorEvent(SelectorEventTypes.askShootReloadMove);
             oos.writeObject(SE);
             oos.reset();
         } catch (IOException e) {

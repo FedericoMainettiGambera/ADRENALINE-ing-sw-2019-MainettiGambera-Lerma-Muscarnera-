@@ -11,8 +11,8 @@ public enum SelectorEventTypes {
     askGrabStuffGrabWeapon,
     askGrabStuffSwitchWeapon,
     askPowerUpToDiscard,
-    askIfReload,
     askWhatReaload,
     askSpawn,
-    askShootOrMove
+    askShootOrMove,
+    askShootReloadMove
 }

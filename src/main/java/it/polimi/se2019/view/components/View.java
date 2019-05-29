@@ -398,10 +398,6 @@ public class View implements Observer {
                 this.selector.askPowerUpToDiscard(((SelectorEventPowerUpCards)SE).getPowerUpCards());
                 break;
 
-            case askIfReload:
-                this.selector.askIfReload();
-                break;
-
             case askWhatReaload:
                 this.selector.askWhatReaload(((SelectorEventWeaponCards)SE).getWeaponCards());
                 break;

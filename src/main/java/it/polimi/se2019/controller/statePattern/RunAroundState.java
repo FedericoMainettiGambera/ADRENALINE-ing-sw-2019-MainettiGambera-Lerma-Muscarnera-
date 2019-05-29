@@ -64,7 +64,7 @@ public class RunAroundState implements State {
             ViewControllerEventHandlerContext.setNextState(new TurnState(2));
         }
         else if(this.actionNumber == 2){ //second action of the turn
-            ViewControllerEventHandlerContext.setNextState(new ReloadState());
+            ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
         }
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }

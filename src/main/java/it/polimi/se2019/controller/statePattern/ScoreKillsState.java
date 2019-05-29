@@ -52,9 +52,9 @@ public class ScoreKillsState implements State {
 
 
 
-//Game is not ended --> TurnState or FirstSpawnState
+            //Game is not ended --> TurnState or FirstSpawnState
             if((!ModelGate.model.getKillshotTrack().areSkullsOver())||ModelGate.model.hasFinalFrenzyBegun()){
-           //we are in final frenzy and this was the last playin player-> Final Scoring state
+                //we are in final frenzy and this was the last playin player-> Final Scoring state
                 if(ModelGate.model.getCurrentPlayingPlayer().getLastPlayingPlayer()){
                     ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
                     ViewControllerEventHandlerContext.state.doAction(null);

@@ -158,14 +158,14 @@ public class GrabStuffStateGrabWeapon implements  State {
         if(this.actionNumber == 1){
 
             if (ModelGate.model.hasFinalFrenzyBegun() && ModelGate.model.getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0) {
-                ViewControllerEventHandlerContext.setNextState(new ReloadState());
+                ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
 
             }
 
                else ViewControllerEventHandlerContext.setNextState(new TurnState(2));
         }
         if(this.actionNumber == 2){
-            ViewControllerEventHandlerContext.setNextState(new ReloadState());
+            ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
         }
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
 

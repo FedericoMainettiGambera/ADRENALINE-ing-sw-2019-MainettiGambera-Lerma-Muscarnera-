@@ -82,11 +82,6 @@ public class ViewSelector implements Selector {
     }
 
     @Override
-    public void askIfReload() {
-        this.CLISelector.askIfReload();
-    }
-
-    @Override
     public void askWhatReaload(ArrayList<WeaponCard> toReload) {
         this.CLISelector.askWhatReaload(toReload);
     }
@@ -99,5 +94,10 @@ public class ViewSelector implements Selector {
     @Override
     public void askShootOrMove(){
       this.CLISelector.askShootOrMove();
+    }
+
+    @Override
+    public void askShootReloadMove() {
+
     }
 }

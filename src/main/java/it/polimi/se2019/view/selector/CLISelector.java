@@ -1,6 +1,7 @@
 package it.polimi.se2019.view.selector;
 
 import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.WeaponCard;
@@ -263,36 +264,23 @@ public class CLISelector implements Selector {
     }
 
     @Override
-    public void askIfReload() {
-        System.out.println("<CLIENT>Do you want to reload? [Y/N]");
+    public void askWhatReaload(ArrayList<WeaponCard> toReload) {
+        System.out.println("<CLIENT>Which weapon do you want to reload?");
+        for (int i = 0; i < toReload.size() ; i++) {
+            System.out.println("    " + (i+1) + ") " + toReload.get(i).getID());
+        }
+        System.out.println("  Insert 0 if u wanna /skip/ reload.");
         Scanner br = new Scanner(System.in);
-        String answer = br.nextLine();
-        answer = answer.toLowerCase();
+        int chosen = br.nextInt();
 
-
-        ViewControllerEventBoolean VCEBoolean = null;
-        if(answer.equals("n")){
-            VCEBoolean = new ViewControllerEventBoolean(false);
+        ViewControllerEventString VCEString =null;
+        if(chosen==0){
+            VCEString= new ViewControllerEventString("SKIP");
         }
         else{
-            VCEBoolean = new ViewControllerEventBoolean(true);
+            String chosenID = toReload.get(chosen-1).getID();
+            VCEString = new ViewControllerEventString(chosenID);
         }
-
-        sendToServer(VCEBoolean);
-    }
-
-    @Override
-    public void askWhatReaload(ArrayList<WeaponCard> toReload) {
-        System.out.println("<SERVER>Which weapon do you want to reload?");
-        for (int i = 0; i < toReload.size() ; i++) {
-            System.out.println("    " + i + ") " + toReload.get(i).getID());
-        }
-        Scanner br = new Scanner(System.in);
-        int choosen = br.nextInt();
-
-        String choosenID = toReload.get(choosen).getID();
-
-        ViewControllerEventString VCEString = new ViewControllerEventString(choosenID);
 
         sendToServer(VCEString);
     }
@@ -304,45 +292,48 @@ public class CLISelector implements Selector {
 
     @Override
     public void askShootOrMove(){
-
         int numberOfMoves;
         numberOfMoves=1;
         Scanner br = new Scanner(System.in);
 
-
-        if(!ModelGate.model.hasFinalFrenzyBegun()&&ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineShootAction()){
             System.out.println("<CLIENT> Do you want to:\n" +
                     "   0) Press 0 if you wanna move before taking your shot\n" +
-                    "   1) Press 1 if you want to stay still\n" +
+                    "   1) Press 1 if you want to stay still and shoot\n" +
                     "   ");
             System.out.println("remember, you can move up to:"+numberOfMoves);
 
+        int chosen = br.nextInt();
+        ViewControllerEventString VCEstring;
+        if(chosen==0){
+            VCEstring= new ViewControllerEventString("move");
         }
-       else if(ModelGate.model.hasFinalFrenzyBegun()&&ModelGate.model.getCurrentPlayingPlayer().getBeforeorafterStartingPlayer()<0)
-        {
-            numberOfMoves=1;
-            System.out.println("<CLIENT> Do you want to:\n" +
-                    "   0) Press 0 if you wanna move before taking your shot\n" +
-                    "   1) Press 1 if you want to stay still\n" +
-                    "   ");
-            System.out.println("remember, you can move up to:"+numberOfMoves);
-
-        }
-        else if(ModelGate.model.hasFinalFrenzyBegun()&&ModelGate.model.getCurrentPlayingPlayer().getBeforeorafterStartingPlayer()>=0){
-            numberOfMoves=2;
-            System.out.println("<CLIENT> Do you want to:\n" +
-                    "   0) Press 0 if you wanna move and/or reload before taking your shot\n" +
-                    "   1) Press 1 if you want to stay still\n" +
-                    "   ");
-            System.out.println("remember, you can move up to:"+numberOfMoves);
+        else{
+            VCEstring = new ViewControllerEventString("shoot");
         }
 
-        int choosen = br.nextInt();
-        ViewControllerEventInt VCEint = new ViewControllerEventInt(choosen);
+        sendToServer(VCEstring);
+    }
+
+    @Override
+    public void askShootReloadMove(){
+        int numberOfMoves;
+        numberOfMoves=1;
+        Scanner br = new Scanner(System.in);
+
+        System.out.println("<CLIENT> Do you want to:\n" +
+                "   0) Press 0 if you wanna move, reload and shoot\n" +
+                "   1) Press 1 if you want to stay still, reload and shot\n" +
+                "   2) Press 2 if you wanna "+
+                "   ");
+        System.out.println("remember, you can move up to:"+numberOfMoves);
+
+        int chosen = br.nextInt();
+        ViewControllerEventInt VCEint = new ViewControllerEventInt(chosen);
 
         sendToServer(VCEint);
 
 
     }
+
 }
 

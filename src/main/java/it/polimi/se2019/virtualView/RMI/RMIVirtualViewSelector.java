@@ -121,15 +121,6 @@ public class RMIVirtualViewSelector implements Selector{
     }
 
     @Override
-    public void askIfReload() {
-        try {
-           playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEvent(SelectorEventTypes.askIfReload));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public void askWhatReaload(ArrayList<WeaponCard> toReload) {
 
         try {
@@ -159,5 +150,18 @@ public class RMIVirtualViewSelector implements Selector{
         {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void askShootReloadMove(){
+
+        try{
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(), new SelectorEvent(SelectorEventTypes.askShootReloadMove));
+
+        }catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+
     }
 }

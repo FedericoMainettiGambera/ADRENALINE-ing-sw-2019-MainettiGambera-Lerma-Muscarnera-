@@ -69,13 +69,13 @@ public class GrabStuffStateGrab implements State {
 
                     if (ModelGate.model.hasFinalFrenzyBegun() && ModelGate.model.getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0) {
 
-                       ViewControllerEventHandlerContext.setNextState(new ReloadState());//TODO same of all of this ifs
+                       ViewControllerEventHandlerContext.setNextState(new ReloadState(false));//TODO same of all of this ifs
 
                     }
                         else ViewControllerEventHandlerContext.setNextState(new TurnState(2));
                 }
                 else if(actionNumber==2){
-                    ViewControllerEventHandlerContext.setNextState(new ReloadState());
+                    ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
 
                 }
                 ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
