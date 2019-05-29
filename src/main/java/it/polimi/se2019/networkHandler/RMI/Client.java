@@ -15,6 +15,7 @@ import java.rmi.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.RemoteObjectInvocationHandler;
+import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 import java.net.MalformedURLException;
 import java.util.Observable;
@@ -139,7 +140,7 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
     }
 
 
-    public static void main(String[] args) throws MalformedURLException,RemoteException,NotBoundException {
+    public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException, ServerNotActiveException {
 
 
         Scanner scanner = new Scanner(System.in);
@@ -152,9 +153,17 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
         clientName = scanner.nextLine();
         System.out.println("<Playerino>Connecting To RMI Server...");
 
+        System.setProperty("java.rmi.http//AdrenalineServer", "192.168.x.x");
+        Registry reg ;
+try {
 
-        Registry reg=LocateRegistry.getRegistry("AdrenalineServer", 1099);
-        RMIInterface chatinterface = (RMIInterface) reg.lookup("http://AdrenalineServer:1099");
+
+    System.out.println("Insert IP:");
+    Scanner scanner1=new Scanner(System.in);
+
+
+    reg = LocateRegistry.getRegistry(scanner.nextLine(), 1099);
+    RMIInterface chatinterface = (RMIInterface) reg.lookup("http://AdrenalineServer:1099");
 
 
         if( chatinterface.numberOfConnection().getNumber()<5   )
@@ -166,11 +175,11 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
 
 
 
-
         }
 
         else {System.out.println("<PlYAERINO> Sorry you cant play we are full, "+"number of connection is already"+chatinterface.numberOfConnection());}
 
+    }catch (Exception e){System.out.println("Error occured in connection");}
 
 
 
