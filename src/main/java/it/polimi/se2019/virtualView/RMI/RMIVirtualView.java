@@ -25,8 +25,8 @@ public class RMIVirtualView extends VirtualView implements RMIInterface{
     private static final long serialVersionUID = 1L;
     protected static ArrayList<RMIInterface> clientList;
     public static NumberOfConnection numberOfConnection = new NumberOfConnection();
-    private int port=6799;
-    private String name="rmi://localhost:";
+    private int port=1099;
+    private String name="http://AdrenalineServer:";
     int rmiIdentifier=1;
 
     private RMIObsVirtualView RmiObsVirtualView;
@@ -146,7 +146,6 @@ public class RMIVirtualView extends VirtualView implements RMIInterface{
          System.out.println("<SEVERINO>Ciao,"+"sei connesso al server Rmi di Adrenaline! Benvenuto!\n");
 
 
-        //System.setProperty("java.rmi.Server.hostname", "192.168.x.x");
 
     }
 

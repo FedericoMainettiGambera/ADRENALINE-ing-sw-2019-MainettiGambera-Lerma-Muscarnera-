@@ -152,8 +152,9 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
         clientName = scanner.nextLine();
         System.out.println("<Playerino>Connecting To RMI Server...");
 
-        Registry reg=LocateRegistry.getRegistry("localhost", 6799);
-        RMIInterface chatinterface = (RMIInterface) reg.lookup("rmi://localhost:6799");
+
+        Registry reg=LocateRegistry.getRegistry("AdrenalineServer", 1099);
+        RMIInterface chatinterface = (RMIInterface) reg.lookup("http://AdrenalineServer:1099");
 
 
         if( chatinterface.numberOfConnection().getNumber()<5   )

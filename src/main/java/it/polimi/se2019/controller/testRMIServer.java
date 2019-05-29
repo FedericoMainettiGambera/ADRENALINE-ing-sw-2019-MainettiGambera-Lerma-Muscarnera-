@@ -6,6 +6,8 @@ import java.rmi.RemoteException;
 public class testRMIServer {
     public static void main(String[] args){
 
+        System.setProperty("java.rmi.Server.hostname", "192.168.x.x");
+
         Controller user1 = new Controller();
 
         try {

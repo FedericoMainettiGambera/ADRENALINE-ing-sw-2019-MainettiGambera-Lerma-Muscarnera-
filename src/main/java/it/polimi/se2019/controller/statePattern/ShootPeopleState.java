@@ -96,7 +96,7 @@ public class ShootPeopleState implements State {
 
     }
 
-    public ArrayList<WeaponCard> LoadedWep(){
+    public ArrayList<WeaponCard> UsableWep(){
         ArrayList<WeaponCard> UsableWep=new ArrayList<>();
 
         for (WeaponCard card:ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards()) {
@@ -111,7 +111,7 @@ public class ShootPeopleState implements State {
 
     public boolean canShoot(){
 
-        if(LoadedWep().isEmpty()){
+        if(UsableWep().isEmpty()){
             return false;
         }
         else return true;
