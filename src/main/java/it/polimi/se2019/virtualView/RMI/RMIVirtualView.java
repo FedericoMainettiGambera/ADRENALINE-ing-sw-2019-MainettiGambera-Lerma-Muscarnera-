@@ -28,7 +28,7 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
     protected static ArrayList<RMIInterface> clientList;
     public static NumberOfConnection numberOfConnection = new NumberOfConnection();
     private int port = 1099;
-    private String name = "http://AdrenalineServer:";
+    private String name = "https://AdrenalineServer:";
     int rmiIdentifier = 1;
 
     private RMIObsVirtualView RmiObsVirtualView;
@@ -131,6 +131,16 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
         this.RmiObsVirtualView.notify(VCE);
     }
 
+    @Override
+    public void removeClient(int rmiIdentifier) throws RemoteException{
+
+        clientList.remove(rmiIdentifier);
+        for (RMIInterface client: clientList
+             ) { System.out.println("still playing: "+client.getName());
+        }
+
+    }
+
 
     public void startServer() throws RemoteException {
 
@@ -147,14 +157,16 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
         Registry reg = LocateRegistry.createRegistry(port);
         reg.rebind(name+ port, stub);
         String address=new String();
-try {
-     address= InetAddress.getLocalHost().getHostAddress();
 
-}catch(Exception e){System.out.println("error");};
+        try {
+             address= InetAddress.getLocalHost().getHostAddress();
+
+        }catch(Exception e){System.out.println("error");};
 
 
         System.out.println("<SEVERINO>Ciao," + "sei connesso al server Rmi di Adrenaline! Benvenuto!\n");
         System.out.println("Server running on"+address);
+        new Thread(new CheckDisconnection()).start();
 
     }
 

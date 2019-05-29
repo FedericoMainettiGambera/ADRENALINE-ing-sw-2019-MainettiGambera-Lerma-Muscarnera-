@@ -9,7 +9,9 @@ import it.polimi.se2019.virtualView.RMI.Message;
 import it.polimi.se2019.virtualView.RMI.NumberOfConnection;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.rmi.*;
 
 import java.rmi.registry.LocateRegistry;
@@ -99,6 +101,11 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
     public void sendToServer(Object o) throws RemoteException{
     }
 
+    @Override
+    public void removeClient(int rmiIdentifier) throws RemoteException {
+
+    }
+
 
     public void run(){
 
@@ -135,12 +142,10 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
         } catch (RemoteException e) {
             e.printStackTrace();
         }*/
-
-
     }
 
 
-    public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException, ServerNotActiveException {
+    public static void main(String[] args){
 
 
         Scanner scanner = new Scanner(System.in);
@@ -153,7 +158,7 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
         clientName = scanner.nextLine();
         System.out.println("<Playerino>Connecting To RMI Server...");
 
-        System.setProperty("java.rmi.http//AdrenalineServer", "192.168.x.x");
+        System.setProperty("java.rmi.https://AdrenalineServer", "192.168.x.x");
         Registry reg ;
 try {
 
@@ -163,25 +168,29 @@ try {
 
 
     reg = LocateRegistry.getRegistry(scanner.nextLine(), 1099);
-    RMIInterface chatinterface = (RMIInterface) reg.lookup("http://AdrenalineServer:1099");
+    RMIInterface chatinterface = (RMIInterface) reg.lookup("https://AdrenalineServer:1099");
 
 
-        if( chatinterface.numberOfConnection().getNumber()<5   )
-        { client= new Client(chatinterface, chatinterface.getRmiIdentifier());
+        if( chatinterface.numberOfConnection().getNumber()<5  )
+        {
+            client= new Client(chatinterface, chatinterface.getRmiIdentifier());
+
             chatinterface.setRmiIdentifier();
             chatinterface.addClientToList(client);
             chatinterface.numberOfConnection().addNumber();
-            new Thread(client).start();
 
 
+            Thread thread=new Thread(client);
+            thread.start();
+
+            Logout logout=new Logout(client, thread);
+            new Thread(logout).start();
 
         }
 
         else {System.out.println("<PlYAERINO> Sorry you cant play we are full, "+"number of connection is already"+chatinterface.numberOfConnection());}
 
     }catch (Exception e){System.out.println("Error occured in connection");}
-
-
 
     }
 

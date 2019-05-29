@@ -1,29 +1,49 @@
 package it.polimi.se2019.networkHandler.RMI;
 
+import it.polimi.se2019.virtualView.RMI.RMIInterface;
+
+import java.rmi.RemoteException;
 import java.util.Scanner;
 
-public class Logout extends Thread{
+public class Logout extends Thread {
+    private Client client;
+    private boolean checkLogout;
+    Thread t;
 
-    private boolean checkExit;
+    public Logout(Client client, Thread thread1) {
+        this.client = client;
+        checkLogout=false;
+        Thread t=thread1;
+    }
 
-   public Logout(){
-       this.checkExit=false;
-   }
+    @Override
+    public void run() {
+        String string;
+        Scanner scanner = new Scanner(System.in);
+        string = scanner.nextLine();
 
-   @Override
-    public void run(){
+        while (!string.equalsIgnoreCase("Logout")) {
+
+            string = scanner.nextLine();
+
+        }
+        try {
+            client.returnInterface().removeClient(client.getRmiIdentifier());
+            this.t.interrupt();
+            checkLogout=true;
+        } catch (Exception e){
+
+        }
+        try {
+            System.out.println("ciao! by logout thread"+client.getRmiIdentifier());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        currentThread().interrupt();
 
 
-       while(!checkExit){
-           Scanner scanner = new Scanner(System.in);
-
-           if(scanner.nextLine().equalsIgnoreCase("logout")){
-               checkExit=true;
-           }
-
-       }
-   }
-
-
-
+    }
 }
+
+
+
