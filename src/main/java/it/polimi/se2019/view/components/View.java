@@ -120,8 +120,11 @@ public class View implements Observer {
                 break;
 
             //from OrderedCardList class
-            case movingFknCardsAround:
-                //TODO
+            case movingCardsAround:
+                OrderedCardListV from = (OrderedCardListV)MVE.getComponent();
+                OrderedCardListV to = (OrderedCardListV)MVE.getExtraInformation1();
+                setOrderedCardListV(from);
+                setOrderedCardListV(to);
                 if(userInterface.equals("CLI")){
                     OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
@@ -129,8 +132,8 @@ public class View implements Observer {
 
                 }
                 break;
-            case shufflingFknCardsAround:
-                //TODO
+            case shufflingCards:
+                setOrderedCardListV((OrderedCardListV)MVE.getComponent());
                 if(userInterface.equals("CLI")){
                     OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
@@ -334,6 +337,51 @@ public class View implements Observer {
 
         }
 
+    }
+
+    public void setOrderedCardListV(OrderedCardListV orderedCardListV){
+        if(orderedCardListV.getContext().contains("powerUpDeck")){
+            ViewModelGate.getModel().setPowerUpDeck((OrderedCardListV) MVE.getComponent());
+        }
+        else if(orderedCardListV.getContext().contains("weaponDeck")){
+            ViewModelGate.getModel().setWeaponDeck(((OrderedCardListV) MVE.getComponent()));
+        }
+        else if(orderedCardListV.getContext().contains("powerUpDeck")){
+            ViewModelGate.getModel().setAmmoDeck((OrderedCardListV) MVE.getComponent());
+        }
+        else if(orderedCardListV.getContext().contains("ammoDiscardPile")){
+            ViewModelGate.getModel().setAmmoDiscardPile((OrderedCardListV) MVE.getComponent());
+        }
+        else if(orderedCardListV.getContext().contains("powerUpDiscardPile")){
+            ViewModelGate.getModel().setPowerUpDiscardPile((OrderedCardListV) MVE.getComponent());
+        }
+        else if(orderedCardListV.getContext().contains("PowerUpInHand")){
+            String nickname = orderedCardListV.getContext().split(":")[0];
+            for (PlayerV p: ViewModelGate.getModel().getPlayers().getPlayers()) {
+                if(p.getNickname().equals(nickname)){
+                    p.setPowerUpCardInHand(orderedCardListV);
+                    return;
+                }
+            }
+        }
+        else if(orderedCardListV.getContext().contains("WeaponInHand")){
+            String nickname = orderedCardListV.getContext().split(":")[0];
+            for (PlayerV p: ViewModelGate.getModel().getPlayers().getPlayers()) {
+                if(p.getNickname().equals(nickname)){
+                    p.setWeaponCardInHand(orderedCardListV);
+                    return;
+                }
+            }
+        }
+        else if(orderedCardListV.getContext().contains("normalSquare")){
+            String X = orderedCardListV.getContext().split("-")[1];
+            String Y = orderedCardListV.getContext().split("-")[2];
+            ((NormalSquareV)ViewModelGate.getModel().getBoard().getBoard()[Integer.parseInt(X)][Integer.parseInt(Y)]).setAmmoCards(orderedCardListV);
+        }
+        else if(orderedCardListV.getContext().contains("spawnPoint")){
+            String X = orderedCardListV.getContext().split("-")[1];
+            String Y = orderedCardListV.getContext().split("-")[2];
+            ((SpawnPointSquareV)ViewModelGate.getModel().getBoard().getBoard()[Integer.parseInt(X)][Integer.parseInt(Y)]).setWeaponCards(orderedCardListV);        }
     }
 
     public void callCorrectSelector(SelectorEvent SE){

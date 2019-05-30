@@ -84,7 +84,7 @@ public class OrderedCardList<T> extends Observable implements Serializable {
 
             //TODO
             setChanged();
-            notifyObservers(new ModelViewEvent(null, ModelViewEventTypes.movingFknCardsAround));
+            notifyObservers(new ModelViewEvent(this.buildDeckV(), ModelViewEventTypes.movingCardsAround));
 
             return true;
         }
@@ -103,7 +103,7 @@ public class OrderedCardList<T> extends Observable implements Serializable {
 
             //TODO
             setChanged();
-            notifyObservers(new ModelViewEvent(null, ModelViewEventTypes.movingFknCardsAround));
+            notifyObservers(new ModelViewEvent(this.buildDeckV(), ModelViewEventTypes.movingCardsAround, to.buildDeckV()));
         }
     }
 
@@ -113,11 +113,10 @@ public class OrderedCardList<T> extends Observable implements Serializable {
 
         //TODO
         setChanged();
-        notifyObservers(new ModelViewEvent(null, ModelViewEventTypes.shufflingFknCardsAround));
+        notifyObservers(new ModelViewEvent(this.buildDeckV(), ModelViewEventTypes.shufflingCards));
     }
 
-    public OrderedCardListV buildDeckV(String typeOfCards){
-        //typeOfCards: ["PowerUpCard"/"WeaponCard"/"AmmoCard"]
+    public OrderedCardListV buildDeckV(){
         //TODO
         return new OrderedCardListV();
     }

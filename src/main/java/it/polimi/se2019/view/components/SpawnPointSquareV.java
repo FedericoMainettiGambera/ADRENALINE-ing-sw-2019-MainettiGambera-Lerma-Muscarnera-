@@ -7,7 +7,7 @@ public class SpawnPointSquareV extends SquareV{
     private char color;
 
     /***/
-    private OrderedCardList<WeaponCardV> weaponCards;
+    private OrderedCardListV<WeaponCardV> weaponCards;
 
     public char getColor() {
         return color;
@@ -17,11 +17,11 @@ public class SpawnPointSquareV extends SquareV{
         this.color = color;
     }
 
-    public OrderedCardList<WeaponCardV> getWeaponCards() {
+    public OrderedCardListV<WeaponCardV> getWeaponCards() {
         return weaponCards;
     }
 
-    public void setWeaponCards(OrderedCardList<WeaponCardV> weaponCards) {
+    public void setWeaponCards(OrderedCardListV<WeaponCardV> weaponCards) {
         this.weaponCards = weaponCards;
     }
 }
