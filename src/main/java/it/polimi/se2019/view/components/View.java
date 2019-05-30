@@ -6,6 +6,9 @@ import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.selectorEvents.*;
+import it.polimi.se2019.view.outputHandler.CLIOutputHandler;
+import it.polimi.se2019.view.outputHandler.GUIOutputHandler;
+import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
 import it.polimi.se2019.view.selector.ViewSelector;
 
 import java.lang.reflect.Array;
@@ -24,6 +27,13 @@ public class View implements Observer {
 
     public View(String networkConnection, String userInterface){
         this.userInterface = userInterface;
+        OutputHandlerGate.setUserIterface(userInterface);
+        if(userInterface.equals("CLI")){
+            OutputHandlerGate.setCLIOutputHandler(new CLIOutputHandler());
+        }
+        else{
+            OutputHandlerGate.setGUIOutputHandler(new GUIOutputHandler());
+        }
         this.networkConnection = networkConnection;
         this.selector = new ViewSelector(networkConnection);
         ViewModelGate.setModel(new GameV());
@@ -54,7 +64,7 @@ public class View implements Observer {
             case setFinalFrenzy:
                 ViewModelGate.getModel().setFinalFrenzy((boolean)MVE.getComponent());
                 if(userInterface.equals("CLI")){
-                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
                 else{
 
@@ -63,7 +73,7 @@ public class View implements Observer {
             case finalFrenzyBegun:
                 ViewModelGate.getModel().setHasFinalFrenzyBegun((boolean)MVE.getComponent());
                 if(userInterface.equals("CLI")){
-                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
                 else{
 
@@ -73,7 +83,7 @@ public class View implements Observer {
                 ViewModelGate.getModel().setKillshotTrack(new KillShotTrackV());
                 ViewModelGate.getModel().getKillshotTrack().setNumberOfStartingSkulls((int)MVE.getComponent());
                 if(userInterface.equals("CLI")){
-                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
                 else{
 
@@ -82,7 +92,7 @@ public class View implements Observer {
             case newPlayersList:
                 ViewModelGate.getModel().setPlayers((PlayersListV)MVE.getComponent());
                 if(userInterface.equals("CLI")){
-                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
                 else{
 
@@ -91,7 +101,7 @@ public class View implements Observer {
             case newBoard:
                 ViewModelGate.getModel().setBoard((BoardV)MVE.getComponent());
                 if(userInterface.equals("CLI")){
-                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
                 else{
 
@@ -102,7 +112,7 @@ public class View implements Observer {
             case deathOfPlayer:
                 ViewModelGate.getModel().setKillshotTrack((KillShotTrackV)MVE.getComponent());
                 if(userInterface.equals("CLI")){
-                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
                 else{
 
@@ -113,7 +123,7 @@ public class View implements Observer {
             case movingFknCardsAround:
                 //TODO
                 if(userInterface.equals("CLI")){
-                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
                 else{
 
@@ -122,7 +132,7 @@ public class View implements Observer {
             case shufflingFknCardsAround:
                 //TODO
                 if(userInterface.equals("CLI")){
-                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
                 else{
 
@@ -140,7 +150,7 @@ public class View implements Observer {
                     }
                 }
                 if(userInterface.equals("CLI")){
-                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
                 else{
 
@@ -156,7 +166,7 @@ public class View implements Observer {
                     }
                 }
                 if(userInterface.equals("CLI")){
-                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
                 else{
 
@@ -172,6 +182,12 @@ public class View implements Observer {
                         }
                     }
                 }
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
                 break;
             case newScore:
                 if (ViewModelGate.getModel().getPlayers() != null) {
@@ -183,7 +199,7 @@ public class View implements Observer {
                     }
                 }
                 if(userInterface.equals("CLI")){
-                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
                 else{
 
@@ -199,7 +215,7 @@ public class View implements Observer {
                     }
                 }
                 if(userInterface.equals("CLI")){
-                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
                 else{
 
@@ -215,7 +231,7 @@ public class View implements Observer {
                     }
                 }
                 if(userInterface.equals("CLI")){
-                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
                 else{
 
@@ -231,7 +247,7 @@ public class View implements Observer {
                     }
                 }
                 if(userInterface.equals("CLI")){
-                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
                 else{
 
@@ -247,7 +263,7 @@ public class View implements Observer {
                     }
                 }
                 if(userInterface.equals("CLI")){
-                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
                 else{
 
@@ -263,7 +279,7 @@ public class View implements Observer {
                     }
                 }
                 if(userInterface.equals("CLI")){
-                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
                 else{
 
@@ -281,7 +297,7 @@ public class View implements Observer {
                     }
                 }
                 if(userInterface.equals("CLI")){
-                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
                 else{
 
@@ -297,7 +313,7 @@ public class View implements Observer {
                     }
                 }
                 if(userInterface.equals("CLI")){
-                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
                 else{
 
@@ -306,7 +322,7 @@ public class View implements Observer {
             case newPlayer:
                 ViewModelGate.getModel().getPlayers().getPlayers().add((PlayerV)MVE.getComponent());
                 if(userInterface.equals("CLI")){
-                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
                 else{
 
