@@ -13,7 +13,7 @@ public class NormalSquare extends Square implements Serializable {
     /***/
     public NormalSquare(int X, int Y, SquareSide north, SquareSide east, SquareSide south, SquareSide west, SquareTypes squareType, char color) {
         super(X,Y,north,east,south,west,squareType, color);
-        this.ammoCards = new OrderedCardList<>();
+        this.ammoCards = new OrderedCardList<>("normalSquare-"+X+"-"+Y);
     }
 
     /***/

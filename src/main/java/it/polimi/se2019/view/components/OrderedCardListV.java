@@ -7,6 +7,16 @@ public class OrderedCardListV<T> implements Serializable {
 
     private List<T> cards;
 
+    private String context;
+
+    public void setContext(String context) {
+        this.context = context;
+    }
+
+    public String getContext() {
+        return context;
+    }
+
     public List<T> getCards() {
         return cards;
     }

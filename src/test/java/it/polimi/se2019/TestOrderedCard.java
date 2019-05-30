@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestOrderedCard{
 
-    OrderedCardList orderedCardList=new OrderedCardList();
-    OrderedCardList orderedCardList2=new OrderedCardList();
+    OrderedCardList orderedCardList=new OrderedCardList("");
+    OrderedCardList orderedCardList2=new OrderedCardList("");
 
     AmmoList ammoList=new AmmoList();
     AmmoCard card= new AmmoCard("1",ammoList, false);

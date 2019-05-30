@@ -118,8 +118,8 @@ public class Player extends Person implements Serializable {
         }
         playerV.setNickname(getNickname());
         playerV.setColor(getColor());
-        playerV.setPowerUpCardInHand(this.getPowerUpCardsInHand().buildDeckV("PowerUpCard"));
-        playerV.setWeaponCardInHand(this.getWeaponCardsInHand().buildDeckV("WeaponCard"));
+        playerV.setPowerUpCardInHand(this.getPowerUpCardsInHand().buildDeckV());
+        playerV.setWeaponCardInHand(this.getWeaponCardsInHand().buildDeckV());
 
         return playerV;
     }

@@ -11,9 +11,20 @@ public class PlayerHand implements Serializable {
     /**Constructor:
      * create two OrderedCardList, one for the powerUps and the other for the weapons
      * */
+
+    private String nickname;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname=nickname;
+    }
+
     public PlayerHand() {
-        powerUpCards = new OrderedCardList<>();
-        weaponCards = new OrderedCardList<>();
+        powerUpCards = new OrderedCardList<>(nickname+":powerUpInHand");
+        weaponCards = new OrderedCardList<>(nickname+":weaponInHand");
     }
 
     /*-*****************************************************************************************************ATTRIBUTES*/

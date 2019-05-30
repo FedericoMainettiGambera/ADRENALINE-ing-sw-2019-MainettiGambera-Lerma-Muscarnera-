@@ -60,6 +60,7 @@ public abstract class Person extends Observable implements Serializable {
         setChanged();
         notifyObservers(new ModelViewEvent(nickname, ModelViewEventTypes.newNickname, this.nickname));
         this.nickname = nickname;
+        this.getPlayerBoard().getPlayerHand().setNickname(nickname);
     }
 
     /*POSITION*/

@@ -52,6 +52,10 @@ public class PlayerBoard implements Serializable {
         deathCounter++;
     }
 
+
+    public PlayerHand getPlayerHand(){
+        return this.getPlayerHand();
+    }
     /**@return number of times the player has died
      * */
     public int getDeathCounter() {

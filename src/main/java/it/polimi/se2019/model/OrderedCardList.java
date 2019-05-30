@@ -2,7 +2,10 @@ package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
+import it.polimi.se2019.view.components.AmmoCardV;
 import it.polimi.se2019.view.components.OrderedCardListV;
+import it.polimi.se2019.view.components.PowerUpCardV;
+import it.polimi.se2019.view.components.WeaponCardV;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,13 +22,16 @@ public class OrderedCardList<T> extends Observable implements Serializable {
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
      * */
-    public OrderedCardList() {
+    public OrderedCardList(String context) {
+        this.context = context;
         cards = new ArrayList<>();
     }
 
     /*-*****************************************************************************************************ATTRIBUTES*/
     /**cards*/
     private List<T> cards;
+
+    private String context;
 
     /*-********************************************************************************************************METHODS*/
     /**@return
@@ -116,9 +122,45 @@ public class OrderedCardList<T> extends Observable implements Serializable {
         notifyObservers(new ModelViewEvent(null, ModelViewEventTypes.shufflingFknCardsAround));
     }
 
-    public OrderedCardListV buildDeckV(String typeOfCards){
-        //typeOfCards: ["PowerUpCard"/"WeaponCard"/"AmmoCard"]
-        //TODO
-        return new OrderedCardListV();
+    public OrderedCardListV buildDeckV(){
+        if(this.context.equals("ammoDeck")||this.context.equals("ammoDiscardPile")||this.context.contains("normalSquare")){
+
+            OrderedCardListV<AmmoCardV> orderedCardListV= new OrderedCardListV<>();
+            orderedCardListV.setContext(this.context);
+            List<AmmoCardV> ammoCardsListV=new ArrayList<>();
+            for ( Object c :this.getCards()){
+                AmmoCard card= (AmmoCard)c;
+                ammoCardsListV.add(card.buildAmmoCardV());
+            }
+            orderedCardListV.setCards(ammoCardsListV);
+            return orderedCardListV;
+        }
+        else if(this.context.equals("powerUpDeck")||this.context.equals("powerUpDiscardPile")||this.context.contains(":powerUpInHand")){
+            OrderedCardListV<PowerUpCardV> orderedCardListV= new OrderedCardListV<>();
+            orderedCardListV.setContext(this.context);
+            List<PowerUpCardV> powerUpCardsV=new ArrayList<>();
+            for ( Object c :this.getCards()){
+                PowerUpCard card= (PowerUpCard) c;
+                powerUpCardsV.add(card.buildPowerUpCardV());
+            }
+            orderedCardListV.setCards(powerUpCardsV);
+            return orderedCardListV;
+
+
+
+        }
+        else{
+            OrderedCardListV<WeaponCardV> orderedCardListV= new OrderedCardListV<>();
+            orderedCardListV.setContext(this.context);
+            List<WeaponCardV> weaponCardsListV=new ArrayList<>();
+            for ( Object c :this.getCards()){
+                WeaponCard card= (WeaponCard) c;
+                weaponCardsListV.add(card.buildWeapondCardV());
+            }
+            orderedCardListV.setCards(weaponCardsListV);
+            return orderedCardListV;
+
+        }
+
     }
 }
