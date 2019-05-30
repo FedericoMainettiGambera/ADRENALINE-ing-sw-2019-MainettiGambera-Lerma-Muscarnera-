@@ -53,27 +53,80 @@ public class View implements Observer {
             //from Game class
             case setFinalFrenzy:
                 ViewModelGate.getModel().setFinalFrenzy((boolean)MVE.getComponent());
+                if(userInterface.equals("CLI")){
+                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
                 break;
             case finalFrenzyBegun:
                 ViewModelGate.getModel().setHasFinalFrenzyBegun((boolean)MVE.getComponent());
+                if(userInterface.equals("CLI")){
+                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
                 break;
             case newKillshotTrack:
                 ViewModelGate.getModel().setKillshotTrack(new KillShotTrackV());
                 ViewModelGate.getModel().getKillshotTrack().setNumberOfStartingSkulls((int)MVE.getComponent());
+                if(userInterface.equals("CLI")){
+                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
+                break;
             case newPlayersList:
                 ViewModelGate.getModel().setPlayers((PlayersListV)MVE.getComponent());
+                if(userInterface.equals("CLI")){
+                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
+                break;
+            case newBoard:
+                ViewModelGate.getModel().setBoard((BoardV)MVE.getComponent());
+                if(userInterface.equals("CLI")){
+                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
+                break;
 
             //from KillshotTrack class
             case deathOfPlayer:
                 ViewModelGate.getModel().setKillshotTrack((KillShotTrackV)MVE.getComponent());
+                if(userInterface.equals("CLI")){
+                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
                 break;
 
             //from OrderedCardList class
             case movingFknCardsAround:
                 //TODO
+                if(userInterface.equals("CLI")){
+                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
                 break;
             case shufflingFknCardsAround:
                 //TODO
+                if(userInterface.equals("CLI")){
+                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
                 break;
 
             //from Player class or Person class
@@ -86,6 +139,12 @@ public class View implements Observer {
                         }
                     }
                 }
+                if(userInterface.equals("CLI")){
+                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
                 break;
             case newNickname:
                 if (ViewModelGate.getModel().getPlayers() != null) {
@@ -95,6 +154,12 @@ public class View implements Observer {
                             break;
                         }
                     }
+                }
+                if(userInterface.equals("CLI")){
+                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
                 }
                 break;
             case newPosition:
@@ -117,6 +182,12 @@ public class View implements Observer {
                         }
                     }
                 }
+                if(userInterface.equals("CLI")){
+                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
                 break;
             case addDeathCounter:
                 if (ViewModelGate.getModel().getPlayers() != null) {
@@ -126,6 +197,12 @@ public class View implements Observer {
                             break;
                         }
                     }
+                }
+                if(userInterface.equals("CLI")){
+                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
                 }
                 break;
             case setFinalFrenzyBoard:
@@ -137,6 +214,12 @@ public class View implements Observer {
                         }
                     }
                 }
+                if(userInterface.equals("CLI")){
+                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
                 break;
             case newAmmoBox:
                 if (ViewModelGate.getModel().getPlayers() != null) {
@@ -146,6 +229,12 @@ public class View implements Observer {
                             break;
                         }
                     }
+                }
+                if(userInterface.equals("CLI")){
+                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
                 }
                 break;
             case newDamageTracker:
@@ -157,6 +246,12 @@ public class View implements Observer {
                         }
                     }
                 }
+                if(userInterface.equals("CLI")){
+                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
                 break;
             case newMarksTracker:
                 if (ViewModelGate.getModel().getPlayers() != null) {
@@ -166,6 +261,12 @@ public class View implements Observer {
                             break;
                         }
                     }
+                }
+                if(userInterface.equals("CLI")){
+                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
                 }
                 break;
 
@@ -179,6 +280,12 @@ public class View implements Observer {
                         }
                     }
                 }
+                if(userInterface.equals("CLI")){
+                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
                 break;
             case setStartingPlayer:
                 if(ViewModelGate.getModel().getPlayers() != null) {
@@ -189,9 +296,22 @@ public class View implements Observer {
                         }
                     }
                 }
+                if(userInterface.equals("CLI")){
+                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
                 break;
             case newPlayer:
                 ViewModelGate.getModel().getPlayers().getPlayers().add((PlayerV)MVE.getComponent());
+                if(userInterface.equals("CLI")){
+                    System.out.println("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
+                break;
 
             default:
                 throw new Exception("<CLIENT> MVE NOT RECOGNIZED");
