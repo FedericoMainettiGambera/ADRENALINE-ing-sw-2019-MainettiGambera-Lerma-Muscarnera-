@@ -1,5 +1,10 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
+import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
+import it.polimi.se2019.view.components.PlayerV;
+import it.polimi.se2019.view.components.PlayersListV;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +38,7 @@ public class PlayersList extends Observable implements Serializable {
     public void setCurrentPlayingPlayer(Player currentPlayingPlayer){
         this.currentPlayingPlayer = currentPlayingPlayer;
         setChanged();
-        notifyObservers("CURRENT PLAYING PLAYER");
+        notifyObservers(new ModelViewEvent(this.currentPlayingPlayer.getNickname(), ModelViewEventTypes.setCurrentPlayingPlayer));
     }
 
     public Player getStartingPlayer(){
@@ -43,7 +48,7 @@ public class PlayersList extends Observable implements Serializable {
     public void setStartingPlayer(Player startingPlayer){
         this.startingPlayer = startingPlayer;
         setChanged();
-        notifyObservers("STARTING PLAYER");
+        notifyObservers(new ModelViewEvent(this.startingPlayer.getNickname(), ModelViewEventTypes.setStartingPlayer));
     }
 
 
@@ -59,8 +64,6 @@ public class PlayersList extends Observable implements Serializable {
                 break;
             }
         }
-        setChanged();
-        notifyObservers("NEXT PLAYING PLAYER");
     }
 
 
@@ -70,7 +73,7 @@ public class PlayersList extends Observable implements Serializable {
     public void addPlayer(Player player) {
         this.players.add(player);
         setChanged();
-        notifyObservers("NEW PLAYER");
+        notifyObservers(new ModelViewEvent(player.buildPlayerV(), ModelViewEventTypes.newPlayer));
     }
 
     /**@param nickname
@@ -96,12 +99,23 @@ public class PlayersList extends Observable implements Serializable {
         return this.players.size();
     }
 
-    public void overwritePlayer(String nickname, Player player){
-        for (int i = 0; i < this.players.size(); i++) {
-            if(this.players.get(i).getNickname().equals(nickname)){
-                this.players.set(i, player);
-            }
+    public PlayersListV buildPlayersListV(){
+        PlayersListV playersListV = new PlayersListV();
+        List<PlayerV> listOfPlayerV = new ArrayList<>();
+        PlayerV tempPlayerV;
+        for (Player p : this.players) {
+            tempPlayerV = p.buildPlayerV();
+            listOfPlayerV.add(tempPlayerV);
         }
+        playersListV.setPlayers(listOfPlayerV);
+        if(this.startingPlayer!=null) {
+            playersListV.setStartingPlayer(this.startingPlayer.getNickname());
+        }
+        if(this.currentPlayingPlayer!=null) {
+            playersListV.setCurrentPlayingPlayer(this.currentPlayingPlayer.getNickname());
+        }
+
+        return playersListV;
     }
 
 }

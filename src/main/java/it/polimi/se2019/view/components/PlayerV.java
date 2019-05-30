@@ -28,6 +28,16 @@ public class PlayerV implements Serializable {
 
     private int Y;
 
+    private int numberOfDeaths;
+
+    public int getNumberOfDeaths() {
+        return numberOfDeaths;
+    }
+
+    public void setNumberOfDeaths(int numberOfDeaths) {
+        this.numberOfDeaths = numberOfDeaths;
+    }
+
     public int getY() {
         return Y;
     }

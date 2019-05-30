@@ -5,6 +5,7 @@ import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.SquareTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
+import it.polimi.se2019.view.components.BoardV;
 import it.polimi.se2019.virtualView.VirtualView;
 
 import java.io.BufferedReader;
@@ -279,5 +280,10 @@ public class Board{
             }
         }
         return false;
+    }
+
+    public BoardV buildBoardV(){
+        //TODO
+        return new BoardV();
     }
 }

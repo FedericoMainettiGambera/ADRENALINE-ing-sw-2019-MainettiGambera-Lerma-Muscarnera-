@@ -1,10 +1,14 @@
 package it.polimi.se2019.view.components;
 
 import it.polimi.se2019.model.*;
+import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.selectorEvents.*;
+import it.polimi.se2019.view.outputHandler.CLIOutputHandler;
+import it.polimi.se2019.view.outputHandler.GUIOutputHandler;
+import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
 import it.polimi.se2019.view.selector.ViewSelector;
 
 import java.lang.reflect.Array;
@@ -23,6 +27,13 @@ public class View implements Observer {
 
     public View(String networkConnection, String userInterface){
         this.userInterface = userInterface;
+        OutputHandlerGate.setUserIterface(userInterface);
+        if(userInterface.equals("CLI")){
+            OutputHandlerGate.setCLIOutputHandler(new CLIOutputHandler());
+        }
+        else{
+            OutputHandlerGate.setGUIOutputHandler(new GUIOutputHandler());
+        }
         this.networkConnection = networkConnection;
         this.selector = new ViewSelector(networkConnection);
         ViewModelGate.setModel(new GameV());
@@ -46,302 +57,280 @@ public class View implements Observer {
     }
 
     public void callCorrectComponent(ModelViewEvent MVE) throws Exception {
-        //Component name
-        String componentClassName = MVE.getComponent().getClass().toString();
-        String[] parts = componentClassName.split("\\.");
-        componentClassName = parts[componentClassName.length()-1];
+        ModelViewEventTypes information = MVE.getInformation();
 
-        //data
-        String information = MVE.getInformation();
-
-        //System.out.println("                                        <CLIENT> The " + className + " in the server has changed and it has sent this object: " + classNameArg);
-
-        switch (componentClassName){/*
-            case "GameV":
-                if(classNameArg.equals("String")){
-                    String arg = (String)MVE.getArg();
-                    Game obs = (Game)MVE.getO();
-                    if(arg.contains("FINAL FRENZY SETTED")){
-                        if(arg.contains("true")) {
-                            ViewModelGate.model = obs;
-                            if(this.userInterface.equals("CLI")) {
-                                System.out.println("<CLIENT> FF SET TO TRUE");
-                            }
-                            else{
-                                //UPDATE GUI
-                            }
-                        }
-                        else{
-                            ViewModelGate.model = obs;
-                            if(this.userInterface.equals("CLI")) {
-                                System.out.println("<CLIENT> FF SET TO FALSE");
-                            }
-                            else{
-                                //UPDATE GUI
-                            }
-                        }
-                    }
-                    else if(arg.contains("FINAL FRENZY HAS BEGUN")){
-                        if(arg.contains("true")) {
-                            ViewModelGate.model = obs;
-                            if(this.userInterface.equals("CLI")) {
-                                System.out.println("<CLIENT> FF BEGUN");
-                            }
-                            else{
-                                //UPDATE GUI
-                            }
-                        }
-                        else{
-                            ViewModelGate.model = obs;
-                            if(this.userInterface.equals("CLI")) {
-                                System.out.println("<CLIENT> FF NOT BEGUN");
-                            }
-                            else{
-                                //UPDATE GUI
-                            }
-                        }
-                    }
+        switch (information){
+            //from Game class
+            case setFinalFrenzy:
+                ViewModelGate.getModel().setFinalFrenzy((boolean)MVE.getComponent());
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
-                else if(classNameArg.equals("KillshotTrack")) {
-                    KillShotTrack arg = (KillShotTrack) MVE.getArg();
-                    ViewModelGate.model.setKillshotTrack(arg);
-                    if(this.userInterface.equals("CLI")) {
-                        System.out.println("<CLIENT> KILLSHOTTRACK SETTED");
-                    }
-                    else{
-                        //UPDATE GUI
-                    }
+                else{
 
                 }
-                else if(classNameArg.equals("PlayersList")) {
-                    PlayersList arg = (PlayersList)MVE.getArg();
-                    ViewModelGate.model.setPlayerList(arg);
-                    if(this.userInterface.equals("CLI")) {
-                        System.out.println("<CLIENT> PLAYERLIST SETTED");
-
-                    }
-                    else{
-                        //UPDATE GUI
-                    }
+                break;
+            case finalFrenzyBegun:
+                ViewModelGate.getModel().setHasFinalFrenzyBegun((boolean)MVE.getComponent());
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
-                else if(classNameArg.equals("Board")) {
-                    Board arg = (Board)MVE.getArg();
-                    ViewModelGate.model.setBoard(arg);
-                    if(this.userInterface.equals("CLI")) {
-                        System.out.println("<CLIENT> BOARD SETTED");
-                    }
-                    else{
-                        //UPDATE GUI
-                    }
+                else{
+
+                }
+                break;
+            case newKillshotTrack:
+                ViewModelGate.getModel().setKillshotTrack(new KillShotTrackV());
+                ViewModelGate.getModel().getKillshotTrack().setNumberOfStartingSkulls((int)MVE.getComponent());
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
+                break;
+            case newPlayersList:
+                ViewModelGate.getModel().setPlayers((PlayersListV)MVE.getComponent());
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
+                break;
+            case newBoard:
+                ViewModelGate.getModel().setBoard((BoardV)MVE.getComponent());
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
                 }
                 break;
 
-            case "KillShotTrackV":
-                //MVE.getArg() is null
-                if(this.userInterface.equals("CLI")) {
-                    ViewModelGate.model.setKillshotTrack((KillShotTrack) MVE.getO());
-                    if (this.userInterface.equals("CLI")) {
-                        System.out.println("<CLIENT> DEATH OF A PLAYER");
-                    } else {
-                        //UPDATE GUI
-                    }
+            //from KillshotTrack class
+            case deathOfPlayer:
+                ViewModelGate.getModel().setKillshotTrack((KillShotTrackV)MVE.getComponent());
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
                 }
                 break;
 
-            case "OrderedCardListV":
-                if(classNameArg.equals("WeaponCard")){
-                    if(this.userInterface.equals("CLI")) {
-                        System.out.println("<CLIENT> CARD HAS BEEN ADDED TO WEAPONCARD DECK, how can i know what ordered card list has changed???");
-                    }
-                    else{
-                        //UPDATE GUI
-                    }
+            //from OrderedCardList class
+            case movingFknCardsAround:
+                //TODO
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
-                else if(classNameArg.equals("PowerUpCard")){
-                    if(this.userInterface.equals("CLI")) {
-                        System.out.println("<CLIENT> CARD HAS BEEN ADDED TO POWER UP DECK, how can i know what ordered card list has changed???");
-                    }
-                    else{
-                        //UPDATE GUI
-                    }
+                else{
+
                 }
-                else if(classNameArg.equals("AmmoCard")){
-                    if(this.userInterface.equals("CLI")) {
-                        System.out.println("<CLIENT> CARD HAS BEEN ADDED TO AMMO CARD DECK, how can i know what ordered card list has changed???");
-                    }
-                    else{
-                        //UPDATE GUI
-                    }
+                break;
+            case shufflingFknCardsAround:
+                //TODO
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
-                else if(classNameArg.equals("OrderedCardList")){
-                    if(this.userInterface.equals("CLI")) {
-                        System.out.println("<CLIENT> ONE OR MORE CARDS HAS BEEN MOVED, how can i know what ordered card list has changed???");
-                    }
-                    else{
-                        //UPDATE GUI
-                    }
-                }
-                else if(classNameArg.equals("null")){
-                    //MVE.getArg() is null
-                    if(this.userInterface.equals("CLI")) {
-                        System.out.println("<CLIENT> ORDERED CARD LIST HAS BEEN SHUFFLED, how can i know what ordered card list has changed???");
-                    }
-                    else{
-                        //UPDATE GUI
-                    }
+                else{
+
                 }
                 break;
 
-            case "PlayerV":
-                if(classNameArg.equals("PlayersColors")){
-                    PlayersColors arg = (PlayersColors)MVE.getArg();
-                    Player obs = (Player)MVE.getO();
-                    ViewModelGate.model.getPlayerList().overwritePlayer(obs.getNickname(), obs);
-                    if(this.userInterface.equals("CLI")) {
-                        System.out.println("<CLIENT> PLAYER'S COLOR HAS BEEN SET");
-                    }
-                    else{
-                        //UPDATE GUI
-                    }
-                }
-                else if(classNameArg.equals("String")){
-                    String arg = (String)MVE.getArg();
-                    Player obs = (Player)MVE.getO();
-                    if(arg.equals("DEATH")){
-                        ViewModelGate.model.getPlayerList().getPlayer(obs.getNickname()).addDeath();
-                        if(this.userInterface.equals("CLI")) {
-                            System.out.println("<CLIENT> PLAYER'S DEATH COUNTER++");
-                        }
-                        else{
-                            //UPDATE GUI
-                        }
-
-                    }
-                    else if(arg.equals("FINAL FRENZY BOARD SETTED")){
-                        ViewModelGate.model.getPlayerList().getPlayer(obs.getNickname()).makePlayerBoardFinalFrenzy();
-                        if(this.userInterface.equals("CLI")) {
-                            System.out.println("<CLIENT> PLAYER'S FINAL FRENZY BOARD HAS BEEN SET");
-                        }
-                        else{
-                            //UPDATE GUI
-                        }
-                    }
-                    else {
-                        String oldName = arg.split("_")[1];
-                        String newName = arg.split("_")[0];
-                        ViewModelGate.model.getPlayerList().getPlayer(oldName).setNickname(newName);
-                        if(this.userInterface.equals("CLI")) {
-                            System.out.println("<CLIENT> PLAYER'S NICKNAME HAS BEEN SET");
-                        }
-                        else{
-                            //UPDATE GUI
+            //from Player class or Person class
+            case newColor:
+                if (ViewModelGate.getModel().getPlayers() != null) {
+                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
+                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
+                            p.setColor((PlayersColors) MVE.getComponent());
+                            break;
                         }
                     }
                 }
-                else if(classNameArg.equals("Position")){
-                    Player obs = (Player)MVE.getO();
-                    Position arg = (Position)MVE.getArg();
-                    ViewModelGate.model.getPlayerList().getPlayer(obs.getNickname()).setPosition(arg);
-                    if(this.userInterface.equals("CLI")) {
-                        System.out.println("<CLIENT> PLAYER'S POSITION HAS BEEN SET");
-                    }
-                    else{
-                        //UPDATE GUI
-                    }
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                 }
-                else if(classNameArg.equals("Integer")){
-                    Player obs = (Player)MVE.getO();
-                    Integer arg = (Integer)MVE.getArg();
-                    ViewModelGate.model.getPlayerList().getPlayer(obs.getNickname()).setScore(arg);
-                    if(this.userInterface.equals("CLI")) {
-                        System.out.println("<CLIENT> PLAYER'S SCORE HAS BEEN SET");
-                    }
-                    else{
-                        //UPDATE GUI
-                    }
-                }
-                else if(classNameArg.equals("AmmoList")){
-                    Player obs = (Player)MVE.getO();
-                    AmmoList arg = (AmmoList)MVE.getArg();
-                    ViewModelGate.model.getPlayerList().getPlayer(obs.getNickname()).getBoard().setAmmoBox(arg);
-                    if(this.userInterface.equals("CLI")) {
-                        System.out.println("<CLIENT> PLAYER'S AMMO BOX HAS CHANGED (ADDED OR REMOVED AMMO CUBES...)");
-                    }
-                    else{
-                        //UPDATE GUI
-                    }
-                }
-                else if(classNameArg.equals("DamageTracker")){
-                    Player obs = (Player)MVE.getO();
-                    DamagesTracker arg = (DamagesTracker)MVE.getArg();
-                    ViewModelGate.model.getPlayerList().getPlayer(obs.getNickname()).getBoard().setDamagesTracker(arg);
-                    if(this.userInterface.equals("CLI")) {
-                        System.out.println("<CLIENT> PLAYER'S DAMAGE TRACKER HAS CHANGED (RESET OR ADDED DAMAGES)");
-                    }
-                    else{
-                        //UPDATE GUI
-                    }
+                else{
 
                 }
-                else if(classNameArg.equals("MarksTracker")){
-                    Player obs = (Player)MVE.getO();
-                    MarksTracker arg = (MarksTracker)MVE.getArg();
-                    ViewModelGate.model.getPlayerList().getPlayer(obs.getNickname()).getBoard().setMarksTracker(arg);
-                    if(this.userInterface.equals("CLI")) {
-                        System.out.println("<CLIENT> PLAYER'S MARKS TRACKER HAS CHANGED (ADDED OR DELETED MARKS)");
+                break;
+            case newNickname:
+                if (ViewModelGate.getModel().getPlayers() != null) {
+                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
+                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
+                            p.setNickname((String) MVE.getComponent());
+                            break;
+                        }
                     }
-                    else{
-                        //UPDATE GUI
+                }
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
+                break;
+            case newPosition:
+                if (ViewModelGate.getModel().getPlayers() != null) {
+                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
+                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
+                            p.setX(((Position) MVE.getComponent()).getX());
+                            p.setY(((Position) MVE.getComponent()).getY());
+                            break;
+                        }
                     }
+                }
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
+                break;
+            case newScore:
+                if (ViewModelGate.getModel().getPlayers() != null) {
+                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
+                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
+                            p.setScore((int) MVE.getComponent());
+                            break;
+                        }
+                    }
+                }
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
+                break;
+            case addDeathCounter:
+                if (ViewModelGate.getModel().getPlayers() != null) {
+                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
+                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
+                            p.setNumberOfDeaths((int) MVE.getComponent());
+                            break;
+                        }
+                    }
+                }
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
+                break;
+            case setFinalFrenzyBoard:
+                if (ViewModelGate.getModel().getPlayers() != null) {
+                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
+                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
+                            p.setHasFinalFrenzyBoard((boolean) MVE.getComponent());
+                            break;
+                        }
+                    }
+                }
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
+                break;
+            case newAmmoBox:
+                if (ViewModelGate.getModel().getPlayers() != null) {
+                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
+                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
+                            p.setAmmoBox((AmmoListV) MVE.getComponent());
+                            break;
+                        }
+                    }
+                }
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
+                break;
+            case newDamageTracker:
+                if (ViewModelGate.getModel().getPlayers() != null) {
+                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
+                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
+                            p.setDamageTracker((DamageTrackerV) MVE.getComponent());
+                            break;
+                        }
+                    }
+                }
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
+                break;
+            case newMarksTracker:
+                if (ViewModelGate.getModel().getPlayers() != null) {
+                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
+                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
+                            p.setMarksTracker((MarksTrackerV) MVE.getComponent());
+                            break;
+                        }
+                    }
+                }
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
                 }
                 break;
 
-            case "PlayersListV":
-                if(classNameArg.equals("String")){
-                    String arg = (String)MVE.getArg();
-                    PlayersList obs = (PlayersList)MVE.getO();
-                    if(arg.equals("CURRENT PLAYING PLAYER")){
-                        ViewModelGate.model.setPlayerList(obs);
-                        if(this.userInterface.equals("CLI")) {
-                            System.out.println("<CLIENT> CURRENT PLAYING PLAYER HAS BEEN SETTED");
-                        }
-                        else{
-                            //UPDATE GUI
+            //from PlayerList class
+            case setCurrentPlayingPlayer:
+                if (ViewModelGate.getModel().getPlayers() != null) {
+                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
+                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
+                            ViewModelGate.getModel().getPlayers().setCurrentPlayingPlayer(p.getNickname());
+                            break;
                         }
                     }
-                    else if(arg.equals("STARTING PLAYER")){
-                        ViewModelGate.model.setPlayerList(obs);
-                        if(this.userInterface.equals("CLI")) {
-                            System.out.println("<CLIENT> STARTING PLAYING PLAYER HAS BEEN SETTED");
-                        }
-                        else{
-                            //UPDATE GUI
-                        }
-                    }
-                    else if(arg.equals("NEXT PLAYING PLAYER")){
-                        ViewModelGate.model.setPlayerList(obs);
-                        if(this.userInterface.equals("CLI")) {
-                            System.out.println("<CLIENT> CURRENT PLAYING PLAYER HAS CHANGED AS NExT PLAYING PLAYER");
-                        }
-                        else{
-                            //UPDATE GUI
+                }
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
+                break;
+            case setStartingPlayer:
+                if(ViewModelGate.getModel().getPlayers() != null) {
+                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
+                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
+                            ViewModelGate.getModel().getPlayers().setStartingPlayer(p.getNickname());
+                            break;
                         }
                     }
-                    else if(arg.equals("NEW PLAYER")){
-                        ViewModelGate.model.setPlayerList(obs);
-                        if(this.userInterface.equals("CLI")) {
-                            System.out.println("<CLIENT> NEW PLAYER HAS BEEN ADDED TO THE PLAYERS LIST");
-                        }
-                        else {
-                            //UPDATE GUI
-                        }
-                    }
+                }
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
+                }
+                break;
+            case newPlayer:
+                ViewModelGate.getModel().getPlayers().getPlayers().add((PlayerV)MVE.getComponent());
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+                }
+                else{
+
                 }
                 break;
 
             default:
                 throw new Exception("<CLIENT> MVE NOT RECOGNIZED");
-            */
 
         }
 

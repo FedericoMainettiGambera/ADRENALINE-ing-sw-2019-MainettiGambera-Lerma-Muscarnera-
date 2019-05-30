@@ -1,5 +1,6 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.view.components.GameV;
 import it.polimi.se2019.virtualView.VirtualView;
@@ -80,7 +81,7 @@ public class Game extends Observable implements Serializable {
     public void setFinalFrenzy(boolean isFinalFrenzy){
         this.isFinalFrenzy = isFinalFrenzy;
         setChanged();
-        notifyObservers(new ModelViewEvent(this.buildGameV(), "FINAL FRENZY SETTED :" + this.isFinalFrenzy));
+        notifyObservers(new ModelViewEvent(this.isFinalFrenzy, ModelViewEventTypes.setFinalFrenzy));
     }
 
     public boolean isFinalFrenzy(){
@@ -94,7 +95,7 @@ public class Game extends Observable implements Serializable {
     public void triggerFinalFrenzy(boolean hasFinalFrenzyBegun){
         this.hasFinalFrenzyBegun = hasFinalFrenzyBegun;
         setChanged();
-        notifyObservers("FINAL FRENZY HAS BEGUN :" + this.hasFinalFrenzyBegun);
+        notifyObservers(new ModelViewEvent(this.hasFinalFrenzyBegun, ModelViewEventTypes.finalFrenzyBegun));
     }
 
 
@@ -117,7 +118,7 @@ public class Game extends Observable implements Serializable {
     public void setKillshotTrack(KillShotTrack killshotTrack) {
         this.killshotTrack = killshotTrack;
         setChanged();
-        notifyObservers(this.killshotTrack);
+        notifyObservers(new ModelViewEvent(this.killshotTrack.getNumberOfRemainingSkulls(), ModelViewEventTypes.newKillshotTrack));
     }
 
     /***/
@@ -184,7 +185,7 @@ public class Game extends Observable implements Serializable {
     public void setPlayerList(PlayersList players) {
         this.players = players;
         setChanged();
-        notifyObservers(this.players);
+        notifyObservers(new ModelViewEvent(this.players.buildPlayersListV(), ModelViewEventTypes.newPlayersList));
     }
 
     /***/
@@ -210,7 +211,7 @@ public class Game extends Observable implements Serializable {
     public void setBoard(Board board) {
         this.board = board;
         setChanged();
-        notifyObservers(this.board);
+        notifyObservers(new ModelViewEvent(this.board.buildBoardV(), ModelViewEventTypes.newBoard));
     }
 
     /***/
@@ -221,12 +222,5 @@ public class Game extends Observable implements Serializable {
     /***/
     public OrderedCardList<PowerUpCard> getPowerUpDiscardPile() {
         return powerUpDiscardPile;
-    }
-
-    public GameV buildGameV(){
-        GameV gameV = new GameV();
-        //gameV.setAmmoDeck(this.getAmmoDeck().buildDeckV());
-        //gameV.setAmmoDiscardPile(this.getAmmoDiscardPile().buildDeckV());
-        return gameV;
     }
 }

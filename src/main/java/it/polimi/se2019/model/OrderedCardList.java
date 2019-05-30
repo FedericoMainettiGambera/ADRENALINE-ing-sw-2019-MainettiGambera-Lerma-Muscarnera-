@@ -1,5 +1,9 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
+import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
+import it.polimi.se2019.view.components.OrderedCardListV;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,8 +56,6 @@ public class OrderedCardList<T> extends Observable implements Serializable {
      */
     public void addCard(T card){
         this.cards.add(card);
-        setChanged();
-        notifyObservers(card);
     }
 
     /**Remove card from the list
@@ -79,8 +81,11 @@ public class OrderedCardList<T> extends Observable implements Serializable {
         if(this.getCard(cardID) != null) {
             to.getCards().add(this.getCard(cardID));
             this.removeCard(cardID);
+
+            //TODO
             setChanged();
-            notifyObservers(to);
+            notifyObservers(new ModelViewEvent(null, ModelViewEventTypes.movingFknCardsAround));
+
             return true;
         }
         else{
@@ -95,15 +100,25 @@ public class OrderedCardList<T> extends Observable implements Serializable {
         for (int i = 0; i < this.cards.size(); i++) {
             to.getCards().add(this.cards.get(i));
             this.cards.remove(i);
+
+            //TODO
             setChanged();
-            notifyObservers(to);
+            notifyObservers(new ModelViewEvent(null, ModelViewEventTypes.movingFknCardsAround));
         }
     }
 
     /**shuffles all cards in this ordered card list*/
     public void shuffle() {
         Collections.shuffle(this.cards);
+
+        //TODO
         setChanged();
-        notifyObservers(null);
+        notifyObservers(new ModelViewEvent(null, ModelViewEventTypes.shufflingFknCardsAround));
+    }
+
+    public OrderedCardListV buildDeckV(String typeOfCards){
+        //typeOfCards: ["PowerUpCard"/"WeaponCard"/"AmmoCard"]
+        //TODO
+        return new OrderedCardListV();
     }
 }
