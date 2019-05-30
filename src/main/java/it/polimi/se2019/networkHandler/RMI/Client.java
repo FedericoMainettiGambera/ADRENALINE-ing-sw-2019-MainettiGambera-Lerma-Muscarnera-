@@ -12,13 +12,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.rmi.*;
+
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.RemoteObjectInvocationHandler;
-import java.rmi.server.ServerNotActiveException;
-import java.rmi.server.UnicastRemoteObject;
+import java.rmi.server.*;
 import java.net.MalformedURLException;
 import java.util.Observable;
 import java.util.Scanner;
@@ -158,27 +159,30 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
         clientName = scanner.nextLine();
         System.out.println("<Playerino>Connecting To RMI Server...");
 
-        System.setProperty("java.rmi.https://AdrenalineServer", "192.168.x.x");
+        System.setProperty("java.rmi.http://AdrenalineServer", "192.168.x.x");
         Registry reg ;
 try {
 
 
     System.out.println("Insert IP:");
     Scanner scanner1=new Scanner(System.in);
+    String IP =scanner1.nextLine();
+    System.out.println("Insert port");
+    int port= scanner1.nextInt();
 
 
-    reg = LocateRegistry.getRegistry(scanner.nextLine(), 1099);
-    RMIInterface chatinterface = (RMIInterface) reg.lookup("https://AdrenalineServer:1099");
+    reg = LocateRegistry.getRegistry(IP, port);
+    RMIInterface chatinterface = (RMIInterface) reg.lookup("http://AdrenalineServer:1099");
 
+    // RMISocketFactory.getDefaultSocketFactory().createSocket(IP, port);
 
-        if( chatinterface.numberOfConnection().getNumber()<5  )
+        if(chatinterface.numberOfConnection().getNumber()< 5  )
         {
             client= new Client(chatinterface, chatinterface.getRmiIdentifier());
 
             chatinterface.setRmiIdentifier();
             chatinterface.addClientToList(client);
             chatinterface.numberOfConnection().addNumber();
-
 
             Thread thread=new Thread(client);
             thread.start();

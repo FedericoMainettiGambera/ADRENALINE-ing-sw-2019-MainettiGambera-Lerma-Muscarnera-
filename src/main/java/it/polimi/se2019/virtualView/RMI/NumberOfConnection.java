@@ -13,8 +13,8 @@ public class NumberOfConnection implements Serializable {
        return number;
    }
    public void addNumber(){
-number++;   }
-public void lessNumber(){
+      number++;   }
+   public void lessNumber(){
        number--;
 }
 }
