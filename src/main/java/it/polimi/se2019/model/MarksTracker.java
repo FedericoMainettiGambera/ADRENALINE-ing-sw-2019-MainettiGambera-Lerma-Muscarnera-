@@ -1,5 +1,8 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.view.components.MarkSlotV;
+import it.polimi.se2019.view.components.MarksTrackerV;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,5 +80,20 @@ public class MarksTracker implements Serializable {
                 return;
             }
         }
+    }
+
+    public MarksTrackerV buildMarksTrackerV(){
+        MarksTrackerV marksTrackerV = new MarksTrackerV();
+        List<MarkSlotV> listOfMarksSlotV = new ArrayList<>();
+        MarkSlotV tempMark;
+        for (MarkSlots m : this.markSlotsList) {
+            tempMark = new MarkSlotV();
+            tempMark.setMarkingPlayer(m.getMarkingPlayer().getNickname());
+            tempMark.setQuantity(m.getQuantity());
+            listOfMarksSlotV.add(tempMark);
+        }
+        marksTrackerV.setMarkSlotsList(listOfMarksSlotV);
+
+        return marksTrackerV;
     }
 }

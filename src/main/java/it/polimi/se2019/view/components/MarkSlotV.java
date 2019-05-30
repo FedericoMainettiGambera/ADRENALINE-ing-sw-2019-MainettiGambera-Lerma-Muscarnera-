@@ -6,17 +6,17 @@ public class MarkSlotV implements Serializable {
     private int quantity;
 
     /**marking player*/
-    private PlayerV markingPlayer;
+    private String markingPlayer;
 
     public int getQuantity() {
         return quantity;
     }
 
-    public PlayerV getMarkingPlayer() {
+    public String getMarkingPlayer() {
         return markingPlayer;
     }
 
-    public void setMarkingPlayer(PlayerV markingPlayer) {
+    public void setMarkingPlayer(String markingPlayer) {
         this.markingPlayer = markingPlayer;
     }
 

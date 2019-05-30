@@ -1,6 +1,9 @@
 package it.polimi.se2019.model;
 
 
+import it.polimi.se2019.view.components.DamageSlotV;
+import it.polimi.se2019.view.components.DamageTrackerV;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,5 +83,19 @@ public class DamagesTracker implements Serializable {
      * */
     public void emptyList() {
         this.damageSlotsList = new ArrayList<>();
+    }
+
+    public DamageTrackerV buildDamageTrackerV(){
+        DamageTrackerV damageTrackerV = new DamageTrackerV();
+        List<DamageSlotV> listOfDamageSlotV = new ArrayList<>();
+        DamageSlotV tempDamageSlotV;
+        for (DamageSlot d:this.damageSlotsList) {
+            tempDamageSlotV = new DamageSlotV();
+            tempDamageSlotV.setShootingPlayer(d.getShootingPlayer().getColor());
+            listOfDamageSlotV.add(tempDamageSlotV);
+        }
+        damageTrackerV.setDamageSlotsList(listOfDamageSlotV);
+
+        return damageTrackerV;
     }
 }

@@ -7,9 +7,9 @@ import java.util.List;
 public class PlayersListV implements Serializable {
     private List<PlayerV> players;
 
-    private PlayerV currentPlayingPlayer;
+    private String currentPlayingPlayer;
 
-    private PlayerV startingPlayer;
+    private String startingPlayer;
 
     public void setPlayers(List<PlayerV> players) {
         this.players = players;
@@ -19,19 +19,19 @@ public class PlayersListV implements Serializable {
         return players;
     }
 
-    public PlayerV getCurrentPlayingPlayer() {
+    public String getCurrentPlayingPlayer() {
         return currentPlayingPlayer;
     }
 
-    public PlayerV getStartingPlayer() {
+    public String getStartingPlayer() {
         return startingPlayer;
     }
 
-    public void setCurrentPlayingPlayer(PlayerV currentPlayingPlayer) {
+    public void setCurrentPlayingPlayer(String currentPlayingPlayer) {
         this.currentPlayingPlayer = currentPlayingPlayer;
     }
 
-    public void setStartingPlayer(PlayerV startingPlayer) {
+    public void setStartingPlayer(String startingPlayer) {
         this.startingPlayer = startingPlayer;
     }
 }

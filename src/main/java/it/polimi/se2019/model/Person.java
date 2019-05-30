@@ -1,7 +1,10 @@
 package it.polimi.se2019.model;
 
+import com.sun.xml.internal.ws.policy.sourcemodel.ModelNode;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
+import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.enumerations.PlayersColors;
+import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,12 +53,12 @@ public abstract class Person extends Observable implements Serializable {
     public void setColor(PlayersColors color) {
         this.color = color;
         setChanged();
-        notifyObservers(color);
+        notifyObservers(new ModelViewEvent(color, ModelViewEventTypes.newColor, nickname));
     }
 
     public void setNickname(String nickname){
         setChanged();
-        notifyObservers(nickname + "_" + this.nickname);
+        notifyObservers(new ModelViewEvent(nickname, ModelViewEventTypes.newNickname, this.nickname));
         this.nickname = nickname;
     }
 
@@ -68,7 +71,7 @@ public abstract class Person extends Observable implements Serializable {
         try{
             this.position = new Position(x,y);
             setChanged();
-            notifyObservers(this.position);
+            notifyObservers(new ModelViewEvent(position, ModelViewEventTypes.newPosition, this.nickname));
         }
         catch (IllegalArgumentException e){
             System.out.println(e.toString());
@@ -78,7 +81,7 @@ public abstract class Person extends Observable implements Serializable {
     public void setPosition(Position position){
         this.position = position;
         setChanged();
-        notifyObservers(this.position);
+        notifyObservers(new ModelViewEvent(position, ModelViewEventTypes.newPosition, this.nickname));
     }
 
     /**@return person's position+
@@ -92,7 +95,7 @@ public abstract class Person extends Observable implements Serializable {
     public void addPoints(int points) {
         this.score+=points;
         setChanged();
-        notifyObservers(this.score);
+        notifyObservers(new ModelViewEvent(score, ModelViewEventTypes.newScore, nickname));
     }
 
     /***/
@@ -123,7 +126,7 @@ public abstract class Person extends Observable implements Serializable {
     public void addDeath() {
         this.board.addDeath();
         setChanged();
-        notifyObservers("DEATH");
+        notifyObservers(new ModelViewEvent(this.getDeathCounter(), ModelViewEventTypes.addDeathCounter, nickname));
     }
 
     public void setScore(int score){
@@ -172,7 +175,11 @@ public abstract class Person extends Observable implements Serializable {
         this.hasFinalFrenzyBoard = true;
         this.board.resetDeathCounter();
         setChanged();
-        notifyObservers("FINAL FRENZY BOARD SETTED");
+        notifyObservers(new ModelViewEvent(this.hasFinalFrenzyBoard, ModelViewEventTypes.setFinalFrenzyBoard, nickname));
+    }
+
+    public boolean isHasFinalFrenzyBoard() {
+        return hasFinalFrenzyBoard;
     }
 
     public ArrayList<Player> getPlayersDamageRank(){
@@ -272,7 +279,7 @@ public abstract class Person extends Observable implements Serializable {
     public void addAmmoCubes(AmmoCubesColor color, int quantity) {
         this.board.addAmmoCubes(color, quantity);
         setChanged();
-        notifyObservers(this.board.getAmmoBox());
+        notifyObservers(new ModelViewEvent(this.board.getAmmoBox().buildAmmoListV(), ModelViewEventTypes.newAmmoBox, nickname));
     }
 
     /**adding ammo to the player ammo box
@@ -281,7 +288,7 @@ public abstract class Person extends Observable implements Serializable {
     public void addAmmoCubes(AmmoList ammoList){
         this.board.addAmmoCubes(ammoList);
         setChanged();
-        notifyObservers(this.board.getAmmoBox());
+        notifyObservers(new ModelViewEvent(this.board.getAmmoBox().buildAmmoListV(), ModelViewEventTypes.newAmmoBox, nickname));
     }
 
     /**subtract a specific amount of ammos.
@@ -293,7 +300,7 @@ public abstract class Person extends Observable implements Serializable {
     public boolean payAmmoCubes(AmmoCubesColor color, int quantity){
         if(this.board.payAmmoCubes(color, quantity)) {
             setChanged();
-            notifyObservers(this.board.getAmmoBox());
+            notifyObservers(new ModelViewEvent(this.board.getAmmoBox().buildAmmoListV(), ModelViewEventTypes.newAmmoBox, nickname));
             return true;
         }
         else return false;
@@ -306,7 +313,7 @@ public abstract class Person extends Observable implements Serializable {
     public boolean payAmmoCubes(AmmoList cost){
         if(this.board.payAmmoCubes(cost)){
             setChanged();
-            notifyObservers(this.board.getAmmoBox());
+            notifyObservers(new ModelViewEvent(this.board.getAmmoBox().buildAmmoListV(), ModelViewEventTypes.newAmmoBox, nickname));
             return true;
         }
         else{
@@ -337,7 +344,7 @@ public abstract class Person extends Observable implements Serializable {
             shootingPlayer.addMarksFrom( (Player)this, 1);
         }
         setChanged();
-        notifyObservers(this.board.getDamagesTracker());
+        notifyObservers(new ModelViewEvent(this.board.getDamagesTracker().buildDamageTrackerV(), ModelViewEventTypes.newDamageTracker, nickname));
     }
 
     /** takes away all the damages from the player board.
@@ -345,7 +352,7 @@ public abstract class Person extends Observable implements Serializable {
     public void emptyDamagesTracker(){
         this.board.emptyDamagesTracker();
         setChanged();
-        notifyObservers(this.board.getDamagesTracker());
+        notifyObservers(new ModelViewEvent(this.board.getDamagesTracker().buildDamageTrackerV(), ModelViewEventTypes.newDamageTracker, nickname));
     }
 
     /**checks if the player has received at least 11 damages (is dead)
@@ -391,7 +398,7 @@ public abstract class Person extends Observable implements Serializable {
     public void addMarksFrom(Player markingPlayer, int quantity){
         this.board.addMarksFrom(markingPlayer,quantity);
         setChanged();
-        notifyObservers(this.board.getMarksTracker());
+        notifyObservers(new ModelViewEvent(this.board.getMarksTracker().buildMarksTrackerV(), ModelViewEventTypes.newMarksTracker, nickname));
     }
 
     /**return the number of marks the player has received from the markingPlayer
@@ -416,6 +423,6 @@ public abstract class Person extends Observable implements Serializable {
         addDamages(shootingPlayer, this.getMarksFrom(shootingPlayer));
         deleteMarksFromPlayer(shootingPlayer);
         setChanged();
-        notifyObservers(this.board.getMarksTracker());
+        notifyObservers(new ModelViewEvent(this.board.getMarksTracker().buildMarksTrackerV(), ModelViewEventTypes.newMarksTracker, nickname));
     }
 }

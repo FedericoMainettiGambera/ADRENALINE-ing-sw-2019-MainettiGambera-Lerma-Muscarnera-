@@ -1,6 +1,8 @@
 package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
+import it.polimi.se2019.view.components.AmmoCubesV;
+import it.polimi.se2019.view.components.AmmoListV;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -144,5 +146,20 @@ public class AmmoList implements Serializable {
             s += this.ammoCubesList.get(i).getColor() + ": " + this.ammoCubesList.get(i).getQuantity() + "\n    ";
         }
         return s;
+    }
+
+    public AmmoListV buildAmmoListV(){
+        AmmoListV ammoListV = new AmmoListV();
+        List<AmmoCubesV> listOfAmmoCubesV = new ArrayList<>();
+        AmmoCubesV tempAmmoCube;
+        for (AmmoCubes ammoCubes: this.ammoCubesList) {
+            tempAmmoCube = new AmmoCubesV();
+            tempAmmoCube.setColor(ammoCubes.getColor());
+            tempAmmoCube.setQuantity(ammoCubes.getQuantity());
+            listOfAmmoCubesV.add(tempAmmoCube);
+        }
+        ammoListV.setAmmoCubesList(listOfAmmoCubesV);
+
+        return ammoListV;
     }
 }

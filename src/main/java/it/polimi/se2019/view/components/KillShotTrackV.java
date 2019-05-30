@@ -5,6 +5,8 @@ import java.util.List;
 
 public class KillShotTrackV implements Serializable {
 
+    private int numberOfStartingSkulls;
+
     private List<KillsV> killsV;
 
     public List<KillsV> getKillsV() {
@@ -13,5 +15,13 @@ public class KillShotTrackV implements Serializable {
 
     public void setKillsV(List<KillsV> killsV) {
         this.killsV = killsV;
+    }
+
+    public int getNumberOfStartingSkulls() {
+        return numberOfStartingSkulls;
+    }
+
+    public void setNumberOfStartingSkulls(int numberOfStartingSkulls) {
+        this.numberOfStartingSkulls = numberOfStartingSkulls;
     }
 }

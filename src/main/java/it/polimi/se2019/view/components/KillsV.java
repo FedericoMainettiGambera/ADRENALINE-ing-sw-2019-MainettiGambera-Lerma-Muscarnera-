@@ -7,11 +7,11 @@ import java.io.Serializable;
 public class KillsV implements Serializable {
     private boolean isSkull;
 
-    private Player killingPlayer;
+    private String killingPlayer;
 
     private boolean isOverKill;
 
-    private Player overKillingPlayer;
+    private String overKillingPlayer;
 
     public boolean isSkull() {
         return isSkull;
@@ -21,19 +21,19 @@ public class KillsV implements Serializable {
         return isOverKill;
     }
 
-    public Player getKillingPlayer() {
+    public String getKillingPlayer() {
         return killingPlayer;
     }
 
-    public Player getOverKillingPlayer() {
+    public String getOverKillingPlayer() {
         return overKillingPlayer;
     }
 
-    public void setKillingPlayer(Player killingPlayer) {
+    public void setKillingPlayer(String killingPlayer) {
         this.killingPlayer = killingPlayer;
     }
 
-    public void setOverKillingPlayer(Player overKillingPlayer) {
+    public void setOverKillingPlayer(String overKillingPlayer) {
         this.overKillingPlayer = overKillingPlayer;
     }
 

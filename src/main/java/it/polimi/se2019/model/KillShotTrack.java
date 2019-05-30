@@ -1,6 +1,10 @@
 package it.polimi.se2019.model;
 
 
+import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
+import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
+import it.polimi.se2019.view.components.KillShotTrackV;
+import it.polimi.se2019.view.components.KillsV;
 import it.polimi.se2019.virtualView.VirtualView;
 
 import java.io.Serializable;
@@ -58,7 +62,7 @@ public class KillShotTrack extends Observable implements Serializable {
                 }
                 numberOfRemainingSkulls--;
                 setChanged();
-                notifyObservers(null);
+                notifyObservers(new ModelViewEvent(this.buildKillshotTrackV(), ModelViewEventTypes.deathOfPlayer));
             }
             catch(Exception e){
                 e.printStackTrace();
@@ -71,4 +75,29 @@ public class KillShotTrack extends Observable implements Serializable {
         return (this.numberOfRemainingSkulls <= 0);
     }
 
+    public int getNumberOfRemainingSkulls() {
+        return numberOfRemainingSkulls;
+    }
+
+    public KillShotTrackV buildKillshotTrackV(){
+        KillShotTrackV killShotTrackV = new KillShotTrackV();
+        List<KillsV> listOfKillsV = new ArrayList<>();
+        KillsV tempKill;
+        for (Kill k: this.kills) {
+            tempKill = new KillsV();
+            try {
+                tempKill.setKillingPlayer(k.getKillingPlayer().getNickname());
+                tempKill.setSkull(k.isSkull());
+                tempKill.setOverKill(k.isOverKill());
+                tempKill.setOverKillingPlayer(k.getOverKillingPlayer().getNickname());
+                listOfKillsV.add(tempKill);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        killShotTrackV.setKillsV(listOfKillsV);
+        killShotTrackV.setNumberOfStartingSkulls(this.numberOfRemainingSkulls);
+
+        return killShotTrackV;
+    }
 }

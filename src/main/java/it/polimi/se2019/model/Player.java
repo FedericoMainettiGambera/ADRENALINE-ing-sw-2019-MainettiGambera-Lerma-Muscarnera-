@@ -1,5 +1,8 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.view.components.PlayerV;
+import it.polimi.se2019.view.components.PowerUpCardV;
+import it.polimi.se2019.view.components.WeaponCardV;
 import it.polimi.se2019.virtualView.RMI.RMIInterface;
 
 import java.io.ObjectOutputStream;
@@ -101,4 +104,23 @@ public class Player extends Person implements Serializable {
         return this.hand.getPowerUpCards();
     }
 
+    public PlayerV buildPlayerV(){
+        PlayerV playerV = new PlayerV();
+        playerV.setMarksTracker(this.getBoard().getMarksTracker().buildMarksTrackerV());
+        playerV.setDamageTracker(this.getBoard().getDamagesTracker().buildDamageTrackerV());
+        playerV.setAmmoBox(this.getBoard().getAmmoBox().buildAmmoListV());
+        playerV.setHasFinalFrenzyBoard(this.isHasFinalFrenzyBoard());
+        playerV.setNumberOfDeaths(this.getBoard().getDeathCounter());
+        playerV.setScore(this.getScore());
+        if(this.getPosition() != null) {
+            playerV.setX(this.getPosition().getX());
+            playerV.setY(this.getPosition().getY());
+        }
+        playerV.setNickname(getNickname());
+        playerV.setColor(getColor());
+        playerV.setPowerUpCardInHand(this.getPowerUpCardsInHand().buildDeckV("PowerUpCard"));
+        playerV.setWeaponCardInHand(this.getWeaponCardsInHand().buildDeckV("WeaponCard"));
+
+        return playerV;
+    }
 }
