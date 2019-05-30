@@ -14,11 +14,11 @@ public class Game extends Observable implements Serializable {
 
     /***/
     public Game() {
-        this.powerUpDeck = new OrderedCardList<>();
-        this.weaponDeck = new OrderedCardList<>();
-        this.ammoDeck = new OrderedCardList<>();
-        this.ammoDiscardPile = new OrderedCardList<>();
-        this.powerUpDiscardPile = new OrderedCardList<>();
+        this.powerUpDeck = new OrderedCardList<>("powerUpDeck");
+        this.weaponDeck = new OrderedCardList<>("weaponDeck");
+        this.ammoDeck = new OrderedCardList<>("ammoDeck");
+        this.ammoDiscardPile = new OrderedCardList<>("ammoDiscardPile");
+        this.powerUpDiscardPile = new OrderedCardList<>("powerUpDiscardPile");
     }
 
     /***/
@@ -129,7 +129,7 @@ public class Game extends Observable implements Serializable {
     public void buildDecks() {
 
         //builds weapon cards
-        OrderedCardList<WeaponCard> tempWeaponDeck = new OrderedCardList<>();
+        OrderedCardList<WeaponCard> tempWeaponDeck = new OrderedCardList<>("weaponDeck");
         File directory = new File("src/main/Files/cards/weaponCards");     // insert here path to weapon cards folder
         int fileCount = directory.list().length;
         for(int i = 1; i< fileCount+1; i++) {
@@ -147,7 +147,7 @@ public class Game extends Observable implements Serializable {
         }
         /*
         //builds power up cards
-        OrderedCardList<PowerUpCard> tempPowerUpDeck = new OrderedCardList<>();
+        OrderedCardList<PowerUpCard> tempPowerUpDeck = new OrderedCardList<>("powerUpDeck);
         directory = new File("src/main/Files/cards/powerUpCards");          // insert here path to power up cards folder
         fileCount = directory.list().length;
         for(int i = 1; i< fileCount;i++) {
@@ -162,7 +162,7 @@ public class Game extends Observable implements Serializable {
         }
 
         //builds ammo cards
-        OrderedCardList<AmmoCard> tempAmmoDeck = new OrderedCardList<>();
+        OrderedCardList<AmmoCard> tempAmmoDeck = new OrderedCardList<>("ammoDeck");
         directory = new File("src/main/Files/cards/ammoCards");          // insert here path to ammo cards folder
         fileCount = directory.list().length;
         for(int i = 1; i< fileCount;i++) {

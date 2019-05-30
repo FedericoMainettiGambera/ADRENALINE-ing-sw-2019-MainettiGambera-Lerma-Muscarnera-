@@ -1,10 +1,11 @@
 package it.polimi.se2019.controller;
 
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 public class testRMIServer {
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
 
         System.setProperty("java.rmi.Server.hostname", "192.168.x.x");
 

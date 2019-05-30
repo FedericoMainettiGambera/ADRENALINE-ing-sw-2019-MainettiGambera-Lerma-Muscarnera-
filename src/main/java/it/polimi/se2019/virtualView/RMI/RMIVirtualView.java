@@ -13,10 +13,12 @@ import it.polimi.se2019.virtualView.VirtualView;
 import sun.net.util.IPAddressUtil;
 import sun.security.x509.IPAddressName;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.RMISocketFactory;
 import java.rmi.server.RemoteRef;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -131,8 +133,18 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
         this.RmiObsVirtualView.notify(VCE);
     }
 
+    @Override
+    public void removeClient(int rmiIdentifier) throws RemoteException{
 
-    public void startServer() throws RemoteException {
+        clientList.remove(rmiIdentifier);
+        for (RMIInterface client: clientList
+             ) { System.out.println("still playing: "+client.getName());
+        }
+
+    }
+
+
+    public void startServer() throws IOException {
 
         System.out.println("<SERVER>Creating the Game.");
         ModelGate.model = new Game();
@@ -143,18 +155,26 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
         RMIInterface RMIS = new RMIVirtualView(controller);
 
 
+
+
         RMIInterface stub = (RMIInterface) UnicastRemoteObject.exportObject(RMIS, port);
         Registry reg = LocateRegistry.createRegistry(port);
-        reg.rebind(name+ port, stub);
+        reg.rebind(name+port, stub);
         String address=new String();
-try {
-     address= InetAddress.getLocalHost().getHostAddress();
 
-}catch(Exception e){System.out.println("error");};
+
+//         RMISocketFactory.getDefaultSocketFactory().createServerSocket(port);
+
+
+        try {
+             address= InetAddress.getLocalHost().getHostAddress();
+
+        }catch(Exception e){System.out.println("error");};
 
 
         System.out.println("<SEVERINO>Ciao," + "sei connesso al server Rmi di Adrenaline! Benvenuto!\n");
         System.out.println("Server running on"+address);
+
 
     }
 

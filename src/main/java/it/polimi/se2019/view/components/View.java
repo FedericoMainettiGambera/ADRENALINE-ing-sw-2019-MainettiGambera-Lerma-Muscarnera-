@@ -341,19 +341,19 @@ public class View implements Observer {
 
     public void setOrderedCardListV(OrderedCardListV orderedCardListV){
         if(orderedCardListV.getContext().contains("powerUpDeck")){
-            ViewModelGate.getModel().setPowerUpDeck((OrderedCardListV) MVE.getComponent());
+            ViewModelGate.getModel().setPowerUpDeck(orderedCardListV);
         }
         else if(orderedCardListV.getContext().contains("weaponDeck")){
-            ViewModelGate.getModel().setWeaponDeck(((OrderedCardListV) MVE.getComponent()));
+            ViewModelGate.getModel().setWeaponDeck(orderedCardListV);
         }
         else if(orderedCardListV.getContext().contains("powerUpDeck")){
-            ViewModelGate.getModel().setAmmoDeck((OrderedCardListV) MVE.getComponent());
+            ViewModelGate.getModel().setAmmoDeck(orderedCardListV);
         }
         else if(orderedCardListV.getContext().contains("ammoDiscardPile")){
-            ViewModelGate.getModel().setAmmoDiscardPile((OrderedCardListV) MVE.getComponent());
+            ViewModelGate.getModel().setAmmoDiscardPile(orderedCardListV);
         }
         else if(orderedCardListV.getContext().contains("powerUpDiscardPile")){
-            ViewModelGate.getModel().setPowerUpDiscardPile((OrderedCardListV) MVE.getComponent());
+            ViewModelGate.getModel().setPowerUpDiscardPile(orderedCardListV);
         }
         else if(orderedCardListV.getContext().contains("PowerUpInHand")){
             String nickname = orderedCardListV.getContext().split(":")[0];

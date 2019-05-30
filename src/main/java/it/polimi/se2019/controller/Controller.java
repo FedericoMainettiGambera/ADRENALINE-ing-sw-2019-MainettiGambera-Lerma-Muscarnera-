@@ -33,7 +33,7 @@ public class  Controller{
     /////////////////////////////////////////////////////////////////
 
 
-    public void startGameWithRMIAsServer() throws RemoteException, NotBoundException {
+    public void startGameWithRMIAsServer() throws IOException, NotBoundException {
         //Setting the state pattern
         this.VCEHC = new ViewControllerEventHandlerContext();
         ViewControllerEventHandlerContext.networkConnection="RMI";

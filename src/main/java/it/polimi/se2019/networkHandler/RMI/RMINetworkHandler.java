@@ -37,7 +37,7 @@ public class RMINetworkHandler extends NetworkHandler{
             client.setRmiObsHandler(rmiObsHandler);
         }
 
-        else {System.out.println("<CLIENT> " + "Sorry you cant play we are full, "+"number of connection is already"+rmiInterface.numberOfConnection());}
+        else {System.out.println("<CLIENT> " + "Sorry you cant play we are full, "+"number of connection is already"+rmiInterface.numberOfConnection().getNumber());}
 
 
     }

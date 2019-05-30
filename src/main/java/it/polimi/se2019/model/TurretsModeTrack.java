@@ -15,7 +15,7 @@ public class TurretsModeTrack extends KillShotTrack implements Serializable {
     public TurretsModeTrack(VirtualView VV) {
         super(GameConstant.numberOfStartingSkullsTurretsMode, VV);
 
-        ammos=new OrderedCardList<>();
+        ammos=new OrderedCardList<>(""); //TODO
     }
 
     /*-****************************************************************************************************ATTRIBUTES*/

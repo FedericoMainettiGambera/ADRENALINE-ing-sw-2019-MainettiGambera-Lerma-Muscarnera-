@@ -9,14 +9,17 @@ import it.polimi.se2019.virtualView.RMI.Message;
 import it.polimi.se2019.virtualView.RMI.NumberOfConnection;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.rmi.*;
+
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.RemoteObjectInvocationHandler;
-import java.rmi.server.ServerNotActiveException;
-import java.rmi.server.UnicastRemoteObject;
+import java.rmi.server.*;
 import java.net.MalformedURLException;
 import java.util.Observable;
 import java.util.Scanner;
@@ -99,6 +102,11 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
     public void sendToServer(Object o) throws RemoteException{
     }
 
+    @Override
+    public void removeClient(int rmiIdentifier) throws RemoteException {
+
+    }
+
 
     public void run(){
 
@@ -135,12 +143,10 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
         } catch (RemoteException e) {
             e.printStackTrace();
         }*/
-
-
     }
 
 
-    public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException, ServerNotActiveException {
+    public static void main(String[] args){
 
 
         Scanner scanner = new Scanner(System.in);
@@ -153,35 +159,42 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
         clientName = scanner.nextLine();
         System.out.println("<Playerino>Connecting To RMI Server...");
 
-        System.setProperty("java.rmi.http//AdrenalineServer", "192.168.x.x");
+        System.setProperty("java.rmi.http://AdrenalineServer", "192.168.x.x");
         Registry reg ;
 try {
 
 
     System.out.println("Insert IP:");
     Scanner scanner1=new Scanner(System.in);
+    String IP =scanner1.nextLine();
+    System.out.println("Insert port");
+    int port= scanner1.nextInt();
 
 
-    reg = LocateRegistry.getRegistry(scanner.nextLine(), 1099);
+    reg = LocateRegistry.getRegistry(IP, port);
     RMIInterface chatinterface = (RMIInterface) reg.lookup("http://AdrenalineServer:1099");
 
+    // RMISocketFactory.getDefaultSocketFactory().createSocket(IP, port);
 
-        if( chatinterface.numberOfConnection().getNumber()<5   )
-        { client= new Client(chatinterface, chatinterface.getRmiIdentifier());
+        if(chatinterface.numberOfConnection().getNumber()< 5  )
+        {
+            client= new Client(chatinterface, chatinterface.getRmiIdentifier());
+
             chatinterface.setRmiIdentifier();
             chatinterface.addClientToList(client);
             chatinterface.numberOfConnection().addNumber();
-            new Thread(client).start();
 
+            Thread thread=new Thread(client);
+            thread.start();
 
+            Logout logout=new Logout(client, thread);
+            new Thread(logout).start();
 
         }
 
         else {System.out.println("<PlYAERINO> Sorry you cant play we are full, "+"number of connection is already"+chatinterface.numberOfConnection());}
 
     }catch (Exception e){System.out.println("Error occured in connection");}
-
-
 
     }
 

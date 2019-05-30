@@ -2,6 +2,7 @@ package it.polimi.se2019.model;
 
 
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
+import it.polimi.se2019.view.components.PowerUpCardV;
 
 import java.io.*;
 
@@ -22,6 +23,7 @@ public class PowerUpCard extends Card implements Serializable {
         this.color = yellow;
         this.specialEffect = null;
     }
+
 
     public PowerUpCard(String ID) throws FileNotFoundException, IOException ,InstantiationException {
 
@@ -146,9 +148,22 @@ public class PowerUpCard extends Card implements Serializable {
     public Effect getSpecialEffect() {
         return specialEffect;
     }
+    private String name="";
+    private String description="";
 
     public void Play() {
         getSpecialEffect().Exec();
 
+    }
+
+    public PowerUpCardV buildPowerUpCardV(){
+        PowerUpCardV powerUpCardV= new PowerUpCardV();
+        powerUpCardV.setName(this.name);
+        powerUpCardV.setColor(this.color);
+        powerUpCardV.setDescription(description);
+        powerUpCardV.setID(this.getID());
+
+
+        return powerUpCardV;
     }
 }

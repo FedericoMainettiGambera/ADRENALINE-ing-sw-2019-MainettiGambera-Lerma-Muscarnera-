@@ -28,9 +28,9 @@ public class TestGame{
         playerList.addPlayer(player);
         String s="map0";
         Board board= new Board(s, new VirtualView());
-        OrderedCardList<PowerUpCard> ppc=new OrderedCardList<>();
-        OrderedCardList<AmmoCard> ac= new OrderedCardList<>();
-        OrderedCardList<WeaponCard> wc= new OrderedCardList<>();
+        OrderedCardList<PowerUpCard> ppc=new OrderedCardList<>("");
+        OrderedCardList<AmmoCard> ac= new OrderedCardList<>("");
+        OrderedCardList<WeaponCard> wc= new OrderedCardList<>("");
 
         game.setFinalFrenzy(true);
         assertEquals(true, game.isFinalFrenzy());
