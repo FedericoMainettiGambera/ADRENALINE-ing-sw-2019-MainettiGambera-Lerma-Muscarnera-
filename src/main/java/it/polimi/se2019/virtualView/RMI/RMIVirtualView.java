@@ -32,6 +32,7 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
     private int port = 1099;
     private String name = "http://AdrenalineServer:";
     int rmiIdentifier = 1;
+    String address;
 
     private RMIObsVirtualView RmiObsVirtualView;
 
@@ -51,7 +52,7 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
             if(ModelGate.model.getPlayerList()!=null && ModelGate.model.getPlayerList().getPlayers()!=null){
                 for (Player p : ModelGate.model.getPlayerList().getPlayers()) {
                     if(p.getRmiInterface()!=null){
-                        p.getRmiInterface().getClient(i).sendToClient(i,o);
+                       p.getRmiInterface().getClient(i).sendToClient(i,o);
                         i++;
                     }
                 }
@@ -116,7 +117,6 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
 
         if (numberOfConnection.getNumber() > GameConstant.maxNumberOfPlayerPerGame - 1) {
             System.out.println("<SERVER> total number of connection reached, starting the state pattern.");
-            System.out.println("does player exist?" + ModelGate.model.getPlayerList().getPlayer("User1").getNickname());
             ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayer("User1"));
         }
@@ -166,10 +166,7 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
         RMIInterface stub = (RMIInterface) UnicastRemoteObject.exportObject(RMIS, port);
         Registry reg = LocateRegistry.createRegistry(port);
         reg.rebind(name+port, stub);
-        String address=new String();
-
-
-//         RMISocketFactory.getDefaultSocketFactory().createServerSocket(port);
+        address=new String();
 
 
         try {
@@ -192,10 +189,16 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
         return name;
     }
 
+public String getAddress(){
+        return address;
+}
 
 
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(Observable o, Object arg)
+    {
+        //System.out.println("                                        <SERVER> SENDING MVE FROM: " +o.getClass());
+
         try {
             this.sendAllClient(arg);
         } catch (RemoteException e) {

@@ -13,6 +13,7 @@ import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.Scanner;
 
 
 public class  Controller{
@@ -54,24 +55,24 @@ public class  Controller{
         this.V = new View("RMI", "CLI");
 
         //start the client for the user who holds the server and connecting it to the server
-        RMINH=new RMINetworkHandler(this.RMIVV.getServerName(), this.RMIVV.getPort(),this.V);
+        this.RMINH=new RMINetworkHandler(this.RMIVV.getAddress(), this.RMIVV.getPort(),this.V);
 
     }
 
-    public void startGameWithRMIAsClient() throws IOException {
+    public void startGameWithRMIAsClient() throws IOException, NotBoundException{
         //creating the View for the user who holds the server
         this.V = new View("RMI", "CLI");
+        Scanner scanner=new Scanner(System.in);
 
         //ask for IP and PORT
-        /*
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("<CLIENT>Insert Server's IP:");
-        String address = br.readLine();
+        String address = scanner.nextLine();
         System.out.println("<CLIENT>Insert Port:");
-        String port = br.readLine();
-        */
+        int port = scanner.nextInt();
 
-        //create the Client for the user who holds the server and connecting it to the server
+        this.RMINH=new RMINetworkHandler(address, port, V);
+
+
 
     }
 

@@ -43,6 +43,7 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
         this.rmiIdentifier = clientname;
         System.out.println("<SEVERINO> " + "hola guapa") ;
 
+
     }
 
 
@@ -117,6 +118,8 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
 
         try {
             server.createPlayer(server);
+            server.setRmiIdentifier();
+
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -183,6 +186,8 @@ try {
             chatinterface.setRmiIdentifier();
             chatinterface.addClientToList(client);
             chatinterface.numberOfConnection().addNumber();
+
+
 
             Thread thread=new Thread(client);
             thread.start();
