@@ -42,13 +42,11 @@ public class GrabStuffStateMove implements State {
         }
         System.out.println(toPrintln);
 
-        if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
-            SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
-            SelectorGate.selectorSocket.askGrabStuffMove(possiblePositions);
-        }
-        else{
-            SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
-            SelectorGate.selectorRMI.askGrabStuffMove(possiblePositions);
+        try {
+            SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
+            SelectorGate.getCorrectSelectorFor(playerToAsk).askGrabStuffMove(possiblePositions);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

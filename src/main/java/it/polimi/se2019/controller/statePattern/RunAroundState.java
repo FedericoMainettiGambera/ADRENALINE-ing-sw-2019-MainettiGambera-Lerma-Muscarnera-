@@ -36,13 +36,11 @@ public class RunAroundState implements State {
         System.out.println("    " + toPrintln);
 
         //ask for input
-        if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
-            SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
-            SelectorGate.selectorSocket.askRunAroundPosition(possiblePositions);
-        }
-        else{
-            SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
-            SelectorGate.selectorRMI.askRunAroundPosition(possiblePositions);
+        try {
+            SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
+            SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(possiblePositions);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

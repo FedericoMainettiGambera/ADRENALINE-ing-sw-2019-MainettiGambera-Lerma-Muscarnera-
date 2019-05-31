@@ -46,13 +46,11 @@ public class ReloadState implements State{
             System.out.println("<SERVER> Possible weapons that can be reloaded: " + toPrintln);
 
 
-            if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
-                SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
-                SelectorGate.selectorSocket.askWhatReaload(toReaload);
-            }
-            else{
-                SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
-                SelectorGate.selectorRMI.askWhatReaload(toReaload);
+            try {
+                SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
+                SelectorGate.getCorrectSelectorFor(playerToAsk).askWhatReaload(toReaload);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         else{

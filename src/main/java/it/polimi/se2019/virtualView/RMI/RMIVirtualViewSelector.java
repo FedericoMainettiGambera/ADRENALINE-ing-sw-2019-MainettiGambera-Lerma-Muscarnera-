@@ -7,12 +7,13 @@ import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.selectorEvents.*;
 import it.polimi.se2019.virtualView.Selector;
+import it.polimi.se2019.virtualView.VirtualViewSelector;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public class RMIVirtualViewSelector implements Selector{
+public class RMIVirtualViewSelector extends VirtualViewSelector implements Selector{
 
 
     private Player playerToAsk;
@@ -36,10 +37,8 @@ public class RMIVirtualViewSelector implements Selector{
 
     @Override
     public void askPlayerSetUp() {
-
         try {
             SelectorEvent SE= new SelectorEvent(SelectorEventTypes.askPlayerSetUp);
-            System.out.println("ciao sonola VVselector");
             playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),SE);
         } catch (IOException e) {
             e.printStackTrace();

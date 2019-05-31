@@ -55,6 +55,7 @@ public class SocketVirtualView extends VirtualView {
     public static void sendToClient(ObjectOutputStream oos, Object o){
         try{
             oos.writeObject(o);
+            oos.reset();
         }catch (IOException e ){
             e.printStackTrace();
         }
@@ -72,11 +73,13 @@ public class SocketVirtualView extends VirtualView {
     }
 
     public void sendAllClient(Object o) {
-        if (ModelGate.model.getPlayerList().getPlayers().get(0).getOos() != null) {
+        if(ModelGate.model.getPlayerList()!=null && ModelGate.model.getPlayerList().getPlayers()!=null){
             for (Player p : ModelGate.model.getPlayerList().getPlayers()) {
                 try {
-                    p.getOos().writeObject(o);
-                    p.getOos().reset();
+                    if(p.getOos()!=null) {
+                        p.getOos().writeObject(o);
+                        p.getOos().reset();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

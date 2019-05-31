@@ -30,13 +30,11 @@ public class PlayerSetUpState implements State {
         playerToAsk.getPowerUpCardsInHand().addObserver(ModelGate.model.getVirtualView());
 
         //ask to "playerToAsk" inputs
-        if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
-            SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
-            SelectorGate.selectorSocket.askPlayerSetUp();
-        }
-        else{
-            SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
-            SelectorGate.selectorRMI.askPlayerSetUp();
+        try {
+            SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
+            SelectorGate.getCorrectSelectorFor(playerToAsk).askPlayerSetUp();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

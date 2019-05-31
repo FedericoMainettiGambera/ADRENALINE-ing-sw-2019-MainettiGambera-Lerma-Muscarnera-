@@ -24,11 +24,10 @@ public class GrabStuffStateGrabWeapon implements  State {
     public void askForInput(Player playerToAsk) {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
-        if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
-            SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
-        }
-        else{
-            SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
+        try {
+            SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         SpawnPointSquare playerSquare = ((SpawnPointSquare)(ModelGate.model.getBoard().getSquare(playerToAsk.getPosition().getX(), playerToAsk.getPosition().getY())));
@@ -71,11 +70,11 @@ public class GrabStuffStateGrabWeapon implements  State {
                 ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
             }
             else {
-                if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
-                    SelectorGate.selectorSocket.askGrabStuffSwitchWeapon(toPickUp, toDiscard);
-                }
-                else{
-                    SelectorGate.selectorRMI.askGrabStuffSwitchWeapon(toPickUp, toDiscard);
+                try {
+                    SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
+                    SelectorGate.getCorrectSelectorFor(playerToAsk).askGrabStuffSwitchWeapon(toPickUp, toDiscard);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -88,11 +87,11 @@ public class GrabStuffStateGrabWeapon implements  State {
                 ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
             }
             else{
-                if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
-                    SelectorGate.selectorSocket.askGrabStuffGrabWeapon(toPickUp);
-                }
-                else{
-                    SelectorGate.selectorRMI.askGrabStuffGrabWeapon(toPickUp);
+                try {
+                    SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
+                    SelectorGate.getCorrectSelectorFor(playerToAsk).askGrabStuffGrabWeapon(toPickUp);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
