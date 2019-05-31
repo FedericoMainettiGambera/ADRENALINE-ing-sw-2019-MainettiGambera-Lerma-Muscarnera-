@@ -50,7 +50,11 @@ public class PlayersList extends Observable implements Serializable {
         setChanged();
         notifyObservers(new ModelViewEvent(this.startingPlayer.getNickname(), ModelViewEventTypes.setStartingPlayer));
     }
-
+    public void setAll(List<Object> p) {
+        this.players = new ArrayList<>();
+        for(Object x: p)
+            players.add((Player) x);
+    }
 
     public void setNextPlayingPlayer(){
         for(int i = 0; i < this.players.size(); i++){

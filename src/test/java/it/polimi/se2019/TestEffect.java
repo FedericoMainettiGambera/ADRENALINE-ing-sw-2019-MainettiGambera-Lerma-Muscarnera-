@@ -7,9 +7,38 @@ import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.virtualView.VirtualView;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TestEffect {
 
 /* TODO : !!!!!!!!!!!!!!!!!!! COMMENTED OUT BECAUSE OF SONAR REPORTS !!!!!!!!!!!!!!!!!! */
+    @Test
+    public void Cartesian() {
+        List<Object> A = new ArrayList<>();
+        for(int i = 0;i < 12;i++)
+                            A.add(i);
+
+
+        List<Object> deepSquareCombination = (ArrayList <Object>) WeaponCard.cartesianPower(A,1);
+        List<Object> flatSquareCombination = new ArrayList<>();
+
+        if(deepSquareCombination.get(0).getClass().toString().equals("class java.util.ArrayList")) {
+            for (Object x : deepSquareCombination) {
+                flatSquareCombination.add((ArrayList<Object>) WeaponCard.arrayFlattener(x, 0));
+            }
+        }
+        else {
+            System.out.println("Element");
+            for (Object x : deepSquareCombination)
+                flatSquareCombination.add(x);
+        }
+
+        for(Object x: flatSquareCombination) {
+            System.out.println(x);
+        }
+        //System.out.println(WeaponCard.arrayFlattener(WeaponCard.cardinalProduct(a,WeaponCard.cardinalProduct(b,c))));
+    }
 @Test
     public void testAlpha() {
     try {
@@ -17,16 +46,24 @@ public class TestEffect {
         Player user = new Player();
         Player user2 = new Player();
         Player user3 = new Player();
+        Player user4 = new Player();
         PlayersList playerList = new PlayersList();
         playerList.addPlayer(user);
         playerList.addPlayer(user2);
         playerList.addPlayer(user3);
+        playerList.addPlayer(user4);
 
         Board board = new Board("0",new VirtualView());
+
         user.setNickname("Luca");
+        user2.setNickname("Aldo");
+        user3.setNickname("Bruno");
+        user4.setNickname("Carlo");
+
         user.setPosition(0,0);
         user2.setPosition(1,1);
         user3.setPosition(2,2);
+        user4.setPosition(2,3);
 
         System.out.println(weaponCard.usable(user,board,playerList).toString());
 
