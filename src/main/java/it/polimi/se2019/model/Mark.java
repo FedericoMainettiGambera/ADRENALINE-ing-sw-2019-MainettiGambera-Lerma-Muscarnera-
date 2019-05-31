@@ -43,8 +43,8 @@ public class Mark extends Action implements Serializable {
         Player target = getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
         Player marker = getActionInfo().getActionContext().getPlayer();
        // MarkSlots markSlots = target.getMarksFrom(marker);
-        int quantity = getActionInfo().getActionDetails().getUserSelectedActionDetails().getGenericQuantity();
-        getActionInfo().getActionDetails().getUserSelectedActionDetails().itNeeds(target);
+        int quantity = Integer.parseInt((String) getActionInfo().getActionDetails().getFileSelectedActionDetails().getFileSettingData().get(0));
+        System.out.println("target:" + target + " marker : " + marker.getNickname() + " : " + quantity);
         target.addMarksFrom(marker,quantity);
     }
 }

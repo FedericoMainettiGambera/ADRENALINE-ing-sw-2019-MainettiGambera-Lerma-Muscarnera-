@@ -7,22 +7,20 @@ import it.polimi.se2019.model.Game;
 import it.polimi.se2019.model.GameConstant;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.PlayersList;
-import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.virtualView.VirtualView;
-import sun.net.util.IPAddressUtil;
-import sun.security.x509.IPAddressName;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.RMISocketFactory;
-import java.rmi.server.RemoteRef;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Observable;
+
+//import sun.net.util.IPAddressUtil;
+//import sun.security.x509.IPAddressName;
 
 public class RMIVirtualView extends VirtualView implements RMIInterface {
 

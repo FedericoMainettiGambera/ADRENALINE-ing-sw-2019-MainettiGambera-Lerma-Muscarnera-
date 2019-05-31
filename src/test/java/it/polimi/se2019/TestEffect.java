@@ -42,7 +42,7 @@ public class TestEffect {
 @Test
     public void testAlpha() {
     try {
-        WeaponCard weaponCard = new WeaponCard("test");
+        WeaponCard weaponCard = new WeaponCard("22");
         Player user = new Player();
         Player user2 = new Player();
         Player user3 = new Player();

@@ -64,7 +64,7 @@ public class WeaponCard extends Card implements Serializable {
                     if(c.equals(d)) {          // c == d
                         if(cCur != dCur)
                         {
-                            System.out.println("occorrenza " + cCur + "," + dCur);
+                            //System.out.println("occorrenza " + cCur + "," + dCur);
                             return null;
                         }
                     }
@@ -136,10 +136,12 @@ public class WeaponCard extends Card implements Serializable {
 
 
 
-
     public List<Effect> usable(Player player,Board board,PlayersList playersList) {
+        List<List<Object>> cartesianMatrix;
+
         List<Effect> effectList = new ArrayList<>();                //effetti finali -- inizializzata vuota
         List<Effect> potentialEffects = this.effects;    //effetti iniziali -- inizializzata piena
+
         for(Effect e: potentialEffects) {       // controllo ogni effetto
             ActionContext context = new ActionContext();
             context.setBoard(board);
@@ -147,37 +149,37 @@ public class WeaponCard extends Card implements Serializable {
             context.setPlayer(player);
             e.setContext(context);                         // costruisce un contesto fittizio
             System.out.println("start");
-            for(EffectInfoType input:e.requestedInputs()) {
+            for (EffectInfoType input : e.requestedInputs()) {
+                if (input == EffectInfoType.player) {
+                    boolean correct = true;
 
-                    if(input == EffectInfoType.singleTarget) {
 
-                        /* esiste un target che rispetta le precondizioni?*/
-                        boolean correct = true;
-                            for(Player p: playersList.getPlayers()) {
+                    Object inputGrid[][] = new Object[10][10];
+                    inputGrid[0][0] = (Object) e.getActions().get(0).getActionInfo().getActionContext().getPlayer();
+                    e.handleInput(inputGrid);
 
-                                for( Action a: e.getActions()) {
-                                    System.out.println("verifico la condizione di " + a.toString());
-                                    if (a.getActionInfo().preCondition() == false) {
-                                        correct = false;
-                                    }
-
-                                }
-                                if(correct) break;
-                            }
-                        if(correct) {
-
-                            effectList.add(e);
-
+                    for (Action a : e.getActions()) {
+                        System.out.println("verifico la condizione di " + a.toString());
+                        if (a.getActionInfo().preCondition() == false) {
+                            correct = false;
                         }
 
                     }
-            }
-                return effectList;
-            }
+                    if (correct) break;      // appena una buona la aggiunge senza reiterare per gli altri player
 
+                    if (correct) {
+
+                        effectList.add(e);
+
+                    }
+                }
+            }
             return effectList;
         }
+        return effectList;
 
+
+    }
 
     // WeaponCard from File, polymorphic constructor
 

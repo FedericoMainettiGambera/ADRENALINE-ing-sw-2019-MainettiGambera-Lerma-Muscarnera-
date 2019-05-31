@@ -30,21 +30,24 @@ public class ActionInfo implements Serializable {
     private  PreConditionMethods preConditionMethods;
     public  boolean preCondition()  {
         try {
-
+            System.out.println("verifico " + this.preConditionMethodName + " in " +  actionContext.getPlayer().toString() + ":" + actionContext.getActionContextFilteredInputs().size());
+            //System.out.println(".");
             java.lang.reflect.Method method;
-
+            //System.out.println(".");
             Class<?> c = Class.forName("it.polimi.se2019.model.PreConditionMethods");
-
+            //System.out.println(".");
             Class<?>[] paramTypes = {ActionDetails.class, ActionContext.class};
-
+            //System.out.println(".");
             method = c.getDeclaredMethod(preConditionMethodName, paramTypes);
+            //System.out.println(".");
             System.out.println(">> " + getActionContext().getPlayer().getNickname());
+            //System.out.println(".");
             Object returnValue = method.invoke(preConditionMethods,this.actionDetails,this.actionContext);
 
             return (boolean) returnValue;
         }
         catch(Exception E) {
-
+            System.out.println("eccezione! " + E.toString());
             return false;
 
         }

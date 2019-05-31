@@ -136,7 +136,7 @@ public class TestWeaponCard {
     }
     @Test
     public void testAttackBySquare() throws Exception {
-        WeaponCard weaponCard = new WeaponCard("Test2");
+        WeaponCard weaponCard = new WeaponCard("23");
 
         Player user1 = new Player();
         Player user2 = new Player();
@@ -164,20 +164,22 @@ public class TestWeaponCard {
         Square A =  new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r');
         String B =  "Bruno";
         System.out.println("x");
-        o[0][0]      =  A;
+        o[0][0]      =  user2;
 
         // caricamento contesto
-        for(Action a : weaponCard.getEffects().get(0).getActions()) {
+        for(Action a : weaponCard.getEffects().get(1).getActions()) {
             a.getActionInfo().getActionContext().setPlayer(user1);
             a.getActionInfo().getActionContext().setPlayerList(playerList);
         }
         // gestione dell'input
-        weaponCard.getEffects().get(0).handleInput(o);
+        weaponCard.getEffects().get(1).handleInput(o);
 
+        weaponCard.getEffects().get(1).Exec();
 
         System.out.println("/--/");
-        for(Player p: weaponCard.getEffects().get(0).getActions().get(0).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList())
-                 System.out.println(p.getNickname());
+        System.out.println("status");
+        System.out.println("/--/");
+
 
     }
     @Test
