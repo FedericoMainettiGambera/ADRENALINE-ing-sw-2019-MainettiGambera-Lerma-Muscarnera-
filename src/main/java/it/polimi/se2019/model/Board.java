@@ -6,6 +6,9 @@ import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.SquareTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.view.components.BoardV;
+import it.polimi.se2019.view.components.NormalSquareV;
+import it.polimi.se2019.view.components.SpawnPointSquareV;
+import it.polimi.se2019.view.components.SquareV;
 import it.polimi.se2019.virtualView.VirtualView;
 
 import java.io.BufferedReader;
@@ -283,7 +286,35 @@ public class Board{
     }
 
     public BoardV buildBoardV(){
-        //TODO
-        return new BoardV();
+        BoardV boardV = new BoardV();
+        SquareV[][] squareV = new SquareV[this.board.length][this.board[0].length];
+        for (int i = 0; i < this.board.length ; i++) {
+            for (int j = 0; j < this.board[0].length ; j++) {
+                if(this.board[i][j]!=null){
+                    if(this.board[i][j].getSquareType() == SquareTypes.normal) {
+                        squareV[i][j] = new NormalSquareV();
+                        ((NormalSquareV)squareV[i][j]).setAmmoCards(((NormalSquare)this.board[i][j]).getAmmoCards().buildDeckV());
+                    }
+                    else if(this.board[i][j].getSquareType() == SquareTypes.spawnPoint){
+                        squareV[i][j] = new SpawnPointSquareV();
+                        ((SpawnPointSquareV)squareV[i][j]).setWeaponCards(((SpawnPointSquare)this.board[i][j]).getWeaponCards().buildDeckV());
+                        ((SpawnPointSquareV)squareV[i][j]).setColor(((SpawnPointSquare)this.board[i][j]).getColor());
+                    }
+                    squareV[i][j].setColor(this.board[i][j].getColor());
+                    squareV[i][j].setSquareType(this.board[i][j].getSquareType());
+                    squareV[i][j].setX(this.board[i][j].getCoordinates().getX());
+                    squareV[i][j].setY(this.board[i][j].getCoordinates().getY());
+                    squareV[i][j].setNorth(this.board[i][j].getSide(CardinalPoint.north));
+                    squareV[i][j].setEast(this.board[i][j].getSide(CardinalPoint.east));
+                    squareV[i][j].setSouth(this.board[i][j].getSide(CardinalPoint.south));
+                    squareV[i][j].setWest(this.board[i][j].getSide(CardinalPoint.west));
+                }
+                else{
+                    squareV[i][j] = null;
+                }
+            }
+        }
+        boardV.setMap(squareV);
+        return boardV;
     }
 }

@@ -235,11 +235,19 @@ public class WeaponCard extends Card implements Serializable {
 
     public WeaponCardV buildWeapondCardV(){
         WeaponCardV weaponCardV= new WeaponCardV();
-        weaponCardV.setName(this.name);
+        if(this.name != null) {
+            weaponCardV.setName(this.name);
+        }
         weaponCardV.setLoaded(this.isLoaded);
-        weaponCardV.setPickUpCost(this.pickUpCost.buildAmmoListV());
-        weaponCardV.setDescription(this.description);
-        weaponCardV.setReloadCost(this.reloadCost.buildAmmoListV());
+        if(this.pickUpCost!=null) {
+            weaponCardV.setPickUpCost(this.pickUpCost.buildAmmoListV());
+        }
+        if(this.description!=null) {
+            weaponCardV.setDescription(this.description);
+        }
+        if(this.reloadCost!= null) {
+            weaponCardV.setReloadCost(this.reloadCost.buildAmmoListV());
+        }
         weaponCardV.setID(this.getID());
 
         return weaponCardV;

@@ -1,5 +1,7 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
+import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.view.components.PlayerV;
 import it.polimi.se2019.view.components.PowerUpCardV;
 import it.polimi.se2019.view.components.WeaponCardV;
@@ -37,6 +39,14 @@ public class Player extends Person implements Serializable {
     private boolean isLastPlayingPlayer=false;
 
     /*-********************************************************************************************************METHODS*/
+
+    @Override
+    public void setNickname(String nickname){
+        setChanged();
+        notifyObservers(new ModelViewEvent(nickname, ModelViewEventTypes.newNickname, this.nickname));
+        this.nickname = nickname;
+        this.hand.setNickname(nickname);
+    }
 
     public void setBeforeorafterStartingPlayer(int position){
         this.beforeOrAfterStartingPlayer=position;

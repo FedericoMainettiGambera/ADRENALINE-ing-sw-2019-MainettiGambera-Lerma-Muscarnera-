@@ -5,6 +5,7 @@ import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.GameConstant;
 import it.polimi.se2019.model.Player;
+import it.polimi.se2019.model.PlayersList;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPlayerSetUp;
@@ -51,6 +52,8 @@ public class PlayerSetUpState implements State {
        //draw two power up cards
        System.out.println("<SERVER> draw two power up cards.");
        for(int i = 0; i < 2; i++){
+           PlayersList pl = ModelGate.model.getPlayerList();
+           Player p = ModelGate.model.getCurrentPlayingPlayer();
            ModelGate.model.getPowerUpDeck().moveCardTo(
                    ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPowerUpCardsInHand(),
                    ModelGate.model.getPowerUpDeck().getFirstCard().getID()

@@ -94,23 +94,19 @@ public class GameSetUpState implements State {
             System.out.println("<SERVER> Adding 100 fake ammo cards to the ammoDeck.");
             AmmoList ammoList = new AmmoList();
             ammoList.addAmmoCubesOfColor(AmmoCubesColor.yellow, 2);
+            OrderedCardList<AmmoCard> orderedCardListAmmo = new OrderedCardList<>("ammoDeck");
             for (int i = 0; i < 100; i++) {
-                ModelGate.model.getAmmoDeck().getCards().add(new AmmoCard("fake", ammoList, false));
+                orderedCardListAmmo.getCards().add(new AmmoCard("fake", ammoList, false));
             }
+            orderedCardListAmmo.moveAllCardsTo(ModelGate.model.getAmmoDeck());
 
-            /*System.out.println("<SERVER> Adding 100 fake WeaponCards to the weaponDeck.");
-            AmmoList tempAmmoList = new AmmoList();
-            tempAmmoList.addAmmoCubesOfColor(AmmoCubesColor.blue,1);
-            tempAmmoList.addAmmoCubesOfColor(AmmoCubesColor.red,1);
-            for (int i = 0; i < 100; i++) {
-                ModelGate.model.getWeaponDeck().getCards().add(new WeaponCard("fake", tempAmmoList, tempAmmoList, new ArrayList<Effect>()));
-            }
-            */
 
             System.out.println("<SERVER> Adding 100 fake PowerUpCards to the powerUpDeck.");
+            OrderedCardList<PowerUpCard> orderedCardListPowerUp = new OrderedCardList<>("powerUpDeck");
             for (int i = 0; i < 100; i++) {
-                ModelGate.model.getPowerUpDeck().getCards().add(new PowerUpCard());
+                orderedCardListPowerUp.getCards().add(new PowerUpCard());
             }
+            orderedCardListPowerUp.moveAllCardsTo(ModelGate.model.getPowerUpDeck());
 
             //shuffles cards
             System.out.println("<SERVER> Shuffling decks");

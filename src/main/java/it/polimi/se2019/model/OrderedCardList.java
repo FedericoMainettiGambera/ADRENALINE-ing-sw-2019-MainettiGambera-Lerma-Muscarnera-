@@ -34,6 +34,14 @@ public class OrderedCardList<T> extends Observable implements Serializable {
     private String context;
 
     /*-********************************************************************************************************METHODS*/
+
+    public String getContext(){
+        return this.context;
+    }
+
+    public void setContext(String context){
+        this.context = context;
+    }
     /**@return
      * */
     public List<T> getCards() {
@@ -90,7 +98,7 @@ public class OrderedCardList<T> extends Observable implements Serializable {
 
             //TODO
             setChanged();
-            notifyObservers(new ModelViewEvent(this.buildDeckV(), ModelViewEventTypes.movingCardsAround));
+            notifyObservers(new ModelViewEvent(this.buildDeckV(), ModelViewEventTypes.movingCardsAround, to.buildDeckV()));
 
             return true;
         }
@@ -106,11 +114,10 @@ public class OrderedCardList<T> extends Observable implements Serializable {
         for (int i = 0; i < this.cards.size(); i++) {
             to.getCards().add(this.cards.get(i));
             this.cards.remove(i);
-
-            //TODO
-            setChanged();
-            notifyObservers(new ModelViewEvent(this.buildDeckV(), ModelViewEventTypes.movingCardsAround, to.buildDeckV()));
         }
+        //TODO
+        setChanged();
+        notifyObservers(new ModelViewEvent(this.buildDeckV(), ModelViewEventTypes.movingCardsAround, to.buildDeckV()));
     }
 
     /**shuffles all cards in this ordered card list*/
