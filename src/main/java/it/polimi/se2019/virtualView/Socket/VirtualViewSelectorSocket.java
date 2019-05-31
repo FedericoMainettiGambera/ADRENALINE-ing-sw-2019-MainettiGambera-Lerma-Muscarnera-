@@ -4,6 +4,7 @@ import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.selectorEvents.*;
 import it.polimi.se2019.virtualView.Selector;
+import it.polimi.se2019.virtualView.VirtualViewSelector;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -12,7 +13,7 @@ import java.util.List;
 
 import static it.polimi.se2019.model.enumerations.SelectorEventTypes.askGrabStuffGrabWeapon;
 
-public class VirtualViewSelectorSocket implements Selector {
+public class VirtualViewSelectorSocket extends VirtualViewSelector implements Selector {
 
     private Player playerToAsk;
 

@@ -38,14 +38,11 @@ public class ShootPeopleState implements State {
        //FF aint begun & adrenaline action avaible
         else if(!ModelGate.model.hasFinalFrenzyBegun()&&ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineShootAction()){
 
-            if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")){
-                SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
-                SelectorGate.selectorSocket.askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(),1));
-            }
-            else{
-
-                SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
-                SelectorGate.selectorRMI.askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(),1));
+            try {
+                SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
+                SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(),1));
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         //FF began
@@ -60,13 +57,12 @@ public class ShootPeopleState implements State {
                 numberOfMoves=2;
             }
 
-            if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")){
-                SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
-                SelectorGate.selectorSocket.askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(),numberOfMoves));
-            }
-            else{
-                SelectorGate.selectorRMI.setPlayerToAsk(playerToAsk);
-                SelectorGate.selectorRMI.askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(),numberOfMoves));
+
+            try {
+                SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
+                SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(),numberOfMoves));
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
