@@ -56,6 +56,22 @@ public class SquareV implements Serializable {
         return squareType;
     }
 
+    public void setEast(SquareSide east) {
+        this.east = east;
+    }
+
+    public void setNorth(SquareSide north) {
+        this.north = north;
+    }
+
+    public void setSouth(SquareSide south) {
+        this.south = south;
+    }
+
+    public void setWest(SquareSide west) {
+        this.west = west;
+    }
+
     public SquareSide getSide(CardinalPoint cardinalPoint){
         if(cardinalPoint == CardinalPoint.north){
             return this.north;

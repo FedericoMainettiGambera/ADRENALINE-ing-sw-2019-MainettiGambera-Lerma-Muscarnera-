@@ -13,4 +13,13 @@ public class AmmoListV implements Serializable {
     public void setAmmoCubesList(List<AmmoCubesV> ammoCubesList) {
         this.ammoCubesList = ammoCubesList;
     }
+
+    @Override
+    public String toString(){
+        String s = "";
+        for (AmmoCubesV a: ammoCubesList) {
+            s+= a.getColor() + "->" + a.getQuantity() + "; ";
+        }
+        return s;
+    }
 }

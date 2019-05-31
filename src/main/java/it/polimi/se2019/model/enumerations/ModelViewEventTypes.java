@@ -19,7 +19,7 @@ public enum ModelViewEventTypes {
     setStartingPlayer,
     newPlayer,
     newCard,
-    movingFknCardsAround,
-    shufflingFknCardsAround,
+    movingCardsAround,
+    shufflingCards,
     newBoard
 }

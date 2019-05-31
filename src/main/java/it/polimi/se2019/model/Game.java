@@ -2,6 +2,7 @@ package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
+import it.polimi.se2019.model.events.stateEvent.StateEvent;
 import it.polimi.se2019.view.components.GameV;
 import it.polimi.se2019.virtualView.VirtualView;
 
@@ -23,6 +24,14 @@ public class Game extends Observable implements Serializable {
 
     /***/
     private KillShotTrack killshotTrack;
+
+    private String currentState;
+
+    public void setCurrentState(String currentState){
+        this.currentState = currentState;
+        setChanged();
+        notifyObservers(new StateEvent(this.currentState));
+    }
 
     /***/
     private PlayersList players;
@@ -133,7 +142,7 @@ public class Game extends Observable implements Serializable {
         File directory = new File("src/main/Files/cards/weaponCards");     // insert here path to weapon cards folder
         int fileCount = directory.list().length;
         for(int i = 1; i< fileCount+1; i++) {
-            System.out.println("<SERVER>building weapon cards ID: " + i);
+            System.out.println("<SERVER> building weapon cards ID: " + i);
             try {
                  WeaponCard card= new WeaponCard("" + i);
                  card.reload();
@@ -177,8 +186,16 @@ public class Game extends Observable implements Serializable {
         */
 
         this.getWeaponDeck().getCards().addAll(tempWeaponDeck.getCards());
+        setChanged();
+        notifyObservers(new ModelViewEvent(this.getWeaponDeck().buildDeckV(), ModelViewEventTypes.movingCardsAround));
+
         //this.getAmmoDeck().getCards().addAll(tempAmmoDeck.getCards());
+        //setChanged();
+        //notifyObservers(new ModelViewEvent(this.getWeaponDeck().buildDeckV(), ModelViewEventTypes.movingCardsAround));
+
         //this.getPowerUpDeck.getCards().addAll(tempPowerUpDeck.getCards());
+        //setChanged();
+        //notifyObservers(new ModelViewEvent(this.getWeaponDeck().buildDeckV(), ModelViewEventTypes.movingCardsAround));
 
     }
 

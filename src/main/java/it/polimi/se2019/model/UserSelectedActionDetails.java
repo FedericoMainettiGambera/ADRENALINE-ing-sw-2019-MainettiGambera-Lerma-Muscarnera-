@@ -24,7 +24,8 @@ public class UserSelectedActionDetails implements Serializable {
     }
     public UserSelectedActionDetails() {
         targetList = new ArrayList<>();
-       // targetList.add(new Player());
+       //
+        // targetList.add(new Player());
     }
     public CardinalPoint getDirection() {
         return direction;
@@ -67,7 +68,10 @@ public class UserSelectedActionDetails implements Serializable {
     }
 
     public void setTarget(Player target) {
-       targetList.set(0,target);
+        if(targetList.size() == 0)
+            targetList.add(target);
+        else
+            targetList.set(0,target);
     }
     public void addTarget(Player target) {
 

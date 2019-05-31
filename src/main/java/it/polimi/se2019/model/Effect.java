@@ -121,12 +121,16 @@ public class Effect implements Serializable {
 
                 // singleTarget select
                 if(e.getEffectInfoTypelist().toString().equals(singleTarget.toString())) {
-                   this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
-                           (Player)input[i][0]
-                   );
 
-                   for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
-                            a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input[i],"Target"));
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
+                           (Player)(input[i][0])
+                   );
+                   // System.out.println(".");
+                   for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
+                       //   System.out.println(".");
+                       a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input[i], "Target"));
+                   }
+                   // System.out.println(".");
                     i++;
                 }
                 // twoTargets select

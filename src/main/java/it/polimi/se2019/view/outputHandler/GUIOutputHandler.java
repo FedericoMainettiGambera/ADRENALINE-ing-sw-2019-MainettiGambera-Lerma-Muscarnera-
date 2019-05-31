@@ -1,4 +1,6 @@
 package it.polimi.se2019.view.outputHandler;
+import it.polimi.se2019.view.components.BoardV;
+import it.polimi.se2019.view.components.ViewModelGate;
 import javafx.application.*;
 import javafx.animation.*;
 import javafx.event.EventType;
@@ -27,11 +29,12 @@ public class GUIOutputHandler extends Application{
     public void start(Stage stage)throws Exception{
 
        VBox vbox=new VBox();
+       BoardV boardV= ViewModelGate.getModel().getBoard();
 
 
 
 
-        Image image=new Image(new FileInputStream("src/main/Files/Images/Map/Map2.jpg"));
+        Image image=boardV.GUIchosenMap();
 
 
         ImageView imageView=new ImageView(image);

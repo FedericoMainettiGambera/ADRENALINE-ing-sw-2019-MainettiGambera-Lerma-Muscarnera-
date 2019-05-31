@@ -9,6 +9,7 @@ import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.viewControllerEvents.*;
 import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
+import it.polimi.se2019.view.components.ViewModelGate;
 import it.polimi.se2019.virtualView.Selector;
 
 import java.io.BufferedReader;
@@ -83,6 +84,10 @@ public class CLISelector implements Selector {
             System.out.println("<CLIENT> Insert your nickname: ");
             br = new BufferedReader(new InputStreamReader(System.in));
             nickaname = br.readLine();
+
+            ViewModelGate.setMe(nickaname);
+            System.out.println("<CLIENT> \"ME\" is: " + nickaname);
+
             System.out.println("<CLIENT> ChooseColor: \n" +
                     "    blue,\n" +
                     "    yellow,\n" +

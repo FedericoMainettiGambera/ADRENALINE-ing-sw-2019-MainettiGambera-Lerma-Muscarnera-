@@ -20,6 +20,8 @@ public class PlayerHand implements Serializable {
 
     public void setNickname(String nickname) {
         this.nickname=nickname;
+        this.powerUpCards.setContext(nickname+":powerUpInHand");
+        this.weaponCards.setContext(nickname+":weaponInHand");
     }
 
     public PlayerHand() {

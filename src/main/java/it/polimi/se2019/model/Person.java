@@ -1,6 +1,5 @@
 package it.polimi.se2019.model;
 
-import com.sun.xml.internal.ws.policy.sourcemodel.ModelNode;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.enumerations.PlayersColors;
@@ -29,7 +28,7 @@ public abstract class Person extends Observable implements Serializable {
 
     /*-*****************************************************************************************************ATTRIBUTES*/
     /**nickname*/
-    private String nickname;
+    protected String nickname;
 
     private boolean hasFinalFrenzyBoard;
 
@@ -60,7 +59,6 @@ public abstract class Person extends Observable implements Serializable {
         setChanged();
         notifyObservers(new ModelViewEvent(nickname, ModelViewEventTypes.newNickname, this.nickname));
         this.nickname = nickname;
-        this.getPlayerBoard().getPlayerHand().setNickname(nickname);
     }
 
     /*POSITION*/

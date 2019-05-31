@@ -17,6 +17,8 @@ public class FirstSpawnState implements State {
         System.out.println("<SERVER> New state: " + this.getClass());
     }
 
+    //TODO fix fact that only first player is spawned !!!!!!!
+
     @Override
     public void askForInput(Player playerToAsk){
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
