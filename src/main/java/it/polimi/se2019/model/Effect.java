@@ -86,8 +86,9 @@ public class Effect implements Serializable {
         return returnValue;
     }
     public void handleInput(Object[][] input) {
-        int i= 0;
+        int i= 0;int j = 0;
         for(EffectInfoElement e: this.getEffectInfo().getEffectInfoElement()) {
+
             List<Integer> p_arr = e.getEffectInfoTypeDestination();
             List<Integer> p_arr_2 = new ArrayList<>();
             if(p_arr.get(0) == 0) {     // TO ALL END
@@ -98,8 +99,9 @@ public class Effect implements Serializable {
             } else {
                 p_arr_2 = p_arr;
             }
+            System.out.println("l'input va " + p_arr_2.toString());
             for(Integer p: p_arr_2) {
-
+                i = j;
                 Integer position = p - 1;
                 //parser dell'input
                 System.out.println("<"+e.getEffectInfoTypelist().toString()+">");
@@ -125,7 +127,8 @@ public class Effect implements Serializable {
                     this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
                            (Player)(input[i][0])
                    );
-                   // System.out.println(".");
+                   System.out.println(">" + i);
+                   System.out.println( "singleInput " + ((Player)input[i][0]).getNickname() +" aggiunto a " + getActions().get(position).getClass().toString());
                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
                        //   System.out.println(".");
                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input[i], "Target"));
@@ -291,7 +294,7 @@ public class Effect implements Serializable {
                 }
             }
 
-
+        j++;
         }
     }
     /***/
@@ -305,12 +308,13 @@ public class Effect implements Serializable {
     public boolean Exec() {
         boolean isExecutable = true;
         /*gestione effect info */
-
+        System.out.println("inizializzo effetto");
         for(Action a:this.actions){
             if(a.getActionInfo().preCondition() == false ) {            // checks if all the preConditions are true
                 isExecutable = false;
             }
         }
+        System.out.println("è eseguibile? "+ isExecutable);
         if(isExecutable) {
             for (Action a : this.actions) {
                 /*@*/ System.out.println("esecuzione > " + a.toString());

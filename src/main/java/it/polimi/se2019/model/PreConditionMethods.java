@@ -60,6 +60,9 @@ public class PreConditionMethods implements Serializable {
 
     }
     public boolean youCanSee(ActionDetails actionDetails, ActionContext actionContext) {
+        System.out.println("\tverificando se sia visibile...");
+        if(true)
+        return true;
         int Tx = actionDetails.getUserSelectedActionDetails().getTarget().getPosition().getX();
         int Ty = actionDetails.getUserSelectedActionDetails().getTarget().getPosition().getY();
 
@@ -76,8 +79,7 @@ public class PreConditionMethods implements Serializable {
                         int j = Py;
                         boolean noWalls = true;
                         for(i = Ty;i < j;i++) {
-                            // TODO: insert board reference
-
+                          //  if(actionContext.getBoard().getMap()[0][0].)
                         }
                         return noWalls;
                     } else {
@@ -298,7 +300,13 @@ public class PreConditionMethods implements Serializable {
     }
     public boolean notPreviousTarget(ActionDetails actionDetails, ActionContext actionContext) {
 
-       /*@*/ System.out.println("verifico notPreviousTarget" +  actionContext.getPlayer().toString() + ":" + actionContext.getActionContextFilteredInputs().size());
+       /*@*/ System.out.println("verifico notPreviousTarget in " +  actionContext.getPlayer().toString() + ":" + actionContext.getActionContextFilteredInputs().size());
+       for(ActionContextFilteredInput a: actionContext.getActionContextFilteredInputs()) {
+           for(Object o: a.getContent())
+               if(o!=null)
+                    System.out.println(((Player)o).getNickname() + ": " +  a.getType());
+       }
+       System.out.println("cronologia attacchi inizializzata");
        for(int i = actionContext.getActionContextFilteredInputs().size()-2;i >= 0; i--) {
 
         System.out.println(">" + actionContext.getActionContextFilteredInputs().get(i).getType());
