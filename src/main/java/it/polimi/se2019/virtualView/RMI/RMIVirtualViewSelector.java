@@ -37,10 +37,8 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
 
     @Override
     public void askPlayerSetUp() {
-
         try {
             SelectorEvent SE= new SelectorEvent(SelectorEventTypes.askPlayerSetUp);
-            System.out.println("ciao sonola VVselector");
             playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),SE);
         } catch (IOException e) {
             e.printStackTrace();

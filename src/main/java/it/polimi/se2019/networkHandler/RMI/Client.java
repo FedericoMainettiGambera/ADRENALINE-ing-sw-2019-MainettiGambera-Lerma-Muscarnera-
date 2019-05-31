@@ -187,8 +187,8 @@ try {
             Thread thread=new Thread(client);
             thread.start();
 
-            Logout logout=new Logout(client, thread);
-            new Thread(logout).start();
+           // Logout logout=new Logout(client, thread);
+           // new Thread(logout).start();
 
         }
 

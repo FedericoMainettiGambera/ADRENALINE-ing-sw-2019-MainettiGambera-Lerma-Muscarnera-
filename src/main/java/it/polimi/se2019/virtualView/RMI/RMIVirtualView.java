@@ -46,11 +46,17 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
 
     @Override
     public void sendAllClient(Object o) throws RemoteException {
-        for (int i = 0; i < clientList.size(); i++) {
-            //TODO INOLTRARE IL MESSAGGIO A TUTTI
-            // clientList.get(i).sendMessageToClient();
+        int i=1;
+
+            if(ModelGate.model.getPlayerList()!=null && ModelGate.model.getPlayerList().getPlayers()!=null){
+                for (Player p : ModelGate.model.getPlayerList().getPlayers()) {
+                    if(p.getRmiInterface()!=null){
+                        p.getRmiInterface().getClient(i).sendToClient(i,o);
+                        i++;
+                    }
+                }
+            }
         }
-    }
 
     @Override
     public void sendToClient(int RmiIdentifier, Object o) throws RemoteException {
@@ -178,27 +184,26 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
 
     }
 
-            public int getPort() {
-                return port;
-            }
+    public int getPort() {
+        return port;
+    }
 
-            public String getServerName() {
-                return name;
-            }
+    public String getServerName() {
+        return name;
+    }
 
 
 
-            @Override
-            public void update(Observable o, Object arg) {
-                ModelViewEvent MVE = (ModelViewEvent) arg;
-                try {
-                    this.sendAllClient(MVE);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }
-
+    @Override
+    public void update(Observable o, Object arg) {
+        try {
+            this.sendAllClient(arg);
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
+    }
+
+}
 
 
 

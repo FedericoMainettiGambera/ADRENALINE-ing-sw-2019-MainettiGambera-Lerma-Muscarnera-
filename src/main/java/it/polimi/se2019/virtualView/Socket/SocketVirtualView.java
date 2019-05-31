@@ -76,8 +76,10 @@ public class SocketVirtualView extends VirtualView {
         if(ModelGate.model.getPlayerList()!=null && ModelGate.model.getPlayerList().getPlayers()!=null){
             for (Player p : ModelGate.model.getPlayerList().getPlayers()) {
                 try {
-                    p.getOos().writeObject(o);
-                    p.getOos().reset();
+                    if(p.getOos()!=null) {
+                        p.getOos().writeObject(o);
+                        p.getOos().reset();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
