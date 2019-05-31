@@ -8,10 +8,7 @@ import it.polimi.se2019.view.components.PowerUpCardV;
 import it.polimi.se2019.view.components.WeaponCardV;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Observable;
+import java.util.*;
 
 /**this class is an ordered card list of a specified type of cards, it is used to represents WeaponCards and
  * PowerUpCards in game decks or players hands.
@@ -96,9 +93,11 @@ public class OrderedCardList<T> extends Observable implements Serializable {
             to.getCards().add(this.getCard(cardID));
             this.removeCard(cardID);
 
-            //TODO
             setChanged();
-            notifyObservers(new ModelViewEvent(this.buildDeckV(), ModelViewEventTypes.movingCardsAround, to.buildDeckV()));
+            OrderedCardListV cards = this.buildDeckV();
+            OrderedCardListV cards2 = to.buildDeckV();
+            ModelViewEvent MVE = new ModelViewEvent(cards, ModelViewEventTypes.movingCardsAround, cards2);
+            notifyObservers(MVE);
 
             return true;
         }
@@ -115,7 +114,7 @@ public class OrderedCardList<T> extends Observable implements Serializable {
             to.getCards().add(this.cards.get(i));
             this.cards.remove(i);
         }
-        //TODO
+
         setChanged();
         notifyObservers(new ModelViewEvent(this.buildDeckV(), ModelViewEventTypes.movingCardsAround, to.buildDeckV()));
     }

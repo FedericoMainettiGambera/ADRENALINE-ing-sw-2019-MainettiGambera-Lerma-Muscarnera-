@@ -6,6 +6,7 @@ import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.selectorEvents.*;
+import it.polimi.se2019.model.events.stateEvent.StateEvent;
 import it.polimi.se2019.view.outputHandler.CLIOutputHandler;
 import it.polimi.se2019.view.outputHandler.GUIOutputHandler;
 import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
@@ -43,6 +44,7 @@ public class View implements Observer {
     public void update(Observable o, Object arg){
         SelectorEvent SE = null;
         ModelViewEvent MVE = null;
+        StateEvent StE = null;
         if(arg.getClass().toString().contains("ModelViewEvent")){
             MVE = (ModelViewEvent)arg;
             try{
@@ -53,6 +55,15 @@ public class View implements Observer {
         }else if(arg.getClass().toString().contains("SelectorEvent")){
             SE = (SelectorEvent)arg;
             this.callCorrectSelector(SE);
+        }
+        else if(arg.getClass().toString().contains("StateEvent")){
+            StE = (StateEvent)arg;
+            if(userInterface.equals("CLI")){
+                System.out.println("<CLIENT> state changed: " + StE.getState());
+            }
+            else{
+
+            }
         }
     }
 
@@ -152,11 +163,14 @@ public class View implements Observer {
                     OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                     if(to!=null) {
                         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "cards Moved from " + from.getContext());
+                        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(from.toString());
+
                         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "to " + to.getContext());
+                        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(to.toString());
                     }
                     else{
                         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + from.getContext() + " cards has changed.");
-
+                        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(from.toString());
                     }
                 }
                 else{
@@ -168,7 +182,9 @@ public class View implements Observer {
                 setOrderedCardListV((OrderedCardListV)MVE.getComponent());
                 if(userInterface.equals("CLI")){
                     OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "cards shuffled: " + (((OrderedCardListV) MVE.getComponent()).getContext()));
+                    OrderedCardListV cards = ((OrderedCardListV) MVE.getComponent());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "cards shuffled: " + (cards.getContext()));
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface(cards.toString());
                 }
                 else{
 
@@ -198,6 +214,7 @@ public class View implements Observer {
 
                 }
                 break;
+
             case newNickname:
                 boolean found = false;
                 if (ViewModelGate.getModel().getPlayers() != null) {
@@ -225,6 +242,7 @@ public class View implements Observer {
 
                 }
                 break;
+
             case newPosition:
                 if (ViewModelGate.getModel().getPlayers() != null) {
                     for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
@@ -248,6 +266,7 @@ public class View implements Observer {
 
                 }
                 break;
+
             case newScore:
                 if (ViewModelGate.getModel().getPlayers() != null) {
                     for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
@@ -270,6 +289,7 @@ public class View implements Observer {
 
                 }
                 break;
+
             case addDeathCounter:
                 if (ViewModelGate.getModel().getPlayers() != null) {
                     for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
@@ -292,6 +312,7 @@ public class View implements Observer {
 
                 }
                 break;
+
             case setFinalFrenzyBoard:
                 if (ViewModelGate.getModel().getPlayers() != null) {
                     for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {

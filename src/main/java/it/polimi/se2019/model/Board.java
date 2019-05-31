@@ -92,9 +92,6 @@ public class Board{
         int s =0;
 
 
-
-
-
         //apre file
         try{
             fileReader = new FileReader("src/main/Files/map");
@@ -147,14 +144,18 @@ public class Board{
 
                     if (type2 == 'N') {
                         type = SquareTypes.normal;
-                        map[i][j] = new NormalSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color);
+                        NormalSquare NS = new NormalSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color);
+                        NS.getAmmoCards().addObserver(this.VV);
+                        map[i][j] = NS;
 
                     }
                     //se no crea uno spawnPoint
                     else {
 
                         type = SquareTypes.spawnPoint;
-                        map[i][j] = new SpawnPointSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color);
+                        SpawnPointSquare SPS = new SpawnPointSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color);
+                        SPS.getWeaponCards().addObserver(this.VV);
+                        map[i][j] = SPS;
                         spawnPointslist[s]=map[i][j];
                         s++;
 

@@ -2,6 +2,7 @@ package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
+import it.polimi.se2019.model.events.stateEvent.StateEvent;
 import it.polimi.se2019.view.components.GameV;
 import it.polimi.se2019.virtualView.VirtualView;
 
@@ -23,6 +24,14 @@ public class Game extends Observable implements Serializable {
 
     /***/
     private KillShotTrack killshotTrack;
+
+    private String currentState;
+
+    public void setCurrentState(String currentState){
+        this.currentState = currentState;
+        setChanged();
+        notifyObservers(new StateEvent(this.currentState));
+    }
 
     /***/
     private PlayersList players;

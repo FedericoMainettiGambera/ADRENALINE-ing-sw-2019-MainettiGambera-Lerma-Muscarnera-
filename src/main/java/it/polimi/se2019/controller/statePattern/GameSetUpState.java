@@ -35,6 +35,9 @@ public class GameSetUpState implements State {
         }
         ModelGate.model.registerVirtualView();
 
+        System.out.println("<SERVER> registering the VirtualView ad an observer of the State Patter");
+        //TODO
+
         //ask for gameSetUp to the player
         if(ViewControllerEventHandlerContext.networkConnection.equals("SOCKET")) {
             SelectorGate.selectorSocket.setPlayerToAsk(playerToAsk);
