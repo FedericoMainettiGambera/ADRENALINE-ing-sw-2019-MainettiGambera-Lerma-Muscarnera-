@@ -66,7 +66,6 @@ public class ScoreKillsState implements State {
                         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
                     }
                     else{
-                        ModelGate.model.getPlayerList().setNextPlayingPlayer();
                         ViewControllerEventHandlerContext.setNextState(new TurnState(1));
                         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
                     }
