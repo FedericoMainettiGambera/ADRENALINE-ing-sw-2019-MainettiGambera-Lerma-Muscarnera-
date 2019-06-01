@@ -3,8 +3,6 @@ package it.polimi.se2019.model;
 import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.view.components.PlayerV;
-import it.polimi.se2019.view.components.PowerUpCardV;
-import it.polimi.se2019.view.components.WeaponCardV;
 import it.polimi.se2019.virtualView.RMI.RMIInterface;
 
 import java.io.ObjectOutputStream;
@@ -17,12 +15,15 @@ public class Player extends Person implements Serializable {
     /***/
     public Player() {
         super();
+        this.playerHistory = new PlayerHistory();
         this.hand = new PlayerHand();
     }
 
     /*-*****************************************************************************************************ATTRIBUTES*/
     /***/
     private PlayerHand hand;
+    /***/
+    PlayerHistory playerHistory;
 
     /***/
     private String IP;

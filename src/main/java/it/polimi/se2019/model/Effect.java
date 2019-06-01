@@ -11,7 +11,13 @@ import static it.polimi.se2019.model.enumerations.EffectInfoType.*;
 
 /***/
 public class Effect implements Serializable {
+
+    public Object[][] getFilledInputs() {
+        return filledInputs;
+    }
+
     /*-****************************************************************************************************CONSTRUCTOR*/
+    private Object[][] filledInputs;
 
     public EffectInfo getEffectInfo() {
         return effectInfo;
@@ -86,6 +92,8 @@ public class Effect implements Serializable {
         return returnValue;
     }
     public void handleInput(Object[][] input) {
+        this.filledInputs = input;
+
         int i= 0;int j = 0;
         for(EffectInfoElement e: this.getEffectInfo().getEffectInfoElement()) {
 
