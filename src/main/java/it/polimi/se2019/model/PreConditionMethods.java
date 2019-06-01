@@ -329,7 +329,7 @@ public class PreConditionMethods implements Serializable {
         int x = actionDetails.getUserSelectedActionDetails().getNewPosition().getX();
         int y = actionDetails.getUserSelectedActionDetails().getNewPosition().getY();
         try {
-            Board board = new Board("", null); // example. TODO: insert board reference here
+            Board board = new Board("", null, null); // example. TODO: insert board reference here
             if(board.getMap()[x][y] != null) {
                 return true;
             }

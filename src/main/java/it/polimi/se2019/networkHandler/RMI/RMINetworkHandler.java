@@ -1,6 +1,7 @@
 package it.polimi.se2019.networkHandler.RMI;
 
 import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.model.GameConstant;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.networkHandler.NetworkHandler;
 import it.polimi.se2019.view.components.View;
@@ -33,19 +34,24 @@ public class RMINetworkHandler extends NetworkHandler{
         Registry reg = LocateRegistry.getRegistry(name, port);
         RMIInterface rmiInterface = (RMIInterface) reg.lookup("http://AdrenalineServer:1099");
 
-            if (rmiInterface.numberOfConnection().getNumber() + 1 < 3) {
+        //if (rmiInterface.numberOfConnection().getNumber() + 1 < 3) {
+        try {
+            if (rmiInterface.numberOfConnection() <= GameConstant.maxNumberOfPlayerPerGame) {
 
                 client = new Client(rmiInterface, rmiInterface.getRmiIdentifier());
 
-                System.out.println("rdmiIdentifier in Network handler is" + rmiInterface.getRmiIdentifier());
+                System.out.println("<CLIENT> your RMIIdentifier in class NetworkHandler is: " + rmiInterface.getRmiIdentifier());
                 rmiInterface.addClientToList(client);
                 new Thread(client).start();
                 client.setRmiObsHandler(rmiObsHandler);
 
 
             } else {
-                System.out.println("<CLIENT> " + "Sorry you cant play we are full, " + "number of connection is already" + rmiInterface.numberOfConnection().getNumber());
+                System.out.println("<CLIENT> " + "Sorry you cant play we are full, " + "number of connection is already" + rmiInterface.numberOfConnection());
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }

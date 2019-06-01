@@ -28,7 +28,7 @@ public class TestBoard {
         Position po3 = new Position(0, 0);
 
         Board c;
-        Board b = new Board(s,new VirtualView());
+        Board b = new Board(s,new VirtualView(), new VirtualView());
         map = b.getMap();
 //testin SpawnPointOfCOlorMethod
         po3 = b.getSpawnpointOfColor(AmmoCubesColor.blue);
@@ -56,7 +56,7 @@ public class TestBoard {
         assertEquals(SquareTypes.spawnPoint, map[2][3].getSquareType());
 
         String mapp="map1";
-        b=new Board(mapp, new VirtualView());
+        b=new Board(mapp, new VirtualView(), new VirtualView());
         map=b.getMap();
         assertEquals(SquareSide.wall, map[0][0].getSide(CardinalPoint.north));
         assertEquals(SquareSide.wall, map[0][3].getSide(CardinalPoint.north));
@@ -72,7 +72,7 @@ public class TestBoard {
 
         //Possible Position
 
-        b=new Board(s, new VirtualView());
+        b=new Board(s, new VirtualView(), new VirtualView());
         pos2=new Position(0,0);
         po3=new Position(0,2);
         assertEquals(po3.getX(), b.possiblePositions(pos2,2).get(0).getX());

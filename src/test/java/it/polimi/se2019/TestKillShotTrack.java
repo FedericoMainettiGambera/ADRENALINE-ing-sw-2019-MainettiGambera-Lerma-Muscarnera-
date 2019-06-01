@@ -11,8 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestKillShotTrack{
 
-    KillShotTrack killShotTrack= new KillShotTrack(8, new VirtualView());
-    KillShotTrack killShotTrack2= new KillShotTrack(2, new VirtualView());
+    KillShotTrack killShotTrack= new KillShotTrack(8, new VirtualView(), new VirtualView());
+    KillShotTrack killShotTrack2= new KillShotTrack(2, new VirtualView(), new VirtualView());
     Player p=new Player();
 
     @Test

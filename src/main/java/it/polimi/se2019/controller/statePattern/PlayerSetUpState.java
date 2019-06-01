@@ -26,8 +26,10 @@ public class PlayerSetUpState implements State {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         System.out.println("<SERVER> Adding Observers to the Player weapons and power ups");
-        playerToAsk.getWeaponCardsInHand().addObserver(ModelGate.model.getVirtualView());
-        playerToAsk.getPowerUpCardsInHand().addObserver(ModelGate.model.getVirtualView());
+        playerToAsk.getWeaponCardsInHand().addObserver(ModelGate.model.getSocketVirtualView());
+        playerToAsk.getWeaponCardsInHand().addObserver(ModelGate.model.getRMIVirtualView());
+        playerToAsk.getPowerUpCardsInHand().addObserver(ModelGate.model.getSocketVirtualView());
+        playerToAsk.getWeaponCardsInHand().addObserver(ModelGate.model.getRMIVirtualView());
 
         //ask to "playerToAsk" inputs
         try {

@@ -28,7 +28,7 @@ public class ConnectionHandlerVirtualView extends Thread {
 
     private ViewControllerEventHandlerContext controller;
 
-    private int numberOfConnections;
+    //private int numberOfConnections;
 
 
     public ConnectionHandlerVirtualView(ServerSocket serverSocket, ViewControllerEventHandlerContext controller){
@@ -36,7 +36,7 @@ public class ConnectionHandlerVirtualView extends Thread {
         this.isServerSocketLive = true;
         this.tempSocket = null;
         this.controller = controller;
-        this.numberOfConnections = 0;
+        //this.numberOfConnections = 0;
     }
 
     public void CloseServerSocket() throws IOException{
@@ -47,18 +47,18 @@ public class ConnectionHandlerVirtualView extends Thread {
     @Override
     public void run(){
 
-        System.out.println("<SERVER>Creating the Game.");
-        ModelGate.model = new Game();
-        System.out.println("<SERVER>Creating a PlayerList.");
-        PlayersList pl = new PlayersList();
-        ModelGate.model.setPlayerList(pl);
-
-        while(this.isServerSocketLive && numberOfConnections <= GameConstant.maxNumberOfPlayerPerGame-1){
+        //while(this.isServerSocketLive && numberOfConnections <= GameConstant.maxNumberOfPlayerPerGame-1){
+        while(this.isServerSocketLive && ModelGate.model.getNumberOfClientsConnected() <= GameConstant.maxNumberOfPlayerPerGame-1){
             try{
                 this.tempSocket = serverSocket.accept();
-                this.numberOfConnections++;
-                System.out.println("<SERVER>New Connection from: " + this.tempSocket.getInetAddress().getHostAddress());
-                System.out.println("<SERVER>Number of Connections: " + this.numberOfConnections);
+
+                //this.numberOfConnections++;
+                ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected()+1);
+
+                System.out.println("<SERVER-socket> New Connection from: " + this.tempSocket.getInetAddress().getHostAddress());
+                //System.out.println("<SERVER-socket> Number of Connections: " + this.numberOfConnections);
+                System.out.println("<SERVER-socket> Number of Connections: " + ModelGate.model.getNumberOfClientsConnected());
+
             }
             catch(IOException e){
                 e.printStackTrace();
@@ -73,11 +73,12 @@ public class ConnectionHandlerVirtualView extends Thread {
 
             //ObjectOutputStream
             try {
-                System.out.println("<SERVER>Creating a Player.");
+                System.out.println("<SERVER-socket> Creating a Player.");
                 Player p = new Player();
                 p.setOos(new ObjectOutputStream(this.tempSocket.getOutputStream()));
-                p.setNickname("User"+numberOfConnections);
-                System.out.println("<SERVER>Adding Player (" + p.getNickname() + ") to the PlayerList.");
+                //p.setNickname("User"+numberOfConnections);
+                p.setNickname("User"+ModelGate.model.getNumberOfClientsConnected());
+                System.out.println("<SERVER-socket> Adding Player (" + p.getNickname() + ") to the PlayerList.");
                 ModelGate.model.getPlayerList().addPlayer(p);
             }
             catch(IOException e){
@@ -97,7 +98,7 @@ public class ConnectionHandlerVirtualView extends Thread {
             new Thread(sl).start();
         }
 
-        System.out.println("<SERVER>Not accepting connections anymore.");
+        System.out.println("<SERVER-socket>Not accepting connections anymore.");
 
         //make the game start
         setNextState(new GameSetUpState());

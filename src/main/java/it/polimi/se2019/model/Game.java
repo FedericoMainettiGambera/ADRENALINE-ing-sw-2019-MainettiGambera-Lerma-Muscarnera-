@@ -22,6 +22,17 @@ public class Game extends Observable implements Serializable {
         this.powerUpDiscardPile = new OrderedCardList<>("powerUpDiscardPile");
     }
 
+    private static int numberOfClientsConnected = 0;
+
+    public int getNumberOfClientsConnected(){
+        return this.numberOfClientsConnected;
+    }
+
+    public void setNumberOfClientsConnected(int numberOfClientsConnected){
+        System.out.println("        MODELGATE: SETTING NUMBER OF CONNECTION");
+        this.numberOfClientsConnected = numberOfClientsConnected;
+    }
+
     /***/
     private KillShotTrack killshotTrack;
 
@@ -62,23 +73,32 @@ public class Game extends Observable implements Serializable {
     private boolean isFinalFrenzy;
 
     //reference to the VV so that it can be registered in all the model.
-    private transient VirtualView VV;
+    private transient VirtualView VVSOcket;
+    private transient VirtualView VVRMI;
 
-    public void setVirtualView(VirtualView VV){
-        this.VV = VV;
+    public void setVirtualView(VirtualView VVSocket, VirtualView VVRMI){
+        this.VVSOcket = VVSocket;
+        this.VVRMI = VVRMI;
     }
 
-    public VirtualView getVirtualView(){
-        return this.VV;
+    public VirtualView getSocketVirtualView(){
+        return this.VVSOcket;
+    }
+
+    public VirtualView getRMIVirtualView(){
+        return this.VVRMI;
     }
 
     public void registerVirtualView(){
-        this.addObserver(this.VV);
+        this.addObserver(this.VVRMI);
+        this.addObserver(this.VVSOcket);
         System.out.println("    VirtualView added to the Game's observers");
-        this.getPlayerList().addObserver(this.VV);
+        this.getPlayerList().addObserver(this.VVSOcket);
+        this.getPlayerList().addObserver(this.VVRMI);
         System.out.println("    VirtualView added to the PlayerList's observers");
         for (int i = 0; i < this.getPlayerList().getPlayers().size() ; i++) {
-            this.getPlayerList().getPlayers().get(i).addObserver(this.VV);
+            this.getPlayerList().getPlayers().get(i).addObserver(this.VVRMI);
+            this.getPlayerList().getPlayers().get(i).addObserver(this.VVSOcket);
         }
         System.out.println("    VirtualView added to the Players' observers");
     }

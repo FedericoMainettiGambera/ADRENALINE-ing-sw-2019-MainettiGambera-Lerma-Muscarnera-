@@ -53,7 +53,7 @@ public class TestEffect {
         playerList.addPlayer(user3);
         playerList.addPlayer(user4);
 
-        Board board = new Board("0",new VirtualView());
+        Board board = new Board("0",new VirtualView(), new VirtualView());
 
         user.setNickname("Luca");
         user2.setNickname("Aldo");

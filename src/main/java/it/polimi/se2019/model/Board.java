@@ -21,11 +21,13 @@ import java.util.Observable;
 /***/
 public class Board{
 
-    public VirtualView VV;
+    public VirtualView VVRMI;
+    public VirtualView VVSocket;
 
     /***/
-    public Board(String chosenMap, VirtualView VV) throws IOException, NullPointerException {
-        this.VV = VV;
+    public Board(String chosenMap, VirtualView VVSocket, VirtualView VVRMI) throws IOException, NullPointerException {
+        this.VVSocket = VVSocket;
+        this.VVRMI = VVRMI;
         this.board = buildMap(chosenMap);
         this.chosenMap=chosenMap;
     }
@@ -147,7 +149,8 @@ public class Board{
                     if (type2 == 'N') {
                         type = SquareTypes.normal;
                         NormalSquare NS = new NormalSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color);
-                        NS.getAmmoCards().addObserver(this.VV);
+                        NS.getAmmoCards().addObserver(this.VVRMI);
+                        NS.getAmmoCards().addObserver(this.VVSocket);
                         map[i][j] = NS;
 
                     }
@@ -156,7 +159,8 @@ public class Board{
 
                         type = SquareTypes.spawnPoint;
                         SpawnPointSquare SPS = new SpawnPointSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color);
-                        SPS.getWeaponCards().addObserver(this.VV);
+                        SPS.getWeaponCards().addObserver(this.VVRMI);
+                        SPS.getWeaponCards().addObserver(this.VVSocket);
                         map[i][j] = SPS;
                         spawnPointslist[s]=map[i][j];
                         s++;

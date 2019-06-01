@@ -17,7 +17,7 @@ public class TestGame{
     Game game=new Game();
     Player player= new Player();
     PlayersList playerList= new PlayersList();
-    KillShotTrack killShotTrack= new KillShotTrack(6, new VirtualView());
+    KillShotTrack killShotTrack= new KillShotTrack(6, new VirtualView(), new VirtualView());
     Bot bot= new Bot(true);
 
 
@@ -27,7 +27,7 @@ public class TestGame{
 
         playerList.addPlayer(player);
         String s="map0";
-        Board board= new Board(s, new VirtualView());
+        Board board= new Board(s, new VirtualView(), new VirtualView());
         OrderedCardList<PowerUpCard> ppc=new OrderedCardList<>("");
         OrderedCardList<AmmoCard> ac= new OrderedCardList<>("");
         OrderedCardList<WeaponCard> wc= new OrderedCardList<>("");

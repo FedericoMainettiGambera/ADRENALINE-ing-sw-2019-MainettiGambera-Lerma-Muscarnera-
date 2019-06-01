@@ -11,7 +11,7 @@ public class GameConstant implements Serializable {
     }
 
     /***/
-    public final static int maxNumberOfPlayerPerGame = 2;
+    public final static int maxNumberOfPlayerPerGame = 3;
 
     /***/
     public final static int numberOfStartingAmmoCubesForEachColor = 1;
