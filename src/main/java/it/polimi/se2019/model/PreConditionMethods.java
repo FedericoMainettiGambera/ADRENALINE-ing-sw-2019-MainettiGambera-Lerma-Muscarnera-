@@ -25,7 +25,18 @@ public class PreConditionMethods implements Serializable {
     boolean withShadowStep(ActionDetails actionDetails, ActionContext actionContext) {return true;}
     boolean isPolverizeMode(ActionDetails actionDetails, ActionContext actionContext) {return true;}
 
+    /*EFFECT - ORDER */
+
+    public boolean notFirstExecuted(ActionDetails actionDetails, ActionContext actionContext) {         // l'effetto che continee l'azione
+                                                                                                        // che contiene questa precondizione
+                                                                                                        // non può essere eseguito per primo
+        return true;
+    }
+
+
     /*CONTEXT - INPUT PRECODITION*/
+
+
     public boolean validPayment(ActionDetails actionDetails, ActionContext actionContext) {
         Player player = actionContext.getPlayer();
         AmmoCubes ammoCost = actionDetails.getFileSelectedActionDetails().getAmmoCubesCost();

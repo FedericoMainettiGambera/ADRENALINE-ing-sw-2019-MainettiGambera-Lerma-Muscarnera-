@@ -156,7 +156,7 @@ public class TestWeaponCard {
 
 
         user1.setPosition(0,0);
-        user2.setPosition(3,2);
+        user2.setPosition(0,0);
         user3.setPosition(1,1);                 /*   same position          */
         user4.setPosition(1,1);                 /*                  users   */
         System.out.println(".");
@@ -167,14 +167,15 @@ public class TestWeaponCard {
         o[0][0]      =  user2;
 
         // caricamento contesto
-        for(Action a : weaponCard.getEffects().get(1).getActions()) {
+        int effectId = 0;
+        for(Action a : weaponCard.getEffects().get(effectId).getActions()) {
             a.getActionInfo().getActionContext().setPlayer(user1);
             a.getActionInfo().getActionContext().setPlayerList(playerList);
         }
         // gestione dell'input
-        weaponCard.getEffects().get(1).handleInput(o);
+        weaponCard.getEffects().get(effectId).handleInput(o);
 
-        weaponCard.getEffects().get(1).Exec();
+        weaponCard.getEffects().get(effectId).Exec();
 
         System.out.println("/--/");
         System.out.println("status");

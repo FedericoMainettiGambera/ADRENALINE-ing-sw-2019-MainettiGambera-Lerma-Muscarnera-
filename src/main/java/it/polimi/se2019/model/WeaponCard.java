@@ -214,6 +214,7 @@ public class WeaponCard extends Card implements Serializable {
                     ///*@*/ System.out.println("\tnuovo effetto corrente");
                     effects.add(new Effect());
                 }
+
                 if(line.equals("EXPECTED INPUT")) {
 
                     EffectInfo effectInfo = new EffectInfo();		// inizializza la lista degl input

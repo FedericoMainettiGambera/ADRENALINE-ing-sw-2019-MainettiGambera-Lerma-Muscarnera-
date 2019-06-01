@@ -50,7 +50,7 @@ public class BoardV implements Serializable {
         return s;
     }
 
-    public Image GUIchosenMap() throws Exception {
+    public Image GUIchosenMap(String chosenMap) throws Exception {
         Image map=null;
         switch (chosenMap) {
             case "map2":
