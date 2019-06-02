@@ -7,6 +7,7 @@ import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPosition;
+import it.polimi.se2019.virtualView.WaitForPlayerInput;
 
 import java.util.ArrayList;
 
@@ -15,6 +16,8 @@ public class RunAroundState implements State {
     private int actionNumber;
     private int numberOfMoves;
 
+    private Player playerToAsk;
+
     public RunAroundState(int actionNumber){
         System.out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
@@ -22,6 +25,7 @@ public class RunAroundState implements State {
 
     @Override
     public void askForInput(Player playerToAsk) {
+        this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         if(ModelGate.model.hasFinalFrenzyBegun()&&playerToAsk.getBeforeorafterStartingPlayer()<0){numberOfMoves=4;}
@@ -39,6 +43,8 @@ public class RunAroundState implements State {
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(possiblePositions);
+            Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+            t.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,6 +53,15 @@ public class RunAroundState implements State {
     @Override
     public void doAction(ViewControllerEvent VCE) {
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+
+        this.playerToAsk.menageAFKAndInputs();
+        if(playerToAsk.isAFK()){
+            //set next State
+            System.out.println("<SERVER> " + playerToAsk.getNickname() + " is AFK, he'll pass the turn.");
+            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+            ViewControllerEventHandlerContext.state.doAction(null);
+            return;
+        }
 
         ViewControllerEventPosition VCEPosition = (ViewControllerEventPosition)VCE;
 

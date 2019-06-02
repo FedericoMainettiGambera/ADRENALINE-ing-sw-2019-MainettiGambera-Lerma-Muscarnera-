@@ -1,5 +1,6 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.SquareTypes;
 
@@ -81,48 +82,74 @@ public class PreConditionMethods implements Serializable {
     }
     public boolean youCanSee(ActionDetails actionDetails, ActionContext actionContext) {
         System.out.println("\tverificando se sia visibile...");
-        if(true)
-        return true;
-        int Tx = actionDetails.getUserSelectedActionDetails().getTarget().getPosition().getX();
-        int Ty = actionDetails.getUserSelectedActionDetails().getTarget().getPosition().getY();
+        Player me = actionContext.getPlayer();
+        Position playerPosition = me.getPosition();
+        Square   playerSquare   = actionContext.getBoard().getMap()[playerPosition.getY()][playerPosition.getX()];
+        List<Player> targets = actionDetails.getUserSelectedActionDetails().getTargetList();
+        if(
+                !playerSquare.getSide(CardinalPoint.north).equals(SquareSide.door) &&
+                  !playerSquare.getSide(CardinalPoint.south).equals(SquareSide.door)  &&
+                     !playerSquare.getSide(CardinalPoint.west).equals(SquareSide.door) &&
+                         !playerSquare.getSide(CardinalPoint.east).equals(SquareSide.door) ) {
+            /*posizione senza porte*/
+            boolean retVal = true;
+            for (Player t : targets) {
+                Square targetSquare = actionContext.getBoard().getMap()[t.getPosition().getY()][t.getPosition().getX()];
+                if(targetSquare.getColor() != playerSquare.getColor())
+                    retVal = false;
+            }
+            return retVal;
+        } else {
+            System.out.println("--");
+            Square northSide = null;
+            Square southSide = null;
+            Square eastSide  = null;
+            Square westSide  = null;
 
-        int Px = actionContext.getPlayer().getPosition().getX();
-        int Py = actionContext.getPlayer().getPosition().getY();
-
-        if((Tx == Px) || (Py == Ty)) {          //visibile
-            if((Tx == Px)) {                    //sono sulla stessa verticale
-                if(Ty>Py) {
-
-                } else {
-                    if(Ty<Py) {
-                        int i = Ty;
-                        int j = Py;
-                        boolean noWalls = true;
-                        for(i = Ty;i < j;i++) {
-                          //  if(actionContext.getBoard().getMap()[0][0].)
-                        }
-                        return noWalls;
-                    } else {
-                        return true;            // nella stessa cella
-                    }
-                }
-
-            } else {
-                int i = Py;
-                int j = Ty;
-                boolean noWalls = true;
-                for(i = Py;i < j;i++) {
-                    // TODO: insert board reference
-
-                }
-                return noWalls;
+            if(playerSquare.getSide(CardinalPoint.north).equals(SquareSide.door)) {
+                if(playerPosition.getX() > 0)
+                northSide = actionContext.getBoard().getSquare(playerPosition.getY(),playerPosition.getX() - 1);
             }
 
+            if(playerSquare.getSide(CardinalPoint.east).equals(SquareSide.door)) {
+                if(playerPosition.getY() < 2)
+                eastSide = actionContext.getBoard().getSquare(playerPosition.getY() + 1,playerPosition.getX());
+            }
 
+            if(playerSquare.getSide(CardinalPoint.west).equals(SquareSide.door)) {
+                if(playerPosition.getY() > 0)
+                westSide = actionContext.getBoard().getSquare(playerPosition.getY() - 1,playerPosition.getX());
+            }
+            System.out.println("---");
+            if(playerSquare.getSide(CardinalPoint.south).equals(SquareSide.door)) {
+                if(playerPosition.getX() < 3)
+                southSide = actionContext.getBoard().getSquare(playerPosition.getY(),playerPosition.getX()+1);
+            }
+            boolean retVal = true;
+
+            for(Player t: targets) {
+                Square targetSquare = actionContext.getBoard().getMap()[t.getPosition().getY()][t.getPosition().getX()];
+                List<Character> colors = new ArrayList<>();
+                colors.add(playerSquare.getColor());
+                if(northSide != null)
+                    colors.add(northSide.getColor());
+                if(eastSide != null)
+                    colors.add(eastSide.getColor());
+                if(westSide != null)
+                    colors.add(westSide.getColor());
+                if(southSide != null)
+                    colors.add(southSide.getColor());
+                System.out.println("colori disoonibili : " + colors);
+                if(!colors.contains(targetSquare.getColor()))
+                    retVal = false;
+
+
+            }
+            if(retVal) {
+                System.out.println("visibile");
+            } else System.out.println("non visibile");
+            return retVal;
         }
-
-
-        return true;
 
     }
     public boolean distanceOfTargetFromPlayerSquareIs1(ActionDetails actionDetails,ActionContext actionContext) {
@@ -315,6 +342,11 @@ public class PreConditionMethods implements Serializable {
         return (Distance == 1);
 
     }
+    public boolean youCanSeeThatSquare(ActionDetails actionDetails,ActionContext actionContext) {
+        Square thatSquare = actionDetails.getUserSelectedActionDetails().getChosenSquare();
+        Player me = actionContext.getPlayer();
+        return true;
+    }
     public boolean distanceOfTargetFromPlayerSquareMoreThan2Moves(ActionDetails actionDetails,ActionContext actionContext) {
         return !distanceOfTargetFromPlayerSquareLessThan2Moves(actionDetails,actionContext);
     }
@@ -323,6 +355,24 @@ public class PreConditionMethods implements Serializable {
         Player previousTarget = actionContext.getPlayer().getPlayerHistory().getRecord(actionContext.getPlayer().getPlayerHistory().getSize() - 2).getContextEffect().getActions().get((0)).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
         System.out.println(currentTarget.getNickname() + "==" + previousTarget.getNickname() + "?" + (currentTarget.equals(previousTarget)));
         return (!currentTarget.equals(previousTarget));
+    }
+    public boolean differentSingleTargets(ActionDetails actionDetails,ActionContext actionContext) {
+        List<Player> target = new ArrayList<>();
+        int i = 0;
+        while((Player)((Object[][]) actionContext.getPlayer().getPlayerHistory().getLast().getInput())[i][0] != null) {
+            target.add((Player) ((Object[][]) actionContext.getPlayer().getPlayerHistory().getLast().getInput())[i][0]);
+            i++;
+        }
+
+        int counter = 0;
+        for(Player x : target) {
+            counter = 0;
+            for(Player y: target) {
+                if(x.equals(y)) counter++;
+            }
+            if(counter>1) return false;
+        }
+        return true;
     }
     public boolean itsValidPosition(ActionDetails actionDetails, ActionContext actionContext) {
         int x = actionDetails.getUserSelectedActionDetails().getNewPosition().getX();

@@ -7,6 +7,7 @@ import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPosition;
+import it.polimi.se2019.virtualView.WaitForPlayerInput;
 
 import java.util.ArrayList;
 
@@ -15,7 +16,10 @@ public class GrabStuffStateMove implements State {
     private int actionNumber;
     private int numberOfMovement;
 
+    private Player playerToAsk;
+
     public GrabStuffStateMove(int actionNumber){
+        this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
@@ -45,6 +49,8 @@ public class GrabStuffStateMove implements State {
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askGrabStuffMove(possiblePositions);
+            Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+            t.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,6 +59,15 @@ public class GrabStuffStateMove implements State {
     @Override
     public void doAction(ViewControllerEvent VCE) {
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+
+        this.playerToAsk.menageAFKAndInputs();
+        if(playerToAsk.isAFK()){
+            //set next State
+            System.out.println("<SERVER> " + playerToAsk.getNickname() + " is AFK, he'll pass the turn.");
+            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+            ViewControllerEventHandlerContext.state.doAction(null);
+            return;
+        }
 
         ViewControllerEventPosition VCEPosition = (ViewControllerEventPosition)VCE;
 

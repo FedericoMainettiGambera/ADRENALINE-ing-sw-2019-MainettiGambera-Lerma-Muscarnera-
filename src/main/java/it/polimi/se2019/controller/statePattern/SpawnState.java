@@ -8,6 +8,7 @@ import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
+import it.polimi.se2019.virtualView.WaitForPlayerInput;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,8 @@ public class SpawnState implements State {
 
     private ArrayList<Player> deadPlayers;
 
+    private Player playerToAsk;
+
 
     public SpawnState(ArrayList<Player> deadPlayers){
         System.out.println("<SERVER> New state: " + this.getClass());
@@ -25,6 +28,7 @@ public class SpawnState implements State {
 
     @Override
     public void askForInput(Player playerToAsk) {
+        this.playerToAsk = playerToAsk;
         //(playerToAsk is null)
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToSpawn.getNickname() + "\"");
 
@@ -43,6 +47,8 @@ public class SpawnState implements State {
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askSpawn((ArrayList)playerToSpawn.getPowerUpCardsInHand().getCards());
+            Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+            t.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,6 +57,15 @@ public class SpawnState implements State {
     @Override
     public void doAction(ViewControllerEvent VCE) {
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+
+        this.playerToAsk.menageAFKAndInputs();
+        if(playerToAsk.isAFK()){
+            //set next State
+            System.out.println("<SERVER> " + playerToAsk.getNickname() + " is AFK, he'll pass the turn.");
+            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+            ViewControllerEventHandlerContext.state.doAction(null);
+            return;
+        }
 
         ViewControllerEventString VCEString = (ViewControllerEventString)VCE;
 

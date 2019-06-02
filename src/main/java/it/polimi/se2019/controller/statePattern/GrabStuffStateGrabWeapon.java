@@ -7,6 +7,7 @@ import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventTwoString;
+import it.polimi.se2019.virtualView.WaitForPlayerInput;
 
 import java.util.ArrayList;
 
@@ -15,7 +16,10 @@ public class GrabStuffStateGrabWeapon implements  State {
 
     private int actionNumber;
 
+    private Player playerToAsk;
+
     public GrabStuffStateGrabWeapon(int actionNumber){
+        this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
@@ -68,11 +72,15 @@ public class GrabStuffStateGrabWeapon implements  State {
                 System.out.println("<SERVER> There are no weapon to pick up, asking another action to the user.");
                 ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
                 ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+                Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                t.start();
             }
             else {
                 try {
                     SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                     SelectorGate.getCorrectSelectorFor(playerToAsk).askGrabStuffSwitchWeapon(toPickUp, toDiscard);
+                    Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                    t.start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -85,11 +93,15 @@ public class GrabStuffStateGrabWeapon implements  State {
                 System.out.println("<SERVER> There are no weapon to pick up, asking another action to the user.");
                 ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
                 ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+                Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                t.start();
             }
             else{
                 try {
                     SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                     SelectorGate.getCorrectSelectorFor(playerToAsk).askGrabStuffGrabWeapon(toPickUp);
+                    Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                    t.start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -100,6 +112,14 @@ public class GrabStuffStateGrabWeapon implements  State {
     @Override
     public void doAction(ViewControllerEvent VCE) {
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        this.playerToAsk.menageAFKAndInputs();
+        if(playerToAsk.isAFK()){
+            //set next State
+            System.out.println("<SERVER> " + playerToAsk.getNickname() + " is AFK, he'll pass the turn.");
+            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+            ViewControllerEventHandlerContext.state.doAction(null);
+            return;
+        }
 
         Position playerPosition = ModelGate.model.getCurrentPlayingPlayer().getPosition();
         OrderedCardList<WeaponCard> playerWeapons = ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand();
