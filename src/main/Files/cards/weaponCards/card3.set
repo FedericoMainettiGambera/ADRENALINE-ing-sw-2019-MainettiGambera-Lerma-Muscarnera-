@@ -30,11 +30,11 @@ NEW EFFECT
 EXPECTED INPUT
 singleTarget
 TO
-1
+2
 END
 singleTarget
 TO
-2
+3
 END
 END
 ACTIONS
@@ -56,6 +56,11 @@ PRECONDITION
 youCanSee
 SET
 2
+END
+Action
+ACTION INFO
+PRECONDITION
+differentSingleTargets
 END
 END
 
