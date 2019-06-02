@@ -50,12 +50,17 @@ public class GameSetUpState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE){
-        this.playerToAsk.menageAFKAndInputs();
-        if(playerToAsk.isAFK()){
-
-        }
 
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+
+        this.playerToAsk.menageAFKAndInputs();
+        if(playerToAsk.isAFK()){
+            //set next State
+            System.out.println("<SERVER> " + playerToAsk.getNickname() + " is AFK, he'll pass the turn.");
+            ModelGate.model.getPlayerList().setNextPlayingPlayer();
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getCurrentPlayingPlayer());
+            return;
+        }
 
         ViewControllerEventGameSetUp VCEGameSetUp = (ViewControllerEventGameSetUp)VCE;
 

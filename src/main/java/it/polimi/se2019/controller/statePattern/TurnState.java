@@ -37,11 +37,16 @@ public class TurnState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+
         this.playerToAsk.menageAFKAndInputs();
         if(playerToAsk.isAFK()){
-
+            //set next State
+            System.out.println("<SERVER> " + playerToAsk.getNickname() + " is AFK, he'll pass the turn.");
+            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+            ViewControllerEventHandlerContext.state.doAction(null);
+            return;
         }
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         String actionChosen = ((ViewControllerEventString)VCE).getInput();
         System.out.println("<SERVER> Player's choice is : " + actionChosen);
