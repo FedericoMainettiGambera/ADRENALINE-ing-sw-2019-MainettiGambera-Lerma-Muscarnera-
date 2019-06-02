@@ -213,6 +213,7 @@ public class WeaponCard extends Card implements Serializable {
                 if(line.equals("NEW EFFECT")) {
                     ///*@*/ System.out.println("\tnuovo effetto corrente");
                     effects.add(new Effect());
+                    effects.get(effects.size() - 1).setOf(this);
                 }
 
                 if(line.equals("EXPECTED INPUT")) {

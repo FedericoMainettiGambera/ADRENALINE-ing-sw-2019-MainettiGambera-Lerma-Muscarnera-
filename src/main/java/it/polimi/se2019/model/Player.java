@@ -22,6 +22,15 @@ public class Player extends Person implements Serializable {
     /*-*****************************************************************************************************ATTRIBUTES*/
     /***/
     private PlayerHand hand;
+
+    public PlayerHistory getPlayerHistory() {
+        return playerHistory;
+    }
+
+    public void setPlayerHistory(PlayerHistory playerHistory) {
+        this.playerHistory = playerHistory;
+    }
+
     /***/
     PlayerHistory playerHistory;
 

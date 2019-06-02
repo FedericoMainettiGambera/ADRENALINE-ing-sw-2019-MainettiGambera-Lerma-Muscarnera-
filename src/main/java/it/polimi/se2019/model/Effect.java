@@ -11,6 +11,15 @@ import static it.polimi.se2019.model.enumerations.EffectInfoType.*;
 
 /***/
 public class Effect implements Serializable {
+    public WeaponCard getOf() {
+        return of;
+    }
+
+    public void setOf(WeaponCard of) {
+        this.of = of;
+    }
+
+    WeaponCard of;
 
     public Object[][] getFilledInputs() {
         return filledInputs;
@@ -93,7 +102,7 @@ public class Effect implements Serializable {
     }
     public void handleInput(Object[][] input) {
         this.filledInputs = input;
-
+        this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().addRecord(null,this,input);      //TODO : reference to the card
         int i= 0;int j = 0;
         for(EffectInfoElement e: this.getEffectInfo().getEffectInfoElement()) {
 
