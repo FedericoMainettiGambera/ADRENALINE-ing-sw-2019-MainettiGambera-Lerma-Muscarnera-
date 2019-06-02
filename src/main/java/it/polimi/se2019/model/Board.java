@@ -105,7 +105,7 @@ public class Board{
         return room;
     }
 
-    public int distanceFromTo(Position from, Position to){
+    public int distanceFromTo(Position from, Position to) throws Exception {
         boolean found = false;
 
         ArrayList<Position> possiblePositions = new ArrayList<>();
@@ -179,6 +179,9 @@ public class Board{
             possiblePositionsToAddInNextCycle.clear();
 
             numberOfMoves++;
+            if(numberOfMoves >= this.board.length*this.board[0].length){
+                throw new Exception("can't find square");
+            }
         }
         return numberOfMoves;
     }
