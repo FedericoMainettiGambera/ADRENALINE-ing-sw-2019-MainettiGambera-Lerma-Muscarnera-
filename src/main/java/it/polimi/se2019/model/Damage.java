@@ -35,18 +35,24 @@ public class Damage extends Action implements Serializable {
          for (Player t : getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList()) {
          //Player t =    getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList().get(0);
              if(t != null) {
-                 System.out.println("colpisco " + t.getNickname());
-                 getActionInfo().getActionDetails().getUserSelectedActionDetails().itNeeds(                  /*it needs this field to be fillen by the user*/
-                         t
-                 );
 
-                 Player shooter = getActionInfo().getActionContext().getPlayer();
-                 Player target = t;
+                if(!t.equals(getActionInfo().getActionContext().getPlayer())) {
 
-                 int damageEntity = Integer.parseInt((String) getActionInfo().getActionDetails().getFileSelectedActionDetails().getFileSettingData().get(0));
-                 System.out.println(".");
-                 target.addDamages(shooter,
-                         damageEntity);
+                    getActionInfo().getActionDetails().getUserSelectedActionDetails().itNeeds(                  /*it needs this field to be fillen by the user*/
+                            t
+                    );
+
+                    Player shooter = getActionInfo().getActionContext().getPlayer();
+                    Player target = t;
+
+                    int damageEntity = Integer.parseInt((String) getActionInfo().getActionDetails().getFileSelectedActionDetails().getFileSettingData().get(0));
+                    System.out.println("colpisco " + t.getNickname() + ": " + damageEntity + " danno (i) " );
+                    target.addDamages(shooter,
+                            damageEntity);
+                } else {
+
+                    System.out.println("non puoi colpirti da solo!");
+                }
              }
         }
     }
