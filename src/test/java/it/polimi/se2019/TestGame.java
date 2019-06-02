@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class TestGame{
-
+    /*FOR MAVEN PURPOSE
     Game game=new Game();
     Player player= new Player();
     PlayersList playerList= new PlayersList();
@@ -49,4 +49,5 @@ public class TestGame{
         wc=game.getWeaponDeck();
 
     }
+    */
 }

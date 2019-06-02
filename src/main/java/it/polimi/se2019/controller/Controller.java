@@ -67,6 +67,7 @@ public class  Controller{
 
 
         //Starting a Client for who ever runs the server, not necessary...
+        /*
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         System.out.println("<CLIENT> Do you want to play with:");
@@ -127,6 +128,7 @@ public class  Controller{
             //creating the Client for the user who holds the server and connecting it to the server
             this.SNH = new SocketNetworkHandler(this.SVV.getServerSocket().getInetAddress(), this.SVV.getServerSocket().getLocalPort(), this.V);
         }
+        */
 
     }
 

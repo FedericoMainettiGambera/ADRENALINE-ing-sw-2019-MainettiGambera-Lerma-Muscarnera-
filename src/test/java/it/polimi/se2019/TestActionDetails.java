@@ -4,6 +4,7 @@ import it.polimi.se2019.model.ActionDetails;
 import org.junit.Test;
 
 public class TestActionDetails {
+    /*FOR MAVEN PURPOSE
     @Test
     public void testActionDetails() {
         ActionDetails A = new ActionDetails();
@@ -15,4 +16,5 @@ public class TestActionDetails {
         A.getFileSelectedActionDetails();
 
     }
+    */
 }

@@ -18,6 +18,7 @@ import java.lang.*;
 import static junit.framework.TestCase.assertEquals;
 
 public class TestBoard {
+    /*FOR MAVEN PURPOSE
     @Test
     public void testBuildMap()throws IOException,Exception {
 
@@ -60,15 +61,15 @@ public class TestBoard {
         map=b.getMap();
         assertEquals(SquareSide.wall, map[0][0].getSide(CardinalPoint.north));
         assertEquals(SquareSide.wall, map[0][3].getSide(CardinalPoint.north));
-        /*
-        try {
-            pos=b.getSpawnpointOfColor(AmmoCubesColor.blue);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        //try {
+        //    pos=b.getSpawnpointOfColor(AmmoCubesColor.blue);
+        //} catch (Exception e) {
+        //    e.printStackTrace();
+        //}
 
         assertEquals(pos,map[0][2].getCoordinates() );
-        */
+
 
         //Possible Position
 
@@ -82,6 +83,5 @@ public class TestBoard {
 
     }
 
-
-
+    */
 }

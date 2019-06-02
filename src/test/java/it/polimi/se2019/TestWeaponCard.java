@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TestWeaponCard {
+    /*FOR MAVEN PURPOSE
     @Test
     public void test() {
         try {
@@ -157,8 +158,8 @@ public class TestWeaponCard {
 
         user1.setPosition(0,0);
         user2.setPosition(0,0);
-        user3.setPosition(1,1);                 /*   same position          */
-        user4.setPosition(1,1);                 /*                  users   */
+        user3.setPosition(1,1);                 //   same position
+        user4.setPosition(1,1);                 //                 users
         System.out.println(".");
         Object[][] o = new Object[10][10];
         Square A =  new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r');
@@ -214,4 +215,5 @@ public class TestWeaponCard {
 
         }
     }
+    */
 }

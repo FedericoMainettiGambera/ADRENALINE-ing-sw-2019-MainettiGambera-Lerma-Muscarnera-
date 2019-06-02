@@ -32,18 +32,17 @@ public class Game extends Observable implements Serializable {
         return this.numberOfClientsConnected;
     }
 
+    private boolean hasTimerBegun = false;
+
     public void setNumberOfClientsConnected(int numberOfClientsConnected){
-        System.out.println("        MODELGATE: SETTING NUMBER OF CONNECTION");
+        System.out.println("         MODELGATE: SETTING NUMBER OF CONNECTION");
         this.numberOfClientsConnected = numberOfClientsConnected;
-        if((this.numberOfClientsConnected >= GameConstant.minNumberOfPlayerPerGame)&&(this.numberOfClientsConnected <= GameConstant.maxNumberOfPlayerPerGame-1)) {
-            Thread t = new Thread(new ConnectionGameCountDown(this.numberOfClientsConnected));
-            t.start();
-        }
-        else if(this.numberOfClientsConnected > GameConstant.maxNumberOfPlayerPerGame-1) {
-            System.out.println("<SERVER> Max number of player reached.");
-            System.out.println("<SERVER> STARTING GAME.");
-            ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayer("User1"));
+        if(!hasTimerBegun) {
+            if (this.numberOfClientsConnected >= GameConstant.minNumberOfPlayerPerGame) {
+                this.hasTimerBegun = true;
+                Thread t = new Thread(new ConnectionGameCountDown(this.numberOfClientsConnected));
+                t.start();
+            }
         }
     }
 

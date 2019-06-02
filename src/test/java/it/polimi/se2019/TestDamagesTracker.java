@@ -9,6 +9,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TestDamagesTracker {
+    /*FOR MAVEN PURPOSE
     @Test
     public void testAddDamage(){
         DamagesTracker dt = new DamagesTracker();
@@ -108,4 +109,5 @@ public class TestDamagesTracker {
 
         assertEquals(ds, dt.getDamageSlot(0));
     }
+    */
 }

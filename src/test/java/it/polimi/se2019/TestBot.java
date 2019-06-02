@@ -5,6 +5,7 @@ import it.polimi.se2019.model.Player;
 import org.junit.Test;
 
 public class TestBot {
+    /*FOR MAVEN PURPOSE
     @Test
     public void testBot() {
         Bot  b = new Bot(true);
@@ -21,4 +22,5 @@ public class TestBot {
         b.getOwner();
         b.isBotActive();
     }
+    */
 }

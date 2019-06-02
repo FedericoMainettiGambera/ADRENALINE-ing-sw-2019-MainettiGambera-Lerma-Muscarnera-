@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestEffect {
-
-/* TODO : !!!!!!!!!!!!!!!!!!! COMMENTED OUT BECAUSE OF SONAR REPORTS !!!!!!!!!!!!!!!!!! */
+    /*FOR MAVEN PURPOSE
     @Test
     public void Cartesian() {
         List<Object> A = new ArrayList<>();
@@ -149,5 +148,5 @@ public class TestEffect {
 
 
     }
-*/
+    */
 }

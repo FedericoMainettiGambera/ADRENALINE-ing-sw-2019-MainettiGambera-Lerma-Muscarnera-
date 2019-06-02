@@ -6,6 +6,7 @@ import it.polimi.se2019.model.TargetingScope;
 import org.junit.Test;
 
 public class TestTargetingScope {
+    /*FOR MAVEN PURPOSE
     @Test
     public void testTargetingScope() {
 
@@ -16,4 +17,5 @@ public class TestTargetingScope {
         Action t = new TargetingScope(new ActionInfo());
         t.Exec();
     }
+    */
 }

@@ -5,6 +5,7 @@ import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.selectorEvents.*;
 import it.polimi.se2019.virtualView.Selector;
 import it.polimi.se2019.virtualView.VirtualViewSelector;
+import it.polimi.se2019.virtualView.WaitForPlayerInput;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

@@ -8,6 +8,7 @@ import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.SquareTypes;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventGameSetUp;
+import it.polimi.se2019.virtualView.WaitForPlayerInput;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -17,12 +18,15 @@ public class GameSetUpState implements State {
 
     private ObjectOutputStream objectOutputStream;
 
+    private Player playerToAsk;
+
     public GameSetUpState(){
         System.out.println("<SERVER> New state: " + this.getClass());
     }
 
     @Override
     public void askForInput(Player playerToAsk) {
+        this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //Registering the VirtualView as an observer of the model so it can receive the MVEs
@@ -37,6 +41,8 @@ public class GameSetUpState implements State {
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askGameSetUp();
+            Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+            t.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -44,6 +50,7 @@ public class GameSetUpState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE){
+        this.playerToAsk.menageAFKAndInputs();
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventGameSetUp VCEGameSetUp = (ViewControllerEventGameSetUp)VCE;

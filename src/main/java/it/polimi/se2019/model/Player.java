@@ -17,6 +17,8 @@ public class Player extends Person implements Serializable {
         super();
         this.playerHistory = new PlayerHistory();
         this.hand = new PlayerHand();
+        this.hasAnswered = false;
+        this.isAFK = false;
     }
 
     /*-*****************************************************************************************************ATTRIBUTES*/
@@ -47,6 +49,38 @@ public class Player extends Person implements Serializable {
     private int beforeOrAfterStartingPlayer;
 
     private boolean isLastPlayingPlayer=false;
+
+    private boolean hasAnswered;
+
+    private boolean isAFK;
+
+    public boolean hasAnswered() {
+        return hasAnswered;
+    }
+
+    public boolean isAFK() {
+        return isAFK;
+    }
+
+    public void setHasAnswered(boolean hasAnswered){
+        this.hasAnswered = hasAnswered;
+    }
+
+    public void setIsAFK(boolean isAFK){
+        this.isAFK = isAFK;
+    }
+
+    public void menageAFKAndInputs(){
+        if(!this.isAFK()) {
+            this.setHasAnswered(true);
+        }
+        else{
+            //TODO
+            //this.disconnect();
+            System.out.println(this.getNickname() + ": should disconnect.");
+        }
+    }
+
 
     /*-********************************************************************************************************METHODS*/
 

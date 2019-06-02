@@ -7,10 +7,9 @@ import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestAmmoCube{
+    /*FOR MAVEN PURPOSE
 
-
-        AmmoCubes ammo=new AmmoCubes(AmmoCubesColor.yellow);
-
+    AmmoCubes ammo=new AmmoCubes(AmmoCubesColor.yellow);
 
     @Test
     public void testGetters(){
@@ -36,4 +35,5 @@ public class TestAmmoCube{
         assertEquals(true, ammo.subQuantity(1));
         assertEquals(0, ammo.getQuantity());
     }
+    */
 }
