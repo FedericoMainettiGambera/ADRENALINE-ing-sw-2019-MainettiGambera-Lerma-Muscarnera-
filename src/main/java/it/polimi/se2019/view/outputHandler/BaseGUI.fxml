@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane fx:id="principalpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="711.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <GridPane fx:id="map" layoutX="171.0" layoutY="89.0" prefHeight="197.0" prefWidth="312.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ImageView fx:id="map00" fitHeight="70.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="map10" fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+            <ImageView fx:id="map20" fitHeight="70.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+            <ImageView fx:id="map01" fitHeight="66.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+            <ImageView fx:id="map11" fitHeight="67.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ImageView fx:id="map21" fitHeight="65.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <ImageView fx:id="map02" fitHeight="67.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+            <ImageView fx:id="map12" fitHeight="66.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ImageView fx:id="map22" fitHeight="66.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <ImageView fx:id="map30" fitHeight="69.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+            <ImageView fx:id="map31" fitHeight="67.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <ImageView fx:id="map32" fitHeight="67.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <GridPane fx:id="grid10" GridPane.columnIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fx:id="square10image12" fitHeight="17.0" fitWidth="38.0" layoutX="10.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square10image01" fitHeight="16.0" fitWidth="18.0" layoutX="10.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                  <ImageView fx:id="square10image02" fitHeight="15.0" fitWidth="18.0" layoutX="10.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square10image11" fitHeight="15.0" fitWidth="18.0" layoutX="10.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ImageView fx:id="square10image00" fitHeight="16.0" fitWidth="20.0" layoutX="10.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="square10image10" fitHeight="16.0" fitWidth="20.0" layoutX="49.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="grid20" GridPane.columnIndex="2">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fx:id="square20image00" fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="square20image12" fitHeight="22.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square20image02" fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square20image01" fitHeight="17.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                  <ImageView fx:id="square20image10" fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                  <ImageView fx:id="square20image11" fitHeight="18.0" fitWidth="19.0" layoutX="10.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="grid01" GridPane.rowIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fx:id="square01image10" fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                  <ImageView fx:id="square01image02" fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square01image11" fitHeight="17.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ImageView fx:id="square01image01" fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                  <ImageView fx:id="square01image12" fitHeight="22.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square01image00" fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="grid02" GridPane.rowIndex="2">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fx:id="square02image11" fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ImageView fx:id="square02image02" fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square02image00" fitHeight="17.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="square02image10" fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                  <ImageView fx:id="square02image12" fitHeight="22.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square02image01" fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="grid22" GridPane.columnIndex="2" GridPane.rowIndex="2">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fx:id="square22image00" fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="square22image10" fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                  <ImageView fx:id="square22image02" fitHeight="17.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square22image01" fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                  <ImageView fx:id="square22image12" fitHeight="22.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square22image11" fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="grid12" GridPane.columnIndex="1" GridPane.rowIndex="2">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fx:id="square12image00" fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="square12image02" fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square12image11" fitHeight="15.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ImageView fx:id="square12image01" fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                  <ImageView fx:id="square12image12" fitHeight="22.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square12image10" fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="grid11" GridPane.columnIndex="1" GridPane.rowIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fx:id="square11image10" fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                  <ImageView fx:id="square11image02" fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square11image11" fitHeight="17.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ImageView fx:id="square11image01" fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                  <ImageView fx:id="square11image12" fitHeight="22.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square11image00" fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="grid21" GridPane.columnIndex="2" GridPane.rowIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fx:id="square21image10" fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                  <ImageView fx:id="square21image00" fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="square21image02" fitHeight="17.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square21image01" fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                  <ImageView fx:id="square21image12" fitHeight="22.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square21image11" fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="grid00">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fx:id="square00image10" fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                  <ImageView fx:id="square00image01" fitHeight="17.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                  <ImageView fx:id="square00image20" fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square00image12" fitHeight="22.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square00image00" fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="square00image11" fitHeight="18.0" fitWidth="20.0" layoutX="10.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="grid30" GridPane.columnIndex="3">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fx:id="square30image00" fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="square30image02" fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square30image01" fitHeight="17.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                  <ImageView fx:id="square30image11" fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ImageView fx:id="square30image12" fitHeight="22.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square30image10" fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="grid31" GridPane.columnIndex="3" GridPane.rowIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fx:id="square31image02" fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square31image00" fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="square31image01" fitHeight="17.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                  <ImageView fx:id="square31image11" fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ImageView fx:id="square31image12" fitHeight="22.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square31image10" fitHeight="18.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="grid32" GridPane.columnIndex="3" GridPane.rowIndex="2">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fx:id="square32image10" fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                  <ImageView fx:id="square32image00" fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="square32image02" fitHeight="17.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square32image11" fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ImageView fx:id="square32image12" fitHeight="22.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ImageView fx:id="square32image01" fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+         </children>
+      </GridPane>
+      <VBox fx:id="classifica" layoutX="612.0" layoutY="7.0" prefHeight="260.0" prefWidth="96.0">
+         <children>
+            <Label fx:id="classificaname" prefHeight="17.0" prefWidth="87.0" text="Classifica" />
+            <ListView fx:id="classificalistview" prefHeight="241.0" prefWidth="96.0" />
+         </children>
+      </VBox>
+      <HBox fx:id="inhandweaponcard" layoutY="303.0" prefHeight="99.0" prefWidth="159.0">
+         <children>
+            <ImageView fx:id="inhandweaponcard0" fitHeight="98.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="inhandweaponcard1" fitHeight="99.0" fitWidth="50.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="inhandweaponcard2" fitHeight="99.0" fitWidth="55.0" layoutX="63.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+      <HBox fx:id="inhandpowerup" layoutX="164.0" layoutY="302.0" prefHeight="100.0" prefWidth="107.0">
+         <children>
+            <ImageView fx:id="inhandpowerupcard0" fitHeight="99.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+               </HBox.margin>
+            </ImageView>
+            <ImageView fx:id="inhandpowerupcard1" fitHeight="99.0" fitWidth="55.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+         <opaqueInsets>
+            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+         </opaqueInsets>
+      </HBox>
+      <Pane fx:id="playerpane" layoutX="299.0" layoutY="338.0" prefHeight="147.0" prefWidth="412.0">
+         <children>
+            <HBox layoutY="118.0" prefHeight="15.0" prefWidth="245.0">
+               <children>
+                  <Button fx:id="run" mnemonicParsing="false" text="Corri" />
+                  <Button fx:id="grab" mnemonicParsing="false" text="Raccogli" />
+                  <Button fx:id="shoot" mnemonicParsing="false" text="Spara" />
+                  <Button fx:id="reload" mnemonicParsing="false" prefHeight="27.0" prefWidth="67.0" text="Ricarica" />
+               </children>
+            </HBox>
+            <HBox layoutY="58.0" prefHeight="50.0" prefWidth="386.0">
+               <children>
+                  <ImageView fitHeight="50.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="50.0" fitWidth="31.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="50.0" fitWidth="31.0" layoutX="41.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="50.0" fitWidth="31.0" layoutX="72.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="50.0" fitWidth="31.0" layoutX="103.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="50.0" fitWidth="31.0" layoutX="134.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="50.0" fitWidth="31.0" layoutX="165.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="50.0" fitWidth="31.0" layoutX="196.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="50.0" fitWidth="31.0" layoutX="227.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="50.0" fitWidth="31.0" layoutX="258.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="50.0" fitWidth="31.0" layoutX="289.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="50.0" fitWidth="31.0" layoutX="320.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </HBox>
+            <HBox layoutX="154.0" prefHeight="34.0" prefWidth="215.0">
+               <children>
+                  <ImageView fitHeight="36.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="36.0" fitWidth="31.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="36.0" fitWidth="31.0" layoutX="41.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="36.0" fitWidth="31.0" layoutX="72.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="36.0" fitWidth="31.0" layoutX="103.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="36.0" fitWidth="31.0" layoutX="134.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="36.0" fitWidth="31.0" layoutX="165.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+      <VBox fx:id="spawnsxweapon" layoutY="45.0" prefHeight="159.0" prefWidth="90.0">
+         <children>
+            <ImageView fx:id="spawnsxweaponcard0" fitHeight="49.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="spawnsxweaponcard1" fitHeight="49.0" fitWidth="90.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="spawnsxweaponcard2" fitHeight="49.0" fitWidth="90.0" layoutX="10.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </VBox>
+      <HBox fx:id="skullstrack" layoutX="19.0" layoutY="7.0" prefHeight="27.0" prefWidth="260.0">
+         <children>
+            <ImageView fx:id="skull0" fitHeight="26.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="skull1" fitHeight="26.0" fitWidth="25.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="skull2" fitHeight="26.0" fitWidth="25.0" layoutX="35.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="skull3" fitHeight="26.0" fitWidth="25.0" layoutX="60.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="skull4" fitHeight="26.0" fitWidth="25.0" layoutX="85.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="skull5" fitHeight="26.0" fitWidth="25.0" layoutX="110.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="skull6" fitHeight="26.0" fitWidth="25.0" layoutX="135.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="skull7" fitHeight="26.0" fitWidth="25.0" layoutX="160.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+      <HBox fx:id="spawntopweapon" layoutX="265.0" layoutY="6.0" prefHeight="83.0" prefWidth="159.0">
+         <children>
+            <ImageView fx:id="spawntopweapon0" fitHeight="82.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="spawntopweapon1" fitHeight="82.0" fitWidth="49.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="spawntopweapon2" fitHeight="82.0" fitWidth="49.0" layoutX="59.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+      <VBox fx:id="spawndxweapon" layoutX="483.0" layoutY="76.0" prefHeight="132.0" prefWidth="96.0">
+         <children>
+            <ImageView fx:id="spawndxweapon0" fitHeight="49.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="spawndxweapon1" fitHeight="49.0" fitWidth="90.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="spawndxweapon2" fitHeight="49.0" fitWidth="90.0" layoutX="10.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </VBox>
+      <Label layoutX="299.0" layoutY="313.0" prefHeight="17.0" prefWidth="172.0" text="username" />
+      <GridPane fx:id="ammocontainer" layoutX="618.0" layoutY="281.0" prefHeight="42.0" prefWidth="55.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Rectangle fx:id="yellowammo2" arcHeight="5.0" arcWidth="5.0" fill="#ffdd1f" height="12.0" stroke="BLACK" strokeType="INSIDE" width="12.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Rectangle fx:id="redammo0" arcHeight="5.0" arcWidth="5.0" fill="#ff3a1f" height="12.0" layoutX="46.0" layoutY="39.0" stroke="BLACK" strokeType="INSIDE" width="12.0" GridPane.columnIndex="1" />
+            <Rectangle fx:id="blueammo2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="12.0" layoutX="10.0" layoutY="11.0" stroke="BLACK" strokeType="INSIDE" width="12.0" GridPane.rowIndex="2" />
+            <Rectangle fx:id="blueammo1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="11.0" layoutX="10.0" layoutY="11.0" stroke="BLACK" strokeType="INSIDE" width="12.0" GridPane.rowIndex="1" />
+            <Rectangle fx:id="redammo1" arcHeight="5.0" arcWidth="5.0" fill="#ff1f46" height="12.0" layoutX="28.0" layoutY="11.0" stroke="BLACK" strokeType="INSIDE" width="12.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Rectangle fx:id="yellowammo0" arcHeight="5.0" arcWidth="5.0" fill="#ffe21f" height="12.0" layoutX="28.0" layoutY="25.0" stroke="BLACK" strokeType="INSIDE" width="12.0" GridPane.columnIndex="2" />
+            <Rectangle fx:id="yellowammo1" arcHeight="5.0" arcWidth="5.0" fill="#ffca1f" height="12.0" layoutX="37.0" layoutY="11.0" stroke="BLACK" strokeType="INSIDE" width="12.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Rectangle fx:id="blueammo0" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="12.0" layoutX="10.0" layoutY="39.0" stroke="BLACK" strokeType="INSIDE" width="12.0" />
+            <Rectangle fx:id="redammo2" arcHeight="5.0" arcWidth="5.0" fill="#ff1f3c" height="12.0" layoutX="10.0" layoutY="39.0" stroke="BLACK" strokeType="INSIDE" width="12.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+   </children>
+</Pane>
