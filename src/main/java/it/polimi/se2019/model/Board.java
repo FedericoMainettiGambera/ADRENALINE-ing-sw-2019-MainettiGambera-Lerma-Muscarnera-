@@ -15,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 
@@ -86,6 +87,20 @@ public class Board{
         throw new Exception("Square not found.");
     }
 
+    public List<Square> getRoomFromPosition(Position pos){
+        List<Square> room = new ArrayList<>();
+        Square originalPos = this.board[pos.getX()][pos.getY()];
+        char roomColor=originalPos.getColor();
+        room.add(originalPos);
+        for (int i = 0; i < this.board.length; i++) {
+            for (int j = 0; j < this.board[0].length; j++) {
+                if(this.board[i][j].getColor() == roomColor){
+                    room.add(this.board[i][j]);
+                }
+            }
+        }
+        return room;
+    }
 
    private Square[][] buildMap(String chosenMap) throws IOException{
         Square[][] map = new Square[3][4];
