@@ -98,11 +98,11 @@ public class ConnectionHandlerVirtualView extends Thread {
             new Thread(sl).start();
         }
 
-        System.out.println("<SERVER-socket>Not accepting connections anymore.");
+        System.out.println("<SERVER-socket> Not accepting connections anymore.");
 
-        //make the game start
-        setNextState(new GameSetUpState());
-        state.askForInput(ModelGate.model.getPlayerList().getPlayer("User1"));
+        //make the game start (MOVED TO THE GAME CLASS IN THE NUMBEROFCONNECTION STUFF... setNumberOfClientsConnected()
+        //setNextState(new GameSetUpState());
+        //state.askForInput(ModelGate.model.getPlayerList().getPlayer("User1"));
 
     }
 

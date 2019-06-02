@@ -133,8 +133,9 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
         //if (numberOfConnection.getNumber() > GameConstant.maxNumberOfPlayerPerGame - 1) {
         if (ModelGate.model.getNumberOfClientsConnected() > GameConstant.maxNumberOfPlayerPerGame - 1) {
             System.out.println("<SERVER-rmi> total number of connection reached, starting the state pattern.");
-            ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayer("User1"));
+            // (MOVED TO THE GAME CLASS IN THE NUMBEROFCONNECTION STUFF... setNumberOfClientsConnected()
+            //ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
+            //ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayer("User1"));
         }
 
     }

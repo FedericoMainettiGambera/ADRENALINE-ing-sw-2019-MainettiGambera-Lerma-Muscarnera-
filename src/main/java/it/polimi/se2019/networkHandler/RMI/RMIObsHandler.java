@@ -12,12 +12,9 @@ public class RMIObsHandler extends Observable {
         this.addObserver(view);
     }
 
-
-   public void  notify(Event E){
-
-        System.out.println("<CLIENT> An Event has arrived: class is " + E.getClass() + " and Event Type is " + E.getEventType());
-       this.setChanged();
-       this.notifyObservers(E);
-
-   }
+    public void  notify(Event E){
+        //System.out.println("<CLIENT> An Event has arrived: class is " + E.getClass() + " and Event Type is " + E.getEventType());
+        this.setChanged();
+        this.notifyObservers(E);
+    }
 }
