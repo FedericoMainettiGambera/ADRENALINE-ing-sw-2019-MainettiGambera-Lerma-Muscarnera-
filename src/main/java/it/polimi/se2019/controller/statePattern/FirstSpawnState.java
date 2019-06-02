@@ -38,11 +38,16 @@ public class FirstSpawnState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) throws NullPointerException{
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+
         this.playerToAsk.menageAFKAndInputs();
         if(playerToAsk.isAFK()){
-
+            //set next State
+            System.out.println("<SERVER> " + playerToAsk.getNickname() + " is AFK, he'll pass the turn.");
+            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+            ViewControllerEventHandlerContext.state.doAction(null);
+            return;
         }
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventString VCEPowerUpId = (ViewControllerEventString) VCE;
 

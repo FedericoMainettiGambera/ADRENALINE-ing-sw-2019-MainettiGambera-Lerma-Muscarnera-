@@ -22,10 +22,6 @@ public class GrabStuffState implements State {
 
     @Override
     public void askForInput(Player playerToAsk) {
-        this.playerToAsk.menageAFKAndInputs();
-        if(playerToAsk.isAFK()){
-
-        }
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //ask for input
@@ -42,6 +38,15 @@ public class GrabStuffState implements State {
     @Override
     public void doAction(ViewControllerEvent VCE) {
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+
+        this.playerToAsk.menageAFKAndInputs();
+        if(playerToAsk.isAFK()){
+            //set next State
+            System.out.println("<SERVER> " + playerToAsk.getNickname() + " is AFK, he'll pass the turn.");
+            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+            ViewControllerEventHandlerContext.state.doAction(null);
+            return;
+        }
 
         ViewControllerEventString VCEString = (ViewControllerEventString)VCE;
         String choice = VCEString.getInput();
