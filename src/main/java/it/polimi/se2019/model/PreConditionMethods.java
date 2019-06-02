@@ -315,6 +315,11 @@ public class PreConditionMethods implements Serializable {
         return (Distance == 1);
 
     }
+    public boolean youCanSeeThatSquare(ActionDetails actionDetails,ActionContext actionContext) {
+        Square thatSquare = actionDetails.getUserSelectedActionDetails().getChosenSquare();
+        Player me = actionContext.getPlayer();
+        return true;
+    }
     public boolean distanceOfTargetFromPlayerSquareMoreThan2Moves(ActionDetails actionDetails,ActionContext actionContext) {
         return !distanceOfTargetFromPlayerSquareLessThan2Moves(actionDetails,actionContext);
     }
@@ -323,6 +328,24 @@ public class PreConditionMethods implements Serializable {
         Player previousTarget = actionContext.getPlayer().getPlayerHistory().getRecord(actionContext.getPlayer().getPlayerHistory().getSize() - 2).getContextEffect().getActions().get((0)).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
         System.out.println(currentTarget.getNickname() + "==" + previousTarget.getNickname() + "?" + (currentTarget.equals(previousTarget)));
         return (!currentTarget.equals(previousTarget));
+    }
+    public boolean differentSingleTargets(ActionDetails actionDetails,ActionContext actionContext) {
+        List<Player> target = new ArrayList<>();
+        int i = 0;
+        while((Player)((Object[][]) actionContext.getPlayer().getPlayerHistory().getLast().getInput())[i][0] != null) {
+            target.add((Player) ((Object[][]) actionContext.getPlayer().getPlayerHistory().getLast().getInput())[i][0]);
+            i++;
+        }
+
+        int counter = 0;
+        for(Player x : target) {
+            counter = 0;
+            for(Player y: target) {
+                if(x.equals(y)) counter++;
+            }
+            if(counter>1) return false;
+        }
+        return true;
     }
     public boolean itsValidPosition(ActionDetails actionDetails, ActionContext actionContext) {
         int x = actionDetails.getUserSelectedActionDetails().getNewPosition().getX();
