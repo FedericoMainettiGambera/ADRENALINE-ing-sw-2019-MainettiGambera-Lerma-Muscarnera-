@@ -7,6 +7,7 @@ import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPosition;
+import it.polimi.se2019.virtualView.WaitForPlayerInput;
 
 import java.util.ArrayList;
 
@@ -15,13 +16,20 @@ public class GrabStuffStateMove implements State {
     private int actionNumber;
     private int numberOfMovement;
 
+    private Player playerToAsk;
+
     public GrabStuffStateMove(int actionNumber){
+        this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 
     @Override
     public void askForInput(Player playerToAsk){
+        this.playerToAsk.menageAFKAndInputs();
+        if(playerToAsk.isAFK()){
+
+        }
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         this.numberOfMovement = 1;
@@ -45,6 +53,8 @@ public class GrabStuffStateMove implements State {
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askGrabStuffMove(possiblePositions);
+            Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+            t.start();
         } catch (Exception e) {
             e.printStackTrace();
         }

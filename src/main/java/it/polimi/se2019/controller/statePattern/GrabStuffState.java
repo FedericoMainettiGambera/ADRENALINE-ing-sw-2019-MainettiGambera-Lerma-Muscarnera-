@@ -6,24 +6,34 @@ import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
+import it.polimi.se2019.virtualView.WaitForPlayerInput;
 
 public class GrabStuffState implements State {
 
     private int actionNumber;
 
+    private Player playerToAsk;
+
     public GrabStuffState(int actionNumber){
+        this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 
     @Override
     public void askForInput(Player playerToAsk) {
+        this.playerToAsk.menageAFKAndInputs();
+        if(playerToAsk.isAFK()){
+
+        }
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //ask for input
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askGrabStuffAction();
+            Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+            t.start();
         } catch (Exception e) {
             e.printStackTrace();
         }

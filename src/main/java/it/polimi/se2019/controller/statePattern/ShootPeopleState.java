@@ -8,12 +8,15 @@ import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPosition;
+import it.polimi.se2019.virtualView.WaitForPlayerInput;
 
 import java.util.ArrayList;
 
 public class ShootPeopleState implements State {
 
     private int actionNumber;
+
+    private Player playerToAsk;
 
     public ShootPeopleState(int actionNumber){
         System.out.println("<SERVER> New state: " + this.getClass());
@@ -22,17 +25,22 @@ public class ShootPeopleState implements State {
 
     @Override
     public void askForInput(Player playerToAsk){
+        this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
         //final frenzy hasnt begun and no adrenaline action available
         if(!ModelGate.model.hasFinalFrenzyBegun()&&!ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineShootAction()){
              if(canShoot()){
                  ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState());
                  ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+                 Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                 t.start();
              }
              else{
                  System.out.println("Player cant shoot");
                  ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
                  ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+                 Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                 t.start();
              }
         }
        //FF aint begun & adrenaline action avaible
@@ -41,6 +49,8 @@ public class ShootPeopleState implements State {
             try {
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(),1));
+                Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                t.start();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -61,6 +71,8 @@ public class ShootPeopleState implements State {
             try {
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(),numberOfMoves));
+                Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                t.start();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -70,6 +82,10 @@ public class ShootPeopleState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
+        this.playerToAsk.menageAFKAndInputs();
+        if(playerToAsk.isAFK()){
+
+        }
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventPosition VCEPosition = (ViewControllerEventPosition)VCE;

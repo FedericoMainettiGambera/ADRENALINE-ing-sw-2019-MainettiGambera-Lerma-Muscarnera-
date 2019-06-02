@@ -9,13 +9,17 @@ import it.polimi.se2019.model.PlayersList;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPlayerSetUp;
+import it.polimi.se2019.virtualView.WaitForPlayerInput;
 
 public class PlayerSetUpState implements State {
 
     private int numberOfPlayer;
     private int numberOfPlayersSet;
 
+    private Player playerToAsk;
+
     public PlayerSetUpState(){
+        this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> New state: " + this.getClass());
         this.numberOfPlayer = ModelGate.model.getPlayerList().getNumberOfPlayers();
         this.numberOfPlayersSet = 0;
@@ -35,6 +39,8 @@ public class PlayerSetUpState implements State {
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askPlayerSetUp();
+            Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+            t.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,6 +48,10 @@ public class PlayerSetUpState implements State {
 
    @Override
     public void doAction(ViewControllerEvent VCE){
+       this.playerToAsk.menageAFKAndInputs();
+       if(playerToAsk.isAFK()){
+
+       }
        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
        ViewControllerEventPlayerSetUp VCEPlayerSetUp = (ViewControllerEventPlayerSetUp) VCE;

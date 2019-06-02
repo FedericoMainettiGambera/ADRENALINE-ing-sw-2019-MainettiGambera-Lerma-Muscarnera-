@@ -6,6 +6,7 @@ import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventInt;
+import it.polimi.se2019.virtualView.WaitForPlayerInput;
 
 import java.util.ArrayList;
 
@@ -13,13 +14,20 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
 
     private int actionNumber;
 
+    private Player playerToAsk;
+
     public GrabStuffStateDrawAndDiscardPowerUp(int actionNumber){
+        this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 
     @Override
     public void askForInput(Player playerToAsk) {
+        this.playerToAsk.menageAFKAndInputs();
+        if(playerToAsk.isAFK()){
+
+        }
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //draw a new power up
@@ -33,6 +41,8 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askPowerUpToDiscard((ArrayList)playerToAsk.getPowerUpCardsInHand().getCards());
+            Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+            t.start();
         } catch (Exception e) {
             e.printStackTrace();
         }

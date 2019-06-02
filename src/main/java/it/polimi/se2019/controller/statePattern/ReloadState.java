@@ -10,12 +10,15 @@ import it.polimi.se2019.model.enumerations.SquareTypes;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventBoolean;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
+import it.polimi.se2019.virtualView.WaitForPlayerInput;
 
 import java.util.ArrayList;
 
 public class ReloadState implements State{
 
     private boolean CalledFromShootPeople;
+
+    private Player playerToAsk;
 
     public ReloadState(boolean CalledFromShootPeople){
         this.CalledFromShootPeople = CalledFromShootPeople;
@@ -24,6 +27,7 @@ public class ReloadState implements State{
 
     @Override
     public void askForInput(Player playerToAsk){
+        this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         if ((ModelGate.model.hasFinalFrenzyBegun()  && !CalledFromShootPeople)) {
@@ -49,6 +53,8 @@ public class ReloadState implements State{
             try {
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askWhatReaload(toReaload);
+                Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                t.start();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -74,6 +80,8 @@ public class ReloadState implements State{
             if(CalledFromShootPeople){
                 ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState());
                 ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                t.start();
             }
             else {
                 ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
@@ -85,6 +93,10 @@ public class ReloadState implements State{
 
     @Override
     public void doAction(ViewControllerEvent VCE){
+        this.playerToAsk.menageAFKAndInputs();
+        if(playerToAsk.isAFK()){
+
+        }
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventString VCEString=(ViewControllerEventString)VCE;

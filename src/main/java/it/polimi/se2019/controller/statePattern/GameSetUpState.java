@@ -51,6 +51,10 @@ public class GameSetUpState implements State {
     @Override
     public void doAction(ViewControllerEvent VCE){
         this.playerToAsk.menageAFKAndInputs();
+        if(playerToAsk.isAFK()){
+
+        }
+
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventGameSetUp VCEGameSetUp = (ViewControllerEventGameSetUp)VCE;
