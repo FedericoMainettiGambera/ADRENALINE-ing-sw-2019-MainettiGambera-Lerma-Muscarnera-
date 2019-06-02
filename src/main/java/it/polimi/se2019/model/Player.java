@@ -3,8 +3,6 @@ package it.polimi.se2019.model;
 import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.view.components.PlayerV;
-import it.polimi.se2019.view.components.PowerUpCardV;
-import it.polimi.se2019.view.components.WeaponCardV;
 import it.polimi.se2019.virtualView.RMI.RMIInterface;
 
 import java.io.ObjectOutputStream;
@@ -17,12 +15,26 @@ public class Player extends Person implements Serializable {
     /***/
     public Player() {
         super();
+        this.playerHistory = new PlayerHistory();
         this.hand = new PlayerHand();
+        this.hasAnswered = false;
+        this.isAFK = false;
     }
 
     /*-*****************************************************************************************************ATTRIBUTES*/
     /***/
     private PlayerHand hand;
+
+    public PlayerHistory getPlayerHistory() {
+        return playerHistory;
+    }
+
+    public void setPlayerHistory(PlayerHistory playerHistory) {
+        this.playerHistory = playerHistory;
+    }
+
+    /***/
+    PlayerHistory playerHistory;
 
     /***/
     private String IP;
@@ -37,6 +49,38 @@ public class Player extends Person implements Serializable {
     private int beforeOrAfterStartingPlayer;
 
     private boolean isLastPlayingPlayer=false;
+
+    private boolean hasAnswered;
+
+    private boolean isAFK;
+
+    public boolean hasAnswered() {
+        return hasAnswered;
+    }
+
+    public boolean isAFK() {
+        return isAFK;
+    }
+
+    public void setHasAnswered(boolean hasAnswered){
+        this.hasAnswered = hasAnswered;
+    }
+
+    public void setIsAFK(boolean isAFK){
+        this.isAFK = isAFK;
+    }
+
+    public void menageAFKAndInputs(){
+        if(!this.isAFK()) {
+            this.setHasAnswered(true);
+        }
+        else{
+            //TODO
+            //this.disconnect();
+            System.out.println(this.getNickname() + ": should disconnect.");
+        }
+    }
+
 
     /*-********************************************************************************************************METHODS*/
 

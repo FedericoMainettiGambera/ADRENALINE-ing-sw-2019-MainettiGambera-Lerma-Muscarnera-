@@ -4,6 +4,7 @@ import it.polimi.se2019.model.*;
 import org.junit.Test;
 
 public class TestTeleport {
+    /*FOR MAVEN PURPOSE
     @Test
     public void testTeleport() {
         Action A = new Teleport();
@@ -27,4 +28,5 @@ public class TestTeleport {
         Teleport T = new Teleport();
         T.updateSettingsFromFile();
     }
+    */
 }

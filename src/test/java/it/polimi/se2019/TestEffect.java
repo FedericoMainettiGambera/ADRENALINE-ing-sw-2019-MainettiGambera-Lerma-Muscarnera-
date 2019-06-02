@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestEffect {
-
-/* TODO : !!!!!!!!!!!!!!!!!!! COMMENTED OUT BECAUSE OF SONAR REPORTS !!!!!!!!!!!!!!!!!! */
+    /*FOR MAVEN PURPOSE
     @Test
     public void Cartesian() {
         List<Object> A = new ArrayList<>();
@@ -53,7 +52,7 @@ public class TestEffect {
         playerList.addPlayer(user3);
         playerList.addPlayer(user4);
 
-        Board board = new Board("0",new VirtualView());
+        Board board = new Board("0",new VirtualView(), new VirtualView());
 
         user.setNickname("Luca");
         user2.setNickname("Aldo");
@@ -149,5 +148,5 @@ public class TestEffect {
 
 
     }
-*/
+    */
 }

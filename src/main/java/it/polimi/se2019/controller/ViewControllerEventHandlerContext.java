@@ -13,8 +13,6 @@ public class ViewControllerEventHandlerContext implements Observer{
 
     public static State state;
 
-    public static String networkConnection;
-
     public static SocketVirtualView socketVV;
     public static RMIVirtualView RMIVV;
 

@@ -9,7 +9,7 @@ import it.polimi.se2019.model.AmmoCard;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestOrderedCard{
-
+/*FOR MAVEN PURPOSE
     OrderedCardList orderedCardList=new OrderedCardList("");
     OrderedCardList orderedCardList2=new OrderedCardList("");
 
@@ -38,4 +38,5 @@ public class TestOrderedCard{
 
 
     }
+    */
 }

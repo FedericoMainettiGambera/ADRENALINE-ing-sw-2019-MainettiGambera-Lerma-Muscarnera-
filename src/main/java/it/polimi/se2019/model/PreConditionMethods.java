@@ -25,7 +25,27 @@ public class PreConditionMethods implements Serializable {
     boolean withShadowStep(ActionDetails actionDetails, ActionContext actionContext) {return true;}
     boolean isPolverizeMode(ActionDetails actionDetails, ActionContext actionContext) {return true;}
 
+    /*EFFECT - ORDER */
+
+    public boolean notFirstExecuted(ActionDetails actionDetails, ActionContext actionContext) {         // l'effetto che continee l'azione
+                                                                                                        // che contiene questa precondizione
+        int counter = 0;
+        for(PlayerHistoryElement p: actionContext.getPlayer().getPlayerHistory().historyElementList) {
+            if(!p.getContextCard().equals(actionContext.getPlayer().getPlayerHistory().getLast().getContextCard())) {
+                break;
+            }
+
+            System.out.println(p.getContextEffect().toString()  + " in " + p.getContextCard().toString() + " with input " + p.getInput());
+            counter++;
+        }                                                                                                // non può essere eseguito per primo
+        if(counter <= 1) return false;
+        return true;
+    }
+
+
     /*CONTEXT - INPUT PRECODITION*/
+
+
     public boolean validPayment(ActionDetails actionDetails, ActionContext actionContext) {
         Player player = actionContext.getPlayer();
         AmmoCubes ammoCost = actionDetails.getFileSelectedActionDetails().getAmmoCubesCost();
@@ -299,37 +319,16 @@ public class PreConditionMethods implements Serializable {
         return !distanceOfTargetFromPlayerSquareLessThan2Moves(actionDetails,actionContext);
     }
     public boolean notPreviousTarget(ActionDetails actionDetails, ActionContext actionContext) {
-
-       /*@*/ System.out.println("verifico notPreviousTarget in " +  actionContext.getPlayer().toString() + ":" + actionContext.getActionContextFilteredInputs().size());
-       for(ActionContextFilteredInput a: actionContext.getActionContextFilteredInputs()) {
-           for(Object o: a.getContent())
-               if(o!=null)
-                    System.out.println(((Player)o).getNickname() + ": " +  a.getType());
-       }
-       System.out.println("cronologia attacchi inizializzata");
-       for(int i = actionContext.getActionContextFilteredInputs().size()-2;i >= 0; i--) {
-
-        System.out.println(">" + actionContext.getActionContextFilteredInputs().get(i).getType());
-        if(actionContext.getActionContextFilteredInputs().get(i).getType().equals("Target")) {
-            System.out.println(actionDetails.getUserSelectedActionDetails().getTarget().getNickname() +
-                    " == " +  ((Player) actionContext.getActionContextFilteredInputs().get(i).getContent()[0]).getNickname() +"?" );
-            if (actionDetails.getUserSelectedActionDetails().getTarget().equals(
-                    actionContext.getActionContextFilteredInputs().get(i).getContent()[0]
-            )
-            ) {
-                return false;
-            }
-        } else {
-        return true;
-        }
-       }
-       return true;
+        Player currentTarget = actionDetails.getUserSelectedActionDetails().getTarget();
+        Player previousTarget = actionContext.getPlayer().getPlayerHistory().getRecord(actionContext.getPlayer().getPlayerHistory().getSize() - 2).getContextEffect().getActions().get((0)).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
+        System.out.println(currentTarget.getNickname() + "==" + previousTarget.getNickname() + "?" + (currentTarget.equals(previousTarget)));
+        return (!currentTarget.equals(previousTarget));
     }
     public boolean itsValidPosition(ActionDetails actionDetails, ActionContext actionContext) {
         int x = actionDetails.getUserSelectedActionDetails().getNewPosition().getX();
         int y = actionDetails.getUserSelectedActionDetails().getNewPosition().getY();
         try {
-            Board board = new Board("", null); // example. TODO: insert board reference here
+            Board board = new Board("", null, null); // example. TODO: insert board reference here
             if(board.getMap()[x][y] != null) {
                 return true;
             }

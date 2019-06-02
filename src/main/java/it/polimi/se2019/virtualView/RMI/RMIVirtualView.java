@@ -26,7 +26,9 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
 
     private static final long serialVersionUID = 1L;
     protected static ArrayList<RMIInterface> clientList;
-    public static NumberOfConnection numberOfConnection = new NumberOfConnection();
+
+    //public static NumberOfConnection numberOfConnection = new NumberOfConnection();
+
     private int port = 1099;
     private String name = "http://AdrenalineServer:";
     int rmiIdentifier = 1;
@@ -65,14 +67,19 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
     @Override
     public void addClientToList(RMIInterface client) throws RemoteException {
 
-        if (numberOfConnection.getNumber() + 1 < 3) {
+        //if (numberOfConnection.getNumber() + 1 < 3) {
+        if(ModelGate.model.getNumberOfClientsConnected() <= GameConstant.maxNumberOfPlayerPerGame){
             clientList.add(client);
 
-            System.out.println("<SEVERINO> " + client.getName() + " is connected");
-            numberOfConnection.addNumber();
-            System.out.println("<SEVERINO> " + "number of connection is\n" + numberOfConnection.getNumber());
-        } else
-            System.out.println("<SEVERINO> " + "sorry we are full, number of connection is\n" + numberOfConnection.getNumber());
+            System.out.println("<SEVERINO-rmi> " + client.getName() + " is connected");
+            //numberOfConnection.addNumber();
+            ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected()+1);
+            //System.out.println("<SEVERINO> " + "number of connection is\n" + numberOfConnection.getNumber());
+            System.out.println("<SEVERINO-rmi> " + "number of connection is" + ModelGate.model.getNumberOfClientsConnected());
+        } else {
+            //System.out.println("<SEVER> " + "sorry we are full, number of connection is" + numberOfConnection.getNumber());
+            System.out.println("<SEVER-rmi> " + "sorry we are full, number of connection is" + ModelGate.model.getNumberOfClientsConnected());
+        }
 
     }
 
@@ -81,10 +88,19 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
         return 0;
     }
 
+    //@Override
+    //public NumberOfConnection numberOfConnection() throws RemoteException {
+    //    return numberOfConnection;
+    //}
     @Override
-    public NumberOfConnection numberOfConnection() throws RemoteException {
-        return numberOfConnection;
+    public int numberOfConnection(){
+        return ModelGate.model.getNumberOfClientsConnected();
     }
+
+    //@Override
+    //public void addConnection() {
+    //    ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected()+1);
+    //}
 
     @Override
     public int getRmiIdentifier() throws RemoteException {
@@ -101,22 +117,25 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
     @Override
     public void createPlayer(RMIInterface server) throws RemoteException {
 
-        System.out.println("<SERVER> Creating a Player.");
+        System.out.println("<SERVER-rmi> Creating a Player.");
         Player p = new Player();
-        System.out.println("<SEVERINO> " + "rmiIdenfier is:" + rmiIdentifier);
+        System.out.println("<SEVERINO-rmi> " + "rmiIdenfier is:" + rmiIdentifier);
         p.setNickname("User" + rmiIdentifier);
-        System.out.println("<SEVERINO> players's nickname is : " + p.getNickname());
+        System.out.println("<SERVER-rmi> players's nickname is : " + p.getNickname());
         p.setRmiInterface(server);
         p.setRmiIdentifier(this.rmiIdentifier);
-        System.out.println("<SERVER> Adding Player (" + p.getNickname() + ") to the PlayerList.");
+        System.out.println("<SERVER-rmi> Adding Player (" + p.getNickname() + ") to the PlayerList.");
         ModelGate.model.getPlayerList().addPlayer(p);
-        System.out.println("<SERVER> current number of connection is: " + numberOfConnection.getNumber());
+        //System.out.println("<SERVER-rmi> current number of connection is: " + numberOfConnection.getNumber());
+        System.out.println("<SERVER-rmi> current number of connection is: " + ModelGate.model.getNumberOfClientsConnected());
 
 
-        if (numberOfConnection.getNumber() > GameConstant.maxNumberOfPlayerPerGame - 1) {
-            System.out.println("<SERVER> total number of connection reached, starting the state pattern.");
-            ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayer("User1"));
+        //if (numberOfConnection.getNumber() > GameConstant.maxNumberOfPlayerPerGame - 1) {
+        if (ModelGate.model.getNumberOfClientsConnected() > GameConstant.maxNumberOfPlayerPerGame - 1) {
+            System.out.println("<SERVER-rmi> total number of connection reached, starting the state pattern.");
+            // (MOVED TO THE GAME CLASS IN THE NUMBEROFCONNECTION STUFF... setNumberOfClientsConnected()
+            //ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
+            //ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayer("User1"));
         }
 
     }
@@ -141,8 +160,8 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
     public void removeClient(int rmiIdentifier) throws RemoteException{
 
         clientList.remove(rmiIdentifier);
-        for (RMIInterface client: clientList
-             ) { System.out.println("still playing: "+client.getName());
+        for (RMIInterface client: clientList) {
+            System.out.println("still playing: "+client.getName());
         }
 
     }
@@ -150,14 +169,7 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
 
     public void startServer() throws IOException {
 
-        System.out.println("<SERVER>Creating the Game.");
-        ModelGate.model = new Game();
-        System.out.println("<SERVER>Creating a PlayerList.");
-        PlayersList pl = new PlayersList();
-        ModelGate.model.setPlayerList(pl);
-
         RMIInterface RMIS = new RMIVirtualView(controller);
-
 
 
 
@@ -170,11 +182,11 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
         try {
              address= InetAddress.getLocalHost().getHostAddress();
 
-        }catch(Exception e){System.out.println("error");};
+        }catch(Exception e){
+            e.printStackTrace();
+        };
 
-
-        System.out.println("<SEVERINO>Ciao," + "sei connesso al server Rmi di Adrenaline! Benvenuto!\n");
-        System.out.println("Server running on"+address);
+        System.out.println("<SERVER-rmi> FOR RMI CLIENTS. Server running on: "+ address + " (:1099) port is always 1099.");
 
 
     }
@@ -187,15 +199,14 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
         return name;
     }
 
-public String getAddress(){
+    public String getAddress(){
         return address;
 }
-
 
     @Override
     public void update(Observable o, Object arg)
     {
-        //System.out.println("                                        <SERVER> SENDING MVE FROM: " +o.getClass());
+        //System.out.println("                                        <SERVER-rmi> SENDING MVE FROM: " +o.getClass());
 
         try {
             this.sendAllClient(arg);

@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TestWeaponCard {
+    /*FOR MAVEN PURPOSE
     @Test
     public void test() {
         try {
@@ -136,7 +137,7 @@ public class TestWeaponCard {
     }
     @Test
     public void testAttackBySquare() throws Exception {
-        WeaponCard weaponCard = new WeaponCard("23");
+
 
         Player user1 = new Player();
         Player user2 = new Player();
@@ -156,9 +157,9 @@ public class TestWeaponCard {
 
 
         user1.setPosition(0,0);
-        user2.setPosition(3,2);
-        user3.setPosition(1,1);                 /*   same position          */
-        user4.setPosition(1,1);                 /*                  users   */
+        user2.setPosition(0,0);
+        user3.setPosition(0,0);                 //   same position
+        user4.setPosition(1,1);                 //               users
         System.out.println(".");
         Object[][] o = new Object[10][10];
         Square A =  new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r');
@@ -167,15 +168,23 @@ public class TestWeaponCard {
         o[0][0]      =  user2;
 
         // caricamento contesto
-        for(Action a : weaponCard.getEffects().get(1).getActions()) {
+        int effectId = 1;
+        WeaponCard weaponCard = new WeaponCard("2");
+        for(Action a : weaponCard.getEffects().get(0).getActions()) {
+            a.getActionInfo().getActionContext().setPlayer(user1);
+            a.getActionInfo().getActionContext().setPlayerList(playerList);
+        }
+        for(Action a : weaponCard.getEffects().get(effectId).getActions()) {
             a.getActionInfo().getActionContext().setPlayer(user1);
             a.getActionInfo().getActionContext().setPlayerList(playerList);
         }
         // gestione dell'input
-        weaponCard.getEffects().get(1).handleInput(o);
-
-        weaponCard.getEffects().get(1).Exec();
-
+        weaponCard.getEffects().get(0).handleInput(o);
+        weaponCard.getEffects().get(0).Exec();
+        System.out.println("/----------------/");
+       // o[0][0]      =  user3;
+        weaponCard.getEffects().get(effectId).handleInput(o);
+        weaponCard.getEffects().get(effectId).Exec();
         System.out.println("/--/");
         System.out.println("status");
         System.out.println("/--/");
@@ -213,4 +222,5 @@ public class TestWeaponCard {
 
         }
     }
+    */
 }

@@ -12,6 +12,7 @@ import static org.junit.Assert.assertEquals;
 
 
 public class TestTurretSquare {
+    /*FOR MAVEN PURPOSE
     @Test
     public void testTurretSquare() {
         int X = 5;
@@ -36,4 +37,5 @@ public class TestTurretSquare {
         assertEquals(T.getOwner(),p);
 
     }
+    */
 }

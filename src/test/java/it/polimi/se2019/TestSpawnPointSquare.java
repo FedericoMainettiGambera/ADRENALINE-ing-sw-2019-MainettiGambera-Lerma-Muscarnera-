@@ -13,17 +13,17 @@ import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestSpawnPointSquare{
+/*FOR MAVEN PURPOSE
+    SpawnPointSquare spawnPointSquare=new SpawnPointSquare(0,0, SquareSide.wall,SquareSide.nothing,SquareSide.nothing,SquareSide.wall, SquareTypes.spawnPoint,'y');
+    OrderedCardList<WeaponCard> list;
+    @Test
+    public void getters(){
+        assertEquals('y',spawnPointSquare.getColor());
+        list=spawnPointSquare.getWeaponCards();
+        assertEquals(list, spawnPointSquare.getWeaponCards());
 
-SpawnPointSquare spawnPointSquare=new SpawnPointSquare(0,0, SquareSide.wall,SquareSide.nothing,SquareSide.nothing,SquareSide.wall, SquareTypes.spawnPoint,'y');
-OrderedCardList<WeaponCard> list;
-@Test
-public void getters(){
-    assertEquals('y',spawnPointSquare.getColor());
-    list=spawnPointSquare.getWeaponCards();
-    assertEquals(list, spawnPointSquare.getWeaponCards());
+    }
 
-}
-
-
+*/
 
 }

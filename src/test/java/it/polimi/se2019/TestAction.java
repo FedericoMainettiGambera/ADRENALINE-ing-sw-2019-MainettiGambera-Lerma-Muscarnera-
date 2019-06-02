@@ -4,6 +4,7 @@ import it.polimi.se2019.model.*;
 import org.junit.Test;
 
 public class TestAction {
+    /*FOR MAVEN PURPOSE
     @Test
     public void testAction() {
         Action a = new Damage();
@@ -39,4 +40,5 @@ public class TestAction {
         A.Exec();
 
     }
+    */
 }

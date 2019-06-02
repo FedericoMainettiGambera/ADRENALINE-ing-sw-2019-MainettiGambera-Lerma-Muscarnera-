@@ -16,7 +16,7 @@ ACTIONS
 Damage
 ACTION INFO
 PRECONDITION
-youCanSee
+targetNotOnYourSquare
 SET
 2
 END

@@ -1,0 +1,59 @@
+package it.polimi.se2019.model;
+
+import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
+import it.polimi.se2019.controller.statePattern.GameSetUpState;
+
+import java.util.concurrent.TimeUnit;
+
+public class ConnectionGameCountDown implements Runnable {
+
+    private int numberOfConnectionAtInstantiationTime;
+
+    public ConnectionGameCountDown(int numberOfConnectionAtInstantiationTime){
+        this.numberOfConnectionAtInstantiationTime = numberOfConnectionAtInstantiationTime;
+    }
+
+    @Override
+    public void run() {
+        System.out.println("<SERVER> Reached minimum number of players connected. Starting COUNT DOWN of " +GameConstant.countdownInSeconds+ " seconds.");
+
+        int i = 1;
+        while(i<=GameConstant.countdownInSeconds) {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+                System.out.println("<SERVER> time passed: " + i + " seconds.");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if(ModelGate.model.getNumberOfClientsConnected() > GameConstant.maxNumberOfPlayerPerGame-1){
+                System.out.println("<SERVER> max number of clients connected.");
+                System.out.println("<SERVER> STARTING GAME.");
+                ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayer("User1"));
+                return;
+            }
+            i++;
+        }
+
+        if((ModelGate.model.getNumberOfClientsConnected()) == this.numberOfConnectionAtInstantiationTime){
+            System.out.println("<SERVER> COUNT DOWN has ended and the number of connection hasn't changed");
+            System.out.println("<SERVER> STARTING GAME.");
+            ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayer("User1"));
+        }
+        else{
+            System.out.println("<SERVER> COUNT DOWN has ended but the number of connection has changed");
+            if(ModelGate.model.getNumberOfClientsConnected() >= GameConstant.minNumberOfPlayerPerGame){
+                System.out.println("<SERVER> There are " + ModelGate.model.getNumberOfClientsConnected() + " clients connected. The Game is Playeable.");
+                System.out.println("<SERVER> STARTING GAME.");
+                ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayer("User1"));
+            }
+            else{
+                System.out.println("<SERVER> There are " + ModelGate.model.getNumberOfClientsConnected() + " clients connected.");
+                System.out.println("<SERVER> NOT ENOUGHT CLIENTS.");
+            }
+        }
+    }
+}

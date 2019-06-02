@@ -47,7 +47,7 @@ public class SocketVirtualView extends VirtualView {
     public void startServer() throws IOException{
         this.connectionHandler = new ConnectionHandlerVirtualView(this.serverSocket, this.controller);
         this.connectionHandler.start();
-        System.out.println("<SERVER>Running Server on: " + this.serverSocket.getInetAddress().getHostAddress() + ":" + this.serverSocket.getLocalPort());
+        System.out.println("<SERVER-socket> FOR SOCKETS CLIENTS. Running Server on: " + this.serverSocket.getInetAddress().getHostAddress() + ":" + this.serverSocket.getLocalPort());
     }
 
 
@@ -67,7 +67,7 @@ public class SocketVirtualView extends VirtualView {
 
     @Override
     public void update(Observable o, Object arg) {
-        //System.out.println("                                        <SERVER> SENDING MVE FROM: " +o.getClass());
+        //System.out.println("                                        <SERVER-socket> SENDING MVE FROM: " +o.getClass());
 
         this.sendAllClient(arg);
     }

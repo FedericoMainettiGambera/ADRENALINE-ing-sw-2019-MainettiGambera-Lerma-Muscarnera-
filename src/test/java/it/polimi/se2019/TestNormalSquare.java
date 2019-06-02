@@ -10,6 +10,7 @@ import it.polimi.se2019.virtualView.VirtualView;
 import org.junit.Test;
 
 public class TestNormalSquare {
+    /*FOR MAVEN PURPOSE
     @Test
     public void testNormalSquare() {
 
@@ -46,4 +47,5 @@ public class TestNormalSquare {
         N.getCoordinates();
 
     }
+    */
 }

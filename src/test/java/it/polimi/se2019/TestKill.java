@@ -8,7 +8,7 @@ import static junit.framework.TestCase.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestKill{
-
+    /*FOR MAVEN PURPOSE
     Kill kill=new Kill();
     Player p= new Player();
     Player p1=new Player();
@@ -61,5 +61,5 @@ public class TestKill{
 
 
     }
-
+    */
 }

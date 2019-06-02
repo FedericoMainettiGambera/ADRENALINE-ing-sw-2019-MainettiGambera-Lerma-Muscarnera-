@@ -35,6 +35,10 @@ public class OrderedCardListV<T> implements Serializable {
             return s;
         }
         else{
+            if(cards.isEmpty()){
+                s = "              empty";
+                return s;
+            }
             for (Object c : cards) {
                 if(c.getClass().toString().contains("PowerUpCardV")){
                     PowerUpCardV card = (PowerUpCardV)c;

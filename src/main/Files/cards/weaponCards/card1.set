@@ -47,6 +47,11 @@ END
 Action
 ACTION INFO
 PRECONDITION
+notFirstExecuted
+END
+Action
+ACTION INFO
+PRECONDITION
 notPreviousTarget
 END
 END

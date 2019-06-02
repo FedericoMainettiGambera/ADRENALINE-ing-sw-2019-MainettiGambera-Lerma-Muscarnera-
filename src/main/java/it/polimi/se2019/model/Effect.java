@@ -11,7 +11,22 @@ import static it.polimi.se2019.model.enumerations.EffectInfoType.*;
 
 /***/
 public class Effect implements Serializable {
+    public WeaponCard getOf() {
+        return of;
+    }
+
+    public void setOf(WeaponCard of) {
+        this.of = of;
+    }
+
+    WeaponCard of;
+
+    public Object[][] getFilledInputs() {
+        return filledInputs;
+    }
+
     /*-****************************************************************************************************CONSTRUCTOR*/
+    private Object[][] filledInputs;
 
     public EffectInfo getEffectInfo() {
         return effectInfo;
@@ -86,6 +101,8 @@ public class Effect implements Serializable {
         return returnValue;
     }
     public void handleInput(Object[][] input) {
+        this.filledInputs = input;
+        this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().addRecord(this.getOf(),this,input);      //TODO : reference to the card
         int i= 0;int j = 0;
         for(EffectInfoElement e: this.getEffectInfo().getEffectInfoElement()) {
 
@@ -121,7 +138,24 @@ public class Effect implements Serializable {
                 }
 
 
+                //targetListBySameSquareOfPlayer
+                if(e.getEffectInfoTypelist().toString().equals(targetListBySameSquareOfPlayer.toString())) {
+                    Player me = getActions().get(position).getActionInfo().getActionContext().getPlayer();
+                    PlayersList potential = getActions().get(position).getActionInfo().getActionContext().getPlayerList();
+                    PlayersList targets = new PlayersList();
+                    for(Player po : potential.getPlayers()) {
+                        if(po.getPosition().equals(me.getPosition()))
+                            targets.addPlayer(po);
+                    }
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTargetList(targets.getPlayers());
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
+                        //   System.out.println(".");
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input[i], "Target"));
+                    }
+
+                }
                 // singleTarget select
+
                 if(e.getEffectInfoTypelist().toString().equals(singleTarget.toString())) {
 
                     this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(

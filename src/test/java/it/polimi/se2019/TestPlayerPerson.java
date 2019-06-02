@@ -10,7 +10,7 @@ import static junit.framework.TestCase.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestPlayerPerson{
-
+/*FOR MAVEN PURPOSE
     Player p=new Player();
     Player p2=new Player();
 
@@ -107,11 +107,6 @@ public class TestPlayerPerson{
         assertEquals(2,p.getPointsList().get(0));
         p.makePlayerBoardFinalFrenzy();
         assertEquals(1, p.getPointsList().get(3));
-
-
-
-
-
-
     }
+    */
 }
