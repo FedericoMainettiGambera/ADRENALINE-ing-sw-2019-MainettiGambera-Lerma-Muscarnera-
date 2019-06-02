@@ -136,7 +136,7 @@ public class TestWeaponCard {
     }
     @Test
     public void testAttackBySquare() throws Exception {
-        WeaponCard weaponCard = new WeaponCard("23");
+        WeaponCard weaponCard = new WeaponCard("1");
 
         Player user1 = new Player();
         Player user2 = new Player();
@@ -167,7 +167,7 @@ public class TestWeaponCard {
         o[0][0]      =  user2;
 
         // caricamento contesto
-        int effectId = 0;
+        int effectId = 1;
         for(Action a : weaponCard.getEffects().get(effectId).getActions()) {
             a.getActionInfo().getActionContext().setPlayer(user1);
             a.getActionInfo().getActionContext().setPlayerList(playerList);
