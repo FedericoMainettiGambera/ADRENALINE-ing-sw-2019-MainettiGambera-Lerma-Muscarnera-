@@ -101,8 +101,24 @@ public class Effect implements Serializable {
         return returnValue;
     }
     public void handleInput(Object[][] input) {
-        this.filledInputs = input;
-        this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().addRecord(this.getOf(),this,input);      //TODO : reference to the card
+        Object[][] buffer = new Object[10][10];
+        int X = 0;
+        int Y = 0;
+        for(Object[] x:input) {
+            for (Object y : x) {
+                buffer[X][Y] = y;
+                Y++;
+            }
+            X++;
+            Y= 0;
+        }
+
+        if(this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().getSize() > 0)
+        System.out.println("ultimo record: " + ((Player) ((Object[][])  this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().getLast().getInput())[0][0] ).getNickname());
+
+
+        this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().addRecord(this.getOf(),this,buffer);
+        //TODO : reference to the card
         int i= 0;int j = 0;
         for(EffectInfoElement e: this.getEffectInfo().getEffectInfoElement()) {
 

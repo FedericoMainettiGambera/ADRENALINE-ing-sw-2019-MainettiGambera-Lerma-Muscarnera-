@@ -157,10 +157,10 @@ public class TestWeaponCard {
         playerList.getPlayers().add(user4);
 
 
-        user1.setPosition(1,0);
-        user2.setPosition(2,0);
-        user3.setPosition(2,0);                 //   same position
-        user4.setPosition(1,1);                 //                  users
+        user1.setPosition(0,0);
+        user2.setPosition(0,0);
+        user3.setPosition(0,0);                 //   same position
+        user4.setPosition(0,0);                 //                  users
         System.out.println(".");
         Object[][] o = new Object[10][10];
         Square A =  new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r');
@@ -170,8 +170,18 @@ public class TestWeaponCard {
 
         // caricamento contesto
         int effectId = 1;
-        WeaponCard weaponCard = new WeaponCard("5");
+        WeaponCard weaponCard = new WeaponCard("9");
+        for(Action a : weaponCard.getEffects().get(0).getActions()) {
+            a.getActionInfo().getActionContext().setPlayer(user1);
+            a.getActionInfo().getActionContext().setPlayerList(playerList);
+            a.getActionInfo().getActionContext().setBoard(board);
+        }
         for(Action a : weaponCard.getEffects().get(effectId).getActions()) {
+            a.getActionInfo().getActionContext().setPlayer(user1);
+            a.getActionInfo().getActionContext().setPlayerList(playerList);
+            a.getActionInfo().getActionContext().setBoard(board);
+        }
+        for(Action a : weaponCard.getEffects().get(2).getActions()) {
             a.getActionInfo().getActionContext().setPlayer(user1);
             a.getActionInfo().getActionContext().setPlayerList(playerList);
             a.getActionInfo().getActionContext().setBoard(board);
@@ -240,14 +250,60 @@ public class TestWeaponCard {
         }
 
         System.out.println("/----------------/");
-        o[0][0]      =  user2;
+        o[0][0]      =  user4;
+
+        weaponCard.getEffects().get(0).handleInput(o);
+        weaponCard.getEffects().get(0).Exec();
+        o[0][0]      =  user3;
         weaponCard.getEffects().get(effectId).handleInput(o);
         weaponCard.getEffects().get(effectId).Exec();
+        o[0][0]      =  user2;
+        weaponCard.getEffects().get(effectId + 1).handleInput(o);
+        weaponCard.getEffects().get(effectId + 1).Exec();
         System.out.println("/--/");
         System.out.println("status");
         System.out.println("/--/");
 
 
+    }
+    @Test
+    public void testPlayerHistory() throws Exception{
+
+        Player me = new Player();
+        me.setNickname("A");
+
+        Player ne = new Player();
+        ne.setNickname("B");
+
+        Player oe = new Player();
+        oe.setNickname("C");
+        PlayersList p = new PlayersList();
+        p.addPlayer(me);
+        p.addPlayer(ne);
+        p.addPlayer(oe);
+
+        Board board = new Board("2",new VirtualView(),new VirtualView());
+        WeaponCard w = new WeaponCard("1");
+        for(Action a : w.getEffects().get(0).getActions()) {
+            a.getActionInfo().getActionContext().setPlayer(me);
+            a.getActionInfo().getActionContext().setPlayerList(p);
+            a.getActionInfo().getActionContext().setBoard(board);
+        }
+        int i;
+        Object[][] o = new Object[10][10];
+        o[0][0] = me;
+        w.effects.get(0).handleInput(o);
+        o[0][0] = ne;
+        w.effects.get(0).handleInput(o);
+        for(i = 0; i < me.getPlayerHistory().getSize();i++) {
+            System.out.println("#" + ((Player)(((Object[][])me.getPlayerHistory().getRecord(i).getInput())[0][0])).getNickname());
+        }
+        o[0][0] = oe;
+        w.effects.get(0).handleInput(o);
+
+        for(i = 0; i < me.getPlayerHistory().getSize();i++) {
+            System.out.println("#" + ((Player)(((Object[][])me.getPlayerHistory().getRecord(i).getInput())[0][0])).getNickname());
+        }
     }
     @Test
     public void testCard9() {

@@ -15,10 +15,12 @@ ALL
 END
 END
 ACTIONS
-Action
+Mark
 ACTION INFO
 PRECONDITION
 distanceOfTargetFromPlayerSquareMoreThan2Moves
+SET
+1
 END
 Damage
 ACTION INFO

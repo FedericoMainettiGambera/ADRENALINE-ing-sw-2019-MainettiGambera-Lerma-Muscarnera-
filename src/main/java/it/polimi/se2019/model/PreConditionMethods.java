@@ -12,20 +12,21 @@ public class PreConditionMethods implements Serializable {
 
     /**EFFECT CHOOSE PRE CONDITION*/
     /*TODO gestione dall'input*/
-    boolean isPunisherMode(ActionDetails actionDetails,ActionContext actionContext) {return true;}
-    boolean isReaperMode(ActionDetails actionDetails, ActionContext actionContext) {return true;}
-    boolean isFocusShot(ActionDetails actionDetails, ActionContext actionContext) {return true;}
-    boolean isTurretTripod(ActionDetails actionDetails, ActionContext actionContext) {return true;}
-    boolean isNanoTracerMode(ActionDetails actionDetails, ActionContext actionContext) {return true;}
-    boolean withChainReaction(ActionDetails actionDetails, ActionContext actionContext) {return true;}
-    boolean withHighVoltage(ActionDetails actionDetails, ActionContext actionContext) {return true;}
-    boolean isBlackHole(ActionDetails actionDetails, ActionContext actionContext) {return true;}
-    boolean isLongBarrelMode(ActionDetails actionDetails, ActionContext actionContext) {return true;}
-    boolean withRocketJump(ActionDetails actionDetails, ActionContext actionContext) {return true;}
-    boolean withFragmentingWarHead(ActionDetails actionDetails, ActionContext actionContext) {return true;}
-    boolean inRocketFistMode(ActionDetails actionDetails, ActionContext actionContext) {return true;}
-    boolean withShadowStep(ActionDetails actionDetails, ActionContext actionContext) {return true;}
-    boolean isPolverizeMode(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    public boolean isScannerMode(ActionDetails actionDetails,ActionContext actionContext) {return  true;}
+    public boolean isPunisherMode(ActionDetails actionDetails,ActionContext actionContext) {return true;}
+    public boolean isReaperMode(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    public boolean isFocusShot(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    public boolean isTurretTripod(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    public boolean isNanoTracerMode(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    public boolean withChainReaction(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    public boolean withHighVoltage(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    public boolean isBlackHole(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    public boolean isLongBarrelMode(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    public boolean withRocketJump(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    public  boolean withFragmentingWarHead(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    public  boolean inRocketFistMode(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    public  boolean withShadowStep(ActionDetails actionDetails, ActionContext actionContext) {return true;}
+    public  boolean isPolverizeMode(ActionDetails actionDetails, ActionContext actionContext) {return true;}
 
     /*EFFECT - ORDER */
 
@@ -44,6 +45,22 @@ public class PreConditionMethods implements Serializable {
         return true;
     }
 
+    public boolean notFirstNorSecondExecuted(ActionDetails actionDetails, ActionContext actionContext) {         // l'effetto che continee l'azione
+        // che contiene questa precondizione
+        int counter = 0;
+        for(PlayerHistoryElement p: actionContext.getPlayer().getPlayerHistory().historyElementList) {
+            if(!p.getContextCard().equals(actionContext.getPlayer().getPlayerHistory().getRecord(
+                    actionContext.getPlayer().getPlayerHistory().getSize() - 2
+            ).getContextCard())) {
+                break;
+            }
+
+            System.out.println(p.getContextEffect().toString()  + " in " + p.getContextCard().toString() + " with input " + p.getInput());
+            counter++;
+        }                                                                                                // non può essere eseguito per primo
+        if(counter <= 1) return false;
+        return true;
+    }
 
     /*CONTEXT - INPUT PRECODITION*/
 
@@ -81,6 +98,79 @@ public class PreConditionMethods implements Serializable {
         return true;
 
     }
+
+    public boolean previousTargetCanSee(ActionDetails actionDetails, ActionContext actionContext)  {
+
+        Player me = (Player) ((Object[][]) actionContext.getPlayer().getPlayerHistory().getRecord(actionContext.getPlayer().getPlayerHistory().getSize() - 2).getInput())[0][0];
+        System.out.println("# verificando se il target " + actionDetails.getUserSelectedActionDetails().getTarget().getNickname() + "   sia visibile a " +  me.getNickname() + "...");
+        Position playerPosition = me.getPosition();
+        Square   playerSquare   = actionContext.getBoard().getMap()[playerPosition.getY()][playerPosition.getX()];
+        List<Player> targets = actionDetails.getUserSelectedActionDetails().getTargetList();
+        if(
+                !playerSquare.getSide(CardinalPoint.north).equals(SquareSide.door) &&
+                        !playerSquare.getSide(CardinalPoint.south).equals(SquareSide.door)  &&
+                        !playerSquare.getSide(CardinalPoint.west).equals(SquareSide.door) &&
+                        !playerSquare.getSide(CardinalPoint.east).equals(SquareSide.door) ) {
+            /*posizione senza porte*/
+            boolean retVal = true;
+            for (Player t : targets) {
+                Square targetSquare = actionContext.getBoard().getMap()[t.getPosition().getY()][t.getPosition().getX()];
+                if(targetSquare.getColor() != playerSquare.getColor())
+                    retVal = false;
+            }
+            return retVal;
+        } else {
+            Square northSide = null;
+            Square southSide = null;
+            Square eastSide  = null;
+            Square westSide  = null;
+
+            if(playerSquare.getSide(CardinalPoint.north).equals(SquareSide.door)) {
+                if(playerPosition.getX() > 0)
+                    northSide = actionContext.getBoard().getSquare(playerPosition.getY(),playerPosition.getX() - 1);
+            }
+
+            if(playerSquare.getSide(CardinalPoint.east).equals(SquareSide.door)) {
+                if(playerPosition.getY() < 2)
+                    eastSide = actionContext.getBoard().getSquare(playerPosition.getY() + 1,playerPosition.getX());
+            }
+
+            if(playerSquare.getSide(CardinalPoint.west).equals(SquareSide.door)) {
+                if(playerPosition.getY() > 0)
+                    westSide = actionContext.getBoard().getSquare(playerPosition.getY() - 1,playerPosition.getX());
+            }
+            if(playerSquare.getSide(CardinalPoint.south).equals(SquareSide.door)) {
+                if(playerPosition.getX() < 3)
+                    southSide = actionContext.getBoard().getSquare(playerPosition.getY(),playerPosition.getX()+1);
+            }
+            boolean retVal = true;
+
+            for(Player t: targets) {
+                Square targetSquare = actionContext.getBoard().getMap()[t.getPosition().getY()][t.getPosition().getX()];
+                List<Character> colors = new ArrayList<>();
+                colors.add(playerSquare.getColor());
+                if(northSide != null)
+                    colors.add(northSide.getColor());
+                if(eastSide != null)
+                    colors.add(eastSide.getColor());
+                if(westSide != null)
+                    colors.add(westSide.getColor());
+                if(southSide != null)
+                    colors.add(southSide.getColor());
+                System.out.println("colori disoonibili : " + colors);
+                if(!colors.contains(targetSquare.getColor()))
+                    retVal = false;
+
+
+            }
+            if(retVal) {
+                System.out.println("visibile");
+            } else System.out.println("non visibile");
+            return retVal;
+        }
+
+    }
+
     public boolean youCanSee(ActionDetails actionDetails, ActionContext actionContext) {
         System.out.println("# verificando se il target sia visibile...");
         Player me = actionContext.getPlayer();
@@ -101,7 +191,6 @@ public class PreConditionMethods implements Serializable {
             }
             return retVal;
         } else {
-            System.out.println("--");
             Square northSide = null;
             Square southSide = null;
             Square eastSide  = null;
@@ -121,7 +210,6 @@ public class PreConditionMethods implements Serializable {
                 if(playerPosition.getY() > 0)
                 westSide = actionContext.getBoard().getSquare(playerPosition.getY() - 1,playerPosition.getX());
             }
-            System.out.println("---");
             if(playerSquare.getSide(CardinalPoint.south).equals(SquareSide.door)) {
                 if(playerPosition.getX() < 3)
                 southSide = actionContext.getBoard().getSquare(playerPosition.getY(),playerPosition.getX()+1);
@@ -420,11 +508,29 @@ public class PreConditionMethods implements Serializable {
 
 
     public boolean distanceOfTargetFromPlayerSquareMoreThan2Moves(ActionDetails actionDetails,ActionContext actionContext) throws Exception{
-        return !distanceOfTargetFromPlayerSquareLessThan2Moves(actionDetails,actionContext);
+        Player target = actionDetails.getUserSelectedActionDetails().getTarget();
+        Player user   = actionContext.getPlayer();
+
+        System.out.println("## verifico che la distanza sia maggiore uguale di due mosse");
+        System.out.println("# numero mosse di distanza:");
+        System.out.println(actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition()));
+
+
+
+        return (actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition()) >= 2);
+    }
+    public boolean youCantSee(ActionDetails actionDetails,ActionContext actionContext) {
+        return !youCanSee(actionDetails,actionContext);
     }
     public boolean notPreviousTarget(ActionDetails actionDetails, ActionContext actionContext) {
-        Player currentTarget = actionDetails.getUserSelectedActionDetails().getTarget();
-        Player previousTarget = actionContext.getPlayer().getPlayerHistory().getRecord(actionContext.getPlayer().getPlayerHistory().getSize() - 2).getContextEffect().getActions().get((0)).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
+        for(PlayerHistoryElement f: actionContext.getPlayer().getPlayerHistory().historyElementList) {
+            System.out.println("#" + ((Player)((Object[][])f.getInput())[0][0]).getNickname());
+        }
+
+        Player currentTarget = (Player) ( (Object[][]) actionContext.getPlayer().getPlayerHistory().getLast().getInput())[0][0];
+        Player previousTarget = (Player) ( (Object[][]) actionContext.getPlayer().getPlayerHistory().getRecord(
+                actionContext.getPlayer().getPlayerHistory().getSize() - 2
+        ).getInput())[0][0];
         System.out.println(currentTarget.getNickname() + "==" + previousTarget.getNickname() + "?" + (currentTarget.equals(previousTarget)));
         return (!currentTarget.equals(previousTarget));
     }
