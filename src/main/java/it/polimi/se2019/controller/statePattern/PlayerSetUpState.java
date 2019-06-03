@@ -10,7 +10,7 @@ import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPlayerSetUp;
-import it.polimi.se2019.virtualView.WaitForPlayerInput;
+import it.polimi.se2019.controller.WaitForPlayerInput;
 
 public class PlayerSetUpState implements State {
 

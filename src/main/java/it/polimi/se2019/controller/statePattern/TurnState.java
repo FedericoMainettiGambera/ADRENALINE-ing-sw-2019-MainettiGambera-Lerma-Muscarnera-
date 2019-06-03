@@ -6,7 +6,7 @@ import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
-import it.polimi.se2019.virtualView.WaitForPlayerInput;
+import it.polimi.se2019.controller.WaitForPlayerInput;
 
 public class TurnState implements State {
 

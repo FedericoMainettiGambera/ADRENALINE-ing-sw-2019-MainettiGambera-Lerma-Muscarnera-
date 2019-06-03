@@ -34,5 +34,6 @@ public class WaitForPlayerInput implements Runnable{
         }
         System.out.println("<SERVER> setting " + playerToAsk.getNickname() + " AFK");
         playerToAsk.setIsAFK(true);
+        ViewControllerEventHandlerContext.state.doAction(null);
     }
 }

@@ -8,7 +8,7 @@ import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.SquareTypes;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventGameSetUp;
-import it.polimi.se2019.virtualView.WaitForPlayerInput;
+import it.polimi.se2019.controller.WaitForPlayerInput;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
