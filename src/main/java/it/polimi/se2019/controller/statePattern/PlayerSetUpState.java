@@ -11,7 +11,6 @@ import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPlayerSetUp;
 import it.polimi.se2019.controller.WaitForPlayerInput;
-
 public class PlayerSetUpState implements State {
 
     private int numberOfPlayer;

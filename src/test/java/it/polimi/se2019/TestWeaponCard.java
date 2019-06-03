@@ -1,4 +1,4 @@
-/*package it.polimi.se2019;
+package it.polimi.se2019;
 
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.CardinalPoint;
@@ -159,7 +159,7 @@ public class TestWeaponCard {
 
         user1.setPosition(1,0);
         user2.setPosition(2,0);
-        user3.setPosition(0,0);                 //   same position
+        user3.setPosition(2,0);                 //   same position
         user4.setPosition(1,1);                 //                  users
         System.out.println(".");
         Object[][] o = new Object[10][10];
@@ -169,13 +169,8 @@ public class TestWeaponCard {
         o[0][0]      =  user2;
 
         // caricamento contesto
-        int effectId = 0;
-        WeaponCard weaponCard = new WeaponCard("4");
-        for(Action a : weaponCard.getEffects().get(0).getActions()) {
-            a.getActionInfo().getActionContext().setPlayer(user1);
-            a.getActionInfo().getActionContext().setPlayerList(playerList);
-            a.getActionInfo().getActionContext().setBoard(board);
-        }
+        int effectId = 1;
+        WeaponCard weaponCard = new WeaponCard("5");
         for(Action a : weaponCard.getEffects().get(effectId).getActions()) {
             a.getActionInfo().getActionContext().setPlayer(user1);
             a.getActionInfo().getActionContext().setPlayerList(playerList);
@@ -246,7 +241,6 @@ public class TestWeaponCard {
 
         System.out.println("/----------------/");
         o[0][0]      =  user2;
-        o[1][0]      =  board.getSquare(user1.getPosition());
         weaponCard.getEffects().get(effectId).handleInput(o);
         weaponCard.getEffects().get(effectId).Exec();
         System.out.println("/--/");
@@ -287,4 +281,3 @@ public class TestWeaponCard {
         }
     }
 }
-*/

@@ -12,7 +12,6 @@ import it.polimi.se2019.controller.WaitForPlayerInput;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 
 public class GameSetUpState implements State {
 

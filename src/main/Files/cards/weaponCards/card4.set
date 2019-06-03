@@ -10,7 +10,7 @@ singleTarget
 TO
 ALL
 END
-
+simpleSquareSelect
 TO
 1
 2
@@ -63,7 +63,7 @@ END
 Damage
 ACTION INFO
 PRECONDITION
-alwaysTrue
+isPunisherMode
 SET
 3
 END

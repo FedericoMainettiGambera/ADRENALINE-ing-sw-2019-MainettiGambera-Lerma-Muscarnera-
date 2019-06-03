@@ -7,7 +7,6 @@ import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
 import it.polimi.se2019.controller.WaitForPlayerInput;
-
 public class GrabStuffState implements State {
 
     private int actionNumber;

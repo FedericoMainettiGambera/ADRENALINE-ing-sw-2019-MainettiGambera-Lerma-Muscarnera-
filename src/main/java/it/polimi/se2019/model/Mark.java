@@ -2,6 +2,7 @@ package it.polimi.se2019.model;
 
 
 import java.io.Serializable;
+import java.util.List;
 
 /***/
 public class Mark extends Action implements Serializable {
@@ -40,11 +41,14 @@ public class Mark extends Action implements Serializable {
     /***/
     public void Exec() {
 
-        Player target = getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
+        List<Player> target = getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList();
         Player marker = getActionInfo().getActionContext().getPlayer();
        // MarkSlots markSlots = target.getMarksFrom(marker);
         int quantity = Integer.parseInt((String) getActionInfo().getActionDetails().getFileSelectedActionDetails().getFileSettingData().get(0));
-        System.out.println("target:" + target + " marker : " + marker.getNickname() + " : " + quantity);
-        target.addMarksFrom(marker,quantity);
+         for(Player t: target) {
+             t.addMarksFrom(marker, quantity);
+             System.out.println("marking a " + t.getNickname() + " in: " +  quantity + " mark(s)");
+
+         }
     }
 }

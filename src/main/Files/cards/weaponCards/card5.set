@@ -15,7 +15,7 @@ TO
 1
 2
 END
-targetListBySquare
+targetListBySquareOfLastTarget
 TO
 3
 END
@@ -50,16 +50,18 @@ TO
 1
 2
 END
-targetListBySquare
+targetListBySquareOfLastTarget
 TO
 3
 END
 END
 ACTIONS
-Action
+Mark
 ACTION INFO
 PRECONDITION
 atLeastOneMoveAway
+SET
+1
 END
 Damage
 ACTION INFO
@@ -71,8 +73,8 @@ END
 Mark
 ACTION INFO
 PRECONDITION
-isNanoTracerMode
+alwaysTrue
 SET
-2
+1
 END
 END

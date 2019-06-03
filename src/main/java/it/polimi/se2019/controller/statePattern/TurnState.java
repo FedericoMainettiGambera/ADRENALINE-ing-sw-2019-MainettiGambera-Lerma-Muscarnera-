@@ -3,10 +3,10 @@ package it.polimi.se2019.controller.statePattern;
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
-import it.polimi.se2019.model.*;
+import it.polimi.se2019.controller.WaitForPlayerInput;
+import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
-import it.polimi.se2019.controller.WaitForPlayerInput;
 
 public class TurnState implements State {
 

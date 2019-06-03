@@ -10,6 +10,7 @@ public enum EffectInfoType {
                     singleTarget,                   // select a target                                                 1
                     twoTargets,                     // select two targets max                                          1<=x<=2
                     threeTargets,                   // select three targets max                                        1<=x<=3
+                    targetListBySquareOfLastTarget,
                     multipleTargets,                // select a targetList of n targets                                n
                     singleTargetBySquare,           // select a target froma  square
                     targetListBySquare,             // select a targetlist of n targets by the square                  1

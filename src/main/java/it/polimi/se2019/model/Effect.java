@@ -293,7 +293,26 @@ public class Effect implements Serializable {
                     i++;
                 }
 
+                if(e.getEffectInfoTypelist().toString().equals(targetListBySquareOfLastTarget.toString())) {
+                    List<Player> targets = new ArrayList<>();
+                    Player lastTarget = this.getActions().get(position - 1).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
+                    Position positionOfLastTarget = lastTarget.getPosition();
+                    for(Player x: getActions().get(position).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+                        if(x.getPosition().equals(positionOfLastTarget)) {
+                            targets.add(x);
+                        }
+                    }
 
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTargetList(targets);
+                    Object[][] adaptor = new Object[10][10];
+                    int z = 0;
+                    for(Player c: targets) {
+                        adaptor[0][z] = c;
+                    z++;
+                    }
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(adaptor,"Target"));
+                }
                 // singleTargetBySquare
                 if(e.getEffectInfoTypelist().toString().equals(singleTargetBySquare.toString())) {
                     Square A = (Square) input[i][0];

@@ -12,6 +12,7 @@ public class PreConditionMethods implements Serializable {
 
     /**EFFECT CHOOSE PRE CONDITION*/
     /*TODO gestione dall'input*/
+    boolean isPunisherMode(ActionDetails actionDetails,ActionContext actionContext) {return true;}
     boolean isReaperMode(ActionDetails actionDetails, ActionContext actionContext) {return true;}
     boolean isFocusShot(ActionDetails actionDetails, ActionContext actionContext) {return true;}
     boolean isTurretTripod(ActionDetails actionDetails, ActionContext actionContext) {return true;}
@@ -164,17 +165,17 @@ public class PreConditionMethods implements Serializable {
         return false;
 
     }
-    public boolean distanceOfTargetFromPlayerSquareLessThan2Moves(ActionDetails actionDetails,ActionContext actionContext) {
+    public boolean distanceOfTargetFromPlayerSquareLessThan2Moves(ActionDetails actionDetails,ActionContext actionContext) throws Exception {
         Player target = actionDetails.getUserSelectedActionDetails().getTarget();
         Player user   = actionContext.getPlayer();
 
-        int Distance = (target.getPosition().getX() - user.getPosition().getX()) * (target.getPosition().getX() - user.getPosition().getX() )
-        + (target.getPosition().getY() - user.getPosition().getY()) * (target.getPosition().getY() - user.getPosition().getY());
-        System.out.println(Distance);
-        if(Distance<=4) {
-            return true;
-        }
-        return false;
+        System.out.println("## verifico che la distanza sia meno di due mosse");
+        System.out.println("# numero mosse di distanza:");
+        System.out.println(actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition()));
+
+
+
+        return (actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition()) <= 2);
     }
     public boolean distanceFromOriginalPositionLessThan2(ActionDetails actionDetails,ActionContext actionContext) {
     /*Target.square, ChosenSquare*/
@@ -198,16 +199,13 @@ public class PreConditionMethods implements Serializable {
         Player B = actionDetails.getUserSelectedActionDetails().getTarget();
         return !A.equals(B);
     }
-    public boolean atLeastOneMoveAway(ActionDetails actionDetails,ActionContext actionContext) {
+    public boolean atLeastOneMoveAway(ActionDetails actionDetails,ActionContext actionContext) throws Exception {
+        System.out.println("# verifico che la distanza sia almeno uno");
         Player target = actionDetails.getUserSelectedActionDetails().getTarget();
         Player user   = actionContext.getPlayer();
-
-        int Distance = (target.getPosition().getX() - user.getPosition().getX()) * (target.getPosition().getX() - user.getPosition().getX() )
-                + (target.getPosition().getY() - user.getPosition().getY()) * (target.getPosition().getY() - user.getPosition().getY());
-        System.out.println(Distance);
-        if(Distance>=1) {
-            return true;
-        }
+        System.out.println("# la distanza è " + actionContext.getBoard().distanceFromTo(target.getPosition(),user.getPosition()));
+       if(actionContext.getBoard().distanceFromTo(target.getPosition(),user.getPosition()) >= 1)
+           return true;
         return false;
     }
     public boolean notInYourRoom(ActionDetails actionDetails,ActionContext actionContext) {
@@ -354,7 +352,7 @@ public class PreConditionMethods implements Serializable {
         System.out.println("# verificando se lo square selezionato sia visibile...");
         Player me = actionContext.getPlayer();
         Position playerPosition = me.getPosition();
-        Square   playerSquare   = actionContext.getBoard().getMap()[playerPosition.getY()][playerPosition.getX()];
+        Square   playerSquare   = actionContext.getBoard().getSquare(playerPosition);
 
         if(
                 !playerSquare.getSide(CardinalPoint.north).equals(SquareSide.door) &&
@@ -406,6 +404,7 @@ public class PreConditionMethods implements Serializable {
                     colors.add(westSide.getColor());
                 if(southSide != null)
                     colors.add(southSide.getColor());
+                System.out.println("colore square player [ "+me.getPosition().getY()+ " , "+me.getPosition().getX()+" ] " + actionContext.getBoard().getSquare(me.getPosition()).getColor());
                 System.out.println("colori disoonibili : " + colors);
                 if(!colors.contains(targetSquare.getColor()))
                     retVal = false;
@@ -420,7 +419,7 @@ public class PreConditionMethods implements Serializable {
         }
 
 
-    public boolean distanceOfTargetFromPlayerSquareMoreThan2Moves(ActionDetails actionDetails,ActionContext actionContext) {
+    public boolean distanceOfTargetFromPlayerSquareMoreThan2Moves(ActionDetails actionDetails,ActionContext actionContext) throws Exception{
         return !distanceOfTargetFromPlayerSquareLessThan2Moves(actionDetails,actionContext);
     }
     public boolean notPreviousTarget(ActionDetails actionDetails, ActionContext actionContext) {
