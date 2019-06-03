@@ -9,7 +9,7 @@ b
 
 NEW EFFECT
 EXPECTED INPUT
-singleTargetByCardinalDirection
+singleTarget
 TO
 ALL
 END
@@ -26,7 +26,7 @@ END
 
 NEW EFFECT
 EXPECTED INPUT
-twoTargetsByCardinalDirection
+twoTargets
 TO
 ALL
 END
@@ -35,7 +35,7 @@ ACTIONS
 Damage
 ACTION INFO
 PRECONDITION
-alwaysTrue
+sameCardinalDirectionOfTargets
 SET
 2
 END

@@ -9,7 +9,7 @@ r
 
 NEW EFFECT
 EXPECTED INPUT
-singleTargetBySameSquareOfPlayer
+singleTarget
 TO
 ALL
 END
@@ -18,7 +18,7 @@ ACTIONS
 Damage
 ACTION INFO
 PRECONDITION
-alwaysTrue
+targetOnYourSquare
 SET
 2
 END
@@ -49,5 +49,21 @@ distanceFromOriginalPositionIs1
 END
 END
 
+NEW EFFECT
+EXPECTED INPUT
+singleTarget
+TO
+ALL
+END
+END
+ACTIONS
+Damage
+ACTION INFO
+PRECONDITION
+notPreviousTarget
+SET
+1
+END
+END
 // TODO : SLICE AND DICE NON SI CAPISCE NE IN INGLESE NE IN ITALIANO
 
