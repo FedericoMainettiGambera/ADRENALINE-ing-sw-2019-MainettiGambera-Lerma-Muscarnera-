@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="575.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="it.polimi.se2019.view.outputHandler.ControllerInizialScene"
+fx:id="parent">
+
+   <children>
+      <ImageView fitHeight="${parent.height}" fitWidth="${parent.width}" layoutX="-4.0" pickOnBounds="true" preserveRatio="false"
+      fx:id="parent2"
+      >
+         <image>
+            <Image url="Adrenaline.png"/>
+         </image>
+      </ImageView>
+      <Button layoutX="449.0" layoutY="328.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="126.0" style="-fx-border-color: #ff9900; -fx-background-color: #000000;" text="Let's Play!" textFill="#ff9900" textOverrun="CENTER_ELLIPSIS"
+              transforms="${parent2.transforms}"
+              maxHeight=""
+
+      >
+         <effect>
+            <Glow level="0.82">
+               <input>
+                  <MotionBlur radius="0.0">
+                     <input>
+                        <Reflection bottomOpacity="0.48" fraction="0.9" topOpacity="0.65" />
+                     </input>
+                  </MotionBlur>
+               </input>
+            </Glow>
+         </effect>
+         <font>
+            <Font name="Courier New" size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="CROSSHAIR" />
+         </cursor>
+      </Button>
+      <Button layoutX="-4.0" layoutY="328.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="126.0" style="-fx-border-color: #ffb84d; -fx-background-color: #000000;" text="Settings" textFill="#ff9900" textOverrun="CENTER_ELLIPSIS"
+              textAlignment="RIGHT"
+
+      >
+         <effect>
+            <Glow level="0.76">
+               <input>
+                  <MotionBlur radius="0.0">
+                     <input>
+                        <Reflection bottomOpacity="0.48" fraction="0.9" topOpacity="0.65" />
+                     </input>
+                  </MotionBlur>
+               </input>
+            </Glow>
+         </effect>
+         <font>
+            <Font name="Courier New" size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="CROSSHAIR" />
+         </cursor>
+      </Button>
+   </children>
+</Pane>
