@@ -5,7 +5,7 @@ y
 1
 NEW EFFECT
 EXPECTED INPUT
-singleTargetBySameSquareOfPlayer
+singleTarget
 TO
 ALL
 END
@@ -14,28 +14,29 @@ ACTIONS
 Damage
 ACTION INFO
 PRECONDITION
-alwaysTrue
+targetOnYourSquare
 SET
 2
 END
 END
 
+
 NEW EFFECT
 EXPECTED INPUT
-singleTargetBySameSquareOfPlayer
+singleTarget
 TO
 ALL
 END
 simpleSquareSelect
 TO
-2
+ALL
 END
 END
 ACTIONS
 Damage
 ACTION INFO
 PRECONDITION
-isPolverizeMode
+targetOnYourSquare
 SET
 2
 END

@@ -344,6 +344,38 @@ public class Effect implements Serializable {
                         a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input[i],"Square"));
                     i++;
                 }
+                if(e.getEffectInfoTypelist().toString().equals(targetListByDistance1.toString())) {
+                    System.out.println("seleziono i target distanti 1");
+                    Player me = getActions().get(position).getActionInfo().getActionContext().getPlayer();
+                    List<Player> retVal = new ArrayList<>();
+                    PlayersList enemies = getActions().get(0).getActionInfo().getActionContext().getPlayerList();
+                    Object[][] adaptor = new Object[10][10];
+                    int z = 0;
+
+
+                    for(Player p_: enemies.getPlayers()) {
+                        if(!p_.equals(me))
+                            try {
+                                System.out.println(p_.getPosition().getX() + "," + p_.getPosition().getY());
+                                System.out.println(me.getPosition().getX() + "," + me.getPosition().getY());
+                                System.out.println(getActions().get(position).getActionInfo().getActionContext().getBoard().distanceFromTo(p_.getPosition(), me.getPosition()));
+                                System.out.println("|||");
+                                if (getActions().get(position).getActionInfo().getActionContext().getBoard().distanceFromTo(p_.getPosition(), me.getPosition()) == 1) {
+                                     retVal.add(p_);
+                                    adaptor[0][z] = p_;
+                                }
+                            } catch (Exception E) {
+
+                                System.out.println("eccezione " + p_.getNickname() + ":" + E.toString());
+                            }
+                    }
+
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTargetList(retVal);
+
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(adaptor,"Square"));
+
+                }
                 if(e.getEffectInfoTypelist().toString().equals(squareByLastTargetSelected.toString())) {
                     System.out.println("@ ingresso ");
                     Player lastTarget = getActions().get(position - 1).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();

@@ -241,15 +241,17 @@ public class PreConditionMethods implements Serializable {
 
     }
     public boolean distanceOfTargetFromPlayerSquareIs1(ActionDetails actionDetails,ActionContext actionContext) {
-        Player target = actionDetails.getUserSelectedActionDetails().getTarget();
+        List<Player> t = actionDetails.getUserSelectedActionDetails().getTargetList();
         Player user   = actionContext.getPlayer();
-        int Distance = (target.getPosition().getX() - user.getPosition().getX()) * (target.getPosition().getX() - user.getPosition().getX() )
-                + (target.getPosition().getY() - user.getPosition().getY()) * (target.getPosition().getY() - user.getPosition().getY());
+        for(Player target: t) {
+            int Distance = (target.getPosition().getX() - user.getPosition().getX()) * (target.getPosition().getX() - user.getPosition().getX())
+                    + (target.getPosition().getY() - user.getPosition().getY()) * (target.getPosition().getY() - user.getPosition().getY());
 
-        if(Distance==1) {
-            return true;
+            if (Distance != 1) {
+                return false;
+            }
         }
-        return false;
+        return true;
 
     }
     public boolean distanceOfTargetFromPlayerSquareLessThan2Moves(ActionDetails actionDetails,ActionContext actionContext) throws Exception {
