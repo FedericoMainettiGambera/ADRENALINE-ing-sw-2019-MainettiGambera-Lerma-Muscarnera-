@@ -167,7 +167,7 @@ public class TestWeaponCard {
         o[0][0]      =  board.getSquare(1,0);
         o[1][0]      =  board.getSquare(0,0);
 
-        WeaponCard weaponCard = new WeaponCard("16");
+        WeaponCard weaponCard = new WeaponCard("17");
         for(Effect e : weaponCard.getEffects())
         for(Action a : e.getActions()) {
             a.getActionInfo().getActionContext().setPlayer(user1);
@@ -237,11 +237,11 @@ public class TestWeaponCard {
             System.out.println(linea);
         }
         // caricamento contesto
-        int effectId = 2;
+        int effectId = 0;
         System.out.println("/----------------/");
         o[0][0]      =  user2;
-        o[1][0]      =  board.getSquare(2,1) ;
-        o[1][2]      =  user4 ;
+       // o[1][0]      =  board.getSquare(2,1) ;
+      //  o[1][2]      =  user4 ;
         weaponCard.getEffects().get(effectId).handleInput(o);
         weaponCard.getEffects().get(effectId).Exec();
 

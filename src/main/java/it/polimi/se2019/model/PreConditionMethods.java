@@ -308,6 +308,14 @@ public class PreConditionMethods implements Serializable {
         }
         return retVal;
     }
+    public boolean distanceOfSquareFromPlayerExactlyOne(ActionDetails actionDetails,ActionContext actionContext) throws Exception {
+        Player me = actionContext.getPlayer();
+        Square d  = actionDetails.getUserSelectedActionDetails().getChosenSquare();
+        if((actionContext.getBoard().distanceFromTo(me.getPosition(), d.getCoordinates()) - 1) == 1) {
+            return true;
+        }
+        return false;
+    }
     public boolean distanceOfTargetFromPlayerExactlyOne(ActionDetails actionDetails,ActionContext actionContext) {
         return distanceOfTargetFromPlayerSquareIs1(actionDetails,actionContext); // alias function
     }

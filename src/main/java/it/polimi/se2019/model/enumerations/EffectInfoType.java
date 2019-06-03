@@ -28,6 +28,7 @@ public enum EffectInfoType {
                     simpleSquareSelect,             // select a square by id                                           1
                     multipleSquareSelect,           // select n squares by id                                          n
                     squareByTarget,                 // select a square by one of the player on it                      1
+                    squareByLastTargetSelected,                 // select a square by one of the player on it          1
                     playerSquare,                   // square of current player                                        0
         //      ROOM SELECTION
                     singleRoom                     // the room is not yours                                           0
