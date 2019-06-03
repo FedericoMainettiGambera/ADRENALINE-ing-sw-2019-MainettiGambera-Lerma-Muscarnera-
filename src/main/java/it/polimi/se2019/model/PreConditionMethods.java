@@ -297,8 +297,17 @@ public class PreConditionMethods implements Serializable {
         return false;
     }
     public boolean notInYourRoom(ActionDetails actionDetails,ActionContext actionContext) {
-        /*TODO: LE STANZE COME SONO GESTITE???*/
-        return false;
+        List<Player> targets = actionDetails.getUserSelectedActionDetails().getTargetList();
+        Player me = actionContext.getPlayer();
+        System.out.println("#" + me.getNickname() + " nella stanza " +actionContext.getBoard().getSquare(me.getPosition()).getColor() );
+
+        boolean retVal = true;
+        for(Player t:targets) {
+            System.out.println(t.getNickname() + " nella stanza " +actionContext.getBoard().getSquare(t.getPosition()).getColor() );
+            if(actionContext.getBoard().getSquare(t.getPosition()).getColor() == actionContext.getBoard().getSquare(me.getPosition()).getColor() )
+                retVal = false;
+        }
+        return retVal;
     }
     public boolean distanceOfTargetFromPlayerExactlyOne(ActionDetails actionDetails,ActionContext actionContext) {
         return distanceOfTargetFromPlayerSquareIs1(actionDetails,actionContext); // alias function
