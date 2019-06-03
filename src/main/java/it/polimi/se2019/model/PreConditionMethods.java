@@ -81,7 +81,7 @@ public class PreConditionMethods implements Serializable {
 
     }
     public boolean youCanSee(ActionDetails actionDetails, ActionContext actionContext) {
-        System.out.println("\tverificando se sia visibile...");
+        System.out.println("# verificando se il target sia visibile...");
         Player me = actionContext.getPlayer();
         Position playerPosition = me.getPosition();
         Square   playerSquare   = actionContext.getBoard().getMap()[playerPosition.getY()][playerPosition.getX()];
@@ -181,9 +181,15 @@ public class PreConditionMethods implements Serializable {
         Position A = actionDetails.getUserSelectedActionDetails().getTarget().getPosition();
         Position B = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
 
-        int Distance = ( A.getX() - B.getX()) * ( A.getX() - B.getX()) +
+        System.out.println("# la distanza [("  + A.getY() + ", " + A.getX() + ") --> ("+ B.getY() + ", " + B.getX()+ ")] tra i due square è minore di 2?");
+        float Distance = ( A.getX() - B.getX()) * ( A.getX() - B.getX()) +
                        ( A.getY() - B.getY()) * ( A.getY() - B.getY())  ;
-
+        System.out.println("la distanza è " + Distance);
+        if(Distance <= 4) {
+            System.out.println("si");
+        } else {
+            System.out.println("no");
+        }
         return (Distance <= 4);
 
     }
@@ -228,7 +234,7 @@ public class PreConditionMethods implements Serializable {
         return false;
     }
     public boolean previousPreviousTargetDifferent(ActionDetails actionDetails,ActionContext actionContext) {
-        /*@*/ System.out.println("verifico notPreviousTarget" +  actionContext.getPlayer().toString() + ":" + actionContext.getActionContextFilteredInputs().size());
+        /*@*/ System.out.println("# verifico notPreviousTarget" +  actionContext.getPlayer().toString() + ":" + actionContext.getActionContextFilteredInputs().size());
 
         boolean FLAG = false;
         for(int i = actionContext.getActionContextFilteredInputs().size()-2;i >= 0; i--) {
@@ -302,7 +308,7 @@ public class PreConditionMethods implements Serializable {
     }
 
     public boolean targetNotOnYourSquare(ActionDetails actionDetails,ActionContext actionContext) {
-        System.out.println("verifico che il target non sia sullo stesso square del player");
+        System.out.println("# verifico che il target non sia sullo stesso square del player");
         Player target = actionDetails.getUserSelectedActionDetails().getTarget();
         Player player = actionContext.getPlayer();
 
@@ -310,6 +316,8 @@ public class PreConditionMethods implements Serializable {
         Position playerPosition = player.getPosition();
 
         boolean val1 = (targetPosition.getX() == playerPosition.getX()) && ((targetPosition.getY() == playerPosition.getY()));
+        if(val1) System.out.println("il target è su uno square diverso");
+        else System.out.println("il target è sullo stesso square");
         return !val1;
 
     }
@@ -342,11 +350,76 @@ public class PreConditionMethods implements Serializable {
         return (Distance == 1);
 
     }
-    public boolean youCanSeeThatSquare(ActionDetails actionDetails,ActionContext actionContext) {
-        Square thatSquare = actionDetails.getUserSelectedActionDetails().getChosenSquare();
+    public boolean youCanSeeThatSquare(ActionDetails actionDetails, ActionContext actionContext) {
+        System.out.println("# verificando se lo square selezionato sia visibile...");
         Player me = actionContext.getPlayer();
-        return true;
-    }
+        Position playerPosition = me.getPosition();
+        Square   playerSquare   = actionContext.getBoard().getMap()[playerPosition.getY()][playerPosition.getX()];
+
+        if(
+                !playerSquare.getSide(CardinalPoint.north).equals(SquareSide.door) &&
+                        !playerSquare.getSide(CardinalPoint.south).equals(SquareSide.door)  &&
+                        !playerSquare.getSide(CardinalPoint.west).equals(SquareSide.door) &&
+                        !playerSquare.getSide(CardinalPoint.east).equals(SquareSide.door) ) {
+            /*posizione senza porte*/
+            boolean retVal = true;
+                Square targetSquare = actionDetails.getUserSelectedActionDetails().getChosenSquare();
+                if(targetSquare.getColor() != playerSquare.getColor())
+                    retVal = false;
+
+            return retVal;
+        } else {
+            Square northSide = null;
+            Square southSide = null;
+            Square eastSide  = null;
+            Square westSide  = null;
+
+            if(playerSquare.getSide(CardinalPoint.north).equals(SquareSide.door)) {
+                if(playerPosition.getX() > 0)
+                    northSide = actionContext.getBoard().getSquare(playerPosition.getY(),playerPosition.getX() - 1);
+            }
+
+            if(playerSquare.getSide(CardinalPoint.east).equals(SquareSide.door)) {
+                if(playerPosition.getY() < 2)
+                    eastSide = actionContext.getBoard().getSquare(playerPosition.getY() + 1,playerPosition.getX());
+            }
+
+            if(playerSquare.getSide(CardinalPoint.west).equals(SquareSide.door)) {
+                if(playerPosition.getY() > 0)
+                    westSide = actionContext.getBoard().getSquare(playerPosition.getY() - 1,playerPosition.getX());
+            }
+            if(playerSquare.getSide(CardinalPoint.south).equals(SquareSide.door)) {
+                if(playerPosition.getX() < 3)
+                    southSide = actionContext.getBoard().getSquare(playerPosition.getY(),playerPosition.getX()+1);
+            }
+            boolean retVal = true;
+
+
+                Square targetSquare = actionDetails.getUserSelectedActionDetails().getChosenSquare();
+                List<Character> colors = new ArrayList<>();
+                colors.add(playerSquare.getColor());
+                if(northSide != null)
+                    colors.add(northSide.getColor());
+                if(eastSide != null)
+                    colors.add(eastSide.getColor());
+                if(westSide != null)
+                    colors.add(westSide.getColor());
+                if(southSide != null)
+                    colors.add(southSide.getColor());
+                System.out.println("colori disoonibili : " + colors);
+                if(!colors.contains(targetSquare.getColor()))
+                    retVal = false;
+
+            if(retVal) {
+                System.out.println("visibile");
+            } else System.out.println("non visibile");
+            return retVal;
+
+            }
+
+        }
+
+
     public boolean distanceOfTargetFromPlayerSquareMoreThan2Moves(ActionDetails actionDetails,ActionContext actionContext) {
         return !distanceOfTargetFromPlayerSquareLessThan2Moves(actionDetails,actionContext);
     }

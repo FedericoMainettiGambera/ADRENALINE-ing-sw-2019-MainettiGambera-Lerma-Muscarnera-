@@ -10,10 +10,11 @@ singleTarget
 TO
 ALL
 END
-simpleSquareSelect
+
 TO
 1
 2
+3
 END
 END
 
@@ -27,6 +28,11 @@ Action
 ACTION INFO
 PRECONDITION
 distanceFromOriginalPositionLessThan2
+END
+Action
+ACTION INFO
+PRECONDITION
+youCanSeeThatSquare
 END
 Damage
 ACTION INFO
