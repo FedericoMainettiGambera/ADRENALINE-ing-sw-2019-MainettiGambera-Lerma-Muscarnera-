@@ -23,7 +23,7 @@ fx:id="parent">
       </ImageView>
       <Button layoutX="449.0" layoutY="328.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="126.0" style="-fx-border-color: #ff9900; -fx-background-color: #000000;" text="Let's Play!" textFill="#ff9900" textOverrun="CENTER_ELLIPSIS"
               transforms="${parent2.transforms}"
-              maxHeight=""
+           properties="${parent2.properties}"
 
       >
          <effect>

@@ -24,6 +24,7 @@ public class GUIOutputHandler extends Application{
 
 
 
+
             primaryStage.setScene(scene);
             primaryStage.show();
         }
