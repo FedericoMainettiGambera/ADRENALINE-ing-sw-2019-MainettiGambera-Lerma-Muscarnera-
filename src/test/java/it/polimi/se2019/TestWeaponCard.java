@@ -1,5 +1,5 @@
 package it.polimi.se2019;
-
+//TODO
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.SquareSide;
@@ -155,22 +155,19 @@ public class TestWeaponCard {
         playerList.getPlayers().add(user2);
         playerList.getPlayers().add(user3);
         playerList.getPlayers().add(user4);
-
-
         user1.setPosition(0,0);
-        user2.setPosition(1,1);
-        user3.setPosition(1,1);                 //   same position
-        user4.setPosition(1,1);                 //                  users
+        user2.setPosition(0,1);
+        user3.setPosition(1,0);                 //   same position
+        user4.setPosition(1,0);                 //                  users
         System.out.println(".");
         Object[][] o = new Object[10][10];
         Square A =  new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r');
         String B =  "Bruno";
         System.out.println("x");
-        o[0][0]      =  user2;
+        o[0][0]      =  board.getSquare(1,0);
+        o[1][0]      =  board.getSquare(0,0);
 
-        // caricamento contesto
-        int effectId = 1;
-        WeaponCard weaponCard = new WeaponCard("10");
+        WeaponCard weaponCard = new WeaponCard("13");
         for(Effect e : weaponCard.getEffects())
         for(Action a : e.getActions()) {
             a.getActionInfo().getActionContext().setPlayer(user1);
@@ -239,12 +236,15 @@ public class TestWeaponCard {
             linea += "\n";
             System.out.println(linea);
         }
-
+        // caricamento contesto
+        int effectId = 0;
         System.out.println("/----------------/");
-        o[0][0]      =  board.getSquare(1,1);
-
-        weaponCard.getEffects().get(1).handleInput(o);
-        weaponCard.getEffects().get(1).Exec();
+        o[0][0]      =  user1;   //vortex
+        o[1][0]      =  user2 ;
+        o[1][1]      =  user3 ;
+        o[1][2]      =  user4 ;
+        weaponCard.getEffects().get(effectId).handleInput(o);
+        weaponCard.getEffects().get(effectId).Exec();
 
         System.out.println("/--/");
         System.out.println("status");

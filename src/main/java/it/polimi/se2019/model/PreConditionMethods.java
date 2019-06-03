@@ -2,7 +2,6 @@ package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.SquareSide;
-import it.polimi.se2019.model.enumerations.SquareTypes;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -369,36 +368,22 @@ public class PreConditionMethods implements Serializable {
 
         return ret;
     }
+    public boolean sameCardinalDirectionOfTargets(ActionDetails actionDetails,ActionContext actionContext) {
+        int xIncrement = 0 - actionDetails.getUserSelectedActionDetails().getTarget().getPosition().getX();;
+        int yIncrement = 0 - actionDetails.getUserSelectedActionDetails().getTarget().getPosition().getY();;
+        Player buffer = actionDetails.getUserSelectedActionDetails().getTarget();
+        for(Player target:actionDetails.getUserSelectedActionDetails().getTargetList()) {
+            xIncrement += target.getPosition().getX() - buffer.getPosition().getX();
+            yIncrement += target.getPosition().getY() - buffer.getPosition().getY();;
+        }
+        if(xIncrement == 0) return true;
+        if(yIncrement == 0) return true;
+        return false;
+    }
 
     public boolean sameCardinalDirectionOfPreviousSquare(ActionDetails actionDetails,ActionContext actionContext) {
-        Square A = actionDetails.getUserSelectedActionDetails().getChosenSquare();
-        Square B = new NormalSquare(1, 0, SquareSide.wall, SquareSide.wall, SquareSide.wall, SquareSide.wall, SquareTypes.normal, 'r');
-        ;
-        squareSelect(actionContext.getActionContextFilteredInputs());
-        for (int i = actionContext.getActionContextFilteredInputs().size() - 2; i >= 0; i--) {
-            System.out.println(">" + ((Square) actionContext.getActionContextFilteredInputs().get(i).getContent()[0]).getCoordinates().getX() +
-                    "," + ((Square) actionContext.getActionContextFilteredInputs().get(i).getContent()[0]).getCoordinates().getY());
-
-            if (actionContext.getActionContextFilteredInputs().get(i).getType().equals("Square")) {
-                B = (Square) actionContext.getActionContextFilteredInputs().get(i).getContent()[0];
-                Position A_coords = A.getCoordinates();
-                Position B_coords = B.getCoordinates();
-                Position P_coords = actionContext.getPlayer().getPosition();
-
-                //  AB + BP = AP -- same cardinal point
-                System.out.println("confronto...");
-
-                System.out.println("A " + A.getCoordinates().getX() + "," + A.getCoordinates().getY());
-                System.out.println("B "+ B.getCoordinates().getX() + "," + B.getCoordinates().getY());
-                System.out.println("P " + P_coords.getX() + "," + P_coords.getY());
-                boolean val1 = (A_coords.getX() == B_coords.getX()) && (A_coords.getX() == P_coords.getX()) && (B_coords.getX() == P_coords.getX());
-                boolean val2 = (A_coords.getY() == B_coords.getY()) && (A_coords.getY() == P_coords.getY()) && (B_coords.getY() == P_coords.getY());
-
-                return val1 || val2;
-
-            }
-
-        }
+        Player One = ((Player)((Object[][])actionContext.getPlayer().getPlayerHistory().getLast().getInput())[0][0]);
+        Player Two = ((Player)((Object[][])actionContext.getPlayer().getPlayerHistory().getLast().getInput())[0][0]);
         return false;
     }
 
@@ -436,14 +421,17 @@ public class PreConditionMethods implements Serializable {
     }
     public boolean distanceFromOriginalPositionIs1(ActionDetails actionDetails,ActionContext actionContext) {
         /*Target.square, ChosenSquare*/
-        Position A = actionDetails.getUserSelectedActionDetails().getTarget().getPosition();
-        Position B = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
+        for(Player target:actionDetails.getUserSelectedActionDetails().getTargetList()) {
+            Position A = actionDetails.getUserSelectedActionDetails().getTarget().getPosition();
+            Position B = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
 
-        int Distance = ( A.getX() - B.getX()) * ( A.getX() - B.getX()) +
-                ( A.getY() - B.getY()) * ( A.getY() - B.getY())  ;
+            int Distance = (A.getX() - B.getX()) * (A.getX() - B.getX()) +
+                    (A.getY() - B.getY()) * (A.getY() - B.getY());
 
-        return (Distance == 1);
-
+            if (Distance != 1) return false;
+        }
+        System.out.println("# condizione di distanza verificata!");
+        return true;
     }
     public boolean youCanSeeThatSquare(ActionDetails actionDetails, ActionContext actionContext) {
         System.out.println("# verificando se lo square selezionato sia visibile...");
