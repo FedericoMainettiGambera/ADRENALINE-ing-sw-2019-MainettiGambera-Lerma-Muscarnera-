@@ -120,7 +120,7 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
         System.out.println("<SERVER-rmi> Creating a Player.");
         Player p = new Player();
         System.out.println("<SEVERINO-rmi> " + "rmiIdenfier is:" + rmiIdentifier);
-        p.setNickname("User" + rmiIdentifier);
+        p.setNickname("User" + ModelGate.model.getNumberOfClientsConnected());
         System.out.println("<SERVER-rmi> players's nickname is : " + p.getNickname());
         p.setRmiInterface(server);
         p.setRmiIdentifier(this.rmiIdentifier);
