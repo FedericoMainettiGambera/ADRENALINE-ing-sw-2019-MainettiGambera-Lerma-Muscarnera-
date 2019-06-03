@@ -262,7 +262,7 @@ public class PreConditionMethods implements Serializable {
 
 
 
-        return (actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition()) <= 2);
+        return ((actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition())-1) <= 2);
     }
     public boolean distanceFromOriginalPositionLessThan2(ActionDetails actionDetails,ActionContext actionContext) {
     /*Target.square, ChosenSquare*/
@@ -396,11 +396,13 @@ public class PreConditionMethods implements Serializable {
         Position playerPosition = player.getPosition();
 
         boolean val1 = (targetPosition.getX() == playerPosition.getX()) && ((targetPosition.getY() == playerPosition.getY()));
-        if(val1) System.out.println("il target è su uno square diverso");
+        if(!val1) System.out.println("il target è su uno square diverso");
         else System.out.println("il target è sullo stesso square");
         return !val1;
 
     }
+
+
     public boolean targetInLastSquareSelected(ActionDetails actionDetails,ActionContext actionContext) {
         Position A = actionDetails.getUserSelectedActionDetails().getTarget().getPosition();
         Position B;
@@ -419,15 +421,38 @@ public class PreConditionMethods implements Serializable {
         }
         return false;
     }
+    public boolean distanceFromOriginalSquareIs1(ActionDetails actionDetails,ActionContext actionContext) {
+        /*Target.square */
+        for(Player target:actionDetails.getUserSelectedActionDetails().getTargetList()) {
+            Position A = actionContext.getPlayer().getPosition();
+            Position B = actionDetails.getUserSelectedActionDetails().getTarget().getPosition();
+            int Distance = (A.getX() - B.getX()) * (A.getX() - B.getX()) +
+                    (A.getY() - B.getY()) * (A.getY() - B.getY());
+            System.out.println("# " + Distance);
+            if (Distance != 1) return false;
+        }
+        System.out.println("# condizione di distanza verificata!");
+        return true;
+    }
+    public boolean targetOnYourSquare(ActionDetails actionDetails,ActionContext actionContext) {
+        Position A = actionDetails.getUserSelectedActionDetails().getTarget().getPosition();
+        Position B = actionContext.getPlayer().getPosition();
+        if(A.equals(B)) System.out.println("# ok!");else System.out.println("# no!");
+        return A.equals(B);
+
+    }
     public boolean distanceFromOriginalPositionIs1(ActionDetails actionDetails,ActionContext actionContext) {
         /*Target.square, ChosenSquare*/
         for(Player target:actionDetails.getUserSelectedActionDetails().getTargetList()) {
             Position A = actionDetails.getUserSelectedActionDetails().getTarget().getPosition();
             Position B = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
 
+            System.out.println("# [" + A.getX() + "," + A.getY()+"]");
+            System.out.println("# [" + B.getX() + "," + B.getY()+"]");
+
             int Distance = (A.getX() - B.getX()) * (A.getX() - B.getX()) +
                     (A.getY() - B.getY()) * (A.getY() - B.getY());
-
+            System.out.println("# Distanza : " + Distance);
             if (Distance != 1) return false;
         }
         System.out.println("# condizione di distanza verificata!");

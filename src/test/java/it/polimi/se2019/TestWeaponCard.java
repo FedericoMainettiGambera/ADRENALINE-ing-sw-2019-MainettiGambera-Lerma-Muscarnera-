@@ -155,10 +155,10 @@ public class TestWeaponCard {
         playerList.getPlayers().add(user2);
         playerList.getPlayers().add(user3);
         playerList.getPlayers().add(user4);
-        user1.setPosition(0,0);
-        user2.setPosition(0,1);
-        user3.setPosition(1,0);                 //   same position
-        user4.setPosition(1,0);                 //                  users
+        user1.setPosition(1,0);
+        user2.setPosition(2,0);
+        user3.setPosition(2,0);                 //   same position
+        user4.setPosition(2,0);                 //                  users
         System.out.println(".");
         Object[][] o = new Object[10][10];
         Square A =  new NormalSquare(0,0, SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'r');
@@ -167,7 +167,7 @@ public class TestWeaponCard {
         o[0][0]      =  board.getSquare(1,0);
         o[1][0]      =  board.getSquare(0,0);
 
-        WeaponCard weaponCard = new WeaponCard("13");
+        WeaponCard weaponCard = new WeaponCard("16");
         for(Effect e : weaponCard.getEffects())
         for(Action a : e.getActions()) {
             a.getActionInfo().getActionContext().setPlayer(user1);
@@ -237,11 +237,10 @@ public class TestWeaponCard {
             System.out.println(linea);
         }
         // caricamento contesto
-        int effectId = 0;
+        int effectId = 2;
         System.out.println("/----------------/");
-        o[0][0]      =  user1;   //vortex
-        o[1][0]      =  user2 ;
-        o[1][1]      =  user3 ;
+        o[0][0]      =  user2;
+        o[1][0]      =  board.getSquare(2,1) ;
         o[1][2]      =  user4 ;
         weaponCard.getEffects().get(effectId).handleInput(o);
         weaponCard.getEffects().get(effectId).Exec();
