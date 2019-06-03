@@ -18,8 +18,8 @@ public class GUIOutputHandler extends Application{
         @Override
         public void start(Stage primaryStage) throws Exception{
 
-            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("GUIInizialStage.fxml"));
-            Scene scene= new Scene(root, 300, 275);
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("GUIFirstStage.fxml"));
+            Scene scene= new Scene(root, 800, 500);
             primaryStage.setTitle("Hello World");
 
 

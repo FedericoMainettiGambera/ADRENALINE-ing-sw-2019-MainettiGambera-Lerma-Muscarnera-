@@ -18,17 +18,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="parent" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="560.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.outputHandler.ControllerInizialScene">
+<GridPane fx:id="parent" maxHeight="-Infinity" maxWidth="-Infinity"  xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.outputHandler.ControllerInizialScene"
+>
 
    <children>
       <ImageView fx:id="parent2" fitHeight="${parent.height}" fitWidth="${parent.width}" pickOnBounds="true" preserveRatio="false">
          <image>
-            <Image url="@../../../../../Desktop/adrem.png" />
+            <Image url="@adrem.png" />
          </image>
       </ImageView>
-   <VBox layoutX="1.0" layoutY="318.0" prefHeight="48.0" prefWidth="158.0">
+   <VBox  prefHeight="48.0" prefWidth="158.0" GridPane.valignment="BOTTOM" maxWidth="Infinity" maxHeight="Infinity" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" alignment="CENTER_RIGHT" GridPane.columnIndex="0"  GridPane.rowIndex="0" >
          <children>
-            <Button alignment="BOTTOM_RIGHT" mnemonicParsing="false" prefHeight="28.0" prefWidth="134.0" style="-fx-border-color: #ffb84d; -fx-background-color: #000000;" text="Settings" textFill="#ff9900" textOverrun="CENTER_ELLIPSIS">
+            <Button  mnemonicParsing="false" prefHeight="28.0" prefWidth="134.0"  maxWidth="300" maxHeight="Infinity" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"  style="-fx-border-color: #ffb84d; -fx-background-color: #000000;" text="Settings" textFill="#ff9900" textOverrun="CENTER_ELLIPSIS">
                <effect>
                   <Glow level="0.76">
                      <input>
@@ -49,9 +50,9 @@
             </Button>
          </children>
    </VBox>
-      <VBox layoutX="423.0" layoutY="318.0" prefHeight="48.0" prefWidth="137.0">
+      <VBox prefHeight="48.0" GridPane.hgrow="ALWAYS"  GridPane.valignment="BOTTOM" GridPane.halignment="LEFT" GridPane.vgrow="ALWAYS" prefWidth="137.0" alignment="CENTER_LEFT" GridPane.columnIndex="0"  GridPane.rowIndex="0" maxHeight="Infinity" maxWidth="Infinity" >
          <children>
-      <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="28.0" prefWidth="139.0" style="-fx-border-color: #ff9900; -fx-background-color: #000000;" text="Let's Play!" textAlignment="RIGHT" textFill="#ff9900" textOverrun="CENTER_ELLIPSIS">
+      <Button  mnemonicParsing="false"   GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" prefHeight="28.0" prefWidth="139.0" style="-fx-border-color: #ff9900; -fx-background-color: #000000;" text="Let's Play!"  textFill="#ff9900" textOverrun="CENTER_ELLIPSIS" maxWidth="300" maxHeight="200">
          <effect>
             <Glow level="0.82">
                <input>
@@ -73,4 +74,4 @@
          </children></VBox>
 
    </children>
-</Pane>
+</GridPane>
