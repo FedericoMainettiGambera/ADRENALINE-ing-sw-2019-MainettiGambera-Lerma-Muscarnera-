@@ -68,6 +68,8 @@ public class Player extends Person implements Serializable {
 
     public void setIsAFK(boolean isAFK){
         this.isAFK = isAFK;
+        setChanged();
+        notifyObservers(new ModelViewEvent(this.isAFK, ModelViewEventTypes.setAFK, nickname));
     }
 
     public void menageAFKAndInputs(){
@@ -77,7 +79,7 @@ public class Player extends Person implements Serializable {
         else{
             //TODO
             //this.disconnect();
-            System.out.println(this.getNickname() + ": should disconnect.");
+            System.out.println("<SERVER>" + this.getNickname() + " is AFK.");
         }
     }
 

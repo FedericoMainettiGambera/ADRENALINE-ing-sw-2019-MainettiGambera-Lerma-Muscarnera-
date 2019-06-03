@@ -30,7 +30,7 @@ public class ActionInfo implements Serializable {
     private  PreConditionMethods preConditionMethods;
     public  boolean preCondition()  {
         try {
-            System.out.println("verifico " + this.preConditionMethodName + " in " +  actionContext.getPlayer().toString() + ":" + actionContext.getActionContextFilteredInputs().size());
+            System.out.println("## (" +  getActionContext().getPlayer().getNickname() +") verifico " + this.preConditionMethodName + " in " +  actionContext.getPlayer().toString() + ":" + actionContext.getActionContextFilteredInputs().size());
             //System.out.println(".");
             java.lang.reflect.Method method;
             //System.out.println(".");
@@ -40,7 +40,7 @@ public class ActionInfo implements Serializable {
             //System.out.println(".");
             method = c.getDeclaredMethod(preConditionMethodName, paramTypes);
             //System.out.println(".");
-            System.out.println(">> " + getActionContext().getPlayer().getNickname());
+            //System.out.println("Il player corrente " + getActionContext().getPlayer().getNickname());
             //System.out.println(".");
             Object returnValue = method.invoke(preConditionMethods,this.actionDetails,this.actionContext);
 

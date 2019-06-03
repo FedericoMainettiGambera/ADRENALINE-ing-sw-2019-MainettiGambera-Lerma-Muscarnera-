@@ -101,8 +101,24 @@ public class Effect implements Serializable {
         return returnValue;
     }
     public void handleInput(Object[][] input) {
-        this.filledInputs = input;
-        this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().addRecord(this.getOf(),this,input);      //TODO : reference to the card
+        Object[][] buffer = new Object[10][10];
+        int X = 0;
+        int Y = 0;
+        for(Object[] x:input) {
+            for (Object y : x) {
+                buffer[X][Y] = y;
+                Y++;
+            }
+            X++;
+            Y= 0;
+        }
+
+        if(this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().getSize() > 0)
+        System.out.println("ultimo record: " + ((Player) ((Object[][])  this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().getLast().getInput())[0][0] ).getNickname());
+
+
+        this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().addRecord(this.getOf(),this,buffer);
+        //TODO : reference to the card
         int i= 0;int j = 0;
         for(EffectInfoElement e: this.getEffectInfo().getEffectInfoElement()) {
 
@@ -137,6 +153,42 @@ public class Effect implements Serializable {
                         a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(adaptor,"Target"));
                 }
 
+                //targetListByRoom
+
+
+                if(e.getEffectInfoTypelist().toString().equals(targetListByRoom.toString())) {
+                    Square A = (Square) input[i][0];
+                    List<Square> room = getActions().get(0).getActionInfo().getActionContext().getBoard().getRoomFromPosition(A.getCoordinates());
+
+                    System.out.println("y");
+                    PlayersList ret = new PlayersList();
+
+                    System.out.println("len " + this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers().size());
+
+                    for(Square s : room ) {
+                        for (Player x : this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+
+                            if (x.getPosition().getY() == s.getCoordinates().getY())
+                                if (x.getPosition().getX() == s.getCoordinates().getX()) {
+
+                                    ret.addPlayer(x);
+                                    System.out.println("nome");
+                                    if(! this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList().contains(x))
+                                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
+                                            x
+                                    );      //TODO MOLTO ARRAMPICATA SUGLI SPECCHI COME SOLUZIONE IL !CONTAINS
+                                }
+
+
+                        }
+                    }
+                    System.out.println(".");
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input[i], "Target"));
+                    }
+                    i++;
+
+                }
 
                 //targetListBySameSquareOfPlayer
                 if(e.getEffectInfoTypelist().toString().equals(targetListBySameSquareOfPlayer.toString())) {
@@ -293,7 +345,26 @@ public class Effect implements Serializable {
                     i++;
                 }
 
+                if(e.getEffectInfoTypelist().toString().equals(targetListBySquareOfLastTarget.toString())) {
+                    List<Player> targets = new ArrayList<>();
+                    Player lastTarget = this.getActions().get(position - 1).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
+                    Position positionOfLastTarget = lastTarget.getPosition();
+                    for(Player x: getActions().get(position).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+                        if(x.getPosition().equals(positionOfLastTarget)) {
+                            targets.add(x);
+                        }
+                    }
 
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTargetList(targets);
+                    Object[][] adaptor = new Object[10][10];
+                    int z = 0;
+                    for(Player c: targets) {
+                        adaptor[0][z] = c;
+                    z++;
+                    }
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(adaptor,"Target"));
+                }
                 // singleTargetBySquare
                 if(e.getEffectInfoTypelist().toString().equals(singleTargetBySquare.toString())) {
                     Square A = (Square) input[i][0];

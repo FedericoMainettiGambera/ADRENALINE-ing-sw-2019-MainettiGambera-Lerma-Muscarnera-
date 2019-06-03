@@ -21,5 +21,6 @@ public enum ModelViewEventTypes {
     newCard,
     movingCardsAround,
     shufflingCards,
-    newBoard
+    newBoard,
+    setAFK
 }

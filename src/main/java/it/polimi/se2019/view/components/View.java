@@ -1,6 +1,6 @@
 package it.polimi.se2019.view.components;
 
-import it.polimi.se2019.model.*;
+import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
@@ -12,7 +12,6 @@ import it.polimi.se2019.view.outputHandler.GUIOutputHandler;
 import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
 import it.polimi.se2019.view.selector.ViewSelector;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -453,6 +452,23 @@ public class View implements Observer {
                 if(userInterface.equals("CLI")){
                     OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                     OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "new player added: " + ((PlayerV) MVE.getComponent()).getNickname());
+                }
+                else{
+
+                }
+                break;
+            case setAFK:
+                if (ViewModelGate.getModel().getPlayers() != null) {
+                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
+                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
+                            p.setIsAFK((boolean) MVE.getComponent());
+                            break;
+                        }
+                    }
+                }
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "player " + (String) MVE.getExtraInformation1() + " AFK status: " + MVE.getComponent());
                 }
                 else{
 

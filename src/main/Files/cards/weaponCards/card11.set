@@ -42,3 +42,25 @@ PRECONDITION
 distanceFromOriginalPositionLessThan2
 END
 END
+
+NEW EFFECT
+EXPECTED INPUT
+singleTarget
+TO
+ALL
+END
+END
+ACTIONS
+Damage
+ACTION INFO
+PRECONDITION
+youCanSee
+SET
+3
+END
+Action
+ACTION INFO
+PRECONDITION
+withChargedShot
+END
+END

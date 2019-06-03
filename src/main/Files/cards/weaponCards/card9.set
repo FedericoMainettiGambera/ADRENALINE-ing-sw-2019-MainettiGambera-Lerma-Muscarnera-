@@ -27,6 +27,9 @@ END
 NEW EFFECT
 EXPECTED INPUT
 singleTarget
+TO
+ALL
+END
 END
 ACTIONS
 Action
@@ -41,17 +44,30 @@ previousTargetCanSee
 SET
 1
 END
+Action
+ACTION INFO
+PRECONDITION
+notFirstExecuted
+END
+Action
+ACTION INFO
+PRECONDITION
+notPreviousTarget
+END
 END
 
 NEW EFFECT
 EXPECTED INPUT
 singleTarget
+TO
+ALL
+END
 END
 ACTIONS
 Action
 ACTION INFO
 PRECONDITION
-previousPreviousTargetDifferent
+notPreviousTarget
 END
 Action
 ACTION INFO
@@ -64,6 +80,11 @@ PRECONDITION
 previousTargetCanSee
 SET
 2
+END
+Action
+ACTION INFO
+PRECONDITION
+notFirstNorSecondExecuted
 END
 END
 

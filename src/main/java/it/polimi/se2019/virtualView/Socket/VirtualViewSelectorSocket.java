@@ -1,18 +1,17 @@
 package it.polimi.se2019.virtualView.Socket;
 
-import it.polimi.se2019.model.*;
+import it.polimi.se2019.model.Player;
+import it.polimi.se2019.model.Position;
+import it.polimi.se2019.model.PowerUpCard;
+import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.selectorEvents.*;
 import it.polimi.se2019.virtualView.Selector;
 import it.polimi.se2019.virtualView.VirtualViewSelector;
-import it.polimi.se2019.virtualView.WaitForPlayerInput;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.List;
-
-import static it.polimi.se2019.model.enumerations.SelectorEventTypes.askGrabStuffGrabWeapon;
 
 public class VirtualViewSelectorSocket extends VirtualViewSelector implements Selector {
 

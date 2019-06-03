@@ -6,29 +6,35 @@ r
 
 NEW EFFECT
 EXPECTED INPUT
-singleTargetBySquare
+singleTarget
 TO
-1
+ALL
 END
-singleTargetBySquare
+singleTarget
 TO
 2
+3
 END
 END
 ACTIONS
 Damage
 ACTION INFO
 PRECONDITION
-distanceFromOriginalPositionIs1
+distanceFromOriginalSquareIs1
 SET
 1
 END
 Damage
 ACTION INFO
 PRECONDITION
-sameCardinalDirectionOfPreviousSquare
+sameCardinalDirectionOfTargets
 SET
 1
+END
+Action
+ACTION INFO
+PRECONDITION
+distanceOfTargetFromPlayerSquareLessThan2Moves
 END
 END
 

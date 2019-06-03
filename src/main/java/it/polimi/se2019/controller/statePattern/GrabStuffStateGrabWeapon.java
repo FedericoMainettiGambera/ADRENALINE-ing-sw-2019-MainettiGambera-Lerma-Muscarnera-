@@ -7,7 +7,7 @@ import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventTwoString;
-import it.polimi.se2019.virtualView.WaitForPlayerInput;
+import it.polimi.se2019.controller.WaitForPlayerInput;
 
 import java.util.ArrayList;
 

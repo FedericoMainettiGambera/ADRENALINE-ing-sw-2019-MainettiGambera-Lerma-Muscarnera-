@@ -69,14 +69,15 @@ public class Move extends Action implements Serializable {
                 getActionInfo().getActionContext().getPlayer().getPosition().getX() + a,
                 getActionInfo().getActionContext().getPlayer().getPosition().getY() + b
                 );*/
-        Player target = getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
-        Position originalPosition = new Position(target.getPosition().getX(),target.getPosition().getY());
+        for(Player target : getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList()) {
+            Position originalPosition = new Position(target.getPosition().getX(), target.getPosition().getY());
 
-        Square square = getActionInfo().getActionDetails().getUserSelectedActionDetails().getChosenSquare();
+            Square square = getActionInfo().getActionDetails().getUserSelectedActionDetails().getChosenSquare();
             target.setPosition(
-                square.getCoordinates().getX(),
-                square.getCoordinates().getY()
-        );
-        System.out.println("\t\t\tsposto " + target.getNickname() + " da  [" + originalPosition.getX() + ","+ originalPosition.getY() +"]   in [" + square.getCoordinates().getX() + "," + square.getCoordinates().getY() + "]");
-    }
+                    square.getCoordinates().getX(),
+                    square.getCoordinates().getY()
+            );
+            System.out.println("\t\t\tsposto " + target.getNickname() + " da  [" + originalPosition.getX() + "," + originalPosition.getY() + "]   in [" + square.getCoordinates().getX() + "," + square.getCoordinates().getY() + "]");
+        }
+        }
 }

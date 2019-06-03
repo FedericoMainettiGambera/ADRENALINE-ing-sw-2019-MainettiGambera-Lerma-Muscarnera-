@@ -30,6 +30,16 @@ public class PlayerV implements Serializable {
 
     private int numberOfDeaths;
 
+    private boolean isAFK;
+
+    public boolean isAFK(){
+        return this.isAFK;
+    }
+
+    public void setIsAFK(boolean isAFK){
+        this.isAFK=isAFK;
+    }
+
     public int getNumberOfDeaths() {
         return numberOfDeaths;
     }
