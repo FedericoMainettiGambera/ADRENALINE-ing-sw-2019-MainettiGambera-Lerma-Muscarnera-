@@ -458,6 +458,23 @@ public class View implements Observer {
 
                 }
                 break;
+            case setAFK:
+                if (ViewModelGate.getModel().getPlayers() != null) {
+                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
+                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
+                            p.setIsAFK((boolean) MVE.getComponent());
+                            break;
+                        }
+                    }
+                }
+                if(userInterface.equals("CLI")){
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "player " + (String) MVE.getExtraInformation1() + " AFK status: " + MVE.getComponent();
+                }
+                else{
+
+                }
+                break;
 
             default:
                 throw new Exception("<CLIENT> MVE NOT RECOGNIZED");
