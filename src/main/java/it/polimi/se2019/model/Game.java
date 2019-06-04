@@ -273,7 +273,7 @@ public class Game extends Observable implements Serializable {
 
     public GameV buildGameV(){
         GameV gameV = new GameV();
-        
+
         gameV.setPlayers(this.players.buildPlayersListV());
         gameV.setBoard(this.board.buildBoardV());
         gameV.setPowerUpDiscardPile(this.powerUpDiscardPile.buildDeckV());
