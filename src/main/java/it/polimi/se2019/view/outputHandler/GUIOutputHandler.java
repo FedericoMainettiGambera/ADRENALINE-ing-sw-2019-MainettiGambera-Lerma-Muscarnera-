@@ -13,7 +13,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
-public class GUIOutputHandler extends Application{
+public class GUIOutputHandler extends Application implements OutputHandlerInterface{
 
         public static void main(String[] args) {
             launch(args);
