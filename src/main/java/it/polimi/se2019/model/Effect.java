@@ -141,16 +141,17 @@ public class Effect implements Serializable {
 
                 // player select -- same Player
                 if(e.getEffectInfoTypelist().toString().equals(player.toString())) {
+
                     System.out.println("settaggio del target tramite " +  getActions().get(position).getActionInfo().getActionContext().getPlayer());
                     this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
                             getActions().get(position).getActionInfo().getActionContext().getPlayer()
                     );
                     // i++; /* 0 input */
-
                     Object[] adaptor = new Object[10];
                     adaptor[0] = getActions().get(position).getActionInfo().getActionContext().getPlayer();
                     for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
                         a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(adaptor,"Target"));
+
                 }
 
                 //targetListByRoom
@@ -189,7 +190,6 @@ public class Effect implements Serializable {
                     i++;
 
                 }
-
                 //targetListBySameSquareOfPlayer
                 if(e.getEffectInfoTypelist().toString().equals(targetListBySameSquareOfPlayer.toString())) {
                     Player me = getActions().get(position).getActionInfo().getActionContext().getPlayer();
@@ -209,7 +209,7 @@ public class Effect implements Serializable {
                 // singleTarget select
 
                 if(e.getEffectInfoTypelist().toString().equals(singleTarget.toString())) {
-
+                    System.out.println("-" + i);
                     this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
                            (Player)(input[i][0])
                    );
@@ -255,7 +255,7 @@ public class Effect implements Serializable {
 
                         a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input[i], "Target"));
                     }
-                    i ++;
+                    i++;
                 }
                 // targetListBySquare
                 if(e.getEffectInfoTypelist().toString().equals(targetListBySquare.toString())) {
@@ -344,7 +344,54 @@ public class Effect implements Serializable {
                         a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input[i],"Square"));
                     i++;
                 }
+                if(e.getEffectInfoTypelist().toString().equals(targetListByDistance1.toString())) {
+                    System.out.println("seleziono i target distanti 1");
+                    Player me = getActions().get(position).getActionInfo().getActionContext().getPlayer();
+                    List<Player> retVal = new ArrayList<>();
+                    PlayersList enemies = getActions().get(0).getActionInfo().getActionContext().getPlayerList();
+                    Object[][] adaptor = new Object[10][10];
+                    int z = 0;
 
+
+                    for(Player p_: enemies.getPlayers()) {
+                        if(!p_.equals(me))
+                            try {
+                                System.out.println(p_.getPosition().getX() + "," + p_.getPosition().getY());
+                                System.out.println(me.getPosition().getX() + "," + me.getPosition().getY());
+                                System.out.println(getActions().get(position).getActionInfo().getActionContext().getBoard().distanceFromTo(p_.getPosition(), me.getPosition()));
+                                System.out.println("|||");
+                                if (getActions().get(position).getActionInfo().getActionContext().getBoard().distanceFromTo(p_.getPosition(), me.getPosition()) == 1) {
+                                     retVal.add(p_);
+                                    adaptor[0][z] = p_;
+                                }
+                            } catch (Exception E) {
+
+                                System.out.println("eccezione " + p_.getNickname() + ":" + E.toString());
+                            }
+                    }
+
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTargetList(retVal);
+
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(adaptor,"Square"));
+
+                }
+                if(e.getEffectInfoTypelist().toString().equals(squareByLastTargetSelected.toString())) {
+                    System.out.println("@ ingresso ");
+                    Player lastTarget = getActions().get(position - 1).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setChosenSquare(
+
+                            this.getActions().get(position).getActionInfo().getActionContext().getBoard().getSquare(lastTarget.getPosition())
+
+                    );
+
+                    Object[][] adaptor = new Object[10][10];
+                    adaptor[0][0] =   this.getActions().get(position).getActionInfo().getActionContext().getBoard().getSquare(lastTarget.getPosition());
+
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(adaptor,"Square"));
+
+                }
                 if(e.getEffectInfoTypelist().toString().equals(targetListBySquareOfLastTarget.toString())) {
                     List<Player> targets = new ArrayList<>();
                     Player lastTarget = this.getActions().get(position - 1).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
@@ -397,8 +444,9 @@ public class Effect implements Serializable {
                     i++;
 
                 }
-            }
 
+            }
+        if(!(i == 0))
         j++;
         }
     }

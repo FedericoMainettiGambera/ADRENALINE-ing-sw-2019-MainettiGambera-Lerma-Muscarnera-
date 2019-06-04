@@ -10,17 +10,20 @@ y
 
 NEW EFFECT
 EXPECTED INPUT
-targetBySameSquareOfPlayer
+singleTarget
 TO
 ALL
 END
 simpleSquareSelect
+TO
+2
+END
 END
 ACTIONS
 Damage
 ACTION INFO
 PRECONDITION
-alwaysTrue
+targetOnYourSquare
 SET
 3
 END

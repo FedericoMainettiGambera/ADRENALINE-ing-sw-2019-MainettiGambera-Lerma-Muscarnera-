@@ -340,7 +340,7 @@ public class View implements Observer {
                 OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setAFK(MVE);
                 break;
 
-                
+
             default:
                 throw new Exception("<CLIENT> MVE NOT RECOGNIZED");
 

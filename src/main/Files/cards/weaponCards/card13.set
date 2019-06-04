@@ -13,13 +13,14 @@ END
 singleTarget
 TO
 2
+3
 END
 END
 ACTIONS
 Damage
 ACTION INFO
 PRECONDITION
-distanceFromOriginalPositionIs1
+distanceFromOriginalSquareIs1
 SET
 1
 END
@@ -29,6 +30,11 @@ PRECONDITION
 sameCardinalDirectionOfTargets
 SET
 1
+END
+Action
+ACTION INFO
+PRECONDITION
+distanceOfTargetFromPlayerSquareLessThan2Moves
 END
 END
 

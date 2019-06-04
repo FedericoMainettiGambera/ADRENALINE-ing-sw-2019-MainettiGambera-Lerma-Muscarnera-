@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
@@ -8,9 +9,10 @@
 <?import javafx.scene.layout.*?>
 
 
-<Pane fx:id="principalpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="711.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="principalpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="711.0" style="-fx-background-color: #001a1a;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.polimi.se2019.view.outputHandler.ControllerInizialScene">
    <children>
-      <GridPane fx:id="map" layoutX="189.0" layoutY="98.0" prefHeight="197.0" prefWidth="312.0">
+      <GridPane id="map" fx:id="map" layoutX="173.0" layoutY="98.0" prefHeight="197.0" prefWidth="312.0" style="-fx-border-color: #6666ff;">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -265,20 +267,20 @@
             </GridPane>
          </children>
       </GridPane>
-      <VBox fx:id="classifica" layoutX="612.0" layoutY="7.0" prefHeight="260.0" prefWidth="96.0">
+      <VBox fx:id="classifica" layoutX="612.0" layoutY="7.0" prefHeight="260.0" prefWidth="96.0" style="-fx-border-color: #4dffb8;">
          <children>
-            <Label fx:id="classificaname" prefHeight="17.0" prefWidth="87.0" text="Classifica" />
-            <ListView fx:id="classificalistview" prefHeight="241.0" prefWidth="96.0" />
+            <Label fx:id="classificaname" prefHeight="17.0" prefWidth="87.0" text="Classifica" textFill="#4dffb8" />
+            <ListView fx:id="classificalistview" prefHeight="241.0" prefWidth="96.0" style="-fx-border-color: #4dffb8;" />
          </children>
       </VBox>
-      <HBox fx:id="inhandweaponcard" layoutY="303.0" prefHeight="99.0" prefWidth="159.0">
+      <HBox fx:id="inhandweaponcard" layoutY="372.0" prefHeight="99.0" prefWidth="159.0" style="-fx-border-color: #ff1a75;">
          <children>
             <ImageView fx:id="inhandweaponcard0" fitHeight="98.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="inhandweaponcard1" fitHeight="99.0" fitWidth="50.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="inhandweaponcard2" fitHeight="99.0" fitWidth="55.0" layoutX="63.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <HBox fx:id="inhandpowerup" layoutX="164.0" layoutY="302.0" prefHeight="100.0" prefWidth="107.0">
+      <HBox id="inhandpowerup" fx:id="inhandpowerup" layoutX="173.0" layoutY="371.0" prefHeight="100.0" prefWidth="107.0" style="-fx-border-color: #ff1a75;">
          <children>
             <ImageView fx:id="inhandpowerupcard0" fitHeight="99.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
                <HBox.margin>
@@ -291,9 +293,9 @@
             <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
          </opaqueInsets>
       </HBox>
-      <Pane fx:id="playerpane" layoutX="299.0" layoutY="338.0" prefHeight="147.0" prefWidth="412.0">
+      <Pane fx:id="playerpane" layoutX="299.0" layoutY="338.0" prefHeight="147.0" prefWidth="412.0" style="-fx-border-color: #ff1a75;">
          <children>
-            <HBox layoutY="118.0" prefHeight="15.0" prefWidth="245.0">
+            <HBox layoutY="118.0" prefHeight="15.0" prefWidth="245.0" style="-fx-border-color: #ff1a75;">
                <children>
                   <Button fx:id="run" mnemonicParsing="false" text="Corri" />
                   <Button fx:id="grab" mnemonicParsing="false" text="Raccogli" />
@@ -301,7 +303,7 @@
                   <Button fx:id="reload" mnemonicParsing="false" prefHeight="27.0" prefWidth="67.0" text="Ricarica" />
                </children>
             </HBox>
-            <HBox layoutY="58.0" prefHeight="50.0" prefWidth="386.0">
+            <HBox id="playerboard" layoutY="58.0" prefHeight="50.0" prefWidth="386.0" style="-fx-border-color: #ff1a75;">
                <children>
                   <ImageView fitHeight="50.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="50.0" fitWidth="31.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
@@ -317,7 +319,7 @@
                   <ImageView fitHeight="50.0" fitWidth="31.0" layoutX="320.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>
-            <HBox layoutX="154.0" prefHeight="34.0" prefWidth="215.0">
+            <HBox layoutX="154.0" prefHeight="34.0" prefWidth="215.0" style="-fx-border-color: #ff1a75;">
                <children>
                   <ImageView fitHeight="36.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="36.0" fitWidth="31.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
@@ -330,14 +332,14 @@
             </HBox>
          </children>
       </Pane>
-      <VBox fx:id="spawnsxweapon" layoutY="45.0" prefHeight="159.0" prefWidth="90.0">
+      <VBox fx:id="spawnsxweapon" layoutY="45.0" prefHeight="159.0" prefWidth="90.0" style="-fx-border-color: #6666ff;">
          <children>
             <ImageView fx:id="spawnsxweaponcard0" fitHeight="49.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="spawnsxweaponcard1" fitHeight="49.0" fitWidth="90.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="spawnsxweaponcard2" fitHeight="49.0" fitWidth="90.0" layoutX="10.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </VBox>
-      <HBox fx:id="skullstrack" layoutX="19.0" layoutY="7.0" prefHeight="27.0" prefWidth="260.0">
+      <HBox id="skullstrack" fx:id="skullstrack" layoutX="19.0" layoutY="7.0" prefHeight="27.0" prefWidth="260.0" style="-fx-border-color: #4dffb8;">
          <children>
             <ImageView fx:id="skull0" fitHeight="26.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="skull1" fitHeight="26.0" fitWidth="25.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
@@ -349,22 +351,22 @@
             <ImageView fx:id="skull7" fitHeight="26.0" fitWidth="25.0" layoutX="160.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <HBox fx:id="spawntopweapon" layoutX="266.0" layoutY="4.0" prefHeight="83.0" prefWidth="159.0">
+      <HBox fx:id="spawntopweapon" layoutX="287.0" layoutY="3.0" prefHeight="83.0" prefWidth="159.0" style="-fx-border-color: #6666ff;">
          <children>
             <ImageView fx:id="spawntopweapon0" fitHeight="82.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="spawntopweapon1" fitHeight="82.0" fitWidth="49.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="spawntopweapon2" fitHeight="82.0" fitWidth="49.0" layoutX="59.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <VBox fx:id="spawndxweapon" layoutX="516.0" layoutY="79.0" prefHeight="147.0" prefWidth="90.0">
+      <VBox fx:id="spawndxweapon" layoutX="516.0" layoutY="79.0" prefHeight="147.0" prefWidth="90.0" style="-fx-border-color: #6666ff;">
          <children>
             <ImageView fx:id="spawndxweapon0" fitHeight="49.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="spawndxweapon1" fitHeight="49.0" fitWidth="90.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="spawndxweapon2" fitHeight="49.0" fitWidth="90.0" layoutX="10.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </VBox>
-      <Label layoutX="299.0" layoutY="313.0" prefHeight="17.0" prefWidth="172.0" text="username" />
-      <GridPane fx:id="ammocontainer" layoutX="618.0" layoutY="281.0" prefHeight="42.0" prefWidth="55.0">
+      <Label layoutX="299.0" layoutY="323.0" prefHeight="17.0" prefWidth="172.0" text="username" textFill="#ff1a75" />
+      <GridPane id="ammobox" fx:id="ammobox" layoutX="618.0" layoutY="281.0" prefHeight="42.0" prefWidth="55.0" style="-fx-border-color: #6666ff;">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -384,8 +386,15 @@
             <Rectangle fx:id="yellowammo0" arcHeight="5.0" arcWidth="5.0" fill="#ffe21f" height="12.0" layoutX="28.0" layoutY="25.0" stroke="BLACK" strokeType="INSIDE" width="12.0" GridPane.columnIndex="2" />
             <Rectangle fx:id="yellowammo1" arcHeight="5.0" arcWidth="5.0" fill="#ffca1f" height="12.0" layoutX="37.0" layoutY="11.0" stroke="BLACK" strokeType="INSIDE" width="12.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Rectangle fx:id="blueammo0" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="12.0" layoutX="10.0" layoutY="39.0" stroke="BLACK" strokeType="INSIDE" width="12.0" />
-            <Rectangle fx:id="redammo2" arcHeight="5.0" arcWidth="5.0" fill="#ff1f3c" height="12.0" layoutX="10.0" layoutY="39.0" stroke="BLACK" strokeType="INSIDE" width="12.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Rectangle id="a" fx:id="redammo2" arcHeight="5.0" arcWidth="5.0" fill="#ff1f3c" height="12.0" layoutX="10.0" layoutY="39.0" stroke="BLACK" strokeType="INSIDE" width="12.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
+      <Label layoutX="14.0" layoutY="354.0" prefHeight="17.0" prefWidth="94.0" text="Your Weapons" textFill="#ff1a75" />
+      <Label layoutX="173.0" layoutY="354.0" prefHeight="17.0" prefWidth="106.0" text="Your PowerUps" textFill="#ff1a75" />
+      <Label layoutX="612.0" layoutY="323.0" prefHeight="17.0" prefWidth="87.0" text="your ammos" textFill="#ff1a75">
+         <font>
+            <Font size="9.0" />
+         </font>
+      </Label>
    </children>
 </Pane>
