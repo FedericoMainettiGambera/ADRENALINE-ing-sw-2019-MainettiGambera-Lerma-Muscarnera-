@@ -18,6 +18,8 @@ public class ShootPeopleState implements State {
 
     private Player playerToAsk;
 
+    private Thread inputTimer;
+
     public ShootPeopleState(int actionNumber){
         System.out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
@@ -32,15 +34,15 @@ public class ShootPeopleState implements State {
              if(canShoot()){
                  ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState());
                  ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
-                 Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
-                 t.start();
+                 this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                 this.inputTimer.start();
              }
              else{
                  System.out.println("Player cant shoot");
                  ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
                  ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
-                 Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
-                 t.start();
+                 this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                 this.inputTimer.start();
              }
         }
        //FF aint begun & adrenaline action avaible
@@ -49,8 +51,8 @@ public class ShootPeopleState implements State {
             try {
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(),1));
-                Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
-                t.start();
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                this.inputTimer.start();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -71,8 +73,8 @@ public class ShootPeopleState implements State {
             try {
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(),numberOfMoves));
-                Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
-                t.start();
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                this.inputTimer.start();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -82,15 +84,11 @@ public class ShootPeopleState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
+
+        this.inputTimer.interrupt();
+        System.out.println("<SERVER> player has answered before the timer ended.");
+
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
-        this.playerToAsk.menageAFKAndInputs();
-        if(playerToAsk.isAFK()){
-            //set next State
-            System.out.println("<SERVER> " + playerToAsk.getNickname() + " is AFK, he'll pass the turn.");
-            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
-            return;
-        }
 
         ViewControllerEventPosition VCEPosition = (ViewControllerEventPosition)VCE;
 
@@ -110,6 +108,16 @@ public class ShootPeopleState implements State {
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
 
+    }
+
+    @Override
+    public void handleAFK() {
+        this.playerToAsk.setIsAFK(true);
+        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        //pass turn
+        ModelGate.model.getPlayerList().setNextPlayingPlayer();
+        ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 
     public ArrayList<WeaponCard> UsableWep(){

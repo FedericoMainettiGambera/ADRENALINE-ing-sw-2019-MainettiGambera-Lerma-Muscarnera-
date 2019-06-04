@@ -46,18 +46,19 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
     }
 
     @Override
+    //TODO: EXCEPT AFK PLAYERS...
     public void sendAllClient(Object o) throws RemoteException {
         int i=1;
 
-            if(ModelGate.model.getPlayerList()!=null && ModelGate.model.getPlayerList().getPlayers()!=null){
-                for (Player p : ModelGate.model.getPlayerList().getPlayers()) {
-                    if(p.getRmiInterface()!=null){
-                       p.getRmiInterface().getClient(i).sendToClient(i,o);
-                        i++;
-                    }
+        if(ModelGate.model.getPlayerList()!=null && ModelGate.model.getPlayerList().getPlayers()!=null){
+            for (Player p : ModelGate.model.getPlayerList().getPlayers()) {
+                if(p.getRmiInterface()!=null){
+                   p.getRmiInterface().getClient(i).sendToClient(i,o);
+                    i++;
                 }
             }
         }
+    }
 
     @Override
     public void sendToClient(int RmiIdentifier, Object o) throws RemoteException {

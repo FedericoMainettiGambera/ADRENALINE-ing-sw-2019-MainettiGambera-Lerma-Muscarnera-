@@ -1,5 +1,7 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.view.components.PlayerV;
@@ -68,17 +70,54 @@ public class PlayersList extends Observable implements Serializable {
                 break;
             }
         }
-        if(this.getCurrentPlayingPlayer().isAFK()){
+        if(!this.isMinimumPlayerNotAFK()){
+            System.out.println("<SERVER> too many AFK players. Game is Corrupted.");
+            //TODO
+        }
+        else if(this.getCurrentPlayingPlayer().isAFK()){
             this.setNextPlayingPlayer();
         }
     }
 
+    public boolean isMinimumPlayerNotAFK(){
+        int numberOfPlayerNotAFK = 0;
+        for (Player p: this.players) {
+            if(!p.isAFK()){
+                numberOfPlayerNotAFK++;
+            }
+        }
+        return numberOfPlayerNotAFK >= GameConstant.minNumberOfPlayerPerGame;
+    }
+
+    public boolean areAllAFK(){
+        boolean areAllAFK = true;
+        for (Player p: this.players) {
+            if(!p.isAFK()){
+                areAllAFK = false;
+                break;
+            }
+        }
+        return areAllAFK;
+    }
+
+    public boolean isSomeoneAFK(){
+        boolean isSOmeoneAFK = false;
+        for (Player p: this.players) {
+            if(p.isAFK()){
+                isSOmeoneAFK = true;
+                break;
+            }
+        }
+        return isSOmeoneAFK;
+    }
 
     /**add a player to the player list
      * @param player
      * */
     public void addPlayer(Player player) {
         this.players.add(player);
+        player.addObserver(ViewControllerEventHandlerContext.socketVV);
+        player.addObserver(ViewControllerEventHandlerContext.RMIVV);
         setChanged();
         notifyObservers(new ModelViewEvent(player.buildPlayerV(), ModelViewEventTypes.newPlayer));
     }

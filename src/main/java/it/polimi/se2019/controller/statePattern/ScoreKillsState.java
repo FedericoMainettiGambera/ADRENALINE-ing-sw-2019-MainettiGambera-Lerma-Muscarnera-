@@ -98,6 +98,11 @@ public class ScoreKillsState implements State {
         }
     }
 
+    @Override
+    public void handleAFK() {
+        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+    }
+
     public void scoreKill(Player deadPlayer){
         System.out.println("<SERVER> Scoring dead players.");
 

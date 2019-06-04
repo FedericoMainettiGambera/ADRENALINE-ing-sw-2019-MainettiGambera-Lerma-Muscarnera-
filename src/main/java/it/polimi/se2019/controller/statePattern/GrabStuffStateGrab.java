@@ -82,4 +82,8 @@ public class GrabStuffStateGrab implements State {
             }
         }
     }
+
+    @Override
+    public void handleAFK() {
+    }
 }

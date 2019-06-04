@@ -35,8 +35,11 @@ public class View implements Observer {
             OutputHandlerGate.setGUIOutputHandler(new GUIOutputHandler());
         }
         this.networkConnection = networkConnection;
-        this.selector = new ViewSelector(networkConnection);
+        this.selector = new ViewSelector(networkConnection, userInterface);
+        System.out.println("<CLIENT> created GameV and PlayerListV");
         ViewModelGate.setModel(new GameV());
+        ViewModelGate.getModel().setPlayers(new PlayersListV());
+        ViewModelGate.getModel().getPlayers().setPlayers(new ArrayList<>());
     }
 
     @Override
@@ -62,6 +65,13 @@ public class View implements Observer {
             }
             else{
 
+            }
+        }
+        else{
+            try {
+                throw new Exception("Event not recognized");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
@@ -449,6 +459,9 @@ public class View implements Observer {
                 break;
             case newPlayer:
                 ViewModelGate.getModel().getPlayers().getPlayers().add((PlayerV)MVE.getComponent());
+                if(ViewModelGate.getMe()==null){
+                    ViewModelGate.setMe(((PlayerV)MVE.getComponent()).getNickname());
+                }
                 if(userInterface.equals("CLI")){
                     OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
                     OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "new player added: " + ((PlayerV) MVE.getComponent()).getNickname());
@@ -468,7 +481,13 @@ public class View implements Observer {
                 }
                 if(userInterface.equals("CLI")){
                     OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "player " + (String) MVE.getExtraInformation1() + " AFK status: " + MVE.getComponent());
+                    if(ViewModelGate.getMe().equals((String) MVE.getExtraInformation1() )){
+                        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "You've been set to AFK.");
+                        //TODO disconnect
+                    }
+                    else {
+                        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "player " + (String) MVE.getExtraInformation1() + " AFK status: " + MVE.getComponent());
+                    }
                 }
                 else{
 

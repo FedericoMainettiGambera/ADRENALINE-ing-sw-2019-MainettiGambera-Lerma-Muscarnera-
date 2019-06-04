@@ -18,6 +18,8 @@ public class RunAroundState implements State {
 
     private Player playerToAsk;
 
+    private Thread inputTimer;
+
     public RunAroundState(int actionNumber){
         System.out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
@@ -43,8 +45,8 @@ public class RunAroundState implements State {
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(possiblePositions);
-            Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
-            t.start();
+            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
+            this.inputTimer.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,16 +54,10 @@ public class RunAroundState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        this.inputTimer.interrupt();
+        System.out.println("<SERVER> player has answered before the timer ended.");
 
-        this.playerToAsk.menageAFKAndInputs();
-        if(playerToAsk.isAFK()){
-            //set next State
-            System.out.println("<SERVER> " + playerToAsk.getNickname() + " is AFK, he'll pass the turn.");
-            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
-            return;
-        }
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventPosition VCEPosition = (ViewControllerEventPosition)VCE;
 
@@ -79,6 +75,16 @@ public class RunAroundState implements State {
         else if(this.actionNumber == 2){ //second action of the turn
             ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
         }
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+    }
+
+    @Override
+    public void handleAFK() {
+        this.playerToAsk.setIsAFK(true);
+        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        //pass turn
+        ModelGate.model.getPlayerList().setNextPlayingPlayer();
+        ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 

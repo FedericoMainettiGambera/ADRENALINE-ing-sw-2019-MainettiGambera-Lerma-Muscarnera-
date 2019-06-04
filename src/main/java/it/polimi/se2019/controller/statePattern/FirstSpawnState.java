@@ -6,6 +6,7 @@ import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.PowerUpCard;
+import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
 import it.polimi.se2019.controller.WaitForPlayerInput;
@@ -20,6 +21,8 @@ public class FirstSpawnState implements State {
 
     private Player playerToAsk;
 
+    private Thread inputTimer;
+
     @Override
     public void askForInput(Player playerToAsk){
         this.playerToAsk = playerToAsk;
@@ -29,8 +32,8 @@ public class FirstSpawnState implements State {
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askFirstSpawnPosition((ArrayList)playerToAsk.getPowerUpCardsInHand().getCards());
-            Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
-            t.start();
+            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
+            this.inputTimer.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,16 +41,10 @@ public class FirstSpawnState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) throws NullPointerException{
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        this.inputTimer.interrupt();
+        System.out.println("<SERVER> player has answered before the timer ended.");
 
-        this.playerToAsk.menageAFKAndInputs();
-        if(playerToAsk.isAFK()){
-            //set next State
-            System.out.println("<SERVER> " + playerToAsk.getNickname() + " is AFK, he'll pass the turn.");
-            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
-            return;
-        }
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventString VCEPowerUpId = (ViewControllerEventString) VCE;
 
@@ -75,6 +72,16 @@ public class FirstSpawnState implements State {
 
         //set next State
         ViewControllerEventHandlerContext.setNextState(new TurnState(1));
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+    }
+
+    @Override
+    public void handleAFK() {
+        this.playerToAsk.setIsAFK(true);
+        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        //pass turn
+        ModelGate.model.getPlayerList().setNextPlayingPlayer();
+        ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 }

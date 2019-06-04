@@ -7,6 +7,8 @@ public interface State {
     public void askForInput(Player playerToAsk);
 
     public void doAction(ViewControllerEvent VCE);
+
+    public void handleAFK();
 }
 
 /* The state pattern can access the model using:

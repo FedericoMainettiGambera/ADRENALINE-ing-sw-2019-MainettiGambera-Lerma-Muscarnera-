@@ -18,6 +18,8 @@ public class GrabStuffStateGrabWeapon implements  State {
 
     private Player playerToAsk;
 
+    private Thread inputTimer;
+
     public GrabStuffStateGrabWeapon(int actionNumber){
         this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> New state: " + this.getClass());
@@ -26,6 +28,7 @@ public class GrabStuffStateGrabWeapon implements  State {
 
     @Override
     public void askForInput(Player playerToAsk) {
+        this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         try {
@@ -72,15 +75,15 @@ public class GrabStuffStateGrabWeapon implements  State {
                 System.out.println("<SERVER> There are no weapon to pick up, asking another action to the user.");
                 ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
                 ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
-                Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
-                t.start();
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                this.inputTimer.start();
             }
             else {
                 try {
                     SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                     SelectorGate.getCorrectSelectorFor(playerToAsk).askGrabStuffSwitchWeapon(toPickUp, toDiscard);
-                    Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
-                    t.start();
+                    this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                    this.inputTimer.start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -93,15 +96,15 @@ public class GrabStuffStateGrabWeapon implements  State {
                 System.out.println("<SERVER> There are no weapon to pick up, asking another action to the user.");
                 ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
                 ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
-                Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
-                t.start();
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                this.inputTimer.start();
             }
             else{
                 try {
                     SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                     SelectorGate.getCorrectSelectorFor(playerToAsk).askGrabStuffGrabWeapon(toPickUp);
-                    Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
-                    t.start();
+                    this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                    this.inputTimer.start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -111,15 +114,10 @@ public class GrabStuffStateGrabWeapon implements  State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
+        this.inputTimer.interrupt();
+        System.out.println("<SERVER> player has answered before the timer ended.");
+
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
-        this.playerToAsk.menageAFKAndInputs();
-        if(playerToAsk.isAFK()){
-            //set next State
-            System.out.println("<SERVER> " + playerToAsk.getNickname() + " is AFK, he'll pass the turn.");
-            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
-            return;
-        }
 
         Position playerPosition = ModelGate.model.getCurrentPlayingPlayer().getPosition();
         OrderedCardList<WeaponCard> playerWeapons = ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand();
@@ -188,5 +186,15 @@ public class GrabStuffStateGrabWeapon implements  State {
         }
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
 
+    }
+
+    @Override
+    public void handleAFK() {
+        this.playerToAsk.setIsAFK(true);
+        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        //pass turn
+        ModelGate.model.getPlayerList().setNextPlayingPlayer();
+        ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 }

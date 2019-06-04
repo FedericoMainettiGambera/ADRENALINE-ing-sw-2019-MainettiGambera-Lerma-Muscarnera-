@@ -36,6 +36,7 @@ public class RMINetworkHandler extends NetworkHandler{
 
         //if (rmiInterface.numberOfConnection().getNumber() + 1 < 3) {
         try {
+            //TODO here it doea some problem sometimes
             if (rmiInterface.numberOfConnection() <= GameConstant.maxNumberOfPlayerPerGame) {
 
                 client = new Client(rmiInterface, rmiInterface.getRmiIdentifier());

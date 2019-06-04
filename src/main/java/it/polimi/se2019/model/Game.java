@@ -28,6 +28,8 @@ public class Game extends Observable implements Serializable {
 
     private static int numberOfClientsConnected = 0;
 
+    public static boolean hasGameBegun = false;
+
     public int getNumberOfClientsConnected(){
         return this.numberOfClientsConnected;
     }
@@ -109,11 +111,6 @@ public class Game extends Observable implements Serializable {
         this.getPlayerList().addObserver(this.VVSOcket);
         this.getPlayerList().addObserver(this.VVRMI);
         System.out.println("    VirtualView added to the PlayerList's observers");
-        for (int i = 0; i < this.getPlayerList().getPlayers().size() ; i++) {
-            this.getPlayerList().getPlayers().get(i).addObserver(this.VVRMI);
-            this.getPlayerList().getPlayers().get(i).addObserver(this.VVSOcket);
-        }
-        System.out.println("    VirtualView added to the Players' observers");
     }
 
     public Player getCurrentPlayingPlayer(){
@@ -272,5 +269,10 @@ public class Game extends Observable implements Serializable {
     /***/
     public OrderedCardList<PowerUpCard> getPowerUpDiscardPile() {
         return powerUpDiscardPile;
+    }
+
+    public GameV buildGameV(){
+        //TODO build all game for people who have to reconnect
+        return new GameV();
     }
 }

@@ -21,15 +21,15 @@ import java.util.Scanner;
 
 public class  Controller{
 
-    private SocketVirtualView SVV;
-    private RMIVirtualView RMIVV;
+    public static SocketVirtualView SVV;
+    public static RMIVirtualView RMIVV;
 
-    private SocketNetworkHandler SNH;
+    public static SocketNetworkHandler SNH;
+    public static RMINetworkHandler RMINH;
 
-    private ViewControllerEventHandlerContext VCEHC;
+    public static ViewControllerEventHandlerContext VCEHC;
 
-    private View V;
-    private RMINetworkHandler RMINH;
+    public static View V;
 
     public void startServerWithRMIAndSocket(){
 
@@ -63,7 +63,10 @@ public class  Controller{
         }
         ViewControllerEventHandlerContext.RMIVV = this.RMIVV;
 
-
+        //Registering the VirtualView as an observer of the model so it can receive the MVEs
+        System.out.println("<SERVER> Registering the VirtualViews (RMI and Socket) as observers of the Model");
+        ModelGate.model.setVirtualView(ViewControllerEventHandlerContext.socketVV, ViewControllerEventHandlerContext.RMIVV);
+        ModelGate.model.registerVirtualView();
 
 
         //Starting a Client for who ever runs the server, not necessary...
@@ -156,6 +159,20 @@ public class  Controller{
             e.printStackTrace();
         }
 
+        /*
+        System.out.println("<CLIENT> Are you trying to reconnect to a Game? [Y/N]");
+        String reconection ="";
+        try {
+            userInterface = br.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(reconection.equals("Y")){
+            this.reconnect(networkConnectionChoice, userInterface);
+            return;
+        }
+        */
+
 
         if(networkConnectionChoice.equalsIgnoreCase("RMI")){
             System.out.println("<CLIENT> Starting Client with RMI connection");
@@ -224,6 +241,75 @@ public class  Controller{
         }
     }
 
+    /*
+    public void reconnect(String networkConnection, String userInterface){
+        //TODO
+        if(userInterface.equals("CLI")) {
+            System.out.println("<CLIENT> TRYING TO RECONNECT TO SERVER.");
+            if(networkConnection.equalsIgnoreCase("SOCKET")) {
+                //creating the View for the user who holds the server
+                if(userInterface.equalsIgnoreCase("GUI")){
+                    this.V = new View("SOCKET", "GUI");
+                }
+                else {
+                    this.V = new View("SOCKET", "CLI");
+                }
+
+                BufferedReader buff = new BufferedReader(new InputStreamReader(System.in));
+                System.out.println("<CLIENT> Insert Server IP:");
+                String address = null;
+                try {
+                    address = buff.readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("<CLIENT> Insert Port:");
+                String port = null;
+                try {
+                    port = buff.readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                //creating the Client for the user who holds the server and connecting it to the server
+                try {
+                    this.SNH = new SocketNetworkHandler(InetAddress.getByName(address), Integer.parseInt(port) , this.V);
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
+            }
+            else{
+                //creating the View for the user who holds the server
+                if(userInterface.equalsIgnoreCase("GUI")){
+                    this.V = new View("RMI", "GUI");
+                }
+                else {
+                    this.V = new View("RMI", "CLI");
+                }
+                Scanner scanner=new Scanner(System.in);
+
+                //ask for IP and PORT
+                System.out.println("<CLIENT> Insert Server's IP:");
+                String address = scanner.nextLine();
+                System.out.println("<CLIENT> Insert Port:");
+                int port = scanner.nextInt();
+
+                try {
+                    this.RMINH=new RMINetworkHandler(address, port, V);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                } catch (NotBoundException e) {
+                    e.printStackTrace();
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        else{
+
+        }
+    }
+    */
 
     /////////////////////////////////////////////////////////////////
     ///////////////////////    RMI    ///////////////////////////////
