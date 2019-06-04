@@ -33,12 +33,14 @@ public class ViewSelector implements Selector {
         }
          */
         //per il momento uso direttamente la CLI perchè non abbiamo ancora la grafica:
-        this.CLISelector.askGameSetUp();
+
     }
 
     @Override
     public void askPlayerSetUp() {
+
         this.CLISelector.askPlayerSetUp();
+
     }
 
     @Override

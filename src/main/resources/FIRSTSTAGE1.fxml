@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane fx:controller="it.polimi.se2019.view.outputHandler.ControllerInizialScene" fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="346.0" prefWidth="398.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="396.0" minWidth="10.0" prefWidth="292.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="297.0" minHeight="10.0" prefHeight="297.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="75.0" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <ToolBar centerShape="false" layoutX="310.0" layoutY="323.0" prefHeight="49.0" prefWidth="419.0" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+         <items>
+            <MenuButton mnemonicParsing="false" text="connection">
+              <items>
+                <MenuItem mnemonicParsing="false" text="RMI " />
+                <MenuItem mnemonicParsing="false" text="SOCKET" />
+              </items>
+            </MenuButton>
+            <MenuButton mnemonicParsing="false" text="view">
+              <items>
+                <MenuItem mnemonicParsing="false" text="GUI" />
+                <MenuItem mnemonicParsing="false" text="CLI" />
+              </items>
+            </MenuButton>
+          <Button onMouseClicked="#setNewGame" contentDisplay="RIGHT" lineSpacing="1.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="88.0" text="PLAY">
+               <font>
+                  <Font name="Courier" size="15.0" />
+               </font>
+            </Button>
+         </items>
+      </ToolBar>
+      <ImageView fitHeight="299.0" fitWidth="398.0" pickOnBounds="true">
+         <image>
+            <Image url="@adrem.png" />
+         </image>
+      </ImageView>
+   </children>
+</GridPane>
