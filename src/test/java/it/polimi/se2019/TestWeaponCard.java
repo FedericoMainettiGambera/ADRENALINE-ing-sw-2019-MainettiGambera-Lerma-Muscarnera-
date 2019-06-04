@@ -1,18 +1,5 @@
 package it.polimi.se2019;
 //TODO
-import it.polimi.se2019.model.*;
-import it.polimi.se2019.model.enumerations.CardinalPoint;
-import it.polimi.se2019.model.enumerations.SquareSide;
-import it.polimi.se2019.model.enumerations.SquareTypes;
-import it.polimi.se2019.virtualView.VirtualView;
-import org.junit.Test;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class TestWeaponCard {
     /*
     @Test

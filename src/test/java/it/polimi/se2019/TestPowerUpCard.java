@@ -43,13 +43,16 @@ public class TestPowerUpCard {
             w.getEffects().get(effectId).handleInput(o);
             w.getEffects().get(effectId).Exec();
 
-
-        PowerUpCard p = new PowerUpCard("1");
+        o[0][0] = user2;
+        o[1][0] = board.getSquare(2,2);
+        PowerUpCard p = new PowerUpCard("4");
         for(Action a : p.getSpecialEffect().getActions()) {
-            a.getActionInfo().getActionContext().setPlayer(user1);
+            a.getActionInfo().getActionContext().setPlayer(user2);
             a.getActionInfo().getActionContext().setPlayerList(playerList);
             a.getActionInfo().getActionContext().setBoard(board);
         }
+
+        p.Play();
 
         p.getSpecialEffect().handleInput(o);
         p.Play();

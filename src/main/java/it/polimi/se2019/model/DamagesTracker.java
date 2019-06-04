@@ -7,7 +7,6 @@ import it.polimi.se2019.view.components.DamageTrackerV;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
 /**
  * THIS CLASS SHOULD NEVER BE DIRECTLY ACCESSED, INSTEAD USE METHODS FROM THE "Person" CLASS.
@@ -71,6 +70,9 @@ public class DamagesTracker implements Serializable {
     /**@param slotNumber
      * @return the slotNumber DamageSlot
      * */
+    public DamageSlot getLastDamageSlot() {
+        return damageSlotsList.get(damageSlotsList.size()-1);
+    }
     public DamageSlot getDamageSlot(int slotNumber) throws IndexOutOfBoundsException {
         if(damageSlotsList.size()>= slotNumber) {
             return damageSlotsList.get(slotNumber);

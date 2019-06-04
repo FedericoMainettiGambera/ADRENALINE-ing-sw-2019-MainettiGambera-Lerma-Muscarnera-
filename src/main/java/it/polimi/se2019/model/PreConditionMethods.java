@@ -580,8 +580,17 @@ public class PreConditionMethods implements Serializable {
 
         return (actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition()) >= 2);
     }
+    public boolean notEndingTurn(ActionDetails actionDetails,ActionContext actionContext) {
+        // TODO: dipende dallo shootstate
+        return true;
+    }
     public boolean youCantSee(ActionDetails actionDetails,ActionContext actionContext) {
         return !youCanSee(actionDetails,actionContext);
+    }
+    public boolean youJustGotDamaged(ActionDetails actionDetails,ActionContext actionContext) {
+        Player toMark = actionContext.getPlayer().getLastDamageSlot().getShootingPlayer();
+        actionDetails.getUserSelectedActionDetails().setTarget(toMark);
+        return true;
     }
     public boolean previousTarget(ActionDetails actionDetails, ActionContext actionContext) {
         return !notPreviousTarget(actionDetails,actionContext);

@@ -265,6 +265,10 @@ public abstract class Person extends Observable implements Serializable {
         return this.board.getDamagesSlot(i);
     }
 
+    public DamageSlot getLastDamageSlot(){
+        return this.board.getDamagesTracker().getLastDamageSlot();
+    }
+
     public PlayerBoard getBoard(){
         return this.board;
     }
