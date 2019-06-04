@@ -72,11 +72,11 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
         if(ModelGate.model.getNumberOfClientsConnected() <= GameConstant.maxNumberOfPlayerPerGame){
             clientList.add(client);
 
-            System.out.println("<SEVERINO-rmi> " + client.getName() + " is connected");
+            System.out.println("<SEVRVER-rmi> " + client.getName() + " is connected");
             //numberOfConnection.addNumber();
             ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected()+1);
             //System.out.println("<SEVERINO> " + "number of connection is\n" + numberOfConnection.getNumber());
-            System.out.println("<SEVERINO-rmi> " + "number of connection is" + ModelGate.model.getNumberOfClientsConnected());
+            System.out.println("<SEVRVER-rmi> " + "number of connection is" + ModelGate.model.getNumberOfClientsConnected());
         } else {
             //System.out.println("<SEVER> " + "sorry we are full, number of connection is" + numberOfConnection.getNumber());
             System.out.println("<SEVER-rmi> " + "sorry we are full, number of connection is" + ModelGate.model.getNumberOfClientsConnected());
@@ -162,7 +162,7 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
 
         clientList.remove(rmiIdentifier);
         for (RMIInterface client: clientList) {
-            System.out.println("still playing: "+client.getName());
+            System.out.println("<SERVER-rmi> ????? ASK LUDO WHAT IS THIS. still playing: "+client.getName());
         }
 
     }

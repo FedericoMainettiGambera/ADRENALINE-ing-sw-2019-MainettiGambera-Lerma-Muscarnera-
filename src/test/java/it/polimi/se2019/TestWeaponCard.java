@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TestWeaponCard {
+    /*
     @Test
     public void test() {
         try {
@@ -322,4 +323,5 @@ public class TestWeaponCard {
 
         }
     }
+    */
 }

@@ -28,7 +28,6 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
     public  void askGameSetUp(){
         try {
             SelectorEvent SE = new SelectorEvent(SelectorEventTypes.askGameSetUp);
-            System.out.println(playerToAsk.getRmiIdentifier());
             playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(), SE);
         } catch (IOException e) {
             e.printStackTrace();
