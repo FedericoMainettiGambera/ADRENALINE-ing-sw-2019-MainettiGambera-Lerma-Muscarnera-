@@ -31,4 +31,13 @@ public class OutputHandlerGate{
     public static void setGUIOutputHandler(it.polimi.se2019.view.outputHandler.GUIOutputHandler GUIOutputHandler) {
         OutputHandlerGate.GUIOutputHandler = GUIOutputHandler;
     }
+
+    public static OutputHandlerInterface getCorrectOutputHandler(String userIterface){
+        if(userIterface.equalsIgnoreCase("CLI")){
+            return CLIOutputHandler;
+        }
+        else{
+            return GUIOutputHandler;
+        }
+    }
 }
