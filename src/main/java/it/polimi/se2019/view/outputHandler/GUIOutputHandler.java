@@ -19,7 +19,7 @@ public class GUIOutputHandler extends Application{
         public void start(Stage primaryStage) throws Exception{
 
             Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("GUIFirstStage.fxml"));
-            Scene scene= new Scene(root, 800, 500);
+            Scene scene= new Scene(root, 300, 275);
             primaryStage.setTitle("Hello World");
 
 
@@ -27,6 +27,7 @@ public class GUIOutputHandler extends Application{
 
             primaryStage.setScene(scene);
             primaryStage.show();
+
         }
 
 

@@ -27,9 +27,9 @@
             <Image url="@adrem.png" />
          </image>
       </ImageView>
-   <VBox  prefHeight="48.0" prefWidth="158.0" GridPane.valignment="BOTTOM" maxWidth="Infinity" maxHeight="Infinity" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" alignment="CENTER_RIGHT" GridPane.columnIndex="0"  GridPane.rowIndex="0" >
+   <VBox  prefHeight="48.0" prefWidth="137.0"  alignment="CENTER_RIGHT" GridPane.columnIndex="0"  GridPane.rowIndex="0" >
          <children>
-            <Button  mnemonicParsing="false" prefHeight="28.0" prefWidth="134.0"  maxWidth="300" maxHeight="Infinity" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"  style="-fx-border-color: #ffb84d; -fx-background-color: #000000;" text="Settings" textFill="#ff9900" textOverrun="CENTER_ELLIPSIS">
+            <Button onMouseClicked="#setSettings" prefHeight="28.0" prefWidth="134.0"      style="-fx-border-color: #ffb84d; -fx-background-color: #000000;" text="Settings" textFill="#ff9900" textOverrun="CENTER_ELLIPSIS">
                <effect>
                   <Glow level="0.76">
                      <input>
@@ -50,9 +50,9 @@
             </Button>
          </children>
    </VBox>
-      <VBox prefHeight="48.0" GridPane.hgrow="ALWAYS"  GridPane.valignment="BOTTOM" GridPane.halignment="LEFT" GridPane.vgrow="ALWAYS" prefWidth="137.0" alignment="CENTER_LEFT" GridPane.columnIndex="0"  GridPane.rowIndex="0" maxHeight="Infinity" maxWidth="Infinity" >
+      <VBox prefHeight="48.0"   prefWidth="137.0" alignment="CENTER_LEFT" GridPane.columnIndex="0"  GridPane.rowIndex="0" >
          <children>
-      <Button  mnemonicParsing="false"   GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" prefHeight="28.0" prefWidth="139.0" style="-fx-border-color: #ff9900; -fx-background-color: #000000;" text="Let's Play!"  textFill="#ff9900" textOverrun="CENTER_ELLIPSIS" maxWidth="300" maxHeight="200">
+      <Button onMouseClicked="#setNewGame"  prefHeight="28.0" prefWidth="139.0" style="-fx-border-color: #ff9900; -fx-background-color: #000000;" text="Let's Play!"  textFill="#ff9900" textOverrun="CENTER_ELLIPSIS">
          <effect>
             <Glow level="0.82">
                <input>

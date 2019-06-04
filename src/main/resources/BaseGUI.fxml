@@ -10,7 +10,7 @@
 
 
 <Pane fx:id="principalpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="711.0" style="-fx-background-color: #001a1a;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="it.polimi.se2019.view.outputHandler.GUIOutputHandler">
+      fx:controller="it.polimi.se2019.view.outputHandler.ControllerInizialScene">
    <children>
       <GridPane id="map" fx:id="map" layoutX="173.0" layoutY="98.0" prefHeight="197.0" prefWidth="312.0" style="-fx-border-color: #6666ff;">
         <columnConstraints>
