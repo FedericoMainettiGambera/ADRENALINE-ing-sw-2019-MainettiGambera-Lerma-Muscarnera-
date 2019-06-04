@@ -19,6 +19,8 @@ public class GameSetUpState implements State {
 
     private Player playerToAsk;
 
+    private Thread inputTimer;
+
     public GameSetUpState(){
         System.out.println("<SERVER> New state: " + this.getClass());
     }
@@ -28,20 +30,19 @@ public class GameSetUpState implements State {
         this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
-        //Registering the VirtualView as an observer of the model so it can receive the MVEs
-        System.out.println("<SERVER> Registering the VirtualViews (RMI and Socket) as observers of the Model");
-        ModelGate.model.setVirtualView(ViewControllerEventHandlerContext.socketVV, ViewControllerEventHandlerContext.RMIVV);
-        ModelGate.model.registerVirtualView();
+        System.out.println("<SERVER> Setting hasGameBegun to true.");
+        ModelGate.model.hasGameBegun = true;
 
-        System.out.println("<SERVER> registering the VirtualView ad an observer of the State Patter");
-        //TODO
+        System.out.println("<SERVER> Setting Starting Player.");
+        ModelGate.model.getPlayerList().setStartingPlayer(playerToAsk);
+        ModelGate.model.getPlayerList().setCurrentPlayingPlayer(ModelGate.model.getPlayerList().getStartingPlayer());
 
         //ask for gameSetUp to the player
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askGameSetUp();
-            Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
-            t.start();
+            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
+            this.inputTimer.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,23 +50,12 @@ public class GameSetUpState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE){
+        this.inputTimer.interrupt();
+        System.out.println("<SERVER> player has answered before the timer ended.");
 
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        this.playerToAsk.menageAFKAndInputs();
-        if(playerToAsk.isAFK()){
-            //set next State
-            System.out.println("<SERVER> " + playerToAsk.getNickname() + " is AFK, he'll pass the turn.");
-            ModelGate.model.getPlayerList().setNextPlayingPlayer();
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getCurrentPlayingPlayer());
-            return;
-        }
-
         ViewControllerEventGameSetUp VCEGameSetUp = (ViewControllerEventGameSetUp)VCE;
-
-        System.out.println("<SERVER> Setting Starting Player.");
-        ModelGate.model.getPlayerList().setStartingPlayer(ModelGate.model.getPlayerList().getPlayer("User1"));
-        ModelGate.model.getPlayerList().setCurrentPlayingPlayer(ModelGate.model.getPlayerList().getStartingPlayer());
 
         if(VCEGameSetUp.getGameMode().equals("normalMode")){
             System.out.println("<SERVER> Setting up Game in normal mode.");
@@ -171,5 +161,14 @@ public class GameSetUpState implements State {
             //build game in domination mode
         }
 
+    }
+
+    @Override
+    public void handleAFK() {
+        this.playerToAsk.setIsAFK(true);
+        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        ModelGate.model.getPlayerList().setNextPlayingPlayer();
+        ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 }

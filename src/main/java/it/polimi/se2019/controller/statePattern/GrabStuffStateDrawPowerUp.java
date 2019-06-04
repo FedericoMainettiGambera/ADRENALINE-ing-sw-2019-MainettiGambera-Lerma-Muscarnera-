@@ -52,4 +52,8 @@ public class GrabStuffStateDrawPowerUp implements State {
         ViewControllerEventHandlerContext.setNextState(state);
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
+
+    @Override
+    public void handleAFK() {
+    }
 }

@@ -20,6 +20,8 @@ public class SpawnState implements State {
 
     private Player playerToAsk;
 
+    private Thread inputTimer;
+
 
     public SpawnState(ArrayList<Player> deadPlayers){
         System.out.println("<SERVER> New state: " + this.getClass());
@@ -47,8 +49,8 @@ public class SpawnState implements State {
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askSpawn((ArrayList)playerToSpawn.getPowerUpCardsInHand().getCards());
-            Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
-            t.start();
+            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
+            this.inputTimer.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,16 +58,10 @@ public class SpawnState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        this.inputTimer.interrupt();
+        System.out.println("<SERVER> player has answered before the timer ended.");
 
-        this.playerToAsk.menageAFKAndInputs();
-        if(playerToAsk.isAFK()){
-            //set next State
-            System.out.println("<SERVER> " + playerToAsk.getNickname() + " is AFK, he'll pass the turn.");
-            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
-            return;
-        }
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventString VCEString = (ViewControllerEventString)VCE;
 
@@ -95,5 +91,13 @@ public class SpawnState implements State {
         ViewControllerEventHandlerContext.setNextState(new ScoreKillsState(this.deadPlayers));
         ViewControllerEventHandlerContext.state.doAction(null);
 
+    }
+
+    @Override
+    public void handleAFK() {
+        this.playerToAsk.setIsAFK(true);
+        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        System.out.println("<SERVER> randomly making player spawn using first card in hand.");
+        this.doAction(new ViewControllerEventString(playerToSpawn.getPowerUpCardsInHand().getCards().get(0).getID()));
     }
 }

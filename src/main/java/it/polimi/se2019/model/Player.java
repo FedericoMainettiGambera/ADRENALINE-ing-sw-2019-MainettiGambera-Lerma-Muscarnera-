@@ -1,5 +1,6 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.view.components.PlayerV;
@@ -17,7 +18,6 @@ public class Player extends Person implements Serializable {
         super();
         this.playerHistory = new PlayerHistory();
         this.hand = new PlayerHand();
-        this.hasAnswered = false;
         this.isAFK = false;
     }
 
@@ -50,37 +50,16 @@ public class Player extends Person implements Serializable {
 
     private boolean isLastPlayingPlayer=false;
 
-    private boolean hasAnswered;
-
     private boolean isAFK;
-
-    public boolean hasAnswered() {
-        return hasAnswered;
-    }
 
     public boolean isAFK() {
         return isAFK;
-    }
-
-    public void setHasAnswered(boolean hasAnswered){
-        this.hasAnswered = hasAnswered;
     }
 
     public void setIsAFK(boolean isAFK){
         this.isAFK = isAFK;
         setChanged();
         notifyObservers(new ModelViewEvent(this.isAFK, ModelViewEventTypes.setAFK, nickname));
-    }
-
-    public void menageAFKAndInputs(){
-        if(!this.isAFK()) {
-            this.setHasAnswered(true);
-        }
-        else{
-            //TODO
-            //this.disconnect();
-            System.out.println("<SERVER>" + this.getNickname() + " is AFK.");
-        }
     }
 
 
@@ -131,6 +110,8 @@ public class Player extends Person implements Serializable {
     ///socket
     public void setOos(ObjectOutputStream oos){
         this.oos = oos;
+        this.addObserver(ViewControllerEventHandlerContext.RMIVV);
+        this.addObserver((ViewControllerEventHandlerContext.socketVV));
     }
 
     public ObjectOutputStream getOos(){

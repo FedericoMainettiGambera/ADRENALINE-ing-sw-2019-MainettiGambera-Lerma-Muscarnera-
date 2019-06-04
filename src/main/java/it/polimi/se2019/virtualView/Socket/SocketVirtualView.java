@@ -72,6 +72,7 @@ public class SocketVirtualView extends VirtualView {
         this.sendAllClient(arg);
     }
 
+    //TODO: EXCEPT AFK PLAYERS...
     public void sendAllClient(Object o) {
         if(ModelGate.model.getPlayerList()!=null && ModelGate.model.getPlayerList().getPlayers()!=null){
             for (Player p : ModelGate.model.getPlayerList().getPlayers()) {

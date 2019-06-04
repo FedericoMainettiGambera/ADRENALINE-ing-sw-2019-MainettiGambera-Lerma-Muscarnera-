@@ -22,4 +22,9 @@ public class ShootPeopleChooseWepState implements State {
     public void doAction(ViewControllerEvent VCE){
 
     }
+
+    @Override
+    public void handleAFK() {
+        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+    }
 }

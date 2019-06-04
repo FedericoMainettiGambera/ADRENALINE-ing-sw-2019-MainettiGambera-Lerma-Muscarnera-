@@ -14,5 +14,5 @@ public enum SelectorEventTypes {
     askWhatReaload,
     askSpawn,
     askShootOrMove,
-    askShootReloadMove
+    askShootReloadMove,
 }

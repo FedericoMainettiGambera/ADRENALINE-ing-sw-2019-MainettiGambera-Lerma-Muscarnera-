@@ -11,95 +11,95 @@ public class ViewSelector implements Selector {
 
     private String networkConnection;
 
+    private String userInterface;
+
     private it.polimi.se2019.view.selector.CLISelector CLISelector;
 
     private it.polimi.se2019.view.selector.GUISelector GUISelector;
 
-    public ViewSelector(String networConnection){
+    public ViewSelector(String networConnection, String userInterface){
         this.networkConnection = networConnection;
+        this.userInterface = userInterface;
         this.CLISelector = new CLISelector(networkConnection);
         this.GUISelector = new GUISelector(networkConnection);
     }
 
+    public Selector getCorrectSelector(){
+        if(this.userInterface.equalsIgnoreCase("cLI")){
+            return this.CLISelector;
+        }
+        else{
+            return this.GUISelector;
+        }
+    }
 
     @Override
     public void askGameSetUp() {
-        /*TODO:
-        if(il client è in modalità CLI){
-            this.CLISelector.askGameSetUp();
-        }
-        else if(il client è in modalità GUI){
-            this.GUISelector.askGameSetUp();
-        }
-         */
-        //per il momento uso direttamente la CLI perchè non abbiamo ancora la grafica:
-
+        this.getCorrectSelector().askGameSetUp();
     }
 
     @Override
     public void askPlayerSetUp() {
-
-        this.CLISelector.askPlayerSetUp();
-
+        this.getCorrectSelector().askPlayerSetUp();
     }
 
     @Override
     public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards) {
-        this.CLISelector.askFirstSpawnPosition(powerUpCards);
+        this.getCorrectSelector().askFirstSpawnPosition(powerUpCards);
     }
 
     @Override
     public void askTurnAction(int actionNumber) {
-        this.CLISelector.askTurnAction(actionNumber);
+        this.getCorrectSelector().askTurnAction(actionNumber);
     }
 
     @Override
     public void askRunAroundPosition(ArrayList<Position> positions) {
-        this.CLISelector.askRunAroundPosition(positions);
+        this.getCorrectSelector().askRunAroundPosition(positions);
     }
 
     @Override
     public void askGrabStuffAction() {
-        this.CLISelector.askGrabStuffAction();
+        this.getCorrectSelector().askGrabStuffAction();
     }
 
     @Override
     public void askGrabStuffMove(ArrayList<Position> positions) {
-        this.CLISelector.askGrabStuffMove(positions);
+        this.getCorrectSelector().askGrabStuffMove(positions);
     }
 
     @Override
     public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp) {
-        this.CLISelector.askGrabStuffGrabWeapon(toPickUp);
+        this.getCorrectSelector().askGrabStuffGrabWeapon(toPickUp);
     }
 
     @Override
     public void askGrabStuffSwitchWeapon(ArrayList<WeaponCard> toPickUp, ArrayList<WeaponCard> toSwitch) {
-        this.CLISelector.askGrabStuffSwitchWeapon(toPickUp, toSwitch);
+        this.getCorrectSelector().askGrabStuffSwitchWeapon(toPickUp, toSwitch);
     }
 
     @Override
     public void askPowerUpToDiscard(ArrayList<PowerUpCard> toDiscard) {
-        this.CLISelector.askPowerUpToDiscard(toDiscard);
+        this.getCorrectSelector().askPowerUpToDiscard(toDiscard);
     }
 
     @Override
     public void askWhatReaload(ArrayList<WeaponCard> toReload) {
-        this.CLISelector.askWhatReaload(toReload);
+        this.getCorrectSelector().askWhatReaload(toReload);
     }
 
     @Override
     public void askSpawn(ArrayList<PowerUpCard> powerUpCards) {
-        this.CLISelector.askSpawn(powerUpCards);
+        this.getCorrectSelector().askSpawn(powerUpCards);
     }
 
     @Override
     public void askShootOrMove(){
-      this.CLISelector.askShootOrMove();
+      this.getCorrectSelector().askShootOrMove();
     }
 
     @Override
     public void askShootReloadMove() {
-
+        this.getCorrectSelector().askShootReloadMove();
     }
 }

@@ -19,4 +19,10 @@ public class FinalScoringState implements State {
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
     }
+
+    @Override
+    public void handleAFK() {
+        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+
+    }
 }

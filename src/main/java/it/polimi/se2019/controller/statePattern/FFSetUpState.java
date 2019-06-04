@@ -63,4 +63,9 @@ public class FFSetUpState implements State {
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
 
     }
+
+    @Override
+    public void handleAFK() {
+        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+    }
 }

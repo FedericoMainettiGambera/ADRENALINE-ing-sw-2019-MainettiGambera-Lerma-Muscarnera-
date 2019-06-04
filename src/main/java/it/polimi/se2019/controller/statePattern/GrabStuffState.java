@@ -13,6 +13,8 @@ public class GrabStuffState implements State {
 
     private Player playerToAsk;
 
+    private Thread inputTimer;
+
     public GrabStuffState(int actionNumber){
         this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> New state: " + this.getClass());
@@ -21,14 +23,15 @@ public class GrabStuffState implements State {
 
     @Override
     public void askForInput(Player playerToAsk) {
+        this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //ask for input
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askGrabStuffAction();
-            Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
-            t.start();
+            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
+            this.inputTimer.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -36,16 +39,10 @@ public class GrabStuffState implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        this.inputTimer.interrupt();
+        System.out.println("<SERVER> player has answered before the timer ended.");
 
-        this.playerToAsk.menageAFKAndInputs();
-        if(playerToAsk.isAFK()){
-            //set next State
-            System.out.println("<SERVER> " + playerToAsk.getNickname() + " is AFK, he'll pass the turn.");
-            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
-            return;
-        }
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventString VCEString = (ViewControllerEventString)VCE;
         String choice = VCEString.getInput();
@@ -63,5 +60,15 @@ public class GrabStuffState implements State {
         else{
             this.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
+    }
+
+    @Override
+    public void handleAFK() {
+        this.playerToAsk.setIsAFK(true);
+        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        //pass turn
+        ModelGate.model.getPlayerList().setNextPlayingPlayer();
+        ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 }

@@ -48,7 +48,8 @@ public class ConnectionHandlerVirtualView extends Thread {
     public void run(){
 
         //while(this.isServerSocketLive && numberOfConnections <= GameConstant.maxNumberOfPlayerPerGame-1){
-        while(this.isServerSocketLive && ModelGate.model.getNumberOfClientsConnected() <= GameConstant.maxNumberOfPlayerPerGame-1){
+        while((this.isServerSocketLive && ModelGate.model.getNumberOfClientsConnected() <= GameConstant.maxNumberOfPlayerPerGame-1)
+                &&(!ModelGate.model.hasGameBegun)){
             try{
                 this.tempSocket = serverSocket.accept();
 
@@ -98,11 +99,8 @@ public class ConnectionHandlerVirtualView extends Thread {
             new Thread(sl).start();
         }
 
-        System.out.println("<SERVER-socket> Not accepting connections anymore.");
-
-        //make the game start (MOVED TO THE GAME CLASS IN THE NUMBEROFCONNECTION STUFF... setNumberOfClientsConnected()
-        //setNextState(new GameSetUpState());
-        //state.askForInput(ModelGate.model.getPlayerList().getPlayer("User1"));
+        System.out.println("<SERVER-socket> Not accepting new Players anymore.");
+        //TODO: should listen to reconnections now.
 
     }
 

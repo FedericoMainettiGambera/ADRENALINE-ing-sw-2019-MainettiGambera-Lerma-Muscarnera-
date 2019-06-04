@@ -14,6 +14,8 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
 
     private int actionNumber;
 
+    private Thread inputTimer;
+
     private Player playerToAsk;
 
     public GrabStuffStateDrawAndDiscardPowerUp(int actionNumber){
@@ -24,6 +26,7 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
 
     @Override
     public void askForInput(Player playerToAsk) {
+        this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //draw a new power up
@@ -37,8 +40,8 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askPowerUpToDiscard((ArrayList)playerToAsk.getPowerUpCardsInHand().getCards());
-            Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
-            t.start();
+            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
+            this.inputTimer.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,16 +49,10 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        this.inputTimer.interrupt();
+        System.out.println("<SERVER> player has answered before the timer ended.");
 
-        this.playerToAsk.menageAFKAndInputs();
-        if(playerToAsk.isAFK()){
-            //set next State
-            System.out.println("<SERVER> " + playerToAsk.getNickname() + " is AFK, he'll pass the turn.");
-            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
-            return;
-        }
+        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventInt VCEInt = (ViewControllerEventInt)VCE;
 
@@ -84,5 +81,15 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
             ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
+    }
+
+    @Override
+    public void handleAFK() {
+        this.playerToAsk.setIsAFK(true);
+        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        //pass turn
+        ModelGate.model.getPlayerList().setNextPlayingPlayer();
+        ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 }

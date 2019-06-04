@@ -22,7 +22,7 @@ public class ConnectionGameCountDown implements Runnable {
         while(i<=GameConstant.countdownInSeconds) {
             try {
                 TimeUnit.SECONDS.sleep(1);
-                System.out.println("<SERVER> time passed: " + i + " seconds.");
+                System.out.println("                                            Thread: <SERVER-ConnectionCountDOwn> time passed: " + i + " seconds.");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

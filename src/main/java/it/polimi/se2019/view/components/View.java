@@ -27,7 +27,9 @@ public class View implements Observer {
 
     public View(String networkConnection, String userInterface){
         this.userInterface = userInterface;
+
         OutputHandlerGate.setUserIterface(userInterface);
+
         if(userInterface.equals("CLI")){
             OutputHandlerGate.setCLIOutputHandler(new CLIOutputHandler());
         }
@@ -35,8 +37,14 @@ public class View implements Observer {
             OutputHandlerGate.setGUIOutputHandler(new GUIOutputHandler());
         }
         this.networkConnection = networkConnection;
-        this.selector = new ViewSelector(networkConnection);
+        this.selector = new ViewSelector(networkConnection, userInterface);
+
         ViewModelGate.setModel(new GameV());
+        ViewModelGate.getModel().setPlayers(new PlayersListV());
+        ViewModelGate.getModel().getPlayers().setPlayers(new ArrayList<>());
+
+        OutputHandlerGate.getCorrectOutputHandler(this.userInterface).gameCreated();
+
     }
 
     @Override
@@ -57,11 +65,14 @@ public class View implements Observer {
         }
         else if(arg.getClass().toString().contains("StateEvent")){
             StE = (StateEvent)arg;
-            if(userInterface.equals("CLI")){
-                System.out.println("<CLIENT> state changed: " + StE.getState());
-            }
-            else{
 
+            OutputHandlerGate.getCorrectOutputHandler(this.userInterface).stateChanged(StE);
+        }
+        else{
+            try {
+                throw new Exception("Event not recognized");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
@@ -70,84 +81,51 @@ public class View implements Observer {
         ModelViewEventTypes information = MVE.getInformation();
 
         switch (information){
+
             //from Game class
             case setFinalFrenzy:
                 ViewModelGate.getModel().setFinalFrenzy((boolean)MVE.getComponent());
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + ViewModelGate.getModel().isFinalFrenzy());
-                }
-                else{
 
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setFinalFrenzy(MVE);
                 break;
+
+
             case finalFrenzyBegun:
                 ViewModelGate.getModel().setHasFinalFrenzyBegun((boolean)MVE.getComponent());
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + ViewModelGate.getModel().isHasFinalFrenzyBegun());
-                }
-                else{
 
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).finalFrenzyBegun(MVE);
                 break;
+
+
             case newKillshotTrack:
                 ViewModelGate.getModel().setKillshotTrack(new KillShotTrackV());
                 ViewModelGate.getModel().getKillshotTrack().setNumberOfStartingSkulls((int)MVE.getComponent());
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "number of staring skulls: " + ViewModelGate.getModel().getKillshotTrack().getNumberOfStartingSkulls());
-                }
-                else{
 
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newKillshotTrack(MVE);
                 break;
+
+
             case newPlayersList:
                 ViewModelGate.getModel().setPlayers((PlayersListV)MVE.getComponent());
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    for (PlayerV p :ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname());
-                    }
-                }
-                else{
 
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newPlayersList(MVE);
                 break;
+
+
             case newBoard:
                 ViewModelGate.getModel().setBoard((BoardV)MVE.getComponent());
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("" + "MAP:");
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface(ViewModelGate.getModel().getBoard().toString());
-                }
-                else{
 
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newBoard(MVE);
                 break;
+
 
             //from KillshotTrack class
             case deathOfPlayer:
                 ViewModelGate.getModel().setKillshotTrack((KillShotTrackV)MVE.getComponent());
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "killshot Track has changed:");
-                    for (int i = 0; i < ViewModelGate.getModel().getKillshotTrack().getKillsV().size(); i++) {
-                        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + i + ") is skull:" + ViewModelGate.getModel().getKillshotTrack().getKillsV().get(i).isSkull());
-                        if(ViewModelGate.getModel().getKillshotTrack().getKillsV().get(i).isSkull()) {
-                            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "   killing player:" + ViewModelGate.getModel().getKillshotTrack().getKillsV().get(i).isSkull());
-                            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "   is Overkill:" + ViewModelGate.getModel().getKillshotTrack().getKillsV().get(i).isOverKill());
-                            if(ViewModelGate.getModel().getKillshotTrack().getKillsV().get(i).isOverKill()) {
-                                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "   is skull:" + ViewModelGate.getModel().getKillshotTrack().getKillsV().get(i).isSkull());
-                            }
-                        }
 
-                    }
-                }
-                else{
-
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).deathOfPlayer(MVE);
                 break;
+
 
             //from OrderedCardList class
             case movingCardsAround:
@@ -158,37 +136,16 @@ public class View implements Observer {
                     setOrderedCardListV(to);
                 }
 
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    if(to!=null) {
-                        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "cards Moved from " + from.getContext());
-                        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(from.toString());
-
-                        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "to " + to.getContext());
-                        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(to.toString());
-                    }
-                    else{
-                        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + from.getContext() + " cards has changed.");
-                        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(from.toString());
-                    }
-                }
-                else{
-
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).movingCardsAround(from, to, MVE);
                 break;
+
 
             case shufflingCards:
                 setOrderedCardListV((OrderedCardListV)MVE.getComponent());
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    OrderedCardListV cards = ((OrderedCardListV) MVE.getComponent());
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "cards shuffled: " + (cards.getContext()));
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface(cards.toString());
-                }
-                else{
 
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).shufflingCards(MVE);
                 break;
+
 
             //from Player class or Person class
             case newColor:
@@ -200,19 +157,10 @@ public class View implements Observer {
                         }
                     }
                 }
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has changed color to: " + ((PlayersColors) MVE.getComponent()));
-                            break;
-                        }
-                    }
-                }
-                else{
 
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newColor(MVE);
                 break;
+
 
             case newNickname:
                 boolean found = false;
@@ -233,14 +181,10 @@ public class View implements Observer {
                         ViewModelGate.getModel().getPlayers().getPlayers().add(playerV);
                     }
                 }
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + ((String)MVE.getExtraInformation1()) +" has changed Nickname to: " + (String) MVE.getComponent());
-                }
-                else{
 
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newNickname(MVE);
                 break;
+
 
             case newPosition:
                 if (ViewModelGate.getModel().getPlayers() != null) {
@@ -252,19 +196,10 @@ public class View implements Observer {
                         }
                     }
                 }
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has changed Position to: [" + ((Position) MVE.getComponent()).getX() + "][" + ((Position) MVE.getComponent()).getY() + "]");
-                            break;
-                        }
-                    }
-                }
-                else{
 
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newPosition(MVE);
                 break;
+
 
             case newScore:
                 if (ViewModelGate.getModel().getPlayers() != null) {
@@ -275,19 +210,10 @@ public class View implements Observer {
                         }
                     }
                 }
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has changed score to: " + (int) MVE.getComponent());
-                            break;
-                        }
-                    }
-                }
-                else{
 
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newScore(MVE);
                 break;
+
 
             case addDeathCounter:
                 if (ViewModelGate.getModel().getPlayers() != null) {
@@ -298,19 +224,10 @@ public class View implements Observer {
                         }
                     }
                 }
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has died");
-                            break;
-                        }
-                    }
-                }
-                else{
 
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).addDeathCounter(MVE);
                 break;
+
 
             case setFinalFrenzyBoard:
                 if (ViewModelGate.getModel().getPlayers() != null) {
@@ -321,19 +238,10 @@ public class View implements Observer {
                         }
                     }
                 }
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has setted his board to Final Frenzy");
-                            break;
-                        }
-                    }
-                }
-                else{
 
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setFinalFrenzyBoard(MVE);
                 break;
+
 
             case newAmmoBox:
                 if (ViewModelGate.getModel().getPlayers() != null) {
@@ -344,22 +252,10 @@ public class View implements Observer {
                         }
                     }
                 }
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has changed his ammo box: ");
-                            for (AmmoCubesV a : p.getAmmoBox().getAmmoCubesList()) {
-                                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + a.getColor() + ": " + a.getQuantity());
-                            }
-                            break;
-                        }
-                    }
-                }
-                else{
 
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newAmmoBox(MVE);
                 break;
+
 
             case newDamageTracker:
                 if (ViewModelGate.getModel().getPlayers() != null) {
@@ -370,22 +266,10 @@ public class View implements Observer {
                         }
                     }
                 }
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has changed his damage tracker, damages are listed here: ");
-                            for (DamageSlotV d : p.getDamageTracker().getDamageSlotsList()) {
-                                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("                    " + d.getShootingPlayer());
-                            }
-                            break;
-                        }
-                    }
-                }
-                else{
 
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newDamageTracker(MVE);
                 break;
+
 
             case newMarksTracker:
                 if (ViewModelGate.getModel().getPlayers() != null) {
@@ -396,22 +280,10 @@ public class View implements Observer {
                         }
                     }
                 }
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has changed his marks tracker, marks are listed here: ");
-                            for (MarkSlotV m : p.getMarksTracker().getMarkSlotsList()) {
-                                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("                    " + m.getQuantity() + " marks from " +  m.getMarkingPlayer());
-                            }
-                            break;
-                        }
-                    }
-                }
-                else{
 
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newMarksTracker(MVE);
                 break;
+
 
             //from PlayerList class
             case setCurrentPlayingPlayer:
@@ -423,14 +295,11 @@ public class View implements Observer {
                     ViewModelGate.getModel().getPlayers().setCurrentPlayingPlayer((String)MVE.getComponent());
                 }
 
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " +(String) MVE.getComponent());
-                }
-                else{
-
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setCurrentPlayingPlayer(MVE);
                 break;
+
+
+
             case setStartingPlayer:
                 if(ViewModelGate.getModel().getPlayers() != null) {
                     ViewModelGate.getModel().getPlayers().setStartingPlayer((String)MVE.getComponent());
@@ -439,24 +308,22 @@ public class View implements Observer {
                     ViewModelGate.getModel().setPlayers(new PlayersListV());
                     ViewModelGate.getModel().getPlayers().setStartingPlayer((String)MVE.getComponent());
                 }
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + ViewModelGate.getModel().getPlayers().getStartingPlayer());
-                }
-                else{
 
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setStartingPlayer(MVE);
                 break;
+
+
+
             case newPlayer:
                 ViewModelGate.getModel().getPlayers().getPlayers().add((PlayerV)MVE.getComponent());
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "new player added: " + ((PlayerV) MVE.getComponent()).getNickname());
+                if(ViewModelGate.getMe()==null){
+                    ViewModelGate.setMe(((PlayerV)MVE.getComponent()).getNickname());
                 }
-                else{
 
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newPlayer(MVE);
                 break;
+
+
             case setAFK:
                 if (ViewModelGate.getModel().getPlayers() != null) {
                     for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
@@ -466,14 +333,13 @@ public class View implements Observer {
                         }
                     }
                 }
-                if(userInterface.equals("CLI")){
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-                    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "player " + (String) MVE.getExtraInformation1() + " AFK status: " + MVE.getComponent());
+                if(ViewModelGate.getMe().equals((String) MVE.getExtraInformation1() )){
+                    //TODO disconnect
                 }
-                else{
 
-                }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setAFK(MVE);
                 break;
+
 
             default:
                 throw new Exception("<CLIENT> MVE NOT RECOGNIZED");
