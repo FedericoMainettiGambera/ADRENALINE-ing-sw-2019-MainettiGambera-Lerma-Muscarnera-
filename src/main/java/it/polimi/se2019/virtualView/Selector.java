@@ -1,10 +1,13 @@
 package it.polimi.se2019.virtualView;
 
+import it.polimi.se2019.model.Effect;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.WeaponCard;
+import it.polimi.se2019.model.enumerations.EffectInfoType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface Selector {
 
@@ -35,5 +38,11 @@ public interface Selector {
     public void askShootOrMove();
 
     public void askShootReloadMove();
+
+    public void askWhatWep(ArrayList<WeaponCard> loadedCardInHand);
+
+    public void askWhatEffect(ArrayList<Effect> possibleEffects);
+
+    public void askEffectInputs(List<EffectInfoType> effectInputs);
 
 }

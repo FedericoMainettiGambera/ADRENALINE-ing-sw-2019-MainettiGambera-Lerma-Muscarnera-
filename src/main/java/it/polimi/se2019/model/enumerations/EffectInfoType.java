@@ -18,18 +18,18 @@ public enum EffectInfoType {
                     targetListBySameSquareOfPlayer, // select a targetlist of n targets on the square of the player    0
                     singleTargetBySameSquareOfPlayer,
                     targetBySameSquareOfPlayer,     // select a target the square of the player                        0
-                    singleTargetByCardinalDirection,   // select a targetlist of n targets
+                    singleTargetByCardinalDirection,// select a targetlist of n targets
                     twoTargetsByCardinalDirection,
-                    targetListByCardinalDirection,   // select a targetlist of n targets
+                    targetListByCardinalDirection,  // select a targetlist of n targets
                     targetListByLastTargetSelectedSquare,   // select a targetlist from last square selected           0
-                    targetListByDistance1,           // select all the player distant one
+                    targetListByDistance1,          // select all the player distant one
         //      SQUARE SELECTION
                     squareOfLastTargetSelected,     // select the square by the last player attacked                   0
                     simpleSquareSelect,             // select a square by id                                           1
                     multipleSquareSelect,           // select n squares by id                                          n
                     squareByTarget,                 // select a square by one of the player on it                      1
-                    squareByLastTargetSelected,                 // select a square by one of the player on it          1
+                    squareByLastTargetSelected,     // select a square by one of the player on it                      1
                     playerSquare,                   // square of current player                                        0
         //      ROOM SELECTION
-                    singleRoom                     // the room is not yours                                           0
+                    singleRoom                      // the room is not yours                                           0
 }

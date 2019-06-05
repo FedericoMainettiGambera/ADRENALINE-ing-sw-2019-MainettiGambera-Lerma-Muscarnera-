@@ -34,15 +34,11 @@ public class ShootPeopleState implements State {
              if(canShoot()){
                  ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState());
                  ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
-                 this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
-                 this.inputTimer.start();
              }
              else{
                  System.out.println("Player cant shoot");
                  ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
                  ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
-                 this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
-                 this.inputTimer.start();
              }
         }
        //FF aint begun & adrenaline action avaible
@@ -51,7 +47,7 @@ public class ShootPeopleState implements State {
             try {
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(),1));
-                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                 this.inputTimer.start();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -59,21 +55,17 @@ public class ShootPeopleState implements State {
         }
         //FF began
         else if(ModelGate.model.hasFinalFrenzyBegun()){
-
             int numberOfMoves=1;
-
             if(playerToAsk.getBeforeorafterStartingPlayer()<0){
                 numberOfMoves=1;
             }
             else if(playerToAsk.getBeforeorafterStartingPlayer()>=0){
                 numberOfMoves=2;
             }
-
-
             try {
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(),numberOfMoves));
-                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                 this.inputTimer.start();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -122,13 +114,10 @@ public class ShootPeopleState implements State {
 
     public ArrayList<WeaponCard> UsableWep(){
         ArrayList<WeaponCard> UsableWep=new ArrayList<>();
-
         for (WeaponCard card:ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards()) {
-
           if(card.isLoaded()){
               UsableWep.add(card);
           }
-
         }
         return UsableWep;
     }

@@ -89,6 +89,7 @@ public class OrderedCardList<T> extends Observable implements Serializable {
      * @return true if the card exist, false if it doesn't.
      * */
     public boolean moveCardTo(OrderedCardList to, String cardID) {
+        //TODO reshuffle the Discards pile if the decks are empty
         if(this.getCard(cardID) != null) {
             to.getCards().add(this.getCard(cardID));
             this.removeCard(cardID);
@@ -123,7 +124,6 @@ public class OrderedCardList<T> extends Observable implements Serializable {
     public void shuffle() {
         Collections.shuffle(this.cards);
 
-        //TODO
         setChanged();
         notifyObservers(new ModelViewEvent(this.buildDeckV(), ModelViewEventTypes.shufflingCards));
     }

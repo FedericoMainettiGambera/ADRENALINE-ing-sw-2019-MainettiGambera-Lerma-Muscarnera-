@@ -14,8 +14,11 @@ public class WaitForPlayerInput implements Runnable{
 
     private boolean stop;
 
-    public WaitForPlayerInput(Player p){
+    private String callingClass;
+
+    public WaitForPlayerInput(Player p, String callingClass){
         this.playerToAsk = p;
+        this.callingClass = callingClass;
         this.stop= false;
         Random rand = new Random();
         this.randomID = rand.nextInt(50000);
@@ -23,7 +26,8 @@ public class WaitForPlayerInput implements Runnable{
 
     @Override
     public void run() {
-        System.out.println("<SERVER> Waiting for " + playerToAsk.getNickname() + "'s input.");
+        System.out.println("                                            Thread: <SERVER> Waiting for " + playerToAsk.getNickname() + "'s input.");
+        System.out.println("                                                             from class: " + this.callingClass);
 
 
         int i = 1;
@@ -39,10 +43,16 @@ public class WaitForPlayerInput implements Runnable{
                 return;
             }
         }
-        System.out.println("Thread: <SERVER-InputTimer> setting " + playerToAsk.getNickname() + " AFK");
+        System.out.println("                                            Thread: <SERVER-InputTimer> " + playerToAsk.getNickname() + "is AFK.");
+        System.out.println("                                                                        from class: " + this.callingClass);
+        System.out.println("                                                                        VCEHC at the moment is: " + ViewControllerEventHandlerContext.state.getClass());
+
         ViewControllerEventHandlerContext.state.handleAFK();
     }
 
+    public int getRandomID(){
+        return this.randomID;
+    }
     public void killTimer(){
         this.stop=true;
     }

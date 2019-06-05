@@ -15,6 +15,16 @@ public class Effect implements Serializable {
         return of;
     }
 
+    private String effectName;
+
+    public String getEffectName(){
+        return this.effectName;
+    }
+
+    public void setEffectName(String effectName){
+        this.effectName= effectName;
+    }
+
     public void setOf(WeaponCard of) {
         this.of = of;
     }
@@ -41,11 +51,13 @@ public class Effect implements Serializable {
     public Effect(String description, List<Action> actions) {
         this.description = description;
         this.actions = actions;
+        this.effectName = "effect name missing";
     }
 
 
     public Effect() {
         this.actions = new ArrayList<Action>();
+        this.effectName = "effect name missing";
     }
 
     /*-*****************************************************************************************************ATTRIBUTES*/

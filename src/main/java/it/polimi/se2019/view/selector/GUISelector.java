@@ -1,11 +1,14 @@
 package it.polimi.se2019.view.selector;
 
+import it.polimi.se2019.model.Effect;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.WeaponCard;
+import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.virtualView.Selector;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GUISelector implements Selector {
 
@@ -82,6 +85,21 @@ public class GUISelector implements Selector {
 
     @Override
     public void askShootReloadMove() {
+
+    }
+
+    @Override
+    public void askWhatWep(ArrayList<WeaponCard> loadedCardInHand) {
+
+    }
+
+    @Override
+    public void askWhatEffect(ArrayList<Effect> possibleEffects) {
+
+    }
+
+    @Override
+    public void askEffectInputs(List<EffectInfoType> effectInputs) {
 
     }
 

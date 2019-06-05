@@ -2,14 +2,15 @@ package it.polimi.se2019.view.selector;
 
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
-import it.polimi.se2019.model.Position;
-import it.polimi.se2019.model.PowerUpCard;
-import it.polimi.se2019.model.WeaponCard;
+import it.polimi.se2019.model.*;
+import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.*;
 import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
+import it.polimi.se2019.view.components.PlayerV;
+import it.polimi.se2019.view.components.SquareV;
 import it.polimi.se2019.view.components.ViewModelGate;
 import it.polimi.se2019.virtualView.Selector;
 
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class CLISelector implements Selector {
@@ -487,18 +489,314 @@ public class CLISelector implements Selector {
     }
 
 
-    private class AskReconnectionNickname extends Thread {
+    private class AskWhatWep extends Thread {
+        private ArrayList<WeaponCard> loadedCardInHand;
+        public AskWhatWep(ArrayList<WeaponCard> loadedCardInHand){
+            this.loadedCardInHand = loadedCardInHand;
+        }
         @Override
         public void run() {
             Scanner br = new Scanner(System.in);
 
-            System.out.println("<CLIENT> What was your old nickname?");
+            System.out.println("<CLIENT> What weapon do you want to use?");
+            for (int i = 0; i < loadedCardInHand.size() ; i++) {
+                System.out.println("   " + i + ") " + loadedCardInHand.get(i).getID());
+            }
 
-            String oldNickname = br.nextLine();
-            ReconnectionEvent RE = new ReconnectionEvent(oldNickname);
+            int chosen = br.nextInt();
+            ViewControllerEventInt VCEint = new ViewControllerEventInt(chosen);
 
-            sendToServer(RE);
+            sendToServer(VCEint);
         }
+    }
+    @Override
+    public void askWhatWep(ArrayList<WeaponCard> loadedCardInHand) {
+        AskWhatWep aww = new AskWhatWep(loadedCardInHand);
+        aww.start();
+    }
+
+    private class AskWhatEffect extends Thread {
+        private ArrayList<Effect> possibleEffects;
+        public AskWhatEffect(ArrayList<Effect> possibleEffects){
+            this.possibleEffects = possibleEffects;
+        }
+        @Override
+        public void run() {
+            Scanner br = new Scanner(System.in);
+
+            System.out.println("<CLIENT> What Effect do you want to use?");
+            for (int i = 0; i < possibleEffects.size() ; i++) {
+                System.out.println("   " + i + ") " + possibleEffects.get(i).getEffectName());
+            }
+
+            int chosen = br.nextInt();
+            ViewControllerEventInt VCEint = new ViewControllerEventInt(chosen);
+
+            sendToServer(VCEint);
+        }
+    }
+    @Override
+    public void askWhatEffect(ArrayList<Effect> possibleEffects) {
+        AskWhatEffect awe = new AskWhatEffect(possibleEffects);
+        awe.start();
+    }
+
+
+    private class AskEffectInputs extends Thread{
+        private List<EffectInfoType> effectInputs;
+
+        public AskEffectInputs(List<EffectInfoType> effectInputs){
+            this.effectInputs = effectInputs;
+        }
+
+        public List<Object> askForPlayer(){
+            List<Object> listOfString = new ArrayList<>();
+            Scanner br = new Scanner(System.in);
+            System.out.println("         Possible players: ");
+            for (int i = 0; i < ViewModelGate.getModel().getPlayers().getPlayers().size() ; i++) {
+                System.out.println("         " + i + ") " + ViewModelGate.getModel().getPlayers().getPlayers().get(i).getNickname());
+            }
+            int chosen = br.nextInt();
+            listOfString.add(ViewModelGate.getModel().getPlayers().getPlayers().get(chosen));
+            return listOfString;
+        }
+
+        public List<Object> askForPlayerOrNOt(){
+            System.out.println("<CLIENT> Do you want to select a player? [Y/N]");
+            Scanner br = new Scanner(System.in);
+            String decision = br.nextLine();
+            List<Object> listOfString;
+            if(decision.equalsIgnoreCase("y")){
+                listOfString=askForPlayer();
+            }
+            else{
+                listOfString = new ArrayList<>();
+                System.out.println("<CLIENT> You decided to not select another player.");
+            }
+            return listOfString;
+        }
+
+        public List<Object> askForNPlayer(){
+            Scanner br = new Scanner(System.in);
+            List<Object> listOfString = new ArrayList<>();
+            while(true) {
+                System.out.println("<CLIENT> Do you want to select a player? [Y/N]");
+                String decision = br.nextLine();
+                if (decision.equalsIgnoreCase("y")) {
+                    listOfString.addAll(askForPlayerOrNOt());
+                } else {
+                    System.out.println("<CLIENT> You decided to not select another player.");
+                    return listOfString;
+                }
+            }
+        }
+
+        public List<Object> askForSquare(){
+            List<Object> listOfString = new ArrayList<>();
+            Scanner br = new Scanner(System.in);
+            System.out.println("         Possible squares: ");
+            for (int i = 0; i < ViewModelGate.getModel().getBoard().getMap().length ; i++) {
+                for (int j = 0; j < ViewModelGate.getModel().getBoard().getMap()[0].length; j++) {
+                    if(ViewModelGate.getModel().getBoard().getMap()[i][j]!= null) {
+                        System.out.println("         " + "[" + i + "][" + j + "] " + ViewModelGate.getModel().getBoard().getMap()[i][j].getSquareType());
+                    }
+                }
+            }
+            System.out.println("<CLIENT> set X:");
+            int X = br.nextInt();
+            System.out.println("<CLIENT> set Y:");
+            int Y = br.nextInt();
+            SquareV square = ViewModelGate.getModel().getBoard().getMap()[X][Y];
+            listOfString.add(square);
+            return listOfString;
+        }
+
+        public List<Object> askForNSquare(){
+            List<Object> listOfString = askForSquare();
+            while(true) {
+                System.out.println("<CLIENT> Do you want to select another Square? [Y/N]");
+                Scanner br = new Scanner(System.in);
+                String decision = br.nextLine();
+                if (decision.equalsIgnoreCase("y")) {
+                    listOfString.addAll(askForSquare());
+                } else {
+                    System.out.println("<CLIENT> You decided to not select another square.");
+                    return listOfString;
+                }
+            }
+        }
+
+        @Override
+        public void run() {
+            List<List<Object>> userInputs = new ArrayList<>();
+            List<Object> tempList = new ArrayList<>();
+            String s ="";
+            for (int i = 0; i < this.effectInputs.size() ; i++) {
+                switch(this.effectInputs.get(i)){
+                    case player:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        System.out.println("         No input required.");
+                        break;
+
+                    case singleTarget:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        userInputs.add(askForPlayer());
+                        break;
+
+                    case twoTargets:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        tempList = askForPlayer();
+                        tempList.addAll(askForPlayerOrNOt());
+                        userInputs.add(tempList);
+                        break;
+
+                    case playerSquare:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        System.out.println("         No input required.");
+                        break;
+
+                    case threeTargets:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        tempList = askForPlayer();
+                        tempList.addAll(askForPlayerOrNOt());
+                        tempList.addAll(askForPlayerOrNOt());
+                        userInputs.add(tempList);
+                        break;
+
+                    case squareByTarget:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        userInputs.add(askForSquare());
+                        break;
+
+                    case targetListByRoom:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        userInputs.add(askForPlayer());
+                        break;
+
+                    case simpleSquareSelect:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        userInputs.add(askForSquare());
+                        break;
+
+                    case targetListBySquare:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        userInputs.add(askForPlayer());
+                        break;
+
+                    case singleTargetBySquare:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        userInputs.add(askForPlayer());
+                        break;
+
+                    case targetListByDistance1:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        userInputs.add(askForPlayer());
+                        break;
+
+                    case squareByLastTargetSelected:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        userInputs.add(askForSquare());
+                        break;
+
+                    case targetListBySameSquareOfPlayer:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        System.out.println("         No input required.");
+                        break;
+
+                    case targetListBySquareOfLastTarget:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        userInputs.add(askForPlayer());
+                        break;
+
+                    case singleRoom:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        System.out.println("         No input required.");
+                        break;
+
+                    case multipleTargets:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        userInputs.add(askForNPlayer());
+                        break;
+
+                    case multipleSquareSelect:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        userInputs.add(askForNSquare());
+                        break;
+
+                    case squareOfLastTargetSelected:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        System.out.println("         No input required.");
+                        break;
+
+                    case targetBySameSquareOfPlayer:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        System.out.println("         No input required.");
+                        break;
+
+                    case targetListByCardinalDirection:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        userInputs.add(askForPlayer());
+                        break;
+
+                    case twoTargetsByCardinalDirection:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        userInputs.add(askForPlayer());
+                        break;
+
+                    case singleTargetByCardinalDirection:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        userInputs.add(askForPlayer());
+                        break;
+
+                    case singleTargetBySameSquareOfPlayer:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        userInputs.add(askForPlayer());
+                        break;
+
+                    case targetListByLastTargetSelectedSquare:
+                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
+                        System.out.println("         No input required.");
+                        break;
+
+                    default:
+                        try {
+                            throw new Exception("Uknown EffectInfoType");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                }
+            }
+            System.out.println("<CLIENT> Stop requesting inputs for the effect.");
+
+            System.out.println("<CLIENT> Your inputs were:");
+            String print ="";
+            PlayerV tempPlayerV;
+            SquareV tempSquareV;
+            for (int i = 0; i < userInputs.size(); i++) {
+                for (Object inp : userInputs.get(i)) {
+                    if(inp.getClass().toString().contains("PlayerV")){
+                        tempPlayerV = (PlayerV)inp;
+                        System.out.println("         " + tempPlayerV.getNickname());
+                    }
+                    else{
+                        tempSquareV = (SquareV)inp;
+                        System.out.println("         [" + tempSquareV.getX() + "][" + tempSquareV.getY() + "]");
+                    }
+                }
+                System.out.println(print);
+                print="";
+            }
+
+            System.out.println("<CLIENT> Sending inputs to Server.");
+            ViewControllerEventListOfListOfObject VCEListOfString= new ViewControllerEventListOfListOfObject(userInputs);
+            sendToServer(VCEListOfString);
+        }
+    }
+    @Override
+    public void askEffectInputs(List<EffectInfoType> effectInputs) {
+        AskEffectInputs aei = new AskEffectInputs(effectInputs);
+        aei.start();
     }
 
 }

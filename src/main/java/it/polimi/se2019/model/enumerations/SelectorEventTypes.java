@@ -15,4 +15,7 @@ public enum SelectorEventTypes {
     askSpawn,
     askShootOrMove,
     askShootReloadMove,
+    askWhatWep,
+    askWhatEffect,
+    askEffectInputs
 }

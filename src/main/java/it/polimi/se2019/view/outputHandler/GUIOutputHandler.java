@@ -132,7 +132,6 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
 
     @Override
     public void setCurrentPlayingPlayer(ModelViewEvent MVE) {
-
     }
 
     @Override

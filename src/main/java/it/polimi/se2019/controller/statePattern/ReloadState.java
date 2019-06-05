@@ -54,7 +54,7 @@ public class ReloadState implements State{
             try {
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askWhatReaload(toReaload);
-                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                 this.inputTimer.start();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -81,7 +81,7 @@ public class ReloadState implements State{
             if(CalledFromShootPeople){
                 ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState());
                 ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
-                Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                 t.start();
             }
             else {
