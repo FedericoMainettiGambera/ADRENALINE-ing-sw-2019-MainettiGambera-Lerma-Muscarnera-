@@ -7,7 +7,6 @@ import it.polimi.se2019.controller.WaitForPlayerInput;
 import it.polimi.se2019.model.Effect;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.Square;
-import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventListOfListOfObject;
 import it.polimi.se2019.view.components.PlayerV;
@@ -139,7 +138,6 @@ public class ShootPeopleAskForInputState implements State {
         this.playerToAsk.setIsAFK(true);
         System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        ModelGate.model.getPlayerList().setNextPlayingPlayer();
         ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }

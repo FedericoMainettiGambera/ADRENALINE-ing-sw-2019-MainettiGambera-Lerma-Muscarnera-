@@ -96,7 +96,7 @@ public class ShootPeopleState implements State {
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
         else if(ModelGate.model.hasFinalFrenzyBegun()){
-            ViewControllerEventHandlerContext.setNextState(new ReloadState(true));
+            ViewControllerEventHandlerContext.setNextState(new ReloadState(true, this.actionNumber));
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
 
