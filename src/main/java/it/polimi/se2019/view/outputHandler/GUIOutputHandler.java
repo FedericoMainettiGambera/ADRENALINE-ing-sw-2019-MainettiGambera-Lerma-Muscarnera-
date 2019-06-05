@@ -12,28 +12,28 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class GUIOutputHandler extends Application{
+public class GUIOutputHandler extends Application {
 
-        public static void main(String[] args) {
-            launch(args);
-        }
+    public static void main(String[] args) {
+        launch(args);
+    }
 
-        @Override
-        public void start(Stage primaryStage) throws Exception{
+    @Override
+    public void start(Stage primaryStage) throws Exception {
 
-            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("FIRSTSTAGE1.fxml"));
-            Scene scene= new Scene(root, 390, 350);
-            primaryStage.setTitle("Hello World");
-            primaryStage.setResizable(false);
-
-
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("FIRSTSTAGE1.fxml"));
+        Scene scene = new Scene(root, 390, 350);
+        primaryStage.setTitle("Hello World");
+        primaryStage.setResizable(false);
 
 
-            primaryStage.setScene(scene);
-            primaryStage.show();
+        primaryStage.setScene(scene);
+        primaryStage.show();
 
-        }
+    }
 
     @Override
     public void gameCreated() {
@@ -95,59 +95,5 @@ public class GUIOutputHandler extends Application{
 
     }
 
-    @Override
-    public void newPosition(ModelViewEvent MVE) {
 
-    }
-
-    @Override
-    public void newScore(ModelViewEvent MVE) {
-
-    }
-
-    @Override
-    public void addDeathCounter(ModelViewEvent MVE) {
-
-    }
-
-    @Override
-    public void setFinalFrenzyBoard(ModelViewEvent MVE) {
-
-    }
-
-    @Override
-    public void newAmmoBox(ModelViewEvent MVE) {
-
-    }
-
-    @Override
-    public void newDamageTracker(ModelViewEvent MVE) {
-
-    }
-
-    @Override
-    public void newMarksTracker(ModelViewEvent MVE) {
-
-    }
-
-    @Override
-    public void setCurrentPlayingPlayer(ModelViewEvent MVE) {
-
-    }
-
-    @Override
-    public void setStartingPlayer(ModelViewEvent MVE) {
-
-    }
-
-    @Override
-    public void newPlayer(ModelViewEvent MVE) {
-
-    }
-
-    @Override
-    public void setAFK(ModelViewEvent MVE) {
-
-    }
 }
-
