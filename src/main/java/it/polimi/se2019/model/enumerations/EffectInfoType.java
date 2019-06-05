@@ -6,6 +6,7 @@ public enum EffectInfoType {
 
         /*      SECTION                             DESCRIPTION                                                        NUMBER OF DIRECT INPUTS FROM THE USER*/
         //      TARGET SELECTION
+                    none,
                     player,                         // select player                                                   0
                     singleTarget,                   // select a target                                                 1
                     twoTargets,                     // select two targets max                                          1<=x<=2

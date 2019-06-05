@@ -1,0 +1,26 @@
+NAME
+NEWTON
+
+NEW EFFECT
+EXPECTED INPUT
+singleTarget
+TO
+ALL
+END
+simpleSquareSelect
+TO
+ALL
+END
+END
+ACTIONS
+Move
+ACTION INFO
+PRECONDITION
+distanceFromOriginalPositionLessThan2
+END
+Action
+ACTION INFO
+PRECONDITION
+pureCardinalMovement
+END
+END

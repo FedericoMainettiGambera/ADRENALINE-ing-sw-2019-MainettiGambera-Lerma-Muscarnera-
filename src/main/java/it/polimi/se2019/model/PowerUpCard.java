@@ -2,11 +2,12 @@ package it.polimi.se2019.model;
 
 
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
+import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.view.components.PowerUpCardV;
 
 import java.io.*;
 
-import static it.polimi.se2019.model.enumerations.AmmoCubesColor.*;
+import static it.polimi.se2019.model.enumerations.AmmoCubesColor.yellow;
 
 /***/
 public class PowerUpCard extends Card implements Serializable {
@@ -25,113 +26,99 @@ public class PowerUpCard extends Card implements Serializable {
     }
 
 
-    public PowerUpCard(String ID) throws FileNotFoundException, IOException ,InstantiationException {
 
-        /**
-         *  It Allows to load a PowerUpCard from file, in the same way of weaponcards
-         *  every file has the following structure
-         *  "card18.set"
-         *  1   COLOR
-         *  2   y
-         *  3   ACTIONS
-         *  4   %x%
-         *  5   %y%
-         *  6   %z%
-         *  7   %END%
-         *
-         *  This File describes a Card that is yellow and has atomic actions %x%,%y% and %z% as special effect.
-         *
-         * */
+    public PowerUpCard(String ID) throws FileNotFoundException, IOException,InstantiationException, Exception  {
         super(ID);
-        this.specialEffect = new Effect();
+
+        BufferedReader reader = new BufferedReader(new FileReader("src/main/Files/cards/powerUpCards/card"+ID+".set"));
+        String line = reader.readLine();
+        while(line != null) {
 
 
-        BufferedReader reader = new BufferedReader(new FileReader("src/main/Files/cards/powerUpCards/card" + ID + ".set"));
-        try {
-            String line;
-            line = reader.readLine();
+            if(line.equals("NAME")) {
+                line = reader.readLine();
+                ///*@*/ System.out.println("il nome e'"+ line);
+            }
 
-            while (line != null) {
+            if(line.equals("NEW EFFECT")) {
+                ///*@*/ System.out.println("\tnuovo effetto corrente");
+                specialEffect = new Effect();
+            }
 
-                if (line.equals("COLOR")) {
-                    line = reader.readLine();
-                    if (line.equals("y"))
-                        this.color = yellow;
-                    if (line.equals("r"))
-                        this.color = red;
-                    if (line.equals("b"))
-                        this.color = blue;
-                }
-                if (line.equals("ACTIONS")) {
-                    line = reader.readLine();                                    // seek the File Cursor to the next Line
-                    while (!line.equals("END")) {
+            if(line.equals("EXPECTED INPUT")) {
 
-                        //System.out.println("AZIONE: " + line);
-                        try {
-                            Class<?> Cref = Class.forName(line);
-                            Action demo = (Action) Cref.newInstance();
-                            //System.out.println(effect.size());
+                EffectInfo effectInfo = new EffectInfo();		// inizializza la lista degl input
+
+                line = reader.readLine();		// parametro
+                while(!line.equals("END")) {
+
+                    ///*@*/ System.out.println("parametro input del parametro atteso:\t <" + line + ">");
 
 
-                            line = reader.readLine();                                    //
-                            ActionInfo actionInfo = new ActionInfo();
-                            boolean useDefaultPreCondition = true;
-
-                            if(line.equals("ACTION INFO")) {
-
-                                line = reader.readLine();
-                                while(!line.equals("END")) {
-                                    if(line.equals("PRECONDITION"))
-                                    {
-                                        useDefaultPreCondition = false;
-                                        line = reader.readLine();                                       // set PreCondition Method
-                                        actionInfo.setPreConditionMethodName(line);
-
-                                    }
-                                    if(line.equals("SET"))
-                                    {
-                                        line = reader.readLine();                                        // changes Damage
-                                        actionInfo.getActionDetails().getFileSelectedActionDetails().addFileSettingData((Object) line);
-                                    }
-                                    line = reader.readLine();
-                                }
-
-                                line = reader.readLine();
-
-                            } else {
-
-                                /*nothing*/
-
-                            }
-                            //System.out.println(effect.size());
-                            if(useDefaultPreCondition) {
-                                actionInfo.setPreConditionMethodName (demo.getActionInfo().getPreConditionMethodName()); /* # */
-                            }
-                            demo.updateSettingsFromFile();
-                            demo.setActionInfo(actionInfo);
-
-
-
-                            specialEffect.getActions().add(demo);
-                        } catch (Exception e) {
-
-                            System.out.println("errore" + e.toString());
+                    effectInfo.getEffectInfoElement().add(new EffectInfoElement());
+                    effectInfo.getEffectInfoElement().get(effectInfo.getEffectInfoElement().size() - 1).setEffectInfoTypelist(EffectInfoType.valueOf(line));
+                    line = reader.readLine(); 	//parametro
+                    if(line.equals("TO")) {     // a quale azione è destinato l'input
+                        line = reader.readLine(); //parametro numerico
+                        if(line.equals("ALL")) {
+                            effectInfo.getEffectInfoElement().get(effectInfo.getEffectInfoElement().size() - 1).getEffectInfoTypeDestination().add(0);
+                            line = reader.readLine();
                         }
+                        while(!line.equals("END")) {
+                            effectInfo.getEffectInfoElement().get(effectInfo.getEffectInfoElement().size() - 1).getEffectInfoTypeDestination().add(Integer.parseInt(line));
+                            line = reader.readLine(); // parametro
+                        }
+                        line = reader.readLine();   // input successivo
+                    }
+                }
+                specialEffect.setEffectInfo(effectInfo);				//setta gli input
+                line = reader.readLine();	//istruzione successiva
+            }
+            if(line.equals("ACTIONS")) {
+                line = reader.readLine();			// parametro azione
+                while(!line.equals("END")) {
+                    ///*@*/ System.out.println("azione nell'evento corrente:" + line);
+                    Class<?> Cref = Class.forName("it.polimi.se2019.model." + line);
+                    Action demo = (Action) Cref.newInstance();
 
-                        line = reader.readLine();                                    //
+                    line = reader.readLine();		// parametro azione
 
+                    ActionInfo actionInfo = new ActionInfo();		// carico action info vuota
 
+                    if(line.equals("ACTION INFO")) {
+                        ///*$*/System.out.println("//inizio action info");
+                        line = reader.readLine();
+                        while(!line.equals("END")) {
+                            if(line.equals("SET")) {
+                                line = reader.readLine();	// parametro
+                                ///*@*/ System.out.println("info sull'azione corrente nell'evento corrente:" + line);
+                                actionInfo.getActionDetails().getFileSelectedActionDetails().addFileSettingData((Object) line);
+                            }
+                            if(line.equals("PRECONDITION")) {
+                                line = reader.readLine();	// parametro
+                                ///*@*/ System.out.println("precondizione sull'azione corrente nell'evento corrente:" + line);
+                                actionInfo.setPreConditionMethodName(line);
+                            }
+                            line = reader.readLine();
+                        }
+                        ///*$*/System.out.println("//fine action info");
+                        line = reader.readLine();
                     }
 
-                }
-                line = reader.readLine();
-            }
-        } catch(IOException E) {
+                    demo.setActionInfo(actionInfo);
+                    specialEffect.getActions().add(demo);
 
-        } finally {
-            reader.close();
+
+                }
+
+            }
+
+            line = reader.readLine();
+
         }
+        reader.close();
     }
+
 
     /***/
     private AmmoCubesColor color;

@@ -378,6 +378,35 @@ public class PreConditionMethods implements Serializable {
 
         return ret;
     }
+
+
+    public boolean lastEffectContainsDamage(ActionDetails actionDetails,ActionContext actionContext) {
+        Effect lastEffect = actionContext.getPlayer().getPlayerHistory().getRecord(
+
+                actionContext.getPlayer().getPlayerHistory().getSize()  - 2
+
+        ).getContextEffect();
+        for(Action a:lastEffect.getActions()) {
+            if(a.getClass().toString().equals("it.polimi.se2019.model.Damage")) {
+                if(a.getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget().equals(
+                        actionDetails.getUserSelectedActionDetails().getTarget()
+                )) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean pureCardinalMovement(ActionDetails actionDetails,ActionContext actionContext) {
+        Position to = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
+        Position from = actionDetails.getUserSelectedActionDetails().getTarget().getPosition();
+
+        if((to.getY() == from.getY()) || (to.getX() == from.getX())) {
+            return true;
+        }
+        return false;
+    }
     public boolean sameCardinalDirectionOfTargets(ActionDetails actionDetails,ActionContext actionContext) {
         int xIncrement = 0 - actionDetails.getUserSelectedActionDetails().getTarget().getPosition().getX();;
         int yIncrement = 0 - actionDetails.getUserSelectedActionDetails().getTarget().getPosition().getY();;
@@ -551,8 +580,20 @@ public class PreConditionMethods implements Serializable {
 
         return (actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition()) >= 2);
     }
+    public boolean notEndingTurn(ActionDetails actionDetails,ActionContext actionContext) {
+        // TODO: dipende dallo shootstate
+        return true;
+    }
     public boolean youCantSee(ActionDetails actionDetails,ActionContext actionContext) {
         return !youCanSee(actionDetails,actionContext);
+    }
+    public boolean youJustGotDamaged(ActionDetails actionDetails,ActionContext actionContext) {
+        Player toMark = actionContext.getPlayer().getLastDamageSlot().getShootingPlayer();
+        actionDetails.getUserSelectedActionDetails().setTarget(toMark);
+        return true;
+    }
+    public boolean previousTarget(ActionDetails actionDetails, ActionContext actionContext) {
+        return !notPreviousTarget(actionDetails,actionContext);
     }
     public boolean notPreviousTarget(ActionDetails actionDetails, ActionContext actionContext) {
         for(PlayerHistoryElement f: actionContext.getPlayer().getPlayerHistory().historyElementList) {
