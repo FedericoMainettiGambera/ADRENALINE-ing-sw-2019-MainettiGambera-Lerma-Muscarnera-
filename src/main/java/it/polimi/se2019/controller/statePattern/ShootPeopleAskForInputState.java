@@ -111,6 +111,13 @@ public class ShootPeopleAskForInputState implements State {
         boolean execResult = this.chosenEffect.Exec();
 
         System.out.println("<SERVER> Exec() return value is: " + execResult);
+
+        if(execResult == true){
+            //TODO
+        }
+        else{
+            //TODO
+        }
     }
 
     @Override
