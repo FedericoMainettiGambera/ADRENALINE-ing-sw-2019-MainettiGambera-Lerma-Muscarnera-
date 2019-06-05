@@ -108,6 +108,9 @@ public class ShootPeopleAskForInputState implements State {
         }
         System.out.println(print);
 
+        System.out.println("<SERVER> passing Context to the Effect");
+        this.chosenEffect.passContext(playerToAsk, ModelGate.model.getPlayerList(), ModelGate.model.getBoard());
+
         System.out.println("<SERVER> calling HandleInput()");
         this.chosenEffect.handleInput(inputMatrix);
 
