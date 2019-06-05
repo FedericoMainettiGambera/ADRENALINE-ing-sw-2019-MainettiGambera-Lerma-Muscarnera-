@@ -21,8 +21,11 @@ public class ShootPeopleChooseWepState implements State {
 
     private ArrayList<WeaponCard> loadedCardInHand;
 
-    public ShootPeopleChooseWepState(){
+    private int actionNumber;
+
+    public ShootPeopleChooseWepState(int actionNumber){
         System.out.println("<SERVER> New state: " + this.getClass());
+        this.actionNumber = actionNumber;
     }
 
     @Override
@@ -61,7 +64,7 @@ public class ShootPeopleChooseWepState implements State {
         System.out.println("<SERVER> player has chosen card with ID : " + this.loadedCardInHand.get(VCEInt.getInput()).getID());
 
         //next state
-        ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseEffectState(playerToAsk.getWeaponCardsInHand().getCard(this.loadedCardInHand.get(VCEInt.getInput()).getID())));
+        ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseEffectState(playerToAsk.getWeaponCardsInHand().getCard(this.loadedCardInHand.get(VCEInt.getInput()).getID()), this.actionNumber));
         ViewControllerEventHandlerContext.state.askForInput(this.playerToAsk);
 
     }

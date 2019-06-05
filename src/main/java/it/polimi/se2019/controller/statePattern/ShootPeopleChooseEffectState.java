@@ -23,8 +23,11 @@ public class ShootPeopleChooseEffectState implements State{
 
     private Effect chosenEffect;
 
-    public ShootPeopleChooseEffectState(WeaponCard choosenWeaponCard){
+    private int actionNumber;
+
+    public ShootPeopleChooseEffectState(WeaponCard choosenWeaponCard, int actionNumber){
         System.out.println("<SERVER> New state: " + this.getClass());
+        this.actionNumber = actionNumber;
         this.choosenWeaponCard = choosenWeaponCard;
         this.possibleEffects = new ArrayList<>();
     }
@@ -59,7 +62,7 @@ public class ShootPeopleChooseEffectState implements State{
 
         this.chosenEffect = this.possibleEffects.get(VCEInt.getInput());
 
-        ViewControllerEventHandlerContext.setNextState(new ShootPeopleAskForInputState(this.chosenEffect));
+        ViewControllerEventHandlerContext.setNextState(new ShootPeopleAskForInputState(this.chosenEffect, this.actionNumber));
         ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
     }
 

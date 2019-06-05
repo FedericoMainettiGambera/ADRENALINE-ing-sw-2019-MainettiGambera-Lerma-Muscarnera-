@@ -32,7 +32,7 @@ public class ShootPeopleState implements State {
         //final frenzy hasnt begun and no adrenaline action available
         if(!ModelGate.model.hasFinalFrenzyBegun()&&!ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineShootAction()){
              if(canShoot()){
-                 ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState());
+                 ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
                  ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
              }
              else{
@@ -92,7 +92,7 @@ public class ShootPeopleState implements State {
         );
 
         if(!ModelGate.model.hasFinalFrenzyBegun()&&ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineShootAction()){
-            ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState());
+            ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
         else if(ModelGate.model.hasFinalFrenzyBegun()){

@@ -7,6 +7,7 @@ import it.polimi.se2019.controller.WaitForPlayerInput;
 import it.polimi.se2019.model.Effect;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.Square;
+import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventListOfListOfObject;
 import it.polimi.se2019.view.components.PlayerV;
@@ -21,9 +22,12 @@ public class ShootPeopleAskForInputState implements State {
 
     private Effect chosenEffect;
 
+    private int actionNumber;
 
-    public ShootPeopleAskForInputState(Effect chosenEffect){
+
+    public ShootPeopleAskForInputState(Effect chosenEffect, int actionNumber){
         System.out.println("<SERVER> New state: " + this.getClass());
+        this.actionNumber = actionNumber;
         this.chosenEffect = chosenEffect;
     }
 
@@ -113,10 +117,17 @@ public class ShootPeopleAskForInputState implements State {
         System.out.println("<SERVER> Exec() return value is: " + execResult);
 
         if(execResult == true){
-            //TODO
+            if(this.actionNumber == 1){
+                ViewControllerEventHandlerContext.setNextState(new TurnState(2));
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            }
+            else{
+                ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            }
         }
         else{
-            //TODO
+            this.askForInput(playerToAsk);
         }
     }
 
