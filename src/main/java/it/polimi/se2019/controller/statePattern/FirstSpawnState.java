@@ -80,6 +80,25 @@ public class FirstSpawnState implements State {
         this.playerToAsk.setIsAFK(true);
         System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        //todo
+        System.out.println("<SERVER> randomly spwaning player.");
+        Position spawnPosition = null;
+        try {
+            spawnPosition = ModelGate.model.getBoard().getSpawnpointOfColor(playerToAsk.getPowerUpCardsInHand().getFirstCard().getColor());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ModelGate.model.getCurrentPlayingPlayer().setPosition(spawnPosition);
+        System.out.println("<SERVER> Spawning in SpawnPoint of color " + playerToAsk.getPowerUpCardsInHand().getFirstCard().getColor() + ", in coordinates X:(" +spawnPosition.getX() + "), Y:(" + spawnPosition.getY() + ").");
+
+
+        //discard the power up card
+        System.out.println("<SERVER> Discarding the randomly chosen power up");
+        ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
+                ModelGate.model.getPowerUpDiscardPile(),
+                playerToAsk.getPowerUpCardsInHand().getFirstCard().getID()
+        );
+
+        ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+        ViewControllerEventHandlerContext.state.doAction(null);
     }
 }
