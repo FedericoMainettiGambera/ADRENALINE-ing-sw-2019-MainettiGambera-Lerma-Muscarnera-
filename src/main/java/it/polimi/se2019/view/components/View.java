@@ -315,9 +315,17 @@ public class View implements Observer {
 
 
             case newPlayer:
-                ViewModelGate.getModel().getPlayers().getPlayers().add((PlayerV)MVE.getComponent());
-                if(ViewModelGate.getMe()==null){
-                    ViewModelGate.setMe(((PlayerV)MVE.getComponent()).getNickname());
+                boolean alreadyExist = false;
+                for (PlayerV p: ViewModelGate.getModel().getPlayers().getPlayers()) {
+                    if(p.getNickname().equals(((PlayerV)MVE.getComponent()).getNickname())){
+                        alreadyExist = true;
+                    }
+                }
+                if(!alreadyExist) {
+                    ViewModelGate.getModel().getPlayers().getPlayers().add((PlayerV) MVE.getComponent());
+                    if (ViewModelGate.getMe() == null) {
+                        ViewModelGate.setMe(((PlayerV) MVE.getComponent()).getNickname());
+                    }
                 }
 
                 OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newPlayer(MVE);

@@ -80,7 +80,6 @@ public class FirstSpawnState implements State {
         this.playerToAsk.setIsAFK(true);
         System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        //todo
     }
 }

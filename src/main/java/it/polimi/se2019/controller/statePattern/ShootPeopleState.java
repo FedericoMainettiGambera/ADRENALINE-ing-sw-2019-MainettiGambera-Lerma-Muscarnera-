@@ -108,7 +108,7 @@ public class ShootPeopleState implements State {
         System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
         ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        ViewControllerEventHandlerContext.state.doAction(null);
     }
 
     public ArrayList<WeaponCard> UsableWep(){

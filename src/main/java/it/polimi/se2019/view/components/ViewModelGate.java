@@ -15,6 +15,13 @@ public class ViewModelGate {
     }
 
     public static GameV getModel() {
+        System.out.println("\n\n--------------------------------------------------------------------------------------------------------------------DEBUG");
+        if(model.getPlayers()!= null && model.getPlayers().getPlayers()!=null) {
+            for (PlayerV p : model.getPlayers().getPlayers()) {
+                System.out.println(p.getNickname());
+            }
+        }
+        System.out.println("--------------------------------------------------------------------------------------------------------------------DEBUG\n\n");
         return model;
     }
 
