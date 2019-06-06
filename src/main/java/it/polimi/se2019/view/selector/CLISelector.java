@@ -31,14 +31,15 @@ public class CLISelector implements Selector {
             try {
                 SocketNetworkHandler.oos.writeObject(o);
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("<CLIENT> Socket connection is closed. Try to reconnect to server using the same Nickname.");
+                //e.printStackTrace();
             }
         }
         else{
             try {
                 RMINetworkHandler.client.returnInterface().sendToServer(o);
             } catch (RemoteException e) {
-                e.printStackTrace();
+                System.out.println("<CLIENT> RMI connection is closed. Try to reconnect to server using the same Nickname.");
             }
         }
     }

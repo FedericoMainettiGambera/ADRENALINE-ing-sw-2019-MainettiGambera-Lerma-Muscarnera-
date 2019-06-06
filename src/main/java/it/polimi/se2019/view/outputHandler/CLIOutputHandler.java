@@ -227,4 +227,14 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "player " + (String) MVE.getExtraInformation1() + " AFK status: " + MVE.getComponent());
         }
     }
+
+    @Override
+    public void showInputTimer(int currentTime, int totalTime) {
+        //OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> " + "Input-Timer-of-"+totalTime+"-seconds: " + currentTime + " second has passed.");
+    }
+
+    @Override
+    public void showConnectionTimer(int currentTime, int totalTime) {
+        //OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> " + "Connection-Timer-of-"+totalTime+"-seconds: " + currentTime + " second has passed.");
+    }
 }

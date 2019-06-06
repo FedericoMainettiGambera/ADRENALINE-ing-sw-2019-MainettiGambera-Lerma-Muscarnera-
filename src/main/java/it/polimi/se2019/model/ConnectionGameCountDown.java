@@ -3,7 +3,9 @@ package it.polimi.se2019.model;
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.controller.statePattern.GameSetUpState;
+import it.polimi.se2019.model.events.timerEvent.TimerEvent;
 
+import java.rmi.RemoteException;
 import java.util.concurrent.TimeUnit;
 
 public class ConnectionGameCountDown implements Runnable {
@@ -20,6 +22,14 @@ public class ConnectionGameCountDown implements Runnable {
 
         int i = 1;
         while(i<=GameConstant.countdownInSeconds) {
+
+            try {
+                ViewControllerEventHandlerContext.RMIVV.sendAllClient(new TimerEvent(i, GameConstant.countdownInSeconds, "input"));
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            ViewControllerEventHandlerContext.socketVV.sendAllClient(new TimerEvent(i, GameConstant.countdownInSeconds, "input"));
+
             try {
                 TimeUnit.SECONDS.sleep(1);
                 System.out.println("                                            Thread: <SERVER-ConnectionCountDOwn> time passed: " + i + " seconds.");

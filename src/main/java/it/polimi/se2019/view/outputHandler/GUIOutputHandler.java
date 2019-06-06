@@ -148,5 +148,15 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
     public void setAFK(ModelViewEvent MVE) {
 
     }
+
+    @Override
+    public void showInputTimer(int currentTime, int totalTime) {
+
+    }
+
+    @Override
+    public void showConnectionTimer(int currentTime, int totalTime) {
+
+    }
 }
 

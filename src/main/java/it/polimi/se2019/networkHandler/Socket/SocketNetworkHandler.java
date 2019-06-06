@@ -11,7 +11,7 @@ import java.util.Observer;
 
 public class SocketNetworkHandler extends NetworkHandler implements Observer{
 
-    private Socket socket;
+    private static Socket socket;
 
     private int port;
 
@@ -19,7 +19,7 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
 
     public static ObjectOutputStream oos;
 
-    private ObjectInputStream ois;
+    private static ObjectInputStream ois;
 
     private View view;
 
@@ -69,6 +69,15 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
 
         try {
             this.oos.writeObject(VCE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void disconnect(){
+        try {
+            //note that closing the socket will close the input streams and output streams too.
+            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
