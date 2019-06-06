@@ -144,7 +144,6 @@ public class ReloadState implements State{
         this.playerToAsk.setIsAFK(true);
         System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        ModelGate.model.getPlayerList().setNextPlayingPlayer();
         ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }

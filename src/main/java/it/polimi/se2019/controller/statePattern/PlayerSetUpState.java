@@ -110,7 +110,6 @@ public class PlayerSetUpState implements State {
         //TODO default is purple but still need to make the thing were nobody has the same color
         ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setColor(PlayersColors.purple);
         //pass turn
-        ModelGate.model.getPlayerList().setNextPlayingPlayer();
         ViewControllerEventHandlerContext.setNextState(new TurnState(1));
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
