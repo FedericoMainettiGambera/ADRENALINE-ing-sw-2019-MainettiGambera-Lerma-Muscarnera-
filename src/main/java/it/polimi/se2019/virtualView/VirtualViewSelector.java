@@ -1,11 +1,10 @@
 package it.polimi.se2019.virtualView;
 
-import it.polimi.se2019.model.Player;
-import it.polimi.se2019.model.Position;
-import it.polimi.se2019.model.PowerUpCard;
-import it.polimi.se2019.model.WeaponCard;
+import it.polimi.se2019.model.*;
+import it.polimi.se2019.model.enumerations.EffectInfoType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class VirtualViewSelector implements Selector {
 
@@ -82,4 +81,20 @@ public class VirtualViewSelector implements Selector {
     public void askShootReloadMove() {
 
     }
+
+    @Override
+    public void askWhatWep(ArrayList<WeaponCard> loadedCardInHand) {
+
+    }
+
+    @Override
+    public void askWhatEffect(ArrayList<Effect> possibleEffects) {
+
+    }
+
+    @Override
+    public void askEffectInputs(List<EffectInfoType> inputs) {
+
+    }
+
 }

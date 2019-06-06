@@ -1,9 +1,7 @@
 package it.polimi.se2019.virtualView.RMI;
 
-import it.polimi.se2019.model.Player;
-import it.polimi.se2019.model.Position;
-import it.polimi.se2019.model.PowerUpCard;
-import it.polimi.se2019.model.WeaponCard;
+import it.polimi.se2019.model.*;
+import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.selectorEvents.*;
 import it.polimi.se2019.virtualView.Selector;
@@ -12,6 +10,7 @@ import it.polimi.se2019.virtualView.VirtualViewSelector;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 public class RMIVirtualViewSelector extends VirtualViewSelector implements Selector{
 
@@ -28,7 +27,6 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
     public  void askGameSetUp(){
         try {
             SelectorEvent SE = new SelectorEvent(SelectorEventTypes.askGameSetUp);
-            System.out.println(playerToAsk.getRmiIdentifier());
             playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(), SE);
         } catch (IOException e) {
             e.printStackTrace();
@@ -163,4 +161,37 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
         }
 
     }
+
+    @Override
+    public void askWhatWep(ArrayList<WeaponCard> loadedCardInHand) {
+        try{
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(), new SelectorEventWeaponCards(SelectorEventTypes.askWhatWep, loadedCardInHand));
+
+        }catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void askWhatEffect(ArrayList<Effect> possibleEffects) {
+        try{
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(), new SelectorEventEffect(SelectorEventTypes.askWhatEffect, possibleEffects));
+
+        }catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void askEffectInputs(List<EffectInfoType> effectInputs){
+        try{
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(), new SelectorEventEffectInputs(SelectorEventTypes.askEffectInputs, effectInputs));
+
+        }catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 }

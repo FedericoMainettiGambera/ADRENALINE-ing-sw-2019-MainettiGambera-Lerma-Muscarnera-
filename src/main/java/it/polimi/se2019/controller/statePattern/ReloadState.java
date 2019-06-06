@@ -21,9 +21,18 @@ public class ReloadState implements State{
 
     private Thread inputTimer;
 
+    private int actionNumber;
+
     public ReloadState(boolean CalledFromShootPeople){
         this.CalledFromShootPeople = CalledFromShootPeople;
         System.out.println("<SERVER> New state: " + this.getClass());
+        this.actionNumber = 0;
+    }
+
+    public ReloadState(boolean CalledFromShootPeople, int actionNumber){
+        this.CalledFromShootPeople = CalledFromShootPeople;
+        System.out.println("<SERVER> New state: " + this.getClass());
+        this.actionNumber = actionNumber;
     }
 
     @Override
@@ -54,7 +63,7 @@ public class ReloadState implements State{
             try {
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askWhatReaload(toReaload);
-                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                 this.inputTimer.start();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -79,9 +88,9 @@ public class ReloadState implements State{
                 }
             }
             if(CalledFromShootPeople){
-                ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState());
+                ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
                 ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
-                Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk));
+                Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                 t.start();
             }
             else {
@@ -109,7 +118,7 @@ public class ReloadState implements State{
             ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCard(VCEString.getInput()).reload();
 
             if(CalledFromShootPeople){
-                ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState());
+                ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
                 ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
             }
             else {
@@ -120,7 +129,7 @@ public class ReloadState implements State{
         else{
             System.out.println("<SERVER> Player decided not to reload.");
             if(CalledFromShootPeople){
-                ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState());
+                ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
                 ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
             }
             else {

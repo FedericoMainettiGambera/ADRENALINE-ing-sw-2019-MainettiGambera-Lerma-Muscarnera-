@@ -52,7 +52,11 @@ public class ConnectionHandlerVirtualView extends Thread {
                 &&(!ModelGate.model.hasGameBegun)){
             try{
                 this.tempSocket = serverSocket.accept();
-
+                if(ModelGate.model.hasGameBegun){
+                    //TODO
+                    System.out.println("<SERVER-soket> Should not accept the new player. breaking the while.");
+                    break;
+                }
                 //this.numberOfConnections++;
                 ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected()+1);
 

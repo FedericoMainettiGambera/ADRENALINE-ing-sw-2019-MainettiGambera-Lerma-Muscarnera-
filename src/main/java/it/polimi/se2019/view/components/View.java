@@ -450,6 +450,18 @@ public class View implements Observer {
                 this.selector.askShootOrMove();
                 break;
 
+            case askWhatWep:
+                this.selector.askWhatWep(((SelectorEventWeaponCards)SE).getWeaponCards());
+                break;
+
+            case askWhatEffect:
+                this.selector.askWhatEffect(((SelectorEventEffect)SE).getPossibleEffects());
+                break;
+
+            case askEffectInputs:
+                this.selector.askEffectInputs(((SelectorEventEffectInputs)SE).getEffectInputs());
+                break;
+
             default: break;
         }
     }

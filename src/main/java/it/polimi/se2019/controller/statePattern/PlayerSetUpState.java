@@ -42,7 +42,7 @@ public class PlayerSetUpState implements State {
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askPlayerSetUp();
-            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk));
+            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
             e.printStackTrace();

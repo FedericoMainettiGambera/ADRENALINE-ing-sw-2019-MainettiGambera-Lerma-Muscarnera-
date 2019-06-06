@@ -15,6 +15,16 @@ public class Effect implements Serializable {
         return of;
     }
 
+    private String effectName;
+
+    public String getEffectName(){
+        return this.effectName;
+    }
+
+    public void setEffectName(String effectName){
+        this.effectName= effectName;
+    }
+
     public void setOf(WeaponCard of) {
         this.of = of;
     }
@@ -41,11 +51,13 @@ public class Effect implements Serializable {
     public Effect(String description, List<Action> actions) {
         this.description = description;
         this.actions = actions;
+        this.effectName = "no Effect Name";
     }
 
 
     public Effect() {
         this.actions = new ArrayList<Action>();
+        this.effectName = "no Effect Name";
     }
 
     /*-*****************************************************************************************************ATTRIBUTES*/
@@ -93,10 +105,17 @@ public class Effect implements Serializable {
         setContext(context);
         return valuateAllPrecondition();
     }
+    public void passContext(Player player,PlayersList playersList,Board board) {
+        for(Action a : this.getActions()) {
+            a.getActionInfo().getActionContext().setPlayer(player);
+            a.getActionInfo().getActionContext().setPlayerList(playersList);
+            a.getActionInfo().getActionContext().setBoard(board);
+        }
+    }
     public List<EffectInfoType> requestedInputs() {
         List<EffectInfoType> returnValue = new ArrayList<>();
         for(EffectInfoElement a: getEffectInfo().getEffectInfoElement()) {
-           returnValue.add(a.getEffectInfoTypelist());
+            returnValue.add(a.getEffectInfoTypelist());
         }
         return returnValue;
     }
@@ -114,7 +133,7 @@ public class Effect implements Serializable {
         }
 
         if(this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().getSize() > 0)
-        System.out.println("ultimo record: " + ((Player) ((Object[][])  this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().getLast().getInput())[0][0] ).getNickname());
+            System.out.println("ultimo record: " + ((Player) ((Object[][])  this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().getLast().getInput())[0][0] ).getNickname());
 
 
         this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().addRecord(this.getOf(),this,buffer);
@@ -175,9 +194,9 @@ public class Effect implements Serializable {
                                     ret.addPlayer(x);
                                     System.out.println("nome");
                                     if(! this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList().contains(x))
-                                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
-                                            x
-                                    );      //TODO MOLTO ARRAMPICATA SUGLI SPECCHI COME SOLUZIONE IL !CONTAINS
+                                        this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
+                                                x
+                                        );      //TODO MOLTO ARRAMPICATA SUGLI SPECCHI COME SOLUZIONE IL !CONTAINS
                                 }
 
 
@@ -211,15 +230,15 @@ public class Effect implements Serializable {
                 if(e.getEffectInfoTypelist().toString().equals(singleTarget.toString())) {
                     System.out.println("-" + i);
                     this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
-                           (Player)(input[i][0])
-                   );
-                   System.out.println(">" + i);
-                   System.out.println( "singleInput " + ((Player)input[i][0]).getNickname() +" aggiunto a " + getActions().get(position).getClass().toString());
-                   for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
-                       //   System.out.println(".");
-                       a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input[i], "Target"));
-                   }
-                   // System.out.println(".");
+                            (Player)(input[i][0])
+                    );
+                    System.out.println(">" + i);
+                    System.out.println( "singleInput " + ((Player)input[i][0]).getNickname() +" aggiunto a " + getActions().get(position).getClass().toString());
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
+                        //   System.out.println(".");
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input[i], "Target"));
+                    }
+                    // System.out.println(".");
                     i++;
                 }
                 // twoTargets select
@@ -268,15 +287,15 @@ public class Effect implements Serializable {
 
                     for(Player x: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
 
-                            if(x.getPosition().getY() == A.getCoordinates().getY())
-                                if(x.getPosition().getX() == A.getCoordinates().getX()) {
+                        if(x.getPosition().getY() == A.getCoordinates().getY())
+                            if(x.getPosition().getX() == A.getCoordinates().getX()) {
 
-                                    ret.addPlayer(x);
-                                    System.out.println("nome");
-                                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
-                                            x
-                                    );
-                                }
+                                ret.addPlayer(x);
+                                System.out.println("nome");
+                                this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
+                                        x
+                                );
+                            }
 
 
 
@@ -361,7 +380,7 @@ public class Effect implements Serializable {
                                 System.out.println(getActions().get(position).getActionInfo().getActionContext().getBoard().distanceFromTo(p_.getPosition(), me.getPosition()));
                                 System.out.println("|||");
                                 if (getActions().get(position).getActionInfo().getActionContext().getBoard().distanceFromTo(p_.getPosition(), me.getPosition()) == 1) {
-                                     retVal.add(p_);
+                                    retVal.add(p_);
                                     adaptor[0][z] = p_;
                                 }
                             } catch (Exception E) {
@@ -407,7 +426,7 @@ public class Effect implements Serializable {
                     int z = 0;
                     for(Player c: targets) {
                         adaptor[0][z] = c;
-                    z++;
+                        z++;
                     }
                     for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
                         a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(adaptor,"Target"));
@@ -426,12 +445,12 @@ public class Effect implements Serializable {
                             if(x.getPosition().getY() == A.getCoordinates().getY())
                                 if(x.getPosition().getX() == A.getCoordinates().getX()) {
 
-                                ret = x;
-                                System.out.println("nome");
-                                this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
-                                        x
-                                );
-                            }
+                                    ret = x;
+                                    System.out.println("nome");
+                                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
+                                            x
+                                    );
+                                }
 
 
                         }
@@ -446,8 +465,8 @@ public class Effect implements Serializable {
                 }
 
             }
-        if(!(i == 0))
-        j++;
+            if(!(i == 0))
+                j++;
         }
     }
     /***/
@@ -475,7 +494,7 @@ public class Effect implements Serializable {
                 a.Exec();
                 /*refreshing the context of the action*/
                 for(Action b: this.actions) {
-                  //  a.getActionInfo().setActionContext();
+                    //  a.getActionInfo().setActionContext();
                 }
             }
             return true;

@@ -17,7 +17,7 @@ public class GameConstant implements Serializable {
 
     public final static int countdownInSeconds = 10;
 
-    public final static int timeToInsertInputInSeconds = 10;
+    public final static int timeToInsertInputInSeconds = 60;
 
     /***/
     public final static int numberOfStartingAmmoCubesForEachColor = 1;

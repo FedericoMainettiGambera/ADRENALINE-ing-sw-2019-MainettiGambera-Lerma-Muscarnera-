@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GUIOutputHandler extends Application {
+public class GUIOutputHandler extends Application implements OutputHandlerInterface{
 
     public static void main(String[] args) {
         launch(args);
@@ -24,10 +24,11 @@ public class GUIOutputHandler extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("FIRSTSTAGE1.fxml"));
-        Scene scene = new Scene(root, 390, 350);
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("PROBFIRSTSTAGE.fxml"));
+        Scene scene = new Scene(root, 600, 530);
         primaryStage.setTitle("Hello World");
-        primaryStage.setResizable(false);
+        //primaryStage.setResizable(false);
+
 
 
         primaryStage.setScene(scene);
@@ -95,5 +96,58 @@ public class GUIOutputHandler extends Application {
 
     }
 
+    @Override
+    public void newPosition(ModelViewEvent MVE) {
 
+    }
+
+    @Override
+    public void newScore(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void addDeathCounter(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void setFinalFrenzyBoard(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void newAmmoBox(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void newDamageTracker(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void newMarksTracker(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void setCurrentPlayingPlayer(ModelViewEvent MVE) {
+    }
+
+    @Override
+    public void setStartingPlayer(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void newPlayer(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void setAFK(ModelViewEvent MVE) {
+
+    }
 }
+

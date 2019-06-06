@@ -1,9 +1,7 @@
 package it.polimi.se2019.virtualView.Socket;
 
-import it.polimi.se2019.model.Player;
-import it.polimi.se2019.model.Position;
-import it.polimi.se2019.model.PowerUpCard;
-import it.polimi.se2019.model.WeaponCard;
+import it.polimi.se2019.model.*;
+import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.selectorEvents.*;
 import it.polimi.se2019.virtualView.Selector;
@@ -12,6 +10,7 @@ import it.polimi.se2019.virtualView.VirtualViewSelector;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 public class VirtualViewSelectorSocket extends VirtualViewSelector implements Selector {
 
@@ -179,6 +178,41 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    @Override
+    public void askWhatWep(ArrayList<WeaponCard> loadedCardInHand) {
+        ObjectOutputStream oos = this.playerToAsk.getOos();
+        try {
+            SelectorEventWeaponCards SE = new SelectorEventWeaponCards(SelectorEventTypes.askWhatWep, loadedCardInHand);
+            oos.writeObject(SE);
+            oos.reset();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void askWhatEffect(ArrayList<Effect> possibleEffects) {
+        ObjectOutputStream oos = this.playerToAsk.getOos();
+        try {
+            SelectorEventEffect SE = new SelectorEventEffect(SelectorEventTypes.askWhatEffect, possibleEffects);
+            oos.writeObject(SE);
+            oos.reset();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void askEffectInputs(List<EffectInfoType> effectInputs){
+        ObjectOutputStream oos = this.playerToAsk.getOos();
+        try {
+            SelectorEventEffectInputs SE = new SelectorEventEffectInputs(SelectorEventTypes.askEffectInputs, effectInputs);
+            oos.writeObject(SE);
+            oos.reset();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
