@@ -31,14 +31,15 @@ public class CLISelector implements Selector {
             try {
                 SocketNetworkHandler.oos.writeObject(o);
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("<CLIENT> Socket connection is closed. Try to reconnect to server using the same Nickname.");
+                //e.printStackTrace();
             }
         }
         else{
             try {
                 RMINetworkHandler.client.returnInterface().sendToServer(o);
             } catch (RemoteException e) {
-                e.printStackTrace();
+                System.out.println("<CLIENT> RMI connection is closed. Try to reconnect to server using the same Nickname.");
             }
         }
     }
@@ -72,6 +73,8 @@ public class CLISelector implements Selector {
             isBotActive = temp.toLowerCase().equals("y");
             System.out.println("<CLIENT> : Choose number of starting skulls (between 5 and 7)");
             numberOfStartingSkulls = br.nextInt();
+
+            br.close();
 
             ViewControllerEventGameSetUp VCEGameSetUp = new ViewControllerEventGameSetUp(gameMode,mapChoice,numberOfStartingSkulls,isFinalFrenzy,isBotActive);
 
@@ -127,6 +130,11 @@ public class CLISelector implements Selector {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             ViewControllerEventPlayerSetUp VCEPlayerSetUp = new ViewControllerEventPlayerSetUp(nickaname, color);
             sendToServer(VCEPlayerSetUp);
         }
@@ -153,6 +161,8 @@ public class CLISelector implements Selector {
 
             Scanner br = new Scanner(System.in);
             String cardID = br.nextLine();
+
+            br.close();
 
             ViewControllerEventString VCEString = new ViewControllerEventString(cardID);
 
@@ -191,6 +201,8 @@ public class CLISelector implements Selector {
 
             ViewControllerEventString VCEString = new ViewControllerEventString(br.nextLine());
 
+            br.close();
+
             sendToServer(VCEString);
         }
     }
@@ -217,6 +229,8 @@ public class CLISelector implements Selector {
             Scanner br = new Scanner(System.in);
 
             int choosenPosition = br.nextInt();
+
+            br.close();
 
             ViewControllerEventPosition VCEPosition = new ViewControllerEventPosition(positions.get(choosenPosition).getX(),positions.get(choosenPosition).getY());
 
@@ -248,6 +262,9 @@ public class CLISelector implements Selector {
             else{
                 action = "grab";
             }
+
+            br.close();
+
             ViewControllerEventString VCEString = new ViewControllerEventString(action);
 
             sendToServer(VCEString);
@@ -288,6 +305,8 @@ public class CLISelector implements Selector {
             }
 
             String toPickUpID = toPickUp.get(br.nextInt()).getID();
+
+            br.close();
 
             ViewControllerEventString VCEString = new ViewControllerEventString(toPickUpID);
 
@@ -335,6 +354,8 @@ public class CLISelector implements Selector {
 
             int choosenToDiscard= br.nextInt();
 
+            br.close();
+
             String toDiscardID = toSwitch.get(choosenToDiscard).getID();
 
             ViewControllerEventTwoString VCETwoString = new ViewControllerEventTwoString(toPickUpID, toDiscardID);
@@ -362,7 +383,10 @@ public class CLISelector implements Selector {
                 System.out.println("    " + i + ") " + toDiscard.get(i));
             }
             Scanner br = new Scanner(System.in);
+
             int choosen = br.nextInt();
+
+            br.close();
 
             ViewControllerEventInt VCEInt = new ViewControllerEventInt(choosen);
 
@@ -391,6 +415,8 @@ public class CLISelector implements Selector {
             System.out.println("  Insert 0 if u wanna /skip/ reload.");
             Scanner br = new Scanner(System.in);
             int chosen = br.nextInt();
+
+            br.close();
 
             ViewControllerEventString VCEString =null;
             if(chosen==0){
@@ -443,6 +469,7 @@ public class CLISelector implements Selector {
             System.out.println("remember, you can move up to:"+numberOfMoves);
 
             int chosen = br.nextInt();
+            br.close();
             ViewControllerEventString VCEstring;
             if(chosen==0){
                 VCEstring= new ViewControllerEventString("move");
@@ -478,7 +505,7 @@ public class CLISelector implements Selector {
 
             int chosen = br.nextInt();
             ViewControllerEventInt VCEint = new ViewControllerEventInt(chosen);
-
+            br.close();
             sendToServer(VCEint);
         }
     }
@@ -504,6 +531,7 @@ public class CLISelector implements Selector {
             }
 
             int chosen = br.nextInt();
+            br.close();
             ViewControllerEventInt VCEint = new ViewControllerEventInt(chosen);
 
             sendToServer(VCEint);
@@ -530,6 +558,7 @@ public class CLISelector implements Selector {
             }
 
             int chosen = br.nextInt();
+            br.close();
             ViewControllerEventInt VCEint = new ViewControllerEventInt(chosen);
 
             sendToServer(VCEint);
@@ -557,6 +586,7 @@ public class CLISelector implements Selector {
                 System.out.println("         " + i + ") " + ViewModelGate.getModel().getPlayers().getPlayers().get(i).getNickname());
             }
             int chosen = br.nextInt();
+            br.close();
             listOfString.add(ViewModelGate.getModel().getPlayers().getPlayers().get(chosen));
             return listOfString;
         }
@@ -566,6 +596,7 @@ public class CLISelector implements Selector {
             Scanner br = new Scanner(System.in);
             String decision = br.nextLine();
             List<Object> listOfString;
+            br.close();
             if(decision.equalsIgnoreCase("y")){
                 listOfString=askForPlayer();
             }
@@ -582,6 +613,7 @@ public class CLISelector implements Selector {
             while(true) {
                 System.out.println("<CLIENT> Do you want to select a player? [Y/N]");
                 String decision = br.nextLine();
+                br.close();
                 if (decision.equalsIgnoreCase("y")) {
                     listOfString.addAll(askForPlayerOrNOt());
                 } else {
@@ -606,6 +638,7 @@ public class CLISelector implements Selector {
             int X = br.nextInt();
             System.out.println("<CLIENT> set Y:");
             int Y = br.nextInt();
+            br.close();
             SquareV square = ViewModelGate.getModel().getBoard().getMap()[X][Y];
             listOfString.add(square);
             return listOfString;
@@ -617,6 +650,7 @@ public class CLISelector implements Selector {
                 System.out.println("<CLIENT> Do you want to select another Square? [Y/N]");
                 Scanner br = new Scanner(System.in);
                 String decision = br.nextLine();
+                br.close();
                 if (decision.equalsIgnoreCase("y")) {
                     listOfString.addAll(askForSquare());
                 } else {

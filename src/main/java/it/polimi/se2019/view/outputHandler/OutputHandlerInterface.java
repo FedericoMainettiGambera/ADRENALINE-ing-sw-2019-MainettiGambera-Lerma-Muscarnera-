@@ -28,4 +28,6 @@ public interface OutputHandlerInterface {
     public void setStartingPlayer(ModelViewEvent MVE);
     public void newPlayer(ModelViewEvent MVE);
     public void setAFK(ModelViewEvent MVE);
+    public void showInputTimer(int currentTime, int totalTime);
+    public void showConnectionTimer(int currentTime, int totalTime);
 }

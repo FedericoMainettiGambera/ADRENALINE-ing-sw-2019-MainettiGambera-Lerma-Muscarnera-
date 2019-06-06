@@ -7,6 +7,9 @@ import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.selectorEvents.*;
 import it.polimi.se2019.model.events.stateEvent.StateEvent;
+import it.polimi.se2019.model.events.timerEvent.TimerEvent;
+import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
+import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.view.outputHandler.CLIOutputHandler;
 import it.polimi.se2019.view.outputHandler.GUIOutputHandler;
 import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
@@ -52,6 +55,7 @@ public class View implements Observer {
         SelectorEvent SE = null;
         ModelViewEvent MVE = null;
         StateEvent StE = null;
+        TimerEvent TE = null;
         if(arg.getClass().toString().contains("ModelViewEvent")){
             MVE = (ModelViewEvent)arg;
             try{
@@ -67,6 +71,15 @@ public class View implements Observer {
             StE = (StateEvent)arg;
 
             OutputHandlerGate.getCorrectOutputHandler(this.userInterface).stateChanged(StE);
+        }
+        else if(arg.getClass().toString().contains("TimerEvent")){
+            TE = (TimerEvent)arg;
+            if(TE.getContext().equalsIgnoreCase("input")) {
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).showInputTimer(TE.getCurrentTime(), TE.getTotalTime());
+            }
+            else{
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).showConnectionTimer(TE.getCurrentTime(), TE.getTotalTime());
+            }
         }
         else{
             try {
@@ -315,9 +328,17 @@ public class View implements Observer {
 
 
             case newPlayer:
-                ViewModelGate.getModel().getPlayers().getPlayers().add((PlayerV)MVE.getComponent());
-                if(ViewModelGate.getMe()==null){
-                    ViewModelGate.setMe(((PlayerV)MVE.getComponent()).getNickname());
+                boolean alreadyExist = false;
+                for (PlayerV p: ViewModelGate.getModel().getPlayers().getPlayers()) {
+                    if(p.getNickname().equals(((PlayerV)MVE.getComponent()).getNickname())){
+                        alreadyExist = true;
+                    }
+                }
+                if(!alreadyExist) {
+                    ViewModelGate.getModel().getPlayers().getPlayers().add((PlayerV) MVE.getComponent());
+                    if (ViewModelGate.getMe() == null) {
+                        ViewModelGate.setMe(((PlayerV) MVE.getComponent()).getNickname());
+                    }
                 }
 
                 OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newPlayer(MVE);
@@ -334,7 +355,16 @@ public class View implements Observer {
                     }
                 }
                 if(ViewModelGate.getMe().equals((String) MVE.getExtraInformation1() )){
-                    //TODO disconnect
+                    if(networkConnection.equalsIgnoreCase("SOCKET")){
+                        SocketNetworkHandler.disconnect();
+                        System.out.println("<CLIENT> DISCOCNNECTED FROM SERVER. Program will exit.");
+                        System.exit(0);
+                    }
+                    else{
+                        RMINetworkHandler.disconnect(); //todo
+                        System.out.println("<CLIENT> DISCOCNNECTED FROM SERVER. Program will exit.");
+                        System.exit(0);
+                    }
                 }
 
                 OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setAFK(MVE);

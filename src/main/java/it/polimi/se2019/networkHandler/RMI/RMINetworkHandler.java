@@ -36,7 +36,7 @@ public class RMINetworkHandler extends NetworkHandler{
 
         //if (rmiInterface.numberOfConnection().getNumber() + 1 < 3) {
         try {
-            //TODO here it doea some problem sometimes
+            //TODO here it has some problem sometimes
             if (rmiInterface.numberOfConnection() <= GameConstant.maxNumberOfPlayerPerGame) {
 
                 client = new Client(rmiInterface, rmiInterface.getRmiIdentifier());
@@ -66,6 +66,14 @@ public class RMINetworkHandler extends NetworkHandler{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void disconnect(){
+        //todo
+        //from internet:
+        //Your client's disconnect method should be calling the server's unregister method
+        // (ie it should be basically the same as the client's connect method) rather than
+        // trying to unregister the server object from the RMI Registry.
     }
 
 }

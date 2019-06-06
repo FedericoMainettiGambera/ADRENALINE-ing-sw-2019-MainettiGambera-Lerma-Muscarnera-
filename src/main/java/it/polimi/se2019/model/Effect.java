@@ -2,6 +2,7 @@ package it.polimi.se2019.model;
 
 
 import it.polimi.se2019.model.enumerations.EffectInfoType;
+import it.polimi.se2019.model.enumerations.UsableInputTableRowType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,9 +26,259 @@ public class Effect implements Serializable {
         this.effectName= effectName;
     }
 
+    public static List<Object> intersect (List<Object> A,List<Object> B) {
+        List<Object> retVal = new ArrayList<>();
+        for(Object C: A) {
+            if((A.contains(C)) && (B.contains(C))) {
+                retVal.add(C);
+            }
+        }
+        return retVal;
+    }
+    public List<List<List<Object>>> usableInputs() {
+        /*matrice 3D degli input (vedi sotto)*/
+        List<List<List<Object>>> retVal = new ArrayList<>();
+        /*tipo di input per riga*/
+        List<UsableInputTableRowType> rowType = new ArrayList<>();
+        List<Integer>                 rowCardinality = new ArrayList<>();
+
+        /*  /////////////////////////////////////////////MATRICE 3D
+        *
+        *   riga 1:     [1* parte input]  [2* parte input]
+        *                       |
+        *                       V
+        *                       { primo possibile primo parte primo input, secondo possibile prima parte primo input...}
+        *
+        * */
+
+        /*initializing the rows of retVal table*/
+        for(EffectInfoElement e: this.getEffectInfo().getEffectInfoElement()) {
+
+            if(e.getEffectInfoTypelist() == singleTarget) {
+                rowType.add(UsableInputTableRowType.typePlayer);
+                rowCardinality.add(1);
+
+
+                List<Object> cell = new ArrayList<>();
+                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers())
+                    cell.add((Object) t);
+                List<List<Object>> row = new ArrayList<>();
+
+                row.add(cell);
+                retVal.add(row);
+            }
+            if(e.getEffectInfoTypelist() == twoTargets) {
+                rowType.add(UsableInputTableRowType.typePlayer);
+                rowCardinality.add(2);
+
+
+                List<Object> cell = new ArrayList<>();
+                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers())
+                    cell.add((Object) t);
+                List<Object> cell2 = new ArrayList<>();
+                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers())
+                    cell2.add((Object) t);
+                List<List<Object>> row = new ArrayList<>();
+
+                row.add(cell);
+                row.add(cell2);     //slot doppio per doppia cardinalità
+
+                retVal.add(row);
+            }
+            if(e.getEffectInfoTypelist() == threeTargets) {
+                rowType.add(UsableInputTableRowType.typePlayer);
+                rowCardinality.add(3);
+
+
+                List<Object> cell = new ArrayList<>();
+                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers())
+                    cell.add((Object) t);
+                List<Object> cell2 = new ArrayList<>();
+                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers())
+                    cell2.add((Object) t);
+                List<List<Object>> row = new ArrayList<>();
+                List<Object> cell3 = new ArrayList<>();
+                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers())
+                    cell3.add((Object) t);
+
+                row.add(cell);
+                row.add(cell2);
+                row.add(cell3);     //slot triplo per tripla cardinalità
+
+                retVal.add(row);
+            }
+            if(e.getEffectInfoTypelist() == simpleSquareSelect) {
+                rowType.add(UsableInputTableRowType.typeSquare);
+                rowCardinality.add(1);
+
+
+                List<Object> cell = new ArrayList<>();
+                for (Square y[] : this.getActions().get(0).getActionInfo().getActionContext().getBoard().getMap()) {
+                    for(Square x: y) {
+                        cell.add(x);
+                    }
+                }
+                List<List<Object>> row = new ArrayList<>();
+
+                row.add(cell);
+                retVal.add(row);
+            }
+            /*...*/
+        }
+
+        int actionCounter = 1;
+
+        // intermediate conditions
+        // intermediateList[i][a]
+        // liste dei return delle precondizioni per singola azione
+
+        List<List<Object>> intermediateList = new ArrayList<>();
+
+        for(EffectInfoElement e: this.getEffectInfo().getEffectInfoElement()) {
+            // aggiungo un array list per ogni input
+            intermediateList.add(new ArrayList<>());
+            for(Action a: this.getActions()) {
+
+                intermediateList.get(intermediateList.size() - 1).add(null);
+
+            }
+        }
+
+        for(Action a: this.getActions()) {
+
+
+            List<EffectInfoElement> dedicatedInputs = new ArrayList<>();
+            /*fill the dedicated inputs*/
+            for(EffectInfoElement e: this.getEffectInfo().getEffectInfoElement()) {
+                if (e.getEffectInfoTypeDestination().get(0) == 0) // all
+                {
+                    dedicatedInputs.add(e);
+                } else {
+                    for (Integer number : e.getEffectInfoTypeDestination()) {
+
+                        if (number == actionCounter) {
+
+                            dedicatedInputs.add(e);
+
+                        }
+
+                    }
+
+                }
+
+
+            }
+            System.out.println("per questa azione " + actionCounter + " sono dedicati " + dedicatedInputs.size() + " inputs. Sono: ");
+
+            int j = 0;
+            /*for (EffectInfoElement x : dedicatedInputs)
+            {
+                int inputIndex =  getEffectInfo().getEffectInfoElement().indexOf(x);
+                intermediateList.get(inputIndex).set(actionCounter-1,null);
+            }*/
+            //
+            //
+
+            //
+            int inputCounter = 0;
+
+            for(EffectInfoElement eie: dedicatedInputs) {
+                List<Integer> totalDestinations = eie.getEffectInfoTypeDestination();
+                List<Integer> finalDestinations = new ArrayList<>();
+                if(totalDestinations.get(0) == 0)
+                {
+                    for(int c = 0; c < this.getActions().size();c++)
+                        finalDestinations.add(c+1);
+                } else {
+                    finalDestinations = totalDestinations;
+                }
+                for (int b : finalDestinations) {
+                    Action a_ = this.getActions().get(b-1);
+                    System.out.println("EffectInfoElement " + eie.getEffectInfoTypelist());
+
+                    Object invertedPreConditionOutput = null;
+                    PreConditionMethodsInverted preConditionMethodsInverted = new PreConditionMethodsInverted();
+                    try {
+                        java.lang.reflect.Method method;
+                        Class<?> c = Class.forName("it.polimi.se2019.model.PreConditionMethodsInverted");
+                        Class<?>[] paramTypes = {ActionContext.class,UsableInputTableRowType.class,Integer.class};
+                        System.out.println("azione " + a_ + " nome precondizione : " + a_.getActionInfo().getPreConditionMethodName());
+                        method = c.getDeclaredMethod(a_.getActionInfo().getPreConditionMethodName(), paramTypes);
+                        invertedPreConditionOutput = method.invoke(preConditionMethodsInverted,
+                                this.getActions().get(0).getActionInfo().getActionContext(),
+                                rowType.get(getEffectInfo().getEffectInfoElement().indexOf(eie)),
+                                rowCardinality.get(getEffectInfo().getEffectInfoElement().indexOf(eie))
+                                );
+
+                    } catch (Exception exception) {
+                        System.out.println("eccezione! " + exception.toString());
+                    }
+
+
+                    intermediateList.get(effectInfo.getEffectInfoElement().indexOf(eie)).set(
+                            /*inverse Precondition here*/
+                            this.getActions().indexOf(a_),
+                            invertedPreConditionOutput
+                    );
+                    System.out.println("Azione (" + this.getActions().indexOf(a_) + ") , Input (" + effectInfo.getEffectInfoElement().indexOf(eie) + ")   -> " + a.getActionInfo().getPreConditionMethodName() + " -> " + invertedPreConditionOutput);
+                    inputCounter++;
+                }
+            }
+
+
+            actionCounter++;
+        }
+        System.out.println("");
+        for( List<Object> o: intermediateList)
+            System.out.println(">>>>" + o);
+
+        System.out.println("");
+        int iCount = 0;
+        int aCount = 0;
+        System.out.println(retVal);
+
+        int i,j,k;
+        for(i = 0; i < retVal.size();i++) {
+            System.out.println("[" + effectInfo.getEffectInfoElement().get(i).getEffectInfoTypelist().toString() + "]" + " parto con l'insieme di tutti i possibili");
+            for(j = 0; j < retVal.get(i).size();j++) {
+                //if (this.getEffectInfo().getEffectInfoElement().get(i).getEffectInfoTypeDestination().contains(j))
+                {
+                    // l'input è i
+                    System.out.println("@"+ intermediateList.get(i));
+                    for (k = 0; k < this.getActions().size(); k++) {
+                        if(intermediateList.get(i).get(k) != null)
+                        {
+                            System.out.println("interseco con.." + intermediateList.get(i).get(k)  );
+                            for (Object d : (List<Object>) intermediateList.get(i).get(k)) {
+                                System.out.println(d.toString());
+                            }
+                            retVal.get(i).set(j,
+                                    intersect(
+                                            retVal.get(i).get(j),
+                                            (List<Object>) intermediateList.get(i).get(k)
+                                    ));
+                        }
+                    }
+                }
+                }
+
+
+            }
+
+
+        for(List<Object> x:intermediateList) {
+        System.out.println("input");
+            for (Object y : x) {
+            System.out.println("per azione");
+                System.out.println(x);
+            }
+        }
+        return retVal;
+    }
     public void setOf(WeaponCard of) {
         this.of = of;
     }
+
 
     WeaponCard of;
 
@@ -106,6 +357,8 @@ public class Effect implements Serializable {
         return valuateAllPrecondition();
     }
     public void passContext(Player player,PlayersList playersList,Board board) {
+
+
         for(Action a : this.getActions()) {
             a.getActionInfo().getActionContext().setPlayer(player);
             a.getActionInfo().getActionContext().setPlayerList(playersList);
@@ -119,7 +372,347 @@ public class Effect implements Serializable {
         }
         return returnValue;
     }
-    public void handleInput(Object[][] input) {
+    public void handleRow(EffectInfoElement e ,Object[] input) {
+        Object[] buffer = new Object[10];
+        int X = 0;
+        for(Object x: input) {
+            buffer[X] = x;
+        }
+        int i = 0;
+        int j = 0;
+        {
+
+            List<Integer> p_arr = e.getEffectInfoTypeDestination();
+            List<Integer> p_arr_2 = new ArrayList<>();
+            if(p_arr.get(0) == 0) {     // TO ALL END
+                int k = 0;
+                for(Action a: this.getActions())
+                    p_arr_2.add((++k));
+
+            } else {
+                p_arr_2 = p_arr;
+            }
+            System.out.println("l'input va " + p_arr_2.toString());
+
+            for(Integer p: p_arr_2) {
+                i = j;
+                Integer position = p - 1;
+                //parser dell'input
+                System.out.println("<"+e.getEffectInfoTypelist().toString()+">");
+
+                // player select -- same Player
+                if(e.getEffectInfoTypelist().toString().equals(player.toString())) {
+
+                    System.out.println("settaggio del target tramite " +  getActions().get(position).getActionInfo().getActionContext().getPlayer());
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
+                            getActions().get(position).getActionInfo().getActionContext().getPlayer()
+                    );
+                    // i++; /* 0 input */
+                    Object[] adaptor = new Object[10];
+                    adaptor[0] = getActions().get(position).getActionInfo().getActionContext().getPlayer();
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(adaptor,"Target"));
+
+                }
+
+                //targetListByRoom
+
+
+                if(e.getEffectInfoTypelist().toString().equals(targetListByRoom.toString())) {
+                    Square A = (Square) input[0];
+                    List<Square> room = getActions().get(0).getActionInfo().getActionContext().getBoard().getRoomFromPosition(A.getCoordinates());
+
+                    System.out.println("y");
+                    PlayersList ret = new PlayersList();
+
+                    System.out.println("len " + this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers().size());
+
+                    for(Square s : room ) {
+                        for (Player x : this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+
+                            if (x.getPosition().getY() == s.getCoordinates().getY())
+                                if (x.getPosition().getX() == s.getCoordinates().getX()) {
+
+                                    ret.addPlayer(x);
+                                    System.out.println("nome");
+                                    if(! this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList().contains(x))
+                                        this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
+                                                x
+                                        );      //TODO MOLTO ARRAMPICATA SUGLI SPECCHI COME SOLUZIONE IL !CONTAINS
+                                }
+
+
+                        }
+                    }
+                    System.out.println(".");
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input, "Target"));
+                    }
+                    i++;
+
+                }
+                //targetListBySameSquareOfPlayer
+                if(e.getEffectInfoTypelist().toString().equals(targetListBySameSquareOfPlayer.toString())) {
+                    Player me = getActions().get(position).getActionInfo().getActionContext().getPlayer();
+                    PlayersList potential = getActions().get(position).getActionInfo().getActionContext().getPlayerList();
+                    PlayersList targets = new PlayersList();
+                    for(Player po : potential.getPlayers()) {
+                        if(po.getPosition().equals(me.getPosition()))
+                            targets.addPlayer(po);
+                    }
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTargetList(targets.getPlayers());
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
+                        //   System.out.println(".");
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input, "Target"));
+                    }
+
+                }
+                // singleTarget select
+
+                if(e.getEffectInfoTypelist().toString().equals(singleTarget.toString())) {
+                    System.out.println("-" + i);
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
+                            (Player)(input[0])
+                    );
+                    System.out.println(">" + i);
+                    System.out.println( "singleInput " + ((Player)input[0]).getNickname() +" aggiunto a " + getActions().get(position).getClass().toString());
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
+                        //   System.out.println(".");
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input, "Target"));
+                    }
+                    // System.out.println(".");
+                    i++;
+                }
+                // twoTargets select
+                if(e.getEffectInfoTypelist().toString().equals(twoTargets.toString())) {
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
+                            (Player)input[0]
+                    );
+
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
+                            (Player)input[1]
+                    );
+
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
+
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input, "Target"));
+                    }
+                    i ++;
+                }
+                // threeTargets select
+                if(e.getEffectInfoTypelist().toString().equals(threeTargets.toString())) {
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
+                            (Player)input[0]
+                    );
+
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
+                            (Player)input[1]
+                    );
+
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
+                            (Player)input[2]
+                    );
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
+
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input, "Target"));
+                    }
+                    i++;
+                }
+                // targetListBySquare
+                if(e.getEffectInfoTypelist().toString().equals(targetListBySquare.toString())) {
+                    Square A = (Square) input[0];
+
+                    System.out.println("y");
+                    PlayersList ret = new PlayersList();
+
+                    System.out.println("len " + this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers().size());
+
+                    for(Player x: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+
+                        if(x.getPosition().getY() == A.getCoordinates().getY())
+                            if(x.getPosition().getX() == A.getCoordinates().getX()) {
+
+                                ret.addPlayer(x);
+                                System.out.println("nome");
+                                this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
+                                        x
+                                );
+                            }
+
+
+
+
+                    }
+                    System.out.println(".");
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input, "Target"));
+                    }
+                    i++;
+
+                }
+
+                // playerSquare
+                if(e.getEffectInfoTypelist().toString().equals(playerSquare.toString())) {
+
+                    Player me = getActions().get(position).getActionInfo().getActionContext().getPlayer();
+                    Object[] adaptor = new Object[10];
+                    adaptor[0] = getActions().get(position).getActionInfo().getActionContext().getBoard().getMap()[me.getPosition().getX()][me.getPosition().getY()];
+
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setChosenSquare(
+                            getActions().get(position).getActionInfo().getActionContext().getBoard().getMap()[me.getPosition().getX()][me.getPosition().getY()]
+                    );
+
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(adaptor,"Target"));
+                }
+                // squareByTarget
+                if(e.getEffectInfoTypelist().toString().equals(squareByTarget.toString())) {
+                    Player target = (Player) input[0];
+                    Board  board = getActions().get(0).getActionInfo().getActionContext().getBoard();
+
+                    int I = 0;
+                    int J = 0;
+
+                    int x = 0;
+                    int y = 0;
+                    for(Square[] a: board.getMap()) {
+                        for (Square b : a) {
+                            if(target.getPosition().getX() == J)
+                                if(target.getPosition().getY() == I)
+                                {
+                                    x = J;
+                                    y = I;
+                                }
+                            J++;
+                        }
+                        I++;
+                    }
+
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setChosenSquare(
+                            getActions().get(position).getActionInfo().getActionContext().getBoard().getMap()[x][y]
+                    );
+                    Object[][] adaptor = new Object[10][10];
+                    adaptor[0][0] = getActions().get(position).getActionInfo().getActionContext().getBoard().getMap()[x][y];
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(adaptor,"Target"));
+                    i++;
+                }
+                // simpleSquareSelect
+                if(e.getEffectInfoTypelist().toString().equals(simpleSquareSelect.toString())) {
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setChosenSquare((Square)input[0]);
+
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input,"Square"));
+                    i++;
+                }
+                if(e.getEffectInfoTypelist().toString().equals(targetListByDistance1.toString())) {
+                    System.out.println("seleziono i target distanti 1");
+                    Player me = getActions().get(position).getActionInfo().getActionContext().getPlayer();
+                    List<Player> retVal = new ArrayList<>();
+                    PlayersList enemies = getActions().get(0).getActionInfo().getActionContext().getPlayerList();
+                    Object[][] adaptor = new Object[10][10];
+                    int z = 0;
+
+
+                    for(Player p_: enemies.getPlayers()) {
+                        if(!p_.equals(me))
+                            try {
+                                System.out.println(p_.getPosition().getX() + "," + p_.getPosition().getY());
+                                System.out.println(me.getPosition().getX() + "," + me.getPosition().getY());
+                                System.out.println(getActions().get(position).getActionInfo().getActionContext().getBoard().distanceFromTo(p_.getPosition(), me.getPosition()));
+                                System.out.println("|||");
+                                if (getActions().get(position).getActionInfo().getActionContext().getBoard().distanceFromTo(p_.getPosition(), me.getPosition()) == 1) {
+                                    retVal.add(p_);
+                                    adaptor[0][z] = p_;
+                                }
+                            } catch (Exception E) {
+
+                                System.out.println("eccezione " + p_.getNickname() + ":" + E.toString());
+                            }
+                    }
+
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTargetList(retVal);
+
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(adaptor,"Square"));
+
+                }
+                if(e.getEffectInfoTypelist().toString().equals(squareByLastTargetSelected.toString())) {
+                    System.out.println("@ ingresso ");
+                    Player lastTarget = getActions().get(position - 1).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setChosenSquare(
+
+                            this.getActions().get(position).getActionInfo().getActionContext().getBoard().getSquare(lastTarget.getPosition())
+
+                    );
+
+                    Object[][] adaptor = new Object[10][10];
+                    adaptor[0][0] =   this.getActions().get(position).getActionInfo().getActionContext().getBoard().getSquare(lastTarget.getPosition());
+
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(adaptor,"Square"));
+
+                }
+                if(e.getEffectInfoTypelist().toString().equals(targetListBySquareOfLastTarget.toString())) {
+                    List<Player> targets = new ArrayList<>();
+                    Player lastTarget = this.getActions().get(position - 1).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
+                    Position positionOfLastTarget = lastTarget.getPosition();
+                    for(Player x: getActions().get(position).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+                        if(x.getPosition().equals(positionOfLastTarget)) {
+                            targets.add(x);
+                        }
+                    }
+
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTargetList(targets);
+                    Object[][] adaptor = new Object[10][10];
+                    int z = 0;
+                    for(Player c: targets) {
+                        adaptor[0][z] = c;
+                        z++;
+                    }
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(adaptor,"Target"));
+                }
+                // singleTargetBySquare
+                if(e.getEffectInfoTypelist().toString().equals(singleTargetBySquare.toString())) {
+                    Square A = (Square) input[0];
+                    String Name = (String) input[1];
+                    System.out.println("y");
+                    Player ret = new Player();
+                    System.out.println("len " + this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers().size());
+                    for(Player x: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+                        if(x.getNickname().equals(Name)) {
+                            System.out.println("nome");
+
+                            if(x.getPosition().getY() == A.getCoordinates().getY())
+                                if(x.getPosition().getX() == A.getCoordinates().getX()) {
+
+                                    ret = x;
+                                    System.out.println("nome");
+                                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
+                                            x
+                                    );
+                                }
+
+
+                        }
+
+                    }
+                    System.out.println(".");
+                    for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
+                        a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input, "Target"));
+                    }
+                    i++;
+
+                }
+
+            }
+            if(!(i == 0))
+                j++;
+        }
+
+    }
+    public void handleInput( Object[][] input) {
         Object[][] buffer = new Object[10][10];
         int X = 0;
         int Y = 0;

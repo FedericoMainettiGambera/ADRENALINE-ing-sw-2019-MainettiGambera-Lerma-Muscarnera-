@@ -136,6 +136,8 @@ public class  Controller{
     }
 
     public void startClientSocketOrRMI(){
+
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         System.out.println("<CLIENT> Do you want to play with:");
@@ -158,6 +160,8 @@ public class  Controller{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
 
         /*
         System.out.println("<CLIENT> Are you trying to reconnect to a Game? [Y/N]");
