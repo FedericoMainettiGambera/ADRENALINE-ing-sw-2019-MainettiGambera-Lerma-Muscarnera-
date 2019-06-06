@@ -1,14 +1,8 @@
 package it.polimi.se2019;
 
-import it.polimi.se2019.model.Board;
-import it.polimi.se2019.model.Player;
-import it.polimi.se2019.model.PlayersList;
-import it.polimi.se2019.model.WeaponCard;
+import it.polimi.se2019.model.*;
 import it.polimi.se2019.virtualView.VirtualView;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TestEffect {
     /*FOR MAVEN PURPOSE
@@ -149,4 +143,54 @@ public class TestEffect {
 
     }
     */
+    @Test
+    public void testUsable( ) throws Exception {
+
+            System.out.println("\t\tcarta " + 24);
+            WeaponCard w = new WeaponCard(24 + "");
+
+
+
+
+        Board board = new Board("2",new VirtualView(),new VirtualView());
+        Player user1 = new Player();
+        Player user2 = new Player();
+        Player user3 = new Player();
+        Player user4 = new Player();
+        user1.setNickname("Aldo");
+        user2.setNickname("Bruno");
+        user3.setNickname("Carlo");
+        user4.setNickname("Dario");
+        PlayersList playerList = new PlayersList();
+        playerList.getPlayers().add(user1);
+        playerList.getPlayers().add(user2);
+        playerList.getPlayers().add(user3);
+        playerList.getPlayers().add(user4);
+
+        for(Square[] y: board.getMap() )
+            for(Square x: y)
+                System.out.println(x.getCoordinates().getX() + " , " + x.getCoordinates().getY() + ": " + x.getColor());
+
+        user1.setPosition(1,2);
+        user2.setPosition(1,3);
+        user3.setPosition(1,2);                 //   same position
+        user4.setPosition(1,3);                 //
+
+            w.getEffects().get(0).passContext(user1,playerList,board);
+            for(EffectInfoElement el: w.getEffects().get(0).getEffectInfo().getEffectInfoElement()) {
+                Object[] input = new Object[10];
+                input[0] = user2;
+                w.getEffects().get(0).handleRow(el,input);
+            }
+            w.getEffects().get(0).Exec();
+        System.out.println("/---------/");
+
+            for(Object x:  w.getEffects().get(0).usableInputs() )
+            System.out.println("*" + x);
+            //for(Object p:  w.getEffects().get(0).usableInputs().get(2).get(0))
+            //    System.out.println("risultato = " + p.toString() + ":" + ((Player) p).getNickname());
+            System.out.println("/---------/");
+
+
+    }
 }
