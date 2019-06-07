@@ -7,6 +7,7 @@
     light-primary-color: #CFD8DC;
     text-primary-color: #FFFFFF;
     accent-color: #ffb523;
+    accent-color-darker: #cb921d;
     primary-text-color: #212121;
     secondary-text-color: #757575;
     divider-color: #BDBDBD;
@@ -93,6 +94,9 @@
 .startButton:focused{
     -fx-background-color: accent-color;
     -fx-text-fill: primary-text-color;
+}
+.startButton:pressed{
+    -fx-background-color: accent-color-darker;
 }
 
 /*hyperlink*/

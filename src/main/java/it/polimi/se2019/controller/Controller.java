@@ -138,7 +138,7 @@ public class  Controller{
         GUIstarter.begin();
     }
 
-    public static void connect(String networkConnection, String userInterface, String IP, String Port){
+    public static boolean connect(String networkConnection, String userInterface, String IP, String Port){
         if(networkConnection.equalsIgnoreCase("RMI")){
             if(userInterface.equalsIgnoreCase("GUI")){
                 V = new View("RMI", "GUI");
@@ -149,11 +149,14 @@ public class  Controller{
             try {
                 RMINH=new RMINetworkHandler(IP, Integer.parseInt(Port), V);
             } catch (RemoteException e) {
-                e.printStackTrace();
+                System.err.println(e.getMessage());
+                return false;
             } catch (NotBoundException e) {
-                e.printStackTrace();
+                System.err.println(e.getMessage());
+                return false;
             } catch (UnknownHostException e) {
-                e.printStackTrace();
+                System.err.println(e.getMessage());
+                return false;
             }
 
 
@@ -168,10 +171,11 @@ public class  Controller{
             try {
                 SNH = new SocketNetworkHandler(InetAddress.getByName(IP), Integer.parseInt(Port) , V);
             } catch (UnknownHostException e) {
-                e.printStackTrace();
+                System.err.println(e.getMessage());
+                return false;
             }
-
         }
+        return true;
     }
 
 
