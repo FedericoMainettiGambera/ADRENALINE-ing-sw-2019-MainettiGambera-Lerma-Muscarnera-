@@ -596,17 +596,23 @@ public class PreConditionMethods implements Serializable {
         return !notPreviousTarget(actionDetails,actionContext);
     }
     public boolean notPreviousTarget(ActionDetails actionDetails, ActionContext actionContext) {
-        for(PlayerHistoryElement f: actionContext.getPlayer().getPlayerHistory().historyElementList) {
-            System.out.println("#" + ((Player)((Object[][])f.getInput())[0][0]).getNickname());
-        }
+        try {
+            for (PlayerHistoryElement f : actionContext.getPlayer().getPlayerHistory().historyElementList) {
+                System.out.println("#" + ((Player) ((Object[][]) f.getInput())[0][0]).getNickname());
+            }
 
-        Player currentTarget = (Player) ( (Object[][]) actionContext.getPlayer().getPlayerHistory().getLast().getInput())[0][0];
-        Player previousTarget = (Player) ( (Object[][]) actionContext.getPlayer().getPlayerHistory().getRecord(
-                actionContext.getPlayer().getPlayerHistory().getSize() - 2
-        ).getInput())[0][0];
-        System.out.println(currentTarget.getNickname() + "==" + previousTarget.getNickname() + "?" + (currentTarget.equals(previousTarget)));
-        return (!currentTarget.equals(previousTarget));
-    }
+            Player currentTarget = (Player) ((Object[][]) actionContext.getPlayer().getPlayerHistory().getLast().getInput())[0][0];
+            Player previousTarget = (Player) ((Object[][]) actionContext.getPlayer().getPlayerHistory().getRecord(
+                    actionContext.getPlayer().getPlayerHistory().getSize() - 2
+            ).getInput())[0][0];
+            System.out.println(currentTarget.getNickname() + "==" + previousTarget.getNickname() + "?" + (currentTarget.equals(previousTarget)));
+
+            return (!currentTarget.equals(previousTarget));
+        } catch(Exception e) {
+            System.out.println("---------- " + e);
+        }
+        return false;
+        }
     public boolean differentSingleTargets(ActionDetails actionDetails,ActionContext actionContext) {
         List<Player> target = new ArrayList<>();
         int i = 0;

@@ -1,24 +1,35 @@
 NAME
-TANGERINE SCOPE
+LOCK RIFLE
+
+RELOAD COST
+b
+2
 
 NEW EFFECT
 EXPECTED INPUT
 singleTarget
 TO
-ALL
+1
+END
+singleTarget
+TO
+2
 END
 END
+
 ACTIONS
 Damage
 ACTION INFO
 PRECONDITION
-previousTarget
+alwaysTrue
 SET
 1
 END
-Action
+Damage
 ACTION INFO
 PRECONDITION
-lastEffectContainsDamage
+notPreviousTarget
+SET
+2
 END
 END

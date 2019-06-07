@@ -63,7 +63,7 @@ public class ControllerInizialScene implements Initializable {
     ImageView imageId;
 
     @FXML
-    public void showMap(MouseEvent event) throws IOException{
+    public void showMap(MouseEvent event) throws IOException {
         String map;
 
        if(event.getSource().toString().contains("map0")){
