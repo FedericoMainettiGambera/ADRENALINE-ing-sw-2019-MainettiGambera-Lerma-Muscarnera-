@@ -1,7 +1,10 @@
 package it.polimi.se2019.view.outputHandler;
+import it.polimi.se2019.controller.Controller;
+import it.polimi.se2019.model.PlayersList;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.stateEvent.StateEvent;
 import it.polimi.se2019.view.components.OrderedCardListV;
+import it.polimi.se2019.view.components.PlayersListV;
 import javafx.application.*;
 import javafx.animation.*;
 import javafx.fxml.FXML;
@@ -15,14 +18,22 @@ import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+
 public class GUIOutputHandler extends Application implements OutputHandlerInterface{
+
+    private FXMLLoader fxmlLoader;
+
+
 
     public static void main(String[] args) {
         launch(args);
     }
+
+    public ControllerInizialScene controller;
 
     @FXML
     Parent root;
@@ -33,13 +44,15 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
     public void start(Stage primaryStage) throws Exception {
 
 
-
-        root = FXMLLoader.load(getClass().getClassLoader().getResource("INITIAL STAGE.fxml"));
+        fxmlLoader=new FXMLLoader();
+        root = fxmlLoader.load(getClass().getClassLoader().getResource("INITIAL STAGE.fxml"));
         root.setId("pane");
         Scene scene = new Scene(root, 600, 530);
         primaryStage.setTitle("Hello World");
         scene.getStylesheets().addAll(this.getClass().getClassLoader().getResource("style.css").toExternalForm());
-       // menuItem.setId("MenuItem");
+
+        controller= fxmlLoader.getController();
+        // menuItem.setId("MenuItem");
         //menuItem.getStyleClass().addAll(this.getClass().getClassLoader().getResource("MenuItem.css").toExternalForm());
 
         //primaryStage.setResizable(false);
@@ -77,9 +90,9 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
     }
 
     @Override
-    public void newPlayersList(ModelViewEvent MVE) {
-
+    public void newPlayersList(ModelViewEvent MVE){
     }
+
 
     @Override
     public void newBoard(ModelViewEvent MVE) {
