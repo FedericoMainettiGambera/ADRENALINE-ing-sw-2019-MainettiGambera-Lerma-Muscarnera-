@@ -1,5 +1,6 @@
 package it.polimi.se2019.view.outputHandler;
 
+import com.sun.deploy.cache.InMemoryLocalApplicationProperties;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.events.Event;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventGameSetUp;
@@ -25,6 +26,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.PopupWindow;
@@ -34,10 +36,7 @@ import javafx.util.Duration;
 
 import javax.swing.event.MenuListener;
 import java.awt.event.TextEvent;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -177,7 +176,6 @@ public class ControllerInizialScene implements Initializable {
 
     public static View V;
 
-    String networkConnectionChoice = "";
 
 
     boolean GUI = false;
@@ -269,8 +267,7 @@ public class ControllerInizialScene implements Initializable {
 
     public void setLoading(MouseEvent event) throws IOException {
 
-        IP = ip.getText();
-        port = Integer.parseInt(porta.getText());
+
 
         if (((GUI == false && CLI == false)) || ((RMI == false && Socket == false))) {
 
@@ -311,14 +308,42 @@ public class ControllerInizialScene implements Initializable {
                 Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 primaryStage.setScene(scene);
             }
+            IP = ip.getText();
+            port = Integer.parseInt(porta.getText());
             setConnection();
         }
 
 
         //******END***********************************************************************************************
-
-
     }
+
+//****CONNECTION WAITING*****************************************************************************************+
+/*@FXML
+VBox User1;
+@FXML
+VBox User2;
+@FXML
+VBox User3;
+@FXML
+VBox User4;
+@FXML
+VBox User5;
+
+@FXML
+public void waitForPlayers() throws FileNotFoundException {
+ImageView imageView=new ImageView();
+Image image=new Image(new FileInputStream("giphy.gif"));
+imageView.setImage(image);
+User1.getChildren().add(imageView);
+*/
+
+
+//}
+
+
+
+
+//***********************************END*****************************************************************************
 }
 
 
