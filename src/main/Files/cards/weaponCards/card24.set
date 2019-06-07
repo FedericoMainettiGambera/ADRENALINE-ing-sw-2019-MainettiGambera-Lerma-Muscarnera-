@@ -28,7 +28,7 @@ END
 Damage
 ACTION INFO
 PRECONDITION
-alwaysTrue
+notPreviousTarget
 SET
 2
 END
