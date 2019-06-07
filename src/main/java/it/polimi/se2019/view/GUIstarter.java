@@ -16,7 +16,7 @@ public class GUIstarter extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("INITIALSCENE1.fxml"));
-        Scene scene= new Scene(root, 430, 461);
+        Scene scene= new Scene(root, 430, 529);
         scene.setFill(Color.TRANSPARENT);
         primaryStage.setResizable(false);
         primaryStage.initStyle(StageStyle.TRANSPARENT);
