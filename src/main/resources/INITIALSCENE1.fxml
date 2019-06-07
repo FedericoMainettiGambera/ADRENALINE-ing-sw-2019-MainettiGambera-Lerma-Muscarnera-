@@ -158,9 +158,9 @@
             </HBox>
          </children>
       </VBox>
-      <ImageView fitHeight="68.0" fitWidth="135.0" layoutX="143.0" layoutY="2.0" preserveRatio="true">
+      <ImageView fitHeight="78.0" fitWidth="173.0" layoutX="132.0" preserveRatio="true">
          <image>
-            <Image url="@half-gear-png-gif.gif" />
+            <Image url="@GEARGIFFINAL.gif" />
          </image>
       </ImageView>
    </children>

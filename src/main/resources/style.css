@@ -25,6 +25,8 @@
     -fx-background-color: dark-primary-color;
     -fx-border-width: 8px;
     -fx-border-color: accent-color;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 15px;
 }
 
 /*adrenaline log in label*/
