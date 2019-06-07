@@ -42,6 +42,7 @@
 .nickname:focused{
     -fx-background-color: dark-primary-color-hover;
     -fx-border-width: 0px 0px 3px 0px;
+    -fx-text-fill: accent-color;
 }
 
 /*ip and Port*/
@@ -59,6 +60,7 @@
 .textareaIPANDPORT:focused{
     -fx-background-color: dark-primary-color-hover;
     -fx-border-width: 0px 0px 3px 0px;
+    -fx-text-fill: accent-color;
 }
 .labelIPaNDPORT{
     -fx-font-size: 16px;
@@ -95,19 +97,22 @@
 }
 .radio-button .radio{
     -fx-border-width: 0px;
+    -fx-background-color: dark-primary-color;
+    -fx-border-width: 2px;
+    -fx-border-color: accent-color;
+    -fx-border-radius: 130px;
 }
 .radio-button .radio:hover{
-    -fx-border-color: accent-color;
-    -fx-border-width: 2px;
-    -fx-border-radius: 130px;
+    -fx-background-color: dark-primary-color-hover;
 }
 .radio-button:focused .radio{
      -fx-border-color: accent-color;
-     -fx-border-width: 2px;
+     -fx-border-width: 3px;
      -fx-border-radius: 130px;
  }
 .radio-button:selected .radio{
     -fx-border-color: accent-color;
+    -fx-background-color: accent-color;
     -fx-border-width: 2px;
     -fx-border-radius: 130px;
 }
