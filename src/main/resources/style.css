@@ -93,6 +93,9 @@
 .radio-button{
     -fx-font-size: 15px;
 }
+.radio-button .radio{
+    -fx-border-width: 0px;
+}
 .radio-button .radio:hover{
     -fx-border-color: accent-color;
     -fx-border-width: 2px;

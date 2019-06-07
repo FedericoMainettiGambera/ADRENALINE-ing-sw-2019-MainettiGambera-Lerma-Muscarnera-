@@ -4,6 +4,7 @@ import it.polimi.se2019.model.Game;
 import it.polimi.se2019.model.PlayersList;
 import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
+import it.polimi.se2019.view.GUIstarter;
 import it.polimi.se2019.view.components.View;
 import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
@@ -12,7 +13,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
-import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -32,7 +32,6 @@ public class  Controller{
     public static View V;
 
     public void startServerWithRMIAndSocket(){
-
         System.out.println("<SERVER> Creating the Game.");
         ModelGate.model = new Game();
         System.out.println("<SERVER> Creating a PlayerList.");
@@ -137,6 +136,7 @@ public class  Controller{
 
     public void startClientSocketOrRMI(){
 
+        GUIstarter.begin();
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
