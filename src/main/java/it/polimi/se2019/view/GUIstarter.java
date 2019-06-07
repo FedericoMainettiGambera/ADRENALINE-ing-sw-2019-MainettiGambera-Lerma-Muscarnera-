@@ -1,5 +1,6 @@
 package it.polimi.se2019.view;
 
+import it.polimi.se2019.controller.Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,6 +10,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class GUIstarter extends Application {
+    public static Controller user;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
 
@@ -26,4 +29,5 @@ public class GUIstarter extends Application {
     public static void begin(){
         launch();
     }
+
 }

@@ -120,3 +120,9 @@
     -fx-text-fill: accent-color;
     -fx-font-weight: bold;
 }
+
+
+/*top cross*/
+.closeX{
+    -fx-text-fill: white;
+}

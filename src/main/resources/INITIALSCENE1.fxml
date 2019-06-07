@@ -15,31 +15,34 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="461.0" prefWidth="420.0" styleClass="transparent" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.InitialSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="529.0" prefWidth="420.0" styleClass="transparent" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.InitialSceneController">
    <children>
       <VBox prefHeight="561.0" prefWidth="413.0" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <StackPane prefHeight="85.0" prefWidth="352.0">
+            <StackPane prefHeight="84.0" prefWidth="396.0">
                <children>
-                  <TextField alignment="CENTER" promptText="NICKNAME">
+                  <TextField fx:id="nicknameTextField" alignment="CENTER" promptText="NICKNAME">
                      <styleClass>
                         <String fx:value="nickname" />
                         <String fx:value="transparent" />
                         <String fx:value="text" />
-                     </styleClass></TextField>
+                     </styleClass>
+                     <StackPane.margin>
+                        <Insets top="5.0" />
+                     </StackPane.margin></TextField>
                </children>
                <padding>
                   <Insets left="35.0" right="35.0" />
                </padding>
                <VBox.margin>
-                  <Insets top="20.0" />
+                  <Insets />
                </VBox.margin>
             </StackPane>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <StackPane alignment="CENTER_RIGHT" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <RadioButton mnemonicParsing="false" styleClass="text" text="RMI">
+                        <RadioButton fx:id="RMIRadio" mnemonicParsing="false" styleClass="text" text="RMI">
                            <StackPane.margin>
                               <Insets right="10.0" />
                            </StackPane.margin>
@@ -48,7 +51,7 @@
                   </StackPane>
                   <StackPane alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <RadioButton mnemonicParsing="false" styleClass="text" text="SOCKET">
+                        <RadioButton fx:id="socketRadio" mnemonicParsing="false" styleClass="text" text="SOCKET">
                            <StackPane.margin>
                               <Insets left="10.0" />
                            </StackPane.margin>
@@ -87,7 +90,7 @@
                   </StackPane>
                   <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
-                        <TextField alignment="CENTER" promptText="XXX.XXX.XXX.XXX">
+                        <TextField fx:id="IPTextField" alignment="CENTER" promptText="XXX.XXX.XXX.XXX">
                            <styleClass>
                               <String fx:value="text" />
                               <String fx:value="textareaIPANDPORT" />
@@ -100,7 +103,7 @@
                   </StackPane>
                   <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <TextField alignment="CENTER" promptText="XXXXX">
+                        <TextField fx:id="PORTTextField" alignment="CENTER" promptText="XXXXX">
                            <styleClass>
                               <String fx:value="text" />
                               <String fx:value="textareaIPANDPORT" />
@@ -118,7 +121,7 @@
                <children>
                   <StackPane prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="109.0" styleClass="startButton" text="START" />
+                        <Button fx:id="startButton" mnemonicParsing="false" prefHeight="38.0" prefWidth="109.0" styleClass="startButton" text="START" />
                      </children>
                   </StackPane>
                </children>
@@ -130,9 +133,9 @@
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <Label layoutX="157.0" layoutY="3.0" styleClass="text" text="or" />
-                              <Hyperlink layoutX="172.0" text="reconnect" />
+                              <Hyperlink fx:id="reconnectHyperlink" layoutX="172.0" text="reconnect" />
                               <Label layoutX="221.0" layoutY="60.0" styleClass="text" text="Want to play with" />
-                              <Hyperlink layoutX="344.0" layoutY="57.0" text="CLI" />
+                              <Hyperlink fx:id="CLIHyperlink" layoutX="344.0" layoutY="57.0" onAction="#onCLIHyperlinkPressed" text="CLI" />
                               <Label layoutX="374.0" layoutY="60.0" styleClass="text" text="?" />
                            </children>
                         </AnchorPane>
@@ -144,6 +147,6 @@
       </VBox>
    </children>
    <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+      <Insets bottom="10.0" left="10.0" right="10.0" top="70.0" />
    </padding>
 </AnchorPane>
