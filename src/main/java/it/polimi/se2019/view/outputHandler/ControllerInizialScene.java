@@ -1,10 +1,15 @@
 package it.polimi.se2019.view.outputHandler;
 
+import com.sun.deploy.cache.InMemoryLocalApplicationProperties;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.events.Event;
+import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
+import it.polimi.se2019.model.events.stateEvent.StateEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventGameSetUp;
 import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
+import it.polimi.se2019.view.components.OrderedCardListV;
+import it.polimi.se2019.view.components.PlayersListV;
 import it.polimi.se2019.view.components.View;
 import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
@@ -25,6 +30,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.PopupWindow;
@@ -34,10 +40,7 @@ import javafx.util.Duration;
 
 import javax.swing.event.MenuListener;
 import java.awt.event.TextEvent;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -46,7 +49,11 @@ import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-public class ControllerInizialScene implements Initializable {
+public class ControllerInizialScene implements Initializable, OutputHandlerInterface{
+
+    private int number;
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -177,7 +184,6 @@ public class ControllerInizialScene implements Initializable {
 
     public static View V;
 
-    String networkConnectionChoice = "";
 
 
     boolean GUI = false;
@@ -267,10 +273,20 @@ public class ControllerInizialScene implements Initializable {
     @FXML
     TextField porta;
 
+    @FXML
+    ImageView User1;
+    @FXML
+    ImageView User2;
+    @FXML
+    ImageView User3;
+    @FXML
+    ImageView User4;
+    @FXML
+    ImageView User5;
+
     public void setLoading(MouseEvent event) throws IOException {
 
-        IP = ip.getText();
-        port = Integer.parseInt(porta.getText());
+
 
         if (((GUI == false && CLI == false)) || ((RMI == false && Socket == false))) {
 
@@ -304,21 +320,199 @@ public class ControllerInizialScene implements Initializable {
 
 
             //LoadingScene is set
-            else {
-
+            else{
                 Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("LOADING SCENE.fxml"));
                 Scene scene = new Scene(root, 710, 500);
                 Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 primaryStage.setScene(scene);
             }
+            IP = ip.getText();
+            port = Integer.parseInt(porta.getText());
             setConnection();
         }
 
 
         //******END***********************************************************************************************
+    }
 
+//****CONNECTION WAITING*****************************************************************************************+
+
+
+@FXML
+public void waitForPlayers(int number) throws FileNotFoundException{
+
+
+    switch(number){
+        case 1: Image image = new Image(new FileInputStream("src/main/resources/giphy.gif"));
+        User1.setImage(image);
+         break;
+        case 2: Image image2 = new Image(new FileInputStream("src/main/resources/giphy-2.gif"));
+            User2.setImage(image2);
+            break;
+    case 3: Image image3 = new Image(new FileInputStream("src/main/resources/giphy-5.gif"));
+       User3.setImage(image3);
+         break;
+    case 4: Image image4 = new Image(new FileInputStream("src/main/resources/giphy-7.gif"));
+       User4.setImage(image4);
+        break;
+    case 5: Image image5 = new Image(new FileInputStream("src/main/resources/giphy-8.gif"));
+        User5.setImage(image5);
+        break;
 
     }
+
+
+}
+
+    @Override
+    public void gameCreated() {
+
+    }
+
+    @Override
+    public void stateChanged(StateEvent StE) {
+
+    }
+
+    @Override
+    public void setFinalFrenzy(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void finalFrenzyBegun(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void newKillshotTrack(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void newPlayersList(ModelViewEvent MVE) {
+       int number=((PlayersListV)MVE.getComponent()).getPlayers().size();
+        try {
+            switch(number){
+                case 1:
+                    Image image = new Image(new FileInputStream("src/main/resources/giphy.gif"));
+                    User1.setImage(image);
+                    break;
+                case 2: Image image2 = new Image(new FileInputStream("src/main/resources/giphy-2.gif"));
+                    User2.setImage(image2);
+                    break;
+                case 3: Image image3 = new Image(new FileInputStream("src/main/resources/giphy-5.gif"));
+                    User3.setImage(image3);
+                    break;
+                case 4: Image image4 = new Image(new FileInputStream("src/main/resources/giphy-7.gif"));
+                    User4.setImage(image4);
+                    break;
+                case 5: Image image5 = new Image(new FileInputStream("src/main/resources/giphy-8.gif"));
+                    User5.setImage(image5);
+                    break;
+
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void newBoard(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void deathOfPlayer(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void movingCardsAround(OrderedCardListV from, OrderedCardListV to, ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void shufflingCards(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void newColor(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void newNickname(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void newPosition(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void newScore(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void addDeathCounter(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void setFinalFrenzyBoard(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void newAmmoBox(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void newDamageTracker(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void newMarksTracker(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void setCurrentPlayingPlayer(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void setStartingPlayer(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void newPlayer(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void setAFK(ModelViewEvent MVE) {
+
+    }
+
+    @Override
+    public void showInputTimer(int currentTime, int totalTime) {
+
+    }
+
+    @Override
+    public void showConnectionTimer(int currentTime, int totalTime) {
+
+    }
+
+//***********************************END*****************************************************************************
 }
 
 

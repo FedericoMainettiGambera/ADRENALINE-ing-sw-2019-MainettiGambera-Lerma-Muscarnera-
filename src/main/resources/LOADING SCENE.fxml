@@ -10,12 +10,12 @@
 
 <VBox fx:controller="it.polimi.se2019.view.outputHandler.ControllerInizialScene" maxHeight="-Infinity"
       maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
-      xmlns="http://javafx.com/javafx/8.0.171" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+      xmlns="http://javafx.com/javafx/8.0.171"  xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
       <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #ffa436;" VBox.vgrow="ALWAYS">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox  prefHeight="100.0" prefWidth="200.0">
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
                   <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
@@ -39,11 +39,37 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <VBox  prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" fx:id="User1" />
-                  <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" fx:id="User2"/>
-                  <VBox layoutX="110.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" fx:id="User3"/>
-                  <VBox layoutX="210.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" fx:id="User4" />
-                  <VBox layoutX="310.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" fx:id="User5" />
+                  <VBox  prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS"
+                  >
+                  <children>
+               <ImageView fx:id="User1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               </ImageView>
+                  </children>
+                  </VBox>
+                  <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" >
+                     <children>
+                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" fx:id="User2">
+                           </ImageView>
+                        </children>
+                        </VBox>
+                  <VBox layoutX="110.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" >
+                     <children>
+                        <ImageView fx:id="User3" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                        </ImageView>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="210.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS"  >
+                     <children>
+                        <ImageView fx:id="User4" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                        </ImageView>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="310.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS"  >
+                     <children>
+                        <ImageView  fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" fx:id="User5">
+                        </ImageView>
+                     </children>
+                  </VBox>
                   <VBox layoutX="410.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS"/>
                   <VBox layoutX="510.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
                </children>
@@ -52,6 +78,7 @@
       </VBox>
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
       <HBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+
       <HBox layoutX="10.0" layoutY="110.0" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
