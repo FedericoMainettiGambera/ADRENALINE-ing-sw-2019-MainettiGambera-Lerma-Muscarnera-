@@ -390,8 +390,8 @@ public class Effect implements Serializable {
         int i = 0;
         int j = 0;
         /** TODO add a method to add a row per volta */
-
         this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().addRecord(this.getOf(),this,buffer);
+       // this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().addRecord(this.getOf(),this,buffer);
         {
 
             List<Integer> p_arr = e.getEffectInfoTypeDestination();
@@ -738,11 +738,20 @@ public class Effect implements Serializable {
             Y= 0;
         }
 
-        if(this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().getSize() > 0)
+       if(this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().getSize() > 0)
             System.out.println("ultimo record: " + ((Player) ((Object[][])  this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().getLast().getInput())[0][0] ).getNickname());
 
 
+
         this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().addRecord(this.getOf(),this,buffer);
+
+        for(Object[]x : ((Object[][])this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().getLast().getInput()) ) {
+            System.out.println("Riga");
+            for (Object y : x)
+                System.out.println("LOG: " + y);
+
+        }
+
         //TODO : reference to the card
         int i= 0;int j = 0;
         for(EffectInfoElement e: this.getEffectInfo().getEffectInfoElement()) {

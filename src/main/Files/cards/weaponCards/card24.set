@@ -15,6 +15,10 @@ singleTarget
 TO
 2
 END
+singleTarget
+TO
+3
+END
 END
 
 ACTIONS
@@ -28,8 +32,15 @@ END
 Damage
 ACTION INFO
 PRECONDITION
-notPreviousTarget
+alwaysTrue
 SET
 2
+END
+Damage
+ACTION INFO
+PRECONDITION
+notPreviousTarget
+SET
+1
 END
 END

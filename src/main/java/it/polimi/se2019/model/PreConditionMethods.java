@@ -598,13 +598,19 @@ public class PreConditionMethods implements Serializable {
     public boolean notPreviousTarget(ActionDetails actionDetails, ActionContext actionContext) {
         try {
             for (PlayerHistoryElement f : actionContext.getPlayer().getPlayerHistory().historyElementList) {
-                System.out.println("#" + ((Player) ((Object[][]) f.getInput())[0][0]).getNickname());
+                System.out.println("#" + ((Player) ((Object[]) f.getInput())[0]).getNickname());
             }
+            System.out.println(".");
+            Player currentTarget = (Player) ((Object[]) actionContext.getPlayer().getPlayerHistory().getLast().getInput())[0];
+            System.out.println("la dimensione è " +actionContext.getPlayer().getPlayerHistory().getSize());
+            System.out.println("il player corrente è "  + currentTarget.getNickname());
 
-            Player currentTarget = (Player) ((Object[][]) actionContext.getPlayer().getPlayerHistory().getLast().getInput())[0][0];
-            Player previousTarget = (Player) ((Object[][]) actionContext.getPlayer().getPlayerHistory().getRecord(
+            System.out.println(".");
+            Player previousTarget = (Player) ((Object[]) actionContext.getPlayer().getPlayerHistory().getRecord(
                     actionContext.getPlayer().getPlayerHistory().getSize() - 2
-            ).getInput())[0][0];
+            ).getInput())[0];
+
+            System.out.println(".");
             System.out.println(currentTarget.getNickname() + "==" + previousTarget.getNickname() + "?" + (currentTarget.equals(previousTarget)));
 
             return (!currentTarget.equals(previousTarget));
