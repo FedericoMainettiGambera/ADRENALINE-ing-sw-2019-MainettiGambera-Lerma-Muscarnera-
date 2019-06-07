@@ -4,6 +4,7 @@ import it.polimi.se2019.model.Game;
 import it.polimi.se2019.model.PlayersList;
 import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
+import it.polimi.se2019.view.GUIstarter;
 import it.polimi.se2019.view.components.View;
 import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
@@ -12,7 +13,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
-import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -31,8 +31,7 @@ public class  Controller{
 
     public static View V;
 
-    public void startServerWithRMIAndSocket(){
-
+    public static void startServerWithRMIAndSocket(){
         System.out.println("<SERVER> Creating the Game.");
         ModelGate.model = new Game();
         System.out.println("<SERVER> Creating a PlayerList.");
@@ -40,17 +39,17 @@ public class  Controller{
         ModelGate.model.setPlayerList(pl);
 
         //Setting the state pattern
-        this.VCEHC = new ViewControllerEventHandlerContext();
+        VCEHC = new ViewControllerEventHandlerContext();
 
         //Starting the Server Socket
-        this.SVV = new SocketVirtualView(this.VCEHC);
+        SVV = new SocketVirtualView(VCEHC);
         try {
-            this.SVV.startServer();
+            SVV.startServer();
         }
         catch (IOException e){
             e.printStackTrace();
         }
-        ViewControllerEventHandlerContext.socketVV = this.SVV;
+        ViewControllerEventHandlerContext.socketVV = SVV;
 
         //Startin the Server as RMI
         try {
@@ -61,7 +60,7 @@ public class  Controller{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ViewControllerEventHandlerContext.RMIVV = this.RMIVV;
+        ViewControllerEventHandlerContext.RMIVV = RMIVV;
 
         //Registering the VirtualView as an observer of the model so it can receive the MVEs
         System.out.println("<SERVER> Registering the VirtualViews (RMI and Socket) as observers of the Model");
@@ -135,8 +134,48 @@ public class  Controller{
 
     }
 
-    public void startClientSocketOrRMI(){
+    public static void startClientSocketOrRMIWithGUI(){
+        GUIstarter.begin();
+    }
 
+    public static void connect(String networkConnection, String userInterface, String IP, String Port){
+        if(networkConnection.equalsIgnoreCase("RMI")){
+            if(userInterface.equalsIgnoreCase("GUI")){
+                V = new View("RMI", "GUI");
+            }
+            else {
+                V = new View("RMI", "CLI");
+            }
+            try {
+                RMINH=new RMINetworkHandler(IP, Integer.parseInt(Port), V);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            } catch (NotBoundException e) {
+                e.printStackTrace();
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+        else {
+            if(userInterface.equalsIgnoreCase("GUI")){
+                V = new View("SOCKET", "GUI");
+            }
+            else {
+                V = new View("SOCKET", "CLI");
+            }
+            try {
+                SNH = new SocketNetworkHandler(InetAddress.getByName(IP), Integer.parseInt(Port) , V);
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
+    public static void startClientSocketOrRMIWithCLI(){
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -183,10 +222,10 @@ public class  Controller{
 
             //creating the View for the user who holds the server
             if(userInterface.equalsIgnoreCase("GUI")){
-                this.V = new View("RMI", "GUI");
+                V = new View("RMI", "GUI");
             }
             else {
-                this.V = new View("RMI", "CLI");
+                V = new View("RMI", "CLI");
             }
             Scanner scanner=new Scanner(System.in);
 
@@ -197,7 +236,7 @@ public class  Controller{
             int port = scanner.nextInt();
 
             try {
-                this.RMINH=new RMINetworkHandler(address, port, V);
+                RMINH=new RMINetworkHandler(address, port, V);
             } catch (RemoteException e) {
                 e.printStackTrace();
             } catch (NotBoundException e) {
@@ -213,10 +252,10 @@ public class  Controller{
 
             //creating the View for the user who holds the server
             if(userInterface.equalsIgnoreCase("GUI")){
-                this.V = new View("SOCKET", "GUI");
+                V = new View("SOCKET", "GUI");
             }
             else {
-                this.V = new View("SOCKET", "CLI");
+                V = new View("SOCKET", "CLI");
             }
 
             BufferedReader buff = new BufferedReader(new InputStreamReader(System.in));
@@ -237,7 +276,7 @@ public class  Controller{
 
             //creating the Client for the user who holds the server and connecting it to the server
             try {
-                this.SNH = new SocketNetworkHandler(InetAddress.getByName(address), Integer.parseInt(port) , this.V);
+                SNH = new SocketNetworkHandler(InetAddress.getByName(address), Integer.parseInt(port) , V);
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             }

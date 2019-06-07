@@ -1,7 +1,135 @@
-#pane{
-    -fx-background-image: url("adrem.png");
-    -fx-background-repeat: stretch;
-    -fx-background-size: 900 506;
-    -fx-background-position: center center;
-    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+/*constants*/
+*{
+    dark-primary-color: #0e1d24;
+    dark-primary-color-hover: #11353e;
+    hyperlink-color: #17c5f1;
+    default-primary-color: #607D8B;
+    light-primary-color: #CFD8DC;
+    text-primary-color: #FFFFFF;
+    accent-color: #ffb523;
+    primary-text-color: #212121;
+    secondary-text-color: #757575;
+    divider-color: #BDBDBD;
+}
+
+
+/*general properties*/
+.transparent {
+    -fx-background-color: transparent;
+}
+.text{
+    -fx-font-family: monospace;
+    -fx-text-fill: text-primary-color;
+}
+.background{
+    -fx-background-color: dark-primary-color;
+    -fx-border-width: 8px;
+    -fx-border-color: accent-color;
+}
+
+/*adrenaline log in label*/
+.adrenalineLogInLabel{
+    -fx-text-fill: accent-color;
+    -fx-font: 16px monospace;
+    -fx-font-weight: bold;
+}
+
+/*nickname text area*/
+.nickname{
+    -fx-border-style: solid;
+    -fx-border-color: accent-color;
+    -fx-border-width: 0px 0px 1px 0px;
+    -fx-border-radius: 1px;
+    -fx-font: 22px monospace;
+    -fx-font-weight: bold;
+}
+.nickname:hover{
+    -fx-background-color: dark-primary-color-hover;
+}
+.nickname:focused{
+    -fx-background-color: dark-primary-color-hover;
+    -fx-border-width: 0px 0px 3px 0px;
+    -fx-text-fill: accent-color;
+}
+
+/*ip and Port*/
+.textareaIPANDPORT{
+    -fx-border-style: solid;
+    -fx-border-color: accent-color;
+    -fx-border-width: 0px 0px 1px 0px;
+    -fx-border-radius: 1px;
+    -fx-font: 16px monospace;
+    -fx-font-weight: bold;
+}
+.textareaIPANDPORT:hover{
+    -fx-background-color: dark-primary-color-hover;
+}
+.textareaIPANDPORT:focused{
+    -fx-background-color: dark-primary-color-hover;
+    -fx-border-width: 0px 0px 3px 0px;
+    -fx-text-fill: accent-color;
+}
+.labelIPaNDPORT{
+    -fx-font-size: 16px;
+}
+
+/*start button*/
+.startButton{
+    -fx-background-color: dark-primary-color;
+    -fx-background-radius: 40px;
+    -fx-border-width: 6px;
+    -fx-border-radius: 40px;
+    -fx-border-color: accent-color;
+    -fx-text-fill: accent-color;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+.startButton:hover{
+    -fx-background-color: accent-color;
+    -fx-text-fill: primary-text-color;
+}
+.startButton:focused{
+    -fx-background-color: accent-color;
+    -fx-text-fill: primary-text-color;
+}
+
+/*hyperlink*/
+.hyperlink:visited{
+    -fx-text-fill: hyperlink-color;
+}
+
+/*radiobutton*/
+.radio-button{
+    -fx-font-size: 15px;
+}
+.radio-button .radio{
+    -fx-border-width: 0px;
+    -fx-background-color: dark-primary-color;
+    -fx-border-width: 2px;
+    -fx-border-color: accent-color;
+    -fx-border-radius: 130px;
+}
+.radio-button .radio:hover{
+    -fx-background-color: dark-primary-color-hover;
+}
+.radio-button:focused .radio{
+     -fx-border-color: accent-color;
+     -fx-border-width: 3px;
+     -fx-border-radius: 130px;
+ }
+.radio-button:selected .radio{
+    -fx-border-color: accent-color;
+    -fx-background-color: accent-color;
+    -fx-border-width: 2px;
+    -fx-border-radius: 130px;
+}
+.radio-button:selected{
+    -fx-text-fill: accent-color;
+    -fx-font-weight: bold;
+}
+
+
+/*top cross*/
+.closeX{
+    -fx-text-fill: white;
 }
