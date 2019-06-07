@@ -201,13 +201,17 @@ public class Effect implements Serializable {
                     try {
                         java.lang.reflect.Method method;
                         Class<?> c = Class.forName("it.polimi.se2019.model.PreConditionMethodsInverted");
-                        Class<?>[] paramTypes = {ActionContext.class,UsableInputTableRowType.class,Integer.class};
+                        //(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)
+                        Class<?>[] paramTypes = {ActionContext.class,UsableInputTableRowType.class,Integer.class,Object.class,List.class};
                         System.out.println("azione " + a_ + " nome precondizione : " + a_.getActionInfo().getPreConditionMethodName());
+
                         method = c.getDeclaredMethod(a_.getActionInfo().getPreConditionMethodName(), paramTypes);
                         invertedPreConditionOutput = method.invoke(preConditionMethodsInverted,
                                 this.getActions().get(0).getActionInfo().getActionContext(),
                                 rowType.get(getEffectInfo().getEffectInfoElement().indexOf(eie)),
-                                rowCardinality.get(getEffectInfo().getEffectInfoElement().indexOf(eie))
+                                rowCardinality.get(getEffectInfo().getEffectInfoElement().indexOf(eie)),
+                                filledInputs,
+                                requestedInputs()
                                 );
 
                     } catch (Exception exception) {
@@ -282,12 +286,12 @@ public class Effect implements Serializable {
 
     WeaponCard of;
 
-    public Object[][] getFilledInputs() {
+    public List<Object> getFilledInputs() {
         return filledInputs;
     }
 
     /*-****************************************************************************************************CONSTRUCTOR*/
-    private Object[][] filledInputs;
+    private List<Object> filledInputs;
 
     public EffectInfo getEffectInfo() {
         return effectInfo;
@@ -307,6 +311,7 @@ public class Effect implements Serializable {
 
 
     public Effect() {
+        this.filledInputs = new ArrayList<>();
         this.actions = new ArrayList<Action>();
         this.effectName = "no Effect Name";
     }
@@ -372,14 +377,21 @@ public class Effect implements Serializable {
         }
         return returnValue;
     }
+
     public void handleRow(EffectInfoElement e ,Object[] input) {
+
         Object[] buffer = new Object[10];
         int X = 0;
         for(Object x: input) {
             buffer[X] = x;
+            X++;
         }
+        filledInputs.add(buffer);
         int i = 0;
         int j = 0;
+        /** TODO add a method to add a row per volta */
+
+        this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().addRecord(this.getOf(),this,buffer);
         {
 
             List<Integer> p_arr = e.getEffectInfoTypeDestination();
@@ -396,6 +408,7 @@ public class Effect implements Serializable {
 
             for(Integer p: p_arr_2) {
                 i = j;
+
                 Integer position = p - 1;
                 //parser dell'input
                 System.out.println("<"+e.getEffectInfoTypelist().toString()+">");
