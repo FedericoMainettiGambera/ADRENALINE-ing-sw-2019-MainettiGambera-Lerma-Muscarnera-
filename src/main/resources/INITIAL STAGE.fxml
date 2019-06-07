@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1186.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="pane" fx:controller="it.polimi.se2019.view.outputHandler.ControllerInizialScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1186.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="711.0" VBox.vgrow="ALWAYS" />
       <VBox layoutX="10.0" layoutY="828.0" prefHeight="200.0" prefWidth="100.0" />
@@ -27,8 +27,9 @@
                      <children>
                         <MenuButton contentDisplay="RIGHT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" prefHeight="47.0" style="-fx-background-color: #fff; -fx-border-color: #ffa436; -fx-border-width: 3px;" text="User Interface" textAlignment="JUSTIFY" textFill="#ffa436" VBox.vgrow="ALWAYS">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="CLI" />
-                            <MenuItem mnemonicParsing="false" text="GUI" />
+                            <MenuItem mnemonicParsing="false" text="CLI" onAction="#setCLI"
+                             />
+                            <MenuItem mnemonicParsing="false" text="GUI" onAction="#setGUI"/>
                           </items>
                            <cursor>
                               <Cursor fx:constant="DEFAULT" />
@@ -44,8 +45,8 @@
                      <children>
                         <MenuButton contentDisplay="RIGHT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" prefHeight="47.0" style="-fx-background-color: #fff; -fx-border-color: #ffa436; -fx-border-width: 3px;" text="Connection" textAlignment="JUSTIFY" textFill="#ffa436" VBox.vgrow="ALWAYS">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Socket" />
-                            <MenuItem mnemonicParsing="false" text="RMI" />
+                            <MenuItem mnemonicParsing="false" text="Socket" onAction="#setSocket"/>
+                            <MenuItem mnemonicParsing="false" text="RMI" onAction="#setRMI" />
                           </items>
                            <font>
                               <Font name="Monospaced Bold" size="20.0" />
@@ -72,7 +73,7 @@
                            <children>
                               <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
                               <VBox layoutX="387.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" />
-                              <TextField alignment="CENTER" maxHeight="1.7976931348623157E308" prefHeight="42.0" prefWidth="270.0" promptText="IP ADRESS" style="-fx-background-color: #fff; -fx-border-color: #ffa436; -fx-border-width: 3px;">
+                              <TextField fx:id="ip" alignment="CENTER" maxHeight="1.7976931348623157E308" prefHeight="42.0" prefWidth="270.0" promptText="IP ADRESS" style="-fx-background-color: #fff; -fx-border-color: #ffa436; -fx-border-width: 3px;">
                                  <font>
                                     <Font size="19.0" />
                                  </font></TextField>
@@ -90,7 +91,7 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <TextField alignment="CENTER" maxHeight="1.7976931348623157E308" prefHeight="42.0" prefWidth="179.0" promptText="PORT" style="-fx-background-color: #fff; -fx-border-color: #ffa436; -fx-border-width: 3px;">
+                              <TextField fx:id="porta" alignment="CENTER" maxHeight="1.7976931348623157E308" prefHeight="42.0" prefWidth="179.0" promptText="PORT" style="-fx-background-color: #fff; -fx-border-color: #ffa436; -fx-border-width: 3px;">
                                  <font>
                                     <Font size="19.0" />
                                  </font></TextField>
@@ -114,7 +115,7 @@
                   <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
                   <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Button maxHeight="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="227.0" style="-fx-border-color: #ffa436; -fx-background-color: #fff; -fx-border-width: 3px;" text="ENQUEUE" textFill="#ffa436" VBox.vgrow="ALWAYS">
+                        <Button onMouseClicked="#setLoading" maxHeight="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="227.0" style="-fx-border-color: #ffa436; -fx-background-color: #fff; -fx-border-width: 3px;" text="ENQUEUE" textFill="#ffa436" VBox.vgrow="ALWAYS">
                            <font>
                               <Font name="Monospaced Bold" size="24.0" />
                            </font>

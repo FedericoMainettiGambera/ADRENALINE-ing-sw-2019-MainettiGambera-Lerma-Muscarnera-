@@ -4,14 +4,17 @@ import it.polimi.se2019.model.events.stateEvent.StateEvent;
 import it.polimi.se2019.view.components.OrderedCardListV;
 import javafx.application.*;
 import javafx.animation.*;
+import javafx.fxml.FXML;
 import javafx.scene.*;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -21,12 +24,24 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
         launch(args);
     }
 
+    @FXML
+    Parent root;
+    @FXML
+    MenuItem menuItem;
+    @FXML
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("PROBFIRSTSTAGE.fxml"));
+
+
+        root = FXMLLoader.load(getClass().getClassLoader().getResource("INITIAL STAGE.fxml"));
+        root.setId("pane");
         Scene scene = new Scene(root, 600, 530);
         primaryStage.setTitle("Hello World");
+        scene.getStylesheets().addAll(this.getClass().getClassLoader().getResource("style.css").toExternalForm());
+       // menuItem.setId("MenuItem");
+        //menuItem.getStyleClass().addAll(this.getClass().getClassLoader().getResource("MenuItem.css").toExternalForm());
+
         //primaryStage.setResizable(false);
 
 
