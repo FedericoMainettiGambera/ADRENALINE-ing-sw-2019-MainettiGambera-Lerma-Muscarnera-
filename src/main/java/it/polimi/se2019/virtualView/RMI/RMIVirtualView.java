@@ -7,6 +7,7 @@ import it.polimi.se2019.model.Game;
 import it.polimi.se2019.model.GameConstant;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.PlayersList;
+import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.virtualView.VirtualView;
 
@@ -18,6 +19,9 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Observable;
+
+import static it.polimi.se2019.model.enumerations.ModelViewEventTypes.newPlayer;
+import static it.polimi.se2019.model.enumerations.ModelViewEventTypes.newPlayersList;
 
 //import sun.net.util.IPAddressUtil;
 //import sun.security.x509.IPAddressName;

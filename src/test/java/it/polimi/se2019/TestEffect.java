@@ -177,19 +177,29 @@ public class TestEffect {
         user4.setPosition(1,3);                 //
 
             w.getEffects().get(0).passContext(user1,playerList,board);
+            int counter = 0;
+            Object[][] input = new Object[10][10];
             for(EffectInfoElement el: w.getEffects().get(0).getEffectInfo().getEffectInfoElement()) {
-                System.out.println("**************** input atteso per " + el.getEffectInfoTypelist() + ">" + w.getEffects().get(0).usableInputs().get(
+               /* System.out.println("**************** input atteso per " + el.getEffectInfoTypelist() + ">" + w.getEffects().get(0).usableInputs().get(
 
                         w.getEffects().get(0).getEffectInfo().getEffectInfoElement().indexOf(el)
 
                         )
-                );
+                );*/
 
-                Object[] input = new Object[10];
-                input[0] = user2;
-                System.out.println("INPUT " + input[0]);
-                w.getEffects().get(0).handleRow(el,input);
+                if(counter == 0)
+                    input[counter][0] = user2;
+                if(counter == 1)
+                    input[counter][0] = user3;
+                if(counter == 2)
+                    input[counter][0] = user4;
+
+                System.out.println("INPUT " + input[counter][0]);
+                w.getEffects().get(0).handleRow(el,input[counter]);
+                counter++;
               }
+        //w.getEffects().get(0).handleInput(input);
+
 
         System.out.println("/---------/");
         for(Object x: w.getEffects().get(0).getFilledInputs()) {

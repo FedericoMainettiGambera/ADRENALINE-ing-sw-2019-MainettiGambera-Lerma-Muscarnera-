@@ -27,8 +27,6 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
 
     private FXMLLoader fxmlLoader;
 
-
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -41,8 +39,7 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
     MenuItem menuItem;
     @FXML
     @Override
-    public void start(Stage primaryStage) throws Exception {
-
+    public void start( Stage primaryStage) throws Exception{
 
         fxmlLoader=new FXMLLoader();
         root = fxmlLoader.load(getClass().getClassLoader().getResource("INITIAL STAGE.fxml"));

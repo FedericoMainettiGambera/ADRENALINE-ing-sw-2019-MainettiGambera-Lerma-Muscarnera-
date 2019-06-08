@@ -11,6 +11,7 @@ import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.view.components.OrderedCardListV;
 import it.polimi.se2019.view.components.PlayersListV;
 import it.polimi.se2019.view.components.View;
+import it.polimi.se2019.view.components.ViewModelGate;
 import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
 import javafx.animation.PauseTransition;
@@ -21,7 +22,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputMethodEvent;
@@ -51,8 +55,7 @@ import java.util.Scanner;
 
 public class ControllerInizialScene implements Initializable, OutputHandlerInterface{
 
-    private int number;
-
+Parent root;
 
 
     @Override
@@ -185,6 +188,16 @@ public class ControllerInizialScene implements Initializable, OutputHandlerInter
     public static View V;
 
 
+    @FXML
+    ImageView User1;
+    @FXML
+    ImageView User2;
+    @FXML
+    ImageView User3;
+    @FXML
+    ImageView User4;
+    @FXML
+    ImageView User5;
 
     boolean GUI = false;
     boolean CLI = false;
@@ -273,16 +286,7 @@ public class ControllerInizialScene implements Initializable, OutputHandlerInter
     @FXML
     TextField porta;
 
-    @FXML
-    ImageView User1;
-    @FXML
-    ImageView User2;
-    @FXML
-    ImageView User3;
-    @FXML
-    ImageView User4;
-    @FXML
-    ImageView User5;
+
 
     public void setLoading(MouseEvent event) throws IOException {
 
@@ -389,9 +393,18 @@ public void waitForPlayers(int number) throws FileNotFoundException{
 
     }
 
+    @FXML
     @Override
     public void newPlayersList(ModelViewEvent MVE) {
-       int number=((PlayersListV)MVE.getComponent()).getPlayers().size();
+
+        try {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("LOADING SCENE.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int number=((PlayersListV)MVE.getComponent()).getPlayers().size();
+
         try {
             switch(number){
                 case 1:

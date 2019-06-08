@@ -6,7 +6,7 @@ import java.util.List;
 public class PlayerHistory {
     List<PlayerHistoryElement> historyElementList;
     Object[][] subRecordTable;
-
+    // TODO ADD
     public void addRecord(Card card,Effect e,Object input) {
         PlayerHistoryElement playerHistoryElement = new PlayerHistoryElement();
         playerHistoryElement.setContextCard(card);

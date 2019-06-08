@@ -5,6 +5,7 @@ import it.polimi.se2019.model.GameConstant;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.networkHandler.NetworkHandler;
 import it.polimi.se2019.view.components.View;
+import it.polimi.se2019.view.outputHandler.ControllerInizialScene;
 import it.polimi.se2019.virtualView.RMI.RMIInterface;
 
 import java.io.IOException;
@@ -45,6 +46,7 @@ public class RMINetworkHandler extends NetworkHandler{
                 rmiInterface.addClientToList(client);
                 new Thread(client).start();
                 client.setRmiObsHandler(rmiObsHandler);
+
 
 
             } else {
