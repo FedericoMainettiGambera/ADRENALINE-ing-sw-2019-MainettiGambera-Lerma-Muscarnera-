@@ -7,6 +7,7 @@ import java.util.List;
 public class PlayersListV implements Serializable {
     private List<PlayerV> players;
 
+
     private String currentPlayingPlayer;
 
     private String startingPlayer;

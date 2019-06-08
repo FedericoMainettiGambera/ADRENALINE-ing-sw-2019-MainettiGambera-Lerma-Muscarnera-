@@ -1,7 +1,8 @@
 package it.polimi.se2019.view.outputHandler;
 
-//import com.sun.deploy.cache.InMemoryLocalApplicationProperties;
+import com.sun.deploy.cache.InMemoryLocalApplicationProperties;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
+import it.polimi.se2019.model.events.Event;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.stateEvent.StateEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventGameSetUp;
@@ -10,9 +11,11 @@ import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.view.components.OrderedCardListV;
 import it.polimi.se2019.view.components.PlayersListV;
 import it.polimi.se2019.view.components.View;
+import it.polimi.se2019.view.components.ViewModelGate;
 import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
 import javafx.animation.PauseTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,26 +28,34 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+
+import javax.swing.event.MenuListener;
+import java.awt.event.TextEvent;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class ControllerInizialScene implements Initializable, OutputHandlerInterface{
 
-    private int number;
-
+Parent root;
 
 
     @Override
@@ -177,6 +188,16 @@ public class ControllerInizialScene implements Initializable, OutputHandlerInter
     public static View V;
 
 
+    @FXML
+    ImageView User1;
+    @FXML
+    ImageView User2;
+    @FXML
+    ImageView User3;
+    @FXML
+    ImageView User4;
+    @FXML
+    ImageView User5;
 
     boolean GUI = false;
     boolean CLI = false;
@@ -265,16 +286,7 @@ public class ControllerInizialScene implements Initializable, OutputHandlerInter
     @FXML
     TextField porta;
 
-    @FXML
-    ImageView User1;
-    @FXML
-    ImageView User2;
-    @FXML
-    ImageView User3;
-    @FXML
-    ImageView User4;
-    @FXML
-    ImageView User5;
+
 
     public void setLoading(MouseEvent event) throws IOException {
 
@@ -381,9 +393,18 @@ public void waitForPlayers(int number) throws FileNotFoundException{
 
     }
 
+    @FXML
     @Override
     public void newPlayersList(ModelViewEvent MVE) {
-       int number=((PlayersListV)MVE.getComponent()).getPlayers().size();
+
+        try {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("LOADING SCENE.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int number=((PlayersListV)MVE.getComponent()).getPlayers().size();
+
         try {
             switch(number){
                 case 1:
