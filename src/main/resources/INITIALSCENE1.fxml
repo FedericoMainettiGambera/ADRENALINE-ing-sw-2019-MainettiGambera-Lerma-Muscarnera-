@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="529.0" prefWidth="420.0" styleClass="transparent" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.InitialSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onEnterPressed" prefHeight="529.0" prefWidth="420.0" styleClass="transparent" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.InitialSceneController">
    <children>
       <VBox prefHeight="561.0" prefWidth="413.0" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -56,7 +56,7 @@
                <children>
                   <StackPane alignment="CENTER_RIGHT" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <RadioButton fx:id="RMIRadio" mnemonicParsing="false" styleClass="text" text="RMI">
+                        <RadioButton fx:id="RMIRadio" mnemonicParsing="false" onAction="#onRMISelected" styleClass="text" text="RMI">
                            <StackPane.margin>
                               <Insets right="30.0" />
                            </StackPane.margin>
@@ -65,7 +65,7 @@
                   </StackPane>
                   <StackPane alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <RadioButton fx:id="socketRadio" mnemonicParsing="false" styleClass="text" text="SOCKET">
+                        <RadioButton fx:id="socketRadio" mnemonicParsing="false" onAction="#onSocketSelected" styleClass="text" text="SOCKET">
                            <StackPane.margin>
                               <Insets left="30.0" />
                            </StackPane.margin>
@@ -147,7 +147,7 @@
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <Label layoutX="157.0" layoutY="3.0" styleClass="text" text="or" />
-                              <Hyperlink fx:id="reconnectHyperlink" layoutX="172.0" text="reconnect" />
+                              <Hyperlink fx:id="reconnectHyperlink" layoutX="172.0" onAction="#onReconnectionPressed" text="reconnect" />
                               <Label layoutX="221.0" layoutY="60.0" styleClass="text" text="Want to play with" />
                               <Hyperlink fx:id="CLIHyperlink" layoutX="344.0" layoutY="57.0" onAction="#onCLIHyperlinkPressed" text="CLI" />
                               <Label layoutX="374.0" layoutY="60.0" styleClass="text" text="?" />

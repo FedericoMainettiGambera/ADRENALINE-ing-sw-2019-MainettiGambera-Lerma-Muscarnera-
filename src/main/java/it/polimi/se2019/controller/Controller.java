@@ -8,6 +8,7 @@ import it.polimi.se2019.view.GUIstarter;
 import it.polimi.se2019.view.components.View;
 import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
+import org.omg.PortableInterceptor.INACTIVE;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -67,71 +68,6 @@ public class  Controller{
         ModelGate.model.setVirtualView(ViewControllerEventHandlerContext.socketVV, ViewControllerEventHandlerContext.RMIVV);
         ModelGate.model.registerVirtualView();
 
-
-        //Starting a Client for who ever runs the server, not necessary...
-        /*
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        System.out.println("<CLIENT> Do you want to play with:");
-        System.out.println("         RMI");
-        System.out.println("         SOCKET");
-        String networkConnectionChoice ="";
-        try {
-            networkConnectionChoice = br.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        System.out.println("<CLIENT> Do you want to play with:");
-        System.out.println("         CLI");
-        System.out.println("         GUI");
-        String userInterface ="";
-        try {
-            userInterface = br.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if(networkConnectionChoice.equalsIgnoreCase("RMI")){
-            System.out.println("<CLIENT> Starting Client with RMI connection");
-
-            //creating the View for the user who holds the server
-            if(userInterface.equalsIgnoreCase("GUI")){
-                this.V = new View("SOCKET", "GUI");
-            }
-            else {
-                this.V = new View("RMI", "CLI");
-            }
-
-            //start the client for the user who holds the server and connecting it to the server
-            try {
-                this.RMINH=new RMINetworkHandler(this.RMIVV.getAddress(), this.RMIVV.getPort(),this.V);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            } catch (NotBoundException e) {
-                e.printStackTrace();
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-            }
-
-        }
-        else {
-            System.out.println("<CLIENT> Starting Client with Socket connection");
-
-            //creating the View for the user who holds the server
-            if(userInterface.equalsIgnoreCase("GUI")){
-                this.V = new View("SOCKET", "GUI");
-            }
-            else {
-                this.V = new View("SOCKET", "CLI");
-            }
-
-            //creating the Client for the user who holds the server and connecting it to the server
-            this.SNH = new SocketNetworkHandler(this.SVV.getServerSocket().getInetAddress(), this.SVV.getServerSocket().getLocalPort(), this.V);
-        }
-        */
-
     }
 
     public static void startClientSocketOrRMIWithGUI(){
@@ -158,8 +94,6 @@ public class  Controller{
                 System.err.println(e.getMessage());
                 return false;
             }
-
-
         }
         else {
             if(userInterface.equalsIgnoreCase("GUI")){
@@ -179,34 +113,16 @@ public class  Controller{
     }
 
 
-    public static void startClientSocketOrRMIWithCLI(){
-
+    public static void startClientSocketOrRMIWithCLI() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         System.out.println("<CLIENT> Do you want to play with:");
         System.out.println("         RMI");
         System.out.println("         SOCKET");
         String networkConnectionChoice ="";
-        try {
-            networkConnectionChoice = br.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        networkConnectionChoice = br.readLine();
 
-
-        System.out.println("<CLIENT> Do you want to play with:");
-        System.out.println("         CLI");
-        System.out.println("         GUI");
-        String userInterface ="";
-        try {
-            userInterface = br.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
-        /*
+        /*TODO
         System.out.println("<CLIENT> Are you trying to reconnect to a Game? [Y/N]");
         String reconection ="";
         try {
@@ -220,77 +136,38 @@ public class  Controller{
         }
         */
 
+        String IP = null;
+
+        String port = null;
+
+        String userInterface = "CLI";
 
         if(networkConnectionChoice.equalsIgnoreCase("RMI")){
             System.out.println("<CLIENT> Starting Client with RMI connection");
 
-            //creating the View for the user who holds the server
-            if(userInterface.equalsIgnoreCase("GUI")){
-                V = new View("RMI", "GUI");
-            }
-            else {
-                V = new View("RMI", "CLI");
-            }
-            Scanner scanner=new Scanner(System.in);
-
             //ask for IP and PORT
             System.out.println("<CLIENT> Insert Server's IP:");
-            String address = scanner.nextLine();
-            System.out.println("<CLIENT> Insert Port:");
-            int port = scanner.nextInt();
+            IP = br.readLine();
 
-            try {
-                RMINH=new RMINetworkHandler(address, port, V);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            } catch (NotBoundException e) {
-                e.printStackTrace();
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-            }
-
-
+            port = "1099";
         }
         else {
             System.out.println("<CLIENT> Starting Client with Socket connection");
 
-            //creating the View for the user who holds the server
-            if(userInterface.equalsIgnoreCase("GUI")){
-                V = new View("SOCKET", "GUI");
-            }
-            else {
-                V = new View("SOCKET", "CLI");
-            }
-
-            BufferedReader buff = new BufferedReader(new InputStreamReader(System.in));
             System.out.println("<CLIENT> Insert Server IP:");
-            String address = null;
-            try {
-                address = buff.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            IP = br.readLine();
             System.out.println("<CLIENT> Insert Port:");
-            String port = null;
-            try {
-                port = buff.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            //creating the Client for the user who holds the server and connecting it to the server
-            try {
-                SNH = new SocketNetworkHandler(InetAddress.getByName(address), Integer.parseInt(port) , V);
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-            }
-
+            port = br.readLine();
         }
+
+        br.close();
+
+        connect(networkConnectionChoice, userInterface, IP, port);
     }
 
-    /*
+    /*TODO
     public void reconnect(String networkConnection, String userInterface){
-        //TODO
+
         if(userInterface.equals("CLI")) {
             System.out.println("<CLIENT> TRYING TO RECONNECT TO SERVER.");
             if(networkConnection.equalsIgnoreCase("SOCKET")) {

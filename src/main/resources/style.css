@@ -3,6 +3,7 @@
     dark-primary-color: #0e1d24;
     dark-primary-color-hover: #11353e;
     hyperlink-color: #17c5f1;
+    hyperlink-color-disabled: #0a6270;
     default-primary-color: #607D8B;
     light-primary-color: #CFD8DC;
     text-primary-color: #FFFFFF;
@@ -96,12 +97,21 @@
     -fx-text-fill: primary-text-color;
 }
 .startButton:pressed{
-    -fx-background-color: accent-color-darker;
+    -fx-border-color: accent-color-darker;
 }
 
 /*hyperlink*/
+.hyperlink{
+    -fx-text-fill: hyperlink-color;
+}
 .hyperlink:visited{
     -fx-text-fill: hyperlink-color;
+}
+.hyperlink:focused{
+    -fx-border-width: 0px;
+}
+.hyperlink:disabled{
+    -fx-text-fill: hyperlink-color-disabled;
 }
 
 /*radiobutton*/
