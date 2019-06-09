@@ -15,7 +15,7 @@ public class GameConstant implements Serializable {
 
     public final static int minNumberOfPlayerPerGame = 1;
 
-    public final static int countdownInSeconds = 10;
+    public final static int countdownInSeconds = 25;
 
     public final static int timeToInsertInputInSeconds = 60;
 
