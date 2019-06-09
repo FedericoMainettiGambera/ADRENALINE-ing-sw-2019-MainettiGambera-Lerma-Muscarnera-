@@ -89,26 +89,18 @@ public class InitialSceneController implements Initializable {
                 //connection was succesfull!
 
                 FXMLLoader fxmlLoader = new FXMLLoader();
-
                 fxmlLoader.setLocation(getClass().getClassLoader().getResource("LOADINGSCENE1.fxml"));
-
                 Parent root = fxmlLoader.load();
-
                 Scene scene = new Scene(root);
                 scene.setFill(Color.BLACK);
 
                 //hide old stage
                 GUIstarter.stage.hide();
 
-                //crete new stage
                 Stage loadingStage = new Stage();
-                loadingStage.setResizable(false);
-                loadingStage.initStyle(StageStyle.UNDECORATED);
+                loadingStage.initStyle(StageStyle.DECORATED);
                 loadingStage.setTitle("Adrenaline");
-                loadingStage.setFullScreenExitKeyCombination(new KeyCodeCombination(KeyCode.ESCAPE));
-                loadingStage.setFullScreenExitHint("Press ESC to exit FULLSCREEN");
                 loadingStage.setScene(scene);
-                loadingStage.setFullScreen(true);
                 loadingStage.show();
 
                 ((LoadingSceneController)fxmlLoader.getController()).setNickname(this.nicknameContent);
