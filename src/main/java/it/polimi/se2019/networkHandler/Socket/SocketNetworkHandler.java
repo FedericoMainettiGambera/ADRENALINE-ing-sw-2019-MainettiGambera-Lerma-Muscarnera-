@@ -3,6 +3,7 @@ package it.polimi.se2019.networkHandler.Socket;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.networkHandler.NetworkHandler;
 import it.polimi.se2019.view.components.View;
+import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
 
 import java.io.*;
 import java.net.*;
@@ -23,63 +24,43 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
 
     private View view;
 
-    public SocketNetworkHandler(InetAddress inetAddress, int port, View view){
+    public SocketNetworkHandler(InetAddress inetAddress, int port, View view) throws IOException {
         this.view = view;
 
         this.port = port;
         this.inetAddress = inetAddress;
 
-        try {
-            System.out.println("<CLIENT>New Client with IP: " + InetAddress.getLocalHost().getHostAddress());
-        } catch (UnknownHostException e ){
-            e.printStackTrace();
-        }
+        System.out.println("<CLIENT>New Client with IP: " + InetAddress.getLocalHost().getHostAddress());
+
         System.out.println("<CLIENT>Trying to connect to: " + this.inetAddress.getHostAddress() + ":" + this.port);
-        try {
-            this.socket = new Socket(this.inetAddress, this.port);
-            System.out.println("<CLIENT>Connected to: " + this.inetAddress.getHostAddress() + ":" + this.port);
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
 
-        try {
-            this.oos = new ObjectOutputStream(this.socket.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.socket = new Socket(this.inetAddress, this.port);
+        System.out.println("<CLIENT>Connected to: " + this.inetAddress.getHostAddress() + ":" + this.port);
 
-        try {
-            this.ois = new ObjectInputStream(this.socket.getInputStream());
 
-            ServerListenerNetworkHandler sl = new ServerListenerNetworkHandler(socket, ois, view);
+        this.oos = new ObjectOutputStream(this.socket.getOutputStream());
 
-            new Thread(sl).start();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.ois = new ObjectInputStream(this.socket.getInputStream());
 
+        ServerListenerNetworkHandler sl = new ServerListenerNetworkHandler(socket, ois, view);
+        new Thread(sl).start();
     }
 
 
     @Override
     public void update(Observable o, Object arg) {
         ViewControllerEvent VCE = (ViewControllerEvent) arg;
-
         try {
             this.oos.writeObject(VCE);
         } catch (IOException e) {
-            e.printStackTrace();
+            OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
         }
     }
 
-    public static void disconnect(){
-        try {
-            //note that closing the socket will close the input streams and output streams too.
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static void disconnect() throws IOException {
+        //note that closing the socket will close the input streams and output streams too.
+        socket.close();
+        OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
     }
 }

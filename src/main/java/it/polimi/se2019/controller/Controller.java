@@ -8,7 +8,6 @@ import it.polimi.se2019.view.GUIstarter;
 import it.polimi.se2019.view.components.View;
 import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
-import org.omg.PortableInterceptor.INACTIVE;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -103,8 +102,14 @@ public class  Controller{
                 V = new View("SOCKET", "CLI");
             }
             try {
+                if(Port.contains(".")){ //deny number with comma.
+                    return false;
+                }
                 SNH = new SocketNetworkHandler(InetAddress.getByName(IP), Integer.parseInt(Port) , V);
             } catch (UnknownHostException e) {
+                System.err.println(e.getMessage());
+                return false;
+            } catch (IOException e) {
                 System.err.println(e.getMessage());
                 return false;
             }
@@ -113,14 +118,15 @@ public class  Controller{
     }
 
 
-    public static void startClientSocketOrRMIWithCLI() throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public static void startClientSocketOrRMIWithCLI() {
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.println("<CLIENT> Do you want to play with:");
-        System.out.println("         RMI");
-        System.out.println("         SOCKET");
-        String networkConnectionChoice ="";
-        networkConnectionChoice = br.readLine();
+            System.out.println("<CLIENT> Do you want to play with:");
+            System.out.println("         RMI");
+            System.out.println("         SOCKET");
+            String networkConnectionChoice = "";
+            networkConnectionChoice = br.readLine();
 
         /*TODO
         System.out.println("<CLIENT> Are you trying to reconnect to a Game? [Y/N]");
@@ -136,37 +142,40 @@ public class  Controller{
         }
         */
 
-        String IP = null;
+            String IP = null;
 
-        String port = null;
+            String port = null;
 
-        String userInterface = "CLI";
+            String userInterface = "CLI";
 
-        if(networkConnectionChoice.equalsIgnoreCase("RMI")){
-            System.out.println("<CLIENT> Starting Client with RMI connection");
+            if (networkConnectionChoice.equalsIgnoreCase("RMI")) {
+                System.out.println("<CLIENT> Starting Client with RMI connection");
 
-            //ask for IP and PORT
-            System.out.println("<CLIENT> Insert Server's IP:");
-            IP = br.readLine();
+                //ask for IP and PORT
+                System.out.println("<CLIENT> Insert Server's IP:");
+                IP = br.readLine();
 
-            port = "1099";
+                port = "1099";
+            } else {
+                System.out.println("<CLIENT> Starting Client with Socket connection");
+
+                System.out.println("<CLIENT> Insert Server IP:");
+                IP = br.readLine();
+                System.out.println("<CLIENT> Insert Port:");
+                port = br.readLine();
+            }
+
+            if (!connect(networkConnectionChoice, userInterface, IP, port)) {
+                startClientSocketOrRMIWithCLI();
+            }
         }
-        else {
-            System.out.println("<CLIENT> Starting Client with Socket connection");
-
-            System.out.println("<CLIENT> Insert Server IP:");
-            IP = br.readLine();
-            System.out.println("<CLIENT> Insert Port:");
-            port = br.readLine();
+        catch (IOException e){
+            e.printStackTrace();
         }
-
-        br.close();
-
-        connect(networkConnectionChoice, userInterface, IP, port);
     }
 
-    /*TODO
-    public void reconnect(String networkConnection, String userInterface){
+
+    /*TODO public void reconnect(String networkConnection, String userInterface){
 
         if(userInterface.equals("CLI")) {
             System.out.println("<CLIENT> TRYING TO RECONNECT TO SERVER.");
@@ -239,6 +248,7 @@ public class  Controller{
     ///////////////////////    RMI    ///////////////////////////////
     /////////////////////////////////////////////////////////////////
 
+    /*
     public void startGameWithRMIAsServer() throws IOException, NotBoundException {
         //Setting the state pattern
         this.VCEHC = new ViewControllerEventHandlerContext();
@@ -277,12 +287,14 @@ public class  Controller{
         this.RMINH=new RMINetworkHandler(address, port, V);
 
     }
+    */
 
 
     //////////////////////////////////////////////////////////////////
     //////////////////////   SOCKET    ///////////////////////////////
     //////////////////////////////////////////////////////////////////
 
+    /*
     public void startGameWithSocketAsServer(){
 
         //Setting the state pattern
@@ -306,7 +318,8 @@ public class  Controller{
         this.SNH = new SocketNetworkHandler(this.SVV.getServerSocket().getInetAddress(), this.SVV.getServerSocket().getLocalPort(), this.V);
 
     }
-
+    */
+    /*
     public void startGameWithSocketAsClient() throws IOException {
         //creating the View for the user who holds the server
         this.V = new View("SOCKET", "CLI");
@@ -321,4 +334,5 @@ public class  Controller{
         this.SNH = new SocketNetworkHandler(InetAddress.getByName(address), Integer.parseInt(port) , this.V);
 
     }
+    */
 }

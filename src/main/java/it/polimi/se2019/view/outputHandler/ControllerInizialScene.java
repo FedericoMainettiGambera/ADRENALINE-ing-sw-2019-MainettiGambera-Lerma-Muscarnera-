@@ -264,6 +264,8 @@ Parent root;
                 this.SNH = new SocketNetworkHandler(InetAddress.getByName(IP), port, this.V);
             } catch (UnknownHostException e) {
                 e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
         }
@@ -585,6 +587,11 @@ public void run(){
 
     @Override
     public void showConnectionTimer(int currentTime, int totalTime) {
+
+    }
+
+    @Override
+    public void cantReachServer() {
 
     }
 

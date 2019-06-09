@@ -37,7 +37,8 @@ public class ClientListenerVirtualView extends Observable implements Runnable{
                 this.VCE = (ViewControllerEvent)ois.readObject();
             }
             catch (IOException|ClassNotFoundException e){
-                e.printStackTrace();
+                System.err.println("Player has disconnected. Closing ClientListenerVirtualView.");
+                break;
             }
             setChanged();
             this.notifyObservers(this.VCE);

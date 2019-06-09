@@ -15,6 +15,7 @@ import it.polimi.se2019.view.outputHandler.GUIOutputHandler;
 import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
 import it.polimi.se2019.view.selector.ViewSelector;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -58,12 +59,9 @@ public class View implements Observer {
         TimerEvent TE = null;
         if(arg.getClass().toString().contains("ModelViewEvent")){
             MVE = (ModelViewEvent)arg;
-            try{
-                this.callCorrectComponent(MVE);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }else if(arg.getClass().toString().contains("SelectorEvent")){
+            this.callCorrectComponent(MVE);
+        }
+        else if(arg.getClass().toString().contains("SelectorEvent")){
             SE = (SelectorEvent)arg;
             this.callCorrectSelector(SE);
         }
@@ -85,12 +83,12 @@ public class View implements Observer {
             try {
                 throw new Exception("Event not recognized");
             } catch (Exception e) {
-                e.printStackTrace();
+                System.err.println(e.getMessage());
             }
         }
     }
 
-    public void callCorrectComponent(ModelViewEvent MVE) throws Exception {
+    public void callCorrectComponent(ModelViewEvent MVE)  {
         ModelViewEventTypes information = MVE.getInformation();
 
         switch (information){
@@ -356,14 +354,15 @@ public class View implements Observer {
                 }
                 if(ViewModelGate.getMe().equals((String) MVE.getExtraInformation1() )){
                     if(networkConnection.equalsIgnoreCase("SOCKET")){
-                        SocketNetworkHandler.disconnect();
-                        System.out.println("<CLIENT> DISCOCNNECTED FROM SERVER. Program will exit.");
-                        System.exit(0);
+                        try {
+                            SocketNetworkHandler.disconnect();
+                        } catch (IOException e) {
+                            System.err.println("PROBLEMS DISCONNECTING FROM SERVER.");
+                            OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
+                        }
                     }
                     else{
                         RMINetworkHandler.disconnect(); //todo
-                        System.out.println("<CLIENT> DISCOCNNECTED FROM SERVER. Program will exit.");
-                        System.exit(0);
                     }
                 }
 
@@ -372,7 +371,11 @@ public class View implements Observer {
 
 
             default:
-                throw new Exception("<CLIENT> MVE NOT RECOGNIZED");
+                try {
+                    throw new Exception("<CLIENT> MVE NOT RECOGNIZED");
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                }
 
         }
 

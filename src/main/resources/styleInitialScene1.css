@@ -92,10 +92,6 @@
     -fx-background-color: accent-color;
     -fx-text-fill: primary-text-color;
 }
-.startButton:focused{
-    -fx-background-color: accent-color;
-    -fx-text-fill: primary-text-color;
-}
 .startButton:pressed{
     -fx-border-color: accent-color-darker;
 }

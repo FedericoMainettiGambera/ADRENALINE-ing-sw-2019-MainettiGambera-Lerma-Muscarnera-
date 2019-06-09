@@ -1,5 +1,6 @@
 package it.polimi.se2019.view.outputHandler;
 
+import it.polimi.se2019.controller.Controller;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
@@ -236,5 +237,13 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     @Override
     public void showConnectionTimer(int currentTime, int totalTime) {
         //OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> " + "Connection-Timer-of-"+totalTime+"-seconds: " + currentTime + " second has passed.");
+    }
+
+    @Override
+    public void cantReachServer() {
+        //TODO
+        System.err.println("CAN'T REACH SERVER.");
+        System.out.println("<CLIENT> RERUNNING APPLICATION, please, try to reconnect.");
+        Controller.startClientSocketOrRMIWithCLI();
     }
 }

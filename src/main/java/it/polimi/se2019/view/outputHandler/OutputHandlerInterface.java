@@ -30,4 +30,5 @@ public interface OutputHandlerInterface {
     public void setAFK(ModelViewEvent MVE);
     public void showInputTimer(int currentTime, int totalTime);
     public void showConnectionTimer(int currentTime, int totalTime);
+    public void cantReachServer();
 }

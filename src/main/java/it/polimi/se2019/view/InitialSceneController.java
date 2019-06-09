@@ -55,6 +55,10 @@ public class InitialSceneController implements Initializable {
         this.reconnectHyperlink.setDisable(true);
         this.CLIHyperlink.setDisable(true);
 
+        //change title
+        String titleLabelContent = "CONNECTING...";
+        this.titleLabel.setText(titleLabelContent);
+
         //nickname
         this.nicknameContent = this.nicknameTextField.getText();
         //IP
@@ -72,13 +76,9 @@ public class InitialSceneController implements Initializable {
         else if(this.networkConnectionToggleGroup.getSelectedToggle().equals(this.socketRadio)){
             this.netWorkConnection = "SOCKET";
         }
-        else{
+        else {
             this.netWorkConnection = "";
         }
-
-        //change title
-        String titleLabelContent = "CONNECTING...";
-        this.titleLabel.setText(titleLabelContent);
 
         //check if all field are full
         if(!nicknameContent.equals("") && !netWorkConnection.equals("") && !IPContent.equals("") && !PORTContent.equals("")){

@@ -92,7 +92,9 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
 
     @Override
     public void newPlayersList(ModelViewEvent MVE){
-        ((LoadingSceneController)GUIstarter.stageController).newPlayersList(MVE);
+        if(GUIstarter.stageController.getClass().toString().contains("LoadingSceneController")) {
+            ((LoadingSceneController) GUIstarter.stageController).newPlayersList(MVE);
+        }
     }
 
 
@@ -190,6 +192,11 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
         if(GUIstarter.stageController.getClass().toString().contains("LoadingSceneController")) {
             ((LoadingSceneController) GUIstarter.stageController).modifyProgress(currentTime, totalTime);
         }
+    }
+
+    @Override
+    public void cantReachServer() {
+        //TODO
     }
 }
 

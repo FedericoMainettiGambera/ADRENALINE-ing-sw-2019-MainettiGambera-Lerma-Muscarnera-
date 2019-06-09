@@ -22,197 +22,88 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
 
     @Override
     public  void askGameSetUp() {
-        ObjectOutputStream oos = this.playerToAsk.getOos();
-        try {
-            SelectorEvent SE = new SelectorEvent(SelectorEventTypes.askGameSetUp);
-            oos.writeObject(SE);
-            oos.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.askGameSetUp));
     }
 
     @Override
     public void askPlayerSetUp() {
-        ObjectOutputStream oos = this.playerToAsk.getOos();
-        try {
-            oos.writeObject(new SelectorEvent(SelectorEventTypes.askPlayerSetUp));
-            oos.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.askPlayerSetUp));
     }
 
     @Override
     public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards) {
-        ObjectOutputStream oos = this.playerToAsk.getOos();
-        try {
-            oos.writeObject(new SelectorEventPowerUpCards(SelectorEventTypes.askFirstSpawnPosition, powerUpCards));
-            oos.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askFirstSpawnPosition, powerUpCards));
     }
 
     @Override
     public void askTurnAction(int actionNumber) {
-        ObjectOutputStream oos = this.playerToAsk.getOos();
-        try {
-            oos.writeObject(new SelectorEventInt(SelectorEventTypes.askTurnAction, actionNumber));
-            oos.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventInt(SelectorEventTypes.askTurnAction, actionNumber));
     }
 
     @Override
     public void askRunAroundPosition(ArrayList<Position> positions) {
-        ObjectOutputStream oos = this.playerToAsk.getOos();
-        try {
-            oos.writeObject(new SelectorEventPositions(SelectorEventTypes.askRunAroundPosition, positions));
-            oos.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPositions(SelectorEventTypes.askRunAroundPosition, positions));
     }
 
     @Override
     public void askGrabStuffAction() {
-        ObjectOutputStream oos = this.playerToAsk.getOos();
-        try {
-            oos.writeObject(new SelectorEvent(SelectorEventTypes.askGrabStuffAction));
-            oos.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.askGrabStuffAction));
     }
 
     @Override
     public void askGrabStuffMove(ArrayList<Position> positions) {
-        ObjectOutputStream oos = this.playerToAsk.getOos();
-        try {
-            oos.writeObject(new SelectorEventPositions(SelectorEventTypes.askGrabStuffMove, positions));
-            oos.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SocketVirtualView.sendToClient(playerToAsk, (new SelectorEventPositions(SelectorEventTypes.askGrabStuffMove, positions)));
     }
 
     @Override
     public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp) {
-        ObjectOutputStream oos = this.playerToAsk.getOos();
         SelectorEventWeaponCards SE = new SelectorEventWeaponCards(SelectorEventTypes.askGrabStuffGrabWeapon, toPickUp);
-        try {
-            oos.writeObject(SE);
-            oos.reset(); //IMPORTANT FOR CACHE PROBLEM
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SocketVirtualView.sendToClient(playerToAsk, SE);
     }
 
     @Override
     public void askGrabStuffSwitchWeapon(ArrayList<WeaponCard> toPickUp, ArrayList<WeaponCard> toSwitch) {
-        ObjectOutputStream oos = this.playerToAsk.getOos();
-        try {
-            oos.writeObject(new SelectorEventDoubleWeaponCards(SelectorEventTypes.askGrabStuffSwitchWeapon, toPickUp, toSwitch));
-            oos.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventDoubleWeaponCards(SelectorEventTypes.askGrabStuffSwitchWeapon, toPickUp, toSwitch));
     }
 
     @Override
     public void askPowerUpToDiscard(ArrayList<PowerUpCard> toDiscard) {
-        ObjectOutputStream oos = this.playerToAsk.getOos();
-        try {
-            oos.writeObject(new SelectorEventPowerUpCards(SelectorEventTypes.askPowerUpToDiscard,toDiscard));
-            oos.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askPowerUpToDiscard,toDiscard));
     }
 
     @Override
     public void askWhatReaload(ArrayList<WeaponCard> toReload) {
-        ObjectOutputStream oos = this.playerToAsk.getOos();
-        try {
-            oos.writeObject(new SelectorEventWeaponCards(SelectorEventTypes.askWhatReaload,toReload));
-            oos.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventWeaponCards(SelectorEventTypes.askWhatReaload,toReload));
     }
 
     @Override
     public void askSpawn(ArrayList<PowerUpCard> powerUpCards) {
-        ObjectOutputStream oos = this.playerToAsk.getOos();
-        try {
-            oos.writeObject(new SelectorEventPowerUpCards(SelectorEventTypes.askSpawn, powerUpCards));
-            oos.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askSpawn, powerUpCards));
     }
 
     @Override
     public void askShootOrMove(){
-
-        ObjectOutputStream oos = this.playerToAsk.getOos();
-        try {
-            SelectorEvent SE = new SelectorEvent(SelectorEventTypes.askShootOrMove);
-            oos.writeObject(SE);
-            oos.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.askShootOrMove));
     }
 
     @Override
     public void askShootReloadMove(){
         ObjectOutputStream oos = this.playerToAsk.getOos();
-        try {
-            SelectorEvent SE = new SelectorEvent(SelectorEventTypes.askShootReloadMove);
-            oos.writeObject(SE);
-            oos.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.askShootReloadMove));
     }
 
     @Override
     public void askWhatWep(ArrayList<WeaponCard> loadedCardInHand) {
-        ObjectOutputStream oos = this.playerToAsk.getOos();
-        try {
-            SelectorEventWeaponCards SE = new SelectorEventWeaponCards(SelectorEventTypes.askWhatWep, loadedCardInHand);
-            oos.writeObject(SE);
-            oos.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventWeaponCards(SelectorEventTypes.askWhatWep, loadedCardInHand));
     }
 
     @Override
     public void askWhatEffect(ArrayList<Effect> possibleEffects) {
-        ObjectOutputStream oos = this.playerToAsk.getOos();
-        try {
-            SelectorEventEffect SE = new SelectorEventEffect(SelectorEventTypes.askWhatEffect, possibleEffects);
-            oos.writeObject(SE);
-            oos.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventEffect(SelectorEventTypes.askWhatEffect, possibleEffects));
     }
 
     @Override
     public void askEffectInputs(List<EffectInfoType> effectInputs){
-        ObjectOutputStream oos = this.playerToAsk.getOos();
-        try {
-            SelectorEventEffectInputs SE = new SelectorEventEffectInputs(SelectorEventTypes.askEffectInputs, effectInputs);
-            oos.writeObject(SE);
-            oos.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventEffectInputs(SelectorEventTypes.askEffectInputs, effectInputs));
     }
 }
