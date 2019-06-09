@@ -408,13 +408,21 @@ public class PreConditionMethods implements Serializable {
         return false;
     }
     public boolean sameCardinalDirectionOfTargets(ActionDetails actionDetails,ActionContext actionContext) {
-        int xIncrement = 0 - actionDetails.getUserSelectedActionDetails().getTarget().getPosition().getX();;
-        int yIncrement = 0 - actionDetails.getUserSelectedActionDetails().getTarget().getPosition().getY();;
+        int xIncrement = 0 ;//- actionDetails.getUserSelectedActionDetails().getTarget().getPosition().getX();;
+        int yIncrement = 0 ;//- actionDetails.getUserSelectedActionDetails().getTarget().getPosition().getY();;
         Player buffer = actionDetails.getUserSelectedActionDetails().getTarget();
-        for(Player target:actionDetails.getUserSelectedActionDetails().getTargetList()) {
-            xIncrement += target.getPosition().getX() - buffer.getPosition().getX();
-            yIncrement += target.getPosition().getY() - buffer.getPosition().getY();;
+        List<Player> arr = new
+                ArrayList<>();
+        arr.add(actionContext.getPlayer());
+        arr.add((Player) ((Object[])actionContext.getPlayer().getPlayerHistory().getRecord(actionContext.getPlayer().getPlayerHistory().getSize() - 2).getInput())[0]);
+        System.out.println(actionContext.getPlayer().getNickname());
+        System.out.println(((Player) ((Object[])actionContext.getPlayer().getPlayerHistory().getRecord(actionContext.getPlayer().getPlayerHistory().getSize() - 2).getInput())[0]).getNickname());
+        for(Player target: arr) {
+            xIncrement += target.getPosition().getX() - actionContext.getPlayer().getPosition().getX();
+            yIncrement += target.getPosition().getY() - actionContext.getPlayer().getPosition().getY();
         }
+        System.out.println("# " + ((xIncrement)  + " " +  (yIncrement)));
+
         if(xIncrement == 0) return true;
         if(yIncrement == 0) return true;
         return false;

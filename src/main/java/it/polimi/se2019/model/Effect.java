@@ -194,7 +194,7 @@ public class Effect implements Serializable {
                 }
                 for (int b : finalDestinations) {
                     Action a_ = this.getActions().get(b-1);
-                    System.out.println("EffectInfoElement " + eie.getEffectInfoTypelist());
+//                    System.out.println("EffectInfoElement " + eie.getEffectInfoTypelist());
 
                     Object invertedPreConditionOutput = null;
                     PreConditionMethodsInverted preConditionMethodsInverted = new PreConditionMethodsInverted();
@@ -203,7 +203,7 @@ public class Effect implements Serializable {
                         Class<?> c = Class.forName("it.polimi.se2019.model.PreConditionMethodsInverted");
                         //(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)
                         Class<?>[] paramTypes = {ActionContext.class,UsableInputTableRowType.class,Integer.class,Object.class,List.class};
-                        System.out.println("azione " + a_ + " nome precondizione : " + a_.getActionInfo().getPreConditionMethodName());
+//                        System.out.println("azione " + a_ + " nome precondizione : " + a_.getActionInfo().getPreConditionMethodName());
 
                         method = c.getDeclaredMethod(a_.getActionInfo().getPreConditionMethodName(), paramTypes);
                         invertedPreConditionOutput = method.invoke(preConditionMethodsInverted,
@@ -224,7 +224,7 @@ public class Effect implements Serializable {
                             this.getActions().indexOf(a_),
                             invertedPreConditionOutput
                     );
-                    System.out.println("Azione (" + this.getActions().indexOf(a_) + ") , Input (" + effectInfo.getEffectInfoElement().indexOf(eie) + ")   -> " + a.getActionInfo().getPreConditionMethodName() + " -> " + invertedPreConditionOutput);
+//                    System.out.println("Azione (" + this.getActions().indexOf(a_) + ") , Input (" + effectInfo.getEffectInfoElement().indexOf(eie) + ")   -> " + a.getActionInfo().getPreConditionMethodName() + " -> " + invertedPreConditionOutput);
                     inputCounter++;
                 }
             }
@@ -232,30 +232,30 @@ public class Effect implements Serializable {
 
             actionCounter++;
         }
-        System.out.println("");
-        for( List<Object> o: intermediateList)
-            System.out.println(">>>>" + o);
+  //      System.out.println("");
+  //      for( List<Object> o: intermediateList)
+  //          System.out.println(">>>>" + o);
 
-        System.out.println("");
+ //       System.out.println("");
         int iCount = 0;
         int aCount = 0;
-        System.out.println(retVal);
+//        System.out.println(retVal);
 
         int i,j,k;
         for(i = 0; i < retVal.size();i++) {
-            System.out.println("[" + effectInfo.getEffectInfoElement().get(i).getEffectInfoTypelist().toString() + "]" + " parto con l'insieme di tutti i possibili");
+  //          System.out.println("[" + effectInfo.getEffectInfoElement().get(i).getEffectInfoTypelist().toString() + "]" + " parto con l'insieme di tutti i possibili");
             for(j = 0; j < retVal.get(i).size();j++) {
                 //if (this.getEffectInfo().getEffectInfoElement().get(i).getEffectInfoTypeDestination().contains(j))
                 {
                     // l'input è i
-                    System.out.println("@"+ intermediateList.get(i));
+ //                   System.out.println("@"+ intermediateList.get(i));
                     for (k = 0; k < this.getActions().size(); k++) {
                         if(intermediateList.get(i).get(k) != null)
                         {
-                            System.out.println("interseco con.." + intermediateList.get(i).get(k)  );
-                            for (Object d : (List<Object>) intermediateList.get(i).get(k)) {
-                                System.out.println(d.toString());
-                            }
+ //                           System.out.println("interseco con.." + intermediateList.get(i).get(k)  );
+ //                           for (Object d : (List<Object>) intermediateList.get(i).get(k)) {
+ //                               System.out.println(d.toString());
+ //                           }
                             retVal.get(i).set(j,
                                     intersect(
                                             retVal.get(i).get(j),
@@ -270,13 +270,13 @@ public class Effect implements Serializable {
             }
 
 
-        for(List<Object> x:intermediateList) {
+/*        for(List<Object> x:intermediateList) {
         System.out.println("input");
             for (Object y : x) {
             System.out.println("per azione");
                 System.out.println(x);
             }
-        }
+        }*/
         return retVal;
     }
     public void setOf(WeaponCard of) {
