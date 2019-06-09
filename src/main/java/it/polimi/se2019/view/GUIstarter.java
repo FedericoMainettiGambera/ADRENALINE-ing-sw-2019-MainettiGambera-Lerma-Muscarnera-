@@ -37,7 +37,7 @@ public class GUIstarter extends Application {
         stage.show();
     }
 
-    //instead of having directly a main class here, the controller lounches this method.
+    //instead of having directly a main class here, the controller launches this method.
     public static void begin(){
         launch();
     }
