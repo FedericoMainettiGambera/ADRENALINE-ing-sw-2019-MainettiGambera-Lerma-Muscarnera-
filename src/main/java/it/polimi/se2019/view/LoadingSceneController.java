@@ -60,7 +60,7 @@ public class LoadingSceneController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources){
         (new progressBarThread()).start();
-        progressionBarGoal = 0.4;
+        labelProgress.setText("Loading...");
     }
 
     public void newPlayersList(ModelViewEvent MVE){
@@ -119,12 +119,9 @@ public class LoadingSceneController implements Initializable {
             stop=false;
             while(!stop){
                if(progressBar.getProgress()<=LoadingSceneController.progressionBarGoal){
-                   progressBar.setProgress(progressBar.getProgress()+0.001);
-                   double number=0.000;
-                   labelProgress.setText(""+number);
+                   progressBar.setProgress(progressBar.getProgress()+0.002);
                    try {
                        TimeUnit .MILLISECONDS.sleep(50);
-                       number+=0.001;
                    } catch (InterruptedException e) {
                        stop=true;
                    }
