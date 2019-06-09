@@ -3,6 +3,8 @@ import it.polimi.se2019.controller.Controller;
 import it.polimi.se2019.model.PlayersList;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.stateEvent.StateEvent;
+import it.polimi.se2019.view.GUIstarter;
+import it.polimi.se2019.view.LoadingSceneController;
 import it.polimi.se2019.view.components.OrderedCardListV;
 import it.polimi.se2019.view.components.PlayersListV;
 import javafx.application.*;
@@ -88,6 +90,8 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
 
     @Override
     public void newPlayersList(ModelViewEvent MVE){
+        ((LoadingSceneController)GUIstarter.stageController).newPlayersList(MVE);
+
     }
 
 
