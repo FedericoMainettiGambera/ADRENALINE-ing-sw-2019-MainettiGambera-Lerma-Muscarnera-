@@ -11,6 +11,7 @@ import it.polimi.se2019.virtualView.RMI.RMIInterface;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -24,7 +25,7 @@ public class RMINetworkHandler extends NetworkHandler{
     RMIObsHandler rmiObsHandler;
 
 
-    public RMINetworkHandler(String name, int port, View view) throws RemoteException, NotBoundException, UnknownHostException {
+    public RMINetworkHandler(String name, int port, View view) throws RemoteException, NotBoundException, ConnectException{
         rmiObsHandler = new RMIObsHandler(view);
 
 
@@ -40,7 +41,7 @@ public class RMINetworkHandler extends NetworkHandler{
             //TODO here it has some problem sometimes
             if (rmiInterface.numberOfConnection() <= GameConstant.maxNumberOfPlayerPerGame) {
 
-                client = new Client(rmiInterface, rmiInterface.getRmiIdentifier());
+             client = new Client(rmiInterface, rmiInterface.getRmiIdentifier());
 
                 System.out.println("<CLIENT> your RMIIdentifier in class NetworkHandler is: " + rmiInterface.getRmiIdentifier());
                 rmiInterface.addClientToList(client);

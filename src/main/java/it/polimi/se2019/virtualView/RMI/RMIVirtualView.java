@@ -183,12 +183,12 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
         address=new String();
 
 
-        try {
-             address= InetAddress.getLocalHost().getHostAddress();
 
-        }catch(Exception e){
-            e.printStackTrace();
-        };
+
+
+        address= InetAddress.getLocalHost().getHostAddress();
+
+
 
         System.out.println("<SERVER-rmi> FOR RMI CLIENTS. Server running on: "+ address + " (:1099) port is always 1099.");
 

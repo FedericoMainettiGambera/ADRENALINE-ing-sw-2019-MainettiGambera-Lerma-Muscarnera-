@@ -245,8 +245,6 @@ Parent root;
                 e.printStackTrace();
             } catch (NotBoundException e) {
                 e.printStackTrace();
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
             }
 
 

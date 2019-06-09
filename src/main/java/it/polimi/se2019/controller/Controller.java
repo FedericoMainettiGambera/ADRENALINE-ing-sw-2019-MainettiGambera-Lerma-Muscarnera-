@@ -90,9 +90,6 @@ public class  Controller{
             } catch (NotBoundException e) {
                 System.err.println(e.getMessage());
                 return false;
-            } catch (UnknownHostException e) {
-                System.err.println(e.getMessage());
-                return false;
             }
         }
         else {
