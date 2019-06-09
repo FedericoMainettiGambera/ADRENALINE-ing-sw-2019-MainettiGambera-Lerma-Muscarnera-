@@ -130,6 +130,91 @@ public class PreConditionMethodsInverted {
         return retVal;
     }
 
+    public List<Object> sameCardinalDirectionOfTargets(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)
+    {
+        // TODO : rivedi
+        // restituisce tutti i possibili insiemi di target lungo gli stessi punti cardinali
+        List<Object> retVal = new ArrayList<>();
+        Player me = actionContext.getPlayer();
+        Board  board = actionContext.getBoard();
+        List<Object> retValNORTH = new ArrayList<>();
+        List<Object> retValSOUTH = new ArrayList<>();
+        List<Object> retValEAST =  new ArrayList<>();
+        List<Object> retValWEST = new ArrayList<>();
+
+        // north;
+        for(int y = me.getPosition().getY();y > 0; y --) {
+            int x = me.getPosition().getX();
+            for (Player p : actionContext.getPlayerList().getPlayers()) {
+                if (p.getPosition().equals(new Position(x,y))) {
+                    retValNORTH.add(p);
+                }
+                }
+        }
+        // south
+        for(int y = me.getPosition().getY();y < 3; y ++) {
+            int x = me.getPosition().getX();
+            for (Player p : actionContext.getPlayerList().getPlayers()) {
+                if (p.getPosition().equals(new Position(x,y))) {
+                    retValSOUTH.add(p);
+                }
+            }
+        }
+        // east
+        for(int x = me.getPosition().getX();x > 0; x --) {
+            int y = me.getPosition().getY();
+            for (Player p : actionContext.getPlayerList().getPlayers()) {
+                if (p.getPosition().equals(new Position(x,y))) {
+                    retValEAST.add(p);
+                }
+            }
+        }
+        // west
+        for(int x = me.getPosition().getX();x > 0; x --) {
+            int y = me.getPosition().getY();
+            for (Player p : actionContext.getPlayerList().getPlayers()) {
+                if (p.getPosition().equals(new Position(x,y))) {
+                    retValWEST.add(p);
+                }
+            }
+        }
+        retVal.add(retValNORTH);
+        retVal.add(retValEAST);
+        retVal.add(retValWEST);
+        retVal.add(retValSOUTH);
+
+
+        // a questo punto effectInfoElement contiene un riferimento
+        return retVal;
+    }
+    public List<Object> notInYourRoom(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)
+    {
+        List<Object> retVal = new ArrayList<>();
+        Player me = actionContext.getPlayer();
+        char playerRoom = actionContext.getBoard().getSquare(me.getPosition()).getColor();
+        for(Player t: actionContext.getPlayerList().getPlayers()) {
+            if(actionContext.getBoard().getSquare(t.getPosition()).getColor() != playerRoom) {
+                retVal.add(t);
+            }
+        }
+        return retVal;
+    }
+    public List<Object> notFirstExecuted(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)
+    {
+        // TODO: passare il record corrente della playerHistory
+        List<Object> retVal = new ArrayList<>();
+        for(int x = (actionContext.getPlayer().getPlayerHistory().historyElementList.size()-1);x>=0;x--){
+
+        }
+
+        if(type.equals(UsableInputTableRowType.typeSquare)) {
+
+        }
+        if(type.equals(UsableInputTableRowType.typePlayer)) {
+
+        }
+        return retVal;
+    }
     public List<Object> distanceOfTargetFromPlayerSquareMoreThan2Moves(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)
     throws Exception
     {
