@@ -25,7 +25,7 @@ public class RMINetworkHandler extends NetworkHandler{
     RMIObsHandler rmiObsHandler;
 
 
-    public RMINetworkHandler(String name, int port, View view) throws RemoteException, NotBoundException, ConnectException{
+    public RMINetworkHandler(String name, int port, View view) throws RemoteException, NotBoundException{
         rmiObsHandler = new RMIObsHandler(view);
 
 
