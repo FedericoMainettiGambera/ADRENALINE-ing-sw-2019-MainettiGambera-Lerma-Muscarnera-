@@ -18,7 +18,7 @@
                      <children>
                         <StackPane fx:id="stackPaneUser1" minHeight="200.0" minWidth="80.0" prefHeight="150.0" prefWidth="200.0" styleClass="rightSeparator" HBox.hgrow="ALWAYS">
                            <children>
-                              <StackPane  prefHeight="150.0" prefWidth="200.0" styleClass="userContainerOpacity">
+                              <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="userContainerOpacity">
                                  <children>
                                     <Label fx:id="labelUser1" styleClass="userLabelInactive" text="WAITING PLAYER">
                                        <StackPane.margin>
@@ -130,7 +130,7 @@
                               <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
-                                    <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                    <AnchorPane prefHeight="100.0" prefWidth="678.0">
                                        <children>
                                           <Label fx:id="labelProgress" alignment="TOP_CENTER" prefHeight="62.0" prefWidth="200.0" styleClass="percentageLabel" text="0%" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>

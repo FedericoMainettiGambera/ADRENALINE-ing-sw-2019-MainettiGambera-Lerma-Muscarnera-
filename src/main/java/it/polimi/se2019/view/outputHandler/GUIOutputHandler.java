@@ -24,6 +24,8 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static it.polimi.se2019.view.LoadingSceneController.progressionBarGoal;
+
 
 public class GUIOutputHandler extends Application implements OutputHandlerInterface{
 
@@ -91,7 +93,6 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
     @Override
     public void newPlayersList(ModelViewEvent MVE){
         ((LoadingSceneController)GUIstarter.stageController).newPlayersList(MVE);
-
     }
 
 
@@ -186,7 +187,9 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
 
     @Override
     public void showConnectionTimer(int currentTime, int totalTime) {
-
+        if(GUIstarter.stageController.getClass().toString().contains("LoadingSceneController")) {
+            ((LoadingSceneController) GUIstarter.stageController).modifyProgress(currentTime, totalTime);
+        }
     }
 }
 

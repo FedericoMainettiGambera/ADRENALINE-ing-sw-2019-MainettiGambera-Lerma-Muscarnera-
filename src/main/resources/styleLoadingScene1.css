@@ -105,6 +105,6 @@
 /*percentagelabel*/
 .percentageLabel{
     -fx-text-fill: white;
-    -fx-font: 40px monospace;
+    -fx-font: 30px monospace;
     -fx-font-weight: bold;
 }

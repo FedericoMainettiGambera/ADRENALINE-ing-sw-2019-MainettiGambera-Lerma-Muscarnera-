@@ -24,11 +24,11 @@ public class ConnectionGameCountDown implements Runnable {
         while(i<=GameConstant.countdownInSeconds) {
 
             try {
-                ViewControllerEventHandlerContext.RMIVV.sendAllClient(new TimerEvent(i, GameConstant.countdownInSeconds, "input"));
+                ViewControllerEventHandlerContext.RMIVV.sendAllClient(new TimerEvent(i, GameConstant.countdownInSeconds, "Connection"));
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-            ViewControllerEventHandlerContext.socketVV.sendAllClient(new TimerEvent(i, GameConstant.countdownInSeconds, "input"));
+            ViewControllerEventHandlerContext.socketVV.sendAllClient(new TimerEvent(i, GameConstant.countdownInSeconds, "Connection"));
 
             try {
                 TimeUnit.SECONDS.sleep(1);

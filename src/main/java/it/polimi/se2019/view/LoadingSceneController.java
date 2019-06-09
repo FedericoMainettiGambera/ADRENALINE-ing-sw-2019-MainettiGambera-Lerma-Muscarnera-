@@ -2,6 +2,7 @@ package it.polimi.se2019.view;
 
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.view.components.PlayersListV;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -59,8 +60,7 @@ public class LoadingSceneController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
-        (new progressBarThread()).start();
-        labelProgress.setText("Loading...");
+        labelProgress.setText("Waiting for players..");
     }
 
     public void newPlayersList(ModelViewEvent MVE){
@@ -112,7 +112,8 @@ public class LoadingSceneController implements Initializable {
         }
     }
 
-    private class progressBarThread extends Thread{
+    /*
+    private class progressBarThread implements Runnable{
         public boolean stop;
         @Override
          public void run(){
@@ -129,6 +130,13 @@ public class LoadingSceneController implements Initializable {
 
             }
         }
+    }
+    */
+
+    public void modifyProgress(int currentTime, int totalTime){
+        double toAdd = (currentTime/totalTime)-progressionBarGoal;
+        progressionBarGoal+=toAdd;
+        this.progressBar.setProgress(progressionBarGoal);
     }
 
     public void setNickname(String nickname){

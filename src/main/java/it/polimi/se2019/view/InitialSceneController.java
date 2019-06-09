@@ -91,6 +91,7 @@ public class InitialSceneController implements Initializable {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getClassLoader().getResource("LOADINGSCENE1.fxml"));
                 Parent root = fxmlLoader.load();
+                GUIstarter.stageController=fxmlLoader.getController();
                 Scene scene = new Scene(root);
                 scene.setFill(Color.BLACK);
 
@@ -99,7 +100,6 @@ public class InitialSceneController implements Initializable {
 
                 Stage loadingStage = new Stage();
                 GUIstarter.stage = loadingStage;
-                GUIstarter.stageController=fxmlLoader.getController();
 
                 loadingStage.initStyle(StageStyle.DECORATED);
                 loadingStage.setTitle("Adrenaline");
