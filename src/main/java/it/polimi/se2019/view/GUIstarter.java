@@ -15,11 +15,13 @@ public class GUIstarter extends Application {
     public static Controller user;
 
     public static Stage stage;
+    public static Object stageController;
 
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        Parent root = fxmlLoader.load(getClass().getClassLoader().getResource("INITIALSCENE1.fxml"));
+        fxmlLoader.setLocation(getClass().getClassLoader().getResource("INITIALSCENE1.fxml"));
+        Parent root = fxmlLoader.load();
 
         Scene scene= new Scene(root, 430, 529);
         scene.setFill(Color.TRANSPARENT);
@@ -29,6 +31,7 @@ public class GUIstarter extends Application {
         primaryStage.setTitle("Adrenaline LOG-IN");
 
         stage=primaryStage;
+        stageController=fxmlLoader.getController();
 
         stage.setScene(scene);
         stage.show();

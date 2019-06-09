@@ -98,6 +98,9 @@ public class InitialSceneController implements Initializable {
                 GUIstarter.stage.hide();
 
                 Stage loadingStage = new Stage();
+                GUIstarter.stage = loadingStage;
+                GUIstarter.stageController=fxmlLoader.getController();
+
                 loadingStage.initStyle(StageStyle.DECORATED);
                 loadingStage.setTitle("Adrenaline");
                 loadingStage.setScene(scene);

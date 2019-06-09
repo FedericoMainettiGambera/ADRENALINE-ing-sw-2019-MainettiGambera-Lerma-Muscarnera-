@@ -2,7 +2,7 @@ package it.polimi.se2019.view.outputHandler;
 
 public class OutputHandlerGate{
 
-    private static it.polimi.se2019.view.outputHandler.ControllerInizialScene GUIOutputHandler = new ControllerInizialScene();
+    private static it.polimi.se2019.view.outputHandler.GUIOutputHandler GUIOutputHandler = new GUIOutputHandler();
 
     private static it.polimi.se2019.view.outputHandler.CLIOutputHandler CLIOutputHandler = new CLIOutputHandler();
 
@@ -20,7 +20,7 @@ public class OutputHandlerGate{
         return CLIOutputHandler;
     }
 
-    public static it.polimi.se2019.view.outputHandler.ControllerInizialScene getGUIOutputHandler() {
+    public static it.polimi.se2019.view.outputHandler.GUIOutputHandler getGUIOutputHandler() {
         return GUIOutputHandler;
     }
 
@@ -28,7 +28,7 @@ public class OutputHandlerGate{
         OutputHandlerGate.CLIOutputHandler = CLIOutputHandler;
     }
 
-    public static void setGUIOutputHandler(it.polimi.se2019.view.outputHandler.GUIOutputHandler ControllerInizialScene) {
+    public static void setGUIOutputHandler(it.polimi.se2019.view.outputHandler.GUIOutputHandler GUIOutputHandler) {
         OutputHandlerGate.GUIOutputHandler = GUIOutputHandler;
     }
 
