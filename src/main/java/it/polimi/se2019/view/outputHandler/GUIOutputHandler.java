@@ -46,7 +46,7 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
         root.setId("pane");
         Scene scene = new Scene(root, 600, 530);
         primaryStage.setTitle("Hello World");
-        scene.getStylesheets().addAll(this.getClass().getClassLoader().getResource("style.css").toExternalForm());
+        scene.getStylesheets().addAll(this.getClass().getClassLoader().getResource("styleInitialScene1.css").toExternalForm());
 
         controller= fxmlLoader.getController();
         // menuItem.setId("MenuItem");

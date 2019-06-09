@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="826.0" prefWidth="1173.0" styleClass="adrenalineBackground" stylesheets="@styleLoadingScene1.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.LoadingSceneController">
+   <children>
+      <VBox prefHeight="826.0" prefWidth="1173.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <StackPane prefHeight="523.0" prefWidth="1173.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <HBox maxHeight="600.0" prefHeight="512.0" prefWidth="1173.0">
+                     <children>
+                        <StackPane minHeight="200.0" minWidth="80.0" prefHeight="150.0" prefWidth="200.0" styleClass="rightSeparator" HBox.hgrow="ALWAYS">
+                           <children>
+                              <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="userContainerOpacity">
+                                 <children>
+                                    <Label styleClass="userLabelInactive" text="WAITING PLAYER">
+                                       <StackPane.margin>
+                                          <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                                       </StackPane.margin>
+                                       <padding>
+                                          <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </StackPane>
+                           </children>
+                        </StackPane>
+                        <StackPane minHeight="200.0" minWidth="80.0" prefHeight="150.0" prefWidth="200.0" styleClass="rightSeparator" HBox.hgrow="ALWAYS">
+                           <children>
+                              <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="userContainerOpacity">
+                                 <children>
+                                    <Label styleClass="userLabelInactive" text="WAITING PLAYER">
+                                       <padding>
+                                          <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                       </padding>
+                                       <StackPane.margin>
+                                          <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                                       </StackPane.margin>
+                                    </Label>
+                                 </children>
+                              </StackPane>
+                           </children>
+                        </StackPane>
+                        <StackPane layoutX="210.0" layoutY="10.0" minHeight="200.0" minWidth="80.0" prefHeight="150.0" prefWidth="200.0" styleClass="rightSeparator" HBox.hgrow="ALWAYS">
+                           <children>
+                              <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="userContainerOpacity">
+                                 <children>
+                                    <Label styleClass="userLabelInactive" text="WAITING PLAYER">
+                                       <padding>
+                                          <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                       </padding>
+                                       <StackPane.margin>
+                                          <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                                       </StackPane.margin>
+                                    </Label>
+                                 </children>
+                              </StackPane>
+                           </children>
+                        </StackPane>
+                        <StackPane layoutX="410.0" layoutY="10.0" minHeight="200.0" minWidth="80.0" prefHeight="150.0" prefWidth="200.0" styleClass="rightSeparator" HBox.hgrow="ALWAYS">
+                           <children>
+                              <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="userContainerOpacity">
+                                 <children>
+                                    <Label styleClass="userLabelInactive" text="WAITING PLAYER">
+                                       <padding>
+                                          <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                       </padding>
+                                       <StackPane.margin>
+                                          <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                                       </StackPane.margin>
+                                    </Label>
+                                 </children>
+                              </StackPane>
+                           </children>
+                        </StackPane>
+                        <StackPane layoutX="610.0" layoutY="10.0" minHeight="200.0" minWidth="80.0" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="userContainerOpacity">
+                                 <children>
+                                    <Label styleClass="userLabelInactive" text="WAITING PLAYER">
+                                       <padding>
+                                          <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                       </padding>
+                                       <StackPane.margin>
+                                          <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                                       </StackPane.margin>
+                                    </Label>
+                                 </children>
+                              </StackPane>
+                           </children>
+                        </StackPane>
+                     </children>
+                  </HBox>
+               </children>
+            </StackPane>
+            <StackPane prefHeight="150.0" prefWidth="1173.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox minHeight="-Infinity" prefHeight="170.0" prefWidth="1173.0">
+                     <children>
+                        <AnchorPane prefHeight="200.0" prefWidth="1173.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <VBox prefHeight="100.0" prefWidth="170.0" HBox.hgrow="ALWAYS">
+                                       <padding>
+                                          <Insets right="30.0" />
+                                       </padding></VBox>
+                                    <AnchorPane minWidth="200.0" prefHeight="100.0" prefWidth="963.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <ProgressBar prefHeight="33.0" prefWidth="723.0" progress="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <VBox layoutX="210.0" layoutY="10.0" prefHeight="100.0" prefWidth="170.0" HBox.hgrow="ALWAYS">
+                                       <padding>
+                                          <Insets left="30.0" />
+                                       </padding></VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <Label alignment="TOP_CENTER" prefHeight="62.0" prefWidth="200.0" styleClass="percentageLabel" text="0%" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <VBox layoutX="38.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
+               </children>
+            </StackPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

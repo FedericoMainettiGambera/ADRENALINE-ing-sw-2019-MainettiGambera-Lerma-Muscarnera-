@@ -9,20 +9,29 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
+
 public class GUIstarter extends Application {
     public static Controller user;
 
-    @Override
-    public void start(Stage primaryStage) throws Exception{
+    public static Stage stage;
 
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("INITIALSCENE1.fxml"));
+    @Override
+    public void start(Stage primaryStage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Parent root = fxmlLoader.load(getClass().getClassLoader().getResource("INITIALSCENE1.fxml"));
+
         Scene scene= new Scene(root, 430, 529);
         scene.setFill(Color.TRANSPARENT);
+
         primaryStage.setResizable(false);
         primaryStage.initStyle(StageStyle.TRANSPARENT);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        primaryStage.setTitle("Adrenaline LOG-IN");
 
+        stage=primaryStage;
+
+        stage.setScene(scene);
+        stage.show();
     }
 
     //instead of having directly a main class here, the controller lounches this method.

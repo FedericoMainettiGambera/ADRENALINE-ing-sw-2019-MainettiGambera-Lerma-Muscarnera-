@@ -1,0 +1,110 @@
+*{
+    dark-primary-color: #0e1d24;
+    dark-primary-color-hover: #11353e;
+    hyperlink-color: #17c5f1;
+    hyperlink-color-disabled: #0a6270;
+    default-primary-color: #607D8B;
+    light-primary-color: #CFD8DC;
+    text-primary-color: #FFFFFF;
+    accent-color: #ffb523;
+    accent-color-o: rgba(255, 181, 35, 0.42);
+    accent-color-blue: #00e1e6;
+    accent-color-blue-lighter: #00faff;
+    accent-color-green: #00e655;
+    accent-color-green-o: rgba(0, 230, 77, 0.42);
+    accent-color-darker: #cb921d;
+    primary-text-color: #212121;
+    secondary-text-color: #757575;
+    divider-color: #BDBDBD;
+    dark-background: #0b0b0b;
+}
+
+/*background with adrenaline image*/
+.adrenalineBackground{
+    -fx-background-image: url(adremOpacity3.png);
+    -fx-background-size: 100% auto;
+    -fx-background-color: dark-background;
+}
+
+/*separator for the players*/
+.rightSeparator{
+    -fx-border-width: 0px 3px 0px 0px;
+    -fx-border-color: accent-color;
+}
+
+.userLabelInactive{
+    -fx-text-fill: accent-color;
+    -fx-font: 17px monospace;
+    -fx-border-width: 5px;
+    -fx-border-style: dotted;
+    -fx-border-color: accent-color;
+    -fx-border-radius: 18px;
+    -fx-background-radius: 19px;
+}
+.userLabelActive{
+    -fx-text-fill: accent-color;
+    -fx-font: 22px monospace;
+    -fx-font-weight: bold;
+    -fx-border-width: 5px;
+    -fx-border-color: accent-color;
+    -fx-border-radius: 18px;
+    -fx-background-radius: 19px;
+}
+
+/*users containers*/
+.userContainerOpacity{
+    -fx-background-color: linear-gradient(rgba(0, 0, 0, 0) 34.9%, rgba(0, 0, 0, 0.6) 35%, rgba(0, 0, 0, 0.6) 65%, rgba(0, 0, 0, 0) 65.1%);
+}
+.User1Active{/*mi aspetto un immagine più larga che alta, in cui il personaggino sia rappresentato sulla sinistra*/
+    -fx-background-image: url(giphy.gif);
+    -fx-background-size: auto 100%;
+    -fx-background-color: dark-background;
+}
+.User2Active{/*mi aspetto un immagine più larga che alta, in cui il personaggino sia rappresentato sulla sinistra*/
+    -fx-background-image: url(giphy-2.gif);
+    -fx-background-size: auto 100%;
+    -fx-background-color: dark-background;
+}
+.User3Active{/*mi aspetto un immagine più larga che alta, in cui il personaggino sia rappresentato sulla sinistra*/
+    -fx-background-image: url(giphy-5.gif);
+    -fx-background-size: auto 100%;
+    -fx-background-color: dark-background;
+}
+.User4Active{/*mi aspetto un immagine più larga che alta, in cui il personaggino sia rappresentato sulla sinistra*/
+    -fx-background-image: url(giphy-7.gif);
+    -fx-background-size: auto 100%;
+    -fx-background-color: dark-background;
+}
+.User5Active{/*mi aspetto un immagine più larga che alta, in cui il personaggino sia rappresentato sulla sinistra*/
+    -fx-background-image: url(giphy-8.gif);
+    -fx-background-size: auto 100%;
+    -fx-background-color: dark-background;
+}
+
+/*progress bar*/
+.progress-bar{
+    -fx-border-width: 3px;
+    -fx-border-radius: 5px;
+    -fx-accent: accent-color;
+}
+.progress-bar > .track {
+    -fx-text-box-border: rgb(0, 0, 0);
+    -fx-control-inner-background: rgb(48, 48, 48);
+}
+.progress-bar > .bar {
+    -fx-background-color: linear-gradient(
+            from 0px .75em to .75em 0px,
+            repeat,
+            -fx-accent 0%,
+            -fx-accent 49%,
+            derive(-fx-accent, 30%) 50%,
+            derive(-fx-accent, 30%) 99%
+    );
+}
+
+/*percentagelabel*/
+.percentageLabel{
+    -fx-text-fill: white;
+    -fx-font: 40px monospace;
+    -fx-font-weight: bold;
+}
