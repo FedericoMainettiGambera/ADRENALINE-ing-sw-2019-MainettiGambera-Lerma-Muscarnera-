@@ -1,6 +1,7 @@
 package it.polimi.se2019.view.outputHandler;
 
 import com.sun.deploy.cache.InMemoryLocalApplicationProperties;
+import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.events.Event;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
@@ -15,6 +16,7 @@ import it.polimi.se2019.view.components.ViewModelGate;
 import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,10 +24,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputMethodEvent;
@@ -40,9 +39,13 @@ import javafx.scene.text.Text;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 
 import javax.swing.event.MenuListener;
+import javax.swing.text.Document;
+import javax.xml.transform.dom.DOMLocator;
 import java.awt.event.TextEvent;
 import java.io.*;
 import java.net.InetAddress;
@@ -53,7 +56,7 @@ import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-public class ControllerInizialScene implements Initializable, OutputHandlerInterface{
+public class ControllerInizialScene extends Thread implements Initializable, OutputHandlerInterface {
 
 Parent root;
 
@@ -325,15 +328,23 @@ Parent root;
 
             //LoadingScene is set
             else{
-                Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("LOADING SCENE.fxml"));
+                root = FXMLLoader.load(getClass().getClassLoader().getResource("LOADING SCENE.fxml"));
                 Scene scene = new Scene(root, 710, 500);
                 Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 primaryStage.setScene(scene);
+
+
+
+
             }
             IP = ip.getText();
             port = Integer.parseInt(porta.getText());
             setConnection();
         }
+
+
+
+
 
 
         //******END***********************************************************************************************
@@ -342,14 +353,12 @@ Parent root;
 //****CONNECTION WAITING*****************************************************************************************+
 
 
-@FXML
+/*@FXML
 public void waitForPlayers(int number) throws FileNotFoundException{
 
-
     switch(number){
-        case 1: Image image = new Image(new FileInputStream("src/main/resources/giphy.gif"));
-        User1.setImage(image);
-         break;
+
+
         case 2: Image image2 = new Image(new FileInputStream("src/main/resources/giphy-2.gif"));
             User2.setImage(image2);
             break;
@@ -366,8 +375,55 @@ public void waitForPlayers(int number) throws FileNotFoundException{
     }
 
 
-}
+}*/
+/*@Override
+public void run(){
 
+
+        while(number<5){
+
+
+            try {
+                switch(number){
+                    case 1: Image image = new Image(new FileInputStream("src/main/resources/giphy.gif"));
+                        User1.setImage(image);
+
+
+                        break;
+                    case 2:
+
+
+                        Image image2 = new Image(new FileInputStream("src/main/resources/giphy-2.gif"));
+                        User2.setImage(image2);
+
+                        break;
+                    case 3:
+
+
+                        Image image3 = new Image(new FileInputStream("src/main/resources/giphy-5.gif"));
+                        User3.setImage(image3);
+
+                        break;
+                    case 4: Image image4 = new Image(new FileInputStream("src/main/resources/giphy-7.gif"));
+                        User4.setImage(image4);
+
+                        break;
+                    case 5: Image image5 = new Image(new FileInputStream("src/main/resources/giphy-8.gif"));
+                        User5.setImage(image5);
+
+                        break;
+
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+*/
+
+//}
     @Override
     public void gameCreated() {
 
@@ -395,7 +451,7 @@ public void waitForPlayers(int number) throws FileNotFoundException{
 
     @FXML
     @Override
-    public void newPlayersList(ModelViewEvent MVE) {
+    public void newPlayersList(ModelViewEvent MVE){
 
         try {
             root = FXMLLoader.load(getClass().getClassLoader().getResource("LOADING SCENE.fxml"));
@@ -405,30 +461,52 @@ public void waitForPlayers(int number) throws FileNotFoundException{
 
         int number=((PlayersListV)MVE.getComponent()).getPlayers().size();
 
-        try {
+
             switch(number){
                 case 1:
-                    Image image = new Image(new FileInputStream("src/main/resources/giphy.gif"));
-                    User1.setImage(image);
+                    User1=(ImageView) root.lookup("#User1");
+                    User1.setVisible(true);
+
                     break;
-                case 2: Image image2 = new Image(new FileInputStream("src/main/resources/giphy-2.gif"));
-                    User2.setImage(image2);
+                case 2:
+
+                    User2=(ImageView) root.lookup("#User2");
+                    User2.setVisible(true);
                     break;
-                case 3: Image image3 = new Image(new FileInputStream("src/main/resources/giphy-5.gif"));
-                    User3.setImage(image3);
+
+                    case 3:
+                        User1=(ImageView) root.lookup("#User1");
+                        User1.setVisible(true);
+                        User2=(ImageView) root.lookup("#User2");
+                        User2.setVisible(true);
+                        User3=(ImageView) root.lookup("#User3");
+                        User3.setVisible(true);
                     break;
-                case 4: Image image4 = new Image(new FileInputStream("src/main/resources/giphy-7.gif"));
-                    User4.setImage(image4);
+                case 4:
+                    User4=(ImageView) root.lookup("#User4");
+                    User4.setVisible(true);
+                    User1=(ImageView) root.lookup("#User1");
+                    User1.setVisible(true);
+                    User2=(ImageView) root.lookup("#User2");
+                    User2.setVisible(true);
                     break;
-                case 5: Image image5 = new Image(new FileInputStream("src/main/resources/giphy-8.gif"));
-                    User5.setImage(image5);
+                case 5:
+                    User5=(ImageView) root.lookup("#User5");
+                    User5.setVisible(true);
+                    User4=(ImageView) root.lookup("#User4");
+                    User4.setVisible(true);
+                    User1=(ImageView) root.lookup("#User1");
+                    User1.setVisible(true);
+                    User2=(ImageView) root.lookup("#User2");
+                    User2.setVisible(true);
                     break;
 
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+
+
+
     }
+
 
     @Override
     public void newBoard(ModelViewEvent MVE) {

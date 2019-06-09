@@ -43,30 +43,45 @@
                   >
                   <children>
                <ImageView fx:id="User1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@giphy-2.gif" />
+                  </image>
                </ImageView>
                   </children>
                   </VBox>
                   <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" >
                      <children>
-                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" fx:id="User2">
+                           <ImageView  visible="false" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" fx:id="User2">
+                              <image>
+                                 <Image url="@giphy-8.gif" />
+                              </image>
                            </ImageView>
                         </children>
                         </VBox>
                   <VBox layoutX="110.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" >
                      <children>
-                        <ImageView fx:id="User3" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView  visible="false" fx:id="User3" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@giphy-7.gif" />
+                           </image>
                         </ImageView>
                      </children>
                   </VBox>
                   <VBox layoutX="210.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS"  >
                      <children>
-                        <ImageView fx:id="User4" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView visible="false" fx:id="User4" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@giphy.gif" />
+                           </image>
                         </ImageView>
                      </children>
                   </VBox>
                   <VBox layoutX="310.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS"  >
                      <children>
-                        <ImageView  fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" fx:id="User5">
+                        <ImageView   visible="false" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" fx:id="User5">
+                           <image>
+                              <Image url="@giphy-5.gif" />
+                           </image>
                         </ImageView>
                      </children>
                   </VBox>
