@@ -4,6 +4,7 @@ import it.polimi.se2019.model.Game;
 import it.polimi.se2019.model.PlayersList;
 import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
+import it.polimi.se2019.networkHandler.sendPingRequest;
 import it.polimi.se2019.view.GUIstarter;
 import it.polimi.se2019.view.components.View;
 import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
@@ -52,21 +53,23 @@ public class  Controller{
         ViewControllerEventHandlerContext.socketVV = SVV;
 
         //Startin the Server as RMI
-        try {
-            RMIVV=new RMIVirtualView(VCEHC);
-            RMIVV.startServer();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(sendPingRequest.available(1099)) {
+            try {
+                RMIVV = new RMIVirtualView(VCEHC);
+                RMIVV.startServer();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ViewControllerEventHandlerContext.RMIVV = RMIVV;
+
+            //Registering the VirtualView as an observer of the model so it can receive the MVEs
+            System.out.println("<SERVER> Registering the VirtualViews (RMI and Socket) as observers of the Model");
+            ModelGate.model.setVirtualView(ViewControllerEventHandlerContext.socketVV, ViewControllerEventHandlerContext.RMIVV);
+            ModelGate.model.registerVirtualView();
         }
-        ViewControllerEventHandlerContext.RMIVV = RMIVV;
-
-        //Registering the VirtualView as an observer of the model so it can receive the MVEs
-        System.out.println("<SERVER> Registering the VirtualViews (RMI and Socket) as observers of the Model");
-        ModelGate.model.setVirtualView(ViewControllerEventHandlerContext.socketVV, ViewControllerEventHandlerContext.RMIVV);
-        ModelGate.model.registerVirtualView();
-
+        else System.out.println("only socket avaible");
     }
 
     public static void startClientSocketOrRMIWithGUI(){
@@ -87,9 +90,6 @@ public class  Controller{
                 System.err.println(e.getMessage());
                 return false;
             } catch (NotBoundException e) {
-                System.err.println(e.getMessage());
-                return false;
-            } catch (UnknownHostException e) {
                 System.err.println(e.getMessage());
                 return false;
             }
