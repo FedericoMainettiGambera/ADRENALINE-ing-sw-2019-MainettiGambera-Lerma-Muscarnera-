@@ -60,7 +60,9 @@ public class LoadingSceneController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
+        progressionBarGoal=0;
         labelProgress.setText("Waiting for players..");
+        (new Thread(new progressBarThread())).start();
     }
 
     public void newPlayersList(ModelViewEvent MVE){
@@ -72,16 +74,19 @@ public class LoadingSceneController implements Initializable {
             if(labelUser1.getStyleClass().contains("userLabelInactive")){
                 labelUser1.getStyleClass().removeAll("userLabelInactive");
                 labelUser1.getStyleClass().add("userLabelActive");
+                progressionBarGoal+=(1-progressionBarGoal)/5;
             }
         }
-        if(numberOfConnection>=2) {
+        if(numberOfConnection>=2){
             stackPaneUser2.getStyleClass().add("User2Active");
             labelUser2.setText(((PlayersListV)MVE.getComponent()).getPlayers().get(1).getNickname());
 
             if(labelUser2.getStyleClass().contains("userLabelInactive")){
                 labelUser2.getStyleClass().removeAll("userLabelInactive");
                 labelUser2.getStyleClass().add("userLabelActive");
+                progressionBarGoal+=(1-progressionBarGoal)/4;
             }
+
         }
         if(numberOfConnection>=3) {
             stackPaneUser3.getStyleClass().add("User3Active");
@@ -90,6 +95,8 @@ public class LoadingSceneController implements Initializable {
             if(labelUser3.getStyleClass().contains("userLabelInactive")){
                 labelUser3.getStyleClass().removeAll("userLabelInactive");
                 labelUser3.getStyleClass().add("userLabelActive");
+                progressionBarGoal+=(1-progressionBarGoal)/3;
+
             }
         }
         if(numberOfConnection>=4) {
@@ -99,6 +106,8 @@ public class LoadingSceneController implements Initializable {
             if(labelUser4.getStyleClass().contains("userLabelInactive")){
                 labelUser4.getStyleClass().removeAll("userLabelInactive");
                 labelUser4.getStyleClass().add("userLabelActive");
+                progressionBarGoal+=(1-progressionBarGoal)/2;
+
             }
         }
         if(numberOfConnection>=5) {
@@ -108,11 +117,12 @@ public class LoadingSceneController implements Initializable {
             if(labelUser5.getStyleClass().contains("userLabelInactive")){
                 labelUser5.getStyleClass().removeAll("userLabelInactive");
                 labelUser5.getStyleClass().add("userLabelActive");
+                progressionBarGoal+=1;
             }
         }
     }
 
-    /*
+
     private class progressBarThread implements Runnable{
         public boolean stop;
         @Override
@@ -131,10 +141,10 @@ public class LoadingSceneController implements Initializable {
             }
         }
     }
-    */
+
 
     public void modifyProgress(int currentTime, int totalTime){
-        double toAdd = (currentTime/totalTime)-progressionBarGoal;
+        double toAdd = (1-progressionBarGoal)/(totalTime-currentTime);
         progressionBarGoal+=toAdd;
         this.progressBar.setProgress(progressionBarGoal);
     }
