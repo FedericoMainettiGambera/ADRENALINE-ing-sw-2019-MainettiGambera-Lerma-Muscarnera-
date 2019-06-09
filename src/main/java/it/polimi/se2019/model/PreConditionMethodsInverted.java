@@ -1,5 +1,6 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.UsableInputTableRowType;
 
 import java.util.ArrayList;
@@ -132,59 +133,42 @@ public class PreConditionMethodsInverted {
 
     public List<Object> sameCardinalDirectionOfTargets(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)
     {
-        // TODO : rivedi
-        // restituisce tutti i possibili insiemi di target lungo gli stessi punti cardinali
-        List<Object> retVal = new ArrayList<>();
-        Player me = actionContext.getPlayer();
-        Board  board = actionContext.getBoard();
-        List<Object> retValNORTH = new ArrayList<>();
-        List<Object> retValSOUTH = new ArrayList<>();
-        List<Object> retValEAST =  new ArrayList<>();
-        List<Object> retValWEST = new ArrayList<>();
+        System.out.println("carico lista input disponibili sameCardinal");
 
-        // north;
-        for(int y = me.getPosition().getY();y > 0; y --) {
-            int x = me.getPosition().getX();
-            for (Player p : actionContext.getPlayerList().getPlayers()) {
-                if (p.getPosition().equals(new Position(x,y))) {
-                    retValNORTH.add(p);
-                }
-                }
-        }
-        // south
-        for(int y = me.getPosition().getY();y < 3; y ++) {
-            int x = me.getPosition().getX();
-            for (Player p : actionContext.getPlayerList().getPlayers()) {
-                if (p.getPosition().equals(new Position(x,y))) {
-                    retValSOUTH.add(p);
+       List<Object> retVal = new ArrayList<>();
+        try {
+            int counter = 0;
+            int i = 0;
+            Player previous = null;
+            for (counter = 0; counter < ((List<Object>) inputs).size(); counter++) {
+            }
+            for (i = counter - 1; i > 0; i--) {
+                System.out.println(inputSlots.get(i).getEffectInfoTypelist());
+                if (inputSlots.get(i).getEffectInfoTypelist().equals(EffectInfoType.singleTarget)) {
+                    previous = (Player) ((List<Object>) inputs).get(i);
                 }
             }
-        }
-        // east
-        for(int x = me.getPosition().getX();x > 0; x --) {
-            int y = me.getPosition().getY();
-            for (Player p : actionContext.getPlayerList().getPlayers()) {
-                if (p.getPosition().equals(new Position(x,y))) {
-                    retValEAST.add(p);
+            if (previous == null) {
+                /*la lista è ancora piena*/
+                for (Player p : actionContext.getPlayerList().getPlayers()) {
+                    retVal.add(p);
+                }
+            } else {
+                /*è gia stato consumato il primo attacco*/
+                for (Player current : actionContext.getPlayerList().getPlayers()) {
+
+                    if (((current.getPosition().getY() - previous.getPosition().getY()) == 0) ||
+                            ((current.getPosition().getX() - previous.getPosition().getX()) == 0)
+                    ) {
+
+                        retVal.add(current);
+
+                    }
                 }
             }
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        // west
-        for(int x = me.getPosition().getX();x > 0; x --) {
-            int y = me.getPosition().getY();
-            for (Player p : actionContext.getPlayerList().getPlayers()) {
-                if (p.getPosition().equals(new Position(x,y))) {
-                    retValWEST.add(p);
-                }
-            }
-        }
-        retVal.add(retValNORTH);
-        retVal.add(retValEAST);
-        retVal.add(retValWEST);
-        retVal.add(retValSOUTH);
-
-
-        // a questo punto effectInfoElement contiene un riferimento
         return retVal;
     }
     public List<Object> notInYourRoom(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)

@@ -1,9 +1,8 @@
 package it.polimi.se2019.view.outputHandler;
 
-import com.sun.deploy.cache.InMemoryLocalApplicationProperties;
-import com.sun.org.apache.xerces.internal.parsers.DOMParser;
+//import com.sun.deploy.cache.InMemoryLocalApplicationProperties;
+//import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
-import it.polimi.se2019.model.events.Event;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.stateEvent.StateEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventGameSetUp;
@@ -12,49 +11,35 @@ import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.view.components.OrderedCardListV;
 import it.polimi.se2019.view.components.PlayersListV;
 import it.polimi.se2019.view.components.View;
-import it.polimi.se2019.view.components.ViewModelGate;
 import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
 import javafx.animation.PauseTransition;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.InputMethodEvent;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
-
-import javax.swing.event.MenuListener;
-import javax.swing.text.Document;
-import javax.xml.transform.dom.DOMLocator;
-import java.awt.event.TextEvent;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 public class ControllerInizialScene extends Thread implements Initializable, OutputHandlerInterface {
 

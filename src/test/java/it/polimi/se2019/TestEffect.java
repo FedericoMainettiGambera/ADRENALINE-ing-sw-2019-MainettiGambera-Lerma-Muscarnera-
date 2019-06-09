@@ -146,8 +146,8 @@ public class TestEffect {
     @Test
     public void testUsable( ) throws Exception {
 
-            System.out.println("\t\tcarta " + 24);
-            WeaponCard w = new WeaponCard(24 + "");
+            System.out.println("\t\tcarta " + 13);
+            WeaponCard w = new WeaponCard(13 + "");
 
 
 
@@ -173,7 +173,7 @@ public class TestEffect {
 
         user1.setPosition(1,2);
         user2.setPosition(1,3);
-        user3.setPosition(1,2);                 //   same position
+        user3.setPosition(1,4);                 //   same position
         user4.setPosition(1,3);                 //
 
             w.getEffects().get(0).passContext(user1,playerList,board);
@@ -187,13 +187,13 @@ public class TestEffect {
                         )
                 );*/
 
-                if(counter == 0)
+                if(counter == 0) {
                     input[counter][0] = user2;
-                if(counter == 1)
+                }
+                if(counter == 1) {
                     input[counter][0] = user3;
-                if(counter == 2)
-                    input[counter][0] = user4;
-
+                    input[counter][1] = user4;
+                }
                 System.out.println("INPUT " + input[counter][0]);
                 w.getEffects().get(0).handleRow(el,input[counter]);
                 counter++;
@@ -201,20 +201,21 @@ public class TestEffect {
         //w.getEffects().get(0).handleInput(input);
 
 
-        System.out.println("/---------/");
-        for(Object x: w.getEffects().get(0).getFilledInputs()) {
-            System.out.println(((Player)((Object[])x)[0]).getNickname());
-        }
-        System.out.println("/---------/");
-            w.getEffects().get(0).Exec();
-        System.out.println("/---------/");
-
             for(Object x:  w.getEffects().get(0).usableInputs() )
             System.out.println("*" + x);
             //for(Object p:  w.getEffects().get(0).usableInputs().get(2).get(0))
             //    System.out.println("risultato = " + p.toString() + ":" + ((Player) p).getNickname());
+
             System.out.println("/---------/");
 
+            Object o[][] = new Object[10][10];
+            o[0][0] = user3;
+            w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(0), o[0]);
+            o[1][0] = user4;
+            w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(1), o[1]);
+            w.getEffects().get(0).Exec();
+        System.out.println("/---------/");
+        System.out.println("/---------/");
 
     }
 }
