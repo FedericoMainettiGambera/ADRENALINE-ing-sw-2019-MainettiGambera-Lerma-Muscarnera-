@@ -138,7 +138,7 @@ public class LoadingSceneController implements Initializable {
     private class progressBarThread implements Runnable{
         public boolean stop;
         @Override
-         public void run(){
+        public void run(){
             stop=false;
             while(!stop){
                 if(progressBar.getProgress() >= 1.0){
