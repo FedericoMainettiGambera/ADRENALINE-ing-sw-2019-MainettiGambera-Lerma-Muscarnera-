@@ -4,12 +4,18 @@ import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.view.components.PlayersListV;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
@@ -61,7 +67,7 @@ public class LoadingSceneController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources){
         progressionBarGoal=0;
-        labelProgress.setText("Waiting for players..");
+        labelProgress.setText("");
         (new Thread(new progressBarThread())).start();
     }
 
@@ -118,6 +124,12 @@ public class LoadingSceneController implements Initializable {
                 labelUser5.getStyleClass().removeAll("userLabelInactive");
                 labelUser5.getStyleClass().add("userLabelActive");
                 progressionBarGoal+=1;
+                this.progressBar.setProgress(1.0);
+                try {
+                    this.changeScene("GAMESCENE1.fxml");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -129,14 +141,18 @@ public class LoadingSceneController implements Initializable {
          public void run(){
             stop=false;
             while(!stop){
-               if(progressBar.getProgress()<=LoadingSceneController.progressionBarGoal){
-                   progressBar.setProgress(progressBar.getProgress()+0.002);
-                   try {
-                       TimeUnit .MILLISECONDS.sleep(50);
-                   } catch (InterruptedException e) {
-                       stop=true;
-                   }
-               }
+                if(progressBar.getProgress() >= 1.0){
+                    progressBar.setProgress(1.0);
+                    break;
+                }
+                if(progressBar.getProgress()<=LoadingSceneController.progressionBarGoal){
+                    progressBar.setProgress(progressBar.getProgress()+0.002);
+                    try {
+                        TimeUnit .MILLISECONDS.sleep(50);
+                    } catch (InterruptedException e) {
+                        stop=true;
+                    }
+                }
 
             }
         }
@@ -144,12 +160,29 @@ public class LoadingSceneController implements Initializable {
 
 
     public void modifyProgress(int currentTime, int totalTime){
-        double toAdd = (1-progressionBarGoal)/(totalTime-currentTime);
-        progressionBarGoal+=toAdd;
-        this.progressBar.setProgress(progressionBarGoal);
+        if(currentTime == totalTime || progressionBarGoal>=1){
+            this.progressBar.setProgress(1.0);
+        }
+        else {
+            double toAdd = (1 - progressionBarGoal) / (totalTime - currentTime);
+            progressionBarGoal += toAdd;
+            this.progressBar.setProgress(progressionBarGoal);
+        }
     }
 
     public void setNickname(String nickname){
         this.nickname = nickname;
+    }
+
+    public void changeScene(String path) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getClassLoader().getResource(path));
+        Parent root = fxmlLoader.load();
+        GUIstarter.stageController=fxmlLoader.getController();
+        Scene scene = new Scene(root);
+        scene.setFill(Color.BLACK);
+
+        //hide old stage
+        GUIstarter.stage.setScene(scene);
     }
 }
