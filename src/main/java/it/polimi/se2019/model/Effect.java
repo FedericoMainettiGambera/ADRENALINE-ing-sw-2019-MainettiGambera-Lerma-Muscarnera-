@@ -206,7 +206,7 @@ public class Effect implements Serializable {
 //                        System.out.println("azione " + a_ + " nome precondizione : " + a_.getActionInfo().getPreConditionMethodName());
 
                         method = c.getDeclaredMethod(a_.getActionInfo().getPreConditionMethodName(), paramTypes);
-                        System.out.println("@@@ eseguo l'inversa di " + a_.getActionInfo().getPreConditionMethodName());
+                        System.out.println("# " + eie.getEffectInfoTypelist() +" @@@ eseguo l'inversa di " + a_.getActionInfo().getPreConditionMethodName());
 
                         invertedPreConditionOutput = method.invoke(preConditionMethodsInverted,
                                 this.getActions().get(0).getActionInfo().getActionContext(),
@@ -256,7 +256,12 @@ public class Effect implements Serializable {
                         {
                             System.out.println("interseco con.." + intermediateList.get(i).get(k)  );
                             for (Object d : (List<Object>) intermediateList.get(i).get(k)) {
-                                System.out.println(((Player)d).getNickname());
+                                if(d.getClass().toString().equals("class it.polimi.se2019.model.Player")) {
+                                    System.out.println(((Player) d).getNickname());
+                                } else {
+                                    System.out.println("[" + ((Square) d).getCoordinates().getX() + ", " + ((Square) d).getCoordinates().getX() + "]");
+
+                                }
                             }
                             retVal.get(i).set(j,
                                     intersect(

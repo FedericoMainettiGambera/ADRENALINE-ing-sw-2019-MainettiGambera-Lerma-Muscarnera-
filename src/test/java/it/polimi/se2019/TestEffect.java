@@ -4,6 +4,7 @@ import it.polimi.se2019.model.*;
 import it.polimi.se2019.virtualView.VirtualView;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TestEffect {
@@ -278,5 +279,70 @@ for(int cardID = 1; cardID < 21; cardID ++) {
         System.out.println("no input");
     }
 }
+    }
+
+
+
+    @Test
+    public void testUsable3() throws Exception {
+
+        Board board = new Board("2",new VirtualView(),new VirtualView());
+        List<Player> user = new ArrayList<>();
+        user.add(new Player());user.add(new Player());user.add(new Player());user.add(new Player());
+        Player user1 = user.get(0);
+        Player user2 = user.get(1);
+        Player user3 = user.get(2);
+        Player user4 = user.get(3);
+
+
+        user1.setNickname("Aldo");
+        user2.setNickname("Bruno");
+        user3.setNickname("Carlo");
+        user4.setNickname("Dario");
+        PlayersList playerList = new PlayersList();
+        playerList.getPlayers().add(user1);
+        playerList.getPlayers().add(user2);
+        playerList.getPlayers().add(user3);
+        playerList.getPlayers().add(user4);
+
+        int cardID = 12;
+            System.out.println("\t\tcarta " + cardID);
+            WeaponCard w = new WeaponCard(cardID + "");
+
+
+
+            user1.setPosition(1, 2);
+            user2.setPosition(1, 2);
+            user3.setPosition(1, 1);                 //   same position
+            user4.setPosition(2, 2);                 //
+
+        for (Square[] y : board.getMap())
+            for (Square x : y) {
+
+                String name = "";
+                for(Player t: user) {
+                    if(t.getPosition().equals(x.getCoordinates())) {
+                        name += t.getNickname() + "\t";
+                    }
+                    }
+                System.out.println(x.getCoordinates().getX() + " , " + x.getCoordinates().getY() + ": " + x.getColor() + "\t" + name + "\t");
+
+            }
+
+            Object[] o = new Object[10];
+            o[0] = board.getSquare(2,2);
+            w.getEffects().get(0).passContext(user1,playerList,board);
+            System.out.println(w.getEffects().get(0).usableInputs());
+            w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(0),o);
+            o[0] = user2;
+            System.out.println(w.getEffects().get(0).usableInputs().get(1));
+            w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(1),o);
+            try {
+                w.getEffects().get(0).passContext(user1, playerList, board);
+                w.getEffects().get(0).usableInputs();
+            } catch(Exception e) {
+                System.out.println("no input");
+            }
+
     }
 }

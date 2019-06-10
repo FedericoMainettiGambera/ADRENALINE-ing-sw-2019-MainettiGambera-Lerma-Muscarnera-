@@ -8,6 +8,9 @@ import it.polimi.se2019.model.enumerations.UsableInputTableRowType;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.se2019.model.enumerations.UsableInputTableRowType.typePlayer;
+import static it.polimi.se2019.model.enumerations.UsableInputTableRowType.typeSquare;
+
 public class PreConditionMethodsInverted {
     public List<Object> targetInLastSquareSelected(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
         List<Object> retVal = new ArrayList<>();
@@ -16,7 +19,7 @@ public class PreConditionMethodsInverted {
             for (Player t : actionContext.getPlayerList().getPlayers())
                 retVal.add(t);
         }
-        if (type.equals(UsableInputTableRowType.typeSquare)) {
+        if (type.equals(typeSquare)) {
             for (Square y[] : actionContext.getBoard().getMap()) {
                 for (Square x : y) {
                     retVal.add(x);
@@ -26,39 +29,113 @@ public class PreConditionMethodsInverted {
 
         return retVal;
     }
+    public List<Object> distanceFromOriginalPositionIs1 (ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
+
+        List<Object> retVal = new ArrayList<>();
+        try {
+            if (type.equals(typeSquare)) {
+
+                if (actionDetails.getUserSelectedActionDetails().getTargetList().size() > 0) {
+                    // target list not empty
+                    Position chosenSquarePosition = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
+                    for (Square[] R : actionContext.getBoard().getMap()) {
+                        for (Square C : R) {
+                            if (actionContext.getBoard().distanceFromTo(
+                                    C.getCoordinates(),
+                                    actionDetails.getUserSelectedActionDetails().getTarget().getPosition()
+                            ) == (1 + 1)) {
+                                // la distanza è 1
+                                retVal.add(C);
+                            }
+
+
+                        }
+                    }
+                } else {
+                    // target list empty
+                    for (Square[] R : actionContext.getBoard().getMap()) {
+                        for (Square C : R) {
+                            retVal.add(C);
+                        }
+                    }
+
+                }
+
+            }
+            if (type.equals(typePlayer)) {
+                if(actionDetails.getUserSelectedActionDetails().getChosenSquare() != null) {
+                            // square selezionato
+                        for (Player C : actionContext.getPlayerList().getPlayers()) {
+                            if (actionContext.getBoard().distanceFromTo(
+                                    C.getPosition(),
+                                    actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates()
+                            ) == (1 + 1)) {
+                                // la distanza è 1
+                                retVal.add(C);
+                            }
+
+
+                        }
+
+                } else {    // square non ancora selezionato
+                    for (Player C : actionContext.getPlayerList().getPlayers()) {
+                        retVal.add(C);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("---- "+ e);
+
+        }
+        System.out.println("123 " + retVal);
+        return retVal;
+    }
     public List<Object> distanceFromOriginalPositionLessThan2(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
         List<Object> retVal = new ArrayList<>();
-        System.out.println("##############");
-        Position A = null;
-        System.out.println("##############");
-        if(actionDetails.getUserSelectedActionDetails().getTargetList().size() != 0) {
-            A = actionDetails.getUserSelectedActionDetails().getTarget().getPosition();
-        }
-        System.out.println("##############");
-        try {
-            if (type.equals(UsableInputTableRowType.typeSquare)) {
-                for (Square[] riga : actionContext.getBoard().getMap())
-                    for (Square cella : riga) {
-                        Position B = cella.getCoordinates();
-                        System.out.println("-" + A.getY());
-                        System.out.println("# la distanza [(" + A.getY() + ", " + A.getX() + ") --> (" + B.getY() + ", " + B.getX() + ")] tra i due square è minore di 2?");
-                        float Distance = (A.getX() - B.getX()) * (A.getX() - B.getX()) +
-                                (A.getY() - B.getY()) * (A.getY() - B.getY());
-                        System.out.println("la distanza è " + Distance);
-                        if (Distance <= 4) {
-                            System.out.println("si");
-                        } else {
-                            System.out.println("no");
-                        }
-                        if (Distance <= 4) retVal.add(cella);
-                    }
-            }
-        }catch(Exception e){System.out.println("@@@" + e);}
-        if(type.equals(UsableInputTableRowType.typePlayer)) {
-            for(Player p: actionContext.getPlayerList().getPlayers())
-                retVal.add(p);
-        }
+        if(type.equals(typeSquare)) {
+            for(Square[] R: actionContext.getBoard().getMap()) {
+                for(Square C: R) {
 
+                    retVal.add(C);
+
+                }
+
+            }
+        }
+        if(type.equals(typePlayer)) {
+            System.out.println("##############");
+            Position A = null;
+            System.out.println("##############");
+            if (actionDetails.getUserSelectedActionDetails().getTargetList().size() != 0) {
+                A = actionDetails.getUserSelectedActionDetails().getTarget().getPosition();
+            }
+            System.out.println("##############");
+            try {
+                if (type.equals(typeSquare)) {
+                    for (Square[] riga : actionContext.getBoard().getMap())
+                        for (Square cella : riga) {
+                            Position B = cella.getCoordinates();
+                            System.out.println("-" + A.getY());
+                            System.out.println("# la distanza [(" + A.getY() + ", " + A.getX() + ") --> (" + B.getY() + ", " + B.getX() + ")] tra i due square è minore di 2?");
+                            float Distance = (A.getX() - B.getX()) * (A.getX() - B.getX()) +
+                                    (A.getY() - B.getY()) * (A.getY() - B.getY());
+                            System.out.println("la distanza è " + Distance);
+                            if (Distance <= 4) {
+                                System.out.println("si");
+                            } else {
+                                System.out.println("no");
+                            }
+                            if (Distance <= 4) retVal.add(cella);
+                        }
+                }
+            } catch (Exception e) {
+                System.out.println("@@@" + e);
+            }
+            if (type.equals(UsableInputTableRowType.typePlayer)) {
+                for (Player p : actionContext.getPlayerList().getPlayers())
+                    retVal.add(p);
+            }
+        }
         return retVal;
     }
     public List<Object> distanceFromOriginalSquareIs1(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
@@ -78,7 +155,7 @@ public class PreConditionMethodsInverted {
                 }
             }
         }
-        if (type.equals(UsableInputTableRowType.typeSquare)) {
+        if (type.equals(typeSquare)) {
             for (Square y[] : actionContext.getBoard().getMap()) {
                 for (Square x : y) {
                     retVal.add(x);
@@ -97,7 +174,7 @@ public class PreConditionMethodsInverted {
             for (Player t : actionContext.getPlayerList().getPlayers())
                 retVal.add(t);
         }
-        if (type.equals(UsableInputTableRowType.typeSquare)) {
+        if (type.equals(typeSquare)) {
             System.out.println("B");
             for (Square y[] : actionContext.getBoard().getMap()) {
                 for (Square x : y) {
@@ -188,7 +265,7 @@ public class PreConditionMethodsInverted {
         Player me = actionContext.getPlayer();
         Position playerPosition = me.getPosition();
         Square   playerSquare   = actionContext.getBoard().getSquare(playerPosition);
-        if(type.equals(UsableInputTableRowType.typeSquare)) {
+        if(type.equals(typeSquare)) {
             for (Square[] riga : actionContext.getBoard().getMap()) {
                 for (Square cella : riga) {
                     if (
@@ -381,7 +458,7 @@ public class PreConditionMethodsInverted {
 
         }
 
-        if(type.equals(UsableInputTableRowType.typeSquare)) {
+        if(type.equals(typeSquare)) {
 
         }
         if(type.equals(UsableInputTableRowType.typePlayer)) {
