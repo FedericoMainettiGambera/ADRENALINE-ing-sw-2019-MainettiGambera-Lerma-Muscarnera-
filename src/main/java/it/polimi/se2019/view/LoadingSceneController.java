@@ -139,7 +139,7 @@ public class LoadingSceneController implements Initializable {
                     break;
                 }
                 if(progressBar.getProgress()<=LoadingSceneController.progressionBarGoal){
-                    progressBar.setProgress(progressBar.getProgress()+0.002);
+                    progressBar.setProgress(progressBar.getProgress()+0.006);
                     try {
                         TimeUnit .MILLISECONDS.sleep(50);
                     } catch (InterruptedException e) {
@@ -159,7 +159,6 @@ public class LoadingSceneController implements Initializable {
         else {
             double toAdd = (1 - progressionBarGoal) / (totalTime - currentTime);
             progressionBarGoal += toAdd;
-            this.progressBar.setProgress(progressionBarGoal);
         }
     }
 

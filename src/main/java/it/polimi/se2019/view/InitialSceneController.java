@@ -88,9 +88,6 @@ public class InitialSceneController implements Initializable {
 
             //Check if IP is correct
             boolean connect=sendPingRequest.sendPingRequest(IPContent);
-            if(connect) {
-                connect = sendPingRequest.available(1099);
-                       }
             if(connect){
             //Connect to server using the Controller's static method
             if(Controller.connect(netWorkConnection.toUpperCase(),"GUI",IPContent,PORTContent)) {
