@@ -52,12 +52,13 @@ public class SocketVirtualView extends VirtualView {
 
 
 
-    public static void sendToClient(ObjectOutputStream oos, Object o){
+    public static void sendToClient(Player playerToSend, Object o){
         try{
-            oos.writeObject(o);
-            oos.reset();
+            playerToSend.getOos().writeObject(o);
+            playerToSend.getOos().reset();
         }catch (IOException e ){
-            e.printStackTrace();
+            System.err.println("Player not reachable. Setting AFK.");
+            playerToSend.setIsAFK(true);
         }
     }
 
@@ -81,7 +82,8 @@ public class SocketVirtualView extends VirtualView {
                         p.getOos().reset();
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.err.println("Player not reachable.");
+                    p.setIsAFK(true);
                 }
             }
         }

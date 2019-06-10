@@ -59,8 +59,6 @@ public class LoadingSceneController implements Initializable {
     @FXML
     private ProgressBar progressBar;
 
-
-
     private String nickname;
 
 
@@ -125,11 +123,6 @@ public class LoadingSceneController implements Initializable {
                 labelUser5.getStyleClass().add("userLabelActive");
                 progressionBarGoal+=1;
                 this.progressBar.setProgress(1.0);
-                try {
-                    this.changeScene("GAMESCENE1.fxml");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         }
     }

@@ -56,6 +56,10 @@ public class InitialSceneController implements Initializable {
         this.reconnectHyperlink.setDisable(true);
         this.CLIHyperlink.setDisable(true);
 
+        //change title
+        String titleLabelContent = "CONNECTING...";
+        this.titleLabel.setText(titleLabelContent);
+
         //nickname
         this.nicknameContent = this.nicknameTextField.getText();
         //IP
@@ -73,20 +77,19 @@ public class InitialSceneController implements Initializable {
         else if(this.networkConnectionToggleGroup.getSelectedToggle().equals(this.socketRadio)){
             this.netWorkConnection = "SOCKET";
         }
-        else{
+        else {
             this.netWorkConnection = "";
         }
-
-        //change title
-        String titleLabelContent = "CONNECTING...";
-        this.titleLabel.setText(titleLabelContent);
 
         //check if all field are full
         if(!nicknameContent.equals("") && !netWorkConnection.equals("") && !IPContent.equals("") && !PORTContent.equals("")){
             //clear the log label
             this.logLabel.setText("");
 
+            //Check if IP is correct
+            boolean connect=sendPingRequest.sendPingRequest(IPContent);
 
+            if(connect){
             //Connect to server using the Controller's static method
             if(Controller.connect(netWorkConnection.toUpperCase(),"GUI",IPContent,PORTContent)) {
                 //connection was succesfull!
@@ -111,6 +114,7 @@ public class InitialSceneController implements Initializable {
 
                 ((LoadingSceneController)fxmlLoader.getController()).setNickname(this.nicknameContent);
 
+            }
             }
             else {
                 //say that connection wasn't possible

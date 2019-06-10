@@ -5,6 +5,7 @@ import it.polimi.se2019.model.events.Event;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEvent;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventWeaponCards;
 import it.polimi.se2019.view.components.View;
+import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -33,26 +34,17 @@ public class ServerListenerNetworkHandler extends Observable implements Runnable
             this.addObserver(this.view);
     }
 
-    public void closeSocket(){
-        try {
-            this.socket.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        this.isSocketLive=false;
-    }
-
     @Override
     public void run() {
-        while(isSocketLive){
+        while(this.socket.isConnected()){
             try {
                 Event E = (Event)this.ois.readObject();
                 this.setChanged();
                 this.notifyObservers(E);
             }
             catch (IOException|ClassNotFoundException e) {
-                e.printStackTrace();
+                OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
+                break;
             }
         }
     }
