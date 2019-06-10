@@ -21,8 +21,10 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 import static it.polimi.se2019.view.LoadingSceneController.progressionBarGoal;
 
@@ -72,7 +74,20 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
 
     @Override
     public void stateChanged(StateEvent StE) {
-
+        if(StE.getState().contains("GameSetUpState")){
+            while(true) {
+                if (GUIstarter.stageController.getClass().toString().contains("LoadingSceneController")) {
+                    ((LoadingSceneController)GUIstarter.stageController).changeScene("GAMESCENE1.fxml");
+                    break;
+                } else {
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(300);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -92,8 +107,19 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
 
     @Override
     public void newPlayersList(ModelViewEvent MVE){
-        if(GUIstarter.stageController.getClass().toString().contains("LoadingSceneController")) {
-            ((LoadingSceneController) GUIstarter.stageController).newPlayersList(MVE);
+        boolean done = false;
+        while(!done) {
+            if (GUIstarter.stageController.getClass().toString().contains("LoadingSceneController")) {
+                ((LoadingSceneController) GUIstarter.stageController).newPlayersList(MVE);
+                done = true;
+            }
+            else{
+                try {
+                    TimeUnit.MILLISECONDS.sleep(300);
+                } catch (InterruptedException e) {
+                    break;
+                }
+            }
         }
     }
 

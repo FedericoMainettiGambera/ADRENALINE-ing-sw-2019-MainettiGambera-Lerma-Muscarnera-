@@ -85,11 +85,22 @@ public class  Controller{
                 V = new View("RMI", "CLI");
             }
             try {
-                RMINH=new RMINetworkHandler(IP, Integer.parseInt(Port), V);
+                if(sendPingRequest.sendPingRequest(IP)) {
+                    try {
+                        RMINH = new RMINetworkHandler(IP, Integer.parseInt(Port), V);
+                    }
+                    catch (NumberFormatException e){
+                        System.err.println(e.getMessage());
+                        return false;
+                    }
+                }
             } catch (RemoteException e) {
                 System.err.println(e.getMessage());
                 return false;
             } catch (NotBoundException e) {
+                System.err.println(e.getMessage());
+                return false;
+            } catch (IOException e) {
                 System.err.println(e.getMessage());
                 return false;
             }
@@ -102,10 +113,13 @@ public class  Controller{
                 V = new View("SOCKET", "CLI");
             }
             try {
-                if(Port.contains(".")){ //deny number with comma.
+                try{
+                    SNH = new SocketNetworkHandler(InetAddress.getByName(IP), Integer.parseInt(Port) , V);
+                }
+                catch (NumberFormatException e){
+                    System.err.println(e.getMessage());
                     return false;
                 }
-                SNH = new SocketNetworkHandler(InetAddress.getByName(IP), Integer.parseInt(Port) , V);
             } catch (UnknownHostException e) {
                 System.err.println(e.getMessage());
                 return false;
