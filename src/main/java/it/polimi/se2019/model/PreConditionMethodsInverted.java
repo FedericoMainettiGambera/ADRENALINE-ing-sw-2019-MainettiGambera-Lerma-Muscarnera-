@@ -36,9 +36,9 @@ public class PreConditionMethodsInverted {
                 int Distance = (A.getX() - B.getX()) * (A.getX() - B.getX()) +
                         (A.getY() - B.getY()) * (A.getY() - B.getY());
 
-                System.out.println("# " + Distance);
+                System.out.println("# La distanza con "+ target.getNickname() + " è " + Distance);
                 if (Distance == 1) {
-                    retVal.add(B);
+                    retVal.add(target);
                 }
             }
         }
@@ -49,6 +49,7 @@ public class PreConditionMethodsInverted {
                 }
             }
         }
+        System.out.println(retVal);
         return retVal;
     }
 
@@ -130,8 +131,30 @@ public class PreConditionMethodsInverted {
         ;
         return retVal;
     }
+    public List<Object> distanceOfTargetFromPlayerSquareLessThan2Moves(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)
+    {
+        List<Object> retVal  = new ArrayList<>();
+        Player me = actionContext.getPlayer();
+        try {
+            for (Player t : actionContext.getPlayerList().getPlayers()) {
+                System.out.println(":::" + t.getPosition().getX() + " , " + t.getPosition().getY());
+                if(!t.equals(me))
+                if (actionContext.getBoard().distanceFromTo(me.getPosition(), t.getPosition()) == 2) {
+                    System.out.println(":::");
+                    retVal.add(t);
+                    System.out.println(":::");
+                }
 
-    public List<Object> sameCardinalDirectionOfTargets(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)
+            }
+        }catch (Exception e){
+            System.out.println("----- eccezione " + e);
+        }
+        System.out.println("***");
+        System.out.println(retVal);
+        System.out.println("***");
+        return retVal;
+    }
+    public List<Object> sameCardinalDirectionOfTargets(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoType> inputSlots)
     {
         System.out.println("carico lista input disponibili sameCardinal");
 
@@ -140,14 +163,20 @@ public class PreConditionMethodsInverted {
             int counter = 0;
             int i = 0;
             Player previous = null;
-            for (counter = 0; counter < ((List<Object>) inputs).size(); counter++) {
+            for (counter = 0; counter <= ((List<Object>) inputs).size(); counter++) {
             }
-            for (i = counter - 1; i > 0; i--) {
-                System.out.println(inputSlots.get(i).getEffectInfoTypelist());
-                if (inputSlots.get(i).getEffectInfoTypelist().equals(EffectInfoType.singleTarget)) {
-                    previous = (Player) ((List<Object>) inputs).get(i);
+            System.out.println("size: " + counter);
+            for (i = counter -1; i > 0; i--) {
+                System.out.println(":");
+                System.out.println(inputSlots.get(i-1));
+                System.out.println(":");
+                if (inputSlots.get(i).equals(EffectInfoType.singleTarget)) {
+                    System.out.println(": found");
+                    previous = (Player) ((Object[])((List<Object>) inputs).get(i-1))[0];
+                    System.out.println(":");
                 }
             }
+            System.out.println("*" + previous);
             if (previous == null) {
                 /*la lista è ancora piena*/
                 for (Player p : actionContext.getPlayerList().getPlayers()) {
@@ -155,11 +184,16 @@ public class PreConditionMethodsInverted {
                 }
             } else {
                 /*è gia stato consumato il primo attacco*/
+                System.out.println("*");
                 for (Player current : actionContext.getPlayerList().getPlayers()) {
-
-                    if (((current.getPosition().getY() - previous.getPosition().getY()) == 0) ||
-                            ((current.getPosition().getX() - previous.getPosition().getX()) == 0)
-                    ) {
+                    System.out.println("**");
+                    if ((
+                            ((current.getPosition().getY() - previous.getPosition().getY()) == 0) &&
+                            (current.getPosition().getY() - actionContext.getPlayer().getPosition().getY()) == 0)
+                            ||
+                            ((current.getPosition().getX() - previous.getPosition().getX()) == 0) &&
+                                    (current.getPosition().getX() - actionContext.getPlayer().getPosition().getX()) == 0)
+                     {
 
                         retVal.add(current);
 
@@ -169,6 +203,9 @@ public class PreConditionMethodsInverted {
         } catch (Exception e) {
             System.out.println(e);
         }
+        System.out.println("***");
+        System.out.println(retVal);
+        System.out.println("***");
         return retVal;
     }
     public List<Object> notInYourRoom(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)
@@ -208,8 +245,9 @@ public class PreConditionMethodsInverted {
         for(Player target: actionContext.getPlayerList().getPlayers())
             if(actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition()) == 2)
                 retVal.add(target);
-
-
+        System.out.println("***");
+        System.out.println(retVal);
+        System.out.println("***");
         return retVal;
     }
     public List<Object> notPreviousTarget(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)

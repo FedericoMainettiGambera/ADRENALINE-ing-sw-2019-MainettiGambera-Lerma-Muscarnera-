@@ -4,6 +4,8 @@ import it.polimi.se2019.model.*;
 import it.polimi.se2019.virtualView.VirtualView;
 import org.junit.Test;
 
+import java.util.List;
+
 public class TestEffect {
     /*FOR MAVEN PURPOSE
     @Test
@@ -173,19 +175,19 @@ public class TestEffect {
 
         user1.setPosition(1,2);
         user2.setPosition(1,3);
-        user3.setPosition(1,4);                 //   same position
-        user4.setPosition(1,3);                 //
+        user3.setPosition(1,1);                 //   same position
+        user4.setPosition(2,2);                 //
 
             w.getEffects().get(0).passContext(user1,playerList,board);
             int counter = 0;
             Object[][] input = new Object[10][10];
-            for(EffectInfoElement el: w.getEffects().get(0).getEffectInfo().getEffectInfoElement()) {
-               /* System.out.println("**************** input atteso per " + el.getEffectInfoTypelist() + ">" + w.getEffects().get(0).usableInputs().get(
+           /* for(EffectInfoElement el: w.getEffects().get(0).getEffectInfo().getEffectInfoElement()) {
+                System.out.println("**************** input atteso per " + el.getEffectInfoTypelist() + ">" + w.getEffects().get(0).usableInputs().get(
 
                         w.getEffects().get(0).getEffectInfo().getEffectInfoElement().indexOf(el)
 
                         )
-                );*/
+                );
 
                 if(counter == 0) {
                     input[counter][0] = user2;
@@ -197,12 +199,12 @@ public class TestEffect {
                 System.out.println("INPUT " + input[counter][0]);
                 w.getEffects().get(0).handleRow(el,input[counter]);
                 counter++;
-              }
+              }*/
         //w.getEffects().get(0).handleInput(input);
 
 
-            for(Object x:  w.getEffects().get(0).usableInputs() )
-            System.out.println("*" + x);
+            //for(Object x:  w.getEffects().get(0).usableInputs() )
+            //System.out.println("*" + x);
             //for(Object p:  w.getEffects().get(0).usableInputs().get(2).get(0))
             //    System.out.println("risultato = " + p.toString() + ":" + ((Player) p).getNickname());
 
@@ -210,9 +212,27 @@ public class TestEffect {
 
             Object o[][] = new Object[10][10];
             o[0][0] = user3;
-            w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(0), o[0]);
+        System.out.println("input  " + (user1).getNickname() + "[" +  (user1).getPosition().getX() + " , " +  (user1).getPosition().getY() + "]");
+        System.out.println("input  " + ((Player) o[0][0]).getNickname() + "[" +  ((Player) o[0][0]).getPosition().getX() + " , " +  ((Player) o[0][0]).getPosition().getY() + "]");
+
+        System.out.println("********" + w.getEffects().get(0).usableInputs().get(0));
+        for(Object t: (w.getEffects().get(0).usableInputs().get(0))) {
+            for(Object z: (List<Player>)t) {
+                System.out.println("ammesso " + ((Player) z).getNickname() + "[" +  ((Player) z).getPosition().getX() + " , " +  ((Player) z).getPosition().getY() + "]");
+            }
+        }
+        System.out.println("***********");
+        w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(0), o[0]);
             o[1][0] = user4;
-            w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(1), o[1]);
+        System.out.println("input  " + ((Player) o[1][0]).getNickname() + "[" +  ((Player) o[1][0]).getPosition().getX() + " , " +  ((Player) o[1][0]).getPosition().getY() + "]");
+        System.out.println("********" + w.getEffects().get(0).usableInputs().get(1));
+        for(Object t: (w.getEffects().get(0).usableInputs().get(1))) {
+            for(Object z: (List<Player>)t) {
+                System.out.println("ammesso " + ((Player) z).getNickname() + "[" +  ((Player) z).getPosition().getX() + " , " +  ((Player) z).getPosition().getY() + "]");
+            }
+        }
+        System.out.println("***********");
+        w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(1), o[1]);
             w.getEffects().get(0).Exec();
         System.out.println("/---------/");
         System.out.println("/---------/");

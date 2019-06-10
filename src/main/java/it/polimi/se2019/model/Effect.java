@@ -206,6 +206,7 @@ public class Effect implements Serializable {
 //                        System.out.println("azione " + a_ + " nome precondizione : " + a_.getActionInfo().getPreConditionMethodName());
 
                         method = c.getDeclaredMethod(a_.getActionInfo().getPreConditionMethodName(), paramTypes);
+                        System.out.println("@@@ eseguo l'inversa di " + a_.getActionInfo().getPreConditionMethodName());
                         invertedPreConditionOutput = method.invoke(preConditionMethodsInverted,
                                 this.getActions().get(0).getActionInfo().getActionContext(),
                                 rowType.get(getEffectInfo().getEffectInfoElement().indexOf(eie)),
@@ -252,10 +253,10 @@ public class Effect implements Serializable {
                     for (k = 0; k < this.getActions().size(); k++) {
                         if(intermediateList.get(i).get(k) != null)
                         {
- //                           System.out.println("interseco con.." + intermediateList.get(i).get(k)  );
- //                           for (Object d : (List<Object>) intermediateList.get(i).get(k)) {
- //                               System.out.println(d.toString());
- //                           }
+                            System.out.println("interseco con.." + intermediateList.get(i).get(k)  );
+                            for (Object d : (List<Object>) intermediateList.get(i).get(k)) {
+                                System.out.println(((Player)d).getNickname());
+                            }
                             retVal.get(i).set(j,
                                     intersect(
                                             retVal.get(i).get(j),
@@ -277,6 +278,8 @@ public class Effect implements Serializable {
                 System.out.println(x);
             }
         }*/
+for(Object t:retVal)
+    System.out.println(t);
         return retVal;
     }
     public void setOf(WeaponCard of) {
