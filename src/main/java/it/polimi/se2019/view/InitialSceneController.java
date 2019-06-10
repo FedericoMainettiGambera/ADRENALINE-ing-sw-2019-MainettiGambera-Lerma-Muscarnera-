@@ -117,7 +117,6 @@ public class InitialSceneController implements Initializable {
                 ((LoadingSceneController)fxmlLoader.getController()).setNickname(this.nicknameContent);
 
             }
-            }
             else {
                 //say that connection wasn't possible
                 String errorLabelContent = "Connection wasn't possible, retry!";

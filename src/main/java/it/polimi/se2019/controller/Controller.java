@@ -62,7 +62,7 @@ public class  Controller{
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+
             ViewControllerEventHandlerContext.RMIVV = RMIVV;
 
             //Registering the VirtualView as an observer of the model so it can receive the MVEs
@@ -70,7 +70,6 @@ public class  Controller{
             ModelGate.model.setVirtualView(ViewControllerEventHandlerContext.socketVV, ViewControllerEventHandlerContext.RMIVV);
             ModelGate.model.registerVirtualView();
         }
-        else System.out.println("only socket avaible");
     }
 
     public static void startClientSocketOrRMIWithGUI(){
@@ -108,8 +107,9 @@ public class  Controller{
                 System.err.println(e.getMessage());
                 return false;
             }
-        }
-        return true;
+
+            return true;
+        }else return false;
     }
 
 
