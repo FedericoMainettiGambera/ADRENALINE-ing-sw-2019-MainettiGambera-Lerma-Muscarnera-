@@ -54,7 +54,7 @@ public class  Controller{
         ViewControllerEventHandlerContext.socketVV = SVV;
 
         //Startin the Server as RMI
-        if(sendPingRequest.available(1099)) {
+
             try {
                 RMIVV = new RMIVirtualView(VCEHC);
                 RMIVV.startServer();
@@ -76,36 +76,37 @@ public class  Controller{
         GUIstarter.begin();
     }
 
-    public static boolean connect(String networkConnection, String userInterface, String IP, String Port){
-        if(networkConnection.equalsIgnoreCase("RMI")){
-            if(userInterface.equalsIgnoreCase("GUI")){
-                V = new View("RMI", "GUI");
-            }
-            else {
-                V = new View("RMI", "CLI");
-            }
-            try {
-                RMINH=new RMINetworkHandler(IP, Integer.parseInt(Port), V);
-            } catch (RemoteException e) {
-                System.err.println(e.getMessage());
-                return false;
-            } catch (NotBoundException e) {
-                System.err.println(e.getMessage());
-                return false;
-            }
-        }
-        else {
-            if(userInterface.equalsIgnoreCase("GUI")){
-                V = new View("SOCKET", "GUI");
-            }
-            else {
-                V = new View("SOCKET", "CLI");
-            }
-            try {
-                SNH = new SocketNetworkHandler(InetAddress.getByName(IP), Integer.parseInt(Port) , V);
-            } catch (UnknownHostException e) {
-                System.err.println(e.getMessage());
-                return false;
+    public static boolean connect(String networkConnection, String userInterface, String IP, String Port) throws IOException{
+
+        if(sendPingRequest.sendPingRequest(IP)) {
+
+            if (networkConnection.equalsIgnoreCase("RMI")) {
+                if (userInterface.equalsIgnoreCase("GUI")) {
+                    V = new View("RMI", "GUI");
+                } else {
+                    V = new View("RMI", "CLI");
+                }
+                try {
+                    RMINH = new RMINetworkHandler(IP, Integer.parseInt(Port), V);
+                } catch (RemoteException e) {
+                    System.err.println(e.getMessage());
+                    return false;
+                } catch (NotBoundException e) {
+                    System.err.println(e.getMessage());
+                    return false;
+                }
+            } else {
+                if (userInterface.equalsIgnoreCase("GUI")) {
+                    V = new View("SOCKET", "GUI");
+                } else {
+                    V = new View("SOCKET", "CLI");
+                }
+                try {
+                    SNH = new SocketNetworkHandler(InetAddress.getByName(IP), Integer.parseInt(Port), V);
+                } catch (UnknownHostException e) {
+                    System.err.println(e.getMessage());
+                    return false;
+                }
             }
 
             return true;
