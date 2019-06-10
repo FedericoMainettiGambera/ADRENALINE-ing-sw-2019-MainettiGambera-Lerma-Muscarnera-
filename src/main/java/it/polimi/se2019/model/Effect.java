@@ -202,14 +202,16 @@ public class Effect implements Serializable {
                         java.lang.reflect.Method method;
                         Class<?> c = Class.forName("it.polimi.se2019.model.PreConditionMethodsInverted");
                         //(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)
-                        Class<?>[] paramTypes = {ActionContext.class,UsableInputTableRowType.class,Integer.class,Object.class,List.class};
+                        Class<?>[] paramTypes = {ActionContext.class,UsableInputTableRowType.class,ActionDetails.class,Object.class,List.class};
 //                        System.out.println("azione " + a_ + " nome precondizione : " + a_.getActionInfo().getPreConditionMethodName());
 
                         method = c.getDeclaredMethod(a_.getActionInfo().getPreConditionMethodName(), paramTypes);
+                        System.out.println("# " + eie.getEffectInfoTypelist() +" @@@ eseguo l'inversa di " + a_.getActionInfo().getPreConditionMethodName());
+
                         invertedPreConditionOutput = method.invoke(preConditionMethodsInverted,
                                 this.getActions().get(0).getActionInfo().getActionContext(),
                                 rowType.get(getEffectInfo().getEffectInfoElement().indexOf(eie)),
-                                rowCardinality.get(getEffectInfo().getEffectInfoElement().indexOf(eie)),
+                                a_.getActionInfo().getActionDetails(),
                                 filledInputs,
                                 requestedInputs()
                                 );
@@ -252,10 +254,15 @@ public class Effect implements Serializable {
                     for (k = 0; k < this.getActions().size(); k++) {
                         if(intermediateList.get(i).get(k) != null)
                         {
- //                           System.out.println("interseco con.." + intermediateList.get(i).get(k)  );
- //                           for (Object d : (List<Object>) intermediateList.get(i).get(k)) {
- //                               System.out.println(d.toString());
- //                           }
+                            System.out.println("interseco con.." + intermediateList.get(i).get(k)  );
+                            for (Object d : (List<Object>) intermediateList.get(i).get(k)) {
+                                if(d.getClass().toString().equals("class it.polimi.se2019.model.Player")) {
+                                    System.out.println(((Player) d).getNickname());
+                                } else {
+                                    System.out.println("[" + ((Square) d).getCoordinates().getX() + ", " + ((Square) d).getCoordinates().getX() + "]");
+
+                                }
+                            }
                             retVal.get(i).set(j,
                                     intersect(
                                             retVal.get(i).get(j),
@@ -277,6 +284,8 @@ public class Effect implements Serializable {
                 System.out.println(x);
             }
         }*/
+for(Object t:retVal)
+    System.out.println(t);
         return retVal;
     }
     public void setOf(WeaponCard of) {

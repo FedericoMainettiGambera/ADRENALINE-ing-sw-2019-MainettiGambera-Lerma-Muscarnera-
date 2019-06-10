@@ -293,7 +293,7 @@ public class PreConditionMethods implements Serializable {
         Player target = actionDetails.getUserSelectedActionDetails().getTarget();
         Player user   = actionContext.getPlayer();
         System.out.println("# la distanza è " + actionContext.getBoard().distanceFromTo(target.getPosition(),user.getPosition()));
-       if(actionContext.getBoard().distanceFromTo(target.getPosition(),user.getPosition()) >= 1)
+       if(actionContext.getBoard().distanceFromTo(target.getPosition(),user.getPosition()) > 1)
            return true;
         return false;
     }
