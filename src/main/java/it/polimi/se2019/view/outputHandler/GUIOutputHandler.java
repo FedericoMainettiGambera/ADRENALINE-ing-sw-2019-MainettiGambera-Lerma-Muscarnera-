@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
@@ -73,7 +74,20 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
 
     @Override
     public void stateChanged(StateEvent StE) {
-
+        if(StE.getState().contains("GameSetUpState")){
+            while(true) {
+                if (GUIstarter.stageController.getClass().toString().contains("LoadingSceneController")) {
+                    ((LoadingSceneController)GUIstarter.stageController).changeScene("GAMESCENE1.fxml");
+                    break;
+                } else {
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(300);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     @Override

@@ -92,7 +92,6 @@ public class InitialSceneController implements Initializable {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getClassLoader().getResource("LOADINGSCENE1.fxml"));
                 Parent root = fxmlLoader.load();
-                System.out.println("LOADING SCENE CONTROLLER SETTED");
                 GUIstarter.stageController=fxmlLoader.getController();
                 Scene scene = new Scene(root);
                 scene.setFill(Color.BLACK);

@@ -166,15 +166,26 @@ public class LoadingSceneController implements Initializable {
         this.nickname = nickname;
     }
 
-    public void changeScene(String path) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getClassLoader().getResource(path));
-        Parent root = fxmlLoader.load();
-        GUIstarter.stageController=fxmlLoader.getController();
-        Scene scene = new Scene(root);
-        scene.setFill(Color.BLACK);
+    public void changeScene(String path){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getClassLoader().getResource(path));
+                Parent root = null;
+                try {
+                    root = fxmlLoader.load();
+                } catch (IOException e) {
+                    System.err.println(e.getMessage());
+                    return;
+                }
+                GUIstarter.stageController=fxmlLoader.getController();
+                Scene scene = new Scene(root);
+                scene.setFill(Color.BLACK);
 
-        //hide old stage
-        GUIstarter.stage.setScene(scene);
+                //hide old stage
+                GUIstarter.stage.setScene(scene);
+            }
+        });
     }
 }
