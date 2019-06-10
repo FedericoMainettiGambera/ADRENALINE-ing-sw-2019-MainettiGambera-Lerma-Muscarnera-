@@ -238,4 +238,37 @@ public class TestEffect {
         System.out.println("/---------/");
 
     }
+    @Test
+    public void testUsable2() throws Exception {
+
+        Board board = new Board("2",new VirtualView(),new VirtualView());
+        Player user1 = new Player();
+        Player user2 = new Player();
+        Player user3 = new Player();
+        Player user4 = new Player();
+        user1.setNickname("Aldo");
+        user2.setNickname("Bruno");
+        user3.setNickname("Carlo");
+        user4.setNickname("Dario");
+        PlayersList playerList = new PlayersList();
+        playerList.getPlayers().add(user1);
+        playerList.getPlayers().add(user2);
+        playerList.getPlayers().add(user3);
+        playerList.getPlayers().add(user4);
+
+for(int cardID = 1; cardID < 21; cardID ++) {
+    System.out.println("\t\tcarta " + cardID);
+    WeaponCard w = new WeaponCard(cardID + "");
+    for (Square[] y : board.getMap())
+        for (Square x : y)
+            System.out.println(x.getCoordinates().getX() + " , " + x.getCoordinates().getY() + ": " + x.getColor());
+
+    user1.setPosition(1, 2);
+    user2.setPosition(1, 3);
+    user3.setPosition(1, 1);                 //   same position
+    user4.setPosition(2, 2);                 //
+    w.getEffects().get(0).passContext(user1, playerList, board);
+    w.getEffects().get(0).usableInputs();
+}
+    }
 }

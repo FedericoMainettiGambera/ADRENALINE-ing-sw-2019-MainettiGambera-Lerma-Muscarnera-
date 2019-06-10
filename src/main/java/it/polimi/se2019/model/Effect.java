@@ -202,7 +202,7 @@ public class Effect implements Serializable {
                         java.lang.reflect.Method method;
                         Class<?> c = Class.forName("it.polimi.se2019.model.PreConditionMethodsInverted");
                         //(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)
-                        Class<?>[] paramTypes = {ActionContext.class,UsableInputTableRowType.class,Integer.class,Object.class,List.class};
+                        Class<?>[] paramTypes = {ActionContext.class,UsableInputTableRowType.class,ActionDetails.class,Object.class,List.class};
 //                        System.out.println("azione " + a_ + " nome precondizione : " + a_.getActionInfo().getPreConditionMethodName());
 
                         method = c.getDeclaredMethod(a_.getActionInfo().getPreConditionMethodName(), paramTypes);
@@ -210,7 +210,7 @@ public class Effect implements Serializable {
                         invertedPreConditionOutput = method.invoke(preConditionMethodsInverted,
                                 this.getActions().get(0).getActionInfo().getActionContext(),
                                 rowType.get(getEffectInfo().getEffectInfoElement().indexOf(eie)),
-                                rowCardinality.get(getEffectInfo().getEffectInfoElement().indexOf(eie)),
+                                a.getActionInfo().getActionDetails(),
                                 filledInputs,
                                 requestedInputs()
                                 );

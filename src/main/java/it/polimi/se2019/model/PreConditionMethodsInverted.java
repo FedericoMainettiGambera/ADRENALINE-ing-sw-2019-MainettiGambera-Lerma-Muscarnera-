@@ -1,13 +1,15 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
+import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.UsableInputTableRowType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PreConditionMethodsInverted {
-    public List<Object> targetInLastSquareSelected(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots) {
+    public List<Object> targetInLastSquareSelected(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
         List<Object> retVal = new ArrayList<>();
 
         if (type.equals(UsableInputTableRowType.typePlayer)) {
@@ -24,8 +26,42 @@ public class PreConditionMethodsInverted {
 
         return retVal;
     }
+    public List<Object> distanceFromOriginalPositionLessThan2(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
+        List<Object> retVal = new ArrayList<>();
+        System.out.println("##############");
+        Position A = null;
+        System.out.println("##############");
+        if(actionDetails.getUserSelectedActionDetails().getTarget() != null) {
+            A = actionDetails.getUserSelectedActionDetails().getTarget().getPosition();
+        }
+        System.out.println("##############");
+        try {
+            if (type.equals(UsableInputTableRowType.typeSquare)) {
+                for (Square[] riga : actionContext.getBoard().getMap())
+                    for (Square cella : riga) {
+                        Position B = cella.getCoordinates();
+                        System.out.println("-");
+                        System.out.println("# la distanza [(" + A.getY() + ", " + A.getX() + ") --> (" + B.getY() + ", " + B.getX() + ")] tra i due square è minore di 2?");
+                        float Distance = (A.getX() - B.getX()) * (A.getX() - B.getX()) +
+                                (A.getY() - B.getY()) * (A.getY() - B.getY());
+                        System.out.println("la distanza è " + Distance);
+                        if (Distance <= 4) {
+                            System.out.println("si");
+                        } else {
+                            System.out.println("no");
+                        }
+                        if (Distance <= 4) retVal.add(cella);
+                    }
+            }
+        }catch(Exception e){System.out.println("@@@" + e);}
+        if(type.equals(UsableInputTableRowType.typePlayer)) {
+            for(Player p: actionContext.getPlayerList().getPlayers())
+                retVal.add(p);
+        }
 
-    public List<Object> distanceFromOriginalSquareIs1(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots) {
+        return retVal;
+    }
+    public List<Object> distanceFromOriginalSquareIs1(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
         /*Target.square */
 
         List<Object> retVal = new ArrayList<>();
@@ -53,7 +89,7 @@ public class PreConditionMethodsInverted {
         return retVal;
     }
 
-    public List<Object> alwaysTrue(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots) {
+    public List<Object> alwaysTrue(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
         List<Object> retVal = new ArrayList<>();
         System.out.println("tipo input " + type);
         if (type.equals(UsableInputTableRowType.typePlayer)) {
@@ -72,12 +108,12 @@ public class PreConditionMethodsInverted {
         return retVal;
     }
 
-    public List<Object> alwaysFalse(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots) {
+    public List<Object> alwaysFalse(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
         List<Object> retVal = new ArrayList<>();
         return retVal;
     }
 
-    public List<Object> targetOnYourSquare(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots) {
+    public List<Object> targetOnYourSquare(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
         List<Object> retVal = new ArrayList<>();
         Player me = actionContext.getPlayer();
         PlayersList playersList = actionContext.getPlayerList();
@@ -96,7 +132,7 @@ public class PreConditionMethodsInverted {
 
     }
 
-    public List<Object> targetNotOnYourSquare(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots) {
+    public List<Object> targetNotOnYourSquare(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
         List<Object> retVal = new ArrayList<>();
         Player me = actionContext.getPlayer();
         PlayersList playersList = actionContext.getPlayerList();
@@ -113,8 +149,108 @@ public class PreConditionMethodsInverted {
         return retVal;
 
     }
+    public List<Object> youCantSee(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
 
-    public List<Object> youCanSee(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots) {
+        List<Object> retVal = new ArrayList<>();
+        Player me = actionContext.getPlayer();
+        PlayersList playersList = actionContext.getPlayerList();
+        try {
+            for (Player t : playersList.getPlayers()) {
+                if (actionContext.getBoard().getSquare(t.getPosition()).getColor() != actionContext.getBoard().getSquare(me.getPosition()).getColor()) {
+                    retVal.add(t);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        ;
+        return retVal;
+    }
+    public List<Object> youCanSeeThatSquare(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
+        List<Object> retVal = new ArrayList<>();
+        Player me = actionContext.getPlayer();
+        Position playerPosition = me.getPosition();
+        Square   playerSquare   = actionContext.getBoard().getSquare(playerPosition);
+        if(type.equals(UsableInputTableRowType.typeSquare)) {
+            for (Square[] riga : actionContext.getBoard().getMap()) {
+                for (Square cella : riga) {
+                    if (
+                            !playerSquare.getSide(CardinalPoint.north).equals(SquareSide.door) &&
+                                    !playerSquare.getSide(CardinalPoint.south).equals(SquareSide.door) &&
+                                    !playerSquare.getSide(CardinalPoint.west).equals(SquareSide.door) &&
+                                    !playerSquare.getSide(CardinalPoint.east).equals(SquareSide.door)) {
+                        /*posizione senza porte*/
+                        Square targetSquare = cella;
+                        if (targetSquare.getColor() != playerSquare.getColor())
+                            retVal.add(targetSquare);
+                    } else {
+                        Square northSide = null;
+                        Square southSide = null;
+                        Square eastSide = null;
+                        Square westSide = null;
+
+                        if (playerSquare.getSide(CardinalPoint.north).equals(SquareSide.door)) {
+                            if (playerPosition.getX() > 0)
+                                northSide = actionContext.getBoard().getSquare(playerPosition.getY(), playerPosition.getX() - 1);
+                        }
+
+                        if (playerSquare.getSide(CardinalPoint.east).equals(SquareSide.door)) {
+                            if (playerPosition.getY() < 2)
+                                eastSide = actionContext.getBoard().getSquare(playerPosition.getY() + 1, playerPosition.getX());
+                        }
+
+                        if (playerSquare.getSide(CardinalPoint.west).equals(SquareSide.door)) {
+                            if (playerPosition.getY() > 0)
+                                westSide = actionContext.getBoard().getSquare(playerPosition.getY() - 1, playerPosition.getX());
+                        }
+                        if (playerSquare.getSide(CardinalPoint.south).equals(SquareSide.door)) {
+                            if (playerPosition.getX() < 3)
+                                southSide = actionContext.getBoard().getSquare(playerPosition.getY(), playerPosition.getX() + 1);
+                        }
+
+                        Square targetSquare = cella;
+                        List<Character> colors = new ArrayList<>();
+                        colors.add(playerSquare.getColor());
+                        if (northSide != null)
+                            colors.add(northSide.getColor());
+                        if (eastSide != null)
+                            colors.add(eastSide.getColor());
+                        if (westSide != null)
+                            colors.add(westSide.getColor());
+                        if (southSide != null)
+                            colors.add(southSide.getColor());
+                        //System.out.println("colore square player [ " + me.getPosition().getY() + " , " + me.getPosition().getX() + " ] " + actionContext.getBoard().getSquare(me.getPosition()).getColor());
+                        //System.out.println("colori disoonibili : " + colors);
+
+
+                        if (!colors.contains(targetSquare.getColor())) {
+                            retVal.add(cella);
+                        }
+
+                    }
+                }
+            }
+        }
+        if(type.equals(UsableInputTableRowType.typePlayer)) {
+
+            for(Player t: actionContext.getPlayerList().getPlayers()) {
+                retVal.add(t);
+            }
+
+        }
+        System.out.println("         @@@ " + retVal);
+        return retVal;
+    }
+    public List<Object> moveOtherPlayer(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
+
+        List<Object> retVal = new ArrayList<>();
+        for(Player t: actionContext.getPlayerList().getPlayers()) {
+            retVal.add(t);
+        }
+        retVal.remove(actionContext.getPlayer());
+        return retVal;
+    }
+    public List<Object> youCanSee(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
 
         List<Object> retVal = new ArrayList<>();
         Player me = actionContext.getPlayer();
@@ -131,7 +267,7 @@ public class PreConditionMethodsInverted {
         ;
         return retVal;
     }
-    public List<Object> distanceOfTargetFromPlayerSquareLessThan2Moves(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)
+    public List<Object> distanceOfTargetFromPlayerSquareLessThan2Moves(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots)
     {
         List<Object> retVal  = new ArrayList<>();
         Player me = actionContext.getPlayer();
@@ -139,11 +275,11 @@ public class PreConditionMethodsInverted {
             for (Player t : actionContext.getPlayerList().getPlayers()) {
                 System.out.println(":::" + t.getPosition().getX() + " , " + t.getPosition().getY());
                 if(!t.equals(me))
-                if (actionContext.getBoard().distanceFromTo(me.getPosition(), t.getPosition()) == 2) {
-                    System.out.println(":::");
-                    retVal.add(t);
-                    System.out.println(":::");
-                }
+                    if (actionContext.getBoard().distanceFromTo(me.getPosition(), t.getPosition()) == 2) {
+                        System.out.println(":::");
+                        retVal.add(t);
+                        System.out.println(":::");
+                    }
 
             }
         }catch (Exception e){
@@ -154,11 +290,11 @@ public class PreConditionMethodsInverted {
         System.out.println("***");
         return retVal;
     }
-    public List<Object> sameCardinalDirectionOfTargets(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoType> inputSlots)
+    public List<Object> sameCardinalDirectionOfTargets(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots)
     {
         System.out.println("carico lista input disponibili sameCardinal");
 
-       List<Object> retVal = new ArrayList<>();
+        List<Object> retVal = new ArrayList<>();
         try {
             int counter = 0;
             int i = 0;
@@ -189,11 +325,11 @@ public class PreConditionMethodsInverted {
                     System.out.println("**");
                     if ((
                             ((current.getPosition().getY() - previous.getPosition().getY()) == 0) &&
-                            (current.getPosition().getY() - actionContext.getPlayer().getPosition().getY()) == 0)
+                                    (current.getPosition().getY() - actionContext.getPlayer().getPosition().getY()) == 0)
                             ||
                             ((current.getPosition().getX() - previous.getPosition().getX()) == 0) &&
                                     (current.getPosition().getX() - actionContext.getPlayer().getPosition().getX()) == 0)
-                     {
+                    {
 
                         retVal.add(current);
 
@@ -208,7 +344,7 @@ public class PreConditionMethodsInverted {
         System.out.println("***");
         return retVal;
     }
-    public List<Object> notInYourRoom(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)
+    public List<Object> notInYourRoom(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots)
     {
         List<Object> retVal = new ArrayList<>();
         Player me = actionContext.getPlayer();
@@ -220,7 +356,7 @@ public class PreConditionMethodsInverted {
         }
         return retVal;
     }
-    public List<Object> notFirstExecuted(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)
+    public List<Object> notFirstExecuted(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots)
     {
         // TODO: passare il record corrente della playerHistory
         List<Object> retVal = new ArrayList<>();
@@ -236,8 +372,8 @@ public class PreConditionMethodsInverted {
         }
         return retVal;
     }
-    public List<Object> distanceOfTargetFromPlayerSquareMoreThan2Moves(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)
-    throws Exception
+    public List<Object> distanceOfTargetFromPlayerSquareMoreThan2Moves(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots)
+            throws Exception
     {
         List<Object> retVal = new ArrayList<>();
 
@@ -250,7 +386,7 @@ public class PreConditionMethodsInverted {
         System.out.println("***");
         return retVal;
     }
-    public List<Object> notPreviousTarget(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)
+    public List<Object> notPreviousTarget(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots)
     {
 
         List<Object> retVal = new ArrayList<>();
@@ -261,14 +397,14 @@ public class PreConditionMethodsInverted {
         for(Object row : (List<Object>) inputs) {
             if(((Object[]) row)[0].getClass().toString().equals("class it.polimi.se2019.model.Player")) {
                 System.out.println("***********************************" + ((Object[]) row)[0].getClass());
-            retVal.remove(((Object[]) row)[0]);
-            break;
+                retVal.remove(((Object[]) row)[0]);
+                break;
             }
         }
         return retVal;
 
     }
-        public List<Object> distanceOfTargetFromPlayerSquareIs1(ActionContext actionContext, UsableInputTableRowType type, Integer cardinality, Object inputs, List<EffectInfoElement> inputSlots)  {
+    public List<Object> distanceOfTargetFromPlayerSquareIs1(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots)  {
         List<Object> playerList = new ArrayList<>();
 
         Player user   = actionContext.getPlayer();
