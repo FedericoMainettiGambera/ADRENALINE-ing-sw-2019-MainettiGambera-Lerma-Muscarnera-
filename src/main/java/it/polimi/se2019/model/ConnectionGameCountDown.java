@@ -18,17 +18,17 @@ public class ConnectionGameCountDown implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("<SERVER> Reached minimum number of players connected. Starting COUNT DOWN of " +GameConstant.countdownInSeconds+ " seconds.");
+        System.out.println("<SERVER> Reached minimum number of players connected. Starting COUNT DOWN of " +GameConstant.countdownInSecondsForConnectionQueue + " seconds.");
 
         int i = 1;
-        while(i<=GameConstant.countdownInSeconds) {
+        while(i<=GameConstant.countdownInSecondsForConnectionQueue) {
 
             try {
-                ViewControllerEventHandlerContext.RMIVV.sendAllClient(new TimerEvent(i, GameConstant.countdownInSeconds, "Connection"));
+                ViewControllerEventHandlerContext.RMIVV.sendAllClient(new TimerEvent(i, GameConstant.countdownInSecondsForConnectionQueue, "Connection"));
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-            ViewControllerEventHandlerContext.socketVV.sendAllClient(new TimerEvent(i, GameConstant.countdownInSeconds, "Connection"));
+            ViewControllerEventHandlerContext.socketVV.sendAllClient(new TimerEvent(i, GameConstant.countdownInSecondsForConnectionQueue, "Connection"));
 
             try {
                 TimeUnit.SECONDS.sleep(1);

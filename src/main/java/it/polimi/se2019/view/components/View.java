@@ -118,6 +118,9 @@ public class View implements Observer {
 
             case newPlayersList:
                 ViewModelGate.getModel().setPlayers((PlayersListV)MVE.getComponent());
+                if(ViewModelGate.getModel()==null){
+                    ViewModelGate.setMe(((PlayersListV)MVE.getComponent()).getPlayers().get(((PlayersListV)MVE.getComponent()).getPlayers().size()-1).getNickname());
+                }
 
                 OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newPlayersList(MVE);
                 break;

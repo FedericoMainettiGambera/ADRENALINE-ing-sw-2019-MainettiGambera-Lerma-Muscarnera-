@@ -1,7 +1,6 @@
 package it.polimi.se2019.view;
 
 import it.polimi.se2019.controller.Controller;
-import it.polimi.se2019.networkHandler.sendPingRequest;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -86,9 +85,6 @@ public class InitialSceneController implements Initializable {
             //clear the log label
             this.logLabel.setText("");
 
-            //Check if IP is correct
-            boolean connect=sendPingRequest.sendPingRequest(IPContent);
-            if(connect){
             //Connect to server using the Controller's static method
             if(Controller.connect(netWorkConnection.toUpperCase(),"GUI",IPContent,PORTContent)) {
                 //connection was succesfull!
@@ -96,6 +92,7 @@ public class InitialSceneController implements Initializable {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getClassLoader().getResource("LOADINGSCENE1.fxml"));
                 Parent root = fxmlLoader.load();
+                System.out.println("LOADING SCENE CONTROLLER SETTED");
                 GUIstarter.stageController=fxmlLoader.getController();
                 Scene scene = new Scene(root);
                 scene.setFill(Color.BLACK);
@@ -112,8 +109,6 @@ public class InitialSceneController implements Initializable {
                 loadingStage.show();
 
                 ((LoadingSceneController)fxmlLoader.getController()).setNickname(this.nicknameContent);
-
-            }
             }
             else {
                 //say that connection wasn't possible
