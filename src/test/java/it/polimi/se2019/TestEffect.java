@@ -259,16 +259,24 @@ public class TestEffect {
 for(int cardID = 1; cardID < 21; cardID ++) {
     System.out.println("\t\tcarta " + cardID);
     WeaponCard w = new WeaponCard(cardID + "");
+
     for (Square[] y : board.getMap())
         for (Square x : y)
             System.out.println(x.getCoordinates().getX() + " , " + x.getCoordinates().getY() + ": " + x.getColor());
 
     user1.setPosition(1, 2);
-    user2.setPosition(1, 3);
+    user2.setPosition(1, 2);
     user3.setPosition(1, 1);                 //   same position
     user4.setPosition(2, 2);                 //
-    w.getEffects().get(0).passContext(user1, playerList, board);
-    w.getEffects().get(0).usableInputs();
+    Object[] o = new Object[10];
+    o[0] = user2;
+    //w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(0),o);
+    try {
+        w.getEffects().get(0).passContext(user1, playerList, board);
+        w.getEffects().get(0).usableInputs();
+    } catch(Exception e) {
+        System.out.println("no input");
+    }
 }
     }
 }

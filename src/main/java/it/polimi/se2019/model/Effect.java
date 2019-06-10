@@ -207,10 +207,11 @@ public class Effect implements Serializable {
 
                         method = c.getDeclaredMethod(a_.getActionInfo().getPreConditionMethodName(), paramTypes);
                         System.out.println("@@@ eseguo l'inversa di " + a_.getActionInfo().getPreConditionMethodName());
+
                         invertedPreConditionOutput = method.invoke(preConditionMethodsInverted,
                                 this.getActions().get(0).getActionInfo().getActionContext(),
                                 rowType.get(getEffectInfo().getEffectInfoElement().indexOf(eie)),
-                                a.getActionInfo().getActionDetails(),
+                                a_.getActionInfo().getActionDetails(),
                                 filledInputs,
                                 requestedInputs()
                                 );

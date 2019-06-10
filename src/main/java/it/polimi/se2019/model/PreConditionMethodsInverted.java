@@ -31,7 +31,7 @@ public class PreConditionMethodsInverted {
         System.out.println("##############");
         Position A = null;
         System.out.println("##############");
-        if(actionDetails.getUserSelectedActionDetails().getTarget() != null) {
+        if(actionDetails.getUserSelectedActionDetails().getTargetList().size() != 0) {
             A = actionDetails.getUserSelectedActionDetails().getTarget().getPosition();
         }
         System.out.println("##############");
@@ -40,7 +40,7 @@ public class PreConditionMethodsInverted {
                 for (Square[] riga : actionContext.getBoard().getMap())
                     for (Square cella : riga) {
                         Position B = cella.getCoordinates();
-                        System.out.println("-");
+                        System.out.println("-" + A.getY());
                         System.out.println("# la distanza [(" + A.getY() + ", " + A.getX() + ") --> (" + B.getY() + ", " + B.getX() + ")] tra i due square è minore di 2?");
                         float Distance = (A.getX() - B.getX()) * (A.getX() - B.getX()) +
                                 (A.getY() - B.getY()) * (A.getY() - B.getY());
@@ -110,6 +110,23 @@ public class PreConditionMethodsInverted {
 
     public List<Object> alwaysFalse(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
         List<Object> retVal = new ArrayList<>();
+        return retVal;
+    }
+
+    public List<Object> atLeastOneMoveAway(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
+        List<Object> retVal = new ArrayList<>();
+        System.out.println("# verifico che la distanza sia almeno uno");
+        Player user = actionContext.getPlayer();
+        for(Player target: actionContext.getPlayerList().getPlayers()) {
+            try {
+                System.out.println("# la distanza è " + actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition()));
+                if (actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition()) > 1)
+                {
+                    System.out.println("#aggiungo " + target.getNickname());
+                    retVal.add(target);
+                }
+            } catch (Exception e) { System.out.println("---- " + e);}
+        }
         return retVal;
     }
 
