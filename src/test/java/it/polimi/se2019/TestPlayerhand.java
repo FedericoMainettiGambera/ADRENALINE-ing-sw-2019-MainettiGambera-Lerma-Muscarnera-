@@ -29,18 +29,18 @@ public class TestPlayerhand {
         playerList.getPlayers().add(user2);
         playerList.getPlayers().add(user3);
         playerList.getPlayers().add(user4);
+        List<String> idList = new ArrayList<>();
+        for( int j = 1; j < 21;j++) {
+            user1.getHand().getWeaponCards().addCard(new WeaponCard(j + ""));
+        }
 
-        user1.getHand().getWeaponCards().addCard(new WeaponCard("26"));
-        user1.getHand().getWeaponCards().addCard(new WeaponCard("26"));
-        user1.getHand().getWeaponCards().addCard(new WeaponCard("27"));
-        user1.getHand().getWeaponCards().addCard(new WeaponCard("27"));
-        user1.getHand().getWeaponCards().addCard(new WeaponCard("27"));
+            for (WeaponCard x : user1.getHand().getWeaponCards().getCards())
+                x.passContext(user1, playerList, board);
 
-        for(WeaponCard x: user1.getHand().getWeaponCards().getCards())
-                x.passContext(user1,playerList,board);
+            System.out.println(user1.getHand().usableWeapons().getCards().size());
+            for (WeaponCard x : user1.getHand().usableWeapons().getCards())
+                idList.add(x.getName());
 
-        System.out.println(user1.getHand().usableWeapons().getCards().size());
-        for(WeaponCard x: user1.getHand().usableWeapons().getCards())
-                    System.out.println(x.getName());
+        System.out.println(idList);
     }
 }
