@@ -1,0 +1,17 @@
+NAME
+cartasempregiocabile
+
+NEW EFFECT
+EXPECTED INPUT
+singleTarget
+TO
+ALL
+END
+END
+ACTIONS
+Action
+ACTION INFO
+PRECONDITION
+alwaysTrue
+END
+END
