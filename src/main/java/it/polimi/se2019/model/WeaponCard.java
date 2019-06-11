@@ -130,9 +130,33 @@ public class WeaponCard extends Card implements Serializable {
 
 
 
+    public void passContext(Player player,PlayersList playersList,Board board) {
+        for(Effect e: this.getEffects()) {
+            e.passContext(player,playersList,board);
+        }
+        }
+
+    public List<Effect> usableEffects() {
+        List<Effect> retVal = new ArrayList<>();
+        for(Effect e:this.getEffects())
+            retVal.add(e);
+
+        for(Effect e: this.getEffects()) {
+            for(Object p: e.usableInputs()) {
+                for(Object possible: (List<Object>) p ) {
+                    if (!(((List<Object>) possible).size() > 0)) {
+                        if (retVal.contains(e))
+                            retVal.remove(e);
+                    }
+                }
+            }
+
+        }
+
+        return retVal;
 
 
-
+    }
 
 
 

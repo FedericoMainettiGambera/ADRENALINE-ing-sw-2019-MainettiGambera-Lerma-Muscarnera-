@@ -12,7 +12,42 @@ import static it.polimi.se2019.model.enumerations.UsableInputTableRowType.typePl
 import static it.polimi.se2019.model.enumerations.UsableInputTableRowType.typeSquare;
 
 public class PreConditionMethodsInverted {
-    public List<Object> targetInLastSquareSelected(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
+    public List<Object> inverted(String preconditionName, ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
+        List<Object> retVal = new ArrayList<>();
+        Action a = new Action();
+        a.getActionInfo().setActionContext(actionContext);
+        a.getActionInfo().setActionDetails(actionDetails);
+        a.getActionInfo().setPreConditionMethodName(preconditionName);
+
+        if(type.equals(typePlayer)) {
+            for(Player p:actionContext.getPlayerList().getPlayers()) {
+
+                a.getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(p);
+                if(a.getActionInfo().preCondition()) {
+                    retVal.add(p);
+                    System.out.println("aggiungo " + p.getNickname());
+                }
+
+            }
+
+        }
+        if(type.equals(typeSquare)) {
+            for (Square[] R : actionContext.getBoard().getMap()) {
+                for (Square C: R) {
+
+                    a.getActionInfo().getActionDetails().getUserSelectedActionDetails().setChosenSquare(C);
+                    if (a.getActionInfo().preCondition()) {
+                        retVal.add(C);
+                        System.out.println("aggiungo [" + C.getCoordinates().getX() + ", " + C.getCoordinates().getY() + "]");
+                    }
+
+                }
+
+            }
+        }
+        return retVal;
+    }
+        public List<Object> targetInLastSquareSelected(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
         List<Object> retVal = new ArrayList<>();
 
         if (type.equals(UsableInputTableRowType.typePlayer)) {

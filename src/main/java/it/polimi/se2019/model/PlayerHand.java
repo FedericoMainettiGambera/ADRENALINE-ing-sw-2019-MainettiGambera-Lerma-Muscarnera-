@@ -43,6 +43,24 @@ public class PlayerHand implements Serializable {
         return weaponCards;
     }
 
+    public OrderedCardList<WeaponCard> usableWeapons() {
+        OrderedCardList<WeaponCard> retVal = new OrderedCardList<WeaponCard>(null);
+
+        for(WeaponCard w: getWeaponCards().getCards()) {
+            if(w.usable(w.getEffects().get(0).getActions().get(0).getActionInfo().getActionContext().getPlayer(),
+                        w.getEffects().get(0).getActions().get(0).getActionInfo().getActionContext().getBoard(),
+                        w.getEffects().get(0).getActions().get(0).getActionInfo().getActionContext().getPlayerList()
+            ).size() > 0)
+            {
+                retVal.addCard(w);
+            }
+
+        }
+
+        return retVal;
+
+    }
+
     /**@return ordered card list of power up cards
      * */
     public OrderedCardList<PowerUpCard> getPowerUpCards() {

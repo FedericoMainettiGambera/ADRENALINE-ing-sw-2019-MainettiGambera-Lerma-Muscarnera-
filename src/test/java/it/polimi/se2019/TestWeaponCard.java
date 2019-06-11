@@ -1,4 +1,15 @@
 package it.polimi.se2019;
+
+import it.polimi.se2019.model.Board;
+import it.polimi.se2019.model.Player;
+import it.polimi.se2019.model.PlayersList;
+import it.polimi.se2019.model.WeaponCard;
+import it.polimi.se2019.virtualView.VirtualView;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 //TODO
 public class TestWeaponCard {
     /*
@@ -311,4 +322,35 @@ public class TestWeaponCard {
         }
     }
     */
+    @Test
+    public void testUsable() throws Exception {
+        WeaponCard w = new WeaponCard("25");
+
+        Board board = new Board("2",new VirtualView(),new VirtualView());
+        List<Player> user = new ArrayList<>();
+        user.add(new Player());user.add(new Player());user.add(new Player());user.add(new Player());
+        Player user1 = user.get(0);
+        Player user2 = user.get(1);
+        Player user3 = user.get(2);
+        Player user4 = user.get(3);
+
+
+        user1.setNickname("Aldo");
+        user2.setNickname("Bruno");
+        user3.setNickname("Carlo");
+        user4.setNickname("Dario");
+        PlayersList playerList = new PlayersList();
+        playerList.getPlayers().add(user1);
+        playerList.getPlayers().add(user2);
+        playerList.getPlayers().add(user3);
+        playerList.getPlayers().add(user4);
+
+        user1.setPosition(1, 2);
+        user2.setPosition(1, 2);
+        user3.setPosition(1, 1);                 //   same position
+        user4.setPosition(2, 2);                 //
+        System.out.println(w.getEffects());
+        w.passContext(user1,playerList,board);
+        System.out.println(w.usableEffects());
+    }
 }
