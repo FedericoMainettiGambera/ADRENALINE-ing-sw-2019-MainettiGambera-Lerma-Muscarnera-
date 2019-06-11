@@ -176,7 +176,6 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
         RMIInterface RMIS = new RMIVirtualView(controller);
 
 
-
         RMIInterface stub = (RMIInterface) UnicastRemoteObject.exportObject(RMIS, port);
         Registry reg = LocateRegistry.createRegistry(port);
         reg.rebind(name+port, stub);
