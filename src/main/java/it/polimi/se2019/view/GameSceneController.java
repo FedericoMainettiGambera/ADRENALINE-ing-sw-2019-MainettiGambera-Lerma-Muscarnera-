@@ -1,6 +1,6 @@
 package it.polimi.se2019.view;
 
-import it.polimi.se2019.controller.randomStageBuilderForTesting;
+//import it.polimi.se2019.controller.randomStageBuilderForTesting;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.GridPane;
