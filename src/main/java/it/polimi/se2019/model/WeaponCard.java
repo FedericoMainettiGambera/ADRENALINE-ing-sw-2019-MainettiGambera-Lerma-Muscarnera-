@@ -327,7 +327,7 @@ public class WeaponCard extends Card implements Serializable {
     private boolean isLoaded;
 
     /***/
-    public List<Effect> effects;
+    public transient List<Effect> effects;
 
     public String getName() {
         return name;

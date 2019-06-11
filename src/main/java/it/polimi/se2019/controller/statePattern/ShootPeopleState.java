@@ -135,6 +135,9 @@ public class ShootPeopleState implements State {
     }
 
     public boolean canShoot(){
+        for (WeaponCard wp:ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards()) {
+            wp.passContext(ModelGate.model.getCurrentPlayingPlayer(), ModelGate.model.getPlayerList(), ModelGate.model.getBoard());
+        }
         return ModelGate.model.getCurrentPlayingPlayer().getHand().usableWeapons().getCards().size()>0;
     }
 }
