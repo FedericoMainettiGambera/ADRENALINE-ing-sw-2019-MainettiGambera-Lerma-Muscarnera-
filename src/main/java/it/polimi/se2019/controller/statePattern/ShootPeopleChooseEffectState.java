@@ -29,16 +29,14 @@ public class ShootPeopleChooseEffectState implements State{
         System.out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
         this.choosenWeaponCard = choosenWeaponCard;
-        this.possibleEffects = new ArrayList<>();
     }
 
     @Override
     public void askForInput(Player playerToAsk){
         this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
-        for (Effect e: this.choosenWeaponCard.getEffects()) {
-            this.possibleEffects.add(e);
-        }
+
+        this.possibleEffects = (ArrayList)choosenWeaponCard.usableEffects();
 
         //ask input
         try {

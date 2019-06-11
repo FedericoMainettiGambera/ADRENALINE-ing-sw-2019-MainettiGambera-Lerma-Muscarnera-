@@ -32,12 +32,18 @@ public class ShootPeopleChooseWepState implements State {
     public void askForInput(Player playerToAsk){
         this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
-        this.loadedCardInHand = new ArrayList<>();
-        for (WeaponCard wc: playerToAsk.getWeaponCardsInHand().getCards()) {
-            if(wc.isLoaded()){
-                loadedCardInHand.add(wc);
+
+        for (WeaponCard wp:ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards()) {
+            wp.passContext(ModelGate.model.getCurrentPlayingPlayer(), ModelGate.model.getPlayerList(), ModelGate.model.getBoard());
+        }
+        OrderedCardList<WeaponCard> possibleCards = ModelGate.model.getCurrentPlayingPlayer().getHand().usableWeapons();
+        for (WeaponCard wp:possibleCards.getCards()) {
+            if(!wp.isLoaded()){
+                possibleCards.getCards().remove(wp);
             }
         }
+
+        this.loadedCardInHand = (ArrayList)possibleCards.getCards();
 
         //ask input
         try {

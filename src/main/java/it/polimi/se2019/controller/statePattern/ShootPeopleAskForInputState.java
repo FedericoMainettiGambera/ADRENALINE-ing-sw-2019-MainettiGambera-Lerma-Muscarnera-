@@ -38,7 +38,7 @@ public class ShootPeopleAskForInputState implements State {
         //ask input
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-            SelectorGate.getCorrectSelectorFor(playerToAsk).askEffectInputs(this.chosenEffect.requestedInputs());
+            SelectorGate.getCorrectSelectorFor(playerToAsk).askEffectInputs();
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {

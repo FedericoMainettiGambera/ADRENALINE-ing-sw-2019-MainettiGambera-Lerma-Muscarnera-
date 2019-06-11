@@ -4,6 +4,7 @@ package it.polimi.se2019.controller.statePattern;
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
+import it.polimi.se2019.model.OrderedCardList;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
@@ -138,6 +139,12 @@ public class ShootPeopleState implements State {
         for (WeaponCard wp:ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards()) {
             wp.passContext(ModelGate.model.getCurrentPlayingPlayer(), ModelGate.model.getPlayerList(), ModelGate.model.getBoard());
         }
-        return ModelGate.model.getCurrentPlayingPlayer().getHand().usableWeapons().getCards().size()>0;
+        OrderedCardList<WeaponCard> possibleCards = ModelGate.model.getCurrentPlayingPlayer().getHand().usableWeapons();
+        for (WeaponCard wp:possibleCards.getCards()) {
+            if(!wp.isLoaded()){
+                possibleCards.getCards().remove(wp);
+            }
+        }
+        return possibleCards.getCards().size() > 0;
     }
 }
