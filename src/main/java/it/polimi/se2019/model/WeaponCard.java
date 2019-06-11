@@ -219,6 +219,7 @@ public class WeaponCard extends Card implements Serializable {
 
                 if(line.equals("NAME")) {
                     line = reader.readLine();
+                    this.setName(line);
                     ///*@*/ System.out.println("il nome e'"+ line);
                 }
                 if(line.equals("RELOAD COST")) {
@@ -327,6 +328,14 @@ public class WeaponCard extends Card implements Serializable {
 
     /***/
     public List<Effect> effects;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     private String description="";
     private String name="";
