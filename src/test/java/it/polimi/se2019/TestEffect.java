@@ -353,10 +353,10 @@ public class TestEffect {
             Object[] o = new Object[10];
             o[0] = board.getSquare(2,2);
             w.getEffects().get(0).passContext(user1,playerList,board);
-            System.out.println(w.getEffects().get(0).usableInputs());
+            System.out.println("#########################################################" + w.getEffects().get(0).usableInputs().get(0));
             w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(0),o);
             o[0] = user2;
-            System.out.println(w.getEffects().get(0).usableInputs().get(1));
+            System.out.println("#########################################################" + w.getEffects().get(0).usableInputs().get(1));
             w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(1),o);
             try {
                 w.getEffects().get(0).passContext(user1, playerList, board);
