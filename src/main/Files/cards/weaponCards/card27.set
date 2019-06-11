@@ -1,6 +1,10 @@
 NAME
 cartasempregiocabile
-
+RELOAD COST
+y
+1
+y
+1
 NEW EFFECT
 EXPECTED INPUT
 singleTarget
