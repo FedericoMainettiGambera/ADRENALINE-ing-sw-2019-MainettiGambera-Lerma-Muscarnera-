@@ -1,8 +1,5 @@
 package it.polimi.se2019.model;
 
-import it.polimi.se2019.controller.ModelGate;
-import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
-import it.polimi.se2019.controller.statePattern.GameSetUpState;
 import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.stateEvent.StateEvent;
@@ -12,7 +9,6 @@ import it.polimi.se2019.virtualView.VirtualView;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Observable;
-import java.util.concurrent.TimeUnit;
 
 /***/
 public class Game extends Observable implements Serializable {
@@ -172,6 +168,7 @@ public class Game extends Observable implements Serializable {
         File directory = new File("src/main/Files/cards/weaponCards");     // insert here path to weapon cards folder
         int fileCount = directory.list().length;
         for(int i = 1; i< fileCount+1; i++) {
+
             System.out.println("<SERVER> building weapon cards ID: " + i);
             try {
                  WeaponCard card= new WeaponCard("" + i);
