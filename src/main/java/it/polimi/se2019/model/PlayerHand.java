@@ -47,11 +47,10 @@ public class PlayerHand implements Serializable {
         OrderedCardList<WeaponCard> retVal = new OrderedCardList<WeaponCard>(null);
 
         for(WeaponCard w: getWeaponCards().getCards()) {
-            if(w.usable(w.getEffects().get(0).getActions().get(0).getActionInfo().getActionContext().getPlayer(),
-                        w.getEffects().get(0).getActions().get(0).getActionInfo().getActionContext().getBoard(),
-                        w.getEffects().get(0).getActions().get(0).getActionInfo().getActionContext().getPlayerList()
-            ).size() > 0)
+            System.out.println("testo carta " + w.getName());
+            if(w. usableEffects().size() > 0)
             {
+
                 retVal.addCard(w);
             }
 
