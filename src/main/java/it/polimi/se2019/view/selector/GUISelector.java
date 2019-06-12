@@ -99,7 +99,7 @@ public class GUISelector implements Selector {
     }
 
     @Override
-    public void askEffectInputs(List<EffectInfoType> effectInputs) {
+    public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
 
     }
 

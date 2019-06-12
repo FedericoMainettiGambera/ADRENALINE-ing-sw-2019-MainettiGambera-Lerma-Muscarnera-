@@ -117,8 +117,7 @@ public class ViewSelector implements Selector {
     }
 
     @Override
-    public void askEffectInputs(List<EffectInfoType> effectInputs) {
-        this.getCorrectSelector().askEffectInputs(effectInputs);
+    public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
+        this.getCorrectSelector().askEffectInputs(inputType, possibleInputs);
     }
-
 }

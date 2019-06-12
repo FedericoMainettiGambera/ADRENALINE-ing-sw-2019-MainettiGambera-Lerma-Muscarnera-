@@ -545,267 +545,96 @@ public class CLISelector implements Selector {
     }
 
 
+
     private class AskEffectInputs extends Thread{
-        private List<EffectInfoType> effectInputs;
-
-        public AskEffectInputs(List<EffectInfoType> effectInputs){
-            this.effectInputs = effectInputs;
+        private EffectInfoType infoType;
+        private List<Object> possibleInputs;
+        public AskEffectInputs(EffectInfoType inputType, List<Object> possibleInputs){
+            this.infoType=inputType;
+            this.possibleInputs = possibleInputs;
         }
-
-        public List<Object> askForPlayer(){
-            List<Object> listOfString = new ArrayList<>();
-            Scanner br = new Scanner(System.in);
-            System.out.println("         Possible players: ");
-            for (int i = 0; i < ViewModelGate.getModel().getPlayers().getPlayers().size() ; i++) {
-                System.out.println("         " + i + ") " + ViewModelGate.getModel().getPlayers().getPlayers().get(i).getNickname());
-            }
-            int chosen = br.nextInt();
-
-            listOfString.add(ViewModelGate.getModel().getPlayers().getPlayers().get(chosen));
-            return listOfString;
-        }
-
-        public List<Object> askForPlayerOrNOt(){
-            System.out.println("<CLIENT> Do you want to select a player? [Y/N]");
-            Scanner br = new Scanner(System.in);
-            String decision = br.nextLine();
-            List<Object> listOfString;
-
-            if(decision.equalsIgnoreCase("y")){
-                listOfString=askForPlayer();
-            }
-            else{
-                listOfString = new ArrayList<>();
-                System.out.println("<CLIENT> You decided to not select another player.");
-            }
-            return listOfString;
-        }
-
-        public List<Object> askForNPlayer(){
-            Scanner br = new Scanner(System.in);
-            List<Object> listOfString = new ArrayList<>();
-            while(true) {
-                System.out.println("<CLIENT> Do you want to select a player? [Y/N]");
-                String decision = br.nextLine();
-
-                if (decision.equalsIgnoreCase("y")) {
-                    listOfString.addAll(askForPlayerOrNOt());
-                } else {
-                    System.out.println("<CLIENT> You decided to not select another player.");
-                    return listOfString;
-                }
-            }
-        }
-
-        public List<Object> askForSquare(){
-            List<Object> listOfString = new ArrayList<>();
-            Scanner br = new Scanner(System.in);
-            System.out.println("         Possible squares: ");
-            for (int i = 0; i < ViewModelGate.getModel().getBoard().getMap().length ; i++) {
-                for (int j = 0; j < ViewModelGate.getModel().getBoard().getMap()[0].length; j++) {
-                    if(ViewModelGate.getModel().getBoard().getMap()[i][j]!= null) {
-                        System.out.println("         " + "[" + i + "][" + j + "] " + ViewModelGate.getModel().getBoard().getMap()[i][j].getSquareType());
-                    }
-                }
-            }
-            System.out.println("<CLIENT> set X:");
-            int X = br.nextInt();
-            System.out.println("<CLIENT> set Y:");
-            int Y = br.nextInt();
-
-            SquareV square = ViewModelGate.getModel().getBoard().getMap()[X][Y];
-            listOfString.add(square);
-            return listOfString;
-        }
-
-        public List<Object> askForNSquare(){
-            List<Object> listOfString = askForSquare();
-            while(true) {
-                System.out.println("<CLIENT> Do you want to select another Square? [Y/N]");
-                Scanner br = new Scanner(System.in);
-                String decision = br.nextLine();
-
-                if (decision.equalsIgnoreCase("y")) {
-                    listOfString.addAll(askForSquare());
-                } else {
-                    System.out.println("<CLIENT> You decided to not select another square.");
-                    return listOfString;
-                }
-            }
-        }
-
         @Override
-        public void run() {
-            List<List<Object>> userInputs = new ArrayList<>();
-            List<Object> tempList = new ArrayList<>();
-            String s ="";
-            for (int i = 0; i < this.effectInputs.size() ; i++) {
-                switch(this.effectInputs.get(i)){
-                    case player:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        System.out.println("         No input required.");
-                        break;
+        public void run(){
+            System.out.println("<CLIENT> " + "requested input type: " + infoType);
 
-                    case singleTarget:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        userInputs.add(askForPlayer());
-                        break;
+            int request = howManyRequest();
 
-                    case twoTargets:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        tempList = askForPlayer();
-                        tempList.addAll(askForPlayerOrNOt());
-                        userInputs.add(tempList);
-                        break;
+            List<Object> answer = new ArrayList<>();
 
-                    case playerSquare:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        System.out.println("         No input required.");
-                        break;
+            Scanner br = new Scanner(System.in);
 
-                    case threeTargets:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        tempList = askForPlayer();
-                        tempList.addAll(askForPlayerOrNOt());
-                        tempList.addAll(askForPlayerOrNOt());
-                        userInputs.add(tempList);
-                        break;
-
-                    case squareByTarget:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        userInputs.add(askForSquare());
-                        break;
-
-                    case targetListByRoom:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        userInputs.add(askForPlayer());
-                        break;
-
-                    case simpleSquareSelect:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        userInputs.add(askForSquare());
-                        break;
-
-                    case targetListBySquare:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        userInputs.add(askForPlayer());
-                        break;
-
-                    case singleTargetBySquare:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        userInputs.add(askForPlayer());
-                        break;
-
-                    case targetListByDistance1:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        userInputs.add(askForPlayer());
-                        break;
-
-                    case squareByLastTargetSelected:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        userInputs.add(askForSquare());
-                        break;
-
-                    case targetListBySameSquareOfPlayer:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        System.out.println("         No input required.");
-                        break;
-
-                    case targetListBySquareOfLastTarget:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        userInputs.add(askForPlayer());
-                        break;
-
-                    case singleRoom:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        System.out.println("         No input required.");
-                        break;
-
-                    case multipleTargets:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        userInputs.add(askForNPlayer());
-                        break;
-
-                    case multipleSquareSelect:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        userInputs.add(askForNSquare());
-                        break;
-
-                    case squareOfLastTargetSelected:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        System.out.println("         No input required.");
-                        break;
-
-                    case targetBySameSquareOfPlayer:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        System.out.println("         No input required.");
-                        break;
-
-                    case targetListByCardinalDirection:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        userInputs.add(askForPlayer());
-                        break;
-
-                    case twoTargetsByCardinalDirection:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        userInputs.add(askForPlayer());
-                        break;
-
-                    case singleTargetByCardinalDirection:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        userInputs.add(askForPlayer());
-                        break;
-
-                    case singleTargetBySameSquareOfPlayer:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        userInputs.add(askForPlayer());
-                        break;
-
-                    case targetListByLastTargetSelectedSquare:
-                        System.out.println("<CLIENT> EffectInputType is: " + this.effectInputs.get(i));
-                        System.out.println("         No input required.");
-                        break;
-
-                    default:
-                        try {
-                            throw new Exception("Uknown EffectInfoType");
-                        } catch (Exception e) {
-                            System.err.println(e.getMessage());
-                        }
-
-                }
-            }
-            System.out.println("<CLIENT> Stop requesting inputs for the effect.");
-
-            System.out.println("<CLIENT> Your inputs were:");
-            String print ="";
-            PlayerV tempPlayerV;
-            SquareV tempSquareV;
-            for (int i = 0; i < userInputs.size(); i++) {
-                for (Object inp : userInputs.get(i)) {
-                    if(inp.getClass().toString().contains("PlayerV")){
-                        tempPlayerV = (PlayerV)inp;
-                        System.out.println("         " + tempPlayerV.getNickname());
+            for (int j = 0; j < request ; j++) {
+                if(possibleInputs.get(0).getClass().toString().contains("Player")){
+                    System.out.println("<Client> please choose one of the following players: ");
+                    Player p;
+                    for (int i = 0; i < possibleInputs.size(); i++) {
+                        p=(Player)possibleInputs.get(i);
+                        System.out.println("    " + i + ") " + p.getNickname());
                     }
-                    else{
-                        tempSquareV = (SquareV)inp;
-                        System.out.println("         [" + tempSquareV.getX() + "][" + tempSquareV.getY() + "]");
+                    int chosen = br.nextInt();
+
+                    answer.add(possibleInputs.get(chosen));
+                    possibleInputs.remove(possibleInputs.get(chosen));
+                }
+                else{
+                    System.out.println("<Client> please choose one of the following squares: ");
+                    Square s;
+                    for (int i = 0; i < possibleInputs.size(); i++) {
+                        s=(Square)possibleInputs.get(i);
+                        System.out.println("    " + i + ") [" + s.getCoordinates().getX() + "][" + s.getCoordinates().getY() + "]" );
+                    }
+                    int chosen = br.nextInt();
+
+                    answer.add(possibleInputs.get(chosen));
+                    possibleInputs.remove(possibleInputs.get(chosen));
+                }
+                if(request == 999){
+                    System.out.println("Do you want to chose another one? [Y/N]");
+                    String YorN = br.nextLine();
+                    if(!YorN.equalsIgnoreCase("y")){
+                        break;
                     }
                 }
-                System.out.println(print);
-                print="";
             }
+            ViewControllerEventListOfObject VCEListOfObject = new ViewControllerEventListOfObject(answer);
 
-            System.out.println("<CLIENT> Sending inputs to Server.");
-            ViewControllerEventListOfListOfObject VCEListOfString= new ViewControllerEventListOfListOfObject(userInputs);
-            sendToServer(VCEListOfString);
+            sendToServer(VCEListOfObject);
+        }
+
+        public int howManyRequest(){
+            if(this.infoType.equals(EffectInfoType.multipleSquareSelect) ||
+                this.infoType.equals(EffectInfoType.multipleTargets)){
+                return 999; //means multiple choices
+            }
+            if(this.infoType.equals(EffectInfoType.twoTargets)){
+                return 2;
+            }
+            else if(this.infoType.equals(EffectInfoType.threeTargets)){
+                return 3;
+            }
+            /*else if(this.infoType.equals(EffectInfoType.singleTarget) ||
+                this.infoType.equals(EffectInfoType.squareByTarget)||
+                this.infoType.equals(EffectInfoType.simpleSquareSelect)||
+                this.infoType.equals(EffectInfoType.squareByLastTargetSelected)||
+                this.infoType.equals(EffectInfoType.targetListBySquareOfLastTarget)||
+                this.infoType.equals(EffectInfoType.targetListByDistance1)||
+                this.infoType.equals(EffectInfoType.singleTargetBySquare)||
+                this.infoType.equals(EffectInfoType.targetListBySquare)||
+                this.infoType.equals(EffectInfoType.targetListByRoom)||
+                this.infoType.equals(EffectInfoType.singleTargetBySameSquareOfPlayer)||
+                this.infoType.equals(EffectInfoType.singleTargetByCardinalDirection)||
+                this.infoType.equals(EffectInfoType.twoTargetsByCardinalDirection)||
+                this.infoType.equals(EffectInfoType.targetListByCardinalDirection)){*/
+            else {
+                return 1;
+            }
         }
     }
+
     @Override
-    public void askEffectInputs(List<EffectInfoType> effectInputs) {
-        AskEffectInputs aei = new AskEffectInputs(effectInputs);
+    public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
+        AskEffectInputs aei = new AskEffectInputs(inputType, possibleInputs);
         aei.start();
     }
-
 }
 

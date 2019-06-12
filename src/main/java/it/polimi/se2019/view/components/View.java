@@ -495,7 +495,7 @@ public class View implements Observer {
                 break;
 
             case askEffectInputs:
-                this.selector.askEffectInputs(((SelectorEventEffectInputs)SE).getEffectInputs());
+                this.selector.askEffectInputs(((SelectorEventEffectInputs)SE).getInputType(),((SelectorEventEffectInputs)SE).getPossibleInputs());
                 break;
 
             default: break;

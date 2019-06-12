@@ -184,14 +184,16 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
         }
     }
 
-    public void askEffectInputs(List<EffectInfoType> effectInputs){
+    @Override
+    public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
         try{
-            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(), new SelectorEventEffectInputs(SelectorEventTypes.askEffectInputs, effectInputs));
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(), new SelectorEventEffectInputs(inputType,possibleInputs));
 
         }catch(IOException e)
         {
             e.printStackTrace();
         }
     }
+
 
 }

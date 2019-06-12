@@ -93,7 +93,7 @@ public class VirtualViewSelector implements Selector {
     }
 
     @Override
-    public void askEffectInputs(List<EffectInfoType> inputs) {
+    public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
 
     }
 
