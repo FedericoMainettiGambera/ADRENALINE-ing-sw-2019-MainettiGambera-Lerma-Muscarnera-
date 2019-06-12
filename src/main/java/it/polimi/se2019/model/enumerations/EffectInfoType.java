@@ -1,6 +1,8 @@
 package it.polimi.se2019.model.enumerations;
 
-public enum EffectInfoType {
+import java.io.Serializable;
+
+public enum EffectInfoType implements Serializable {
 
 
 

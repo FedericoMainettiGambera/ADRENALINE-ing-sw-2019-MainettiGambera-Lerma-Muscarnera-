@@ -43,6 +43,6 @@ public interface Selector {
 
     public void askWhatEffect(ArrayList<Effect> possibleEffects);
 
-    public void askEffectInputs(List<EffectInfoType> effectInputs);
+    public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs);
 
 }

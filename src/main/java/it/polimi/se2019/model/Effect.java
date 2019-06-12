@@ -293,14 +293,14 @@ for(Object t:retVal)
     }
 
 
-    WeaponCard of;
+    private transient WeaponCard of;
 
     public List<Object> getFilledInputs() {
         return filledInputs;
     }
 
     /*-****************************************************************************************************CONSTRUCTOR*/
-    private List<Object> filledInputs;
+    private transient List<Object> filledInputs;
 
     public EffectInfo getEffectInfo() {
         return effectInfo;
@@ -338,7 +338,7 @@ for(Object t:retVal)
     }
 
     /***/
-    private List<Action> actions;
+    private transient List<Action> actions;
 
     /*-********************************************************************************************************METHODS*/
     /***/

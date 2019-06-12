@@ -7,6 +7,7 @@ import it.polimi.se2019.model.Effect;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventListOfObject;
 
 import java.util.List;
 
@@ -33,10 +34,12 @@ public class ShootPeopleAskForInputState implements State {
 
     private Integer inputRequestCounter;
     private Integer nextInputRequestex() {
-        if(this.chosenEffect.requestedInputs().get(inputRequestCounter) != null)
+        if(this.chosenEffect.requestedInputs().get(inputRequestCounter) != null) {
             inputRequestCounter++;
-        else
-        return null;
+        }
+        else {
+            return null;
+        }
 
         return (inputRequestCounter-1);
     }
@@ -47,34 +50,19 @@ public class ShootPeopleAskForInputState implements State {
         this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
-        //ask input
-
-            /*************************************************/
         int counter = 0;
 
         EffectInfoType inputType = this.chosenEffect.getEffectInfo().getEffectInfoElement().get(getInputRequestCounter()).getEffectInfoTypelist();
-            /*fai vedere all'utente cosa inserire*/
-            System.out.println("inserisci un " + inputType.toString());
-            List<Object> usables =  this.chosenEffect.usableInputs().get(getInputRequestCounter()).get(0);
-            /*scegli tra quelli sopra*/
 
-            //   invia all'utente le possibilità
-
-            //   quando l'utente manda una risposta parte la do action
-
-
-            /*************************************************/
-
-        try {
-            SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-           // SelectorGate.getCorrectSelectorFor(playerToAsk).askEffectInputs();
-
-
-
-            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
-            this.inputTimer.start();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(isToSend(inputType)) {
+            try {
+                SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
+                SelectorGate.getCorrectSelectorFor(playerToAsk).askEffectInputs(inputType, this.chosenEffect.usableInputs().get(getInputRequestCounter()).get(0));
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+                this.inputTimer.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -84,24 +72,28 @@ public class ShootPeopleAskForInputState implements State {
         System.out.println("<SERVER> player has answered before the timer ended.");
 
         System.out.println("<SERVER> " + this.getClass() + ".doAction();");
-        List<Object> response = (List<Object>) VCE;
+
+        List<Object> response = ((ViewControllerEventListOfObject)VCE).getAnswer();
+
         EffectInfoType currentInputType = this.chosenEffect.getEffectInfo().getEffectInfoElement().get(getInputRequestCounter()).getEffectInfoTypelist();
+
         Object[] inputRow = new Object[10];
+
         int inputRowCurrent = 0;
         for(Object o: response) {
             inputRow[inputRowCurrent] = o;
             inputRowCurrent++;
         }
+
         this.chosenEffect.handleRow(this.chosenEffect.getEffectInfo().getEffectInfoElement().get(getInputRequestCounter()),inputRow);
         nextInputRequestex();
-        if(getInputRequestCounter() == null) { // non ci sono più input
-        //
+
+        if(getInputRequestCounter() == null) {
             if(!this.chosenEffect.Exec()) {
-                System.out.println("<SERVER> exec didn't work");
+                System.err.println("<SERVER> exec didn't work");
             } else {
                 System.out.println("<SERVER> exec worked!");
                 // vai avanti col gioco
-
             }
         }
         else {
@@ -118,6 +110,21 @@ public class ShootPeopleAskForInputState implements State {
         //pass turn
         ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
         ViewControllerEventHandlerContext.state.doAction(null);
+    }
+
+
+    public boolean isToSend(EffectInfoType infoType){
+        if(infoType.equals(EffectInfoType.player) ||
+                infoType.equals(EffectInfoType.playerSquare)||
+                infoType.equals(EffectInfoType.targetListBySameSquareOfPlayer)||
+                infoType.equals(EffectInfoType.singleRoom)||
+                infoType.equals(EffectInfoType.squareOfLastTargetSelected)||
+                infoType.equals(EffectInfoType.targetBySameSquareOfPlayer)||
+                infoType.equals(EffectInfoType.targetListByLastTargetSelectedSquare)
+        ){
+            return false;
+        }
+        return true;
     }
 }
 

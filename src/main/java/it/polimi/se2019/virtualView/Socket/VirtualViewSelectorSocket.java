@@ -103,7 +103,7 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     }
 
     @Override
-    public void askEffectInputs(List<EffectInfoType> effectInputs){
-        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventEffectInputs(SelectorEventTypes.askEffectInputs, effectInputs));
+    public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
+        SocketVirtualView.sendToClient(playerToAsk,new SelectorEventEffectInputs(inputType,possibleInputs));
     }
 }

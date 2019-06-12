@@ -6,12 +6,17 @@ import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import java.util.List;
 
 public class SelectorEventEffectInputs extends SelectorEvent {
-    private List<EffectInfoType> effectInputs;
-    public SelectorEventEffectInputs(SelectorEventTypes selectorEventType,List<EffectInfoType> effectInputs) {
-        super(selectorEventType);
-        this.effectInputs = effectInputs;
+    private EffectInfoType inputType;
+    private List<Object> possibleInputs;
+    public SelectorEventEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
+        super(SelectorEventTypes.askEffectInputs);
+        this.inputType=inputType;
+        this.possibleInputs=possibleInputs;
     }
-    public List<EffectInfoType> getEffectInputs() {
-        return effectInputs;
+    public EffectInfoType getInputType() {
+        return inputType;
+    }
+    public List<Object> getPossibleInputs() {
+        return possibleInputs;
     }
 }
