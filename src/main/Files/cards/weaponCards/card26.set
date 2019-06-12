@@ -1,0 +1,21 @@
+NAME
+cartanongiocabile
+RELOAD COST
+y
+1
+y
+1
+NEW EFFECT
+EXPECTED INPUT
+singleTarget
+TO
+ALL
+END
+END
+ACTIONS
+Action
+ACTION INFO
+PRECONDITION
+alwaysFalse
+END
+END

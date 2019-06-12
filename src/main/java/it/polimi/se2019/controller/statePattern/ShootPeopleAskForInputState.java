@@ -1,16 +1,12 @@
 package it.polimi.se2019.controller.statePattern;
 
-import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.controller.WaitForPlayerInput;
 import it.polimi.se2019.model.Effect;
 import it.polimi.se2019.model.Player;
-import it.polimi.se2019.model.Square;
+import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
-import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventListOfListOfObject;
-import it.polimi.se2019.view.components.PlayerV;
-import it.polimi.se2019.view.components.SquareV;
 
 import java.util.List;
 
@@ -26,9 +22,25 @@ public class ShootPeopleAskForInputState implements State {
 
     public ShootPeopleAskForInputState(Effect chosenEffect, int actionNumber){
         System.out.println("<SERVER> New state: " + this.getClass());
+        this.inputRequestCounter = new Integer(0);
         this.actionNumber = actionNumber;
         this.chosenEffect = chosenEffect;
     }
+
+    public Integer getInputRequestCounter() {
+        return inputRequestCounter;
+    }
+
+    private Integer inputRequestCounter;
+    private Integer nextInputRequestex() {
+        if(this.chosenEffect.requestedInputs().get(inputRequestCounter) != null)
+            inputRequestCounter++;
+        else
+        return null;
+
+        return (inputRequestCounter-1);
+    }
+
 
     @Override
     public void askForInput(Player playerToAsk){
@@ -36,9 +48,29 @@ public class ShootPeopleAskForInputState implements State {
         System.out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //ask input
+
+            /*************************************************/
+        int counter = 0;
+
+        EffectInfoType inputType = this.chosenEffect.getEffectInfo().getEffectInfoElement().get(getInputRequestCounter()).getEffectInfoTypelist();
+            /*fai vedere all'utente cosa inserire*/
+            System.out.println("inserisci un " + inputType.toString());
+            List<Object> usables =  this.chosenEffect.usableInputs().get(getInputRequestCounter()).get(0);
+            /*scegli tra quelli sopra*/
+
+            //   invia all'utente le possibilità
+
+            //   quando l'utente manda una risposta parte la do action
+
+
+            /*************************************************/
+
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-            SelectorGate.getCorrectSelectorFor(playerToAsk).askEffectInputs(this.chosenEffect.requestedInputs());
+           // SelectorGate.getCorrectSelectorFor(playerToAsk).askEffectInputs();
+
+
+
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
@@ -47,91 +79,37 @@ public class ShootPeopleAskForInputState implements State {
     }
 
     @Override
-    public void doAction(ViewControllerEvent VCE){
+    public void doAction(ViewControllerEvent VCE) {
         this.inputTimer.interrupt();
         System.out.println("<SERVER> player has answered before the timer ended.");
 
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        System.out.println("<SERVER> " + this.getClass() + ".doAction();");
+        List<Object> response = (List<Object>) VCE;
+        EffectInfoType currentInputType = this.chosenEffect.getEffectInfo().getEffectInfoElement().get(getInputRequestCounter()).getEffectInfoTypelist();
+        Object[] inputRow = new Object[10];
+        int inputRowCurrent = 0;
+        for(Object o: response) {
+            inputRow[inputRowCurrent] = o;
+            inputRowCurrent++;
+        }
+        this.chosenEffect.handleRow(this.chosenEffect.getEffectInfo().getEffectInfoElement().get(getInputRequestCounter()),inputRow);
+        nextInputRequestex();
+        if(getInputRequestCounter() == null) { // non ci sono più input
+        //
+            if(!this.chosenEffect.Exec()) {
+                System.out.println("<SERVER> exec didn't work");
+            } else {
+                System.out.println("<SERVER> exec worked!");
+                // vai avanti col gioco
 
-        ViewControllerEventListOfListOfObject VCEListOfObject = (ViewControllerEventListOfListOfObject)VCE;
-
-        System.out.println("<SERVER> " + this.playerToAsk.getNickname() + "'s inputs were:");
-        PlayerV tempPlayerV;
-        SquareV tempSquareV;
-        for (List<Object> ListInp: VCEListOfObject.getListOfObject()) {
-            for (Object inp : ListInp) {
-                if(inp.getClass().toString().contains("PlayerV")){
-                    tempPlayerV = (PlayerV)inp;
-                    System.out.println("         " + tempPlayerV.getNickname());
-                }
-                else{
-                    tempSquareV = (SquareV)inp;
-                    System.out.println("         [" + tempSquareV.getX() + "][" + tempSquareV.getY() + "]");
-                }
             }
         }
-
-        Object[][] inputMatrix = new Object[10][10] ;
-
-        Player tempPlayer;
-        Square tempSquare;
-        for (int i = 0; i < VCEListOfObject.getListOfObject().size(); i++) {
-            for (int j = 0; j < VCEListOfObject.getListOfObject().get(i).size(); j++) {
-                if(VCEListOfObject.getListOfObject().get(i).get(j).getClass().toString().contains("PlayerV")){
-                    tempPlayerV = (PlayerV)VCEListOfObject.getListOfObject().get(i).get(j);
-                    tempPlayer = ModelGate.model.getPlayerList().getPlayer(tempPlayerV.getNickname());
-                    inputMatrix[i][j] = tempPlayer;
-                }
-                else{
-                    tempSquareV = (SquareV)VCEListOfObject.getListOfObject().get(i).get(j);
-                    tempSquare = ModelGate.model.getBoard().getSquare(tempSquareV.getX(), tempSquareV.getY());
-                    inputMatrix[i][j] = tempSquare;
-                }
-            }
+        else {
+            askForInput(playerToAsk);
         }
-        System.out.println("<SERVER> Matrix 10x10 of Object filled. It contains:");
-        String print = "";
-        for (int i = 0; i < inputMatrix.length; i++) {
-            for (int j = 0; j < inputMatrix[i].length ; j++) {
-                if(inputMatrix[i][j] == null){
-                    print += "    null ";
-                }
-                else if(inputMatrix[i][j].getClass().toString().contains("Player")){
-                    print += "   Player";
-                }
-                else if(inputMatrix[i][j].getClass().toString().contains("Square")){
-                    print += "   Square";
-                }
-            }
-            print+="\n";
-        }
-        System.out.println(print);
 
-        System.out.println("<SERVER> passing Context to the Effect");
-        this.chosenEffect.passContext(playerToAsk, ModelGate.model.getPlayerList(), ModelGate.model.getBoard());
-
-        System.out.println("<SERVER> calling HandleInput()");
-        this.chosenEffect.handleInput(inputMatrix);
-
-        System.out.println("<SERVER> calling Exec()");
-        boolean execResult = this.chosenEffect.Exec();
-
-        System.out.println("<SERVER> Exec() return value is: " + execResult);
-
-        if(execResult == true){
-            if(this.actionNumber == 1){
-                ViewControllerEventHandlerContext.setNextState(new TurnState(2));
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
-            }
-            else{
-                ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
-            }
-        }
-        else{
-            this.askForInput(playerToAsk);
-        }
     }
+
 
     @Override
     public void handleAFK() {
@@ -142,3 +120,4 @@ public class ShootPeopleAskForInputState implements State {
         ViewControllerEventHandlerContext.state.doAction(null);
     }
 }
+

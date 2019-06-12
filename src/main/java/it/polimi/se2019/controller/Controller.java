@@ -53,23 +53,20 @@ public class  Controller{
         ViewControllerEventHandlerContext.socketVV = SVV;
 
         //Startin the Server as RMI
-        if(sendPingRequest.available(1099)) {
-            try {
-                RMIVV = new RMIVirtualView(VCEHC);
-                RMIVV.startServer();
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            ViewControllerEventHandlerContext.RMIVV = RMIVV;
-
-            //Registering the VirtualView as an observer of the model so it can receive the MVEs
-            System.out.println("<SERVER> Registering the VirtualViews (RMI and Socket) as observers of the Model");
-            ModelGate.model.setVirtualView(ViewControllerEventHandlerContext.socketVV, ViewControllerEventHandlerContext.RMIVV);
-            ModelGate.model.registerVirtualView();
+        try {
+            RMIVV = new RMIVirtualView(VCEHC);
+            RMIVV.startServer();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        else System.out.println("only socket avaible");
+        ViewControllerEventHandlerContext.RMIVV = RMIVV;
+
+        //Registering the VirtualView as an observer of the model so it can receive the MVEs
+        System.out.println("<SERVER> Registering the VirtualViews (RMI and Socket) as observers of the Model");
+        ModelGate.model.setVirtualView(ViewControllerEventHandlerContext.socketVV, ViewControllerEventHandlerContext.RMIVV);
+        ModelGate.model.registerVirtualView();
     }
 
     public static void startClientSocketOrRMIWithGUI(){

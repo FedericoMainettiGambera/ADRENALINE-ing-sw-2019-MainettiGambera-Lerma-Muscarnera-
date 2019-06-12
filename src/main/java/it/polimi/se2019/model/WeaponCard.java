@@ -130,9 +130,33 @@ public class WeaponCard extends Card implements Serializable {
 
 
 
+    public void passContext(Player player,PlayersList playersList,Board board) {
+        for(Effect e: this.getEffects()) {
+            e.passContext(player,playersList,board);
+        }
+        }
+
+    public List<Effect> usableEffects() {
+        List<Effect> retVal = new ArrayList<>();
+        for(Effect e:this.getEffects())
+            retVal.add(e);
+
+        for(Effect e: this.getEffects()) {
+            for(Object p: e.usableInputs()) {
+                for(Object possible: (List<Object>) p ) {
+                    if (!(((List<Object>) possible).size() > 0)) {
+                        if (retVal.contains(e))
+                            retVal.remove(e);
+                    }
+                }
+            }
+
+        }
+
+        return retVal;
 
 
-
+    }
 
 
 
@@ -195,6 +219,7 @@ public class WeaponCard extends Card implements Serializable {
 
                 if(line.equals("NAME")) {
                     line = reader.readLine();
+                    this.setName(line);
                     ///*@*/ System.out.println("il nome e'"+ line);
                 }
                 if(line.equals("RELOAD COST")) {
@@ -302,7 +327,15 @@ public class WeaponCard extends Card implements Serializable {
     private boolean isLoaded;
 
     /***/
-    public List<Effect> effects;
+    public transient List<Effect> effects;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     private String description="";
     private String name="";

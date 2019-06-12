@@ -248,8 +248,10 @@ public class Board{
                     if (type2 == 'N') {
                         type = SquareTypes.normal;
                         NormalSquare NS = new NormalSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color);
-                        NS.getAmmoCards().addObserver(this.VVRMI);
-                        NS.getAmmoCards().addObserver(this.VVSocket);
+                        if(this.VVRMI!=null && this.VVSocket!=null) {
+                            NS.getAmmoCards().addObserver(this.VVRMI);
+                            NS.getAmmoCards().addObserver(this.VVSocket);
+                        }
                         map[i][j] = NS;
 
                     }
@@ -258,8 +260,10 @@ public class Board{
 
                         type = SquareTypes.spawnPoint;
                         SpawnPointSquare SPS = new SpawnPointSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color);
-                        SPS.getWeaponCards().addObserver(this.VVRMI);
-                        SPS.getWeaponCards().addObserver(this.VVSocket);
+                        if(this.VVRMI!=null && this.VVSocket!=null) {
+                            SPS.getWeaponCards().addObserver(this.VVRMI);
+                            SPS.getWeaponCards().addObserver(this.VVSocket);
+                        }
                         map[i][j] = SPS;
                         spawnPointslist[s]=map[i][j];
                         s++;

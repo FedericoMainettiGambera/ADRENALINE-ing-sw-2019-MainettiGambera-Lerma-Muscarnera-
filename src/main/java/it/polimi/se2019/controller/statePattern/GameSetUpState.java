@@ -97,7 +97,6 @@ public class GameSetUpState implements State {
             System.out.println("<SERVER> Building decks.");
             ModelGate.model.buildDecks();
 
-
             System.out.println("<SERVER> Adding 100 fake ammo cards to the ammoDeck.");
             AmmoList ammoList = new AmmoList();
             ammoList.addAmmoCubesOfColor(AmmoCubesColor.yellow, 2);

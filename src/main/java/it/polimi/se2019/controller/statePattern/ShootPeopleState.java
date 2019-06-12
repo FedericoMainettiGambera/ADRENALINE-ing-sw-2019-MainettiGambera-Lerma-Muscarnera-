@@ -4,6 +4,7 @@ package it.polimi.se2019.controller.statePattern;
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
+import it.polimi.se2019.model.OrderedCardList;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
@@ -43,32 +44,45 @@ public class ShootPeopleState implements State {
         }
        //FF aint begun & adrenaline action avaible
         else if(!ModelGate.model.hasFinalFrenzyBegun()&&ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineShootAction()){
-
-            try {
-                SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-                SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(),1));
-                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
-                this.inputTimer.start();
-            } catch (Exception e) {
-                e.printStackTrace();
+            if(canShoot()) {
+                try {
+                    SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
+                    SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(), 1));
+                    this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+                    this.inputTimer.start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+            else{
+                System.out.println("Player cant shoot");
+                ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
+                ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+            }
+
         }
         //FF began
         else if(ModelGate.model.hasFinalFrenzyBegun()){
-            int numberOfMoves=1;
-            if(playerToAsk.getBeforeorafterStartingPlayer()<0){
-                numberOfMoves=1;
+            if(canShoot()) {
+                int numberOfMoves = 1;
+                if (playerToAsk.getBeforeorafterStartingPlayer() < 0) {
+                    numberOfMoves = 1;
+                } else if (playerToAsk.getBeforeorafterStartingPlayer() >= 0) {
+                    numberOfMoves = 2;
+                }
+                try {
+                    SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
+                    SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(), numberOfMoves));
+                    this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+                    this.inputTimer.start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            else if(playerToAsk.getBeforeorafterStartingPlayer()>=0){
-                numberOfMoves=2;
-            }
-            try {
-                SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-                SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(),numberOfMoves));
-                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
-                this.inputTimer.start();
-            } catch (Exception e) {
-                e.printStackTrace();
+            else{
+                System.out.println("Player cant shoot");
+                ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
+                ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
             }
         }
     }
@@ -122,10 +136,15 @@ public class ShootPeopleState implements State {
     }
 
     public boolean canShoot(){
-
-        if(UsableWep().isEmpty()){
-            return false;
+        for (WeaponCard wp:ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards()) {
+            wp.passContext(ModelGate.model.getCurrentPlayingPlayer(), ModelGate.model.getPlayerList(), ModelGate.model.getBoard());
         }
-        else return true;
+        OrderedCardList<WeaponCard> possibleCards = ModelGate.model.getCurrentPlayingPlayer().getHand().usableWeapons();
+        for (WeaponCard wp:possibleCards.getCards()) {
+            if(!wp.isLoaded()){
+                possibleCards.getCards().remove(wp);
+            }
+        }
+        return possibleCards.getCards().size() > 0;
     }
 }
