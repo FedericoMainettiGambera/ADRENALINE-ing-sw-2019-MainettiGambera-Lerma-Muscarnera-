@@ -246,4 +246,10 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         System.out.println("<CLIENT> RERUNNING APPLICATION, please, try to reconnect.");
         Controller.startClientSocketOrRMIWithCLI();
     }
+
+    @Override
+    public void succesfullReconnection() {
+        System.out.println("<CLIENT> SUCCESFULLY RECONNECTED TO SERVER");
+        System.out.println("<CLIENT> your model is up-to-date");
+    }
 }

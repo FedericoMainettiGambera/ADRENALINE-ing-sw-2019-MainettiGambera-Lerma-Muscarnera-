@@ -169,21 +169,22 @@ public class Game extends Observable implements Serializable {
         int fileCount = directory.list().length;
         for(int i = 1; i< fileCount+1; i++) {
             try {
-                /* TO BUILD A DECK OF CARD YOU WANT ( DEBUGGING ) :
-                WeaponCard card= new WeaponCard("" + 27);
+                /* TO BUILD A DECK OF CARD YOU WANT ( DEBUGGING ) :*/
+                WeaponCard card= new WeaponCard("" + 1);
                 card.reload();
                 tempWeaponDeck.addCard(card);
-                System.out.println("<SERVER> building weapon cards ID: " + 27 );
-                WeaponCard card2= new WeaponCard("" + 26);
+                System.out.println("<SERVER> building weapon cards ID: " + 1 );
+                WeaponCard card2= new WeaponCard("" + 2);
                 card2.reload();
                 tempWeaponDeck.addCard(card2);
-                System.out.println("<SERVER> building weapon cards ID: " + 26);
-                */
+                System.out.println("<SERVER> building weapon cards ID: " + 2);
 
+                /*
                 WeaponCard card= new WeaponCard("" + i);
                 card.reload();
                 tempWeaponDeck.addCard(card);
                 System.out.println("<SERVER> building weapon cards ID: " + i);
+                */
 
             }
             catch(Exception e) {

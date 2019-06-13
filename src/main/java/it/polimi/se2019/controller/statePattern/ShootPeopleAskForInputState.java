@@ -1,5 +1,6 @@
 package it.polimi.se2019.controller.statePattern;
 
+import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.controller.WaitForPlayerInput;
@@ -56,6 +57,8 @@ public class ShootPeopleAskForInputState implements State {
 
         if(isToSend(inputType)) {
             try {
+                System.out.println("<SERVER> sending " + inputType + " to player with the possible options.");
+
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askEffectInputs(inputType, this.chosenEffect.usableInputs().get(getInputRequestCounter()).get(0));
                 this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
@@ -63,6 +66,10 @@ public class ShootPeopleAskForInputState implements State {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        else{
+            System.out.println("<SERVER> " + inputType + " is not meant to be sent to player.");
+            askMoreOrExec();
         }
     }
 
@@ -86,20 +93,30 @@ public class ShootPeopleAskForInputState implements State {
         }
 
         this.chosenEffect.handleRow(this.chosenEffect.getEffectInfo().getEffectInfoElement().get(getInputRequestCounter()),inputRow);
-        nextInputRequestex();
 
+        askMoreOrExec();
+    }
+
+    public void askMoreOrExec(){
+        nextInputRequestex();
         if(getInputRequestCounter() == null) {
             if(!this.chosenEffect.Exec()) {
                 System.err.println("<SERVER> exec didn't work");
             } else {
                 System.out.println("<SERVER> exec worked!");
                 // vai avanti col gioco
+                if(this.actionNumber == 2){
+                    ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
+                }
+                else if(this.actionNumber == 1){
+                    ViewControllerEventHandlerContext.setNextState(new TurnState(2));
+                }
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
             }
         }
         else {
             askForInput(playerToAsk);
         }
-
     }
 
 

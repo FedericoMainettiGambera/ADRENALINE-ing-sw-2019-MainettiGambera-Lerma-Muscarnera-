@@ -5,6 +5,7 @@ import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
+import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.*;
 import it.polimi.se2019.model.events.stateEvent.StateEvent;
 import it.polimi.se2019.model.events.timerEvent.TimerEvent;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Scanner;
 
 public class View implements Observer {
 
@@ -57,6 +59,7 @@ public class View implements Observer {
         ModelViewEvent MVE = null;
         StateEvent StE = null;
         TimerEvent TE = null;
+        ReconnectionEvent RE = null;
         if(arg.getClass().toString().contains("ModelViewEvent")){
             MVE = (ModelViewEvent)arg;
             this.callCorrectComponent(MVE);
@@ -78,6 +81,10 @@ public class View implements Observer {
             else{
                 OutputHandlerGate.getCorrectOutputHandler(this.userInterface).showConnectionTimer(TE.getCurrentTime(), TE.getTotalTime());
             }
+        }
+        else if(arg.getClass().toString().contains("ReconnectionEvent")){
+            RE = (ReconnectionEvent)arg;
+            this.selector.askReconnectionNickname(RE);
         }
         else{
             try {
@@ -372,6 +379,11 @@ public class View implements Observer {
                 OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setAFK(MVE);
                 break;
 
+            case resetGame:
+                ViewModelGate.setModel((GameV)MVE.getComponent());
+
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setAFK(MVE);
+                break;
 
             default:
                 try {

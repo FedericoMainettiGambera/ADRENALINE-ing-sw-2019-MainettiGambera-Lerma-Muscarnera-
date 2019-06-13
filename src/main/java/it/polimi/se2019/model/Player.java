@@ -6,6 +6,7 @@ import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.view.components.PlayerV;
 import it.polimi.se2019.virtualView.RMI.RMIInterface;
 
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
@@ -59,7 +60,14 @@ public class Player extends Person implements Serializable {
     public void setIsAFK(boolean isAFK){
         this.isAFK = isAFK;
         setChanged();
-        notifyObservers(new ModelViewEvent(this.isAFK, ModelViewEventTypes.setAFK, nickname));
+        ModelViewEvent MVE = new ModelViewEvent(this.isAFK, ModelViewEventTypes.setAFK, nickname);
+        //because the player has just been set AFK, he can't be reached with the notify observers, so we force to send him the afk message, so he disconnects
+        try {
+            this.oos.writeObject(MVE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        notifyObservers(MVE);
     }
 
 

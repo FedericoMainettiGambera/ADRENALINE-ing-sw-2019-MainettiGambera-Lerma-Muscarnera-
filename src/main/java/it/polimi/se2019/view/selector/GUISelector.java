@@ -5,6 +5,7 @@ import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
+import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.virtualView.Selector;
 
 import java.util.ArrayList;
@@ -100,6 +101,11 @@ public class GUISelector implements Selector {
 
     @Override
     public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
+
+    }
+
+    @Override
+    public void askReconnectionNickname(ReconnectionEvent RE) {
 
     }
 

@@ -3,6 +3,7 @@ package it.polimi.se2019.virtualView.Socket;
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
+import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.*;
 import it.polimi.se2019.virtualView.Selector;
 import it.polimi.se2019.virtualView.VirtualViewSelector;
@@ -105,5 +106,10 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     @Override
     public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
         SocketVirtualView.sendToClient(playerToAsk,new SelectorEventEffectInputs(inputType,possibleInputs));
+    }
+
+    @Override
+    public void askReconnectionNickname(ReconnectionEvent RE) {
+        //must be empty...
     }
 }

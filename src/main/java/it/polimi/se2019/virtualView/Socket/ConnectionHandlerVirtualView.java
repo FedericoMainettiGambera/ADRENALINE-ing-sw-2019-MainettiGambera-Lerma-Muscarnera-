@@ -7,6 +7,7 @@ import it.polimi.se2019.model.Game;
 import it.polimi.se2019.model.GameConstant;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.PlayersList;
+import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -48,22 +49,9 @@ public class ConnectionHandlerVirtualView extends Thread {
     public void run(){
 
         //while(this.isServerSocketLive && numberOfConnections <= GameConstant.maxNumberOfPlayerPerGame-1){
-        while((this.isServerSocketLive && ModelGate.model.getNumberOfClientsConnected() <= GameConstant.maxNumberOfPlayerPerGame-1)
-                &&(!ModelGate.model.hasGameBegun)){
+        while((this.isServerSocketLive && ModelGate.model.getNumberOfClientsConnected() <= GameConstant.maxNumberOfPlayerPerGame-1)){
             try{
                 this.tempSocket = serverSocket.accept();
-                if(ModelGate.model.hasGameBegun){
-                    //TODO
-                    System.out.println("<SERVER-soket> Should not accept the new player. breaking the while.");
-                    break;
-                }
-                //this.numberOfConnections++;
-                ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected()+1);
-
-                System.out.println("<SERVER-socket> New Connection from: " + this.tempSocket.getInetAddress().getHostAddress());
-                //System.out.println("<SERVER-socket> Number of Connections: " + this.numberOfConnections);
-                System.out.println("<SERVER-socket> Number of Connections: " + ModelGate.model.getNumberOfClientsConnected());
-
             }
             catch(IOException e){
                 e.printStackTrace();
@@ -75,36 +63,62 @@ public class ConnectionHandlerVirtualView extends Thread {
                 }
             }
 
+            if(ModelGate.model.hasGameBegun){
+                System.out.println("<SERVER-soket> Game has already begun, the connection received must be a request of reconnection.");
 
-            //ObjectOutputStream
-            try {
-                System.out.println("<SERVER-socket> Creating a Player.");
-                Player p = new Player();
-                p.setOos(new ObjectOutputStream(this.tempSocket.getOutputStream()));
-                //p.setNickname("User"+numberOfConnections);
-                p.setNickname("User"+ModelGate.model.getNumberOfClientsConnected());
-                System.out.println("<SERVER-socket> Adding Player (" + p.getNickname() + ") to the PlayerList.");
-                ModelGate.model.getPlayerList().addPlayer(p);
+                if(ModelGate.model.getPlayerList().isSomeoneAFK()){
+                    ArrayList<String> listOfAFKnames = new ArrayList<>();
+                    for (Player p: ModelGate.model.getPlayerList().getPlayers()) {
+                        if(p.isAFK()){
+                            listOfAFKnames.add(p.getNickname());
+                        }
+                    }
+                    try {
+                        ObjectOutputStream oos = new ObjectOutputStream(this.tempSocket.getOutputStream());
+                        oos.writeObject(new ReconnectionEvent(listOfAFKnames));
+                        ObjectInputStream ois = new ObjectInputStream(this.tempSocket.getInputStream());
+                        ClientListenerVirtualView sl = new ClientListenerVirtualView(this.tempSocket, ois, controller);
+                        sl.passOos(oos);
+                        new Thread(sl).start();
+                    } catch (IOException e) {
+                        System.err.println("can't use the OutputStream: " + e.getMessage());
+                    }
+                }
             }
-            catch(IOException e){
-                e.printStackTrace();
-            }
+            else {
+                //this.numberOfConnections++;
+                ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected() + 1);
 
-            //ObjectInputStream
-            ObjectInputStream ois = null;
-            try {
-                ois = new ObjectInputStream(this.tempSocket.getInputStream());
+                System.out.println("<SERVER-socket> New Connection from: " + this.tempSocket.getInetAddress().getHostAddress());
+                //System.out.println("<SERVER-socket> Number of Connections: " + this.numberOfConnections);
+                System.out.println("<SERVER-socket> Number of Connections: " + ModelGate.model.getNumberOfClientsConnected());
+
+
+                //ObjectOutputStream
+                try {
+                    System.out.println("<SERVER-socket> Creating a Player.");
+                    Player p = new Player();
+                    p.setOos(new ObjectOutputStream(this.tempSocket.getOutputStream()));
+                    //p.setNickname("User"+numberOfConnections);
+                    p.setNickname("User" + ModelGate.model.getNumberOfClientsConnected());
+                    System.out.println("<SERVER-socket> Adding Player (" + p.getNickname() + ") to the PlayerList.");
+                    ModelGate.model.getPlayerList().addPlayer(p);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                //ObjectInputStream
+                ObjectInputStream ois = null;
+                try {
+                    ois = new ObjectInputStream(this.tempSocket.getInputStream());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                ClientListenerVirtualView sl = new ClientListenerVirtualView(this.tempSocket, ois, controller);
+                //starts the Thread that listen for Object sent from the NetworkHandler.
+                new Thread(sl).start();
             }
-            catch (IOException e){
-                e.printStackTrace();
-            }
-            ClientListenerVirtualView sl = new ClientListenerVirtualView(this.tempSocket, ois, controller);
-            //starts the Thread that listen for Object sent from the NetworkHandler.
-            new Thread(sl).start();
         }
-
-        System.out.println("<SERVER-socket> Not accepting new Players anymore.");
-        //TODO: should listen to reconnections now.
 
     }
 

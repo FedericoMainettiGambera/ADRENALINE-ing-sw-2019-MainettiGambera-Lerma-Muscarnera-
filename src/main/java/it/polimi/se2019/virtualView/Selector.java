@@ -5,6 +5,7 @@ import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
+import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,5 +45,7 @@ public interface Selector {
     public void askWhatEffect(ArrayList<Effect> possibleEffects);
 
     public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs);
+
+    public void askReconnectionNickname (ReconnectionEvent RE);
 
 }

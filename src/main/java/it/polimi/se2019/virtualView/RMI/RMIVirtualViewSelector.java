@@ -3,6 +3,7 @@ package it.polimi.se2019.virtualView.RMI;
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
+import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.*;
 import it.polimi.se2019.virtualView.Selector;
 import it.polimi.se2019.virtualView.VirtualViewSelector;
@@ -193,6 +194,11 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
         {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void askReconnectionNickname(ReconnectionEvent RE) {
+        //left empty
     }
 
 

@@ -2,13 +2,16 @@ package it.polimi.se2019.model.events.reconnectionEvent;
 
 import it.polimi.se2019.model.events.Event;
 
-public class ReconnectionEvent extends Event {
-    private String oldNickname;
-    public ReconnectionEvent(String oldNickname){
-        this.oldNickname=oldNickname;
+import java.io.Serializable;
+import java.util.List;
+
+public class ReconnectionEvent extends Event implements Serializable {
+    private List<String> listOfAFKPlayers;
+    public ReconnectionEvent(List<String> listOfAFKPlayers){
+        this.listOfAFKPlayers= listOfAFKPlayers;
     }
-    public String getOldNickname() {
-        return oldNickname;
+    public List<String> getListOfAFKPlayers() {
+        return listOfAFKPlayers;
     }
 }
 

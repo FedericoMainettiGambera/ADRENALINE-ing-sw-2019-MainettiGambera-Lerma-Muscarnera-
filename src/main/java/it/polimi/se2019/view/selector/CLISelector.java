@@ -636,5 +636,24 @@ public class CLISelector implements Selector {
         AskEffectInputs aei = new AskEffectInputs(inputType, possibleInputs);
         aei.start();
     }
+
+    @Override
+    public void askReconnectionNickname(ReconnectionEvent RE) {
+        System.out.println("AFK Players are: ");
+        for (int i = 0; i < RE.getListOfAFKPlayers().size(); i++) {
+            System.out.println("    " + i + ") " + RE.getListOfAFKPlayers().get(i));
+        }
+        System.out.println("What was your nickname?");
+        Scanner br = new Scanner(System.in);
+        int choice = br.nextInt();
+        ArrayList<String> answer = new ArrayList<>();
+        answer.add(RE.getListOfAFKPlayers().get(choice));
+
+        System.out.println("<CLIENT> setting \"me\": " + answer.get(0));
+        ViewModelGate.setMe(answer.get(0));
+
+        answer.add(this.networkConnection);
+        sendToServer(new ReconnectionEvent(answer));
+    }
 }
 

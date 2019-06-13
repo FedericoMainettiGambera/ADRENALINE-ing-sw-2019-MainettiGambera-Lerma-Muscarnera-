@@ -2,6 +2,7 @@ package it.polimi.se2019.virtualView;
 
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
+import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +95,11 @@ public class VirtualViewSelector implements Selector {
 
     @Override
     public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
+
+    }
+
+    @Override
+    public void askReconnectionNickname(ReconnectionEvent RE) {
 
     }
 

@@ -61,6 +61,8 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
     public static void disconnect() throws IOException {
         //note that closing the socket will close the input streams and output streams too.
         socket.close();
-        OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
+        System.exit(0);
+        // if i use this there are problem with the buffer reader
+        // OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
     }
 }
