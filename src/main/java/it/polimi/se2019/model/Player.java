@@ -64,6 +64,7 @@ public class Player extends Person implements Serializable {
 
     public void setAFKWithNotify(boolean isAFK){
         //notify everybody, even the one just setted AFK
+        regulateNumberOfConnection(isAFK);
         this.isAFK = isAFK;
         setChanged();
         ModelViewEvent MVE = new ModelViewEvent(this.isAFK, ModelViewEventTypes.setAFK, nickname);
@@ -86,6 +87,7 @@ public class Player extends Person implements Serializable {
 
     public void setAFKWIthoutNotify(boolean isAFK){
         //notify everybody except the one just setted AFK
+        regulateNumberOfConnection(isAFK);
         this.isAFK = isAFK;
         setChanged();
         ModelViewEvent MVE = new ModelViewEvent(this.isAFK, ModelViewEventTypes.setAFK, nickname);
@@ -99,6 +101,16 @@ public class Player extends Person implements Serializable {
             ViewControllerEventHandlerContext.state.doAction(null);
         }
     }
+
+    public void regulateNumberOfConnection(boolean lostConnection){
+        if(lostConnection){
+            ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected()-1);
+        }
+        else{
+            ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected()+1);
+        }
+    }
+
 
 
     /*-********************************************************************************************************METHODS*/

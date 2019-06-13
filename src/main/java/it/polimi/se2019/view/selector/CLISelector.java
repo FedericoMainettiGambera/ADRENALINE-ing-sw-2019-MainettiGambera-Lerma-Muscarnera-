@@ -636,7 +636,6 @@ public class CLISelector implements Selector {
         AskEffectInputs aei = new AskEffectInputs(inputType, possibleInputs);
         aei.start();
     }
-
     @Override
     public void askReconnectionNickname(ReconnectionEvent RE) {
         System.out.println("AFK Players are: ");
@@ -654,6 +653,32 @@ public class CLISelector implements Selector {
 
         answer.add(this.networkConnection);
         sendToServer(new ReconnectionEvent(answer));
+    }
+
+
+    private class AskNickaname extends Thread{
+        @Override
+        public void run() {
+            Scanner br = new Scanner(System.in);
+            System.out.println("<CLIENT> I'm sorry but the nickname chosen was already taken, please insert a new one:");
+            String newNickname = br.nextLine();
+            ViewModelGate.setMe(newNickname);
+            System.out.println("<CLIENT> informing the server of your new nickname");
+            sendToServer(new ViewControllerEventNickname(ViewModelGate.getMe()));
+        }
+    }
+    private boolean nicknameIsAvailable = true;
+    @Override
+    public void askNickname() {
+        if(nicknameIsAvailable) {
+            System.out.println("<CLIENT> informing the server of your nickname");
+            sendToServer(new ViewControllerEventNickname(ViewModelGate.getMe()));
+            nicknameIsAvailable = false;
+        }
+        else{
+            AskNickaname AN = new AskNickaname();
+            AN.start();
+        }
     }
 }
 

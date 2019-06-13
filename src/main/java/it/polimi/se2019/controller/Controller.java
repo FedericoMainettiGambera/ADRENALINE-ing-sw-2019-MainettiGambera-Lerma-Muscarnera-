@@ -7,6 +7,7 @@ import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.networkHandler.sendPingRequest;
 import it.polimi.se2019.view.GUIstarter;
 import it.polimi.se2019.view.components.View;
+import it.polimi.se2019.view.components.ViewModelGate;
 import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
 
@@ -137,6 +138,12 @@ public class  Controller{
     public static void startClientSocketOrRMIWithCLI() {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+            System.out.println(" WELCOME TO -ADRENALINE- !!");
+            System.out.println("What's your Nickname?");
+
+            String nickname = br.readLine();
+            ViewModelGate.setMe(nickname);
 
             System.out.println("<CLIENT> Do you want to play with:");
             System.out.println("         RMI");

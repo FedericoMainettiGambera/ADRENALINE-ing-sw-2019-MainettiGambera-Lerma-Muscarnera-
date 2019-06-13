@@ -112,4 +112,9 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     public void askReconnectionNickname(ReconnectionEvent RE) {
         //must be empty...
     }
+
+    @Override
+    public void askNickname() {
+        //must be empty
+    }
 }

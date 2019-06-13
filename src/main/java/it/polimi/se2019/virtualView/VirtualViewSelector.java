@@ -103,4 +103,9 @@ public class VirtualViewSelector implements Selector {
 
     }
 
+    @Override
+    public void askNickname() {
+
+    }
+
 }

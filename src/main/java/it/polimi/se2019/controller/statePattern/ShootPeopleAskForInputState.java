@@ -104,7 +104,7 @@ public class ShootPeopleAskForInputState implements State {
                 System.err.println("<SERVER> exec didn't work");
             } else {
                 System.out.println("<SERVER> exec worked!");
-                // vai avanti col gioco
+                // TODO vai avanti col gioco
                 if(this.actionNumber == 2){
                     ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
                 }

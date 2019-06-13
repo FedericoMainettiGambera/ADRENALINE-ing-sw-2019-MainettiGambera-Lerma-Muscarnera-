@@ -1,13 +1,18 @@
 package it.polimi.se2019.virtualView.Socket;
 
 import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.controller.statePattern.GameSetUpState;
 import it.polimi.se2019.model.Game;
 import it.polimi.se2019.model.GameConstant;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.PlayersList;
+import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
+import it.polimi.se2019.model.events.selectorEvents.SelectorEvent;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventNickname;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPlayerSetUp;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -107,7 +112,7 @@ public class ConnectionHandlerVirtualView extends Thread {
                     //ask for the old nickname
                     oos.writeObject(new ReconnectionEvent(listOfAFKnames));
                 } catch (IOException e) {
-                    System.err.println("can't use the OutputStream: " + e.getMessage());
+                    System.err.println("can't use the OutputStream during reconnection: " + e.getMessage());
                 }
             }
             else{
@@ -136,21 +141,14 @@ public class ConnectionHandlerVirtualView extends Thread {
 
             //TODO change following code so that the nickname of the created player added to the model is the right one.
 
-            //this.numberOfConnections++;
-            ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected() + 1);
-
             System.out.println("<SERVER-socket> New Connection from: " + this.tempSocket.getInetAddress().getHostAddress());
             //System.out.println("<SERVER-socket> Number of Connections: " + this.numberOfConnections);
-            System.out.println("<SERVER-socket> Number of Connections: " + ModelGate.model.getNumberOfClientsConnected());
 
             //ObjectOutputStream
             System.out.println("<SERVER-socket> Creating a Player.");
             Player p = new Player();
             try {
                 p.setOos(new ObjectOutputStream(this.tempSocket.getOutputStream()));
-                //p.setNickname("User"+numberOfConnections);
-                p.setNickname("User" + ModelGate.model.getNumberOfClientsConnected());
-                System.out.println("<SERVER-socket> Adding Player (" + p.getNickname() + ") to the PlayerList.");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -162,14 +160,50 @@ public class ConnectionHandlerVirtualView extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            ClientListenerVirtualView sl = new ClientListenerVirtualView(this.tempSocket, ois, controller);
 
-            //starts the Thread that listen for Object sent from the NetworkHandler.
-            Thread t = new Thread(sl);
+            boolean correctNicknameFound = false;
+            while(!correctNicknameFound) {
+                //send request for nickname
+                try {
+                    p.getOos().writeObject(new SelectorEvent(SelectorEventTypes.askNickname));
+                } catch (IOException e) {
+                    System.err.println("can't use the OutputStream during connection: " + e.getMessage());
+                    break;
+                }
+                //read nickname received
+                ViewControllerEventNickname VCENickname = null;
+                try {
+                    VCENickname = (ViewControllerEventNickname) ois.readObject();
+                } catch (IOException e) {
+                    System.err.println("can't use the OutputStream during connection: " + e.getMessage());
+                    break;
+                } catch (ClassNotFoundException e) {
+                    System.err.println("can't use the OutputStream during connection: " + e.getMessage());
+                    break;
+                }
 
-            ModelGate.model.getPlayerList().addPlayer(p);
+                //set nickname
+                if(ModelGate.model.getPlayerList().getPlayer(VCENickname.getNickname())!=null){
+                    correctNicknameFound = false;
+                }
+                else {
+                    p.setNickname(VCENickname.getNickname());
 
-            t.start();
+                    ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected() + 1);
+                    System.out.println("<SERVER-socket> Number of Connections: " + ModelGate.model.getNumberOfClientsConnected());
+
+                    ClientListenerVirtualView sl = new ClientListenerVirtualView(this.tempSocket, ois, controller);
+
+                    //starts the Thread that listen for Object sent from the NetworkHandler.
+                    Thread t = new Thread(sl);
+
+                    System.out.println("<SERVER-socket> Adding Player (" + p.getNickname() + ") to the PlayerList.");
+                    ModelGate.model.getPlayerList().addPlayer(p);
+
+                    t.start();
+                    correctNicknameFound = true;
+                }
+            }
         }
     }
 

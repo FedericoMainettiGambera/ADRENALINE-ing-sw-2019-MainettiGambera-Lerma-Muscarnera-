@@ -109,4 +109,9 @@ public class GUISelector implements Selector {
 
     }
 
+    @Override
+    public void askNickname() {
+
+    }
+
 }

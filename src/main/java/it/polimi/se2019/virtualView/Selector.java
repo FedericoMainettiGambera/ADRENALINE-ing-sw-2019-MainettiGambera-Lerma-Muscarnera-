@@ -48,4 +48,6 @@ public interface Selector {
 
     public void askReconnectionNickname (ReconnectionEvent RE);
 
+    public void askNickname();
+
 }

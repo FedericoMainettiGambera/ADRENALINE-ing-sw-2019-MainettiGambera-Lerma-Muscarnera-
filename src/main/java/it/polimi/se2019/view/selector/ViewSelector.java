@@ -126,4 +126,9 @@ public class ViewSelector implements Selector {
     public void askReconnectionNickname(ReconnectionEvent RE) {
         this.getCorrectSelector().askReconnectionNickname(RE);
     }
+
+    @Override
+    public void askNickname() {
+        this.getCorrectSelector().askNickname();
+    }
 }
