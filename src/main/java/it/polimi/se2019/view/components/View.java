@@ -362,27 +362,28 @@ public class View implements Observer {
                         }
                     }
                 }
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setAFK(MVE);
+
                 if(ViewModelGate.getMe().equals((String) MVE.getExtraInformation1() )){
-                    if(networkConnection.equalsIgnoreCase("SOCKET")){
-                        try {
+                    if((boolean)MVE.getComponent()) {
+                        if (networkConnection.equalsIgnoreCase("SOCKET")) {
                             SocketNetworkHandler.disconnect();
-                        } catch (IOException e) {
-                            System.err.println("PROBLEMS DISCONNECTING FROM SERVER.");
-                            OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
+                        } else {
+                            RMINetworkHandler.disconnect(); //todo
                         }
+                        OutputHandlerGate.getCorrectOutputHandler(this.userInterface).disconnect();
                     }
                     else{
-                        RMINetworkHandler.disconnect(); //todo
+                        //TODO player has been reset to not AFK.
+                        System.out.println("<CLIENT> you are no more AFK yay");
                     }
                 }
-
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setAFK(MVE);
                 break;
 
             case resetGame:
                 ViewModelGate.setModel((GameV)MVE.getComponent());
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setAFK(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).succesfullReconnection();
                 break;
 
             default:

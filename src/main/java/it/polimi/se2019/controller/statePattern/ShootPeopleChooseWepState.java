@@ -11,7 +11,6 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventInt;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ShootPeopleChooseWepState implements State {
 
@@ -77,7 +76,7 @@ public class ShootPeopleChooseWepState implements State {
 
     @Override
     public void handleAFK() {
-        this.playerToAsk.setIsAFK(true);
+        this.playerToAsk.setAFKWithNotify(true);
         System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
         ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());

@@ -33,6 +33,8 @@ public class  Controller{
     public static View V;
 
     public static void startServerWithRMIAndSocket(){
+
+        //inizializza il model
         System.out.println("<SERVER> Creating the Game.");
         ModelGate.model = new Game();
         System.out.println("<SERVER> Creating a PlayerList.");
@@ -52,7 +54,7 @@ public class  Controller{
         }
         ViewControllerEventHandlerContext.socketVV = SVV;
 
-        //Startin the Server as RMI
+        //Starting the Server as RMI
         try {
             RMIVV = new RMIVirtualView(VCEHC);
             RMIVV.startServer();
@@ -62,6 +64,9 @@ public class  Controller{
             e.printStackTrace();
         }
         ViewControllerEventHandlerContext.RMIVV = RMIVV;
+
+        //TODO
+        //Starts a thread that checks if clients are alive, if they aren't puts them in AFK.
 
         //Registering the VirtualView as an observer of the model so it can receive the MVEs
         System.out.println("<SERVER> Registering the VirtualViews (RMI and Socket) as observers of the Model");
@@ -138,20 +143,6 @@ public class  Controller{
             System.out.println("         SOCKET");
             String networkConnectionChoice = "";
             networkConnectionChoice = br.readLine();
-
-        /*TODO
-        System.out.println("<CLIENT> Are you trying to reconnect to a Game? [Y/N]");
-        String reconection ="";
-        try {
-            userInterface = br.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if(reconection.equals("Y")){
-            this.reconnect(networkConnectionChoice, userInterface);
-            return;
-        }
-        */
 
             String IP = null;
 

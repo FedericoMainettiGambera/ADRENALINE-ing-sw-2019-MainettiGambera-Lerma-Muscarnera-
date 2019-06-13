@@ -103,7 +103,7 @@ public class PlayerSetUpState implements State {
 
     @Override
     public void handleAFK() {
-        this.playerToAsk.setIsAFK(true);
+        this.playerToAsk.setAFKWithNotify(true);
         System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         System.out.println("<SERVER> setting Username and color to default");
         ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setNickname("defaultUser" + ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getNickname());

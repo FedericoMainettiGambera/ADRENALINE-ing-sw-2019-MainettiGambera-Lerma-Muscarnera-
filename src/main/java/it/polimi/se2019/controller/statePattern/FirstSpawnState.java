@@ -6,7 +6,6 @@ import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.PowerUpCard;
-import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
 import it.polimi.se2019.controller.WaitForPlayerInput;
@@ -77,7 +76,7 @@ public class FirstSpawnState implements State {
 
     @Override
     public void handleAFK() {
-        this.playerToAsk.setIsAFK(true);
+        this.playerToAsk.setAFKWithNotify(true);
         System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
         System.out.println("<SERVER> randomly spwaning player.");

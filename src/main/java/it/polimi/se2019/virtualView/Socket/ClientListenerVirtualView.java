@@ -43,24 +43,26 @@ public class ClientListenerVirtualView extends Observable implements Runnable{
     @Override
     public void run(){
         while(isSocketLive){
+            Object o = null;
             try {
-                Object o = ois.readObject();
-                if(o.getClass().toString().contains("ViewControllerEvent")) {
-                    this.VCE = (ViewControllerEvent) o;
-                    setChanged();
-                    this.notifyObservers(this.VCE);
-                }
-                else if(o.getClass().toString().contains("ReconnectionEvent")){
-                    ReconnectionEvent RE = (ReconnectionEvent) o;
-                    resetPlayer(RE);
-                }
-                else{
-                    System.err.println("Received Event not recognized. class: ClientListenerVirtualView.");
-                }
+                o = ois.readObject();
             }
             catch (IOException|ClassNotFoundException e){
-                System.err.println("Player has disconnected. Closing ClientListenerVirtualView.");
+                System.err.println("Error in read object. Closing ClientListenerVirtualView.");
                 break;
+            }
+
+            if(o.getClass().toString().contains("ViewControllerEvent")) {
+                this.VCE = (ViewControllerEvent) o;
+                setChanged();
+                this.notifyObservers(this.VCE);
+            }
+            else if(o.getClass().toString().contains("ReconnectionEvent")){
+                ReconnectionEvent RE = (ReconnectionEvent) o;
+                resetPlayer(RE);
+            }
+            else{
+                System.err.println("Received Event not recognized. class: ClientListenerVirtualView: object received->" + o.getClass());
             }
         }
     }
@@ -68,13 +70,15 @@ public class ClientListenerVirtualView extends Observable implements Runnable{
     public void resetPlayer(ReconnectionEvent RE){
         String nickname = RE.getListOfAFKPlayers().get(0);
         String networkConnection = RE.getListOfAFKPlayers().get(1);
+
+        System.out.println("<SERVER-socket> received the Reconnection event for player: " + nickname);
         //reset previous connection
         ModelGate.model.getPlayerList().getPlayer(nickname).setRmiIdentifier(0);
         ModelGate.model.getPlayerList().getPlayer(nickname).setRmiInterface(null);
         //set new connection
         ModelGate.model.getPlayerList().getPlayer(nickname).setOos(this.oos);
         //set afk false
-        ModelGate.model.getPlayerList().getPlayer(nickname).setIsAFK(false);
         SocketVirtualView.sendToClient(ModelGate.model.getPlayerList().getPlayer(nickname),(new ModelViewEvent(ModelGate.model.buildGameV(), ModelViewEventTypes.resetGame)));
+        ModelGate.model.getPlayerList().getPlayer(nickname).setAFKWIthoutNotify(false);
     }
 }

@@ -241,15 +241,21 @@ public class CLIOutputHandler implements OutputHandlerInterface{
 
     @Override
     public void cantReachServer() {
-        //TODO
-        System.err.println("CAN'T REACH SERVER.");
-        System.out.println("<CLIENT> RERUNNING APPLICATION, please, try to reconnect.");
-        Controller.startClientSocketOrRMIWithCLI();
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("CAN'T REACH SERVER.");
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> RERUNNING APPLICATION, please, try to reconnect.");
+        System.exit(0);
     }
 
     @Override
     public void succesfullReconnection() {
         System.out.println("<CLIENT> SUCCESFULLY RECONNECTED TO SERVER");
         System.out.println("<CLIENT> your model is up-to-date");
+    }
+
+    @Override
+    public void disconnect() {
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> YOU HAVE BEEN DISCONNECTED BECAUSE OF INACIVITY,\n" +
+                "         please try to reconnect to the same server to continue game.");
+        System.exit(0);
     }
 }

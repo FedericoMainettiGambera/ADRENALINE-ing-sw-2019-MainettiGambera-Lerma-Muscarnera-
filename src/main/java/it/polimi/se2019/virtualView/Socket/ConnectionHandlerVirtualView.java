@@ -64,62 +64,113 @@ public class ConnectionHandlerVirtualView extends Thread {
             }
 
             if(ModelGate.model.hasGameBegun){
-                System.out.println("<SERVER-soket> Game has already begun, the connection received must be a request of reconnection.");
-
-                if(ModelGate.model.getPlayerList().isSomeoneAFK()){
-                    ArrayList<String> listOfAFKnames = new ArrayList<>();
-                    for (Player p: ModelGate.model.getPlayerList().getPlayers()) {
-                        if(p.isAFK()){
-                            listOfAFKnames.add(p.getNickname());
-                        }
-                    }
-                    try {
-                        ObjectOutputStream oos = new ObjectOutputStream(this.tempSocket.getOutputStream());
-                        oos.writeObject(new ReconnectionEvent(listOfAFKnames));
-                        ObjectInputStream ois = new ObjectInputStream(this.tempSocket.getInputStream());
-                        ClientListenerVirtualView sl = new ClientListenerVirtualView(this.tempSocket, ois, controller);
-                        sl.passOos(oos);
-                        new Thread(sl).start();
-                    } catch (IOException e) {
-                        System.err.println("can't use the OutputStream: " + e.getMessage());
-                    }
-                }
+                System.out.println("<SERVER-soket> Game has already begun, the connection received must be a request of Reconnection.");
+                //TODO
+                //in a separate Thread handle the reconnection.
+                (new Reconnection(tempSocket)).start();
             }
             else {
-                //this.numberOfConnections++;
-                ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected() + 1);
-
-                System.out.println("<SERVER-socket> New Connection from: " + this.tempSocket.getInetAddress().getHostAddress());
-                //System.out.println("<SERVER-socket> Number of Connections: " + this.numberOfConnections);
-                System.out.println("<SERVER-socket> Number of Connections: " + ModelGate.model.getNumberOfClientsConnected());
-
-
-                //ObjectOutputStream
-                try {
-                    System.out.println("<SERVER-socket> Creating a Player.");
-                    Player p = new Player();
-                    p.setOos(new ObjectOutputStream(this.tempSocket.getOutputStream()));
-                    //p.setNickname("User"+numberOfConnections);
-                    p.setNickname("User" + ModelGate.model.getNumberOfClientsConnected());
-                    System.out.println("<SERVER-socket> Adding Player (" + p.getNickname() + ") to the PlayerList.");
-                    ModelGate.model.getPlayerList().addPlayer(p);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                //ObjectInputStream
-                ObjectInputStream ois = null;
-                try {
-                    ois = new ObjectInputStream(this.tempSocket.getInputStream());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                ClientListenerVirtualView sl = new ClientListenerVirtualView(this.tempSocket, ois, controller);
-                //starts the Thread that listen for Object sent from the NetworkHandler.
-                new Thread(sl).start();
+                System.out.println("<SERVER-soket> Game hasn't begun, the connection received must be a new Player.");
+                //TODO
+                //in a separate Thread ask for the nickname and listen for the answer, once done it should create a player and add it to the model.
+                (new NewConnection(tempSocket)).start();
             }
         }
 
+    }
+
+
+    private class Reconnection extends Thread {
+        private Socket tempSocket;
+
+        public Reconnection(Socket tempSocket) {
+            this.tempSocket = tempSocket;
+        }
+
+        @Override
+        public void run() {
+            if(ModelGate.model.getPlayerList().isSomeoneAFK()){
+                ArrayList<String> listOfAFKnames = new ArrayList<>();
+                for (Player p: ModelGate.model.getPlayerList().getPlayers()) {
+                    if(p.isAFK()){
+                        listOfAFKnames.add(p.getNickname());
+                    }
+                }
+                try {
+                    ObjectOutputStream oos = new ObjectOutputStream(this.tempSocket.getOutputStream());
+                    ObjectInputStream ois = new ObjectInputStream(this.tempSocket.getInputStream());
+
+                    ClientListenerVirtualView sl = new ClientListenerVirtualView(this.tempSocket, ois, controller);
+                    sl.passOos(oos);
+                    Thread t = new Thread(sl);
+                    t.start();
+                    //ask for the old nickname
+                    oos.writeObject(new ReconnectionEvent(listOfAFKnames));
+                } catch (IOException e) {
+                    System.err.println("can't use the OutputStream: " + e.getMessage());
+                }
+            }
+            else{
+                System.out.println("<SERVER> nobody is AFK");
+                //refusing connection
+                try {
+                    tempSocket.close();
+                } catch (IOException e) {
+                    System.out.println("couldn't close the connection");
+                }
+            }
+        }
+    }
+
+    private class NewConnection extends Thread{
+        private Socket tempSocket;
+        public NewConnection(Socket tempSocket){
+            this.tempSocket=tempSocket;
+        }
+        @Override
+        public void run() {
+
+            //TODO ask for nickname
+
+            //TODO receive nickname, if nickname isn't used by anybody else go on, else reask nickname
+
+            //TODO change following code so that the nickname of the created player added to the model is the right one.
+
+            //this.numberOfConnections++;
+            ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected() + 1);
+
+            System.out.println("<SERVER-socket> New Connection from: " + this.tempSocket.getInetAddress().getHostAddress());
+            //System.out.println("<SERVER-socket> Number of Connections: " + this.numberOfConnections);
+            System.out.println("<SERVER-socket> Number of Connections: " + ModelGate.model.getNumberOfClientsConnected());
+
+            //ObjectOutputStream
+            System.out.println("<SERVER-socket> Creating a Player.");
+            Player p = new Player();
+            try {
+                p.setOos(new ObjectOutputStream(this.tempSocket.getOutputStream()));
+                //p.setNickname("User"+numberOfConnections);
+                p.setNickname("User" + ModelGate.model.getNumberOfClientsConnected());
+                System.out.println("<SERVER-socket> Adding Player (" + p.getNickname() + ") to the PlayerList.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //ObjectInputStream
+            ObjectInputStream ois = null;
+            try {
+                ois = new ObjectInputStream(this.tempSocket.getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ClientListenerVirtualView sl = new ClientListenerVirtualView(this.tempSocket, ois, controller);
+
+            //starts the Thread that listen for Object sent from the NetworkHandler.
+            Thread t = new Thread(sl);
+
+            ModelGate.model.getPlayerList().addPlayer(p);
+
+            t.start();
+        }
     }
 
 

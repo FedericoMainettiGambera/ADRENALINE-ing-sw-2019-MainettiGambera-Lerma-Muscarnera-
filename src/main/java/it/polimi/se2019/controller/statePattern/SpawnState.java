@@ -95,7 +95,7 @@ public class SpawnState implements State {
 
     @Override
     public void handleAFK() {
-        this.playerToAsk.setIsAFK(true);
+        this.playerToAsk.setAFKWithNotify(true);
         System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         System.out.println("<SERVER> randomly making player spawn using first card in hand.");
         this.doAction(new ViewControllerEventString(playerToSpawn.getPowerUpCardsInHand().getCards().get(0).getID()));

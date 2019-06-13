@@ -85,7 +85,7 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
 
     @Override
     public void handleAFK() {
-        this.playerToAsk.setIsAFK(true);
+        this.playerToAsk.setAFKWithNotify(true);
         System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
         ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());

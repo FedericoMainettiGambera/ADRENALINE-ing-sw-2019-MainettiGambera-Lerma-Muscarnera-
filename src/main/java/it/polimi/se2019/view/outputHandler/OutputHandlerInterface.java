@@ -32,4 +32,5 @@ public interface OutputHandlerInterface {
     public void showConnectionTimer(int currentTime, int totalTime);
     public void cantReachServer();
     public void succesfullReconnection();
+    public void disconnect();
 }

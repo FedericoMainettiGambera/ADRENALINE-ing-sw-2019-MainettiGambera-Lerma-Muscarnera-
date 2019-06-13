@@ -229,5 +229,10 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
     public void succesfullReconnection() {
 
     }
+
+    @Override
+    public void disconnect() {
+
+    }
 }
 
