@@ -149,6 +149,30 @@ public class GameSetUpState implements State {
             }
         }
 
+        for (Player p :ModelGate.model.getPlayerList().getPlayers()) {
+
+            System.out.println("<SERVER> Adding Observers to the Player weapons and power ups");
+            p.getWeaponCardsInHand().addObserver(ModelGate.model.getSocketVirtualView());
+            p.getWeaponCardsInHand().addObserver(ModelGate.model.getRMIVirtualView());
+            p.getPowerUpCardsInHand().addObserver(ModelGate.model.getSocketVirtualView());
+            p.getWeaponCardsInHand().addObserver(ModelGate.model.getRMIVirtualView());
+
+            //draw two power up cards
+            System.out.println("<SERVER> draw two power up cards.");
+            for(int i = 0; i < 2; i++){
+                ModelGate.model.getPowerUpDeck().moveCardTo(
+                        p.getPowerUpCardsInHand(),
+                        ModelGate.model.getPowerUpDeck().getFirstCard().getID()
+                );
+            }
+
+            //set starting ammocubes
+            System.out.println("<SERVER> setting starting ammo cubes");
+            for(AmmoCubesColor color: AmmoCubesColor.values() ) {
+                p.getPlayerBoard().addAmmoCubes(color, GameConstant.NumberOfStartingAmmos);
+            }
+        }
+
         //setting next State
         ViewControllerEventHandlerContext.setNextState(new FirstSpawnState());
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
