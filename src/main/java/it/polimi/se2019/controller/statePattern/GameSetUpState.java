@@ -57,109 +57,101 @@ public class GameSetUpState implements State {
 
         ViewControllerEventGameSetUp VCEGameSetUp = (ViewControllerEventGameSetUp)VCE;
 
-        if(VCEGameSetUp.getGameMode().equals("normalMode")){
-            System.out.println("<SERVER> Setting up Game in normal mode.");
+        System.out.println("<SERVER> Setting up Game in normal mode.");
 
-            try {
-                System.out.println("<SERVER> Creating Map: " + VCEGameSetUp.getMapChoice());
-                ModelGate.model.setBoard(new Board(VCEGameSetUp.getMapChoice(), ModelGate.model.getSocketVirtualView(), ModelGate.model.getRMIVirtualView()));
-            }
-            catch (IOException e){
-                e.printStackTrace();
-            }
-            catch (NullPointerException e){
-                e.printStackTrace();
-            }
-            System.out.println("<SERVER> MAP: \n" + ModelGate.model.getBoard().toString());
+        try {
+            System.out.println("<SERVER> Creating Map: " + VCEGameSetUp.getMapChoice());
+            ModelGate.model.setBoard(new Board(VCEGameSetUp.getMapChoice(), ModelGate.model.getSocketVirtualView(), ModelGate.model.getRMIVirtualView()));
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        catch (NullPointerException e){
+            e.printStackTrace();
+        }
+        System.out.println("<SERVER> MAP: \n" + ModelGate.model.getBoard().toString());
 
-            System.out.println("<SERVER> Creating Killshot Track with " +
-                                VCEGameSetUp.getNumberOfStartingSkulls() +
-                                " number of starting skulls.");
-            ModelGate.model.setKillshotTrack(new KillShotTrack(VCEGameSetUp.getNumberOfStartingSkulls(), ModelGate.model.getSocketVirtualView(), ModelGate.model.getRMIVirtualView()));
+        System.out.println("<SERVER> Creating Killshot Track with " +
+                            VCEGameSetUp.getNumberOfStartingSkulls() +
+                            " number of starting skulls.");
+        ModelGate.model.setKillshotTrack(new KillShotTrack(VCEGameSetUp.getNumberOfStartingSkulls(), ModelGate.model.getSocketVirtualView(), ModelGate.model.getRMIVirtualView()));
 
-            System.out.println("<SERVER> Setting Final Frenzy: " + VCEGameSetUp.isFinalFrezy());
-            ModelGate.model.setFinalFrenzy(VCEGameSetUp.isFinalFrezy());
+        System.out.println("<SERVER> Setting Final Frenzy: " + VCEGameSetUp.isFinalFrezy());
+        ModelGate.model.setFinalFrenzy(VCEGameSetUp.isFinalFrezy());
 
-            System.out.println("<SERVER> Setting a Bot: "+ VCEGameSetUp.isBotActive());
-            ModelGate.model.setBot(new Bot(VCEGameSetUp.isBotActive()));
+        System.out.println("<SERVER> Setting a Bot: "+ VCEGameSetUp.isBotActive());
+        ModelGate.model.setBot(new Bot(VCEGameSetUp.isBotActive()));
 
-            //registering VV as Observer of the Decks
-            ModelGate.model.getWeaponDeck().addObserver(ModelGate.model.getSocketVirtualView());
-            ModelGate.model.getWeaponDeck().addObserver(ModelGate.model.getRMIVirtualView());
+        //registering VV as Observer of the Decks
+        ModelGate.model.getWeaponDeck().addObserver(ModelGate.model.getSocketVirtualView());
+        ModelGate.model.getWeaponDeck().addObserver(ModelGate.model.getRMIVirtualView());
 
-            ModelGate.model.getPowerUpDeck().addObserver(ModelGate.model.getSocketVirtualView());
-            ModelGate.model.getPowerUpDeck().addObserver(ModelGate.model.getRMIVirtualView());
+        ModelGate.model.getPowerUpDeck().addObserver(ModelGate.model.getSocketVirtualView());
+        ModelGate.model.getPowerUpDeck().addObserver(ModelGate.model.getRMIVirtualView());
 
-            ModelGate.model.getAmmoDeck().addObserver(ModelGate.model.getSocketVirtualView());
-            ModelGate.model.getAmmoDeck().addObserver(ModelGate.model.getRMIVirtualView());
+        ModelGate.model.getAmmoDeck().addObserver(ModelGate.model.getSocketVirtualView());
+        ModelGate.model.getAmmoDeck().addObserver(ModelGate.model.getRMIVirtualView());
 
-            //create cards
-            System.out.println("<SERVER> Building decks.");
-            ModelGate.model.buildDecks();
+        //create cards
+        System.out.println("<SERVER> Building decks.");
+        ModelGate.model.buildDecks();
 
-            System.out.println("<SERVER> Adding 100 fake ammo cards to the ammoDeck.");
-            AmmoList ammoList = new AmmoList();
-            ammoList.addAmmoCubesOfColor(AmmoCubesColor.yellow, 2);
-            OrderedCardList<AmmoCard> orderedCardListAmmo = new OrderedCardList<>("ammoDeck");
-            for (int i = 0; i < 100; i++) {
-                orderedCardListAmmo.getCards().add(new AmmoCard("fake", ammoList, false));
-            }
-            orderedCardListAmmo.moveAllCardsTo(ModelGate.model.getAmmoDeck());
+        System.out.println("<SERVER> Adding 100 fake ammo cards to the ammoDeck.");
+        AmmoList ammoList = new AmmoList();
+        ammoList.addAmmoCubesOfColor(AmmoCubesColor.yellow, 2);
+        OrderedCardList<AmmoCard> orderedCardListAmmo = new OrderedCardList<>("ammoDeck");
+        for (int i = 0; i < 100; i++) {
+            orderedCardListAmmo.getCards().add(new AmmoCard("fake", ammoList, false));
+        }
+        orderedCardListAmmo.moveAllCardsTo(ModelGate.model.getAmmoDeck());
 
 
-            System.out.println("<SERVER> Adding 100 fake PowerUpCards to the powerUpDeck.");
-            OrderedCardList<PowerUpCard> orderedCardListPowerUp = new OrderedCardList<>("powerUpDeck");
-            for (int i = 0; i < 100; i++) {
-                orderedCardListPowerUp.getCards().add(new PowerUpCard());
-            }
-            orderedCardListPowerUp.moveAllCardsTo(ModelGate.model.getPowerUpDeck());
+        System.out.println("<SERVER> Adding 100 fake PowerUpCards to the powerUpDeck.");
+        OrderedCardList<PowerUpCard> orderedCardListPowerUp = new OrderedCardList<>("powerUpDeck");
+        for (int i = 0; i < 100; i++) {
+            orderedCardListPowerUp.getCards().add(new PowerUpCard());
+        }
+        orderedCardListPowerUp.moveAllCardsTo(ModelGate.model.getPowerUpDeck());
 
-            //shuffles cards
-            System.out.println("<SERVER> Shuffling decks");
-            ModelGate.model.getPowerUpDeck().shuffle();
-            ModelGate.model.getAmmoDeck().shuffle();
-            ModelGate.model.getWeaponDeck().shuffle();
+        //shuffles cards
+        System.out.println("<SERVER> Shuffling decks");
+        ModelGate.model.getPowerUpDeck().shuffle();
+        ModelGate.model.getAmmoDeck().shuffle();
+        ModelGate.model.getWeaponDeck().shuffle();
 
-            //place cards on the board
-            for(int i =0; i<ModelGate.model.getBoard().getMap().length;i++){
+        //place cards on the board
+        for(int i =0; i<ModelGate.model.getBoard().getMap().length;i++){
 
-                for(int j=0; j<ModelGate.model.getBoard().getMap()[0].length; j++){
+            for(int j=0; j<ModelGate.model.getBoard().getMap()[0].length; j++){
 
-                    Square timeSquare=ModelGate.model.getBoard().getSquare(i,j);//lol cuz its a temporary square
+                Square timeSquare=ModelGate.model.getBoard().getSquare(i,j);//lol cuz its a temporary square
 
-                    if( (timeSquare!=null) && (timeSquare.getSquareType() == SquareTypes.normal) ){
-                        OrderedCardList<AmmoCard> ammoCards=((NormalSquare)timeSquare).getAmmoCards();
-                        ModelGate.model.getAmmoDeck().moveCardTo(
-                                ammoCards,
-                                ModelGate.model.getAmmoDeck().getFirstCard().getID()
+                if( (timeSquare!=null) && (timeSquare.getSquareType() == SquareTypes.normal) ){
+                    OrderedCardList<AmmoCard> ammoCards=((NormalSquare)timeSquare).getAmmoCards();
+                    ModelGate.model.getAmmoDeck().moveCardTo(
+                            ammoCards,
+                            ModelGate.model.getAmmoDeck().getFirstCard().getID()
+                    );
+                    System.out.println("<SERVER> Placed Ammo card on square [" + i + "][" + j + "]");
+                }
+                else if((timeSquare!=null) && (timeSquare.getSquareType()==SquareTypes.spawnPoint)){
+
+                    OrderedCardList<WeaponCard> weaponCards=((SpawnPointSquare)timeSquare).getWeaponCards();
+                    for(int t=0; t<3; t++){
+                        ModelGate.model.getWeaponDeck().moveCardTo(
+                                weaponCards,
+                                ModelGate.model.getWeaponDeck().getFirstCard().getID()
                         );
-                        System.out.println("<SERVER> Placed Ammo card on square [" + i + "][" + j + "]");
                     }
-                    else if((timeSquare!=null) && (timeSquare.getSquareType()==SquareTypes.spawnPoint)){
+                    System.out.println("<SERVER> Placed Weapond cards on square [" + i + "][" + j + "]");
 
-                        OrderedCardList<WeaponCard> weaponCards=((SpawnPointSquare)timeSquare).getWeaponCards();
-                        for(int t=0; t<3; t++){
-                            ModelGate.model.getWeaponDeck().moveCardTo(
-                                    weaponCards,
-                                    ModelGate.model.getWeaponDeck().getFirstCard().getID()
-                            );
-                        }
-                        System.out.println("<SERVER> Placed Weapond cards on square [" + i + "][" + j + "]");
-
-                    }
                 }
             }
-
-            //setting next State
-            ViewControllerEventHandlerContext.setNextState(new PlayerSetUpState());
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
-
-        } else if(VCEGameSetUp.getGameMode().equals("turretMode")){
-            //build game in turret mode
-        } else if(VCEGameSetUp.getGameMode().equals("dominationMode")){
-            //build game in domination mode
         }
 
+        //setting next State
+        ViewControllerEventHandlerContext.setNextState(new FirstSpawnState());
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 
     @Override

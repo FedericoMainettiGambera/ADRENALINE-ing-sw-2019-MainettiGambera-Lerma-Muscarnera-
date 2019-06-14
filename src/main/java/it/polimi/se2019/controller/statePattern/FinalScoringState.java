@@ -18,7 +18,8 @@ public class FinalScoringState implements State {
     @Override
     public void doAction(ViewControllerEvent VCE) {
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
-        //TODO
+        //TODO lot of stuff here
+        System.exit(0);
 
     }
 

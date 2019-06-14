@@ -135,12 +135,6 @@ public class ConnectionHandlerVirtualView extends Thread {
         @Override
         public void run() {
 
-            //TODO ask for nickname
-
-            //TODO receive nickname, if nickname isn't used by anybody else go on, else reask nickname
-
-            //TODO change following code so that the nickname of the created player added to the model is the right one.
-
             System.out.println("<SERVER-socket> New Connection from: " + this.tempSocket.getInetAddress().getHostAddress());
             //System.out.println("<SERVER-socket> Number of Connections: " + this.numberOfConnections);
 
