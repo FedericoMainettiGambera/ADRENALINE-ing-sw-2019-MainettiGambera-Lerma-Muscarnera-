@@ -14,6 +14,7 @@ public interface Selector {
 
     public void askGameSetUp();
 
+    @Deprecated
     public void askPlayerSetUp();
 
     public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards);
@@ -38,6 +39,7 @@ public interface Selector {
 
     public void askShootOrMove();
 
+    @Deprecated
     public void askShootReloadMove();
 
     public void askWhatWep(ArrayList<WeaponCard> loadedCardInHand);

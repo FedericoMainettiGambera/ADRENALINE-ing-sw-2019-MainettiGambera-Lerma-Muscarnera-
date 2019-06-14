@@ -26,6 +26,7 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
         SocketVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.askGameSetUp));
     }
 
+    @Deprecated
     @Override
     public void askPlayerSetUp() {
         SocketVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.askPlayerSetUp));
@@ -87,6 +88,7 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
         SocketVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.askShootOrMove));
     }
 
+    @Deprecated
     @Override
     public void askShootReloadMove(){
         ObjectOutputStream oos = this.playerToAsk.getOos();

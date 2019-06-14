@@ -18,6 +18,7 @@ public class VirtualViewSelector implements Selector {
 
     }
 
+    @Deprecated
     @Override
     public void askPlayerSetUp() {
 
@@ -78,6 +79,7 @@ public class VirtualViewSelector implements Selector {
 
     }
 
+    @Deprecated
     @Override
     public void askShootReloadMove() {
 

@@ -1,5 +1,6 @@
 package it.polimi.se2019.view.selector;
 
+import it.polimi.se2019.controller.Controller;
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.*;
@@ -21,11 +22,20 @@ import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class CLISelector implements Selector {
 
     private String networkConnection;
+
+    public CLISelector(String networkConnection){
+        this.networkConnection = networkConnection;
+    }
+
+
+
 
     public void sendToServer(Object o){
         if(networkConnection.equals("SOCKET")){
@@ -45,9 +55,27 @@ public class CLISelector implements Selector {
     }
 
 
-    public CLISelector(String networkConnection){
-        this.networkConnection = networkConnection;
+    public int askNumber(int rangeInit, int rangeEnd){
+        if(Controller.randomGame == true){
+            try {
+                TimeUnit.MILLISECONDS.sleep(150);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Random rand = new Random();
+            int random =  rand.nextInt(rangeEnd+1);
+            System.out.println("____________________________________________ANSWER: " + random + "\n");
+            return random;
+        }
+        Scanner br = new Scanner(System.in);
+        int choice = br.nextInt();
+        while(choice<rangeInit || choice>rangeEnd){
+            System.out.println("<CIENT> please, insert a number from " + rangeInit + " to " + rangeEnd);
+            choice = br.nextInt();
+        }
+        return choice;
     }
+
 
     private class AskGameSetUp extends Thread{
         @Override
@@ -57,22 +85,58 @@ public class CLISelector implements Selector {
             int numberOfStartingSkulls = 5;
             boolean isFinalFrenzy = false;
             boolean isBotActive = false;
+            String temp;
 
-            String temp= "n";
+            //System.out.println("<CLIENT> : Choose Game Mode: [normalMode|...|...]");
+            //gameMode = br.nextLine();
+            gameMode = "normalMode";
 
-            Scanner br = new Scanner(System.in);
-            System.out.println("<CLIENT> : Choose Game Mode: [normalMode|...|...]");
-            gameMode = br.nextLine();
-            System.out.println("<CLIENT> : Choose Map: [map0|map1|map2|map3]");
-            mapChoice = br.nextLine();
-            System.out.println("<CLIENT> : Do you want to play with Final frenzy active? [Y|N]");
-            temp = br.nextLine();
-            isFinalFrenzy = temp.toLowerCase().equals("y");
-            System.out.println("<CLIENT> : Do you want to play with the Terminator active? [Y|N]");
-            temp = br.nextLine();
-            isBotActive = temp.toLowerCase().equals("y");
-            System.out.println("<CLIENT> : Choose number of starting skulls (between 5 and 7)");
-            numberOfStartingSkulls = br.nextInt();
+            System.out.println("<CLIENT> : Choose Map:");
+            System.out.println("          0) map 0");
+            System.out.println("          1) map 1");
+            System.out.println("          2) map 2");
+            System.out.println("          3) map 3");
+            int map = askNumber(0,3);
+            if(map == 0){
+                mapChoice = "map0";
+            }
+            else if(map == 1){
+                mapChoice = "map1";
+            }
+            else if(map == 2){
+                mapChoice = "map2";
+            }
+            else{
+                mapChoice = "map3";
+            }
+
+            System.out.println("<CLIENT> : Do you want to play with Final frenzy active?");
+            System.out.println("         0) Yes");
+            System.out.println("         1) No");
+            int FF = askNumber(0,1);
+            if(FF==0){
+                isFinalFrenzy=true;
+            }
+            else{
+                isFinalFrenzy=false;
+            }
+
+            System.out.println("<CLIENT> : Do you want to play with the Terminator active?");
+            System.out.println("         0) Yes");
+            System.out.println("         1) No");
+            int Terminator = askNumber(0,1);
+            isBotActive = Terminator==0;
+
+            System.out.println("<CLIENT> : Choose number of starting skulls:");
+            System.out.println("         0) 5 starting skulls");
+            System.out.println("         1) 8 starting skulls");
+            numberOfStartingSkulls = askNumber(0,1);
+            if(numberOfStartingSkulls==0){
+                numberOfStartingSkulls = 5;
+            }
+            else{
+                numberOfStartingSkulls = 8;
+            }
 
             ViewControllerEventGameSetUp VCEGameSetUp = new ViewControllerEventGameSetUp(gameMode,mapChoice,numberOfStartingSkulls,isFinalFrenzy,isBotActive);
 
@@ -87,7 +151,9 @@ public class CLISelector implements Selector {
 
 
 
+    @Deprecated
     private class AskPlayerSetUp extends Thread {
+        @Deprecated
         @Override
         public void run() {
             String nickaname = "defaultUserName";
@@ -129,6 +195,7 @@ public class CLISelector implements Selector {
             sendToServer(VCEPlayerSetUp);
         }
     }
+    @Deprecated
     @Override
     public void askPlayerSetUp() {
         AskPlayerSetUp aps = new AskPlayerSetUp();
@@ -136,33 +203,35 @@ public class CLISelector implements Selector {
     }
 
 
+
+
     private class AskFirstSpawnPosition extends Thread {
         private ArrayList<PowerUpCard> powerUpCards;
         public  AskFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards){
             this.powerUpCards = powerUpCards;
         }
-
         @Override
         public void run() {
             System.out.println("<CLIENT> choose the PowerUp to discard and spawn to: ");
             for (int i = 0; i < powerUpCards.size(); i++) {
-                System.out.println("    " + powerUpCards.get(i).getID() + ": " + powerUpCards.get(i).getColor());
+                System.out.println("         " + i + ") " + powerUpCards.get(i).getName() + ": " + powerUpCards.get(i).getDescription() + "\n\tCOLOR: " + powerUpCards.get(i).getColor());
             }
+            int choice = askNumber(0,powerUpCards.size()-1);
 
-            Scanner br = new Scanner(System.in);
-            String cardID = br.nextLine();
+            String cardID = powerUpCards.get(choice).getID();
 
             ViewControllerEventString VCEString = new ViewControllerEventString(cardID);
 
             sendToServer(VCEString);
         }
     }
-
     @Override
     public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards) {
         AskFirstSpawnPosition afsp = new AskFirstSpawnPosition(powerUpCards);
         afsp.start();
     }
+
+
 
 
     private class AskTurnAction extends Thread {
@@ -179,15 +248,25 @@ public class CLISelector implements Selector {
             else{
                 System.out.println("<CLIENT> Choose your second action");
             }
-            System.out.println(
-                    "   run around\n"+
-                            "   grab stuff\n"+
-                            "   shoot people"
+            System.out.println("         0) run around\n"+
+                            "         1) grab stuff\n"+
+                            "         2) shoot people"
             );
 
-            Scanner br = new Scanner(System.in);
+            int choice = askNumber(0,2);
 
-            ViewControllerEventString VCEString = new ViewControllerEventString(br.nextLine());
+            String action = null;
+            if(choice == 0){
+                action = "run around";
+            }
+            else if(choice == 1){
+                action = "grab stuff";
+            }
+            else if(choice == 2){
+                action = "shoot people";
+            }
+
+            ViewControllerEventString VCEString = new ViewControllerEventString(action);
 
             sendToServer(VCEString);
         }
@@ -210,35 +289,35 @@ public class CLISelector implements Selector {
             System.out.println("<CLIENT> choose where to move: ");
             for (int i = 0; i < positions.size(); i++) {
                 Position pos = positions.get(i);
-                System.out.println("    " + i + ") X:"+  pos.getX() + " Y:" + pos.getY());
+                System.out.println("         " + i + ") X:"+  pos.getX() + " Y:" + pos.getY());
             }
-            Scanner br = new Scanner(System.in);
-
-            int choosenPosition = br.nextInt();
+            int choosenPosition = askNumber(0,positions.size()-1);
 
             ViewControllerEventPosition VCEPosition = new ViewControllerEventPosition(positions.get(choosenPosition).getX(),positions.get(choosenPosition).getY());
 
             sendToServer(VCEPosition);
         }
     }
-
     @Override
     public void askRunAroundPosition(ArrayList<Position> positions) {
         AskRunAroundPosition arap = new AskRunAroundPosition(positions);
         arap.start();
     }
-
+    @Override
+    public void askGrabStuffMove(ArrayList<Position> positions) {
+        AskRunAroundPosition arap = new AskRunAroundPosition(positions);
+        arap.start();
+    }
 
     private class AskGrabSuffAction extends Thread {
         @Override
         public void run() {
-            System.out.println("<CLIENT> Do you want to:\n" +
+            System.out.println("<CLIENT> What do you want to do?\n" +
                     "   0) move to another position and grab there\n" +
-                    "   1) grab where you are without moving\n" +
-                    "   ?");
-            Scanner br = new Scanner(System.in);
+                    "   1) grab where you are without moving");
 
-            int choosenAction = br.nextInt();
+            int choosenAction = askNumber(0,1);
+
             String action;
             if(choosenAction == 0){
                 action = "move";
@@ -252,18 +331,13 @@ public class CLISelector implements Selector {
             sendToServer(VCEString);
         }
     }
-
     @Override
     public void askGrabStuffAction() {
         AskGrabSuffAction agsa = new AskGrabSuffAction();
         agsa.start();
     }
 
-    @Override
-    public void askGrabStuffMove(ArrayList<Position> positions) {
-        AskRunAroundPosition arap = new AskRunAroundPosition(positions);
-        arap.start();
-    }
+
 
 
     private class AskGrabStuffGrabWeapon extends Thread {
@@ -279,26 +353,26 @@ public class CLISelector implements Selector {
             }
 
             System.out.println("<CLIENT>Choose number to pick up:");
-
-            Scanner br = new Scanner(System.in);
-
             for (int i = 0; i < toPickUp.size(); i++) {
-                System.out.println( "   " +i + ") " + toPickUp.get(i).getID() + ":\n" + toPickUp.get(i).getPickUpCost());
+                System.out.println( "         " +i + ") " + toPickUp.get(i).getName() + ":\n" + toPickUp.get(i).getPickUpCost());
             }
 
-            String toPickUpID = toPickUp.get(br.nextInt()).getID();
+            int toPickUpchosen = askNumber(0, toPickUp.size()-1);
+
+            String toPickUpID = toPickUp.get(toPickUpchosen).getID();
 
             ViewControllerEventString VCEString = new ViewControllerEventString(toPickUpID);
 
             sendToServer(VCEString);
         }
     }
-
     @Override
     public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp) {
         AskGrabStuffGrabWeapon agsg = new AskGrabStuffGrabWeapon(toPickUp);
         agsg.start();
     }
+
+
 
 
     private class AskGrabStuffSwitchWeapon extends Thread {
@@ -319,34 +393,33 @@ public class CLISelector implements Selector {
             System.out.println("<CLIENT>Choose one to pick up and one to discard.");
             System.out.println("<CLIENT>To pick up:");
             for (int i = 0; i < toPickUp.size(); i++) {
-                System.out.println( "   " +i + ") " + toPickUp.get(i).getID() + ":\n" + toPickUp.get(i).getPickUpCost().toString());
+                System.out.println( "         " +i + ") " + toPickUp.get(i).getName() + ":\n" + toPickUp.get(i).getPickUpCost().toString());
             }
-
-            Scanner br = new Scanner(System.in);
-            int choosenToPickUp = br.nextInt();
+            int choosenToPickUp = askNumber(0,toPickUp.size()-1);
 
             String toPickUpID = toPickUp.get(choosenToPickUp).getID();
 
             System.out.println("<CLIENT>Switch with:");
             for (int i = 0; i < toSwitch.size(); i++) {
-                System.out.println( "   " +i + ") " + toSwitch.get(i).getID());
+                System.out.println( "         " +i + ") " + toSwitch.get(i).getName());
             }
 
-            int choosenToDiscard= br.nextInt();
+            int chosenToDiscard= askNumber(0,toSwitch.size()-1);
 
-            String toDiscardID = toSwitch.get(choosenToDiscard).getID();
+            String toDiscardID = toSwitch.get(chosenToDiscard).getID();
 
             ViewControllerEventTwoString VCETwoString = new ViewControllerEventTwoString(toPickUpID, toDiscardID);
 
             sendToServer(VCETwoString);
         }
     }
-
     @Override
     public void askGrabStuffSwitchWeapon(ArrayList<WeaponCard> toPickUp, ArrayList<WeaponCard> toSwitch) {
         AskGrabStuffSwitchWeapon agssw = new AskGrabStuffSwitchWeapon(toPickUp, toSwitch);
         agssw.start();
     }
+
+
 
 
     private class AskPowerUpToDiscard extends Thread {
@@ -358,23 +431,24 @@ public class CLISelector implements Selector {
         public void run() {
             System.out.println("<CLIENT>You have too many power up in hand. You need to discard one:");
             for (int i = 0; i < toDiscard.size() ; i++) {
-                System.out.println("    " + i + ") " + toDiscard.get(i));
+                System.out.println("         " + i + ") " + toDiscard.get(i).getName() + ": " + toDiscard.get(i).getColor());
             }
-            Scanner br = new Scanner(System.in);
 
-            int choosen = br.nextInt();
+            int choosen = askNumber(0,toDiscard.size()-1);
 
             ViewControllerEventInt VCEInt = new ViewControllerEventInt(choosen);
 
             sendToServer(VCEInt);
         }
     }
-
     @Override
     public void askPowerUpToDiscard(ArrayList<PowerUpCard> toDiscard) {
         AskPowerUpToDiscard aputd = new AskPowerUpToDiscard(toDiscard);
         aputd.start();
     }
+
+
+
 
 
     private class AskWhatReaload extends Thread {
@@ -384,13 +458,12 @@ public class CLISelector implements Selector {
         }
         @Override
         public void run() {
-            System.out.println("<CLIENT>Which weapon do you want to reload?");
+            System.out.println("<CLIENT> Which weapon do you want to reload?");
             for (int i = 0; i < toReload.size() ; i++) {
-                System.out.println("    " + (i+1) + ") " + toReload.get(i).getID());
+                System.out.println("         0) don't reload.");
+                System.out.println("         " + (i+1) + ") " + toReload.get(i).getName());
             }
-            System.out.println("  Insert 0 if u wanna /skip/ reload.");
-            Scanner br = new Scanner(System.in);
-            int chosen = br.nextInt();
+            int chosen = askNumber(0, toReload.size());
 
             ViewControllerEventString VCEString =null;
             if(chosen==0){
@@ -404,7 +477,6 @@ public class CLISelector implements Selector {
             sendToServer(VCEString);
         }
     }
-
     @Override
     public void askWhatReaload(ArrayList<WeaponCard> toReload) {
         AskWhatReaload awr = new AskWhatReaload(toReload);
@@ -429,20 +501,21 @@ public class CLISelector implements Selector {
     }
 
 
+
+
+
     private class AskShootOrMove extends Thread {
         @Override
         public void run() {
             int numberOfMoves;
             numberOfMoves=1;
-            Scanner br = new Scanner(System.in);
 
             System.out.println("<CLIENT> Do you want to:\n" +
-                    "   0) Press 0 if you wanna move before taking your shot\n" +
-                    "   1) Press 1 if you want to stay still and shoot\n" +
-                    "   ");
+                    "         0) move before shoting\n" +
+                    "         1) stay still and shoot");
             System.out.println("remember, you can move up to:"+numberOfMoves);
 
-            int chosen = br.nextInt();
+            int chosen = askNumber(0,1);
 
             ViewControllerEventString VCEstring;
             if(chosen==0){
@@ -455,7 +528,6 @@ public class CLISelector implements Selector {
             sendToServer(VCEstring);
         }
     }
-
     @Override
     public void askShootOrMove(){
         AskShootOrMove asom = new AskShootOrMove();
@@ -463,18 +535,22 @@ public class CLISelector implements Selector {
     }
 
 
+
+
+    @Deprecated
     private class AskShootReloadMove extends Thread {
+        @Deprecated
         @Override
         public void run() {
+            //????
             int numberOfMoves;
             numberOfMoves=1;
             Scanner br = new Scanner(System.in);
 
             System.out.println("<CLIENT> Do you want to:\n" +
-                    "   0) Press 0 if you wanna move, reload and shoot\n" +
-                    "   1) Press 1 if you want to stay still, reload and shot\n" +
-                    "   2) Press 2 if you wanna "+
-                    "   ");
+                    "         0) if you want to move, reload and shoot\n" +
+                    "         1) if you want to stay still, reload and shot\n" +
+                    "         2) if you wanna to");
             System.out.println("remember, you can move up to:"+numberOfMoves);
 
             int chosen = br.nextInt();
@@ -483,11 +559,15 @@ public class CLISelector implements Selector {
             sendToServer(VCEint);
         }
     }
+    @Deprecated
     @Override
     public void askShootReloadMove(){
         AskShootReloadMove asrm = new AskShootReloadMove();
         asrm.start();
     }
+
+
+
 
 
     private class AskWhatWep extends Thread {
@@ -501,10 +581,10 @@ public class CLISelector implements Selector {
 
             System.out.println("<CLIENT> What weapon do you want to use?");
             for (int i = 0; i < loadedCardInHand.size() ; i++) {
-                System.out.println("   " + i + ") " + loadedCardInHand.get(i).getID());
+                System.out.println("         " + i + ") " + loadedCardInHand.get(i).getID());
             }
 
-            int chosen = br.nextInt();
+            int chosen = askNumber(0,loadedCardInHand.size()-1);
 
             ViewControllerEventInt VCEint = new ViewControllerEventInt(chosen);
 
@@ -517,6 +597,9 @@ public class CLISelector implements Selector {
         aww.start();
     }
 
+
+
+
     private class AskWhatEffect extends Thread {
         private ArrayList<Effect> possibleEffects;
         public AskWhatEffect(ArrayList<Effect> possibleEffects){
@@ -528,10 +611,10 @@ public class CLISelector implements Selector {
 
             System.out.println("<CLIENT> What Effect do you want to use?");
             for (int i = 0; i < possibleEffects.size() ; i++) {
-                System.out.println("   " + i + ") " + possibleEffects.get(i).getEffectName());
+                System.out.println("         " + i + ") " + possibleEffects.get(i).getEffectName());
             }
 
-            int chosen = br.nextInt();
+            int chosen = askNumber(0,possibleEffects.size()-1);
 
             ViewControllerEventInt VCEint = new ViewControllerEventInt(chosen);
 
@@ -543,6 +626,8 @@ public class CLISelector implements Selector {
         AskWhatEffect awe = new AskWhatEffect(possibleEffects);
         awe.start();
     }
+
+
 
 
 
@@ -569,29 +654,29 @@ public class CLISelector implements Selector {
                     Player p;
                     for (int i = 0; i < possibleInputs.size(); i++) {
                         p=(Player)possibleInputs.get(i);
-                        System.out.println("    " + i + ") " + p.getNickname());
+                        System.out.println("         " + i + ") " + p.getNickname());
                     }
-                    int chosen = br.nextInt();
-
-                    answer.add(possibleInputs.get(chosen));
-                    possibleInputs.remove(possibleInputs.get(chosen));
                 }
                 else{
                     System.out.println("<Client> please choose one of the following squares: ");
                     Square s;
                     for (int i = 0; i < possibleInputs.size(); i++) {
                         s=(Square)possibleInputs.get(i);
-                        System.out.println("    " + i + ") [" + s.getCoordinates().getX() + "][" + s.getCoordinates().getY() + "]" );
+                        System.out.println("         " + i + ") [" + s.getCoordinates().getX() + "][" + s.getCoordinates().getY() + "]" );
                     }
-                    int chosen = br.nextInt();
-
-                    answer.add(possibleInputs.get(chosen));
-                    possibleInputs.remove(possibleInputs.get(chosen));
                 }
+                int chosen = askNumber(0,possibleInputs.size()-1);
+
+                answer.add(possibleInputs.get(chosen));
+                possibleInputs.remove(possibleInputs.get(chosen));
+
                 if(request == 999){
-                    System.out.println("Do you want to chose another one? [Y/N]");
-                    String YorN = br.nextLine();
-                    if(!YorN.equalsIgnoreCase("y")){
+                    System.out.println("Do you want to chose another one?");
+                    System.out.println("         0) Yes");
+                    System.out.println("         1) No");
+                    int choice = askNumber(0,1);
+                    boolean YorN;
+                    if(choice!=0){
                         break;
                     }
                 }
@@ -630,21 +715,23 @@ public class CLISelector implements Selector {
             }
         }
     }
-
     @Override
     public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
         AskEffectInputs aei = new AskEffectInputs(inputType, possibleInputs);
         aei.start();
     }
+
+
+
+
     @Override
     public void askReconnectionNickname(ReconnectionEvent RE) {
         System.out.println("AFK Players are: ");
         for (int i = 0; i < RE.getListOfAFKPlayers().size(); i++) {
-            System.out.println("    " + i + ") " + RE.getListOfAFKPlayers().get(i));
+            System.out.println("         " + i + ") " + RE.getListOfAFKPlayers().get(i));
         }
         System.out.println("What was your nickname?");
-        Scanner br = new Scanner(System.in);
-        int choice = br.nextInt();
+        int choice = askNumber(0,RE.getListOfAFKPlayers().size()-1);
         ArrayList<String> answer = new ArrayList<>();
         answer.add(RE.getListOfAFKPlayers().get(choice));
 
@@ -656,6 +743,8 @@ public class CLISelector implements Selector {
     }
 
 
+    
+
     private class AskNickaname extends Thread{
         @Override
         public void run() {
@@ -663,7 +752,7 @@ public class CLISelector implements Selector {
             System.out.println("<CLIENT> I'm sorry but the nickname chosen was already taken, please insert a new one:");
             String newNickname = br.nextLine();
             ViewModelGate.setMe(newNickname);
-            System.out.println("<CLIENT> informing the server of your new nickname");
+            System.out.println("<CLIENT> informing the server of your new nickname.");
             sendToServer(new ViewControllerEventNickname(ViewModelGate.getMe()));
         }
     }

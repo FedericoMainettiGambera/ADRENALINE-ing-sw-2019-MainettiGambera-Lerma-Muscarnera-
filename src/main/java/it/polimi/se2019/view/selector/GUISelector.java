@@ -24,6 +24,7 @@ public class GUISelector implements Selector {
 
     }
 
+    @Deprecated
     @Override
     public void askPlayerSetUp() {
 
@@ -84,6 +85,7 @@ public class GUISelector implements Selector {
 
     }
 
+    @Deprecated
     @Override
     public void askShootReloadMove() {
 

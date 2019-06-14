@@ -104,6 +104,7 @@ public class ShootPeopleAskForInputState implements State {
                 System.err.println("<SERVER> exec didn't work");
             } else {
                 System.out.println("<SERVER> exec worked!");
+                //TODO chiedi a luca se c'è bisogno di scaricare l arma o lo fa già l'exec().
                 if(this.actionNumber == 2){
                     ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
                 }

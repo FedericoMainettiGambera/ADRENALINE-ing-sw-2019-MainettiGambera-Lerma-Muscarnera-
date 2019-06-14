@@ -42,6 +42,7 @@ public class ViewSelector implements Selector {
         this.getCorrectSelector().askGameSetUp();
     }
 
+    @Deprecated
     @Override
     public void askPlayerSetUp() {
         this.getCorrectSelector().askPlayerSetUp();
@@ -102,6 +103,7 @@ public class ViewSelector implements Selector {
       this.getCorrectSelector().askShootOrMove();
     }
 
+    @Deprecated
     @Override
     public void askShootReloadMove() {
         this.getCorrectSelector().askShootReloadMove();

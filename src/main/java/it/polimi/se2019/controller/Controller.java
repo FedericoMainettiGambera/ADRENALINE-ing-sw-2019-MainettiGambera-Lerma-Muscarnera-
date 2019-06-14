@@ -79,6 +79,8 @@ public class  Controller{
         GUIstarter.begin();
     }
 
+    public static boolean randomGame = false;
+
     public static boolean connect(String networkConnection, String userInterface, String IP, String Port){
         if(networkConnection.equalsIgnoreCase("RMI")){
             if(userInterface.equalsIgnoreCase("GUI")){
@@ -136,50 +138,54 @@ public class  Controller{
 
 
     public static void startClientSocketOrRMIWithCLI() {
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        Scanner br = new Scanner(System.in);
 
-            System.out.println(" WELCOME TO -ADRENALINE- !!");
-            System.out.println("What's your Nickname?");
+        System.out.println("            || WELCOME TO ADRENALINE ||\n");
+        System.out.println("\nWhat's your Nickname?");
 
-            String nickname = br.readLine();
-            ViewModelGate.setMe(nickname);
+        String nickname = br.nextLine();
+        ViewModelGate.setMe(nickname);
 
-            System.out.println("<CLIENT> Do you want to play with:");
-            System.out.println("         RMI");
-            System.out.println("         SOCKET");
-            String networkConnectionChoice = "";
-            networkConnectionChoice = br.readLine();
+        System.out.println("<CLIENT> Do you want to play with:");
+        System.out.println("         0)RMI");
+        System.out.println("         1)SOCKET");
+        String networkConnectionChoice = "";
+        networkConnectionChoice = br.nextLine();
 
-            String IP = null;
+        String IP = null;
 
-            String port = null;
+        String port = null;
 
-            String userInterface = "CLI";
+        String userInterface = "CLI";
 
-            if (networkConnectionChoice.equalsIgnoreCase("RMI")) {
-                System.out.println("<CLIENT> Starting Client with RMI connection");
+        if (networkConnectionChoice.equalsIgnoreCase("RMI")) {
+            System.out.println("<CLIENT> Starting Client with RMI connection");
 
-                //ask for IP and PORT
-                System.out.println("<CLIENT> Insert Server's IP:");
-                IP = br.readLine();
+            //ask for IP and PORT
+            System.out.println("\n<CLIENT> Insert Server's IP:");
+            IP = br.nextLine();
 
-                port = "1099";
-            } else {
-                System.out.println("<CLIENT> Starting Client with Socket connection");
+            port = "1099";
+        } else {
+            System.out.println("<CLIENT> Starting Client with Socket connection");
 
-                System.out.println("<CLIENT> Insert Server IP:");
-                IP = br.readLine();
-                System.out.println("<CLIENT> Insert Port:");
-                port = br.readLine();
-            }
-
-            if (!connect(networkConnectionChoice, userInterface, IP, port)) {
-                startClientSocketOrRMIWithCLI();
-            }
+            System.out.println("\n<CLIENT> Insert Server IP:");
+            IP = br.nextLine();
+            System.out.println("\n<CLIENT> Insert Port:");
+            port = br.nextLine();
         }
-        catch (IOException e){
-            e.printStackTrace();
+
+        System.out.println("\n<CLIENT> DO YOU WANT TO PLAY WITH AUTOMATIC RANDOM CHOICES?");
+        System.out.println("         0) HELL YES !!");
+        System.out.println("         1) nope, thanks.");
+        int choice = br.nextInt();
+        randomGame = false;
+        if(choice == 0){
+            randomGame = true;
+        }
+
+        if (!connect(networkConnectionChoice, userInterface, IP, port)) {
+            startClientSocketOrRMIWithCLI();
         }
     }
 

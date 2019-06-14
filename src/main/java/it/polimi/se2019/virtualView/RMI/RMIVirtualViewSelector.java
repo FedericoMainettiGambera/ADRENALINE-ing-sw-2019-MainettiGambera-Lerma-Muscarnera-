@@ -34,6 +34,7 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
         }
     }
 
+    @Deprecated
     @Override
     public void askPlayerSetUp() {
         try {
@@ -150,6 +151,7 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
         }
     }
 
+    @Deprecated
     @Override
     public void askShootReloadMove(){
 
