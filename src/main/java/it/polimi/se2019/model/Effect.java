@@ -40,6 +40,13 @@ public class Effect implements Serializable {
         List<List<List<Object>>> retVal = new ArrayList<>();
         /*tipo di input per riga*/
         List<UsableInputTableRowType> rowType = new ArrayList<>();
+        List<UsableInputTableRowType> frontEndRowType = new ArrayList<>();
+        /**
+         *  some inputs have two layers
+         *  es. targetListBySquare
+         *
+         *  it requests a square but pass a list of players to the effect
+         * */
         List<Integer>                 rowCardinality = new ArrayList<>();
 
         /*  /////////////////////////////////////////////MATRICE 3D
@@ -53,9 +60,28 @@ public class Effect implements Serializable {
 
         /*initializing the rows of retVal table*/
         for(EffectInfoElement e: this.getEffectInfo().getEffectInfoElement()) {
+            if(e.getEffectInfoTypelist() == targetListBySquare) {
+                rowType.add(UsableInputTableRowType.typePlayer);
+                frontEndRowType.add(UsableInputTableRowType.typeSquare);
 
+                rowCardinality.add(1);
+
+
+                List<Object> cell = new ArrayList<>();
+                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers())
+                    cell.add((Object) t);
+                List<List<Object>> row = new ArrayList<>();
+
+                row.add(cell);
+                retVal.add(row);
+
+            }
             if(e.getEffectInfoTypelist() == singleTarget) {
                 rowType.add(UsableInputTableRowType.typePlayer);
+                frontEndRowType.add(UsableInputTableRowType.typePlayer);
+
+
+
                 rowCardinality.add(1);
 
 
@@ -69,6 +95,7 @@ public class Effect implements Serializable {
             }
             if(e.getEffectInfoTypelist() == twoTargets) {
                 rowType.add(UsableInputTableRowType.typePlayer);
+                frontEndRowType.add(UsableInputTableRowType.typePlayer);
                 rowCardinality.add(2);
 
 
@@ -87,6 +114,7 @@ public class Effect implements Serializable {
             }
             if(e.getEffectInfoTypelist() == threeTargets) {
                 rowType.add(UsableInputTableRowType.typePlayer);
+                frontEndRowType.add(UsableInputTableRowType.typePlayer);
                 rowCardinality.add(3);
 
 
@@ -107,8 +135,44 @@ public class Effect implements Serializable {
 
                 retVal.add(row);
             }
+            if(e.getEffectInfoTypelist() == playerSquare){
+                List<Object> cell = new ArrayList<>();
+                List<List<Object>> row = new ArrayList<>();
+                cell.add(this.getActions().get(0).getActionInfo().getActionContext().getBoard().getSquare(this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPosition()));
+                row.add(cell);
+                rowType.add(UsableInputTableRowType.typeSquare);
+                frontEndRowType.add(null);
+
+
+                retVal.add(row);
+            }
+            if(e.getEffectInfoTypelist() == targetListByRoom) {
+                List<Object> cell = new ArrayList<>();
+                for (Player x : this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+                        cell.add(x);
+                }
+
+                List<List<Object>> row = new ArrayList<>();
+                row.add(cell);
+                rowType.add(UsableInputTableRowType.typePlayer);
+                frontEndRowType.add(UsableInputTableRowType.typeSquare);
+                retVal.add(row);
+            }
+            if(e.getEffectInfoTypelist() == targetListBySameSquareOfPlayer){
+                List<Object> cell = new ArrayList<>();
+                for (Player x : this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+                    if(x.getPosition().equals(this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPosition()))
+                        cell.add(x);
+                    }
+
+                List<List<Object>> row = new ArrayList<>();
+                row.add(cell);
+                rowType.add(UsableInputTableRowType.typePlayer);
+                retVal.add(row);
+            }
             if(e.getEffectInfoTypelist() == simpleSquareSelect) {
                 rowType.add(UsableInputTableRowType.typeSquare);
+                frontEndRowType.add(UsableInputTableRowType.typeSquare);
                 rowCardinality.add(1);
 
 
@@ -207,17 +271,24 @@ public class Effect implements Serializable {
 
                         method = c.getDeclaredMethod(a_.getActionInfo().getPreConditionMethodName(), paramTypes);
                         System.out.println("# " + eie.getEffectInfoTypelist() +" @@@ eseguo l'inversa di " + a_.getActionInfo().getPreConditionMethodName());
-
+                        System.out.println("--");
+                        System.out.println( "@" + this.getActions().get(0).getActionInfo().getActionContext() );
+                        System.out.println( "@" + rowType.get(inputCounter));
+                        System.out.println( "@" + a_.getActionInfo().getActionDetails());
+                        System.out.println( "@" + filledInputs);
+                        System.out.println( "@" + requestedInputs());
                         invertedPreConditionOutput = method.invoke(preConditionMethodsInverted,
                                 this.getActions().get(0).getActionInfo().getActionContext(),
-                                rowType.get(getEffectInfo().getEffectInfoElement().indexOf(eie)),
+                                rowType.get(inputCounter),
+                                //rowType.get(getEffectInfo().getEffectInfoElement().indexOf(eie)),
                                 a_.getActionInfo().getActionDetails(),
                                 filledInputs,
                                 requestedInputs()
                                 );
-
+                        System.out.println("--");
                     } catch (Exception exception) {
-                        System.out.println("eccezione! " + exception.toString());
+                        System.out.println("eccezione! " + exception);
+                        exception.printStackTrace();
                     }
 
 
@@ -227,8 +298,9 @@ public class Effect implements Serializable {
                             invertedPreConditionOutput
                     );
 //                    System.out.println("Azione (" + this.getActions().indexOf(a_) + ") , Input (" + effectInfo.getEffectInfoElement().indexOf(eie) + ")   -> " + a.getActionInfo().getPreConditionMethodName() + " -> " + invertedPreConditionOutput);
-                    inputCounter++;
+
                 }
+                inputCounter++;
             }
 
 
@@ -251,6 +323,7 @@ public class Effect implements Serializable {
                 {
                     // l'input è i
  //                   System.out.println("@"+ intermediateList.get(i));
+                    System.out.println("parto da: " + retVal.get(i).get(j));
                     for (k = 0; k < this.getActions().size(); k++) {
                         if(intermediateList.get(i).get(k) != null)
                         {
@@ -285,7 +358,61 @@ public class Effect implements Serializable {
             }
         }*/
 for(Object t:retVal)
-    System.out.println(t);
+    System.out.println("."+t);
+
+//  filtraggio
+        System.out.println("filtraggio...");
+    int frontCounter = 0;
+        for(UsableInputTableRowType front: frontEndRowType) {
+            UsableInputTableRowType back = rowType.get(frontCounter);
+            if(front != null)
+            if(front.equals(UsableInputTableRowType.typePlayer)) {
+                if(back.equals(UsableInputTableRowType.typePlayer)) {
+                    System.out.println("@@@@@@@@ " + retVal.get(frontCounter).get(0));
+                    // già formattato
+
+                } else {
+
+                    for(Object o : retVal.get(frontCounter).get(0)) {
+                                int X = ((Player) o).getPosition().getX();
+                                int Y = ((Player) o).getPosition().getY();
+
+                                o = this.getActions().get(0).getActionInfo().getActionContext().getBoard().getSquare(X,Y);
+
+                            }
+
+
+                }
+
+            }
+            if(front != null)
+            if(front.equals(UsableInputTableRowType.typeSquare)) {
+                if(back.equals(UsableInputTableRowType.typeSquare)) {
+
+                    // già formattato
+
+                } else {
+                    System.out.println("front : square, back : player");
+                    List<Object> newRow = new ArrayList<>();
+                    for(Object o : retVal.get(frontCounter).get(0)) {
+                            int X = ((Player) o).getPosition().getX();
+                            int Y = ((Player) o).getPosition().getY();
+                            Position pos = new Position(X,Y);
+                            if(!newRow.contains(this.getActions().get(0).getActionInfo().getActionContext().getBoard().getSquare(X,Y)))
+                            newRow.add(this.getActions().get(0).getActionInfo().getActionContext().getBoard().getSquare(X,Y));
+                       // o = this.getActions().get(0).getActionInfo().getActionContext().getBoard().getSquare(X,Y);
+
+                    }
+
+                    retVal.get(frontCounter).set(0, newRow);
+                }
+
+            }
+
+            frontCounter++;
+        }
+
+
         return retVal;
     }
     public void setOf(WeaponCard of) {
