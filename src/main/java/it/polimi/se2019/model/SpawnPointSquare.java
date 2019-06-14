@@ -22,7 +22,7 @@ public class SpawnPointSquare extends Square implements Serializable {
     private char color;
 
     /***/
-    private OrderedCardList<WeaponCard> weaponCards;
+    private transient OrderedCardList<WeaponCard> weaponCards;
 
     /***/
     public char getColor() {

@@ -182,7 +182,7 @@ public class Game extends Observable implements Serializable {
                 System.out.println("<SERVER> building weapon cards ID: " + 2);
                 */
 
-                
+
                 WeaponCard card= new WeaponCard("" + i);
                 card.reload();
                 tempWeaponDeck.addCard(card);

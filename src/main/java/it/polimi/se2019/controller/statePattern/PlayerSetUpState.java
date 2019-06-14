@@ -111,7 +111,9 @@ public class PlayerSetUpState implements State {
         ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setColor(PlayersColors.purple);
         //pass turn
         ModelGate.model.getPlayerList().setNextPlayingPlayer();
-        ViewControllerEventHandlerContext.setNextState(new TurnState(1));
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+            ViewControllerEventHandlerContext.setNextState(new TurnState(1));
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        }
     }
 }

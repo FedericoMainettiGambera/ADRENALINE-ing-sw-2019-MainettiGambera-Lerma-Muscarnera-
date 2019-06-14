@@ -45,7 +45,7 @@ public abstract class Person extends Observable implements Serializable {
     private Position position;
 
     /**player board*/
-    private PlayerBoard board;
+    private transient PlayerBoard board;
 
     /*-********************************************************************************************************METHODS*/
 

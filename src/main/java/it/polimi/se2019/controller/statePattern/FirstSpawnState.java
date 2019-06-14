@@ -97,7 +97,9 @@ public class FirstSpawnState implements State {
                 playerToAsk.getPowerUpCardsInHand().getFirstCard().getID()
         );
 
-        ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-        ViewControllerEventHandlerContext.state.doAction(null);
+        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+            ViewControllerEventHandlerContext.state.doAction(null);
+        }
     }
 }

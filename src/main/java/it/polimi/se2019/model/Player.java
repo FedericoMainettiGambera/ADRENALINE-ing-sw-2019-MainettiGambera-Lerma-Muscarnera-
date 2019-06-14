@@ -27,7 +27,7 @@ public class Player extends Person implements Serializable {
 
     /*-*****************************************************************************************************ATTRIBUTES*/
     /***/
-    private PlayerHand hand;
+    private transient PlayerHand hand;
 
     public PlayerHistory getPlayerHistory() {
         return playerHistory;
@@ -38,7 +38,7 @@ public class Player extends Person implements Serializable {
     }
 
     /***/
-    PlayerHistory playerHistory;
+    public transient PlayerHistory playerHistory;
 
     /***/
     private String IP;

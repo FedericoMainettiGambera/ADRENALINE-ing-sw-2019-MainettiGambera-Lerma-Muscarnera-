@@ -17,7 +17,7 @@ public class NormalSquare extends Square implements Serializable {
     }
 
     /***/
-    private OrderedCardList<AmmoCard> ammoCards;
+    private transient OrderedCardList<AmmoCard> ammoCards;
 
     /***/
     public OrderedCardList getAmmoCards() {

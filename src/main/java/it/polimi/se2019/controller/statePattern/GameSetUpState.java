@@ -167,7 +167,9 @@ public class GameSetUpState implements State {
         this.playerToAsk.setAFKWithNotify(true);
         System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         ModelGate.model.getPlayerList().setNextPlayingPlayer();
-        ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+            ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        }
     }
 }

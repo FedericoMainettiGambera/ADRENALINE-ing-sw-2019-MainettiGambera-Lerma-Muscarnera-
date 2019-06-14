@@ -189,18 +189,18 @@ public class ConnectionHandlerVirtualView extends Thread {
                 else {
                     p.setNickname(VCENickname.getNickname());
 
-                    ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected() + 1);
-                    System.out.println("<SERVER-socket> Number of Connections: " + ModelGate.model.getNumberOfClientsConnected());
-
                     ClientListenerVirtualView sl = new ClientListenerVirtualView(this.tempSocket, ois, controller);
 
                     //starts the Thread that listen for Object sent from the NetworkHandler.
                     Thread t = new Thread(sl);
+                    t.start();
 
                     System.out.println("<SERVER-socket> Adding Player (" + p.getNickname() + ") to the PlayerList.");
                     ModelGate.model.getPlayerList().addPlayer(p);
 
-                    t.start();
+                    ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected() + 1);
+                    System.out.println("<SERVER-socket> Number of Connections: " + ModelGate.model.getNumberOfClientsConnected());
+
                     correctNicknameFound = true;
                 }
             }

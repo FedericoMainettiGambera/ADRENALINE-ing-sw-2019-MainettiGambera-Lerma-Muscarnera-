@@ -83,7 +83,7 @@ public class PlayersList extends Observable implements Serializable {
                 numberOfPlayerNotAFK++;
             }
         }
-        return numberOfPlayerNotAFK >= GameConstant.minNumberOfPlayerPerGame;
+        return numberOfPlayerNotAFK < GameConstant.minNumberOfPlayerPerGame;
     }
 
     public boolean areAllAFK(){
@@ -128,7 +128,7 @@ public class PlayersList extends Observable implements Serializable {
                 return this.players.get(i);
             }
         }
-        /*Wrong Nickname*/
+        /*Player with that nickname doesn't exist*/
         return null; // ?
     }
 

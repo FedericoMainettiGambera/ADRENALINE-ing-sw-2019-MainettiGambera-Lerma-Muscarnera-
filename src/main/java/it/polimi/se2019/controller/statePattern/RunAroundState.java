@@ -83,8 +83,10 @@ public class RunAroundState implements State {
         this.playerToAsk.setAFKWithNotify(true);
         System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-        ViewControllerEventHandlerContext.state.doAction(null);
+        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+            ViewControllerEventHandlerContext.state.doAction(null);
+        }
     }
 
 }
