@@ -1,6 +1,7 @@
 package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Game;
+import it.polimi.se2019.model.GameConstant;
 import it.polimi.se2019.model.PlayersList;
 import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
@@ -8,6 +9,7 @@ import it.polimi.se2019.networkHandler.sendPingRequest;
 import it.polimi.se2019.view.GUIstarter;
 import it.polimi.se2019.view.components.View;
 import it.polimi.se2019.view.components.ViewModelGate;
+import it.polimi.se2019.view.selector.CLISelector;
 import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
 
@@ -18,6 +20,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 
@@ -139,16 +142,17 @@ public class  Controller{
 
     public static void startClientSocketOrRMIWithCLI() {
         Scanner br = new Scanner(System.in);
-
-        System.out.println("            || WELCOME TO ADRENALINE ||\n");
+        System.out.println("\n\n");
+        System.out.println(GameConstant.AdrenalineTitle4);
+        System.out.println("\n\n\n");
         System.out.println("\nWhat's your Nickname?");
 
         String nickname = br.nextLine();
         ViewModelGate.setMe(nickname);
 
         System.out.println("<CLIENT> Do you want to play with:");
-        System.out.println("         0)RMI");
-        System.out.println("         1)SOCKET");
+
+        CLISelector.showListOfRequests(Arrays.asList("RMI","SOCKET"));
         String networkConnectionChoice = "";
         networkConnectionChoice = br.nextLine();
 
@@ -176,8 +180,7 @@ public class  Controller{
         }
 
         System.out.println("\n<CLIENT> DO YOU WANT TO PLAY WITH AUTOMATIC RANDOM CHOICES?");
-        System.out.println("         0) HELL YES !!");
-        System.out.println("         1) nope, thanks.");
+        CLISelector.showListOfRequests(Arrays.asList("HELL YES !!","nope, thanks."));
         int choice = br.nextInt();
         randomGame = false;
         if(choice == 0){

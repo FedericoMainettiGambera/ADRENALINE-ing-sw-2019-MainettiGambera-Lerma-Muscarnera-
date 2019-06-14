@@ -20,10 +20,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class CLISelector implements Selector {
@@ -54,8 +51,95 @@ public class CLISelector implements Selector {
         }
     }
 
+    public static void showTitleRequest(String title){
 
-    public int askNumber(int rangeInit, int rangeEnd){
+    }
+
+    public static void showListOfRequests(List<String> requests){
+        int maxLenght = 10;
+
+        for (int i = 0; i < requests.size(); i++) {
+            if(requests.get(i).length()+3>maxLenght){
+                maxLenght = requests.get(i).length()+3;
+            }
+        }
+
+        String s;
+
+        s="           .-.---";
+        for (int i = 0; i < maxLenght ; i++) {
+            s+="-";
+        }
+        s+="---.-.\n";
+        
+        s+="          ((o))  ";
+        for (int i = 0; i < maxLenght; i++) {
+            s+=" ";
+        }
+        s+="      )\n";
+
+        Random rand = new Random();
+        s+="           \\U/___";
+        for (int i = 0; i < maxLenght; i++) {
+            if(rand.nextInt(3) < 2) {
+                s += "_";
+            }
+            else{
+                s+=" ";
+            }
+        }
+        s+=" ____/\n";
+
+        s+="             |   ";
+        for (int i = 0; i < maxLenght; i++) {
+            s+=" ";
+        }
+        s+="    |\n";
+
+
+        for (int i = 0; i < requests.size(); i++) {
+            s+="             |   ";
+            s+= i + ": ";
+            s+= requests.get(i);
+            for (int j = 0; j < maxLenght-requests.get(i).length()-3; j++) {
+                s+=" ";
+            }
+            s+="    |\n";
+        }
+
+        s+="             |____";
+        for (int i = 0; i < maxLenght; i++) {
+            if(rand.nextInt(3) < 2) {
+                s += "_";
+            }
+            else{
+                s+=" ";
+            }
+        }
+        s+="___|\n";
+
+        s+="            /A\\  ";
+        for (int i = 0; i < maxLenght; i++) {
+            s+=" ";
+        }
+        s+="     \\\n";
+
+        s+="           ((o)) ";
+        for (int i = 0; i < maxLenght; i++) {
+            s+=" ";
+        }
+        s+="      )\n";
+
+        s+="            '-'--";
+        for (int i = 0; i < maxLenght ; i++) {
+            s+="-";
+        }
+        s+= "-----'\n";
+        System.out.println(s);
+    }
+
+
+    public static int askNumber(int rangeInit, int rangeEnd){
         if(Controller.randomGame == true){
             try {
                 TimeUnit.MILLISECONDS.sleep(150);
@@ -92,10 +176,8 @@ public class CLISelector implements Selector {
             gameMode = "normalMode";
 
             System.out.println("<CLIENT> : Choose Map:");
-            System.out.println("          0) map 0");
-            System.out.println("          1) map 1");
-            System.out.println("          2) map 2");
-            System.out.println("          3) map 3");
+            CLISelector.showListOfRequests(Arrays.asList("map 0","map 1", "map 2", "map 3"));
+
             int map = askNumber(0,3);
             if(map == 0){
                 mapChoice = "map0";
@@ -111,8 +193,7 @@ public class CLISelector implements Selector {
             }
 
             System.out.println("<CLIENT> : Do you want to play with Final frenzy active?");
-            System.out.println("         0) Yes");
-            System.out.println("         1) No");
+            CLISelector.showListOfRequests(Arrays.asList("Yes","No"));
             int FF = askNumber(0,1);
             if(FF==0){
                 isFinalFrenzy=true;
@@ -122,12 +203,14 @@ public class CLISelector implements Selector {
             }
 
             System.out.println("<CLIENT> : Do you want to play with the Terminator active?");
+            CLISelector.showListOfRequests(Arrays.asList("Yes","No"));
             System.out.println("         0) Yes");
             System.out.println("         1) No");
             int Terminator = askNumber(0,1);
             isBotActive = Terminator==0;
 
             System.out.println("<CLIENT> : Choose number of starting skulls:");
+            CLISelector.showListOfRequests(Arrays.asList("5 starting skulls","8 starting skulls"));
             System.out.println("         0) 5 starting skulls");
             System.out.println("         1) 8 starting skulls");
             numberOfStartingSkulls = askNumber(0,1);
@@ -213,9 +296,11 @@ public class CLISelector implements Selector {
         @Override
         public void run() {
             System.out.println("<CLIENT> choose the PowerUp to discard and spawn to: ");
+            ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < powerUpCards.size(); i++) {
-                System.out.println("         " + i + ") " + powerUpCards.get(i).getName() + ": " + powerUpCards.get(i).getDescription() + "\n\tCOLOR: " + powerUpCards.get(i).getColor());
+                requests.add(i + ") " + powerUpCards.get(i).getName() + ": " + powerUpCards.get(i).getDescription() + "\n\tCOLOR: " + powerUpCards.get(i).getColor());
             }
+            CLISelector.showListOfRequests(requests);
             int choice = askNumber(0,powerUpCards.size()-1);
 
             String cardID = powerUpCards.get(choice).getID();
@@ -248,10 +333,7 @@ public class CLISelector implements Selector {
             else{
                 System.out.println("<CLIENT> Choose your second action");
             }
-            System.out.println("         0) run around\n"+
-                            "         1) grab stuff\n"+
-                            "         2) shoot people"
-            );
+            CLISelector.showListOfRequests(Arrays.asList("run around","grab stuff", "shoot people"));
 
             int choice = askNumber(0,2);
 
@@ -287,10 +369,14 @@ public class CLISelector implements Selector {
         @Override
         public void run() {
             System.out.println("<CLIENT> choose where to move: ");
+
+            ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < positions.size(); i++) {
                 Position pos = positions.get(i);
-                System.out.println("         " + i + ") X:"+  pos.getX() + " Y:" + pos.getY());
+                requests.add("["+  pos.getX() + "][" + pos.getY() + "]");
             }
+            CLISelector.showListOfRequests(requests);
+
             int choosenPosition = askNumber(0,positions.size()-1);
 
             ViewControllerEventPosition VCEPosition = new ViewControllerEventPosition(positions.get(choosenPosition).getX(),positions.get(choosenPosition).getY());
@@ -743,7 +829,7 @@ public class CLISelector implements Selector {
     }
 
 
-    
+
 
     private class AskNickaname extends Thread{
         @Override
