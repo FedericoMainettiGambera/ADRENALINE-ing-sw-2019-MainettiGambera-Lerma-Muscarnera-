@@ -2,6 +2,7 @@ package it.polimi.se2019.model;
 
 
 import it.polimi.se2019.model.enumerations.EffectInfoType;
+import it.polimi.se2019.view.components.EffectV;
 import it.polimi.se2019.view.components.WeaponCardV;
 
 import java.io.*;
@@ -397,6 +398,13 @@ public class WeaponCard extends Card implements Serializable {
             weaponCardV.setReloadCost(this.reloadCost.buildAmmoListV());
         }
         weaponCardV.setID(this.getID());
+        if(this.effects!=null){
+            List<EffectV> effectV = new ArrayList<>();
+            for (Effect e : this.effects) {
+                effectV.add(e.buildEffectV());
+            }
+            weaponCardV.setEffectVList(effectV);
+        }
 
         return weaponCardV;
     }

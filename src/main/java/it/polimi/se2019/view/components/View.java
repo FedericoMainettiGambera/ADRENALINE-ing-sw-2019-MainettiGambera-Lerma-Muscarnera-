@@ -450,10 +450,6 @@ public class View implements Observer {
                 this.selector.askGameSetUp();
                 break;
 
-            case askPlayerSetUp:
-                this.selector.askPlayerSetUp();
-                break;
-
             case askFirstSpawnPosition:
                 this.selector.askFirstSpawnPosition(((SelectorEventPowerUpCards)SE).getPowerUpCards());
                 break;

@@ -10,20 +10,20 @@ import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.*;
 import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
-import it.polimi.se2019.view.components.PlayerV;
-import it.polimi.se2019.view.components.SquareV;
-import it.polimi.se2019.view.components.ViewModelGate;
+import it.polimi.se2019.view.components.*;
 import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
 import it.polimi.se2019.virtualView.Selector;
+import it.polimi.se2019.virtualView.SelectorV;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public class CLISelector implements Selector {
+public class CLISelector implements SelectorV {
 
     private String networkConnection;
 
@@ -52,7 +52,7 @@ public class CLISelector implements Selector {
     }
 
     public static void showTitleRequest(String title){
-
+        //TODO
     }
 
     public static void showListOfRequests(List<String> requests){
@@ -175,7 +175,7 @@ public class CLISelector implements Selector {
             //gameMode = br.nextLine();
             gameMode = "normalMode";
 
-            System.out.println("<CLIENT> : Choose Map:");
+            System.out.println("\n<CLIENT> : Choose Map:");
             CLISelector.showListOfRequests(Arrays.asList("map 0","map 1", "map 2", "map 3"));
 
             int map = askNumber(0,3);
@@ -192,7 +192,7 @@ public class CLISelector implements Selector {
                 mapChoice = "map3";
             }
 
-            System.out.println("<CLIENT> : Do you want to play with Final frenzy active?");
+            System.out.println("\n<CLIENT> : Do you want to play with Final frenzy active?");
             CLISelector.showListOfRequests(Arrays.asList("Yes","No"));
             int FF = askNumber(0,1);
             if(FF==0){
@@ -202,14 +202,14 @@ public class CLISelector implements Selector {
                 isFinalFrenzy=false;
             }
 
-            System.out.println("<CLIENT> : Do you want to play with the Terminator active?");
+            System.out.println("\n<CLIENT> : Do you want to play with the Terminator active?");
             CLISelector.showListOfRequests(Arrays.asList("Yes","No"));
             System.out.println("         0) Yes");
             System.out.println("         1) No");
             int Terminator = askNumber(0,1);
             isBotActive = Terminator==0;
 
-            System.out.println("<CLIENT> : Choose number of starting skulls:");
+            System.out.println("\n<CLIENT> : Choose number of starting skulls:");
             CLISelector.showListOfRequests(Arrays.asList("5 starting skulls","8 starting skulls"));
             System.out.println("         0) 5 starting skulls");
             System.out.println("         1) 8 starting skulls");
@@ -289,16 +289,16 @@ public class CLISelector implements Selector {
 
 
     private class AskFirstSpawnPosition extends Thread {
-        private ArrayList<PowerUpCard> powerUpCards;
-        public  AskFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards){
+        private ArrayList<PowerUpCardV> powerUpCards;
+        public  AskFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards){
             this.powerUpCards = powerUpCards;
         }
         @Override
         public void run() {
-            System.out.println("<CLIENT> choose the PowerUp to discard and spawn to: ");
+            System.out.println("\n<CLIENT> choose the PowerUp to discard and spawn to: ");
             ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < powerUpCards.size(); i++) {
-                requests.add(i + ") " + powerUpCards.get(i).getName() + ": " + powerUpCards.get(i).getDescription() + "\n\tCOLOR: " + powerUpCards.get(i).getColor());
+                requests.add(i + ") " + powerUpCards.get(i).getName() + ": " + powerUpCards.get(i).getDescription() + ".       COLOR: " + powerUpCards.get(i).getColor());
             }
             CLISelector.showListOfRequests(requests);
             int choice = askNumber(0,powerUpCards.size()-1);
@@ -311,7 +311,7 @@ public class CLISelector implements Selector {
         }
     }
     @Override
-    public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards) {
+    public void askFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards) {
         AskFirstSpawnPosition afsp = new AskFirstSpawnPosition(powerUpCards);
         afsp.start();
     }
@@ -328,14 +328,18 @@ public class CLISelector implements Selector {
         @Override
         public void run() {
             if(actionNumber == 1) {
-                System.out.println("<CLIENT> Choose your first action");
+                System.out.println("\n<CLIENT> Choose your first action");
             }
             else{
-                System.out.println("<CLIENT> Choose your second action");
+                System.out.println("\n<CLIENT> Choose your second action");
             }
+
+
             CLISelector.showListOfRequests(Arrays.asList("run around","grab stuff", "shoot people"));
 
-            int choice = askNumber(0,2);
+            //FOR DEBUGGING:
+            int choice = askNumber(0,1);
+            //int choice = askNumber(0,2);
 
             String action = null;
             if(choice == 0){
@@ -368,7 +372,7 @@ public class CLISelector implements Selector {
         }
         @Override
         public void run() {
-            System.out.println("<CLIENT> choose where to move: ");
+            System.out.println("\n<CLIENT> choose where to move: ");
 
             ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < positions.size(); i++) {
@@ -398,9 +402,8 @@ public class CLISelector implements Selector {
     private class AskGrabSuffAction extends Thread {
         @Override
         public void run() {
-            System.out.println("<CLIENT> What do you want to do?\n" +
-                    "   0) move to another position and grab there\n" +
-                    "   1) grab where you are without moving");
+            System.out.println("\n<CLIENT> What do you want to do?");
+            CLISelector.showListOfRequests(Arrays.asList("move to another position and grab there","grab where you are without moving"));
 
             int choosenAction = askNumber(0,1);
 
@@ -427,21 +430,23 @@ public class CLISelector implements Selector {
 
 
     private class AskGrabStuffGrabWeapon extends Thread {
-        private ArrayList<WeaponCard> toPickUp;
-        public AskGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp){
+        private ArrayList<WeaponCardV> toPickUp;
+        public AskGrabStuffGrabWeapon(ArrayList<WeaponCardV> toPickUp){
             this.toPickUp = toPickUp;
         }
         @Override
         public void run() {
             if(toPickUp.size() == 0){
-                System.out.println("<CLIENT>you can't pick up any card.");
+                System.out.println("\n<CLIENT>you can't pick up any card.");
                 return;
             }
 
-            System.out.println("<CLIENT>Choose number to pick up:");
+            System.out.println("\n<CLIENT>Choose what to pick up:");
+            ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < toPickUp.size(); i++) {
-                System.out.println( "         " +i + ") " + toPickUp.get(i).getName() + ":\n" + toPickUp.get(i).getPickUpCost());
+                requests.add(toPickUp.get(i).getName() + ": " + toPickUp.get(i).getPickUpCost());
             }
+            CLISelector.showListOfRequests(requests);
 
             int toPickUpchosen = askNumber(0, toPickUp.size()-1);
 
@@ -453,7 +458,7 @@ public class CLISelector implements Selector {
         }
     }
     @Override
-    public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp) {
+    public void askGrabStuffGrabWeapon(ArrayList<WeaponCardV> toPickUp) {
         AskGrabStuffGrabWeapon agsg = new AskGrabStuffGrabWeapon(toPickUp);
         agsg.start();
     }
@@ -462,33 +467,43 @@ public class CLISelector implements Selector {
 
 
     private class AskGrabStuffSwitchWeapon extends Thread {
-        private ArrayList<WeaponCard> toPickUp;
-        private ArrayList<WeaponCard> toSwitch;
-        public AskGrabStuffSwitchWeapon(ArrayList<WeaponCard> toPickUp, ArrayList<WeaponCard> toSwitch){
+        private ArrayList<WeaponCardV> toPickUp;
+        private ArrayList<WeaponCardV> toSwitch;
+        public AskGrabStuffSwitchWeapon(ArrayList<WeaponCardV> toPickUp, ArrayList<WeaponCardV> toSwitch){
             this.toPickUp = toPickUp;
             this.toSwitch = toSwitch;
         }
         @Override
         public void run() {
             if(toPickUp.size() == 0){
-                System.out.println("<CLIENT>you can't pick up any card.");
+                System.out.println("\n<CLIENT>you can't pick up any card.");
                 return;
             }
 
-            System.out.println("<CLIENT>you already have the maximum quantity of weapon you can hold.");
+            System.out.println("\n<CLIENT>you already have the maximum quantity of weapon you can hold.");
             System.out.println("<CLIENT>Choose one to pick up and one to discard.");
             System.out.println("<CLIENT>To pick up:");
+            ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < toPickUp.size(); i++) {
-                System.out.println( "         " +i + ") " + toPickUp.get(i).getName() + ":\n" + toPickUp.get(i).getPickUpCost().toString());
+                if(toPickUp.get(i).getPickUpCost() == null){
+                    requests.add(toPickUp.get(i).getName() + ": free");
+                }
+                else {
+                    requests.add(toPickUp.get(i).getName() + ": " + toPickUp.get(i).getPickUpCost().toString());
+                }
             }
-            int choosenToPickUp = askNumber(0,toPickUp.size()-1);
+            CLISelector.showListOfRequests(requests);
 
-            String toPickUpID = toPickUp.get(choosenToPickUp).getID();
+            int chosenToPickUp = askNumber(0,toPickUp.size()-1);
 
+            String toPickUpID = toPickUp.get(chosenToPickUp).getID();
+
+            requests.clear();
             System.out.println("<CLIENT>Switch with:");
             for (int i = 0; i < toSwitch.size(); i++) {
-                System.out.println( "         " +i + ") " + toSwitch.get(i).getName());
+                requests.add(toSwitch.get(i).getName());
             }
+            CLISelector.showListOfRequests(requests);
 
             int chosenToDiscard= askNumber(0,toSwitch.size()-1);
 
@@ -500,7 +515,7 @@ public class CLISelector implements Selector {
         }
     }
     @Override
-    public void askGrabStuffSwitchWeapon(ArrayList<WeaponCard> toPickUp, ArrayList<WeaponCard> toSwitch) {
+    public void askGrabStuffSwitchWeapon(ArrayList<WeaponCardV> toPickUp, ArrayList<WeaponCardV> toSwitch) {
         AskGrabStuffSwitchWeapon agssw = new AskGrabStuffSwitchWeapon(toPickUp, toSwitch);
         agssw.start();
     }
@@ -509,16 +524,18 @@ public class CLISelector implements Selector {
 
 
     private class AskPowerUpToDiscard extends Thread {
-        private ArrayList<PowerUpCard> toDiscard;
-        public AskPowerUpToDiscard(ArrayList<PowerUpCard> toDiscard){
+        private ArrayList<PowerUpCardV> toDiscard;
+        public AskPowerUpToDiscard(ArrayList<PowerUpCardV> toDiscard){
             this.toDiscard = toDiscard;
         }
         @Override
         public void run() {
-            System.out.println("<CLIENT>You have too many power up in hand. You need to discard one:");
+            System.out.println("\n<CLIENT>You have too many power up in hand. You need to discard one:");
+            ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < toDiscard.size() ; i++) {
-                System.out.println("         " + i + ") " + toDiscard.get(i).getName() + ": " + toDiscard.get(i).getColor());
+                requests.add(toDiscard.get(i).getName() + ": " + toDiscard.get(i).getColor());
             }
+            CLISelector.showListOfRequests(requests);
 
             int choosen = askNumber(0,toDiscard.size()-1);
 
@@ -528,7 +545,7 @@ public class CLISelector implements Selector {
         }
     }
     @Override
-    public void askPowerUpToDiscard(ArrayList<PowerUpCard> toDiscard) {
+    public void askPowerUpToDiscard(ArrayList<PowerUpCardV> toDiscard) {
         AskPowerUpToDiscard aputd = new AskPowerUpToDiscard(toDiscard);
         aputd.start();
     }
@@ -538,17 +555,19 @@ public class CLISelector implements Selector {
 
 
     private class AskWhatReaload extends Thread {
-        private ArrayList<WeaponCard> toReload;
-        public AskWhatReaload(ArrayList<WeaponCard> toReload){
+        private ArrayList<WeaponCardV> toReload;
+        public AskWhatReaload(ArrayList<WeaponCardV> toReload){
             this.toReload = toReload;
         }
         @Override
         public void run() {
-            System.out.println("<CLIENT> Which weapon do you want to reload?");
+            System.out.println("\n<CLIENT> Which weapon do you want to reload?");
+            ArrayList<String> requests = new ArrayList<>();
+            requests.add("skip reload");
             for (int i = 0; i < toReload.size() ; i++) {
-                System.out.println("         0) don't reload.");
-                System.out.println("         " + (i+1) + ") " + toReload.get(i).getName());
+                requests.add(toReload.get(i).getName() + ": " + toReload.get(i).getReloadCost().toString());
             }
+            CLISelector.showListOfRequests(requests);
             int chosen = askNumber(0, toReload.size());
 
             ViewControllerEventString VCEString =null;
@@ -564,15 +583,15 @@ public class CLISelector implements Selector {
         }
     }
     @Override
-    public void askWhatReaload(ArrayList<WeaponCard> toReload) {
+    public void askWhatReaload(ArrayList<WeaponCardV> toReload) {
         AskWhatReaload awr = new AskWhatReaload(toReload);
         awr.start();
     }
 
 
     private class AskSpawn extends Thread {
-        private ArrayList<PowerUpCard> powerUpCards;
-        public AskSpawn(ArrayList<PowerUpCard> powerUpCards){
+        private ArrayList<PowerUpCardV> powerUpCards;
+        public AskSpawn(ArrayList<PowerUpCardV> powerUpCards){
             this.powerUpCards = powerUpCards;
         }
         @Override
@@ -581,7 +600,7 @@ public class CLISelector implements Selector {
         }
     }
     @Override
-    public void askSpawn(ArrayList<PowerUpCard> powerUpCards) {
+    public void askSpawn(ArrayList<PowerUpCardV> powerUpCards) {
         AskSpawn as = new AskSpawn(powerUpCards);
         as.start();
     }
@@ -596,10 +615,10 @@ public class CLISelector implements Selector {
             int numberOfMoves;
             numberOfMoves=1;
 
-            System.out.println("<CLIENT> Do you want to:\n" +
-                    "         0) move before shoting\n" +
-                    "         1) stay still and shoot");
-            System.out.println("remember, you can move up to:"+numberOfMoves);
+            System.out.println("\n<CLIENT> Do you want to:");
+            CLISelector.showListOfRequests(Arrays.asList("move before shoting","stay still and shoot"));
+
+            System.out.println("remember, you can move up to "+numberOfMoves + " squares");
 
             int chosen = askNumber(0,1);
 
@@ -633,11 +652,10 @@ public class CLISelector implements Selector {
             numberOfMoves=1;
             Scanner br = new Scanner(System.in);
 
-            System.out.println("<CLIENT> Do you want to:\n" +
-                    "         0) if you want to move, reload and shoot\n" +
-                    "         1) if you want to stay still, reload and shot\n" +
-                    "         2) if you wanna to");
-            System.out.println("remember, you can move up to:"+numberOfMoves);
+            System.out.println("\n<CLIENT> Do you want to:");
+            //TODO
+            CLISelector.showListOfRequests(Arrays.asList("if you want to move, reload and shoot","if you want to stay still, reload and shot", "TODO !!" ));
+            System.out.println("remember, you can move up to "+numberOfMoves + " squares.");
 
             int chosen = br.nextInt();
             ViewControllerEventInt VCEint = new ViewControllerEventInt(chosen);
@@ -657,18 +675,20 @@ public class CLISelector implements Selector {
 
 
     private class AskWhatWep extends Thread {
-        private ArrayList<WeaponCard> loadedCardInHand;
-        public AskWhatWep(ArrayList<WeaponCard> loadedCardInHand){
+        private ArrayList<WeaponCardV> loadedCardInHand;
+        public AskWhatWep(ArrayList<WeaponCardV> loadedCardInHand){
             this.loadedCardInHand = loadedCardInHand;
         }
         @Override
         public void run() {
             Scanner br = new Scanner(System.in);
 
-            System.out.println("<CLIENT> What weapon do you want to use?");
+            System.out.println("\n<CLIENT> What weapon do you want to use?");
+            ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < loadedCardInHand.size() ; i++) {
-                System.out.println("         " + i + ") " + loadedCardInHand.get(i).getID());
+                requests.add(loadedCardInHand.get(i).getName());
             }
+            CLISelector.showListOfRequests(requests);
 
             int chosen = askNumber(0,loadedCardInHand.size()-1);
 
@@ -678,7 +698,7 @@ public class CLISelector implements Selector {
         }
     }
     @Override
-    public void askWhatWep(ArrayList<WeaponCard> loadedCardInHand) {
+    public void askWhatWep(ArrayList<WeaponCardV> loadedCardInHand) {
         AskWhatWep aww = new AskWhatWep(loadedCardInHand);
         aww.start();
     }
@@ -687,18 +707,20 @@ public class CLISelector implements Selector {
 
 
     private class AskWhatEffect extends Thread {
-        private ArrayList<Effect> possibleEffects;
-        public AskWhatEffect(ArrayList<Effect> possibleEffects){
+        private ArrayList<EffectV> possibleEffects;
+        public AskWhatEffect(ArrayList<EffectV> possibleEffects){
             this.possibleEffects = possibleEffects;
         }
         @Override
         public void run() {
             Scanner br = new Scanner(System.in);
 
-            System.out.println("<CLIENT> What Effect do you want to use?");
+            System.out.println("\n<CLIENT> What Effect do you want to use?");
+            ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < possibleEffects.size() ; i++) {
-                System.out.println("         " + i + ") " + possibleEffects.get(i).getEffectName());
+                requests.add(possibleEffects.get(i).getEffectName());
             }
+            CLISelector.showListOfRequests(requests);
 
             int chosen = askNumber(0,possibleEffects.size()-1);
 
@@ -708,7 +730,7 @@ public class CLISelector implements Selector {
         }
     }
     @Override
-    public void askWhatEffect(ArrayList<Effect> possibleEffects) {
+    public void askWhatEffect(ArrayList<EffectV> possibleEffects) {
         AskWhatEffect awe = new AskWhatEffect(possibleEffects);
         awe.start();
     }
@@ -734,13 +756,15 @@ public class CLISelector implements Selector {
 
             Scanner br = new Scanner(System.in);
 
+            ArrayList<String> requestsString = new ArrayList<>();
+
             for (int j = 0; j < request ; j++) {
                 if(possibleInputs.get(0).getClass().toString().contains("Player")){
                     System.out.println("<Client> please choose one of the following players: ");
                     Player p;
                     for (int i = 0; i < possibleInputs.size(); i++) {
                         p=(Player)possibleInputs.get(i);
-                        System.out.println("         " + i + ") " + p.getNickname());
+                        requestsString.add(p.getNickname());
                     }
                 }
                 else{
@@ -748,9 +772,11 @@ public class CLISelector implements Selector {
                     Square s;
                     for (int i = 0; i < possibleInputs.size(); i++) {
                         s=(Square)possibleInputs.get(i);
-                        System.out.println("         " + i + ") [" + s.getCoordinates().getX() + "][" + s.getCoordinates().getY() + "]" );
+                        requestsString.add("[" + s.getCoordinates().getX() + "][" + s.getCoordinates().getY() + "]" );
                     }
                 }
+                CLISelector.showListOfRequests(requestsString);
+
                 int chosen = askNumber(0,possibleInputs.size()-1);
 
                 answer.add(possibleInputs.get(chosen));
@@ -758,8 +784,7 @@ public class CLISelector implements Selector {
 
                 if(request == 999){
                     System.out.println("Do you want to chose another one?");
-                    System.out.println("         0) Yes");
-                    System.out.println("         1) No");
+                    CLISelector.showListOfRequests(Arrays.asList("Yes", "No"));
                     int choice = askNumber(0,1);
                     boolean YorN;
                     if(choice!=0){
@@ -812,11 +837,14 @@ public class CLISelector implements Selector {
 
     @Override
     public void askReconnectionNickname(ReconnectionEvent RE) {
-        System.out.println("AFK Players are: ");
+        System.out.println("\nAFK Players are: ");
+        ArrayList<String> requests = new ArrayList<>();
         for (int i = 0; i < RE.getListOfAFKPlayers().size(); i++) {
-            System.out.println("         " + i + ") " + RE.getListOfAFKPlayers().get(i));
+            requests.add(RE.getListOfAFKPlayers().get(i));
         }
+        CLISelector.showListOfRequests(requests);
         System.out.println("What was your nickname?");
+
         int choice = askNumber(0,RE.getListOfAFKPlayers().size()-1);
         ArrayList<String> answer = new ArrayList<>();
         answer.add(RE.getListOfAFKPlayers().get(choice));

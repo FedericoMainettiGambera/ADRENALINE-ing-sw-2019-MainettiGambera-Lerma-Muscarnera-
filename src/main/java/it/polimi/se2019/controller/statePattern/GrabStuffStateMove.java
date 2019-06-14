@@ -3,6 +3,7 @@ package it.polimi.se2019.controller.statePattern;
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
+import it.polimi.se2019.model.NormalSquare;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;

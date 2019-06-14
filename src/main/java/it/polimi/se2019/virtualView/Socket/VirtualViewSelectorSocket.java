@@ -1,10 +1,13 @@
 package it.polimi.se2019.virtualView.Socket;
 
 import it.polimi.se2019.model.*;
+import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
+import it.polimi.se2019.model.enumerations.SquareTypes;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.*;
+import it.polimi.se2019.view.components.*;
 import it.polimi.se2019.virtualView.Selector;
 import it.polimi.se2019.virtualView.VirtualViewSelector;
 
@@ -12,6 +15,9 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import static it.polimi.se2019.model.enumerations.CardinalPoint.east;
+import static it.polimi.se2019.model.enumerations.CardinalPoint.south;
 
 public class VirtualViewSelectorSocket extends VirtualViewSelector implements Selector {
 
@@ -34,7 +40,11 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
 
     @Override
     public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards) {
-        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askFirstSpawnPosition, powerUpCards));
+        ArrayList<PowerUpCardV> powerUpCardsV= new ArrayList<>();
+        for (PowerUpCard c : powerUpCards) {
+            powerUpCardsV.add(c.buildPowerUpCardV());
+        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askFirstSpawnPosition, powerUpCardsV));
     }
 
     @Override
@@ -59,28 +69,52 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
 
     @Override
     public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp) {
-        SelectorEventWeaponCards SE = new SelectorEventWeaponCards(SelectorEventTypes.askGrabStuffGrabWeapon, toPickUp);
+        ArrayList<WeaponCardV> weaponCardsV= new ArrayList<>();
+        for (WeaponCard c : toPickUp) {
+            weaponCardsV.add(c.buildWeapondCardV());
+        }
+        SelectorEventWeaponCards SE = new SelectorEventWeaponCards(SelectorEventTypes.askGrabStuffGrabWeapon, weaponCardsV);
         SocketVirtualView.sendToClient(playerToAsk, SE);
     }
 
     @Override
     public void askGrabStuffSwitchWeapon(ArrayList<WeaponCard> toPickUp, ArrayList<WeaponCard> toSwitch) {
-        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventDoubleWeaponCards(SelectorEventTypes.askGrabStuffSwitchWeapon, toPickUp, toSwitch));
+        ArrayList<WeaponCardV> weaponCardsVtoSwitch= new ArrayList<>();
+        for (WeaponCard c : toSwitch) {
+            weaponCardsVtoSwitch.add(c.buildWeapondCardV());
+        }
+        ArrayList<WeaponCardV> weaponCardsVtoPickUp= new ArrayList<>();
+        for (WeaponCard c : toPickUp) {
+            weaponCardsVtoPickUp.add(c.buildWeapondCardV());
+        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventDoubleWeaponCards(SelectorEventTypes.askGrabStuffSwitchWeapon, weaponCardsVtoPickUp, weaponCardsVtoSwitch));
     }
 
     @Override
     public void askPowerUpToDiscard(ArrayList<PowerUpCard> toDiscard) {
-        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askPowerUpToDiscard,toDiscard));
+        ArrayList<PowerUpCardV> powerUpCardsV= new ArrayList<>();
+        for (PowerUpCard c : toDiscard) {
+            powerUpCardsV.add(c.buildPowerUpCardV());
+        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askPowerUpToDiscard, powerUpCardsV));
     }
 
     @Override
     public void askWhatReaload(ArrayList<WeaponCard> toReload) {
-        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventWeaponCards(SelectorEventTypes.askWhatReaload,toReload));
+        ArrayList<WeaponCardV> weaponCardsV= new ArrayList<>();
+        for (WeaponCard c : toReload) {
+            weaponCardsV.add(c.buildWeapondCardV());
+        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventWeaponCards(SelectorEventTypes.askWhatReaload,weaponCardsV));
     }
 
     @Override
     public void askSpawn(ArrayList<PowerUpCard> powerUpCards) {
-        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askSpawn, powerUpCards));
+        ArrayList<PowerUpCardV> powerUpCardsV= new ArrayList<>();
+        for (PowerUpCard c : powerUpCards) {
+            powerUpCardsV.add(c.buildPowerUpCardV());
+        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askSpawn, powerUpCardsV));
     }
 
     @Override
@@ -97,17 +131,41 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
 
     @Override
     public void askWhatWep(ArrayList<WeaponCard> loadedCardInHand) {
-        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventWeaponCards(SelectorEventTypes.askWhatWep, loadedCardInHand));
+        ArrayList<WeaponCardV> weaponCardsV= new ArrayList<>();
+        for (WeaponCard c : loadedCardInHand) {
+            weaponCardsV.add(c.buildWeapondCardV());
+        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventWeaponCards(SelectorEventTypes.askWhatWep, weaponCardsV));
     }
 
     @Override
     public void askWhatEffect(ArrayList<Effect> possibleEffects) {
-        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventEffect(SelectorEventTypes.askWhatEffect, possibleEffects));
+        ArrayList<EffectV> effectsV = new ArrayList<>();
+        for (Effect e : possibleEffects) {
+            effectsV.add(e.buildEffectV());
+        }
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventEffect(SelectorEventTypes.askWhatEffect, effectsV));
     }
 
     @Override
     public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
-        SocketVirtualView.sendToClient(playerToAsk,new SelectorEventEffectInputs(inputType,possibleInputs));
+        List<Object> possibleInputsV = new ArrayList<>();
+        if(possibleInputs.get(0).getClass().toString().contains("Player")){
+            for (Object p: possibleInputs) {
+                possibleInputsV.add(((Player)p).buildPlayerV());
+            }
+        }
+        else{
+            for (Object s: possibleInputs) {
+                if(s.getClass().toString().contains("NomalSquare")) {
+                    possibleInputsV.add(((NormalSquare)s).buildNormalSquareV((NormalSquare)s));
+                }
+                else{
+                    possibleInputsV.add(((SpawnPointSquare)s).builSpawnPointSquareV((SpawnPointSquare)s));
+                }
+            }
+        }
+        SocketVirtualView.sendToClient(playerToAsk,new SelectorEventEffectInputs(inputType,possibleInputsV));
     }
 
     @Override

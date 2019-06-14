@@ -1,6 +1,8 @@
 package it.polimi.se2019.view.components;
 
 
+import java.util.List;
+
 public class WeaponCardV extends CardV {
     private AmmoListV pickUpCost;
 
@@ -11,6 +13,16 @@ public class WeaponCardV extends CardV {
     private String description;
 
     private String name;
+
+    private List<EffectV> effectVList;
+
+    public void setEffectVList(List<EffectV> effectVList) {
+        this.effectVList = effectVList;
+    }
+
+    public List<EffectV> getEffectVList() {
+        return effectVList;
+    }
 
     public String getDescription() {
         return description;

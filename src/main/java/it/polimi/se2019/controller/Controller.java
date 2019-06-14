@@ -142,6 +142,7 @@ public class  Controller{
 
     public static void startClientSocketOrRMIWithCLI() {
         Scanner br = new Scanner(System.in);
+
         System.out.println("\n\n");
         System.out.println(GameConstant.AdrenalineTitle4);
         System.out.println("\n\n\n");
@@ -150,11 +151,17 @@ public class  Controller{
         String nickname = br.nextLine();
         ViewModelGate.setMe(nickname);
 
-        System.out.println("<CLIENT> Do you want to play with:");
+        System.out.println("\n<CLIENT> Do you want to play with:");
 
-        CLISelector.showListOfRequests(Arrays.asList("RMI","SOCKET"));
+        CLISelector.showListOfRequests(Arrays.asList("SOCKET","RMI"));
         String networkConnectionChoice = "";
-        networkConnectionChoice = br.nextLine();
+        int choice = CLISelector.askNumber(0,1);
+        if(choice == 1){
+            networkConnectionChoice = "RMI";
+        }
+        else{
+            networkConnectionChoice = "SOCKET" ;
+        }
 
         String IP = null;
 
@@ -181,8 +188,8 @@ public class  Controller{
 
         System.out.println("\n<CLIENT> DO YOU WANT TO PLAY WITH AUTOMATIC RANDOM CHOICES?");
         CLISelector.showListOfRequests(Arrays.asList("HELL YES !!","nope, thanks."));
-        int choice = br.nextInt();
         randomGame = false;
+        choice = CLISelector.askNumber(0,1);
         if(choice == 0){
             randomGame = true;
         }

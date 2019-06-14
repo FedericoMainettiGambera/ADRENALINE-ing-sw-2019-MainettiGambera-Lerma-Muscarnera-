@@ -6,18 +6,23 @@ import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
+import it.polimi.se2019.view.components.EffectV;
+import it.polimi.se2019.view.components.PowerUpCardV;
+import it.polimi.se2019.view.components.WeaponCardV;
 import it.polimi.se2019.virtualView.Selector;
+import it.polimi.se2019.virtualView.SelectorV;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GUISelector implements Selector {
+public class GUISelector implements SelectorV {
 
     private String networkConnection;
 
     public GUISelector(String networkConnection){
         this.networkConnection = networkConnection;
     }
+
 
     @Override
     public void askGameSetUp() {
@@ -31,7 +36,7 @@ public class GUISelector implements Selector {
     }
 
     @Override
-    public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards) {
+    public void askFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards) {
 
     }
 
@@ -56,27 +61,27 @@ public class GUISelector implements Selector {
     }
 
     @Override
-    public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp) {
+    public void askGrabStuffGrabWeapon(ArrayList<WeaponCardV> toPickUp) {
 
     }
 
     @Override
-    public void askGrabStuffSwitchWeapon(ArrayList<WeaponCard> toPickUp, ArrayList<WeaponCard> toSwitch) {
+    public void askGrabStuffSwitchWeapon(ArrayList<WeaponCardV> toPickUp, ArrayList<WeaponCardV> toSwitch) {
 
     }
 
     @Override
-    public void askPowerUpToDiscard(ArrayList<PowerUpCard> toDiscard) {
+    public void askPowerUpToDiscard(ArrayList<PowerUpCardV> toDiscard) {
 
     }
 
     @Override
-    public void askWhatReaload(ArrayList<WeaponCard> toReload) {
+    public void askWhatReaload(ArrayList<WeaponCardV> toReload) {
 
     }
 
     @Override
-    public void askSpawn(ArrayList<PowerUpCard> powerUpCards) {
+    public void askSpawn(ArrayList<PowerUpCardV> powerUpCards) {
 
     }
 
@@ -92,12 +97,12 @@ public class GUISelector implements Selector {
     }
 
     @Override
-    public void askWhatWep(ArrayList<WeaponCard> loadedCardInHand) {
+    public void askWhatWep(ArrayList<WeaponCardV> loadedCardInHand) {
 
     }
 
     @Override
-    public void askWhatEffect(ArrayList<Effect> possibleEffects) {
+    public void askWhatEffect(ArrayList<EffectV> possibleEffects) {
 
     }
 
@@ -115,5 +120,4 @@ public class GUISelector implements Selector {
     public void askNickname() {
 
     }
-
 }
