@@ -212,15 +212,11 @@ public class CLISelector implements SelectorV {
 
             System.out.println("\n<CLIENT> : Do you want to play with the Terminator active?");
             CLISelector.showListOfRequests(Arrays.asList("Yes","No"));
-            System.out.println("         0) Yes");
-            System.out.println("         1) No");
             int Terminator = askNumber(0,1);
             isBotActive = Terminator==0;
 
             System.out.println("\n<CLIENT> : Choose number of starting skulls:");
             CLISelector.showListOfRequests(Arrays.asList("5 starting skulls","8 starting skulls"));
-            System.out.println("         0) 5 starting skulls");
-            System.out.println("         1) 8 starting skulls");
             numberOfStartingSkulls = askNumber(0,1);
             if(numberOfStartingSkulls==0){
                 numberOfStartingSkulls = 5;
@@ -306,7 +302,7 @@ public class CLISelector implements SelectorV {
             System.out.println("\n<CLIENT> choose the PowerUp to discard and spawn to: ");
             ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < powerUpCards.size(); i++) {
-                requests.add(i + ") " + powerUpCards.get(i).getName() + ": " + powerUpCards.get(i).getDescription() + ".       COLOR: " + powerUpCards.get(i).getColor());
+                requests.add(powerUpCards.get(i).getName() + ": " + powerUpCards.get(i).getDescription() + ".       COLOR: " + powerUpCards.get(i).getColor());
             }
             CLISelector.showListOfRequests(requests);
             int choice = askNumber(0,powerUpCards.size()-1);
