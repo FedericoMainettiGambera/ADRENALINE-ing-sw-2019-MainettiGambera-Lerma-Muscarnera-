@@ -142,7 +142,7 @@ public class CLISelector implements SelectorV {
     public static int askNumber(int rangeInit, int rangeEnd){
         if(Controller.randomGame == true){
             try {
-                TimeUnit.MILLISECONDS.sleep(150);
+                TimeUnit.MILLISECONDS.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -151,11 +151,19 @@ public class CLISelector implements SelectorV {
             System.out.println("____________________________________________ANSWER: " + random + "\n");
             return random;
         }
-        Scanner br = new Scanner(System.in);
-        int choice = br.nextInt();
+        Scanner sc = new Scanner(System.in);
+        while (!sc.hasNextInt()) {
+            sc.next();
+            System.out.println("<CLIENT> please, make sure to insert a number;");
+        }
+        int choice = sc.nextInt();
         while(choice<rangeInit || choice>rangeEnd){
-            System.out.println("<CIENT> please, insert a number from " + rangeInit + " to " + rangeEnd);
-            choice = br.nextInt();
+            System.out.println("<CLIENT> please, insert a number from " + rangeInit + " to " + rangeEnd);
+            while (!sc.hasNextInt()) {
+                sc.next();
+                System.out.println("<CLIENT> please, make sure to insert a number from " + rangeInit + " to " + rangeEnd);
+            }
+            choice = sc.nextInt();
         }
         return choice;
     }

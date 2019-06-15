@@ -73,4 +73,14 @@ public class SocketVirtualView extends VirtualView {
             playerToSend.setAFKWIthoutNotify(true);
         }
     }
+
+    public static void sendToClientEvenAFK(Player playerToSend, Object o){
+        try{
+            playerToSend.getOos().writeObject(o);
+            playerToSend.getOos().reset();
+        }catch (IOException e ){
+            System.err.println(playerToSend.getNickname() + " is not reachable. Setting him AFK. Executed from method SocketVirtualView.sendToClient()");
+            playerToSend.setAFKWIthoutNotify(true);
+        }
+    }
 }

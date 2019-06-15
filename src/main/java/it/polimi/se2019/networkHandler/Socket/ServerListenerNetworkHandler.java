@@ -1,17 +1,20 @@
 package it.polimi.se2019.networkHandler.Socket;
 
+import com.sun.jmx.remote.internal.ArrayQueue;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.events.Event;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEvent;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventWeaponCards;
 import it.polimi.se2019.view.components.View;
+import it.polimi.se2019.view.components.ViewModelGate;
 import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
-import java.util.List;
-import java.util.Observable;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.TimeUnit;
 
 import static it.polimi.se2019.model.enumerations.SelectorEventTypes.askGrabStuffGrabWeapon;
 
@@ -33,6 +36,7 @@ public class ServerListenerNetworkHandler extends Observable implements Runnable
 
             this.addObserver(this.view);
     }
+
 
     @Override
     public void run() {

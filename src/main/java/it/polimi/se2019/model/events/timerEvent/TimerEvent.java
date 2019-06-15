@@ -8,7 +8,7 @@ public class TimerEvent extends Event implements Serializable {
     private int currentTime;
     private int totalTime;
     private String context;
-    public TimerEvent(int currentTime,int totalTime, String context){
+    public TimerEvent(int currentTime, int totalTime, String context){
         this.currentTime= currentTime;
         this.totalTime = totalTime;
         this.context = context;

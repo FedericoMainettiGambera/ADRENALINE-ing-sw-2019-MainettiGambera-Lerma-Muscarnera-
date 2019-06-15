@@ -78,7 +78,7 @@ public class ClientListenerVirtualView extends Observable implements Runnable{
         //set new connection
         ModelGate.model.getPlayerList().getPlayer(nickname).setOos(this.oos);
         //set afk false
-        SocketVirtualView.sendToClient(ModelGate.model.getPlayerList().getPlayer(nickname),(new ModelViewEvent(ModelGate.model.buildGameV(), ModelViewEventTypes.resetGame)));
+        SocketVirtualView.sendToClientEvenAFK(ModelGate.model.getPlayerList().getPlayer(nickname),(new ModelViewEvent(ModelGate.model.buildGameV(), ModelViewEventTypes.resetGame)));
         ModelGate.model.getPlayerList().getPlayer(nickname).setAFKWIthoutNotify(false);
     }
 }

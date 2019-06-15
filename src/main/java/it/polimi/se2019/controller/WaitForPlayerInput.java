@@ -55,8 +55,8 @@ public class WaitForPlayerInput implements Runnable{
             }
             i++;
             if(playerToAsk.isAFK()){
-                System.out.println("                                            Thread: <SERVER-InputTimer-for-\"+playerToAsk.getNickname()+\"> STOPPING TIMER BECAUSE PLAYER IS AFK.");
-                return;
+                System.out.println("                                            Thread: <SERVER-InputTimer-for-\"+playerToAsk.getNickname()+\"> the player is AFK, so i make the timer go forward to the end.");
+                i=GameConstant.timeToInsertInputInSeconds+1;
             }
             if(this.stop){
                 return;

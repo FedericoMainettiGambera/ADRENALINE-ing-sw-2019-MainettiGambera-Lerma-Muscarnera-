@@ -1,5 +1,6 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.view.components.AmmoCardV;
@@ -59,6 +60,7 @@ public class OrderedCardList<T> extends Observable implements Serializable {
     }
 
     public T getFirstCard(){
+        checkDeckEnded();
         return this.cards.get(0);
     }
 
@@ -83,13 +85,26 @@ public class OrderedCardList<T> extends Observable implements Serializable {
         return false;
     }
 
+    public void checkDeckEnded(){
+        //reshuffles back powerup and ammo from the respective discards pile
+        if(this.cards.size() == 0 && this.context.contains("powerUpDeck")){
+            ModelGate.model.getPowerUpDiscardPile().moveAllCardsTo(this);
+            this.shuffle();
+        }
+        else if(this.cards.size() == 0 && this.context.contains("ammoDeck")){
+            ModelGate.model.getAmmoDiscardPile().moveAllCardsTo(this);
+            this.shuffle();
+        }
+    }
+
     /**Moves a specific card from this ordered card list to another one
      * @param cardID
      * @param to
      * @return true if the card exist, false if it doesn't.
      * */
     public boolean moveCardTo(OrderedCardList to, String cardID) {
-        //TODO reshuffle the Discards pile if the decks are empty
+        checkDeckEnded();
+
         if(this.getCard(cardID) != null) {
             to.getCards().add(this.getCard(cardID));
             this.removeCard(cardID);
