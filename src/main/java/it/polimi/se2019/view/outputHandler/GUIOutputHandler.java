@@ -224,5 +224,15 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
     public void cantReachServer() {
         //TODO
     }
+
+    @Override
+    public void succesfullReconnection() {
+
+    }
+
+    @Override
+    public void disconnect() {
+
+    }
 }
 

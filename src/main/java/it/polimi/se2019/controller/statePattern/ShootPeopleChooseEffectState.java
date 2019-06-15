@@ -1,6 +1,5 @@
 package it.polimi.se2019.controller.statePattern;
 
-import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.controller.WaitForPlayerInput;
@@ -68,10 +67,12 @@ public class ShootPeopleChooseEffectState implements State{
 
     @Override
     public void handleAFK() {
-        this.playerToAsk.setIsAFK(true);
+        this.playerToAsk.setAFKWithNotify(true);
         System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-        ViewControllerEventHandlerContext.state.doAction(null);
+        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+            ViewControllerEventHandlerContext.state.doAction(null);
+        }
     }
 }

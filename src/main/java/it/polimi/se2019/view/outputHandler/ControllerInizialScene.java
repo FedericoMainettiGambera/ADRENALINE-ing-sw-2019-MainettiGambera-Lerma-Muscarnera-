@@ -593,6 +593,16 @@ public void run(){
 
     }
 
+    @Override
+    public void succesfullReconnection() {
+
+    }
+
+    @Override
+    public void disconnect() {
+
+    }
+
 //***********************************END*****************************************************************************
 }
 

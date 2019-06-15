@@ -127,6 +127,29 @@ public class PowerUpCard extends Card implements Serializable {
     private Effect specialEffect;
 
     /***/
+    private String name = "still need a name";
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    /***/
+
+    private String description = "still need a description";
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /***/
     public AmmoCubesColor getColor() {
         return color;
     }
@@ -135,8 +158,7 @@ public class PowerUpCard extends Card implements Serializable {
     public Effect getSpecialEffect() {
         return specialEffect;
     }
-    private String name="";
-    private String description="";
+
 
     public void Play() {
         getSpecialEffect().Exec();

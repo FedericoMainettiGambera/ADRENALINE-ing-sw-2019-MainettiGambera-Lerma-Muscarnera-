@@ -1,12 +1,15 @@
 package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Game;
+import it.polimi.se2019.model.GameConstant;
 import it.polimi.se2019.model.PlayersList;
 import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.networkHandler.sendPingRequest;
 import it.polimi.se2019.view.GUIstarter;
 import it.polimi.se2019.view.components.View;
+import it.polimi.se2019.view.components.ViewModelGate;
+import it.polimi.se2019.view.selector.CLISelector;
 import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
 
@@ -17,6 +20,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 
@@ -33,6 +37,8 @@ public class  Controller{
     public static View V;
 
     public static void startServerWithRMIAndSocket(){
+
+        //inizializza il model
         System.out.println("<SERVER> Creating the Game.");
         ModelGate.model = new Game();
         System.out.println("<SERVER> Creating a PlayerList.");
@@ -52,7 +58,7 @@ public class  Controller{
         }
         ViewControllerEventHandlerContext.socketVV = SVV;
 
-        //Startin the Server as RMI
+        //Starting the Server as RMI
         try {
             RMIVV = new RMIVirtualView(VCEHC);
             RMIVV.startServer();
@@ -63,6 +69,9 @@ public class  Controller{
         }
         ViewControllerEventHandlerContext.RMIVV = RMIVV;
 
+        //TODO
+        //Starts a thread that checks if clients are alive, if they aren't puts them in AFK.
+
         //Registering the VirtualView as an observer of the model so it can receive the MVEs
         System.out.println("<SERVER> Registering the VirtualViews (RMI and Socket) as observers of the Model");
         ModelGate.model.setVirtualView(ViewControllerEventHandlerContext.socketVV, ViewControllerEventHandlerContext.RMIVV);
@@ -72,6 +81,8 @@ public class  Controller{
     public static void startClientSocketOrRMIWithGUI(){
         GUIstarter.begin();
     }
+
+    public static boolean randomGame = false;
 
     public static boolean connect(String networkConnection, String userInterface, String IP, String Port){
         if(networkConnection.equalsIgnoreCase("RMI")){
@@ -130,58 +141,61 @@ public class  Controller{
 
 
     public static void startClientSocketOrRMIWithCLI() {
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        Scanner br = new Scanner(System.in);
 
-            System.out.println("<CLIENT> Do you want to play with:");
-            System.out.println("         RMI");
-            System.out.println("         SOCKET");
-            String networkConnectionChoice = "";
-            networkConnectionChoice = br.readLine();
+        System.out.println("\n\n");
+        System.out.println(GameConstant.AdrenalineTitle4);
+        System.out.println("\n\n\n");
+        System.out.println("\nWhat's your Nickname?");
 
-        /*TODO
-        System.out.println("<CLIENT> Are you trying to reconnect to a Game? [Y/N]");
-        String reconection ="";
-        try {
-            userInterface = br.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
+        String nickname = br.nextLine();
+        ViewModelGate.setMe(nickname);
+
+        System.out.println("\n<CLIENT> Do you want to play with:");
+
+        CLISelector.showListOfRequests(Arrays.asList("SOCKET","RMI"));
+        String networkConnectionChoice = "";
+        int choice = CLISelector.askNumber(0,1);
+        if(choice == 1){
+            networkConnectionChoice = "RMI";
         }
-        if(reconection.equals("Y")){
-            this.reconnect(networkConnectionChoice, userInterface);
-            return;
+        else{
+            networkConnectionChoice = "SOCKET" ;
         }
-        */
 
-            String IP = null;
+        String IP = null;
 
-            String port = null;
+        String port = null;
 
-            String userInterface = "CLI";
+        String userInterface = "CLI";
 
-            if (networkConnectionChoice.equalsIgnoreCase("RMI")) {
-                System.out.println("<CLIENT> Starting Client with RMI connection");
+        if (networkConnectionChoice.equalsIgnoreCase("RMI")) {
+            System.out.println("<CLIENT> Starting Client with RMI connection");
 
-                //ask for IP and PORT
-                System.out.println("<CLIENT> Insert Server's IP:");
-                IP = br.readLine();
+            //ask for IP and PORT
+            System.out.println("\n<CLIENT> Insert Server's IP:");
+            IP = br.nextLine();
 
-                port = "1099";
-            } else {
-                System.out.println("<CLIENT> Starting Client with Socket connection");
+            port = "1099";
+        } else {
+            System.out.println("<CLIENT> Starting Client with Socket connection");
 
-                System.out.println("<CLIENT> Insert Server IP:");
-                IP = br.readLine();
-                System.out.println("<CLIENT> Insert Port:");
-                port = br.readLine();
-            }
-
-            if (!connect(networkConnectionChoice, userInterface, IP, port)) {
-                startClientSocketOrRMIWithCLI();
-            }
+            System.out.println("\n<CLIENT> Insert Server IP:");
+            IP = br.nextLine();
+            System.out.println("\n<CLIENT> Insert Port:");
+            port = br.nextLine();
         }
-        catch (IOException e){
-            e.printStackTrace();
+
+        System.out.println("\n<CLIENT> DO YOU WANT TO PLAY WITH AUTOMATIC RANDOM CHOICES?");
+        CLISelector.showListOfRequests(Arrays.asList("HELL YES !!","nope, thanks."));
+        randomGame = false;
+        choice = CLISelector.askNumber(0,1);
+        if(choice == 0){
+            randomGame = true;
+        }
+
+        if (!connect(networkConnectionChoice, userInterface, IP, port)) {
+            startClientSocketOrRMIWithCLI();
         }
     }
 

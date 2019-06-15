@@ -40,7 +40,7 @@ public class ConnectionGameCountDown implements Runnable {
                 System.out.println("<SERVER> max number of clients connected.");
                 System.out.println("<SERVER> STARTING GAME.");
                 ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayer("User1"));
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayers().get(0));
                 return;
             }
             i++;
@@ -50,7 +50,7 @@ public class ConnectionGameCountDown implements Runnable {
             System.out.println("<SERVER> COUNT DOWN has ended and the number of connection hasn't changed");
             System.out.println("<SERVER> STARTING GAME.");
             ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayer("User1"));
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayers().get(0));
         }
         else{
             System.out.println("<SERVER> COUNT DOWN has ended but the number of connection has changed");
@@ -58,11 +58,12 @@ public class ConnectionGameCountDown implements Runnable {
                 System.out.println("<SERVER> There are " + ModelGate.model.getNumberOfClientsConnected() + " clients connected. The Game is Playeable.");
                 System.out.println("<SERVER> STARTING GAME.");
                 ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayer("User1"));
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayers().get(0));
             }
             else{
                 System.out.println("<SERVER> There are " + ModelGate.model.getNumberOfClientsConnected() + " clients connected.");
                 System.out.println("<SERVER> NOT ENOUGHT CLIENTS.");
+
             }
         }
     }

@@ -17,5 +17,6 @@ public enum SelectorEventTypes {
     askShootReloadMove,
     askWhatWep,
     askWhatEffect,
-    askEffectInputs
+    askEffectInputs,
+    askNickname
 }

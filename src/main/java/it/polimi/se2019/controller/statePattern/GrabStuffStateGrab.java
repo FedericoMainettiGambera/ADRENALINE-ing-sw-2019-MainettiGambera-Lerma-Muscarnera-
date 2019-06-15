@@ -38,41 +38,61 @@ public class GrabStuffStateGrab implements State {
         else if(ModelGate.model.getBoard().getSquare(ModelGate.model.getCurrentPlayingPlayer().getPosition()).getSquareType()
                 == SquareTypes.normal){
             System.out.println("<SERVER> Player is in a NormalSquare");
-            AmmoCard ammoCard = (AmmoCard)((NormalSquare)ModelGate.model.getBoard().getSquare(
-                    ModelGate.model.getCurrentPlayingPlayer().getPosition())
-            ).getAmmoCards().getFirstCard();
+            if(((NormalSquare)ModelGate.model.getBoard().getMap()[ModelGate.model.getCurrentPlayingPlayer().getPosition().getX()][ModelGate.model.getCurrentPlayingPlayer().getPosition().getY()]).getAmmoCards().getCards().size()!=0){
+                System.out.println("<SERVER> the square have an ammo card, the player can grab.");
+                AmmoCard ammoCard = (AmmoCard)((NormalSquare)ModelGate.model.getBoard().getSquare(
+                        ModelGate.model.getCurrentPlayingPlayer().getPosition())
+                ).getAmmoCards().getFirstCard();
 
-            //moving the grabbed ammo card to the discard pile
-            ((NormalSquare)ModelGate.model.getBoard().getSquare(
-                    ModelGate.model.getCurrentPlayingPlayer().getPosition())
-            ).getAmmoCards().moveCardTo(ModelGate.model.getAmmoDiscardPile(), ammoCard.getID());
+                //moving the grabbed ammo card to the discard pile
+                ((NormalSquare)ModelGate.model.getBoard().getSquare(
+                        ModelGate.model.getCurrentPlayingPlayer().getPosition())
+                ).getAmmoCards().moveCardTo(ModelGate.model.getAmmoDiscardPile(), ammoCard.getID());
 
-            //grab ammocubes
-            System.out.println("<SERVER> Grabbing ammo cubes");
-            ModelGate.model.getCurrentPlayingPlayer().addAmmoCubes(ammoCard.getAmmunitions());
+                //grab ammocubes
+                System.out.println("<SERVER> Grabbing ammo cubes");
+                ModelGate.model.getCurrentPlayingPlayer().addAmmoCubes(ammoCard.getAmmunitions());
 
-            //set next state:
+                //set next state:
 
-            //grab a power up and the player's hand is already full
-            if((ammoCard.isPowerUp())&&(ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().size() >=2)){
-                ViewControllerEventHandlerContext.setNextState(new GrabStuffStateDrawAndDiscardPowerUp(this.actionNumber));
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                //grab a power up and the player's hand is already full
+                if((ammoCard.isPowerUp())&&(ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().size() >=2)){
+                    ViewControllerEventHandlerContext.setNextState(new GrabStuffStateDrawAndDiscardPowerUp(this.actionNumber));
+                    ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                }
+                //grab a power up and the player's hand is not full
+                else if(ammoCard.isPowerUp()){
+                    ViewControllerEventHandlerContext.setNextState(new GrabStuffStateDrawPowerUp(this.actionNumber));
+                    ViewControllerEventHandlerContext.state.doAction(null);
+                }
+                // the player doesn't have to grab a power up
+                else{
+                    if(actionNumber==1){
+
+                        if (ModelGate.model.hasFinalFrenzyBegun() && ModelGate.model.getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0) {
+
+                            ViewControllerEventHandlerContext.setNextState(new ReloadState(false));//TODO same of all of this ifs
+
+                        }
+                        else ViewControllerEventHandlerContext.setNextState(new TurnState(2));
+                    }
+                    else if(actionNumber==2){
+                        ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
+
+                    }
+                    ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                }
             }
-            //grab a power up and the player's hand is not full
-            else if(ammoCard.isPowerUp()){
-                ViewControllerEventHandlerContext.setNextState(new GrabStuffStateDrawPowerUp(this.actionNumber));
-                ViewControllerEventHandlerContext.state.doAction(null);
-            }
-            // the player doesn't have to grab a power up
             else{
+                System.out.println("<SERVER> the square doesn't have an ammo card, the player can't grab.");
                 if(actionNumber==1){
 
                     if (ModelGate.model.hasFinalFrenzyBegun() && ModelGate.model.getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0) {
 
-                       ViewControllerEventHandlerContext.setNextState(new ReloadState(false));//TODO same of all of this ifs
+                        ViewControllerEventHandlerContext.setNextState(new ReloadState(false));//TODO same of all of this ifs
 
                     }
-                        else ViewControllerEventHandlerContext.setNextState(new TurnState(2));
+                    else ViewControllerEventHandlerContext.setNextState(new TurnState(2));
                 }
                 else if(actionNumber==2){
                     ViewControllerEventHandlerContext.setNextState(new ReloadState(false));

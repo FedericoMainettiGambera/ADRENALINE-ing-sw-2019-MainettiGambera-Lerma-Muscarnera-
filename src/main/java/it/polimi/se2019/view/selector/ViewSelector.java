@@ -5,12 +5,17 @@ import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
+import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
+import it.polimi.se2019.view.components.EffectV;
+import it.polimi.se2019.view.components.PowerUpCardV;
+import it.polimi.se2019.view.components.WeaponCardV;
 import it.polimi.se2019.virtualView.Selector;
+import it.polimi.se2019.virtualView.SelectorV;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewSelector implements Selector {
+public class ViewSelector implements SelectorV {
 
     private String networkConnection;
 
@@ -27,7 +32,7 @@ public class ViewSelector implements Selector {
         this.GUISelector = new GUISelector(networkConnection);
     }
 
-    public Selector getCorrectSelector(){
+    public SelectorV getCorrectSelector(){
         if(this.userInterface.equalsIgnoreCase("cLI")){
             return this.CLISelector;
         }
@@ -41,13 +46,14 @@ public class ViewSelector implements Selector {
         this.getCorrectSelector().askGameSetUp();
     }
 
+    @Deprecated
     @Override
     public void askPlayerSetUp() {
         this.getCorrectSelector().askPlayerSetUp();
     }
 
     @Override
-    public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards) {
+    public void askFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards) {
         this.getCorrectSelector().askFirstSpawnPosition(powerUpCards);
     }
 
@@ -72,27 +78,27 @@ public class ViewSelector implements Selector {
     }
 
     @Override
-    public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp) {
+    public void askGrabStuffGrabWeapon(ArrayList<WeaponCardV> toPickUp) {
         this.getCorrectSelector().askGrabStuffGrabWeapon(toPickUp);
     }
 
     @Override
-    public void askGrabStuffSwitchWeapon(ArrayList<WeaponCard> toPickUp, ArrayList<WeaponCard> toSwitch) {
+    public void askGrabStuffSwitchWeapon(ArrayList<WeaponCardV> toPickUp, ArrayList<WeaponCardV> toSwitch) {
         this.getCorrectSelector().askGrabStuffSwitchWeapon(toPickUp, toSwitch);
     }
 
     @Override
-    public void askPowerUpToDiscard(ArrayList<PowerUpCard> toDiscard) {
+    public void askPowerUpToDiscard(ArrayList<PowerUpCardV> toDiscard) {
         this.getCorrectSelector().askPowerUpToDiscard(toDiscard);
     }
 
     @Override
-    public void askWhatReaload(ArrayList<WeaponCard> toReload) {
+    public void askWhatReaload(ArrayList<WeaponCardV> toReload) {
         this.getCorrectSelector().askWhatReaload(toReload);
     }
 
     @Override
-    public void askSpawn(ArrayList<PowerUpCard> powerUpCards) {
+    public void askSpawn(ArrayList<PowerUpCardV> powerUpCards) {
         this.getCorrectSelector().askSpawn(powerUpCards);
     }
 
@@ -101,23 +107,34 @@ public class ViewSelector implements Selector {
       this.getCorrectSelector().askShootOrMove();
     }
 
+    @Deprecated
     @Override
     public void askShootReloadMove() {
         this.getCorrectSelector().askShootReloadMove();
     }
 
     @Override
-    public void askWhatWep(ArrayList<WeaponCard> loadedCardInHand) {
+    public void askWhatWep(ArrayList<WeaponCardV> loadedCardInHand) {
         this.getCorrectSelector().askWhatWep(loadedCardInHand);
     }
 
     @Override
-    public void askWhatEffect(ArrayList<Effect> possibleEffects) {
+    public void askWhatEffect(ArrayList<EffectV> possibleEffects) {
         this.getCorrectSelector().askWhatEffect(possibleEffects);
     }
 
     @Override
     public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
         this.getCorrectSelector().askEffectInputs(inputType, possibleInputs);
+    }
+
+    @Override
+    public void askReconnectionNickname(ReconnectionEvent RE) {
+        this.getCorrectSelector().askReconnectionNickname(RE);
+    }
+
+    @Override
+    public void askNickname() {
+        this.getCorrectSelector().askNickname();
     }
 }

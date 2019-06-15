@@ -11,6 +11,9 @@ import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPlayerSetUp;
 import it.polimi.se2019.controller.WaitForPlayerInput;
+
+/**DEPRECATED*/
+@Deprecated
 public class PlayerSetUpState implements State {
 
     private int numberOfPlayer;
@@ -103,7 +106,7 @@ public class PlayerSetUpState implements State {
 
     @Override
     public void handleAFK() {
-        this.playerToAsk.setIsAFK(true);
+        this.playerToAsk.setAFKWithNotify(true);
         System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         System.out.println("<SERVER> setting Username and color to default");
         ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setNickname("defaultUser" + ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getNickname());
@@ -111,7 +114,9 @@ public class PlayerSetUpState implements State {
         ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setColor(PlayersColors.purple);
         //pass turn
         ModelGate.model.getPlayerList().setNextPlayingPlayer();
-        ViewControllerEventHandlerContext.setNextState(new TurnState(1));
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+            ViewControllerEventHandlerContext.setNextState(new TurnState(1));
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        }
     }
 }

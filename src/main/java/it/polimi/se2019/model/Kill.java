@@ -44,13 +44,11 @@ public class Kill implements Serializable {
     }
 
     /**@return the killing player if ther is, or an exception*/
-    public Player getKillingPlayer() throws Exception{
+    public Player getKillingPlayer() throws NullPointerException{
         if(!isSkull && this.killingPlayer!=null){
             return killingPlayer;
         }
-        else {
-            throw new Exception();
-        }
+        return null;
     }
 
     /**
@@ -61,9 +59,6 @@ public class Kill implements Serializable {
             killingPlayer = player;
             isSkull = false;
         }
-        else {
-            throw new Exception();
-        }
     }
 
 
@@ -73,9 +68,7 @@ public class Kill implements Serializable {
         if(!isSkull && this.overKillingPlayer!=null) {
             return overKillingPlayer;
         }
-        else {
-            throw new Exception();
-        }
+        return null;
     }
 
 
@@ -86,9 +79,6 @@ public class Kill implements Serializable {
         if(!isSkull && player!=null) {
             isOverKill = true;
             overKillingPlayer = player;
-        }
-        else {
-            throw new Exception();
         }
     }
 

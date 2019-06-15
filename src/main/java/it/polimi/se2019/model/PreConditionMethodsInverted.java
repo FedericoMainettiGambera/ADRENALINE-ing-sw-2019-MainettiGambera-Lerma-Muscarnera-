@@ -12,6 +12,219 @@ import static it.polimi.se2019.model.enumerations.UsableInputTableRowType.typePl
 import static it.polimi.se2019.model.enumerations.UsableInputTableRowType.typeSquare;
 
 public class PreConditionMethodsInverted {
+    /********/
+    public List<Object> isScannerMode(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {List<Object> retVal = new ArrayList<>();
+        if (type.equals(UsableInputTableRowType.typePlayer)) {
+            for (Player t : actionContext.getPlayerList().getPlayers())
+                retVal.add(t);
+        }
+        if (type.equals(typeSquare)) {
+            for (Square y[] : actionContext.getBoard().getMap()) {
+                for (Square x : y) {
+                    retVal.add(x);
+                }
+            }
+        }
+
+        return retVal;}
+    public List<Object> isPunisherMode(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {List<Object> retVal = new ArrayList<>();
+        if (type.equals(UsableInputTableRowType.typePlayer)) {
+            for (Player t : actionContext.getPlayerList().getPlayers())
+                retVal.add(t);
+        }
+        if (type.equals(typeSquare)) {
+            for (Square y[] : actionContext.getBoard().getMap()) {
+                for (Square x : y) {
+                    retVal.add(x);
+                }
+            }
+        }
+
+        return retVal;}
+    public List<Object> isReaperMode(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {List<Object> retVal = new ArrayList<>();
+        if (type.equals(UsableInputTableRowType.typePlayer)) {
+            for (Player t : actionContext.getPlayerList().getPlayers())
+                retVal.add(t);
+        }
+        if (type.equals(typeSquare)) {
+            for (Square y[] : actionContext.getBoard().getMap()) {
+                for (Square x : y) {
+                    retVal.add(x);
+                }
+            }
+        }
+
+        return retVal;}
+    public List<Object> isFocusShot(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {List<Object> retVal = new ArrayList<>();
+        if (type.equals(UsableInputTableRowType.typePlayer)) {
+            for (Player t : actionContext.getPlayerList().getPlayers())
+                retVal.add(t);
+        }
+        if (type.equals(typeSquare)) {
+            for (Square y[] : actionContext.getBoard().getMap()) {
+                for (Square x : y) {
+                    retVal.add(x);
+                }
+            }
+        }
+
+        return retVal;}
+    public List<Object> isTurretTripod(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {List<Object> retVal = new ArrayList<>();
+        if (type.equals(UsableInputTableRowType.typePlayer)) {
+            for (Player t : actionContext.getPlayerList().getPlayers())
+                retVal.add(t);
+        }
+        if (type.equals(typeSquare)) {
+            for (Square y[] : actionContext.getBoard().getMap()) {
+                for (Square x : y) {
+                    retVal.add(x);
+                }
+            }
+        }
+
+        return retVal;}
+    public List<Object> isNanoTracerMode(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {List<Object> retVal = new ArrayList<>();
+        if (type.equals(UsableInputTableRowType.typePlayer)) {
+            for (Player t : actionContext.getPlayerList().getPlayers())
+                retVal.add(t);
+        }
+        if (type.equals(typeSquare)) {
+            for (Square y[] : actionContext.getBoard().getMap()) {
+                for (Square x : y) {
+                    retVal.add(x);
+                }
+            }
+        }
+
+        return retVal;}
+    public List<Object> withChainReaction(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {List<Object> retVal = new ArrayList<>();
+        if (type.equals(UsableInputTableRowType.typePlayer)) {
+            for (Player t : actionContext.getPlayerList().getPlayers())
+                retVal.add(t);
+        }
+        if (type.equals(typeSquare)) {
+            for (Square y[] : actionContext.getBoard().getMap()) {
+                for (Square x : y) {
+                    retVal.add(x);
+                }
+            }
+        }
+
+        return retVal;}
+    public List<Object> withHighVoltage(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {List<Object> retVal = new ArrayList<>();
+        if (type.equals(UsableInputTableRowType.typePlayer)) {
+            for (Player t : actionContext.getPlayerList().getPlayers())
+                retVal.add(t);
+        }
+        if (type.equals(typeSquare)) {
+            for (Square y[] : actionContext.getBoard().getMap()) {
+                for (Square x : y) {
+                    retVal.add(x);
+                }
+            }
+        }
+
+        return retVal;}
+    public List<Object> isBlackHole(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {List<Object> retVal = new ArrayList<>();
+        if (type.equals(UsableInputTableRowType.typePlayer)) {
+            for (Player t : actionContext.getPlayerList().getPlayers())
+                retVal.add(t);
+        }
+        if (type.equals(typeSquare)) {
+            for (Square y[] : actionContext.getBoard().getMap()) {
+                for (Square x : y) {
+                    retVal.add(x);
+                }
+            }
+        }
+
+        return retVal;}
+    public List<Object> isLongBarrelMode(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {List<Object> retVal = new ArrayList<>();
+        if (type.equals(UsableInputTableRowType.typePlayer)) {
+            for (Player t : actionContext.getPlayerList().getPlayers())
+                retVal.add(t);
+        }
+        if (type.equals(typeSquare)) {
+            for (Square y[] : actionContext.getBoard().getMap()) {
+                for (Square x : y) {
+                    retVal.add(x);
+                }
+            }
+        }
+
+        return retVal;}
+    public List<Object> withRocketJump(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {List<Object> retVal = new ArrayList<>();
+        if (type.equals(UsableInputTableRowType.typePlayer)) {
+            for (Player t : actionContext.getPlayerList().getPlayers())
+                retVal.add(t);
+        }
+        if (type.equals(typeSquare)) {
+            for (Square y[] : actionContext.getBoard().getMap()) {
+                for (Square x : y) {
+                    retVal.add(x);
+                }
+            }
+        }
+
+        return retVal;}
+    public  List<Object> withFragmentingWarHead(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {List<Object> retVal = new ArrayList<>();
+        if (type.equals(UsableInputTableRowType.typePlayer)) {
+            for (Player t : actionContext.getPlayerList().getPlayers())
+                retVal.add(t);
+        }
+        if (type.equals(typeSquare)) {
+            for (Square y[] : actionContext.getBoard().getMap()) {
+                for (Square x : y) {
+                    retVal.add(x);
+                }
+            }
+        }
+
+        return retVal;}
+    public  List<Object> inRocketFistMode(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {List<Object> retVal = new ArrayList<>();
+        if (type.equals(UsableInputTableRowType.typePlayer)) {
+            for (Player t : actionContext.getPlayerList().getPlayers())
+                retVal.add(t);
+        }
+        if (type.equals(typeSquare)) {
+            for (Square y[] : actionContext.getBoard().getMap()) {
+                for (Square x : y) {
+                    retVal.add(x);
+                }
+            }
+        }
+
+        return retVal;}
+    public  List<Object> withShadowStep(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {List<Object> retVal = new ArrayList<>();
+        if (type.equals(UsableInputTableRowType.typePlayer)) {
+            for (Player t : actionContext.getPlayerList().getPlayers())
+                retVal.add(t);
+        }
+        if (type.equals(typeSquare)) {
+            for (Square y[] : actionContext.getBoard().getMap()) {
+                for (Square x : y) {
+                    retVal.add(x);
+                }
+            }
+        }
+
+        return retVal;}
+    public  List<Object> isPolverizeMode(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {List<Object> retVal = new ArrayList<>();
+        if (type.equals(UsableInputTableRowType.typePlayer)) {
+            for (Player t : actionContext.getPlayerList().getPlayers())
+                retVal.add(t);
+        }
+        if (type.equals(typeSquare)) {
+            for (Square y[] : actionContext.getBoard().getMap()) {
+                for (Square x : y) {
+                    retVal.add(x);
+                }
+            }
+        }
+
+        return retVal;}
+
+    /*********/
     public List<Object> inverted(String preconditionName, ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
         List<Object> retVal = new ArrayList<>();
         Action a = new Action();
@@ -47,6 +260,10 @@ public class PreConditionMethodsInverted {
         }
         return retVal;
     }
+    public List<Object> distanceOfTargetFromPlayerExactlyOne(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
+    return distanceOfTargetFromPlayerSquareIs1(actionContext,type,actionDetails,inputs,inputSlots);
+    }
+
         public List<Object> targetInLastSquareSelected(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
         List<Object> retVal = new ArrayList<>();
 

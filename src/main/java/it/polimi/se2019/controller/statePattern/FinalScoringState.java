@@ -12,17 +12,20 @@ public class FinalScoringState implements State {
     @Override
     public void askForInput(Player playerToAsk) {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        //empty
     }
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
         System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        //TODO lot of stuff here
+        System.exit(0);
 
     }
 
     @Override
     public void handleAFK() {
         System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
-
+        //empty
     }
 }

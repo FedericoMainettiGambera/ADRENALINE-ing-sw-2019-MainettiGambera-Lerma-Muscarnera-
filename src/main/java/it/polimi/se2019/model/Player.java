@@ -1,11 +1,15 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
+import it.polimi.se2019.controller.statePattern.FinalScoringState;
 import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.view.components.PlayerV;
 import it.polimi.se2019.virtualView.RMI.RMIInterface;
+import it.polimi.se2019.virtualView.Socket.ConnectionHandlerVirtualView;
 
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
@@ -23,7 +27,7 @@ public class Player extends Person implements Serializable {
 
     /*-*****************************************************************************************************ATTRIBUTES*/
     /***/
-    private PlayerHand hand;
+    private transient PlayerHand hand;
 
     public PlayerHistory getPlayerHistory() {
         return playerHistory;
@@ -34,7 +38,7 @@ public class Player extends Person implements Serializable {
     }
 
     /***/
-    PlayerHistory playerHistory;
+    public transient PlayerHistory playerHistory;
 
     /***/
     private String IP;
@@ -56,11 +60,57 @@ public class Player extends Person implements Serializable {
         return isAFK;
     }
 
-    public void setIsAFK(boolean isAFK){
+
+
+    public void setAFKWithNotify(boolean isAFK){
+        //notify everybody, even the one just setted AFK
+        regulateNumberOfConnection(isAFK);
         this.isAFK = isAFK;
         setChanged();
-        notifyObservers(new ModelViewEvent(this.isAFK, ModelViewEventTypes.setAFK, nickname));
+        ModelViewEvent MVE = new ModelViewEvent(this.isAFK, ModelViewEventTypes.setAFK, nickname);
+        //because the player has just been set AFK, he can't be reached with the notify observers, so we force to send him the afk message, so he disconnects
+        try {
+            this.oos.writeObject(MVE);
+        } catch (IOException e) {
+            System.err.println("Couldn't reach the player to tell him he is AFK. From method Player.setAFKWithNotify(...)");
+        }
+        //this notify every other player.
+        if(this.isAFK == false) {
+            notifyObservers(MVE);
+        }
+        if(ModelGate.model.getPlayerList().isMinimumPlayerNotAFK()){
+            System.out.println("<SERVER> too many AFK players. Game is Corrupted. From method Player.setAFKWithNotify(...)");
+            ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
+            ViewControllerEventHandlerContext.state.doAction(null);
+        }
     }
+
+    public void setAFKWIthoutNotify(boolean isAFK){
+        //notify everybody except the one just setted AFK
+        regulateNumberOfConnection(isAFK);
+        this.isAFK = isAFK;
+        setChanged();
+        ModelViewEvent MVE = new ModelViewEvent(this.isAFK, ModelViewEventTypes.setAFK, nickname);
+        //this notify every other player.
+        if(this.isAFK == false) {
+            notifyObservers(MVE);
+        }
+        if(ModelGate.model.getPlayerList().isMinimumPlayerNotAFK()){
+            System.out.println("<SERVER> too many AFK players. Game is Corrupted. From method Player.setAFKWithoutNotify(...)");
+            ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
+            ViewControllerEventHandlerContext.state.doAction(null);
+        }
+    }
+
+    public void regulateNumberOfConnection(boolean lostConnection){
+        if(lostConnection){
+            ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected()-1);
+        }
+        else{
+            ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected()+1);
+        }
+    }
+
 
 
     /*-********************************************************************************************************METHODS*/

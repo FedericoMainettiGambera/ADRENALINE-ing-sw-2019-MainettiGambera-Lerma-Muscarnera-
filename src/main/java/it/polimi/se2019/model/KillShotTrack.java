@@ -85,15 +85,21 @@ public class KillShotTrack extends Observable implements Serializable {
         List<KillsV> listOfKillsV = new ArrayList<>();
         KillsV tempKill;
         for (Kill k: this.kills) {
-            tempKill = new KillsV();
-            try {
-                tempKill.setKillingPlayer(k.getKillingPlayer().getNickname());
-                tempKill.setSkull(k.isSkull());
-                tempKill.setOverKill(k.isOverKill());
-                tempKill.setOverKillingPlayer(k.getOverKillingPlayer().getNickname());
-                listOfKillsV.add(tempKill);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if(k!=null) {
+                tempKill = new KillsV();
+                try {
+                    if (k.getKillingPlayer() != null) {
+                        tempKill.setKillingPlayer(k.getKillingPlayer().getNickname());
+                    }
+                    tempKill.setSkull(k.isSkull());
+                    tempKill.setOverKill(k.isOverKill());
+                    if (k.getOverKillingPlayer() != null) {
+                        tempKill.setOverKillingPlayer(k.getOverKillingPlayer().getNickname());
+                    }
+                    listOfKillsV.add(tempKill);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
         killShotTrackV.setKillsV(listOfKillsV);

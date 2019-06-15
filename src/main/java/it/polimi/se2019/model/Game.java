@@ -169,21 +169,25 @@ public class Game extends Observable implements Serializable {
         int fileCount = directory.list().length;
         for(int i = 1; i< fileCount+1; i++) {
             try {
-                /* TO BUILD A DECK OF CARD YOU WANT ( DEBUGGING ) :
-                WeaponCard card= new WeaponCard("" + 27);
+
+                /* TO BUILD A DECK OF CARD YOU WANT ( DEBUGGING ) :*/
+                /*
+                WeaponCard card= new WeaponCard("" + 1);
                 card.reload();
                 tempWeaponDeck.addCard(card);
-                System.out.println("<SERVER> building weapon cards ID: " + 27 );
-                WeaponCard card2= new WeaponCard("" + 26);
+                System.out.println("<SERVER> building weapon cards ID: " + 1 );
+                WeaponCard card2= new WeaponCard("" + 2);
                 card2.reload();
                 tempWeaponDeck.addCard(card2);
-                System.out.println("<SERVER> building weapon cards ID: " + 26);
+                System.out.println("<SERVER> building weapon cards ID: " + 2);
                 */
+
 
                 WeaponCard card= new WeaponCard("" + i);
                 card.reload();
                 tempWeaponDeck.addCard(card);
                 System.out.println("<SERVER> building weapon cards ID: " + i);
+
 
             }
             catch(Exception e) {
@@ -280,15 +284,20 @@ public class Game extends Observable implements Serializable {
 
     public GameV buildGameV(){
         GameV gameV = new GameV();
-
-        gameV.setPlayers(this.players.buildPlayersListV());
-        gameV.setBoard(this.board.buildBoardV());
+        if(this.players!=null) {
+            gameV.setPlayers(this.players.buildPlayersListV());
+        }
+        if(this.board!=null) {
+            gameV.setBoard(this.board.buildBoardV());
+        }
         gameV.setPowerUpDiscardPile(this.powerUpDiscardPile.buildDeckV());
         gameV.setAmmoDiscardPile(this.ammoDiscardPile.buildDeckV());
         gameV.setAmmoDeck(this.ammoDeck.buildDeckV());
         gameV.setWeaponDeck(this.weaponDeck.buildDeckV());
         gameV.setPowerUpDeck(this.powerUpDeck.buildDeckV());
-        gameV.setKillshotTrack(this.killshotTrack.buildKillshotTrackV());
+        if(this.killshotTrack!=null) {
+            gameV.setKillshotTrack(this.killshotTrack.buildKillshotTrackV());
+        }
         gameV.setHasFinalFrenzyBegun(this.hasFinalFrenzyBegun);
         gameV.setFinalFrenzy(this.isFinalFrenzy);
 
