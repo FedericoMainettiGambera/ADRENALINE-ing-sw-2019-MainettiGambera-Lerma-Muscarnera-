@@ -29,7 +29,7 @@ public class RMINetworkHandler extends NetworkHandler{
         rmiObsHandler = new RMIObsHandler(view);
 
 
-        System.out.println("<CLIENT> " + "~~ Welcome To RMI Adrenaline Server~~   " + "Ready to Play? Cool! just a few steps before!");
+        System.out.println("<CLIENT> " + "Welcome To RMI Adrenaline Server" + "Ready to Play? Cool! just a few steps before!");
         System.out.println("<CLIENT> " + "Connecting To RMI Server...\n");
 
 
@@ -41,7 +41,7 @@ public class RMINetworkHandler extends NetworkHandler{
             //TODO here it has some problem sometimes
             if (rmiInterface.numberOfConnection() <= GameConstant.maxNumberOfPlayerPerGame) {
 
-             client = new Client(rmiInterface, rmiInterface.getRmiIdentifier());
+                client = new Client(rmiInterface, rmiInterface.getRmiIdentifier());
 
                 System.out.println("<CLIENT> your RMIIdentifier in class NetworkHandler is: " + rmiInterface.getRmiIdentifier());
                 rmiInterface.addClientToList(client);
@@ -72,6 +72,7 @@ public class RMINetworkHandler extends NetworkHandler{
     }
 
     public static void disconnect(){
+
         //todo
         //from internet:
         //Your client's disconnect method should be calling the server's unregister method

@@ -9,6 +9,7 @@ import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.PlayersList;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
+import it.polimi.se2019.networkHandler.sendPingRequest;
 import it.polimi.se2019.virtualView.VirtualView;
 
 import java.io.IOException;
@@ -56,6 +57,7 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
         if(ModelGate.model.getPlayerList()!=null && ModelGate.model.getPlayerList().getPlayers()!=null){
             for (Player p : ModelGate.model.getPlayerList().getPlayers()) {
                 if(!p.isAFK() && p.getRmiInterface()!=null){
+
                    p.getRmiInterface().getClient(i).sendToClient(i,o);
                     i++;
                 }
