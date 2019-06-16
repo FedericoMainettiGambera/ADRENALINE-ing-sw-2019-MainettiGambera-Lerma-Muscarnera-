@@ -141,6 +141,8 @@ public class ShootPeopleAskForInputState implements State {
                 infoType.equals(EffectInfoType.targetBySameSquareOfPlayer)||
                 infoType.equals(EffectInfoType.targetListByLastTargetSelectedSquare)
         ){
+            Object[] inputRow = new Object[10];
+            this.chosenEffect.handleRow(this.chosenEffect.getEffectInfo().getEffectInfoElement().get(getInputRequestCounter()),inputRow);
             return false;
         }
         return true;
