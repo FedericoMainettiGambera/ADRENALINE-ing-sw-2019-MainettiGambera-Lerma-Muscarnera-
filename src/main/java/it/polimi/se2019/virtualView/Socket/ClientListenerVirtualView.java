@@ -48,8 +48,12 @@ public class ClientListenerVirtualView extends Observable implements Runnable{
                 o = ois.readObject();
             }
             catch (IOException|ClassNotFoundException e){
-                System.err.println("Error in read object. Closing ClientListenerVirtualView.");
+                System.err.println("Error in read object from class ClientListenerVirtualView.");
                 break;
+            }
+            catch (InternalError e){
+                System.err.println("Something went Wrong in class ClientListenerVirtualView..." + e.getMessage());
+                e.printStackTrace();
             }
 
             if(o.getClass().toString().contains("ViewControllerEvent")) {

@@ -94,8 +94,6 @@ public class GrabStuffStateGrabWeapon implements  State {
                 System.out.println("<SERVER> There are no weapon to pick up, asking another action to the user.");
                 ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
                 ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
-                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
-                this.inputTimer.start();
             }
             else{
                 try {

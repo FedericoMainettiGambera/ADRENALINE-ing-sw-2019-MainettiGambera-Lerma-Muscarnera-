@@ -46,6 +46,10 @@ public class ServerListenerNetworkHandler extends Observable implements Runnable
                 this.setChanged();
                 this.notifyObservers(E);
             }
+            catch (InternalError e){
+                System.err.println("Something went Wrong in class ServerListenerNetworkHandler..." + e.getMessage());
+                e.printStackTrace();
+            }
             catch (IOException|ClassNotFoundException e) {
                 OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
                 break;
