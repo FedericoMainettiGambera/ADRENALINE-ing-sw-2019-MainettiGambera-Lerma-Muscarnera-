@@ -18,8 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-import static it.polimi.se2019.model.enumerations.CardinalPoint.east;
-import static it.polimi.se2019.model.enumerations.CardinalPoint.south;
+import static it.polimi.se2019.model.enumerations.CardinalPoint.*;
 
 
 /***/
@@ -107,103 +106,50 @@ public class Board{
 
     public int distanceFromTo(Position from, Position to) throws Exception {
         boolean found = false;
-        int distance = 0;
+        int distanceN = 0;
+
+        //checks if the position exists on the board
+        if(from.getY()>=this.board[0].length || from.getX()>=this.board.length || to.getY()>=this.board[0].length || to.getX()>=this.board.length){
+            throw new Exception("the desired positions are outside the map dimensions");
+        }
         if(this.board[from.getX()][from.getY()] == null || this.board[to.getX()][to.getY()]==null){
             throw new Exception("the selected square doesn't exist in the map.");
         }
-        while (!found){
-            ArrayList<Position> positionsCalculated = this.possiblePositions(from,distance);
-            if(positionsCalculated.contains(to)){
-                found=true;
-            }
-            else{
-                if(distance == 14){
-                    throw new Exception("found all the reachable positions, and it wasn't possible to calculate the desired distance.");
+
+        ArrayList<Position> positionsAtDistanceN = new ArrayList<>();
+        ArrayList<Position> tempPosition;
+
+        //checks if from and to are the same position.
+        positionsAtDistanceN.add(from);
+        if(contains(positionsAtDistanceN,to)){
+            return distanceN;
+        }
+
+        //cycle until found the desired distance.
+        while (true){
+            //increment distance
+            distanceN++;
+
+            //add to positionsAtDistanceN all the new reachable positions from the new distanceN value
+            for (Position p: positionsAtDistanceN) {
+                tempPosition= possiblePositions(p,1);
+                for (Position tempP: tempPosition) {
+                    if(!contains(positionsAtDistanceN,tempP)){
+                        positionsAtDistanceN.add(tempP);
+                    }
                 }
-                distance++;
+            }
+
+            //chacks if it has found the "to" position
+            if(contains(positionsAtDistanceN,to)){
+                return distanceN;
+            }
+
+            //if distanceN is >= 4*3 (dimension of the map, i've put 15 for sureness..) it should have visited the whole grid
+            if(distanceN >= 15){
+                throw new Exception("couldn't calculate the distance, already visited the entire map but have not found the \"to\" position.");
             }
         }
-        return distance;
-        /*
-        boolean found = false;
-
-        ArrayList<Position> possiblePositions = new ArrayList<>();
-
-        possiblePositions.add(from);
-
-        ArrayList<Position> possiblePositionsToAddInNextCycle = new ArrayList<>();
-
-        Square tempSquare;
-
-        Position tempPos = from;
-
-        int numberOfMoves=0;
-        boolean toAdd = true;
-        while (!found) {
-            if(contains(possiblePositions,to)){
-                found = true;
-            }
-            for (int j = 0; j < possiblePositions.size(); j++) {
-
-                //System.out.println("Starting position: " + startingPosition);
-                //System.out.println("Calculating possible position considering coordinates (X: " + possiblePositions.get(j).getX() + ", Y: " + possiblePositions.get(j).getY() +")");
-                //pay attention to the this.board.lenght and the this.board[0].lenght, they are inverted and makes confusion.
-                tempSquare = this.board[possiblePositions.get(j).getX()][possiblePositions.get(j).getY()];
-
-                //NORTH
-                if( ( tempSquare.getSide(CardinalPoint.north) != SquareSide.wall ) //non ci sia un muro
-                        && (possiblePositions.get(j).getX()!=0)  //non siamo sul bordo della mappa
-                        && (this.board[possiblePositions.get(j).getX()-1][possiblePositions.get(j).getY()] != null)){ //la casella che stiamo osservando non sia vuota
-                    tempPos = new Position(possiblePositions.get(j).getX()-1,possiblePositions.get(j).getY());
-                    if(!contains(possiblePositions, tempPos) && !contains(possiblePositionsToAddInNextCycle,tempPos)){
-                        //System.out.println("adding north: (X: " + tempPos.getX() + ", Y: " + tempPos.getY() +")");
-                        possiblePositionsToAddInNextCycle.add(tempPos);
-                    }
-                }
-
-                //SOUTH
-                if( ( tempSquare.getSide(south) != SquareSide.wall ) //non ci sia un muro
-                        && (possiblePositions.get(j).getX() != this.board.length-1)  //non siamo sul bordo della mappa
-                        && (this.board[possiblePositions.get(j).getX()+1][possiblePositions.get(j).getY()] != null)){ //la casella che stiamo osservando non sia vuota
-                    tempPos = new Position(possiblePositions.get(j).getX()+1,possiblePositions.get(j).getY());
-                    if(!contains(possiblePositions, tempPos) && !contains(possiblePositionsToAddInNextCycle,tempPos)){
-                        //System.out.println("adding south: (X: " + tempPos.getX() + ", Y: " + tempPos.getY() +")");
-                        possiblePositionsToAddInNextCycle.add(tempPos);
-                    }
-                }
-
-                //EAST
-                if(( tempSquare.getSide(east) != SquareSide.wall ) //non ci sia un muro
-                        && (possiblePositions.get(j).getY() != this.board[0].length-1)  //non siamo sul bordo della mappa
-                        && (this.board[possiblePositions.get(j).getX()][possiblePositions.get(j).getY()+1] != null)){ //la casella che stiamo osservando non sia vuota
-                    tempPos = new Position(possiblePositions.get(j).getX(),possiblePositions.get(j).getY()+1);
-                    if(!contains(possiblePositions, tempPos) && !contains(possiblePositionsToAddInNextCycle,tempPos)){
-                        //System.out.println("adding east: (X: " + tempPos.getX() + ", Y: " + tempPos.getY() +")");
-                        possiblePositionsToAddInNextCycle.add(tempPos);
-                    }
-                }
-
-                //WEST
-                if(( tempSquare.getSide(CardinalPoint.west) != SquareSide.wall ) //non ci sia un muro
-                        && (possiblePositions.get(j).getY() != 0)  //non siamo sul bordo della mappa
-                        && (this.board[possiblePositions.get(j).getX()][possiblePositions.get(j).getY()-1] != null)){ //la casella che stiamo osservando non sia vuota
-                    tempPos = new Position(possiblePositions.get(j).getX(),possiblePositions.get(j).getY()-1);
-                    if(!contains(possiblePositions, tempPos) && !contains(possiblePositionsToAddInNextCycle,tempPos)){
-                        //System.out.println("adding west: (X: " + tempPos.getX() + ", Y: " + tempPos.getY() +")");
-                        possiblePositionsToAddInNextCycle.add(tempPos);
-                    }
-                }
-            }
-            possiblePositions.addAll(possiblePositionsToAddInNextCycle);
-            possiblePositionsToAddInNextCycle.clear();
-
-            numberOfMoves++;
-            if(numberOfMoves >= this.board.length*this.board[0].length){
-                throw new Exception("can't find square");
-            }
-        }
-        return numberOfMoves;
-        */
     }
 
    private Square[][] buildMap(String chosenMap) throws IOException{
