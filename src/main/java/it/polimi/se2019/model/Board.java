@@ -107,6 +107,25 @@ public class Board{
 
     public int distanceFromTo(Position from, Position to) throws Exception {
         boolean found = false;
+        int distance = 0;
+        if(this.board[from.getX()][from.getY()] == null || this.board[to.getX()][to.getY()]==null){
+            throw new Exception("the selected square doesn't exist in the map.");
+        }
+        while (!found){
+            ArrayList<Position> positionsCalculated = this.possiblePositions(from,distance);
+            if(positionsCalculated.contains(to)){
+                found=true;
+            }
+            else{
+                if(distance == 14){
+                    throw new Exception("found all the reachable positions, and it wasn't possible to calculate the desired distance.");
+                }
+                distance++;
+            }
+        }
+        return distance;
+        /*
+        boolean found = false;
 
         ArrayList<Position> possiblePositions = new ArrayList<>();
 
@@ -184,6 +203,7 @@ public class Board{
             }
         }
         return numberOfMoves;
+        */
     }
 
    private Square[][] buildMap(String chosenMap) throws IOException{
