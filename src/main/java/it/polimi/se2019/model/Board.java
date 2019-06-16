@@ -59,7 +59,7 @@ public class Board{
 
 
 
-   public Position getSpawnpointOfColor(AmmoCubesColor color)throws NullPointerException, Exception{
+    public Position getSpawnpointOfColor(AmmoCubesColor color)throws NullPointerException, Exception{
         int g=0;
 
         if(color.equals(AmmoCubesColor.yellow)){
@@ -166,46 +166,7 @@ public class Board{
         }
     }
 
-    public static void main (String[] args) throws IOException {
-        testingDistance("map0");
-        testingDistance("map1");
-        testingDistance("map2");
-        testingDistance("map3");
-    }
-
-    public static void testingDistance(String map){
-        System.out.println("\n\n\n\n\n\ntesting map: " + map);
-        Board board = null;
-        try {
-            board = new Board(map, null, null);
-        } catch (IOException e) {
-            System.err.println("ERROR: " + map + "      doesn't exist.");
-            return;
-        }
-        System.out.println("Calculating all possibles distance and even exceeding the limits of the map...");
-        System.out.println(board.toString());
-
-        Position from;
-        Position to;
-        for (int i = 0; i < board.getMap()[0].length ; i++) {
-            for (int j = 0; j < board.getMap().length; j++) {
-                for (int k = 0; k < board.getMap()[0].length; k++) {
-                    for (int l = 0; l < board.getMap().length; l++) {
-                        from = new Position(j,i);
-                        to = new Position(l,k);
-                        try {
-                            System.out.println("Distance from position [" + from.getX() + "][" + from.getY() + "] to position [" + to.getX() + "][" + to.getY() + "] is: " + board.distanceFromTo(from,to));
-                        } catch (Exception e) {
-                            System.err.println("EXCEPTION: " + e.getMessage() + "       during the calculation of distance from position [" + from.getX() + "][" + from.getY() + "] to position [" + to.getX() + "][" + to.getY() + "]");
-                        }
-                    }
-                }
-            }
-        }
-
-    }
-
-   private Square[][] buildMap(String chosenMap) throws IOException{
+    private Square[][] buildMap(String chosenMap) throws IOException{
         Square[][] map = new Square[3][4];
         SquareSide[] sides = new SquareSide[4];
         SquareTypes type;

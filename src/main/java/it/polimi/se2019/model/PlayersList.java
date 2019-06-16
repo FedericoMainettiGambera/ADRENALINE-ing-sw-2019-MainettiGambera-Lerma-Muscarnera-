@@ -113,8 +113,10 @@ public class PlayersList extends Observable implements Serializable {
      * */
     public void addPlayer(Player player) {
         this.players.add(player);
-        player.addObserver(ViewControllerEventHandlerContext.socketVV);
-        player.addObserver(ViewControllerEventHandlerContext.RMIVV);
+        if(ViewControllerEventHandlerContext.socketVV!=null && ViewControllerEventHandlerContext.RMIVV!=null) {
+            player.addObserver(ViewControllerEventHandlerContext.socketVV);
+            player.addObserver(ViewControllerEventHandlerContext.RMIVV);
+        }
         setChanged();
         notifyObservers(new ModelViewEvent(this.buildPlayersListV(), ModelViewEventTypes.newPlayersList));
     }
