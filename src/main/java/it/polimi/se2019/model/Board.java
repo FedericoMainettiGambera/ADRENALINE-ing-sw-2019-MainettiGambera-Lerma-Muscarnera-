@@ -10,10 +10,12 @@ import it.polimi.se2019.view.components.NormalSquareV;
 import it.polimi.se2019.view.components.SpawnPointSquareV;
 import it.polimi.se2019.view.components.SquareV;
 import it.polimi.se2019.virtualView.VirtualView;
+import javafx.geometry.Pos;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -112,11 +114,15 @@ public class Board{
         if(from.getY()>=this.board[0].length || from.getX()>=this.board.length || to.getY()>=this.board[0].length || to.getX()>=this.board.length){
             throw new Exception("the desired positions are outside the map dimensions");
         }
+        if(from.getY()<0 || from.getX()<0 || to.getY()<0 || to.getX()<0){
+            throw new Exception("cannot search for distance of negative positions.");
+        }
         if(this.board[from.getX()][from.getY()] == null || this.board[to.getX()][to.getY()]==null){
             throw new Exception("the selected square doesn't exist in the map.");
         }
 
         ArrayList<Position> positionsAtDistanceN = new ArrayList<>();
+        ArrayList<Position> toAddInNextIteration = new ArrayList<>();
         ArrayList<Position> tempPosition;
 
         //checks if from and to are the same position.
@@ -131,14 +137,22 @@ public class Board{
             distanceN++;
 
             //add to positionsAtDistanceN all the new reachable positions from the new distanceN value
-            for (Position p: positionsAtDistanceN) {
+            Position p;
+            Position tempP;
+            toAddInNextIteration = new ArrayList<>();
+            for (int i = 0; i < positionsAtDistanceN.size() ; i++) {
+                p=positionsAtDistanceN.get(i);
+
                 tempPosition= possiblePositions(p,1);
-                for (Position tempP: tempPosition) {
+                for (int j = 0; j < tempPosition.size(); j++) {
+                    tempP = tempPosition.get(j);
+
                     if(!contains(positionsAtDistanceN,tempP)){
-                        positionsAtDistanceN.add(tempP);
+                        toAddInNextIteration.add(tempP);
                     }
                 }
             }
+            positionsAtDistanceN.addAll(toAddInNextIteration);
 
             //chacks if it has found the "to" position
             if(contains(positionsAtDistanceN,to)){
@@ -150,6 +164,45 @@ public class Board{
                 throw new Exception("couldn't calculate the distance, already visited the entire map but have not found the \"to\" position.");
             }
         }
+    }
+
+    public static void main (String[] args) throws IOException {
+        testingDistance("map0");
+        testingDistance("map1");
+        testingDistance("map2");
+        testingDistance("map3");
+    }
+
+    public static void testingDistance(String map){
+        System.out.println("\n\n\n\n\n\ntesting map: " + map);
+        Board board = null;
+        try {
+            board = new Board(map, null, null);
+        } catch (IOException e) {
+            System.err.println("ERROR: " + map + "      doesn't exist.");
+            return;
+        }
+        System.out.println("Calculating all possibles distance and even exceeding the limits of the map...");
+        System.out.println(board.toString());
+
+        Position from;
+        Position to;
+        for (int i = 0; i < board.getMap()[0].length ; i++) {
+            for (int j = 0; j < board.getMap().length; j++) {
+                for (int k = 0; k < board.getMap()[0].length; k++) {
+                    for (int l = 0; l < board.getMap().length; l++) {
+                        from = new Position(j,i);
+                        to = new Position(l,k);
+                        try {
+                            System.out.println("Distance from position [" + from.getX() + "][" + from.getY() + "] to position [" + to.getX() + "][" + to.getY() + "] is: " + board.distanceFromTo(from,to));
+                        } catch (Exception e) {
+                            System.err.println("EXCEPTION: " + e.getMessage() + "       during the calculation of distance from position [" + from.getX() + "][" + from.getY() + "] to position [" + to.getX() + "][" + to.getY() + "]");
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
    private Square[][] buildMap(String chosenMap) throws IOException{
