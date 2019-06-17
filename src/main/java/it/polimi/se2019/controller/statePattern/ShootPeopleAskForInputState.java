@@ -53,8 +53,6 @@ public class ShootPeopleAskForInputState implements State {
         this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
-        int counter = 0;
-
         EffectInfoType inputType = this.chosenEffect.getEffectInfo().getEffectInfoElement().get(getInputRequestCounter()).getEffectInfoTypelist();
 
         if(isToSend(inputType)) {
@@ -83,9 +81,7 @@ public class ShootPeopleAskForInputState implements State {
         System.out.println("<SERVER> " + this.getClass() + ".doAction();");
 
         List<Object> response = ((ViewControllerEventListOfObject)VCE).getAnswer();
-
-        EffectInfoType currentInputType = this.chosenEffect.getEffectInfo().getEffectInfoElement().get(getInputRequestCounter()).getEffectInfoTypelist();
-
+        
         Object[] inputRow = new Object[10];
 
         int inputRowCurrent = 0;
