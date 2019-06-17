@@ -765,20 +765,20 @@ public class CLISelector implements SelectorV {
             ArrayList<String> requestsString = new ArrayList<>();
 
             for (int j = 0; j < request ; j++) {
-                if(possibleInputs.get(0).getClass().toString().contains("Player")){
+                if(possibleInputs.get(0).getClass().toString().contains("PlayerV")){
                     System.out.println("<Client> please choose one of the following players: ");
-                    Player p;
+                    PlayerV p;
                     for (int i = 0; i < possibleInputs.size(); i++) {
-                        p=(Player)possibleInputs.get(i);
+                        p=(PlayerV)possibleInputs.get(i);
                         requestsString.add(p.getNickname());
                     }
                 }
                 else{
                     System.out.println("<Client> please choose one of the following squares: ");
-                    Square s;
+                    SquareV s;
                     for (int i = 0; i < possibleInputs.size(); i++) {
-                        s=(Square)possibleInputs.get(i);
-                        requestsString.add("[" + s.getCoordinates().getX() + "][" + s.getCoordinates().getY() + "]" );
+                        s=(SquareV)possibleInputs.get(i);
+                        requestsString.add("[" + s.getX() + "][" + s.getY() + "]" );
                     }
                 }
                 CLISelector.showListOfRequests(requestsString);
