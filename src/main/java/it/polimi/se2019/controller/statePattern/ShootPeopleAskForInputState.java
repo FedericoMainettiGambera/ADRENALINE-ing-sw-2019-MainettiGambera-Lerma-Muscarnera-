@@ -9,6 +9,8 @@ import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventListOfObject;
+import it.polimi.se2019.view.components.PlayerV;
+import it.polimi.se2019.view.components.SquareV;
 
 import java.util.List;
 
@@ -88,7 +90,12 @@ public class ShootPeopleAskForInputState implements State {
 
         int inputRowCurrent = 0;
         for(Object o: response) {
-            inputRow[inputRowCurrent] = o;
+            if(o.getClass().toString().contains("PlayerV")){
+                inputRow[inputRowCurrent] = ModelGate.model.getPlayerList().getPlayer(((PlayerV)o).getNickname());
+            }
+            else{
+                inputRow[inputRowCurrent] = ModelGate.model.getBoard().getMap()[((SquareV)o).getX()][((SquareV)o).getY()];
+            }
             inputRowCurrent++;
         }
 
