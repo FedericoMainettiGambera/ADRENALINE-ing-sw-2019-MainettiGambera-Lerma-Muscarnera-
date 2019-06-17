@@ -425,12 +425,14 @@ public class Effect implements Serializable {
                         {
                             System.out.println("dominio precondizione '" +  this.getActions().get(k).getActionInfo().getPreConditionMethodName() + "' : interseco con.." + intermediateList.get(i).get(k)  );
                             for (Object d : (List<Object>) intermediateList.get(i).get(k)) {
-                                if(d.getClass().toString().equals("class it.polimi.se2019.model.Player")) {
+                            if(d != null) {
+                                if (d.getClass().toString().equals("class it.polimi.se2019.model.Player")) {
                                     System.out.println(((Player) d).getNickname());
                                 } else {
                                     System.out.println("[" + ((Square) d).getCoordinates().getX() + ", " + ((Square) d).getCoordinates().getX() + "]");
 
                                 }
+                            }
                             }
                             retVal.get(i).set(j,
                                     intersect(
