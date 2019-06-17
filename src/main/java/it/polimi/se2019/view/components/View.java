@@ -510,6 +510,11 @@ public class View implements Observer {
             case askNickname:
                 this.selector.askNickname();
                 break;
+
+            case paymentInformation:
+                this.selector.askPaymentInformation((SelectorEventPaymentInformation)SE);
+                break;
+
             default: break;
         }
     }

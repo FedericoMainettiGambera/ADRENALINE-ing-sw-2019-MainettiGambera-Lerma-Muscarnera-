@@ -6,6 +6,7 @@ import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
+import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,4 +53,5 @@ public interface Selector {
 
     public void askNickname();
 
+    public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformation);
 }

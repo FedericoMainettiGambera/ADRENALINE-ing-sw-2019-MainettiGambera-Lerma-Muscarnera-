@@ -177,4 +177,9 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     public void askNickname() {
         //must be empty
     }
+
+    @Override
+    public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformation) {
+        SocketVirtualView.sendToClient(playerToAsk, SEPaymentInformation);
+    }
 }

@@ -16,7 +16,6 @@ public class GrabStuffState implements State {
     private Thread inputTimer;
 
     public GrabStuffState(int actionNumber){
-        this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }

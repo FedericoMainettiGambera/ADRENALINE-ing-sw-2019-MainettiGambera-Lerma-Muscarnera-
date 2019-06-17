@@ -18,5 +18,6 @@ public enum SelectorEventTypes {
     askWhatWep,
     askWhatEffect,
     askEffectInputs,
-    askNickname
+    askNickname,
+    paymentInformation
 }

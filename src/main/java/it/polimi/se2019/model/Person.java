@@ -328,13 +328,29 @@ public abstract class Person extends Observable implements Serializable {
      * @param quantity
      * @return
      * */
-    public boolean canPayAmmoCubes(AmmoCubesColor color, int quantity){ return this.board.canPayAmmoCubes(color,quantity); }
+    public boolean canPayAmmoCubes(AmmoCubesColor color, int quantity){
+        boolean canPay= this.board.canPayAmmoCubes(color,quantity);
+        if(canPay){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     /**checks if it is possible to subtract a specific amount of ammos
      * @param cost
      * @return
      * */
-    public boolean canPayAmmoCubes(AmmoList cost){ return this.board.canPayAmmoCubes(cost); }
+    public boolean canPayAmmoCubes(AmmoList cost){
+        boolean canPay = this.board.canPayAmmoCubes(cost);
+        if(canPay){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     /** add a specific amount of blood drops (damages) of the shootingPlayer to the (this) player board.
      * if adding damages overkills the this player, it marks the shootingPlayer.

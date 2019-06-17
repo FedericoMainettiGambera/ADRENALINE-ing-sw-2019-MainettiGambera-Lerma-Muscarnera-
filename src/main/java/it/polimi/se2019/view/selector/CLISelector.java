@@ -7,10 +7,12 @@ import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
+import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
 import it.polimi.se2019.model.events.viewControllerEvents.*;
 import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.view.components.*;
+import it.polimi.se2019.view.outputHandler.CLIOutputHandler;
 import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
 import it.polimi.se2019.virtualView.Selector;
 import it.polimi.se2019.virtualView.SelectorV;
@@ -342,7 +344,7 @@ public class CLISelector implements SelectorV {
             CLISelector.showListOfRequests(Arrays.asList("run around","grab stuff", "shoot people"));
 
             //FOR DEBUGGING:
-            int choice = askNumber(0,1);
+            int choice = askNumber(0,2);
             //int choice = askNumber(0,2);
 
             String action = null;
@@ -886,6 +888,57 @@ public class CLISelector implements SelectorV {
             AskNickaname AN = new AskNickaname();
             AN.start();
         }
+    }
+
+    private class AskPaymentInformation extends Thread{
+        private SelectorEventPaymentInformation SEPaymentInformation;
+        public AskPaymentInformation(SelectorEventPaymentInformation SEPaymentInformation){
+            this.SEPaymentInformation = SEPaymentInformation;
+        }
+        @Override
+        public void run() {
+            ArrayList<String> request = new ArrayList<>();
+            ArrayList<Object> answer = new ArrayList<>();
+
+            while(true) {
+                System.out.println("<CLIENT> you have to pay the following amount of ammo: ");
+
+                for (AmmoCubesV a : SEPaymentInformation.getAmount().getAmmoCubesList()) {
+                    System.out.println("         " + a.getColor() + " --> " + a.getQuantity());
+                }
+
+                if (SEPaymentInformation.canPayWithoutPowerUps()) {
+                    request.add("pay the amount with my Ammo box");
+                }
+
+                for (PowerUpCardV p : SEPaymentInformation.getPossibilities()) {
+                    request.add("use " + p.getName() + " for a " + p.getColor() + " ammo");
+                }
+
+                showListOfRequests(request);
+                int choice = askNumber(0, request.size());
+
+                if (choice == 0) {
+                    break;
+                }
+                else{
+                    answer.add(SEPaymentInformation.getPossibilities().get(choice-1));
+                    SEPaymentInformation.getPossibilities().remove(choice-1);
+                }
+
+                if(SEPaymentInformation.getPossibilities().size()==0){
+                    break;
+                }
+            }
+
+            ViewControllerEventPaymentInformation VCEPaymentInformation = new ViewControllerEventPaymentInformation(answer);
+            sendToServer(VCEPaymentInformation);
+        }
+    }
+    @Override
+    public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformormation) {
+        AskPaymentInformation api = new AskPaymentInformation(SEPaymentInformormation);
+        api.start();
     }
 }
 

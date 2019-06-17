@@ -264,5 +264,16 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
         //left empty
     }
 
+    @Override
+    public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformation) {
+        try{
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(), SEPaymentInformation);
+
+        }catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 
 }

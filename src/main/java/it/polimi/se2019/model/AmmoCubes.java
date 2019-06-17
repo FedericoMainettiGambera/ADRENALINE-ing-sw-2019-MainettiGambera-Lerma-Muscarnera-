@@ -38,6 +38,10 @@ public class AmmoCubes implements Serializable {
         return this.quantity;
     }
 
+    public void setQuantity(int quantity){
+        this.quantity = quantity;
+    }
+
     /**@return
      * */
     public AmmoCubesColor getColor(){
