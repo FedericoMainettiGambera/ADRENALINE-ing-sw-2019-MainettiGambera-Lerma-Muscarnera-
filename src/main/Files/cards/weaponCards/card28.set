@@ -1,17 +1,15 @@
 NAME
-PLASMA GUN
-RELOAD COST
-b
-1
-RELOAD COST
-y
-1
+XXX
 
 NEW EFFECT
 EXPECTED INPUT
 singleTarget
 TO
 ALL
+END
+simpleSquareSelect
+TO
+2
 END
 END
 ACTIONS
@@ -20,23 +18,9 @@ ACTION INFO
 PRECONDITION
 youCanSee
 SET
-2
+1
 END
-END
-
-NEW EFFECT
-EXPECTED INPUT
-player
-TO
-ALL
-END
-simpleSquareSelect
-TO
-ALL
-END
-END
-ACTIONS
-Move
+Action
 ACTION INFO
 PRECONDITION
 distanceFromOriginalPositionLessThan2
@@ -56,11 +40,11 @@ ACTION INFO
 PRECONDITION
 youCanSee
 SET
-3
+1
 END
 Action
 ACTION INFO
 PRECONDITION
-withChargedShot
+distanceFromOriginalPositionLessThan2
 END
 END
