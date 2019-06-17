@@ -70,7 +70,7 @@ public class Effect implements Serializable {
 
 
                 List<Object> cell = new ArrayList<>();
-                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers())
+                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard())
                     cell.add((Object) t);
                 List<List<Object>> row = new ArrayList<>();
 
@@ -86,7 +86,7 @@ public class Effect implements Serializable {
 
 
                 List<Object> cell = new ArrayList<>();
-                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers())
+                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard())
                     cell.add((Object) t);
                 List<List<Object>> row = new ArrayList<>();
 
@@ -104,7 +104,7 @@ public class Effect implements Serializable {
 
 
                 List<Object> cell = new ArrayList<>();
-                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers())
+                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard())
                     cell.add((Object) t);
                 List<List<Object>> row = new ArrayList<>();
 
@@ -118,10 +118,10 @@ public class Effect implements Serializable {
 
 
                 List<Object> cell = new ArrayList<>();
-                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers())
+                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard())
                     cell.add((Object) t);
                 List<Object> cell2 = new ArrayList<>();
-                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers())
+                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard())
                     cell2.add((Object) t);
                 List<List<Object>> row = new ArrayList<>();
 
@@ -137,14 +137,14 @@ public class Effect implements Serializable {
 
 
                 List<Object> cell = new ArrayList<>();
-                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers())
+                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard())
                     cell.add((Object) t);
                 List<Object> cell2 = new ArrayList<>();
-                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers())
+                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard())
                     cell2.add((Object) t);
                 List<List<Object>> row = new ArrayList<>();
                 List<Object> cell3 = new ArrayList<>();
-                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers())
+                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard())
                     cell3.add((Object) t);
 
                 row.add(cell);
@@ -185,7 +185,7 @@ public class Effect implements Serializable {
                 if(lastTarget != null)
                     cell.add(this.getActions().get(0).getActionInfo().getActionContext().getBoard().getSquare(lastTarget.getPosition()));
                 else {
-                    for(Player p: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+                    for(Player p: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
                         cell.add(p);
                     }
                 }
@@ -211,7 +211,7 @@ public class Effect implements Serializable {
             }
             if(e.getEffectInfoTypelist() == targetListByRoom) {
                 List<Object> cell = new ArrayList<>();
-                for (Player x : this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+                for (Player x : this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
                     cell.add(x);
                 }
 
@@ -223,7 +223,7 @@ public class Effect implements Serializable {
             }
             if(e.getEffectInfoTypelist() == targetListBySameSquareOfPlayer){
                 List<Object> cell = new ArrayList<>();
-                for (Player x : this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+                for (Player x : this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
                     if(x.getPosition().equals(this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPosition()))
                         cell.add(x);
                 }
@@ -248,7 +248,7 @@ public class Effect implements Serializable {
                                     x.getCoordinates(),
                                     getActions().get(0).getActionInfo().getActionContext().getPlayer().getPosition()
                             ) == 1) {
-                                for(Player p: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+                                for(Player p: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
                                     if(p.getPosition().equals(x.getCoordinates())) {
                                         if(!cell.contains(p))
                                             cell.add(p);
@@ -699,10 +699,10 @@ public class Effect implements Serializable {
                     System.out.println("y");
                     PlayersList ret = new PlayersList();
 
-                    System.out.println("len " + this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers().size());
+                    System.out.println("len " + this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard().size());
 
                     for(Square s : room ) {
-                        for (Player x : this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+                        for (Player x : this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
 
                             if (x.getPosition().getY() == s.getCoordinates().getY())
                                 if (x.getPosition().getX() == s.getCoordinates().getX()) {
@@ -730,11 +730,11 @@ public class Effect implements Serializable {
                     Player me = getActions().get(position).getActionInfo().getActionContext().getPlayer();
                     PlayersList potential = getActions().get(position).getActionInfo().getActionContext().getPlayerList();
                     PlayersList targets = new PlayersList();
-                    for(Player po : potential.getPlayers()) {
+                    for(Player po : potential.getPlayersOnBoard()) {
                         if(po.getPosition().equals(me.getPosition()))
                             targets.addPlayer(po);
                     }
-                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTargetList(targets.getPlayers());
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTargetList(targets.getPlayersOnBoard());
                     for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
                         //   System.out.println(".");
                         a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input, "Target"));
@@ -799,9 +799,9 @@ public class Effect implements Serializable {
                     System.out.println("y");
                     PlayersList ret = new PlayersList();
 
-                    System.out.println("len " + this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers().size());
+                    System.out.println("len " + this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard().size());
 
-                    for(Player x: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+                    for(Player x: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
 
                         if(x.getPosition().getY() == A.getCoordinates().getY())
                             if(x.getPosition().getX() == A.getCoordinates().getX()) {
@@ -932,7 +932,7 @@ public class Effect implements Serializable {
                     List<Player> targets = new ArrayList<>();
                     Player lastTarget = this.getActions().get(position - 1).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
                     Position positionOfLastTarget = lastTarget.getPosition();
-                    for(Player x: getActions().get(position).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+                    for(Player x: getActions().get(position).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
                         if(x.getPosition().equals(positionOfLastTarget)) {
                             targets.add(x);
                         }
@@ -955,7 +955,7 @@ public class Effect implements Serializable {
 
                     Player ret = new Player();
 
-                    for(Player x: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+                    for(Player x: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
                         if(x.equals(B)) {
                             System.out.println("nome");
 
@@ -1060,10 +1060,10 @@ public class Effect implements Serializable {
                     System.out.println("y");
                     PlayersList ret = new PlayersList();
 
-                    System.out.println("len " + this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers().size());
+                    System.out.println("len " + this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard().size());
 
                     for(Square s : room ) {
-                        for (Player x : this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+                        for (Player x : this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
 
                             if (x.getPosition().getY() == s.getCoordinates().getY())
                                 if (x.getPosition().getX() == s.getCoordinates().getX()) {
@@ -1091,11 +1091,11 @@ public class Effect implements Serializable {
                     Player me = getActions().get(position).getActionInfo().getActionContext().getPlayer();
                     PlayersList potential = getActions().get(position).getActionInfo().getActionContext().getPlayerList();
                     PlayersList targets = new PlayersList();
-                    for(Player po : potential.getPlayers()) {
+                    for(Player po : potential.getPlayersOnBoard()) {
                         if(po.getPosition().equals(me.getPosition()))
                             targets.addPlayer(po);
                     }
-                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTargetList(targets.getPlayers());
+                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTargetList(targets.getPlayersOnBoard());
                     for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
                         //   System.out.println(".");
                         a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input[i], "Target"));
@@ -1160,9 +1160,9 @@ public class Effect implements Serializable {
                     System.out.println("y");
                     PlayersList ret = new PlayersList();
 
-                    System.out.println("len " + this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers().size());
+                    System.out.println("len " + this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard().size());
 
-                    for(Player x: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+                    for(Player x: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
 
                         if(x.getPosition().getY() == A.getCoordinates().getY())
                             if(x.getPosition().getX() == A.getCoordinates().getX()) {
@@ -1249,7 +1249,7 @@ public class Effect implements Serializable {
                     int z = 0;
 
 
-                    for(Player p_: enemies.getPlayers()) {
+                    for(Player p_: enemies.getPlayersOnBoard()) {
                         if(!p_.equals(me))
                             try {
                                 System.out.println(p_.getPosition().getX() + "," + p_.getPosition().getY());
@@ -1292,7 +1292,7 @@ public class Effect implements Serializable {
                     List<Player> targets = new ArrayList<>();
                     Player lastTarget = this.getActions().get(position - 1).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
                     Position positionOfLastTarget = lastTarget.getPosition();
-                    for(Player x: getActions().get(position).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+                    for(Player x: getActions().get(position).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
                         if(x.getPosition().equals(positionOfLastTarget)) {
                             targets.add(x);
                         }
@@ -1314,8 +1314,8 @@ public class Effect implements Serializable {
                     String Name = (String) input[i][1];
                     System.out.println("y");
                     Player ret = new Player();
-                    System.out.println("len " + this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers().size());
-                    for(Player x: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayers()) {
+                    System.out.println("len " + this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard().size());
+                    for(Player x: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
                         if(x.getNickname().equals(Name)) {
                             System.out.println("nome");
 

@@ -15,7 +15,7 @@ public class PreConditionMethodsInverted {
     /********/
     public List<Object> isScannerMode(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {List<Object> retVal = new ArrayList<>();
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            for (Player t : actionContext.getPlayerList().getPlayers())
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -29,7 +29,7 @@ public class PreConditionMethodsInverted {
         return retVal;}
     public List<Object> isPunisherMode(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {List<Object> retVal = new ArrayList<>();
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            for (Player t : actionContext.getPlayerList().getPlayers())
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -43,7 +43,7 @@ public class PreConditionMethodsInverted {
         return retVal;}
     public List<Object> isBarbequeMode(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {List<Object> retVal = new ArrayList<>();
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            for (Player t : actionContext.getPlayerList().getPlayers())
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -57,7 +57,7 @@ public class PreConditionMethodsInverted {
         return retVal;}
     public List<Object> isReaperMode(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {List<Object> retVal = new ArrayList<>();
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            for (Player t : actionContext.getPlayerList().getPlayers())
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -71,7 +71,7 @@ public class PreConditionMethodsInverted {
         return retVal;}
     public List<Object> isFocusShot(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {List<Object> retVal = new ArrayList<>();
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            for (Player t : actionContext.getPlayerList().getPlayers())
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -85,7 +85,7 @@ public class PreConditionMethodsInverted {
         return retVal;}
     public List<Object> isTurretTripod(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {List<Object> retVal = new ArrayList<>();
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            for (Player t : actionContext.getPlayerList().getPlayers())
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -99,7 +99,7 @@ public class PreConditionMethodsInverted {
         return retVal;}
     public List<Object> isNanoTracerMode(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {List<Object> retVal = new ArrayList<>();
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            for (Player t : actionContext.getPlayerList().getPlayers())
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -113,7 +113,7 @@ public class PreConditionMethodsInverted {
         return retVal;}
     public List<Object> withChainReaction(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {List<Object> retVal = new ArrayList<>();
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            for (Player t : actionContext.getPlayerList().getPlayers())
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -127,7 +127,7 @@ public class PreConditionMethodsInverted {
         return retVal;}
     public List<Object> withHighVoltage(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {List<Object> retVal = new ArrayList<>();
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            for (Player t : actionContext.getPlayerList().getPlayers())
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -141,7 +141,7 @@ public class PreConditionMethodsInverted {
         return retVal;}
     public List<Object> isBlackHole(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {List<Object> retVal = new ArrayList<>();
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            for (Player t : actionContext.getPlayerList().getPlayers())
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -155,7 +155,7 @@ public class PreConditionMethodsInverted {
         return retVal;}
     public List<Object> isLongBarrelMode(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {List<Object> retVal = new ArrayList<>();
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            for (Player t : actionContext.getPlayerList().getPlayers())
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -169,7 +169,7 @@ public class PreConditionMethodsInverted {
         return retVal;}
     public List<Object> withRocketJump(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {List<Object> retVal = new ArrayList<>();
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            for (Player t : actionContext.getPlayerList().getPlayers())
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -183,7 +183,7 @@ public class PreConditionMethodsInverted {
         return retVal;}
     public  List<Object> withFragmentingWarHead(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {List<Object> retVal = new ArrayList<>();
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            for (Player t : actionContext.getPlayerList().getPlayers())
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -197,7 +197,7 @@ public class PreConditionMethodsInverted {
         return retVal;}
     public  List<Object> inRocketFistMode(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {List<Object> retVal = new ArrayList<>();
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            for (Player t : actionContext.getPlayerList().getPlayers())
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -211,7 +211,7 @@ public class PreConditionMethodsInverted {
         return retVal;}
     public  List<Object> withShadowStep(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {List<Object> retVal = new ArrayList<>();
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            for (Player t : actionContext.getPlayerList().getPlayers())
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -226,7 +226,7 @@ public class PreConditionMethodsInverted {
 
     public  List<Object>  withChargedShot (ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {List<Object> retVal = new ArrayList<>();
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            for (Player t : actionContext.getPlayerList().getPlayers())
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -240,7 +240,7 @@ public class PreConditionMethodsInverted {
         return retVal;}
     public  List<Object> isPolverizeMode(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {List<Object> retVal = new ArrayList<>();
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            for (Player t : actionContext.getPlayerList().getPlayers())
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -262,7 +262,7 @@ public class PreConditionMethodsInverted {
         a.getActionInfo().setPreConditionMethodName(preconditionName);
 
         if(type.equals(typePlayer)) {
-            for(Player p:actionContext.getPlayerList().getPlayers()) {
+            for(Player p:actionContext.getPlayerList().getPlayersOnBoard()) {
 
                 a.getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(p);
                 if(a.getActionInfo().preCondition()) {
@@ -294,7 +294,7 @@ public class PreConditionMethodsInverted {
         if(type.equals(typePlayer)) {
             System.out.println("entro in");
             PreConditionMethods preConditionMethods = new PreConditionMethods();
-            for(Player p: actionContext.getPlayerList().getPlayers()) {
+            for(Player p: actionContext.getPlayerList().getPlayersOnBoard()) {
 
 
 
@@ -335,7 +335,7 @@ public class PreConditionMethodsInverted {
         List<Object> retVal = new ArrayList<>();
 
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            for (Player t : actionContext.getPlayerList().getPlayers())
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -371,7 +371,7 @@ public class PreConditionMethodsInverted {
                         Player t1 = listOfTargets.get(0);
                         int X = 0;
                         int Y = 0;
-                        for(Player p: actionContext.getPlayerList().getPlayers()) {
+                        for(Player p: actionContext.getPlayerList().getPlayersOnBoard()) {
 
                             X += p.getPosition().getX() - t1.getPosition().getX();
                             Y += p.getPosition().getX() - t1.getPosition().getX();
@@ -384,7 +384,7 @@ public class PreConditionMethodsInverted {
                     if(listOfTargets.size()>1) {
                         Player t1 = listOfTargets.get(0);
                         Player t2 = listOfTargets.get(1);
-                        for (Player p : actionContext.getPlayerList().getPlayers()) {
+                        for (Player p : actionContext.getPlayerList().getPlayersOnBoard()) {
                             if
                             (
                                     ((p.getPosition().getX() - t2.getPosition().getX()) == 0) ||
@@ -440,7 +440,7 @@ public class PreConditionMethodsInverted {
             if (type.equals(typePlayer)) {
                 if(actionDetails.getUserSelectedActionDetails().getChosenSquare() != null) {
                     // square selezionato
-                    for (Player C : actionContext.getPlayerList().getPlayers()) {
+                    for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
                         if (actionContext.getBoard().distanceFromTo(
                                 C.getPosition(),
                                 actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates()
@@ -453,7 +453,7 @@ public class PreConditionMethodsInverted {
                     }
 
                 } else {    // square non ancora selezionato
-                    for (Player C : actionContext.getPlayerList().getPlayers()) {
+                    for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
                         retVal.add(C);
                     }
                 }
@@ -500,7 +500,7 @@ public class PreConditionMethodsInverted {
             Square chosenSquare = actionDetails.getUserSelectedActionDetails().getChosenSquare();
             if(chosenSquare != null) {
             // è gia stato selezionato lo square: solo i player che rispettano la precondizione
-                for(Player p:actionContext.getPlayerList().getPlayers()) {
+                for(Player p:actionContext.getPlayerList().getPlayersOnBoard()) {
                     try {
                         if (actionContext.getBoard().distanceFromTo(
                                 chosenSquare.getCoordinates(),
@@ -515,7 +515,7 @@ public class PreConditionMethodsInverted {
                 }
             } else {
             // non è stato ancora selezionato lo square: tutti i player possibii
-                for(Player p:actionContext.getPlayerList().getPlayers()) {
+                for(Player p:actionContext.getPlayerList().getPlayersOnBoard()) {
                     retVal.add(p);
                 }
             }
@@ -529,7 +529,7 @@ public class PreConditionMethodsInverted {
 
         List<Object> retVal = new ArrayList<>();
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            for (Player target : actionContext.getPlayerList().getPlayers()) {
+            for (Player target : actionContext.getPlayerList().getPlayersOnBoard()) {
                 Position A = actionContext.getPlayer().getPosition();
                 Position B = target.getPosition();
                 int Distance = (A.getX() - B.getX()) * (A.getX() - B.getX()) +
@@ -557,7 +557,7 @@ public class PreConditionMethodsInverted {
         System.out.println("tipo input " + type);
         if (type.equals(UsableInputTableRowType.typePlayer)) {
             System.out.println("A");
-            for (Player t : actionContext.getPlayerList().getPlayers())
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -580,7 +580,7 @@ public class PreConditionMethodsInverted {
         List<Object> retVal = new ArrayList<>();
         System.out.println("# verifico che la distanza sia almeno uno");
         Player user = actionContext.getPlayer();
-        for(Player target: actionContext.getPlayerList().getPlayers()) {
+        for(Player target: actionContext.getPlayerList().getPlayersOnBoard()) {
             try {
                 System.out.println("# la distanza è " + actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition()));
                 if (actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition()) > 1)
@@ -598,7 +598,7 @@ public class PreConditionMethodsInverted {
         Player me = actionContext.getPlayer();
         PlayersList playersList = actionContext.getPlayerList();
         try {
-            for (Player t : playersList.getPlayers()) {
+            for (Player t : playersList.getPlayersOnBoard()) {
                 if (me.getPosition().equals(t.getPosition())) {
                     retVal.add(t);
                 }
@@ -617,7 +617,7 @@ public class PreConditionMethodsInverted {
         Player me = actionContext.getPlayer();
         PlayersList playersList = actionContext.getPlayerList();
         try {
-            for (Player t : playersList.getPlayers()) {
+            for (Player t : playersList.getPlayersOnBoard()) {
                 if (!me.getPosition().equals(t.getPosition())) {
                     retVal.add(t);
                 }
@@ -638,7 +638,7 @@ public class PreConditionMethodsInverted {
 
         if (!thisCard.equals(cardOfPreviousEffect)) {
             if (type.equals(typePlayer)) {
-                for (Player p : actionContext.getPlayerList().getPlayers()) {
+                for (Player p : actionContext.getPlayerList().getPlayersOnBoard()) {
                     retVal.add(p);
                 }
             }
@@ -660,7 +660,7 @@ public class PreConditionMethodsInverted {
             if(actionContext.getPlayer().getPlayerHistory().getSize() > 0)
                 lastTarget =  (Player) ((Object[])actionContext.getPlayer().getPlayerHistory().getLast().getInput())[0];
 
-        for (Player p : actionContext.getPlayerList().getPlayers()) {
+        for (Player p : actionContext.getPlayerList().getPlayersOnBoard()) {
             ActionDetails actionDetails1 = new ActionDetails();
             actionDetails1.getUserSelectedActionDetails().setTarget(p);
             ActionContext actionContext1 = new ActionContext();
@@ -694,7 +694,7 @@ public class PreConditionMethodsInverted {
             PlayersList playersList = actionContext.getPlayerList();
             try {
                 List<Object> bufferVal = youCanSee(actionContext, type, actionDetails, inputs, inputSlots, contextEffect);
-                for (Player p : actionContext.getPlayerList().getPlayers()) {
+                for (Player p : actionContext.getPlayerList().getPlayersOnBoard()) {
                     retVal.add(p);
                 }
                 for (Object o : bufferVal) {
@@ -784,7 +784,7 @@ public class PreConditionMethodsInverted {
         }
         if(type.equals(UsableInputTableRowType.typePlayer)) {
 
-            for(Player t: actionContext.getPlayerList().getPlayers()) {
+            for(Player t: actionContext.getPlayerList().getPlayersOnBoard()) {
                 retVal.add(t);
             }
 
@@ -796,7 +796,7 @@ public class PreConditionMethodsInverted {
 
         List<Object> retVal = new ArrayList<>();
         if(type.equals(typePlayer)) {
-            for (Player t : actionContext.getPlayerList().getPlayers()) {
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard()) {
                 retVal.add(t);
             }
             retVal.remove(actionContext.getPlayer());
@@ -817,7 +817,7 @@ public class PreConditionMethodsInverted {
         if(type.equals(typePlayer)) {
             try {
                 PreConditionMethods preConditionMethods = new PreConditionMethods();
-                for (Player t : playersList.getPlayers()) {
+                for (Player t : playersList.getPlayersOnBoard()) {
                     ;
                     ActionDetails actionDetails1 = new ActionDetails();
                     actionDetails1.getUserSelectedActionDetails().setTarget(t);
@@ -844,7 +844,7 @@ public class PreConditionMethodsInverted {
         List<Object> retVal  = new ArrayList<>();
         Player me = actionContext.getPlayer();
         try {
-            for (Player t : actionContext.getPlayerList().getPlayers()) {
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard()) {
                 System.out.println(":::" + t.getPosition().getX() + " , " + t.getPosition().getY());
                 if(!t.equals(me))
                     if (actionContext.getBoard().distanceFromTo(me.getPosition(), t.getPosition()) < 4 ) {
@@ -887,13 +887,13 @@ public class PreConditionMethodsInverted {
             System.out.println("*" + previous);
             if (previous == null) {
                 /*la lista è ancora piena*/
-                for (Player p : actionContext.getPlayerList().getPlayers()) {
+                for (Player p : actionContext.getPlayerList().getPlayersOnBoard()) {
                     retVal.add(p);
                 }
             } else {
                 /*è gia stato consumato il primo attacco*/
                 System.out.println("*");
-                for (Player current : actionContext.getPlayerList().getPlayers()) {
+                for (Player current : actionContext.getPlayerList().getPlayersOnBoard()) {
                     System.out.println("**");
                     if ((
                             ((current.getPosition().getY() - previous.getPosition().getY()) == 0) &&
@@ -921,7 +921,7 @@ public class PreConditionMethodsInverted {
         List<Object> retVal = new ArrayList<>();
         Player me = actionContext.getPlayer();
         char playerRoom = actionContext.getBoard().getSquare(me.getPosition()).getColor();
-        for(Player t: actionContext.getPlayerList().getPlayers()) {
+        for(Player t: actionContext.getPlayerList().getPlayersOnBoard()) {
             if(actionContext.getBoard().getSquare(t.getPosition()).getColor() != playerRoom) {
                 retVal.add(t);
             }
@@ -949,7 +949,7 @@ public class PreConditionMethodsInverted {
         }
         if(type.equals(UsableInputTableRowType.typePlayer)) {
             if(fill) {
-                for(Player p: actionContext.getPlayerList().getPlayers()) {
+                for(Player p: actionContext.getPlayerList().getPlayersOnBoard()) {
 
                     retVal.add(p);
                 }
@@ -964,7 +964,7 @@ public class PreConditionMethodsInverted {
         List<Object> retVal = new ArrayList<>();
 
         Player user   = actionContext.getPlayer();
-        for(Player target: actionContext.getPlayerList().getPlayers())
+        for(Player target: actionContext.getPlayerList().getPlayersOnBoard())
             if(actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition()) > 2)
                 retVal.add(target);
         System.out.println("***");
@@ -992,7 +992,7 @@ public class PreConditionMethodsInverted {
 
         }
         if(type.equals(typePlayer)) {
-            for(Player p:actionContext.getPlayerList().getPlayers())
+            for(Player p:actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(p);
 
             if(lastTarget!=null)
@@ -1039,7 +1039,7 @@ public class PreConditionMethodsInverted {
             if (type.equals(typePlayer)) {
                 if(actionDetails.getUserSelectedActionDetails().getChosenSquare() != null) {
                     // square selezionato
-                    for (Player C : actionContext.getPlayerList().getPlayers()) {
+                    for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
                         if (actionContext.getBoard().distanceFromTo(
                                 C.getPosition(),
                                 actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates()
@@ -1052,7 +1052,7 @@ public class PreConditionMethodsInverted {
                     }
 
                 } else {    // square non ancora selezionato
-                    for (Player C : actionContext.getPlayerList().getPlayers()) {
+                    for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
                         retVal.add(C);
                     }
                 }
@@ -1074,7 +1074,7 @@ public class PreConditionMethodsInverted {
             for (int x = (user.getPosition().getX() - 1); x < (user.getPosition().getX() + 1); x++) {
                 for (int y = (user.getPosition().getX() - 1); y < (user.getPosition().getX() + 1); y++) {
 
-                    for (Player possibile : actionContext.getPlayerList().getPlayers()) {
+                    for (Player possibile : actionContext.getPlayerList().getPlayersOnBoard()) {
                         if ((possibile.getPosition().getX() == x) && (possibile.getPosition().getY() == y)) {
                             if (!retVal.contains(possibile)) {
                                 retVal.add(possibile);
