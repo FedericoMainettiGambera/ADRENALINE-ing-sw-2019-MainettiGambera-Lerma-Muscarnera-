@@ -237,7 +237,7 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
         }
         else{
             for (Object s: possibleInputs) {
-                if(s.getClass().toString().contains("NomalSquare")) {
+                if(s.getClass().toString().contains("NormalSquare")) {
                     possibleInputsV.add(((NormalSquare)s).buildNormalSquareV((NormalSquare)s));
                 }
                 else{

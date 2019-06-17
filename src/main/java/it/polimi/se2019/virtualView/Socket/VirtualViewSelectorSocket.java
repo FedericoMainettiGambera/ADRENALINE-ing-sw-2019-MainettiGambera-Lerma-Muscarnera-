@@ -157,7 +157,7 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
         }
         else{
             for (Object s: possibleInputs) {
-                if(s.getClass().toString().contains("NomalSquare")) {
+                if(s.getClass().toString().contains("NormalSquare")) {
                     possibleInputsV.add(((NormalSquare)s).buildNormalSquareV((NormalSquare)s));
                 }
                 else{
