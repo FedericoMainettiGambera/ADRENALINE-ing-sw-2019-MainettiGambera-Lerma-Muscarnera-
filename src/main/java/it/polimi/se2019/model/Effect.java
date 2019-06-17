@@ -3,6 +3,7 @@ package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.UsableInputTableRowType;
+import it.polimi.se2019.view.components.EffectV;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -1374,6 +1375,14 @@ public class Effect implements Serializable {
             return true;
         }
         return false;
+    }
+
+    public EffectV buildEffectV(){
+        EffectV effectV = new EffectV();
+        effectV.setDescription(this.description);
+        effectV.setEffectInfo(this.effectInfo);
+        effectV.setEffectName(this.effectName);
+        return effectV;
     }
 
 }
