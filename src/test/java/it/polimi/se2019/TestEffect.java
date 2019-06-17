@@ -147,6 +147,7 @@ public class TestEffect {
 
     }
     */
+    /*
     @Test
     public void testUsable( ) throws Exception {
 
@@ -201,7 +202,7 @@ public class TestEffect {
                 System.out.println("INPUT " + input[counter][0]);
                 w.getEffects().get(0).handleRow(el,input[counter]);
                 counter++;
-              }*/
+              }
         //w.getEffects().get(0).handleInput(input);
 
 
@@ -240,6 +241,7 @@ public class TestEffect {
         System.out.println("/---------/");
 
     }
+
     @Test
     public void testUsable2() throws Exception {
 
@@ -404,5 +406,5 @@ public class TestEffect {
             gate.inverted(a.getActionInfo().getPreConditionMethodName(),a.getActionInfo().getActionContext(), UsableInputTableRowType.typePlayer,a.getActionInfo().getActionDetails(),new ActionDetails(),w.getEffects().get(0).getEffectInfo().getEffectInfoElement());
         }
     }
-
+    */
 }

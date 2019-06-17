@@ -26,41 +26,33 @@ public class ShootPeopleAskForInputState implements State {
 
     public ShootPeopleAskForInputState(Effect chosenEffect, int actionNumber){
         System.out.println("<SERVER> New state: " + this.getClass());
-        this.inputRequestCounter = new Integer(0);
         this.actionNumber = actionNumber;
         this.chosenEffect = chosenEffect;
     }
 
-    public Integer getInputRequestCounter() {
-        return inputRequestCounter;
-    }
 
-    private Integer inputRequestCounter;
-    private Integer nextInputRequestex() {
-        if(this.chosenEffect.requestedInputs().get(inputRequestCounter) != null) {
-            inputRequestCounter++;
+    private Integer inputRequestCounterF = 0;
+    public boolean canIncrementRequest(){
+        if(inputRequestCounterF < this.chosenEffect.requestedInputs().size()-1 ){
+            return true;
+        }else{
+            return false;
         }
-        else {
-            return null;
-        }
-
-        return (inputRequestCounter-1);
     }
-
 
     @Override
     public void askForInput(Player playerToAsk){
         this.playerToAsk = playerToAsk;
         System.out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
-        EffectInfoType inputType = this.chosenEffect.getEffectInfo().getEffectInfoElement().get(getInputRequestCounter()).getEffectInfoTypelist();
+        EffectInfoType inputType = this.chosenEffect.getEffectInfo().getEffectInfoElement().get(inputRequestCounterF).getEffectInfoTypelist();
 
         if(isToSend(inputType)) {
             try {
                 System.out.println("<SERVER> sending " + inputType + " to player with the possible options.");
 
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-                SelectorGate.getCorrectSelectorFor(playerToAsk).askEffectInputs(inputType, this.chosenEffect.usableInputs().get(getInputRequestCounter()).get(0));
+                SelectorGate.getCorrectSelectorFor(playerToAsk).askEffectInputs(inputType, this.chosenEffect.usableInputs().get(inputRequestCounterF).get(0));
                 this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                 this.inputTimer.start();
             } catch (Exception e) {
@@ -81,7 +73,7 @@ public class ShootPeopleAskForInputState implements State {
         System.out.println("<SERVER> " + this.getClass() + ".doAction();");
 
         List<Object> response = ((ViewControllerEventListOfObject)VCE).getAnswer();
-        
+
         Object[] inputRow = new Object[10];
 
         int inputRowCurrent = 0;
@@ -95,30 +87,30 @@ public class ShootPeopleAskForInputState implements State {
             inputRowCurrent++;
         }
 
-        this.chosenEffect.handleRow(this.chosenEffect.getEffectInfo().getEffectInfoElement().get(getInputRequestCounter()),inputRow);
+        this.chosenEffect.handleRow(this.chosenEffect.getEffectInfo().getEffectInfoElement().get(inputRequestCounterF),inputRow);
 
         askMoreOrExec();
     }
 
     public void askMoreOrExec(){
-        nextInputRequestex();
-        if(getInputRequestCounter() == null) {
+        if(canIncrementRequest()) {
+            inputRequestCounterF++;
+            askForInput(playerToAsk);
+        }
+        else {
             if(!this.chosenEffect.Exec()) {
                 System.err.println("<SERVER> exec didn't work");
             } else {
-                System.out.println("<SERVER> exec worked!");
-                //TODO chiedi a luca se c'è bisogno di scaricare l arma o lo fa già l'exec().
-                if(this.actionNumber == 2){
-                    ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
-                }
-                else if(this.actionNumber == 1){
-                    ViewControllerEventHandlerContext.setNextState(new TurnState(2));
-                }
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                System.err.println("<SERVER> exec worked!");
             }
-        }
-        else {
-            askForInput(playerToAsk);
+            //TODO chiedi a luca se c'è bisogno di scaricare l arma o lo fa già l'exec().
+            if(this.actionNumber == 2){
+                ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
+            }
+            else if(this.actionNumber == 1){
+                ViewControllerEventHandlerContext.setNextState(new TurnState(2));
+            }
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
     }
 
@@ -145,7 +137,7 @@ public class ShootPeopleAskForInputState implements State {
                 infoType.equals(EffectInfoType.targetListByLastTargetSelectedSquare)
         ){
             Object[] inputRow = new Object[10];
-            this.chosenEffect.handleRow(this.chosenEffect.getEffectInfo().getEffectInfoElement().get(getInputRequestCounter()),inputRow);
+            this.chosenEffect.handleRow(this.chosenEffect.getEffectInfo().getEffectInfoElement().get(inputRequestCounterF),inputRow);
             return false;
         }
         return true;

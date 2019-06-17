@@ -1,4 +1,4 @@
-package it.polimi.se2019;
+//package it.polimi.se2019;
 
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.CardinalPoint;
@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
 //TODO
 public class TestWeaponCard {
     /*
@@ -320,7 +321,7 @@ public class TestWeaponCard {
 
         }
     }
-    */
+
     private String charRepeat(char c,int n) {
         String retVal = "";
         for(int i = 0 ; i < n;i++) {
@@ -565,9 +566,12 @@ public class TestWeaponCard {
                     r[0] = board.getSquare(0,0);
                     w.getEffects().get(effectN).handleRow(w.getEffects().get(effectN).getEffectInfo().getEffectInfoElement().get(inputCorrente),r);
                     */
+    /*
                 }catch (Exception e){
                     e.printStackTrace();
                 }
             }
     }
 }
+
+    */

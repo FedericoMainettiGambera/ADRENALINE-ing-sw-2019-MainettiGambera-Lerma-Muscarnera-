@@ -150,22 +150,23 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     @Override
     public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
         List<Object> possibleInputsV = new ArrayList<>();
-        if(possibleInputs.get(0).getClass().toString().contains("Player")){
-            for (Object p: possibleInputs) {
-                possibleInputsV.add(((Player)p).buildPlayerV());
-            }
-        }
-        else{
-            for (Object s: possibleInputs) {
-                if(s.getClass().toString().contains("NormalSquare")) {
-                    possibleInputsV.add(((NormalSquare)s).buildNormalSquareV((NormalSquare)s));
+        if(possibleInputs.size()!=0) { //TODO BO STAROBA QUA NON DOVREBBE ESSERCI ; L'HO MESSA PER FARE FORZA BRUTA E SPERARE DI NON AVERE PROBLEMI
+            if (possibleInputs.get(0).getClass().toString().contains("Player")) {
+                for (Object p : possibleInputs) {
+                    possibleInputsV.add(((Player) p).buildPlayerV());
                 }
-                else{
-                    possibleInputsV.add(((SpawnPointSquare)s).builSpawnPointSquareV((SpawnPointSquare)s));
+            } else {
+                for (Object s : possibleInputs) {
+                    if (s.getClass().toString().contains("NormalSquare")) {
+                        possibleInputsV.add(((NormalSquare) s).buildNormalSquareV((NormalSquare) s));
+                    } else {
+                        possibleInputsV.add(((SpawnPointSquare) s).builSpawnPointSquareV((SpawnPointSquare) s));
+                    }
                 }
             }
+
+            SocketVirtualView.sendToClient(playerToAsk, new SelectorEventEffectInputs(inputType, possibleInputsV));
         }
-        SocketVirtualView.sendToClient(playerToAsk,new SelectorEventEffectInputs(inputType,possibleInputsV));
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestPlayerhand {
+    /*
     @Test
     public void test1() throws Exception {
         PlayerHand playerHand = new PlayerHand();
@@ -43,4 +44,5 @@ public class TestPlayerhand {
 
         System.out.println(idList);
     }
+    */
 }
