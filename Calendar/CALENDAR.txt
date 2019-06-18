@@ -61,7 +61,7 @@
 
 PER VISUALIZZARE IL CALENDARIO:
 https://calendar.google.com/calendar?cid=cWc4OXE0bTZjaWl1YXNudGZxN291bGlwb29AZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
-o in caso vi ho invitati quindi se andate su google Calendar dovreste vederlo
+o in caso vi ho invitati quindi se andate su gmail e confermate la mail, poi su google Calendar dovreste vederlo
 
 LEGENDA:
     GIALLO-> da compilare
