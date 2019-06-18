@@ -147,7 +147,7 @@ public class TestEffect {
 
     }
     */
-    @Test
+ /*   @Test
     public void testUsable( ) throws Exception {
 
             System.out.println("\t\tcarta " + 13);
@@ -210,7 +210,7 @@ public class TestEffect {
             //for(Object p:  w.getEffects().get(0).usableInputs().get(2).get(0))
             //    System.out.println("risultato = " + p.toString() + ":" + ((Player) p).getNickname());
 
-            System.out.println("/---------/");
+      /*      System.out.println("/---------/");
 
             Object o[][] = new Object[10][10];
             o[0][0] = user3;
@@ -404,5 +404,6 @@ public class TestEffect {
             gate.inverted(a.getActionInfo().getPreConditionMethodName(),a.getActionInfo().getActionContext(), UsableInputTableRowType.typePlayer,a.getActionInfo().getActionDetails(),new ActionDetails(),w.getEffects().get(0).getEffectInfo().getEffectInfoElement());
         }
     }
+    */
 
 }

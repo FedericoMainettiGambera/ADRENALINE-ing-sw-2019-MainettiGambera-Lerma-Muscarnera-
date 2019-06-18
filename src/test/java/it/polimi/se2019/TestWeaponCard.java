@@ -319,7 +319,7 @@ public class TestWeaponCard {
         }
     }
     */
-    @Test
+  /*  @Test
     public void testUsable() throws Exception {
 
 
@@ -356,5 +356,5 @@ public class TestWeaponCard {
             for (Effect e : w.usableEffects())
                 System.out.println(e + ">>>>>>>>>>>>>>>>>>>>>>>>" + e.usableInputs());
         }
-    }
+    }*/
 }
