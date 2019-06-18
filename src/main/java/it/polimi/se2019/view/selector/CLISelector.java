@@ -61,10 +61,7 @@ public class CLISelector implements SelectorV {
     }
 
     public static void showListOfRequests(List<String> requests){
-        if(ViewModelGate.getModel()!=null && ViewModelGate.getModel().getPlayers()!=null && ViewModelGate.getModel().getPlayers().getPlayers()!=null
-          && ViewModelGate.getModel().getBoard()!=null && ViewModelGate.getModel().getBoard().getMap()!=null) {
-            CLIOutputHandler.showMap();
-        }
+
         int maxLenght = 10;
 
         for (int i = 0; i < requests.size(); i++) {
@@ -151,7 +148,7 @@ public class CLISelector implements SelectorV {
     public static int askNumber(int rangeInit, int rangeEnd){
         if(Controller.randomGame == true){
             try {
-                TimeUnit.MILLISECONDS.sleep(2000);
+                TimeUnit.MILLISECONDS.sleep(300);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

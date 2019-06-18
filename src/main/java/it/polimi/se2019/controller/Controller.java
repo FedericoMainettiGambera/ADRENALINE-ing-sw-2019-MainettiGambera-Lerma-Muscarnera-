@@ -36,6 +36,9 @@ public class  Controller{
     public static ViewControllerEventHandlerContext VCEHC;
 
     public static View V;
+    public static String networkConnection;
+    public static String IP;
+    public static String Port;
 
     public static void startServerWithRMIAndSocket(){
 
@@ -84,6 +87,9 @@ public class  Controller{
     public static boolean randomGame = false;
 
     public static boolean connect(String networkConnection, String userInterface, String IP, String Port){
+        Controller.networkConnection = networkConnection;
+        Controller.IP = IP;
+        Controller.Port = Port;
         if(networkConnection.equalsIgnoreCase("RMI")){
             if(userInterface.equalsIgnoreCase("GUI")){
                 V = new View("RMI", "GUI");

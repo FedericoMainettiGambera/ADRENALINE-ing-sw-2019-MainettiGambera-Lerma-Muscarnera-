@@ -46,7 +46,12 @@ public class ServerListenerNetworkHandler extends Observable implements Runnable
     public void run() {
         while(this.socket.isConnected()){
             try {
-                Event E = (Event)this.ois.readObject();
+                Object o = this.ois.readObject();
+                if(o.getClass().toString().contains("String")){ //TODO SOMETIMES IT HAPPENS THAT I RECEIVE A STRING INSTEAD OF AN EVENT (QUESTO BLOCCO iF ANDRA' CANCELLA TO OVVIAMENTE IN FUTURO)
+                    System.err.println(o);
+                    System.exit(1);
+                }
+                Event E = (Event)o;
                 this.setChanged();
                 this.notifyObservers(E);
             }

@@ -424,6 +424,13 @@ public class Effect implements Serializable {
                     for (k = 0; k < this.getActions().size(); k++) {
                         if(intermediateList.get(i).get(k) != null)
                         {
+                            if(this.getActions().get(k).getClass().equals(Damage.class) || this.getActions().get(k).getClass().equals(Mark.class) ) {
+                                System.out.println("cammino 1");
+                                if(((List<Object>) intermediateList.get(i).get(k)).contains(this.getActions().get(0).getActionInfo().getActionContext().getPlayer()) ) {
+                                    System.out.println("cammino 1.1");
+                                    ((List<Object>) intermediateList.get(i).get(k)).remove(this.getActions().get(0).getActionInfo().getActionContext().getPlayer());
+                                }
+                            }
                             System.out.println("dominio precondizione '" +  this.getActions().get(k).getActionInfo().getPreConditionMethodName() + "' : interseco con.." + intermediateList.get(i).get(k)  );
                             for (Object d : (List<Object>) intermediateList.get(i).get(k)) {
                             if(d != null) {
