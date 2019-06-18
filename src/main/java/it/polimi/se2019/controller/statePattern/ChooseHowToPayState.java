@@ -148,7 +148,7 @@ public class ChooseHowToPayState {
         for (Object o:VCEChosenPowerUps.getAnswer()) {
             out.println("         player is paying with power up: " + ((PowerUpCardV) o).getName() + " (" + ((PowerUpCardV) o).getColor() + ")");
             for (AmmoCubes a : leftToPay.getAmmoCubesList()) {
-                if (((PowerUpCardV) o).getColor() == a.getColor()) {
+                if (((PowerUpCardV) o).getColor().equals( a.getColor()) ){
                     leftToPay.getAmmoCubesList().remove(a);
                     break;
                 }

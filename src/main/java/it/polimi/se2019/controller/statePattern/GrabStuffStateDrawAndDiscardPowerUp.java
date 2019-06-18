@@ -10,6 +10,7 @@ import it.polimi.se2019.controller.WaitForPlayerInput;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class GrabStuffStateDrawAndDiscardPowerUp implements State {
@@ -47,7 +48,7 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
-            logger.severe("Exception occured"+" "+e.getCause()+" "+ e.getClass());
+            logger.severe("Exception occured"+" "+e.getCause()+" "+ e.getClass()+ Arrays.toString(e.getStackTrace()));
         }
     }
 

@@ -13,6 +13,7 @@ import it.polimi.se2019.controller.WaitForPlayerInput;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class ReloadState implements State{
@@ -71,7 +72,7 @@ public class ReloadState implements State{
                 this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                 this.inputTimer.start();
             } catch (Exception e) {
-              logger.severe("Exception Occured"+" "+e.getClass()+" "+e.getCause());
+              logger.severe("Exception Occured"+" "+e.getClass()+" "+e.getCause()+ Arrays.toString(e.getStackTrace()));
             }
         }
         else{

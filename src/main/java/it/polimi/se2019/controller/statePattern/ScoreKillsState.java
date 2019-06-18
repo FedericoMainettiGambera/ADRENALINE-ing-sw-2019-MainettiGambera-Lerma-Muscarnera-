@@ -7,7 +7,6 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 public class ScoreKillsState implements State {
     private static PrintWriter out= new PrintWriter(System.out, true);

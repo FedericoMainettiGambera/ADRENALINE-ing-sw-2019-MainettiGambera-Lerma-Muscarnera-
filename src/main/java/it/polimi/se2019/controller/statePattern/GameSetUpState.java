@@ -13,6 +13,7 @@ import it.polimi.se2019.controller.WaitForPlayerInput;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class GameSetUpState implements State {
@@ -69,7 +70,8 @@ public class GameSetUpState implements State {
             ModelGate.model.setBoard(new Board(VCEGameSetUp.getMapChoice(), ModelGate.model.getSocketVirtualView(), ModelGate.model.getRMIVirtualView()));
         }
         catch (IOException|NullPointerException e){
-           logger.severe("Creating map went wrong"+e.getCause());
+           logger.severe("Creating map went wrong"+e.getCause()+ Arrays.toString(e.getStackTrace()));
+
         }
 
         out.println("<SERVER> MAP: \n" + ModelGate.model.getBoard().toString());

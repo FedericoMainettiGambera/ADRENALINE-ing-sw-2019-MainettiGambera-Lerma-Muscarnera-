@@ -13,6 +13,7 @@ import it.polimi.se2019.view.components.PlayerV;
 import it.polimi.se2019.view.components.SquareV;
 
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -61,7 +62,7 @@ public class ShootPeopleAskForInputState implements State {
                 this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                 this.inputTimer.start();
             } catch (Exception e) {
-               logger.severe("Exception Occured: "+e.getClass()+" "+e.getCause());
+               logger.severe("Exception Occured: "+e.getClass()+" "+e.getCause()+ Arrays.toString(e.getStackTrace()));
             }
         }
         else{
