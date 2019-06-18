@@ -169,26 +169,10 @@ public class Game extends Observable implements Serializable {
         int fileCount = directory.list().length;
         for(int i = 1; i< fileCount+1; i++) {
             try {
-
-                /* TO BUILD A DECK OF CARD YOU WANT ( DEBUGGING ) :*/
-                /*
-                WeaponCard card= new WeaponCard("" + 1);
-                card.reload();
-                tempWeaponDeck.addCard(card);
-                System.out.println("<SERVER> building weapon cards ID: " + 1 );
-                WeaponCard card2= new WeaponCard("" + 2);
-                card2.reload();
-                tempWeaponDeck.addCard(card2);
-                System.out.println("<SERVER> building weapon cards ID: " + 2);
-                */
-
-
                 WeaponCard card= new WeaponCard("" + i);
                 card.reload();
                 tempWeaponDeck.addCard(card);
                 System.out.println("<SERVER> building weapon cards ID: " + i);
-
-
             }
             catch(Exception e) {
                 e.printStackTrace();
@@ -196,7 +180,7 @@ public class Game extends Observable implements Serializable {
             }
         }
         /*
-        //builds power up cards
+        // TODO builds power up cards
         OrderedCardList<PowerUpCard> tempPowerUpDeck = new OrderedCardList<>("powerUpDeck);
         directory = new File("src/main/Files/cards/powerUpCards");          // insert here path to power up cards folder
         fileCount = directory.list().length;
@@ -211,7 +195,7 @@ public class Game extends Observable implements Serializable {
             }
         }
 
-        //builds ammo cards
+        // TODO builds ammo cards
         OrderedCardList<AmmoCard> tempAmmoDeck = new OrderedCardList<>("ammoDeck");
         directory = new File("src/main/Files/cards/ammoCards");          // insert here path to ammo cards folder
         fileCount = directory.list().length;

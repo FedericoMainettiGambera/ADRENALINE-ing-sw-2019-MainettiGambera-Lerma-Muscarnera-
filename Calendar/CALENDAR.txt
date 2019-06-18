@@ -1,0 +1,71 @@
+>>>ADRENALINA<<<
+
+    CARDS
+        0-sistemare twotarget e threetarget nella CLI
+        1-questione dell'autoselezione del player che sta usando la carta da risolvere
+        2-getter dei costi degli effetti
+        3-riempire il campo dei nomi degli effetti nei costruttori
+        4-funzione che costruisce tutte le power up in Game.buildDecks(){...} (ci sono i to-do)
+        5-funzione che costruisce tutte le ammo in Game.buildDecks(){...} (ci sono i to-do)
+        6-fare un po' di test con Client e Server e controllare che le carte effettivamente funzionino
+            (in caso ovviamente correggere i problemi)
+            (molte carte danno ancora molti problemi)
+
+    STATE PATTERN
+        0-finire ChooseHowToPayState e aggiungerlo in tutte le occasioni in cui serve e testare che funzioni
+        1-gestire i colori all'inizio dello state pattern nella fase di connesione
+        2-gestire il pagamento degli effetti
+        3-risolvere la questione dello "scaricare" le armi quando vengono giocate
+        4-gestire l'utilizzo dei power up (alla stessa maniera in cui è stato gestito il ChooseHowToPayState)
+        5-finire gli ultimi State (principalmente quelli che avvengono dopo la morte di qualcuno (es. SpawnState FFSetUpState, FinalScoringState...)
+        6-Testare completamente lo state pattern con la CLI e risolvere tutti i problemi che sorgono finchè tutto non è perfetto
+
+    FUNZIONALITA' AVANZATA
+        0-aggiungere allo State Pattern, al Model e alla View tutto ciò che serve per implementare il Terminator
+
+    GUI
+        0-Studio sulla gestione della grafica e ripartizione dei compiti
+        1-Photoshop delle immagini
+        2-...
+
+    RETE
+        0-Testare a non completamente tutto Socket
+        1-quando Socket sarà perfettamente funzionante, emularne alla perfezione il comportamento con RMI
+
+    CLI
+        0-finire gli ultimi log
+        1-tenerla aggiornata con l'avanzare di tutto il resto
+
+    SONARLINT
+        0-assolutamente sistemare le carte
+        1-sistemare tutti i TODOs
+        2-sistemare quanto più possibile il resto
+
+    JAVA DOC
+        0-divisione dei compiti
+        1-completare tutto JavaDOC
+
+    TEST
+        0-divisione dei compiti
+        1-completare fino all'80% di copertura
+
+    UML
+        0-farlo
+
+    ESPORTAZIONE DI JAR E FINAL TESTING
+        0-spero di arrivarci fin qua
+        1-sonnellino della felicità
+        2-prepararsi per l'esposizione del progetto
+
+
+
+PER VISUALIZZARE IL CALENDARIO:
+https://calendar.google.com/calendar?cid=cWc4OXE0bTZjaWl1YXNudGZxN291bGlwb29AZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
+o in caso vi ho invitati quindi se andate su google Calendar dovreste vederlo
+
+LEGENDA:
+    GIALLO-> da compilare
+    ROSSO-> GUI
+    AZZURRO-> Report
+    ROSA-> standard
+    VERDE-> quando si è completato !!!!!!!!!!!!!!!!!
