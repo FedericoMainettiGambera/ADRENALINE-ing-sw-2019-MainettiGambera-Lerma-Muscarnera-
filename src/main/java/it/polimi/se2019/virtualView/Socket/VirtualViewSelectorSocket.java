@@ -150,22 +150,25 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     @Override
     public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
         List<Object> possibleInputsV = new ArrayList<>();
-        if(possibleInputs.get(0).getClass().toString().contains("Player")){
-            for (Object p: possibleInputs) {
-                possibleInputsV.add(((Player)p).buildPlayerV());
+        if(possibleInputs.size()!=0) { //TODO BO STAROBA QUA NON DOVREBBE ESSERCI ; L'HO MESSA PER FARE FORZA BRUTA E SPERARE DI NON AVERE PROBLEMI DI INDEX OUT OF BOUND CHE MI DA CERTE VOLTE
+            if(possibleInputs.get(0) != null) { // TODO STA ROBA PURE NON DOVREBBE ESSERCI; L'HO MESSA PERCHE' ALCUNE VOLTE MI DA PORBLEMI DI NULL POINTER EXCEPTION, COME SE CI FOSSERO DELLE LISTE DI INPUT TUTTE A NULL
+                if (possibleInputs.get(0).getClass().toString().contains("Player")) {
+                    for (Object p : possibleInputs) {
+                        possibleInputsV.add(((Player) p).buildPlayerV());
+                    }
+                } else {
+                    for (Object s : possibleInputs) {
+                        if (s.getClass().toString().contains("NormalSquare")) {
+                            possibleInputsV.add(((NormalSquare) s).buildNormalSquareV((NormalSquare) s));
+                        } else {
+                            possibleInputsV.add(((SpawnPointSquare) s).builSpawnPointSquareV((SpawnPointSquare) s));
+                        }
+                    }
+                }
+
+                SocketVirtualView.sendToClient(playerToAsk, new SelectorEventEffectInputs(inputType, possibleInputsV));
             }
         }
-        else{
-            for (Object s: possibleInputs) {
-                if(s.getClass().toString().contains("NomalSquare")) {
-                    possibleInputsV.add(((NormalSquare)s).buildNormalSquareV((NormalSquare)s));
-                }
-                else{
-                    possibleInputsV.add(((SpawnPointSquare)s).builSpawnPointSquareV((SpawnPointSquare)s));
-                }
-            }
-        }
-        SocketVirtualView.sendToClient(playerToAsk,new SelectorEventEffectInputs(inputType,possibleInputsV));
     }
 
     @Override
@@ -176,5 +179,10 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     @Override
     public void askNickname() {
         //must be empty
+    }
+
+    @Override
+    public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformation) {
+        SocketVirtualView.sendToClient(playerToAsk, SEPaymentInformation);
     }
 }

@@ -9,9 +9,14 @@ import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventInt;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class ShootPeopleChooseEffectState implements State{
+
+    private static PrintWriter out= new PrintWriter(System.out, true);
+    private static final Logger logger = Logger.getLogger(ShootPeopleChooseEffectState.class.getName());
     private Player playerToAsk;
 
     private Thread inputTimer;
@@ -25,7 +30,7 @@ public class ShootPeopleChooseEffectState implements State{
     private int actionNumber;
 
     public ShootPeopleChooseEffectState(WeaponCard choosenWeaponCard, int actionNumber){
-        System.out.println("<SERVER> New state: " + this.getClass());
+        out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
         this.choosenWeaponCard = choosenWeaponCard;
     }
@@ -33,7 +38,7 @@ public class ShootPeopleChooseEffectState implements State{
     @Override
     public void askForInput(Player playerToAsk){
         this.playerToAsk = playerToAsk;
-        System.out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         this.possibleEffects = (ArrayList)choosenWeaponCard.usableEffects();
 
@@ -44,22 +49,22 @@ public class ShootPeopleChooseEffectState implements State{
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
-            e.printStackTrace();
+           logger.severe("Exception Occured: "+e.getClass()+" "+e.getCause());
         }
     }
 
     @Override
     public void doAction(ViewControllerEvent VCE){
         this.inputTimer.interrupt();
-        System.out.println("<SERVER> player has answered before the timer ended.");
+        out.println("<SERVER> player has answered before the timer ended.");
 
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventInt VCEInt = (ViewControllerEventInt)VCE;
 
         this.chosenEffect = this.possibleEffects.get(VCEInt.getInput());
 
-        System.out.println("<SERVER> Player has chosen effect: " + this.chosenEffect.getEffectName());
+        out.println("<SERVER> Player has chosen effect: " + this.chosenEffect.getEffectName());
 
         ViewControllerEventHandlerContext.setNextState(new ShootPeopleAskForInputState(this.chosenEffect, this.actionNumber));
         ViewControllerEventHandlerContext.state.askForInput(playerToAsk);

@@ -12,19 +12,20 @@ import it.polimi.se2019.view.components.ViewModelGate;
 import it.polimi.se2019.view.selector.CLISelector;
 import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 
 public class  Controller{
+
+    private static final Logger logger= Logger.getLogger(Controller.class.getName());
+    private static PrintWriter out= new PrintWriter(System.out, true);
 
     public static SocketVirtualView SVV;
     public static RMIVirtualView RMIVV;
@@ -39,9 +40,9 @@ public class  Controller{
     public static void startServerWithRMIAndSocket(){
 
         //inizializza il model
-        System.out.println("<SERVER> Creating the Game.");
+        out.println("<SERVER> Creating the Game.");
         ModelGate.model = new Game();
-        System.out.println("<SERVER> Creating a PlayerList.");
+        out.println("<SERVER> Creating a PlayerList.");
         PlayersList pl = new PlayersList();
         ModelGate.model.setPlayerList(pl);
 
@@ -62,10 +63,8 @@ public class  Controller{
         try {
             RMIVV = new RMIVirtualView(VCEHC);
             RMIVV.startServer();
-        } catch (RemoteException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+           logger.severe("error in rmi starting server occured"+ e.getCause());
         }
         ViewControllerEventHandlerContext.RMIVV = RMIVV;
 
@@ -73,7 +72,7 @@ public class  Controller{
         //Starts a thread that checks if clients are alive, if they aren't puts them in AFK.
 
         //Registering the VirtualView as an observer of the model so it can receive the MVEs
-        System.out.println("<SERVER> Registering the VirtualViews (RMI and Socket) as observers of the Model");
+        out.println("<SERVER> Registering the VirtualViews (RMI and Socket) as observers of the Model");
         ModelGate.model.setVirtualView(ViewControllerEventHandlerContext.socketVV, ViewControllerEventHandlerContext.RMIVV);
         ModelGate.model.registerVirtualView();
     }
@@ -98,18 +97,12 @@ public class  Controller{
                         RMINH = new RMINetworkHandler(IP, Integer.parseInt(Port), V);
                     }
                     catch (NumberFormatException e){
-                        System.err.println(e.getMessage());
+                        logger.severe("error in rmi network handler occured"+ e.getCause());
                         return false;
                     }
                 }
-            } catch (RemoteException e) {
-                System.err.println(e.getMessage());
-                return false;
-            } catch (NotBoundException e) {
-                System.err.println(e.getMessage());
-                return false;
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
+            } catch (NotBoundException|IOException e ) {
+                logger.severe("error in rmi starting server occured"+ e.getCause());
                 return false;
             }
         }
@@ -120,22 +113,15 @@ public class  Controller{
             else {
                 V = new View("SOCKET", "CLI");
             }
-            try {
-                try{
+
+            try{
                     SNH = new SocketNetworkHandler(InetAddress.getByName(IP), Integer.parseInt(Port) , V);
                 }
-                catch (NumberFormatException e){
-                    System.err.println(e.getMessage());
+                catch (NumberFormatException|  IOException e){
+                logger.severe("Socket network handler error occured"+e.getMessage());
                     return false;
                 }
-            } catch (UnknownHostException e) {
-                System.err.println(e.getMessage());
-                return false;
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
-                return false;
-            }
-        }
+             }
         return true;
     }
 
@@ -143,15 +129,15 @@ public class  Controller{
     public static void startClientSocketOrRMIWithCLI() {
         Scanner br = new Scanner(System.in);
 
-        System.out.println("\n\n");
-        System.out.println(GameConstant.AdrenalineTitle4);
-        System.out.println("\n\n\n");
-        System.out.println("\nWhat's your Nickname?");
+        out.println("\n\n");
+        out.println(GameConstant.AdrenalineTitle4);
+        out.println("\n\n\n");
+        out.println("\nWhat's your Nickname?");
 
         String nickname = br.nextLine();
         ViewModelGate.setMe(nickname);
 
-        System.out.println("\n<CLIENT> Do you want to play with:");
+        out.println("\n<CLIENT> Do you want to play with:");
 
         CLISelector.showListOfRequests(Arrays.asList("SOCKET","RMI"));
         String networkConnectionChoice = "";
@@ -170,23 +156,23 @@ public class  Controller{
         String userInterface = "CLI";
 
         if (networkConnectionChoice.equalsIgnoreCase("RMI")) {
-            System.out.println("<CLIENT> Starting Client with RMI connection");
+            out.println("<CLIENT> Starting Client with RMI connection");
 
             //ask for IP and PORT
-            System.out.println("\n<CLIENT> Insert Server's IP:");
+            out.println("\n<CLIENT> Insert Server's IP:");
             IP = br.nextLine();
 
             port = "1099";
         } else {
-            System.out.println("<CLIENT> Starting Client with Socket connection");
+            out.println("<CLIENT> Starting Client with Socket connection");
 
-            System.out.println("\n<CLIENT> Insert Server IP:");
+            out.println("\n<CLIENT> Insert Server IP:");
             IP = br.nextLine();
-            System.out.println("\n<CLIENT> Insert Port:");
+            out.println("\n<CLIENT> Insert Port:");
             port = br.nextLine();
         }
 
-        System.out.println("\n<CLIENT> DO YOU WANT TO PLAY WITH AUTOMATIC RANDOM CHOICES?");
+        out.println("\n<CLIENT> DO YOU WANT TO PLAY WITH AUTOMATIC RANDOM CHOICES?");
         CLISelector.showListOfRequests(Arrays.asList("HELL YES !!","nope, thanks."));
         randomGame = false;
         choice = CLISelector.askNumber(0,1);

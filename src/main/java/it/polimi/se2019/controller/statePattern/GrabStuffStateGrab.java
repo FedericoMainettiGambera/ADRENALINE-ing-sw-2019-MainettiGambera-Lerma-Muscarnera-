@@ -8,38 +8,44 @@ import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.enumerations.SquareTypes;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 
+import java.io.PrintWriter;
+import java.util.logging.Logger;
+
 public class GrabStuffStateGrab implements State {
+
+    private static PrintWriter out= new PrintWriter(System.out, true);
+    private static final Logger logger = Logger.getLogger(GrabStuffState.class.getName());
 
     private int actionNumber;
 
     public GrabStuffStateGrab(int actionNumber){
-        System.out.println("<SERVER> New state: " + this.getClass());
+        out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 
     @Override
     public void askForInput(Player playerToAsk) {
-        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
         //empty
     }
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         //the player is in a spawnpoint
         if(ModelGate.model.getBoard().getSquare(ModelGate.model.getCurrentPlayingPlayer().getPosition()).getSquareType()
                 == SquareTypes.spawnPoint){
-            System.out.println("<SERVER> Player is in a SpawnPointSquare");
+            out.println("<SERVER> Player is in a SpawnPointSquare");
             ViewControllerEventHandlerContext.setNextState(new GrabStuffStateGrabWeapon(this.actionNumber));
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
         //the player is in a normal square
         else if(ModelGate.model.getBoard().getSquare(ModelGate.model.getCurrentPlayingPlayer().getPosition()).getSquareType()
                 == SquareTypes.normal){
-            System.out.println("<SERVER> Player is in a NormalSquare");
-            if(((NormalSquare)ModelGate.model.getBoard().getMap()[ModelGate.model.getCurrentPlayingPlayer().getPosition().getX()][ModelGate.model.getCurrentPlayingPlayer().getPosition().getY()]).getAmmoCards().getCards().size()!=0){
-                System.out.println("<SERVER> the square have an ammo card, the player can grab.");
+            out.println("<SERVER> Player is in a NormalSquare");
+            if(!((NormalSquare)ModelGate.model.getBoard().getMap()[ModelGate.model.getCurrentPlayingPlayer().getPosition().getX()][ModelGate.model.getCurrentPlayingPlayer().getPosition().getY()]).getAmmoCards().getCards().isEmpty()){
+                out.println("<SERVER> the square have an ammo card, the player can grab.");
                 AmmoCard ammoCard = (AmmoCard)((NormalSquare)ModelGate.model.getBoard().getSquare(
                         ModelGate.model.getCurrentPlayingPlayer().getPosition())
                 ).getAmmoCards().getFirstCard();
@@ -50,7 +56,7 @@ public class GrabStuffStateGrab implements State {
                 ).getAmmoCards().moveCardTo(ModelGate.model.getAmmoDiscardPile(), ammoCard.getID());
 
                 //grab ammocubes
-                System.out.println("<SERVER> Grabbing ammo cubes");
+                out.println("<SERVER> Grabbing ammo cubes");
                 ModelGate.model.getCurrentPlayingPlayer().addAmmoCubes(ammoCard.getAmmunitions());
 
                 //set next state:
@@ -84,7 +90,7 @@ public class GrabStuffStateGrab implements State {
                 }
             }
             else{
-                System.out.println("<SERVER> the square doesn't have an ammo card, the player can't grab.");
+                out.println("<SERVER> the square doesn't have an ammo card, the player can't grab.");
                 if(actionNumber==1){
 
                     if (ModelGate.model.hasFinalFrenzyBegun() && ModelGate.model.getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0) {

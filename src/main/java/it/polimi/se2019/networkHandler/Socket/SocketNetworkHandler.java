@@ -9,8 +9,10 @@ import java.io.*;
 import java.net.*;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Logger;
 
 public class SocketNetworkHandler extends NetworkHandler implements Observer{
+    private static final Logger logger=Logger.getLogger(SocketNetworkHandler.class.getName());
 
     private static Socket socket;
 
@@ -30,12 +32,12 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
         this.port = port;
         this.inetAddress = inetAddress;
 
-        System.out.println("<CLIENT>New Client with IP: " + InetAddress.getLocalHost().getHostAddress());
+        logger.info("<CLIENT>New Client with IP: " + InetAddress.getLocalHost().getHostAddress());
 
-        System.out.println("<CLIENT>Trying to connect to: " + this.inetAddress.getHostAddress() + ":" + this.port);
+        logger.info("<CLIENT>Trying to connect to: " + this.inetAddress.getHostAddress() + ":" + this.port);
 
         this.socket = new Socket(this.inetAddress, this.port);
-        System.out.println("<CLIENT>Connected to: " + this.inetAddress.getHostAddress() + ":" + this.port);
+        logger.info("<CLIENT>Connected to: " + this.inetAddress.getHostAddress() + ":" + this.port);
 
 
         this.oos = new ObjectOutputStream(this.socket.getOutputStream());
@@ -63,7 +65,7 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
         try {
             socket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+           logger.warning("disconnection went wrong" + e.getCause());
         }
         // if i use this there are problem with the buffer reader
         // OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();

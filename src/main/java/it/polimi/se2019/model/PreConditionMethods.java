@@ -174,17 +174,17 @@ public class PreConditionMethods implements Serializable {
         System.out.println("# verificando se il target sia visibile...");
         Player me = actionContext.getPlayer();
         Position playerPosition = me.getPosition();
-        Square   playerSquare   = actionContext.getBoard().getMap()[playerPosition.getY()][playerPosition.getX()];
+        Square   playerSquare   = actionContext.getBoard().getSquare(playerPosition);
         List<Player> targets = actionDetails.getUserSelectedActionDetails().getTargetList();
         if(
                 !playerSquare.getSide(CardinalPoint.north).equals(SquareSide.door) &&
                   !playerSquare.getSide(CardinalPoint.south).equals(SquareSide.door)  &&
                      !playerSquare.getSide(CardinalPoint.west).equals(SquareSide.door) &&
                          !playerSquare.getSide(CardinalPoint.east).equals(SquareSide.door) ) {
-            /*posizione senza porte*/
+           System.out.println("/*posizione senza porte*/");
             boolean retVal = true;
             for (Player t : targets) {
-                Square targetSquare = actionContext.getBoard().getMap()[t.getPosition().getY()][t.getPosition().getX()];
+                Square targetSquare = actionContext.getBoard().getSquare(t.getPosition());
                 if(targetSquare.getColor() != playerSquare.getColor())
                     retVal = false;
             }
@@ -194,29 +194,40 @@ public class PreConditionMethods implements Serializable {
             Square southSide = null;
             Square eastSide  = null;
             Square westSide  = null;
-
             if(playerSquare.getSide(CardinalPoint.north).equals(SquareSide.door)) {
-                if(playerPosition.getX() > 0)
-                northSide = actionContext.getBoard().getSquare(playerPosition.getY(),playerPosition.getX() - 1);
+            //    if(playerPosition.getX() > 0)
+                if(playerPosition.getX() > 0) {
+                    System.out.println("porta a nord");
+                    northSide = actionContext.getBoard().getSquare(playerPosition.getX() - 1, playerPosition.getY());
+                }
             }
 
             if(playerSquare.getSide(CardinalPoint.east).equals(SquareSide.door)) {
-                if(playerPosition.getY() < 2)
-                eastSide = actionContext.getBoard().getSquare(playerPosition.getY() + 1,playerPosition.getX());
+            //    if(playerPosition.getY() < 2)
+                if(playerPosition.getY() < 3) {
+                    System.out.println("porta a est to " + (playerPosition.getX() + 1) + " " + playerPosition.getY());
+                    eastSide = actionContext.getBoard().getSquare(playerPosition.getX(), playerPosition.getY() + 1);
+                }
             }
 
             if(playerSquare.getSide(CardinalPoint.west).equals(SquareSide.door)) {
-                if(playerPosition.getY() > 0)
-                westSide = actionContext.getBoard().getSquare(playerPosition.getY() - 1,playerPosition.getX());
+            //    if(playerPosition.getY() > 0)
+                if(playerPosition.getY() > 0) {
+                    System.out.println("porta a ovest");
+                    westSide = actionContext.getBoard().getSquare(playerPosition.getX(), playerPosition.getY() - 1);
+                }
             }
             if(playerSquare.getSide(CardinalPoint.south).equals(SquareSide.door)) {
-                if(playerPosition.getX() < 3)
-                southSide = actionContext.getBoard().getSquare(playerPosition.getY(),playerPosition.getX()+1);
+            //    if(playerPosition.getX() < 3)
+                if(playerPosition.getX() < 2) {
+                    System.out.println("porta a sud");
+                    southSide = actionContext.getBoard().getSquare(playerPosition.getX() + 1, playerPosition.getY());
+                }
             }
             boolean retVal = true;
 
             for(Player t: targets) {
-                Square targetSquare = actionContext.getBoard().getMap()[t.getPosition().getY()][t.getPosition().getX()];
+                Square targetSquare = actionContext.getBoard().getSquare(t.getPosition());
                 List<Character> colors = new ArrayList<>();
                 colors.add(playerSquare.getColor());
                 if(northSide != null)
@@ -630,6 +641,7 @@ public class PreConditionMethods implements Serializable {
     public boolean differentSingleTargets(ActionDetails actionDetails,ActionContext actionContext) {
         List<Player> target = new ArrayList<>();
         int i = 0;
+
         while((Player)((Object[][]) actionContext.getPlayer().getPlayerHistory().getLast().getInput())[i][0] != null) {
             target.add((Player) ((Object[][]) actionContext.getPlayer().getPlayerHistory().getLast().getInput())[i][0]);
             i++;

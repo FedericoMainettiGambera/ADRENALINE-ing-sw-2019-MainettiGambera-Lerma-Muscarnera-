@@ -10,9 +10,14 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
 import it.polimi.se2019.controller.WaitForPlayerInput;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class SpawnState implements State {
+
+    private static PrintWriter out= new PrintWriter(System.out, true);
+    private static final Logger logger = Logger.getLogger(SpawnState.class.getName());
 
     private Player playerToSpawn;
 
@@ -24,7 +29,7 @@ public class SpawnState implements State {
 
 
     public SpawnState(ArrayList<Player> deadPlayers){
-        System.out.println("<SERVER> New state: " + this.getClass());
+        out.println("<SERVER> New state: " + this.getClass());
         this.deadPlayers = deadPlayers;
     }
 
@@ -32,12 +37,12 @@ public class SpawnState implements State {
     public void askForInput(Player playerToAsk) {
         this.playerToAsk = playerToAsk;
         //(playerToAsk is null)
-        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToSpawn.getNickname() + "\"");
+        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToSpawn.getNickname() + "\"");
 
         if(!this.deadPlayers.isEmpty()) {
             this.playerToSpawn = deadPlayers.get(0);
 
-            System.out.println("<SERVER> Making " + playerToSpawn.getNickname() + " draw a power");
+            out.println("<SERVER> Making " + playerToSpawn.getNickname() + " draw a power");
             //draw a power up
             ModelGate.model.getPowerUpDeck().moveCardTo(
                     playerToSpawn.getPowerUpCardsInHand(),
@@ -52,16 +57,16 @@ public class SpawnState implements State {
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe("Exception Occured: "+e.getClass()+" "+e.getCause());
         }
     }
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
         this.inputTimer.interrupt();
-        System.out.println("<SERVER> player has answered before the timer ended.");
+        out.println("<SERVER> player has answered before the timer ended.");
 
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventString VCEString = (ViewControllerEventString)VCE;
 
@@ -70,21 +75,21 @@ public class SpawnState implements State {
 
         try {
             Position spawnPosition = ModelGate.model.getBoard().getSpawnpointOfColor(cardChosen.getColor());
-            System.out.println("<SERVER> Spawning player in position [" + spawnPosition.getX() + "][" + spawnPosition.getY() +"]");
+            out.println("<SERVER> Spawning player in position [" + spawnPosition.getX() + "][" + spawnPosition.getY() +"]");
             playerToSpawn.setPosition(spawnPosition);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe("Exception Occured: "+e.getClass()+" "+e.getCause());
         }
 
         //discard the power up card
-        System.out.println("<SERVER>Discarding the chosen power up: " + cardChosen.getID());
+        out.println("<SERVER>Discarding the chosen power up: " + cardChosen.getID());
         playerToSpawn.getPowerUpCardsInHand().moveCardTo(
                 ModelGate.model.getPowerUpDiscardPile(),
                 VCEString.getInput()
         );
 
         if(!this.deadPlayers.isEmpty()) {
-            System.out.println("<SERVER> Player spawned and removed from the list of dead players");
+            out.println("<SERVER> Player spawned and removed from the list of dead players");
             this.deadPlayers.remove(0);
         }
 
@@ -96,8 +101,8 @@ public class SpawnState implements State {
     @Override
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
-        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
-        System.out.println("<SERVER> randomly making player spawn using first card in hand.");
+        out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        out.println("<SERVER> randomly making player spawn using first card in hand.");
         this.doAction(new ViewControllerEventString(playerToSpawn.getPowerUpCardsInHand().getCards().get(0).getID()));
     }
 }

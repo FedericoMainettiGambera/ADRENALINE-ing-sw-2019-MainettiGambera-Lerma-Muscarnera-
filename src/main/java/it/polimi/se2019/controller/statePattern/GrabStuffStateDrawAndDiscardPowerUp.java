@@ -8,9 +8,14 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventInt;
 import it.polimi.se2019.controller.WaitForPlayerInput;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class GrabStuffStateDrawAndDiscardPowerUp implements State {
+
+    private static PrintWriter out= new PrintWriter(System.out, true);
+    private static final Logger logger = Logger.getLogger(GrabStuffStateDrawAndDiscardPowerUp.class.getName());
 
     private int actionNumber;
 
@@ -19,18 +24,17 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
     private Player playerToAsk;
 
     public GrabStuffStateDrawAndDiscardPowerUp(int actionNumber){
-        this.playerToAsk = playerToAsk;
-        System.out.println("<SERVER> New state: " + this.getClass());
+        out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 
     @Override
     public void askForInput(Player playerToAsk) {
         this.playerToAsk = playerToAsk;
-        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //draw a new power up
-        System.out.println("<Server> The player draws a power up: " + ModelGate.model.getPowerUpDeck().getFirstCard().getID());
+        out.println("<Server> The player draws a power up: " + ModelGate.model.getPowerUpDeck().getFirstCard().getID());
         ModelGate.model.getPowerUpDeck().moveCardTo(
                 playerToAsk.getPowerUpCardsInHand(),
                 ModelGate.model.getPowerUpDeck().getFirstCard().getID()
@@ -43,21 +47,21 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe("Exception occured"+" "+e.getCause()+" "+ e.getClass());
         }
     }
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
         this.inputTimer.interrupt();
-        System.out.println("<SERVER> player has answered before the timer ended.");
+        out.println("<SERVER> player has answered before the timer ended.");
 
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventInt VCEInt = (ViewControllerEventInt)VCE;
 
         //discard power up
-        System.out.println("<SERVER> The player discards power up: " + ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().get(VCEInt.getInput()).getID());
+        out.println("<SERVER> The player discards power up: " + ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().get(VCEInt.getInput()).getID());
         ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
                 ModelGate.model.getPowerUpDiscardPile(),
                 ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().get(VCEInt.getInput()).getID()
@@ -86,7 +90,7 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
     @Override
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
-        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
         if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());

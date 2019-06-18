@@ -1,12 +1,10 @@
 NAME
-RAILGUN
+cartanongiocabile
 RELOAD COST
 y
-2
-RELOAD COST
-b
 1
-
+y
+1
 NEW EFFECT
 EXPECTED INPUT
 singleTarget
@@ -15,28 +13,9 @@ ALL
 END
 END
 ACTIONS
-Damage
+Action
 ACTION INFO
 PRECONDITION
-alwaysTrue
-SET
-3
-END
-END
-
-NEW EFFECT
-EXPECTED INPUT
-twoTargets
-TO
-ALL
-END
-END
-ACTIONS
-Damage
-ACTION INFO
-PRECONDITION
-sameCardinalDirectionOfTargets
-SET
-2
+alwaysFalse
 END
 END

@@ -5,24 +5,30 @@ import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 
+import java.io.PrintWriter;
+import java.util.logging.Logger;
+
 public class FFSetUpState implements State {
+
+    private static PrintWriter out= new PrintWriter(System.out, true);
+    private static final Logger logger = Logger.getLogger(FFSetUpState.class.getName());
 
 
     private int numberOfPlayerTurnsToEndGame;
 
     public FFSetUpState(){
-        System.out.println("<SERVER> New state: " + this.getClass());
+        out.println("<SERVER> New state: " + this.getClass());
         this.numberOfPlayerTurnsToEndGame = ModelGate.model.getPlayerList().getNumberOfPlayers();
     }
 
     @Override
     public void askForInput(Player playerToAsk) {
-        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
     }
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
         int position=-1;
         int number=0;
 
@@ -66,6 +72,6 @@ public class FFSetUpState implements State {
 
     @Override
     public void handleAFK() {
-        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
     }
 }

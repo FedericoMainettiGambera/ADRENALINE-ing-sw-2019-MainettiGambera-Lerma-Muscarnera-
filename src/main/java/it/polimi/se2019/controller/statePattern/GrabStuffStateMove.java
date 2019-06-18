@@ -10,9 +10,15 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPosition;
 import it.polimi.se2019.controller.WaitForPlayerInput;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class GrabStuffStateMove implements State {
+
+    private static PrintWriter out= new PrintWriter(System.out, true);
+    private static final Logger logger = Logger.getLogger(GrabStuffStateMove.class.getName());
+
 
     private int actionNumber;
     private int numberOfMovement;
@@ -22,15 +28,14 @@ public class GrabStuffStateMove implements State {
     private Thread inputTimer;
 
     public GrabStuffStateMove(int actionNumber){
-        this.playerToAsk = playerToAsk;
-        System.out.println("<SERVER> New state: " + this.getClass());
+        out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 
     @Override
     public void askForInput(Player playerToAsk){
         this.playerToAsk = playerToAsk;
-        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         this.numberOfMovement = 1;
         if((ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineGrabAction())||(ModelGate.model.hasFinalFrenzyBegun()&&(playerToAsk.getBeforeorafterStartingPlayer()<0))){
@@ -40,15 +45,15 @@ public class GrabStuffStateMove implements State {
             this.numberOfMovement=3;
         }
 
-        System.out.println("<SERVER> The player can make " + this.numberOfMovement + " number of moves");
+        out.println("<SERVER> The player can make " + this.numberOfMovement + " number of moves");
 
         ArrayList<Position> possiblePositions = ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(),this.numberOfMovement);
-        System.out.println("<SERVER> Possible positions to move before grabbing calculated:");
-        String toPrintln = "";
-        for (int i = 0; i < possiblePositions.size() ; i++) {
-            toPrintln += "    [" + possiblePositions.get(i).getX()+ "][" + possiblePositions.get(i).getY() + "]";
+        out.println("<SERVER> Possible positions to move before grabbing calculated:");
+        StringBuilder toPrintln = new StringBuilder();
+        for (Position possiblePosition : possiblePositions) {
+            toPrintln.append("    [").append(possiblePosition.getX()).append("][").append(possiblePosition.getY()).append("]");
         }
-        System.out.println(toPrintln);
+        out.println(toPrintln);
 
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
@@ -56,21 +61,21 @@ public class GrabStuffStateMove implements State {
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
-            e.printStackTrace();
+           logger.severe("Exception Occured"+" "+e.getClass()+" "+e.getCause());
         }
     }
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
         this.inputTimer.interrupt();
-        System.out.println("<SERVER> player has answered before the timer ended.");
+        out.println("<SERVER> player has answered before the timer ended.");
 
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventPosition VCEPosition = (ViewControllerEventPosition)VCE;
 
         //set new position for the player
-        System.out.println("<SERVER> moving player to position: [" +VCEPosition.getX()+ "][" +VCEPosition.getY() + "]");
+        out.println("<SERVER> moving player to position: [" +VCEPosition.getX()+ "][" +VCEPosition.getY() + "]");
         ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setPosition(
                 VCEPosition.getX(),
                 VCEPosition.getY()
@@ -83,7 +88,7 @@ public class GrabStuffStateMove implements State {
     @Override
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
-        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
         if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());

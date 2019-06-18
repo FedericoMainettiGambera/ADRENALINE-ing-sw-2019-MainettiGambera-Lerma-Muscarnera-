@@ -6,6 +6,7 @@ import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
+import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
 import it.polimi.se2019.view.components.EffectV;
 import it.polimi.se2019.view.components.PowerUpCardV;
 import it.polimi.se2019.view.components.WeaponCardV;
@@ -136,5 +137,10 @@ public class ViewSelector implements SelectorV {
     @Override
     public void askNickname() {
         this.getCorrectSelector().askNickname();
+    }
+
+    @Override
+    public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformormation) {
+        this.getCorrectSelector().askPaymentInformation(SEPaymentInformormation);
     }
 }

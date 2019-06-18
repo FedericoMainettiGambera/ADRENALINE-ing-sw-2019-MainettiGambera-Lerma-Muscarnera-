@@ -237,7 +237,7 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
         }
         else{
             for (Object s: possibleInputs) {
-                if(s.getClass().toString().contains("NomalSquare")) {
+                if(s.getClass().toString().contains("NormalSquare")) {
                     possibleInputsV.add(((NormalSquare)s).buildNormalSquareV((NormalSquare)s));
                 }
                 else{
@@ -262,6 +262,17 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
     @Override
     public void askNickname() {
         //left empty
+    }
+
+    @Override
+    public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformation) {
+        try{
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(), SEPaymentInformation);
+
+        }catch(IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
 

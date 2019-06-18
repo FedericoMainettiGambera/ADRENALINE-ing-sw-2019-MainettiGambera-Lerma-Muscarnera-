@@ -22,7 +22,10 @@ public class PlayerHistory {
         return historyElementList.size();
     }
     public PlayerHistoryElement getLast() {
+        if(historyElementList.size()>0)
         return historyElementList.get(historyElementList.size() - 1);
+        else
+            return null;
     }
 
     public PlayerHistory() {

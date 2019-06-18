@@ -7,7 +7,14 @@ import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
 import it.polimi.se2019.controller.WaitForPlayerInput;
+
+import java.io.PrintWriter;
+import java.util.logging.Logger;
+
 public class GrabStuffState implements State {
+
+    private static PrintWriter out= new PrintWriter(System.out, true);
+    private static final Logger logger = Logger.getLogger(GrabStuffState.class.getName());
 
     private int actionNumber;
 
@@ -16,15 +23,14 @@ public class GrabStuffState implements State {
     private Thread inputTimer;
 
     public GrabStuffState(int actionNumber){
-        this.playerToAsk = playerToAsk;
-        System.out.println("<SERVER> New state: " + this.getClass());
+        out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 
     @Override
     public void askForInput(Player playerToAsk) {
         this.playerToAsk = playerToAsk;
-        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //ask for input
         try {
@@ -40,14 +46,14 @@ public class GrabStuffState implements State {
     @Override
     public void doAction(ViewControllerEvent VCE) {
         this.inputTimer.interrupt();
-        System.out.println("<SERVER> player has answered before the timer ended.");
+        out.println("<SERVER> player has answered before the timer ended.");
 
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventString VCEString = (ViewControllerEventString)VCE;
         String choice = VCEString.getInput();
 
-        System.out.println("<SERVER> Player's choice: " + choice);
+        out.println("<SERVER> Player's choice: " + choice);
 
         if(choice.equals("move")){
             ViewControllerEventHandlerContext.setNextState(new GrabStuffStateMove(this.actionNumber));
@@ -65,7 +71,7 @@ public class GrabStuffState implements State {
     @Override
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
-        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
         if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());

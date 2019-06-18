@@ -8,7 +8,12 @@ import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
 
+import java.io.PrintWriter;
+import java.util.logging.Logger;
+
 public class TurnState implements State {
+    private static PrintWriter out= new PrintWriter(System.out, true);
+    private static final Logger logger = Logger.getLogger(TurnState.class.getName());
 
     private int actionNumber;
 
@@ -17,14 +22,14 @@ public class TurnState implements State {
     private Thread inputTimer;
 
     public TurnState(int actionNumber){
-        System.out.println("<SERVER> New state: " + this.getClass());
+        out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 
     @Override
     public void askForInput(Player playerToAsk) {
         this.playerToAsk = playerToAsk;
-        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //ask for input
         try {
@@ -33,7 +38,7 @@ public class TurnState implements State {
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe("Exception Occured: "+e.getClass()+" "+e.getCause());
         }
     }
 
@@ -41,12 +46,12 @@ public class TurnState implements State {
     public void doAction(ViewControllerEvent VCE) {
 
         this.inputTimer.interrupt();
-        System.out.println("<SERVER> player has answered before the timer ended.");
+        out.println("<SERVER> player has answered before the timer ended.");
 
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         String actionChosen = ((ViewControllerEventString)VCE).getInput();
-        System.out.println("<SERVER> Player's choice is : " + actionChosen);
+        out.println("<SERVER> Player's choice is : " + actionChosen);
 
 
         //set correct next state
@@ -70,7 +75,7 @@ public class TurnState implements State {
     @Override
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
-        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
         if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());

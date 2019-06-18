@@ -36,7 +36,7 @@ END
 
 NEW EFFECT
 EXPECTED INPUT
-singleTargetBySquare
+singleTarget
 TO
 ALL
 END

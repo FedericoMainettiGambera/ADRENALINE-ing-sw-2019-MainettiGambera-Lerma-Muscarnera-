@@ -26,11 +26,11 @@ END
 
 NEW EFFECT
 EXPECTED INPUT
-simpleSquareSelect
+player
 TO
 ALL
 END
-player
+simpleSquareSelect
 TO
 ALL
 END

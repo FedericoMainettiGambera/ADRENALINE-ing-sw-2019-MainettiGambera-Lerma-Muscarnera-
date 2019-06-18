@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
 //TODO
 public class TestWeaponCard {
     /*
@@ -318,43 +319,257 @@ public class TestWeaponCard {
 
         }
     }
-    */
-  /*  @Test
+
+    private String charRepeat(char c,int n) {
+        String retVal = "";
+        for(int i = 0 ; i < n;i++) {
+            retVal += c;
+        }
+        return retVal;
+
+    }
+    private void showMap(Player user,PlayersList playersList,Board board,List<Object> possible) {
+       boolean something = true;
+        if(possible == null) {
+            something  = false;
+        } else
+        {
+            if(possible.size() == 0)
+                something = false;
+        }
+        boolean playerHighlight = false;
+        int possibleCounter = 0;
+
+        if(something) {
+            if (possible.get(0).getClass().toString().equals("class it.polimi.se2019.model.Player")) {
+                playerHighlight = true;
+            }
+        }
+        String output = "";
+
+        int rowCounter = 0;
+        for(Square[] row : board.getMap())
+        {
+            int cellCounter = 0;
+            for(Square cell: row) {
+                String currentOutput = "";
+                currentOutput = " ________________ ";
+                String doorUp = "__";
+                if(cell.getSide(CardinalPoint.north).equals(SquareSide.door)) {
+                    doorUp = "    ";
+                    currentOutput = " ______" + doorUp + "______ ";
+                }
+                if ((rowCounter - 1) >= 0)
+                    if (cell.getColor() == board.getMap()[rowCounter - 1][cellCounter].getColor()) {
+
+                        currentOutput = "|" + charRepeat(' ', 16) + "|";
+                    }
+                output += currentOutput;
+                cellCounter++;
+            }
+
+                output +='\n';
+            for (Square cell : row) {
+                char isChoseable = ' ';
+                if(something)
+                if(!playerHighlight)
+                if(possible.contains(cell))
+                    isChoseable = '#';
+
+                String label = "|COLOR: " + cell.getColor() + "" + isChoseable + "x:"+cell.getCoordinates().getX() + ",y:"+cell.getCoordinates().getY();
+                output +=  label + charRepeat(' ',17 - (label).length() )  + "|";
+
+            }
+            output +='\n';
+            int counter = 0;
+            double middle = Math.ceil( (playersList.getPlayers().size() * 0.5) );
+            char lastColor = row[0].getColor();
+            for(Player x: playersList.getPlayers()) {
+                cellCounter = 0;
+                for (Square cell : row) {
+                    String content = "";
+                    if(cell.getCoordinates().equals(x.getPosition())) {
+                        char brake1 = ' ';
+                        char brake2 = ' ';
+                        char brake3 = ' ';
+                        char brake4 = ' ';
+                        if(x.equals(user)) {
+                            brake3 = '[';
+                            brake4 = ']';
+                        }
+                        if(something)
+                        if(playerHighlight) {
+
+                            for(Object o : possible) {
+                                if(((Player) o).equals(x)) {
+                                    brake1 = '<';
+                                    brake2 = '>';
+                                }
+                            }
+                        }
+                        content = brake1 +""+ brake3 +  x.getNickname() + brake4 +""+ brake2;
+                    }
+                    int spaces = (16 - (content.length()))/2;
+                    int corrector = 0;
+                    if((spaces * 2 + content.length()) < 16) {
+                        corrector++;
+                    }
+                    char charWallWest = '|';
+                    char charWallEast = '|';
+                    char charWallNorth = '|';
+                    char charWallSouth = '|';
+                    if(counter == middle) {
+                        if(cell.getSide(CardinalPoint.west).equals(SquareSide.door)) {
+                            charWallWest = ' ';
+                        }
+                        if(cell.getSide(CardinalPoint.east).equals(SquareSide.door)) {
+                            charWallEast = ' ';
+                        }
+                    }
+                    if(cell.getColor() == lastColor ) {
+                        charWallWest = ' ';
+                        }
+                    if((cellCounter + 1 ) < row.length)
+                    if(cell.getColor() == row[cellCounter+1].getColor() ) {
+                        charWallEast = ' ';
+                    }
+                    output += charWallWest + charRepeat(' ', spaces + corrector) + content + charRepeat(' ', spaces  )  + charWallEast;
+                    lastColor = cell.getColor();
+                    cellCounter++;
+                }
+                output += '\n';
+                counter++;
+            }
+            cellCounter= 0;
+            for(Square cell: row) {
+               String currentOutput = "";
+                currentOutput = "|________________|";
+                String doorDown = "__";
+                if(cell.getSide(CardinalPoint.south).equals(SquareSide.door)) {
+                    doorDown = "    ";
+                    currentOutput = "|______" + doorDown + "______|";
+                }
+
+                if((rowCounter + 1 ) < board.getMap().length)
+                if(cell.getColor() == board.getMap()[rowCounter+1][cellCounter].getColor()) {
+
+                    currentOutput = "|" + charRepeat(' ',16) + "|";
+                }
+                output += currentOutput;
+                cellCounter++;
+            }
+            output += '\n';
+        rowCounter++;
+        }
+        System.out.println(output);
+    }
+    @Test
     public void testUsable() throws Exception {
 
 
         Board board = new Board("2",new VirtualView(),new VirtualView());
         List<Player> user = new ArrayList<>();
-        user.add(new Player());user.add(new Player());user.add(new Player());user.add(new Player());
+        user.add(new Player());user.add(new Player());user.add(new Player());user.add(new Player());user.add(new Player());
         Player user1 = user.get(0);
         Player user2 = user.get(1);
         Player user3 = user.get(2);
         Player user4 = user.get(3);
-
+        Player user5 = user.get(4);
 
         user1.setNickname("Aldo");
         user2.setNickname("Bruno");
         user3.setNickname("Carlo");
         user4.setNickname("Dario");
+        user5.setNickname("Elena");
+
         PlayersList playerList = new PlayersList();
         playerList.getPlayers().add(user1);
         playerList.getPlayers().add(user2);
         playerList.getPlayers().add(user3);
         playerList.getPlayers().add(user4);
+        playerList.getPlayers().add(user5);
 
-        user1.setPosition(1, 2);
-        user2.setPosition(1, 2);
-        user3.setPosition(1, 1);                 //   same position
-        user4.setPosition(2, 2);
-       int i = 10;
-        for(i=1;i<=21;i++){
-            System.out.println("\n\n\n*************" + i + "***********\n\n\n");
-            WeaponCard w = new WeaponCard(i + "");
-            System.out.println(w.getEffects());
-            w.passContext(user1, playerList, board);
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>" + w.usableEffects().size());
-            for (Effect e : w.usableEffects())
-                System.out.println(e + ">>>>>>>>>>>>>>>>>>>>>>>>" + e.usableInputs());
-        }
-    }*/
+        user1.setPosition(0, 1);
+        user2.setPosition(0, 1);
+        user3.setPosition(0 , 2);                 //   same position
+        user4.setPosition(0, 0);
+        user5.setPosition(2, 0);
+            int i = 1;
+            int j = 20;
+            int effectN = 0;
+            int effectM = 1;
+            int currentPlayer = 1;
+            for(i = j;i <= j;i++) {
+                System.out.println("#############################################");
+                System.out.println("#############################################");
+                System.out.println("#############################################");
+                System.out.println("#############################################");
+                System.out.println("#############################################");
+                System.out.println("#############################################");
+                System.out.println("#############################################");
+                System.out.println("#############################################");
+                System.out.println("#############################################");
+                System.out.println("#############################################");
+                System.out.println("#############################################");
+                System.out.println("#############################################");
+                System.out.println("#############################################");
+                System.out.println("#############################################");
+                System.out.println("#############################################");
+                System.out.println("#############################################");
+                System.out.println("#############################################");
+                System.out.println("#############################################");
+                System.out.println("#############################################");
+                for(i = 1; i <= 21;i++) {
+                    WeaponCard w = new WeaponCard(i + "");
+                    w.passContext(user.get(currentPlayer), playerList, board);
+                    System.out.println(">>>>>>>>>>>>>>>>>>>>>>>> CHECKERRRR " + w.usableEffects());
+                }
+                try {
+                    System.out.println("\n\n\n*************" + i + "***********\n\n\n");
+                    WeaponCard w = new WeaponCard(i + "");
+                    System.out.println(w.getEffects());
+                    w.passContext(user.get(currentPlayer), playerList, board);
+                    System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>" + w.usableEffects().size());
+                    Object[] row = new Object[10];
+                    row[0] = user1;
+                    row[1] = user2;
+                    w.getEffects().get(effectN).handleRow(w.getEffects().get(effectN).getEffectInfo().getEffectInfoElement().get(0),row);
+
+                    showMap(user.get(currentPlayer), playerList, board, w.getEffects().get(effectN).usableInputs().get(0).get(0));
+
+//                    showMap(user.get(currentPlayer), playerList, board, w.getEffects().get(effectN).usableInputs().get(1).get(0));
+                    //row[0] =    board.getSquare(user5.getPosition());
+                    //w.getEffects().get(effectN).handleRow(w.getEffects().get(effectN).getEffectInfo().getEffectInfoElement().get(1),row);
+                    //showMap(user.get(currentPlayer), playerList, board, w.getEffects().get(effectN).usableInputs().get(1).get(0));
+                    //for (Effect e : w.getEffects()) {
+                       // System.out.println(w.getEffects().get(effectN) + ">>>>>>>>>>>>>>>>>>>>>>>" + w.getEffects().get(effectN).usableInputs());
+
+                         row[0] = board.getSquare(user3.getPosition());
+                      //  showMap(user2, playerList, board, w.getEffects().get(effectM).usableInputs().get(0).get(0));
+                    //showMap(user2, playerList, board, w.getEffects().get(0).usableInputs().get(1).get(0));
+                        //row[0] = board.getSquare(0,2);
+                       // System.out.println("possibile " + w.getEffects().get(0).usableInputs().get(1).get(0));
+                        //w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(1),row);
+//                        showMap(user2, playerList, board, w.getEffects().get(0).usableInputs().get(1).get(0));
+                   //     w.getEffects().get(1).Exec();
+
+                /*    Object[] r = new Object[10];
+                    int inputCorrente = 0;
+                    // il primo input è player
+                    // r al momento è vuota
+                    r[0] = new Object();
+                    w.getEffects().get(effectN).handleRow(w.getEffects().get(effectN).getEffectInfo().getEffectInfoElement().get(inputCorrente),r);
+                    inputCorrente++;
+                    // il secondo input è simpleSquareSelect
+                    r[0] = board.getSquare(0,0);
+                    w.getEffects().get(effectN).handleRow(w.getEffects().get(effectN).getEffectInfo().getEffectInfoElement().get(inputCorrente),r);
+                    */
+    /*
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+    }
 }
+
+    */

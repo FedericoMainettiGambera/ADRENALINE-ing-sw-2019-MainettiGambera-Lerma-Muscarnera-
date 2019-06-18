@@ -1,7 +1,9 @@
 package it.polimi.se2019.controller;
 
+import it.polimi.se2019.controller.statePattern.ChooseHowToPayState;
 import it.polimi.se2019.controller.statePattern.State;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPaymentInformation;
 import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
 
@@ -11,6 +13,8 @@ import java.util.Observer;
 public class  ViewControllerEventHandlerContext implements Observer{
 
     public static State state;
+
+    public static ChooseHowToPayState paymentProcess;
 
     public static SocketVirtualView socketVV;
     public static RMIVirtualView RMIVV;
@@ -23,6 +27,11 @@ public class  ViewControllerEventHandlerContext implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         ViewControllerEvent VCE = (ViewControllerEvent) arg;
-        state.doAction(VCE);
+        if(VCE.getClass().toString().contains("PaymentInformation")){
+            paymentProcess.doPayment((ViewControllerEventPaymentInformation)VCE);
+        }
+        else {
+            state.doAction(VCE);
+        }
     }
 }

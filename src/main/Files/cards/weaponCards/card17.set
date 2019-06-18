@@ -27,7 +27,7 @@ ACTIONS
 Damage
 ACTION INFO
 PRECONDITION
-alwaysTrue
+distanceOfTargetFromPlayerSquareIs1
 SET
 1
 END
@@ -85,7 +85,7 @@ END
 Move
 ACTION INFO
 PRECONDITION
-distanceFromLastSelectedSquareExactlyOne
+distanceOfSquareFromPlayerExactlyOne
 END
 Damage
 ACTION INFO

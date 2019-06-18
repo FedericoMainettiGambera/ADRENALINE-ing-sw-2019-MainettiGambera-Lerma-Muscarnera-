@@ -7,10 +7,12 @@ import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
+import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
 import it.polimi.se2019.model.events.viewControllerEvents.*;
 import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.view.components.*;
+import it.polimi.se2019.view.outputHandler.CLIOutputHandler;
 import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
 import it.polimi.se2019.virtualView.Selector;
 import it.polimi.se2019.virtualView.SelectorV;
@@ -18,6 +20,7 @@ import it.polimi.se2019.virtualView.SelectorV;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.lang.reflect.Array;
 import java.rmi.RemoteException;
 import java.util.*;
@@ -26,6 +29,8 @@ import java.util.concurrent.TimeUnit;
 public class CLISelector implements SelectorV {
 
     private String networkConnection;
+
+    static private PrintWriter out= new PrintWriter(System.out, true);
 
     public CLISelector(String networkConnection){
         this.networkConnection = networkConnection;
@@ -56,6 +61,10 @@ public class CLISelector implements SelectorV {
     }
 
     public static void showListOfRequests(List<String> requests){
+        if(ViewModelGate.getModel()!=null && ViewModelGate.getModel().getPlayers()!=null && ViewModelGate.getModel().getPlayers().getPlayers()!=null
+          && ViewModelGate.getModel().getBoard()!=null && ViewModelGate.getModel().getBoard().getMap()!=null) {
+            CLIOutputHandler.showMap();
+        }
         int maxLenght = 10;
 
         for (int i = 0; i < requests.size(); i++) {
@@ -142,7 +151,7 @@ public class CLISelector implements SelectorV {
     public static int askNumber(int rangeInit, int rangeEnd){
         if(Controller.randomGame == true){
             try {
-                TimeUnit.MILLISECONDS.sleep(100);
+                TimeUnit.MILLISECONDS.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -200,7 +209,7 @@ public class CLISelector implements SelectorV {
                 mapChoice = "map3";
             }
 
-            System.out.println("\n<CLIENT> : Do you want to play with Final frenzy active?");
+            out.println("\n<CLIENT> : Do you want to play with Final frenzy active?");
             CLISelector.showListOfRequests(Arrays.asList("Yes","No"));
             int FF = askNumber(0,1);
             if(FF==0){
@@ -240,20 +249,21 @@ public class CLISelector implements SelectorV {
 
     @Deprecated
     private class AskPlayerSetUp extends Thread {
+
         @Deprecated
         @Override
         public void run() {
             String nickaname = "defaultUserName";
             PlayersColors color = PlayersColors.purple;
 
-            System.out.println("<CLIENT> Insert your nickname: ");
+            out.println("<CLIENT> Insert your nickname: ");
             Scanner br = new Scanner(System.in);
             nickaname = br.nextLine();
 
             ViewModelGate.setMe(nickaname);
-            System.out.println("<CLIENT> \"ME\" is: " + nickaname);
+            out.println("<CLIENT> \"ME\" is: " + nickaname);
 
-            System.out.println("<CLIENT> ChooseColor: \n" +
+            out.println("<CLIENT> ChooseColor: \n" +
                     "    blue,\n" +
                     "    yellow,\n" +
                     "    gray,\n" +
@@ -299,7 +309,7 @@ public class CLISelector implements SelectorV {
         }
         @Override
         public void run() {
-            System.out.println("\n<CLIENT> choose the PowerUp to discard and spawn to: ");
+            out.println("\n<CLIENT> choose the PowerUp to discard and spawn to: ");
             ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < powerUpCards.size(); i++) {
                 requests.add(powerUpCards.get(i).getName() + ": " + powerUpCards.get(i).getDescription() + ".       COLOR: " + powerUpCards.get(i).getColor());
@@ -332,17 +342,17 @@ public class CLISelector implements SelectorV {
         @Override
         public void run() {
             if(actionNumber == 1) {
-                System.out.println("\n<CLIENT> Choose your first action");
+                out.println("\n<CLIENT> Choose your first action");
             }
             else{
-                System.out.println("\n<CLIENT> Choose your second action");
+                out.println("\n<CLIENT> Choose your second action");
             }
 
 
             CLISelector.showListOfRequests(Arrays.asList("run around","grab stuff", "shoot people"));
 
             //FOR DEBUGGING:
-            int choice = askNumber(0,1);
+            int choice = askNumber(0,2);
             //int choice = askNumber(0,2);
 
             String action = null;
@@ -376,7 +386,7 @@ public class CLISelector implements SelectorV {
         }
         @Override
         public void run() {
-            System.out.println("\n<CLIENT> choose where to move: ");
+            out.println("\n<CLIENT> choose where to move: ");
 
             ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < positions.size(); i++) {
@@ -406,7 +416,7 @@ public class CLISelector implements SelectorV {
     private class AskGrabSuffAction extends Thread {
         @Override
         public void run() {
-            System.out.println("\n<CLIENT> What do you want to do?");
+            out.println("\n<CLIENT> What do you want to do?");
             CLISelector.showListOfRequests(Arrays.asList("move to another position and grab there","grab where you are without moving"));
 
             int choosenAction = askNumber(0,1);
@@ -440,12 +450,12 @@ public class CLISelector implements SelectorV {
         }
         @Override
         public void run() {
-            if(toPickUp.size() == 0){
-                System.out.println("\n<CLIENT>you can't pick up any card.");
+            if(toPickUp.isEmpty()){
+                out.println("\n<CLIENT>you can't pick up any card.");
                 return;
             }
 
-            System.out.println("\n<CLIENT>Choose what to pick up:");
+            out.println("\n<CLIENT>Choose what to pick up:");
             ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < toPickUp.size(); i++) {
                 requests.add(toPickUp.get(i).getName() + ": " + toPickUp.get(i).getPickUpCost());
@@ -479,14 +489,14 @@ public class CLISelector implements SelectorV {
         }
         @Override
         public void run() {
-            if(toPickUp.size() == 0){
-                System.out.println("\n<CLIENT>you can't pick up any card.");
+            if(toPickUp.isEmpty()){
+                out.println("\n<CLIENT>you can't pick up any card.");
                 return;
             }
 
-            System.out.println("\n<CLIENT>you already have the maximum quantity of weapon you can hold.");
-            System.out.println("<CLIENT>Choose one to pick up and one to discard.");
-            System.out.println("<CLIENT>To pick up:");
+            out.println("\n<CLIENT>you already have the maximum quantity of weapon you can hold.");
+            out.println("<CLIENT>Choose one to pick up and one to discard.");
+            out.println("<CLIENT>To pick up:");
             ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < toPickUp.size(); i++) {
                 if(toPickUp.get(i).getPickUpCost() == null){
@@ -503,7 +513,7 @@ public class CLISelector implements SelectorV {
             String toPickUpID = toPickUp.get(chosenToPickUp).getID();
 
             requests.clear();
-            System.out.println("<CLIENT>Switch with:");
+            out.println("<CLIENT>Switch with:");
             for (int i = 0; i < toSwitch.size(); i++) {
                 requests.add(toSwitch.get(i).getName());
             }
@@ -529,12 +539,12 @@ public class CLISelector implements SelectorV {
 
     private class AskPowerUpToDiscard extends Thread {
         private ArrayList<PowerUpCardV> toDiscard;
-        public AskPowerUpToDiscard(ArrayList<PowerUpCardV> toDiscard){
+        private AskPowerUpToDiscard(ArrayList<PowerUpCardV> toDiscard){
             this.toDiscard = toDiscard;
         }
         @Override
         public void run() {
-            System.out.println("\n<CLIENT>You have too many power up in hand. You need to discard one:");
+            out.println("\n<CLIENT>You have too many power up in hand. You need to discard one:");
             ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < toDiscard.size() ; i++) {
                 requests.add(toDiscard.get(i).getName() + ": " + toDiscard.get(i).getColor());
@@ -565,7 +575,7 @@ public class CLISelector implements SelectorV {
         }
         @Override
         public void run() {
-            System.out.println("\n<CLIENT> Which weapon do you want to reload?");
+            out.println("\n<CLIENT> Which weapon do you want to reload?");
             ArrayList<String> requests = new ArrayList<>();
             requests.add("skip reload");
             for (int i = 0; i < toReload.size() ; i++) {
@@ -619,10 +629,10 @@ public class CLISelector implements SelectorV {
             int numberOfMoves;
             numberOfMoves=1;
 
-            System.out.println("\n<CLIENT> Do you want to:");
+            out.println("\n<CLIENT> Do you want to:");
             CLISelector.showListOfRequests(Arrays.asList("move before shoting","stay still and shoot"));
 
-            System.out.println("remember, you can move up to "+numberOfMoves + " squares");
+            out.println("remember, you can move up to "+numberOfMoves + " squares");
 
             int chosen = askNumber(0,1);
 
@@ -656,10 +666,10 @@ public class CLISelector implements SelectorV {
             numberOfMoves=1;
             Scanner br = new Scanner(System.in);
 
-            System.out.println("\n<CLIENT> Do you want to:");
+            out.println("\n<CLIENT> Do you want to:");
             //TODO
             CLISelector.showListOfRequests(Arrays.asList("if you want to move, reload and shoot","if you want to stay still, reload and shot", "TODO !!" ));
-            System.out.println("remember, you can move up to "+numberOfMoves + " squares.");
+            out.println("remember, you can move up to "+numberOfMoves + " squares.");
 
             int chosen = br.nextInt();
             ViewControllerEventInt VCEint = new ViewControllerEventInt(chosen);
@@ -687,7 +697,7 @@ public class CLISelector implements SelectorV {
         public void run() {
             Scanner br = new Scanner(System.in);
 
-            System.out.println("\n<CLIENT> What weapon do you want to use?");
+            out.println("\n<CLIENT> What weapon do you want to use?");
             ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < loadedCardInHand.size() ; i++) {
                 requests.add(loadedCardInHand.get(i).getName());
@@ -752,7 +762,7 @@ public class CLISelector implements SelectorV {
         }
         @Override
         public void run(){
-            System.out.println("<CLIENT> " + "requested input type: " + infoType);
+            out.println("<CLIENT> " + "requested input type: " + infoType);
 
             int request = howManyRequest();
 
@@ -763,20 +773,20 @@ public class CLISelector implements SelectorV {
             ArrayList<String> requestsString = new ArrayList<>();
 
             for (int j = 0; j < request ; j++) {
-                if(possibleInputs.get(0).getClass().toString().contains("Player")){
-                    System.out.println("<Client> please choose one of the following players: ");
-                    Player p;
+                if(possibleInputs.get(0).getClass().toString().contains("PlayerV")){
+                    out.println("<Client> please choose one of the following players: ");
+                    PlayerV p;
                     for (int i = 0; i < possibleInputs.size(); i++) {
-                        p=(Player)possibleInputs.get(i);
+                        p=(PlayerV)possibleInputs.get(i);
                         requestsString.add(p.getNickname());
                     }
                 }
                 else{
-                    System.out.println("<Client> please choose one of the following squares: ");
-                    Square s;
+                    out.println("<Client> please choose one of the following squares: ");
+                    SquareV s;
                     for (int i = 0; i < possibleInputs.size(); i++) {
-                        s=(Square)possibleInputs.get(i);
-                        requestsString.add("[" + s.getCoordinates().getX() + "][" + s.getCoordinates().getY() + "]" );
+                        s=(SquareV)possibleInputs.get(i);
+                        requestsString.add("[" + s.getX() + "][" + s.getY() + "]" );
                     }
                 }
                 CLISelector.showListOfRequests(requestsString);
@@ -786,8 +796,8 @@ public class CLISelector implements SelectorV {
                 answer.add(possibleInputs.get(chosen));
                 possibleInputs.remove(possibleInputs.get(chosen));
 
-                if(request == 999){
-                    System.out.println("Do you want to chose another one?");
+                if(request == 999){ //TODO
+                    out.println("Do you want to chose another one?");
                     CLISelector.showListOfRequests(Arrays.asList("Yes", "No"));
                     int choice = askNumber(0,1);
                     boolean YorN;
@@ -804,6 +814,11 @@ public class CLISelector implements SelectorV {
         public int howManyRequest(){
             if(this.infoType.equals(EffectInfoType.multipleSquareSelect) ||
                 this.infoType.equals(EffectInfoType.multipleTargets)){
+                try {
+                    throw new Exception("SHOULDN'T BE USED.");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 return 999; //means multiple choices
             }
             if(this.infoType.equals(EffectInfoType.twoTargets)){
@@ -841,19 +856,19 @@ public class CLISelector implements SelectorV {
 
     @Override
     public void askReconnectionNickname(ReconnectionEvent RE) {
-        System.out.println("\nAFK Players are: ");
+        out.println("\nAFK Players are: ");
         ArrayList<String> requests = new ArrayList<>();
         for (int i = 0; i < RE.getListOfAFKPlayers().size(); i++) {
             requests.add(RE.getListOfAFKPlayers().get(i));
         }
         CLISelector.showListOfRequests(requests);
-        System.out.println("What was your nickname?");
+        out.println("What was your nickname?");
 
         int choice = askNumber(0,RE.getListOfAFKPlayers().size()-1);
         ArrayList<String> answer = new ArrayList<>();
         answer.add(RE.getListOfAFKPlayers().get(choice));
 
-        System.out.println("<CLIENT> setting \"me\": " + answer.get(0));
+        out.println("<CLIENT> setting \"me\": " + answer.get(0));
         ViewModelGate.setMe(answer.get(0));
 
         answer.add(this.networkConnection);
@@ -867,10 +882,10 @@ public class CLISelector implements SelectorV {
         @Override
         public void run() {
             Scanner br = new Scanner(System.in);
-            System.out.println("<CLIENT> I'm sorry but the nickname chosen was already taken, please insert a new one:");
+            out.println("<CLIENT> I'm sorry but the nickname chosen was already taken, please insert a new one:");
             String newNickname = br.nextLine();
             ViewModelGate.setMe(newNickname);
-            System.out.println("<CLIENT> informing the server of your new nickname.");
+            out.println("<CLIENT> informing the server of your new nickname.");
             sendToServer(new ViewControllerEventNickname(ViewModelGate.getMe()));
         }
     }
@@ -878,7 +893,7 @@ public class CLISelector implements SelectorV {
     @Override
     public void askNickname() {
         if(nicknameIsAvailable) {
-            System.out.println("<CLIENT> informing the server of your nickname");
+            out.println("<CLIENT> informing the server of your nickname");
             sendToServer(new ViewControllerEventNickname(ViewModelGate.getMe()));
             nicknameIsAvailable = false;
         }
@@ -886,6 +901,57 @@ public class CLISelector implements SelectorV {
             AskNickaname AN = new AskNickaname();
             AN.start();
         }
+    }
+
+    private class AskPaymentInformation extends Thread{
+        private SelectorEventPaymentInformation SEPaymentInformation;
+        public AskPaymentInformation(SelectorEventPaymentInformation SEPaymentInformation){
+            this.SEPaymentInformation = SEPaymentInformation;
+        }
+        @Override
+        public void run() {
+            ArrayList<String> request = new ArrayList<>();
+            ArrayList<Object> answer = new ArrayList<>();
+
+            while(true) {
+                out.println("<CLIENT> you have to pay the following amount of ammo: ");
+
+                for (AmmoCubesV a : SEPaymentInformation.getAmount().getAmmoCubesList()) {
+                    out.println("         " + a.getColor() + " --> " + a.getQuantity());
+                }
+
+                if (SEPaymentInformation.canPayWithoutPowerUps()) {
+                    request.add("pay the amount with my Ammo box");
+                }
+
+                for (PowerUpCardV p : SEPaymentInformation.getPossibilities()) {
+                    request.add("use " + p.getName() + " for a " + p.getColor() + " ammo");
+                }
+
+                showListOfRequests(request);
+                int choice = askNumber(0, request.size());
+
+                if (choice == 0) {
+                    break;
+                }
+                else{
+                    answer.add(SEPaymentInformation.getPossibilities().get(choice-1));
+                    SEPaymentInformation.getPossibilities().remove(choice-1);
+                }
+
+                if(SEPaymentInformation.getPossibilities().size()==0){
+                    break;
+                }
+            }
+
+            ViewControllerEventPaymentInformation VCEPaymentInformation = new ViewControllerEventPaymentInformation(answer);
+            sendToServer(VCEPaymentInformation);
+        }
+    }
+    @Override
+    public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformormation) {
+        AskPaymentInformation api = new AskPaymentInformation(SEPaymentInformormation);
+        api.start();
     }
 }
 

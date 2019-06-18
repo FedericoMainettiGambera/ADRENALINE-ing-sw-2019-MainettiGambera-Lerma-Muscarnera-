@@ -6,13 +6,23 @@ import java.io.Serializable;
 
 public class DamageSlotV implements Serializable {
 
-    private PlayersColors shootingPlayer;
+    private PlayersColors shootingPlayerColor;
 
-    public PlayersColors getShootingPlayer() {
-        return shootingPlayer;
+    public PlayersColors getShootingPlayerColor() {
+        return shootingPlayerColor;
     }
 
-    public void setShootingPlayer(PlayersColors shootingPlayer) {
-        this.shootingPlayer = shootingPlayer;
+    private String shootingPlayerNickname;
+
+    public void setShootingPlayerNickname(String shootingPlayerNickname) {
+        this.shootingPlayerNickname = shootingPlayerNickname;
+    }
+
+    public String getShootingPlayerNickname() {
+        return shootingPlayerNickname;
+    }
+
+    public void setShootingPlayerColor(PlayersColors shootingPlayerColor) {
+        this.shootingPlayerColor = shootingPlayerColor;
     }
 }

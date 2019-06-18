@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestPlayerhand {
-  /*  @Test
+    /*
+    @Test
     public void test1() throws Exception {
         PlayerHand playerHand = new PlayerHand();
         Board board = new Board("2",new VirtualView(),new VirtualView());
@@ -42,5 +43,6 @@ public class TestPlayerhand {
                 idList.add(x.getName());
 
         System.out.println(idList);
-    }*/
+    }
+    */
 }

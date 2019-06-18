@@ -9,9 +9,13 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPosition;
 import it.polimi.se2019.controller.WaitForPlayerInput;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class RunAroundState implements State {
+    private static PrintWriter out= new PrintWriter(System.out, true);
+    private static final Logger logger = Logger.getLogger(RunAroundState.class.getName());
 
     private int actionNumber;
     private int numberOfMoves;
@@ -21,25 +25,25 @@ public class RunAroundState implements State {
     private Thread inputTimer;
 
     public RunAroundState(int actionNumber){
-        System.out.println("<SERVER> New state: " + this.getClass());
+        out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 
     @Override
     public void askForInput(Player playerToAsk) {
         this.playerToAsk = playerToAsk;
-        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         if(ModelGate.model.hasFinalFrenzyBegun()&&playerToAsk.getBeforeorafterStartingPlayer()<0){numberOfMoves=4;}
         else{numberOfMoves=3;}
 
         ArrayList<Position> possiblePositions = ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(), numberOfMoves);
-        System.out.println("<SERVER> Possible positions to move calculated:");
-        String toPrintln = "";
-        for (int i = 0; i < possiblePositions.size() ; i++) {
-            toPrintln += "[" + possiblePositions.get(i).getX()+ "][" + possiblePositions.get(i).getY() + "]    ";
+        out.println("<SERVER> Possible positions to move calculated:");
+        StringBuilder toPrintln = new StringBuilder();
+        for (Position possiblePosition : possiblePositions) {
+            toPrintln.append("[").append(possiblePosition.getX()).append("][").append(possiblePosition.getY()).append("]    ");
         }
-        System.out.println("    " + toPrintln);
+        out.println("    " + toPrintln);
 
         //ask for input
         try {
@@ -48,21 +52,21 @@ public class RunAroundState implements State {
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe("Exception occured  "+e.getClass()+"  "+e.getCause());
         }
     }
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
         this.inputTimer.interrupt();
-        System.out.println("<SERVER> player has answered before the timer ended.");
+        out.println("<SERVER> player has answered before the timer ended.");
 
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventPosition VCEPosition = (ViewControllerEventPosition)VCE;
 
         //set new position for the player
-        System.out.println("<SERVER> Setting player position to: [" +VCEPosition.getX()+ "][" +VCEPosition.getY() + "]");
+        out.println("<SERVER> Setting player position to: [" +VCEPosition.getX()+ "][" +VCEPosition.getY() + "]");
         ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setPosition(
                 VCEPosition.getX(),
                 VCEPosition.getY()
@@ -81,7 +85,7 @@ public class RunAroundState implements State {
     @Override
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
-        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
         if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());

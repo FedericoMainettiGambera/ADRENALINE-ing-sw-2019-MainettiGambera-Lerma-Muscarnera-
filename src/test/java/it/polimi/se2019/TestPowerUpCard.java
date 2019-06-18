@@ -5,6 +5,7 @@ import it.polimi.se2019.virtualView.VirtualView;
 import org.junit.Test;
 
 public class TestPowerUpCard {
+    /*
     @Test
     public void testConstructor() throws Exception {
         Board board = new Board("2",new VirtualView(),new VirtualView());
@@ -59,4 +60,5 @@ public class TestPowerUpCard {
 
 
     }
+    */
 }

@@ -69,7 +69,7 @@ public class KillShotTrack extends Observable implements Serializable {
                 e.printStackTrace();
             }
         }
-        else throw new IllegalStateException();
+        else throw new IllegalStateException("Exceeded the maximum number of skulls");
     }
 
     public boolean areSkullsOver(){
