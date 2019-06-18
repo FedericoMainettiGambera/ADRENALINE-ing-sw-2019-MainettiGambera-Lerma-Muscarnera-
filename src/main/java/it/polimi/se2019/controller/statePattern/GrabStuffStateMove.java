@@ -50,6 +50,8 @@ public class GrabStuffStateMove implements State {
         }
         System.out.println(toPrintln);
 
+
+
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askGrabStuffMove(possiblePositions);

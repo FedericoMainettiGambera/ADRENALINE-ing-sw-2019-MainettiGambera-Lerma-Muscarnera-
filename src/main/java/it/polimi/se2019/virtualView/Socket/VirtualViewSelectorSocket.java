@@ -151,7 +151,9 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
         List<Object> possibleInputsV = new ArrayList<>();
         if(possibleInputs.size()!=0) { //TODO BO STAROBA QUA NON DOVREBBE ESSERCI ; L'HO MESSA PER FARE FORZA BRUTA E SPERARE DI NON AVERE PROBLEMI DI INDEX OUT OF BOUND CHE MI DA CERTE VOLTE
-            if(possibleInputs.get(0) != null) { // TODO STA ROBA PURE NON DOVREBBE ESSERCI; L'HO MESSA PERCHE' ALCUNE VOLTE MI DA PORBLEMI DI NULL POINTER EXCEPTION, COME SE CI FOSSERO DELLE LISTE DI INPUT TUTTE A NULL
+            if(possibleInputs.get(0) != null) { // TODO         STA ROBA PURE NON DOVREBBE ESSERCI; L'HO MESSA PERCHE' ALCUNE VOLTE MI DA PORBLEMI DI NULL POINTER EXCEPTION, COME SE CI FOSSERO DELLE LISTE DI INPUT TUTTE A NULL
+                                                // TODO         MA COMUNQUE NON E' ABBASTANZA, PERCHé CERTE VOLTE DEGLI ELEMENTI SONO NULL
+                                                // TODO         PROBABILMENTE IL PROBLEMA E' CHE NELLA MAPPA CI SONO DEGLI SQUARE A NULL
                 if (possibleInputs.get(0).getClass().toString().contains("Player")) {
                     for (Object p : possibleInputs) {
                         possibleInputsV.add(((Player) p).buildPlayerV());
