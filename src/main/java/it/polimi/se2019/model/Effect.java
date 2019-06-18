@@ -1363,6 +1363,7 @@ public class Effect implements Serializable {
                 isExecutable = false;
             }
         }
+        isExecutable = true; // TODO TET FORZATO PROVVISORIO
         System.out.println("è eseguibile? "+ isExecutable);
         if(isExecutable) {
             for (Action a : this.actions) {

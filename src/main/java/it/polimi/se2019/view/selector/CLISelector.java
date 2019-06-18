@@ -58,6 +58,10 @@ public class CLISelector implements SelectorV {
     }
 
     public static void showListOfRequests(List<String> requests){
+        if(ViewModelGate.getModel()!=null && ViewModelGate.getModel().getPlayers()!=null && ViewModelGate.getModel().getPlayers().getPlayers()!=null
+          && ViewModelGate.getModel().getBoard()!=null && ViewModelGate.getModel().getBoard().getMap()!=null) {
+            CLIOutputHandler.showMap();
+        }
         int maxLenght = 10;
 
         for (int i = 0; i < requests.size(); i++) {
@@ -144,7 +148,7 @@ public class CLISelector implements SelectorV {
     public static int askNumber(int rangeInit, int rangeEnd){
         if(Controller.randomGame == true){
             try {
-                TimeUnit.MILLISECONDS.sleep(100);
+                TimeUnit.MILLISECONDS.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -788,7 +792,7 @@ public class CLISelector implements SelectorV {
                 answer.add(possibleInputs.get(chosen));
                 possibleInputs.remove(possibleInputs.get(chosen));
 
-                if(request == 999){
+                if(request == 999){ //TODO
                     System.out.println("Do you want to chose another one?");
                     CLISelector.showListOfRequests(Arrays.asList("Yes", "No"));
                     int choice = askNumber(0,1);
@@ -806,6 +810,11 @@ public class CLISelector implements SelectorV {
         public int howManyRequest(){
             if(this.infoType.equals(EffectInfoType.multipleSquareSelect) ||
                 this.infoType.equals(EffectInfoType.multipleTargets)){
+                try {
+                    throw new Exception("SHOULDN'T BE USED.");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 return 999; //means multiple choices
             }
             if(this.infoType.equals(EffectInfoType.twoTargets)){

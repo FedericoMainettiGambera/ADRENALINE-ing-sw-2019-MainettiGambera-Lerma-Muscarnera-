@@ -93,7 +93,7 @@ public class Board{
 
     public List<Square> getRoomFromPosition(Position pos){
         List<Square> room = new ArrayList<>();
-        Square originalPos = this.board[pos.getX()][pos.getY()];
+        Square originalPos = this.getSquare(pos);
         char roomColor=originalPos.getColor();
         room.add(originalPos);
         for (int i = 0; i < this.board.length; i++) {

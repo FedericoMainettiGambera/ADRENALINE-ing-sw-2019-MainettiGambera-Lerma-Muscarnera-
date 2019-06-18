@@ -67,12 +67,10 @@ public class DamagesTracker implements Serializable {
         damageSlotsList.add(damageSlot);
     }
 
-    /**@param slotNumber
-     * @return the slotNumber DamageSlot
-     * */
     public DamageSlot getLastDamageSlot() {
         return damageSlotsList.get(damageSlotsList.size()-1);
     }
+
     public DamageSlot getDamageSlot(int slotNumber) throws IndexOutOfBoundsException {
         if(damageSlotsList.size()>= slotNumber) {
             return damageSlotsList.get(slotNumber);
@@ -93,7 +91,8 @@ public class DamagesTracker implements Serializable {
         DamageSlotV tempDamageSlotV;
         for (DamageSlot d:this.damageSlotsList) {
             tempDamageSlotV = new DamageSlotV();
-            tempDamageSlotV.setShootingPlayer(d.getShootingPlayer().getColor());
+            tempDamageSlotV.setShootingPlayerNickname(d.getShootingPlayer().getNickname());
+            tempDamageSlotV.setShootingPlayerColor(d.getShootingPlayer().getColor());
             listOfDamageSlotV.add(tempDamageSlotV);
         }
         damageTrackerV.setDamageSlotsList(listOfDamageSlotV);
