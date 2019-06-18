@@ -19,6 +19,7 @@ import java.util.List;
 
 public class CLIOutputHandler implements OutputHandlerInterface{
 
+
     public void updateUserInterface(String message) {
         System.out.println(message);
     }

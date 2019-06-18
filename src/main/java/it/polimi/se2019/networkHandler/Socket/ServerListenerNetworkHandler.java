@@ -1,7 +1,7 @@
 
 package it.polimi.se2019.networkHandler.Socket;
 
-import com.sun.jmx.remote.internal.ArrayQueue;
+
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.events.Event;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEvent;
@@ -16,10 +16,13 @@ import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import static it.polimi.se2019.model.enumerations.SelectorEventTypes.askGrabStuffGrabWeapon;
 
 public class ServerListenerNetworkHandler extends Observable implements Runnable {
+
+    private static final Logger logger= Logger.getLogger(ServerListenerNetworkHandler.class.getName());
 
     private Socket socket;
 
@@ -53,7 +56,7 @@ public class ServerListenerNetworkHandler extends Observable implements Runnable
                 this.notifyObservers(E);
             }
             catch (InternalError e){
-                System.err.println("Something went Wrong in class ServerListenerNetworkHandler..." + e.getMessage());
+               logger.severe("Something went Wrong in class ServerListenerNetworkHandler..." + e.getMessage());
                 e.printStackTrace();
             }
             catch (IOException|ClassNotFoundException e) {

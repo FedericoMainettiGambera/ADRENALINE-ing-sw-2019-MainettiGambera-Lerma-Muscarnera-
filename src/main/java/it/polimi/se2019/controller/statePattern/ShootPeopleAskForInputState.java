@@ -12,9 +12,14 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventLis
 import it.polimi.se2019.view.components.PlayerV;
 import it.polimi.se2019.view.components.SquareV;
 
+import java.io.PrintWriter;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ShootPeopleAskForInputState implements State {
+
+    private static PrintWriter out= new PrintWriter(System.out, true);
+    private static final Logger logger = Logger.getLogger(ShootPeopleAskForInputState.class.getName());
     private Player playerToAsk;
 
     private Thread inputTimer;
@@ -25,7 +30,7 @@ public class ShootPeopleAskForInputState implements State {
 
 
     public ShootPeopleAskForInputState(Effect chosenEffect, int actionNumber){
-        System.out.println("<SERVER> New state: " + this.getClass());
+        out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
         this.chosenEffect = chosenEffect;
     }
@@ -43,24 +48,24 @@ public class ShootPeopleAskForInputState implements State {
     @Override
     public void askForInput(Player playerToAsk){
         this.playerToAsk = playerToAsk;
-        System.out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         EffectInfoType inputType = this.chosenEffect.getEffectInfo().getEffectInfoElement().get(inputRequestCounterF).getEffectInfoTypelist();
 
         if(isToSend(inputType)) {
             try {
-                System.out.println("<SERVER> sending " + inputType + " to player with the possible options.");
+                out.println("<SERVER> sending " + inputType + " to player with the possible options.");
 
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askEffectInputs(inputType, this.chosenEffect.usableInputs().get(inputRequestCounterF).get(0));
                 this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                 this.inputTimer.start();
             } catch (Exception e) {
-                e.printStackTrace();
+               logger.severe("Exception Occured: "+e.getClass()+" "+e.getCause());
             }
         }
         else{
-            System.out.println("<SERVER> " + inputType + " is not meant to be sent to player.");
+            out.println("<SERVER> " + inputType + " is not meant to be sent to player.");
             askMoreOrExec();
         }
     }
@@ -68,9 +73,9 @@ public class ShootPeopleAskForInputState implements State {
     @Override
     public void doAction(ViewControllerEvent VCE) {
         this.inputTimer.interrupt();
-        System.out.println("<SERVER> player has answered before the timer ended.");
+        out.println("<SERVER> player has answered before the timer ended.");
 
-        System.out.println("<SERVER> " + this.getClass() + ".doAction();");
+        out.println("<SERVER> " + this.getClass() + ".doAction();");
 
         List<Object> response = ((ViewControllerEventListOfObject)VCE).getAnswer();
 
@@ -99,9 +104,9 @@ public class ShootPeopleAskForInputState implements State {
         }
         else {
             if(!this.chosenEffect.Exec()) {
-                System.err.println("<SERVER> exec didn't work");
+               logger.severe("Exec didnt work");
             } else {
-                System.err.println("<SERVER> exec worked!");
+                logger.severe("<SERVER> exec worked!");
             }
             //TODO chiedi a luca se c'è bisogno di scaricare l arma o lo fa già l'exec().
             if(this.actionNumber == 2){
@@ -118,7 +123,7 @@ public class ShootPeopleAskForInputState implements State {
     @Override
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
-        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
         if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());

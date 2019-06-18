@@ -5,32 +5,37 @@ import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 
+import java.io.PrintWriter;
+import java.util.logging.Logger;
+
 public class GrabStuffStateDrawPowerUp implements State {
     private int actionNumber;
+    private static PrintWriter out= new PrintWriter(System.out, true);
+    private static final Logger logger = Logger.getLogger(State.class.getName());
 
     public GrabStuffStateDrawPowerUp(int actionNumber){
-        System.out.println("<SERVER> New state: " + this.getClass());
+        out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 
     @Override
     public void askForInput(Player playerToAsk) {
-        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
         //empty
     }
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         Position PlayerPosition = ModelGate.model.getCurrentPlayingPlayer().getPosition();
         OrderedCardList<AmmoCard> squareCards = ((NormalSquare)ModelGate.model.getBoard().getSquare(PlayerPosition)).getAmmoCards();
         AmmoCard ammoCard = squareCards.getFirstCard();
-        System.out.println("<SERVER> The ammo card makes the player gain ammo: " + ammoCard.getAmmunitions().toString());
+        out.println("<SERVER> The ammo card makes the player gain ammo: " + ammoCard.getAmmunitions().toString());
         ModelGate.model.getCurrentPlayingPlayer().addAmmoCubes(ammoCard.getAmmunitions());
 
         if(ammoCard.isPowerUp()){
-            System.out.println("<SERVER> The ammo card makes the player draw a power up");
+            out.println("<SERVER> The ammo card makes the player draw a power up");
             ModelGate.model.getPowerUpDeck().moveCardTo(
                     ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand(),
                     ModelGate.model.getPowerUpDeck().getFirstCard().getID()
@@ -46,7 +51,8 @@ public class GrabStuffStateDrawPowerUp implements State {
                 }
               else  state = new TurnState(2);
         }
-        if(this.actionNumber == 2) {
+        if(this.actionNumber == 2){
+            //TODO
 
         }
         ViewControllerEventHandlerContext.setNextState(state);

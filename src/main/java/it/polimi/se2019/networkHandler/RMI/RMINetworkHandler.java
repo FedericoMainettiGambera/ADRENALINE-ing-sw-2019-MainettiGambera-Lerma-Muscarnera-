@@ -18,8 +18,11 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Observable;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class RMINetworkHandler extends NetworkHandler{
+    private static final Logger LOGGER = Logger.getLogger(RMINetworkHandler.class.getName());
+
 
     public static Client client;
     RMIObsHandler rmiObsHandler;
@@ -29,8 +32,8 @@ public class RMINetworkHandler extends NetworkHandler{
         rmiObsHandler = new RMIObsHandler(view);
 
 
-        System.out.println("<CLIENT> " + "~~ Welcome To RMI Adrenaline Server~~   " + "Ready to Play? Cool! just a few steps before!");
-        System.out.println("<CLIENT> " + "Connecting To RMI Server...\n");
+        LOGGER.info("<CLIENT> " + "Welcome To RMI Adrenaline Server" + "Ready to Play? Cool! just a few steps before!");
+        LOGGER.info("<CLIENT> " + "Connecting To RMI Server...\n");
 
 
         Registry reg = LocateRegistry.getRegistry(name, port);
@@ -41,7 +44,7 @@ public class RMINetworkHandler extends NetworkHandler{
             //TODO here it has some problem sometimes
             if (rmiInterface.numberOfConnection() <= GameConstant.maxNumberOfPlayerPerGame) {
 
-             client = new Client(rmiInterface, rmiInterface.getRmiIdentifier());
+                client = new Client(rmiInterface, rmiInterface.getRmiIdentifier());
 
                 System.out.println("<CLIENT> your RMIIdentifier in class NetworkHandler is: " + rmiInterface.getRmiIdentifier());
                 rmiInterface.addClientToList(client);
@@ -51,7 +54,7 @@ public class RMINetworkHandler extends NetworkHandler{
 
 
             } else {
-                System.out.println("<CLIENT> " + "Sorry you cant play we are full, " + "number of connection is already" + rmiInterface.numberOfConnection());
+                LOGGER.info("<CLIENT> " + "Sorry you cant play we are full, " + "number of connection is already" + rmiInterface.numberOfConnection());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,6 +75,7 @@ public class RMINetworkHandler extends NetworkHandler{
     }
 
     public static void disconnect(){
+
         //todo
         //from internet:
         //Your client's disconnect method should be calling the server's unregister method

@@ -11,11 +11,16 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
 import it.polimi.se2019.controller.WaitForPlayerInput;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class ReloadState implements State{
 
-    private boolean CalledFromShootPeople;
+    private static PrintWriter out= new PrintWriter(System.out, true);
+    private static final Logger logger = Logger.getLogger(ReloadState.class.getName());
+
+    private boolean calledFromShootPeople;
 
     private Player playerToAsk;
 
@@ -24,28 +29,28 @@ public class ReloadState implements State{
     private int actionNumber;
 
     public ReloadState(boolean CalledFromShootPeople){
-        this.CalledFromShootPeople = CalledFromShootPeople;
+        this.calledFromShootPeople = CalledFromShootPeople;
         System.out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = 0;
     }
 
     public ReloadState(boolean CalledFromShootPeople, int actionNumber){
-        this.CalledFromShootPeople = CalledFromShootPeople;
-        System.out.println("<SERVER> New state: " + this.getClass());
+        this.calledFromShootPeople = CalledFromShootPeople;
+        out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 
     @Override
     public void askForInput(Player playerToAsk){
         this.playerToAsk = playerToAsk;
-        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
-        if ((ModelGate.model.hasFinalFrenzyBegun()  && !CalledFromShootPeople)) {
+        if ((ModelGate.model.hasFinalFrenzyBegun()  && !calledFromShootPeople)) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
             ViewControllerEventHandlerContext.state.doAction(null);
         }
         else if(canReload()){
-            System.out.println("<SERVER> The player can reload");
+            out.println("<SERVER> The player can reload");
             //ask which weapon to reload
             ArrayList<WeaponCard> toReaload = new ArrayList<>();
             for (WeaponCard wc: playerToAsk.getWeaponCardsInHand().getCards()) {
@@ -53,11 +58,11 @@ public class ReloadState implements State{
                     toReaload.add(wc);
                 }
             }
-            String toPrintln = "";
-            for (int i = 0; i < toReaload.size() ; i++) {
-                toPrintln += "[" + toReaload.get(i).getID() + "]  ";
+            StringBuilder toPrintln = new StringBuilder();
+            for (WeaponCard weaponCard : toReaload) {
+                toPrintln.append("[").append(weaponCard.getID()).append("]  ");
             }
-            System.out.println("<SERVER> Possible weapons that can be reloaded: " + toPrintln);
+            out.println("<SERVER> Possible weapons that can be reloaded: " + toPrintln);
 
 
             try {
@@ -66,28 +71,28 @@ public class ReloadState implements State{
                 this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                 this.inputTimer.start();
             } catch (Exception e) {
-                e.printStackTrace();
+              logger.severe("Exception Occured"+" "+e.getClass()+" "+e.getCause());
             }
         }
         else{
-            System.out.println("<SERVER> The player can't reload");
+            out.println("<SERVER> The player can't reload");
 
-            System.out.println("<SERVER> Placing Ammo cards on all empty NormalSquares");
+            out.println("<SERVER> Placing Ammo cards on all empty NormalSquares");
             for (int i = 0; i < ModelGate.model.getBoard().getMap().length; i++) {
                 for (int j = 0; j < ModelGate.model.getBoard().getMap()[0].length; j++) {
                     if((ModelGate.model.getBoard().getMap()[i][j]!=null)
                             &&   (ModelGate.model.getBoard().getMap()[i][j].getSquareType() == SquareTypes.normal)){
-                        if(((NormalSquare)ModelGate.model.getBoard().getMap()[i][j]).getAmmoCards().getCards().size() == 0){
+                        if(((NormalSquare)ModelGate.model.getBoard().getMap()[i][j]).getAmmoCards().getCards().isEmpty()){
                             ModelGate.model.getAmmoDeck().moveCardTo(
                                     ((NormalSquare)ModelGate.model.getBoard().getMap()[i][j]).getAmmoCards(),
                                     ModelGate.model.getAmmoDeck().getFirstCard().getID()
                             );
-                            System.out.println("<SERVER> Added Ammo card to square [" + i + "][" + j + "]");
+                            out.println("<SERVER> Added Ammo card to square [" + i + "][" + j + "]");
                         }
                     }
                 }
             }
-            if(CalledFromShootPeople){
+            if(calledFromShootPeople){
                 ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
                 ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
                 Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
@@ -104,20 +109,20 @@ public class ReloadState implements State{
     @Override
     public void doAction(ViewControllerEvent VCE){
         this.inputTimer.interrupt();
-        System.out.println("<SERVER> player has answered before the timer ended.");
+        out.println("<SERVER> player has answered before the timer ended.");
 
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventString VCEString=(ViewControllerEventString)VCE;
 
         if( ! VCEString.getInput().equals("SKIP")){
-            System.out.println("<SERVER> Reloading and paying reload cost for weapon card: " + VCEString.getInput());
+            out.println("<SERVER> Reloading and paying reload cost for weapon card: " + VCEString.getInput());
             ModelGate.model.getCurrentPlayingPlayer().payAmmoCubes(
                     ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCard(VCEString.getInput()).getReloadCost()
             );
             ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCard(VCEString.getInput()).reload();
 
-            if(CalledFromShootPeople){
+            if(calledFromShootPeople){
                 ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
                 ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
             }
@@ -127,8 +132,8 @@ public class ReloadState implements State{
             }
         }
         else{
-            System.out.println("<SERVER> Player decided not to reload.");
-            if(CalledFromShootPeople){
+            out.println("<SERVER> Player decided not to reload.");
+            if(calledFromShootPeople){
                 ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
                 ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
             }
@@ -142,7 +147,7 @@ public class ReloadState implements State{
     @Override
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
-        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
         if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());

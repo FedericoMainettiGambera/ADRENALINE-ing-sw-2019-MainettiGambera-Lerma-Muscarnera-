@@ -1,6 +1,6 @@
 package it.polimi.se2019.controller.statePattern;
 
-//import com.sun.org.apache.xpath.internal.operations.Mod;
+
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
@@ -11,9 +11,13 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPosition;
 import it.polimi.se2019.controller.WaitForPlayerInput;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class ShootPeopleState implements State {
+    private static PrintWriter out= new PrintWriter(System.out, true);
+    private static final Logger logger = Logger.getLogger(ShootPeopleState.class.getName());
 
     private int actionNumber;
 
@@ -22,14 +26,14 @@ public class ShootPeopleState implements State {
     private Thread inputTimer;
 
     public ShootPeopleState(int actionNumber){
-        System.out.println("<SERVER> New state: " + this.getClass());
+        out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 
     @Override
     public void askForInput(Player playerToAsk){
         this.playerToAsk = playerToAsk;
-        System.out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
         //final frenzy hasnt begun and no adrenaline action available
         if(!ModelGate.model.hasFinalFrenzyBegun()&&!ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineShootAction()){
              if(canShoot()){
@@ -37,7 +41,7 @@ public class ShootPeopleState implements State {
                  ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
              }
              else{
-                 System.out.println("Player cant shoot");
+                 out.println("Player cant shoot");
                  ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
                  ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
              }
@@ -51,11 +55,11 @@ public class ShootPeopleState implements State {
                     this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                     this.inputTimer.start();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.severe("Exception Occured: "+e.getClass()+" "+e.getCause());
                 }
             }
             else{
-                System.out.println("Player cant shoot");
+                out.println("Player cant shoot");
                 ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
                 ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
             }
@@ -80,7 +84,7 @@ public class ShootPeopleState implements State {
                 }
             }
             else{
-                System.out.println("Player cant shoot");
+                out.println("Player cant shoot");
                 ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
                 ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
             }
@@ -92,14 +96,14 @@ public class ShootPeopleState implements State {
     public void doAction(ViewControllerEvent VCE) {
 
         this.inputTimer.interrupt();
-        System.out.println("<SERVER> player has answered before the timer ended.");
+        out.println("<SERVER> player has answered before the timer ended.");
 
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventPosition VCEPosition = (ViewControllerEventPosition)VCE;
 
         //set new position for the player
-        System.out.println("<SERVER> Setting player position to: [" +VCEPosition.getX()+ "][" +VCEPosition.getY() + "]");
+        out.println("<SERVER> Setting player position to: [" +VCEPosition.getX()+ "][" +VCEPosition.getY() + "]");
         ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setPosition(
                 VCEPosition.getX(),
                 VCEPosition.getY()
@@ -119,7 +123,7 @@ public class ShootPeopleState implements State {
     @Override
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
-        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
         if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());

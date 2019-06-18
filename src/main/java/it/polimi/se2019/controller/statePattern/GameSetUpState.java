@@ -12,8 +12,13 @@ import it.polimi.se2019.controller.WaitForPlayerInput;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.util.logging.Logger;
 
 public class GameSetUpState implements State {
+
+    private static PrintWriter out= new PrintWriter(System.out, true);
+    private static final Logger logger = Logger.getLogger(GameSetUpState.class.getName());
 
     private ObjectOutputStream objectOutputStream;
 
@@ -22,18 +27,18 @@ public class GameSetUpState implements State {
     private Thread inputTimer;
 
     public GameSetUpState(){
-        System.out.println("<SERVER> New state: " + this.getClass());
+        out.println("<SERVER> New state: " + this.getClass());
     }
 
     @Override
     public void askForInput(Player playerToAsk) {
         this.playerToAsk = playerToAsk;
-        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
-        System.out.println("<SERVER> Setting hasGameBegun to true.");
+        out.println("<SERVER> Setting hasGameBegun to true.");
         ModelGate.model.hasGameBegun = true;
 
-        System.out.println("<SERVER> Setting Starting Player.");
+        out.println("<SERVER> Setting Starting Player.");
         ModelGate.model.getPlayerList().setStartingPlayer(playerToAsk);
         ModelGate.model.getPlayerList().setCurrentPlayingPlayer(ModelGate.model.getPlayerList().getStartingPlayer());
 
@@ -51,35 +56,33 @@ public class GameSetUpState implements State {
     @Override
     public void doAction(ViewControllerEvent VCE){
         this.inputTimer.interrupt();
-        System.out.println("<SERVER> player has answered before the timer ended.");
+        out.println("<SERVER> player has answered before the timer ended.");
 
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventGameSetUp VCEGameSetUp = (ViewControllerEventGameSetUp)VCE;
 
-        System.out.println("<SERVER> Setting up Game in normal mode.");
+        out.println("<SERVER> Setting up Game in normal mode.");
 
         try {
-            System.out.println("<SERVER> Creating Map: " + VCEGameSetUp.getMapChoice());
+            out.println("<SERVER> Creating Map: " + VCEGameSetUp.getMapChoice());
             ModelGate.model.setBoard(new Board(VCEGameSetUp.getMapChoice(), ModelGate.model.getSocketVirtualView(), ModelGate.model.getRMIVirtualView()));
         }
-        catch (IOException e){
-            e.printStackTrace();
+        catch (IOException|NullPointerException e){
+           logger.severe("Creating map went wrong"+e.getCause());
         }
-        catch (NullPointerException e){
-            e.printStackTrace();
-        }
-        System.out.println("<SERVER> MAP: \n" + ModelGate.model.getBoard().toString());
 
-        System.out.println("<SERVER> Creating Killshot Track with " +
+        out.println("<SERVER> MAP: \n" + ModelGate.model.getBoard().toString());
+
+        out.println("<SERVER> Creating Killshot Track with " +
                             VCEGameSetUp.getNumberOfStartingSkulls() +
                             " number of starting skulls.");
         ModelGate.model.setKillshotTrack(new KillShotTrack(VCEGameSetUp.getNumberOfStartingSkulls(), ModelGate.model.getSocketVirtualView(), ModelGate.model.getRMIVirtualView()));
 
-        System.out.println("<SERVER> Setting Final Frenzy: " + VCEGameSetUp.isFinalFrezy());
+        out.println("<SERVER> Setting Final Frenzy: " + VCEGameSetUp.isFinalFrezy());
         ModelGate.model.setFinalFrenzy(VCEGameSetUp.isFinalFrezy());
 
-        System.out.println("<SERVER> Setting a Bot: "+ VCEGameSetUp.isBotActive());
+        out.println("<SERVER> Setting a Bot: "+ VCEGameSetUp.isBotActive());
         ModelGate.model.setBot(new Bot(VCEGameSetUp.isBotActive()));
 
         //registering VV as Observer of the Decks
@@ -93,10 +96,10 @@ public class GameSetUpState implements State {
         ModelGate.model.getAmmoDeck().addObserver(ModelGate.model.getRMIVirtualView());
 
         //create cards
-        System.out.println("<SERVER> Building decks.");
+        out.println("<SERVER> Building decks.");
         ModelGate.model.buildDecks();
 
-        System.out.println("<SERVER> Adding 100 fake ammo cards to the ammoDeck.");
+        out.println("<SERVER> Adding 100 fake ammo cards to the ammoDeck.");
         AmmoList ammoList = new AmmoList();
         ammoList.addAmmoCubesOfColor(AmmoCubesColor.yellow, 2);
         OrderedCardList<AmmoCard> orderedCardListAmmo = new OrderedCardList<>("ammoDeck");
@@ -106,7 +109,7 @@ public class GameSetUpState implements State {
         orderedCardListAmmo.moveAllCardsTo(ModelGate.model.getAmmoDeck());
 
 
-        System.out.println("<SERVER> Adding 100 fake PowerUpCards to the powerUpDeck.");
+        out.println("<SERVER> Adding 100 fake PowerUpCards to the powerUpDeck.");
         OrderedCardList<PowerUpCard> orderedCardListPowerUp = new OrderedCardList<>("powerUpDeck");
         for (int i = 0; i < 100; i++) {
             orderedCardListPowerUp.getCards().add(new PowerUpCard());
@@ -114,7 +117,7 @@ public class GameSetUpState implements State {
         orderedCardListPowerUp.moveAllCardsTo(ModelGate.model.getPowerUpDeck());
 
         //shuffles cards
-        System.out.println("<SERVER> Shuffling decks");
+        out.println("<SERVER> Shuffling decks");
         ModelGate.model.getPowerUpDeck().shuffle();
         ModelGate.model.getAmmoDeck().shuffle();
         ModelGate.model.getWeaponDeck().shuffle();
@@ -132,7 +135,7 @@ public class GameSetUpState implements State {
                             ammoCards,
                             ModelGate.model.getAmmoDeck().getFirstCard().getID()
                     );
-                    System.out.println("<SERVER> Placed Ammo card on square [" + i + "][" + j + "]");
+                    out.println("<SERVER> Placed Ammo card on square [" + i + "][" + j + "]");
                 }
                 else if((timeSquare!=null) && (timeSquare.getSquareType()==SquareTypes.spawnPoint)){
 
@@ -143,7 +146,7 @@ public class GameSetUpState implements State {
                                 ModelGate.model.getWeaponDeck().getFirstCard().getID()
                         );
                     }
-                    System.out.println("<SERVER> Placed Weapond cards on square [" + i + "][" + j + "]");
+                    out.println("<SERVER> Placed Weapond cards on square [" + i + "][" + j + "]");
 
                 }
             }
@@ -151,14 +154,14 @@ public class GameSetUpState implements State {
 
         for (Player p :ModelGate.model.getPlayerList().getPlayers()) {
 
-            System.out.println("<SERVER> Adding Observers to the Player weapons and power ups");
+            out.println("<SERVER> Adding Observers to the Player weapons and power ups");
             p.getWeaponCardsInHand().addObserver(ModelGate.model.getSocketVirtualView());
             p.getWeaponCardsInHand().addObserver(ModelGate.model.getRMIVirtualView());
             p.getPowerUpCardsInHand().addObserver(ModelGate.model.getSocketVirtualView());
             p.getWeaponCardsInHand().addObserver(ModelGate.model.getRMIVirtualView());
 
             //draw two power up cards
-            System.out.println("<SERVER> draw two power up cards.");
+            out.println("<SERVER> draw two power up cards.");
             for(int i = 0; i < 2; i++){
                 ModelGate.model.getPowerUpDeck().moveCardTo(
                         p.getPowerUpCardsInHand(),
@@ -167,7 +170,7 @@ public class GameSetUpState implements State {
             }
 
             //set starting ammocubes
-            System.out.println("<SERVER> setting starting ammo cubes");
+            out.println("<SERVER> setting starting ammo cubes");
             for(AmmoCubesColor color: AmmoCubesColor.values() ) {
                 p.getPlayerBoard().addAmmoCubes(color, GameConstant.NumberOfStartingAmmos);
             }
@@ -181,7 +184,7 @@ public class GameSetUpState implements State {
     @Override
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
-        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         ModelGate.model.getPlayerList().setNextPlayingPlayer();
         if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new GameSetUpState());

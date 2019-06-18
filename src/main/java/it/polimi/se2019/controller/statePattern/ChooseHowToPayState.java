@@ -15,9 +15,14 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventLis
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPaymentInformation;
 import it.polimi.se2019.view.components.PowerUpCardV;
 
+import java.io.PrintWriter;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ChooseHowToPayState {
+    private static PrintWriter out= new PrintWriter(System.out, true);
+    private static final Logger logger = Logger.getLogger(ChooseHowToPayState.class.getName());
+
 
     public static boolean paymentDone;
 
@@ -32,7 +37,7 @@ public class ChooseHowToPayState {
     private Object callingClass;
 
     public ChooseHowToPayState(Object callingClass, Player payingPlayer, AmmoList toPay){
-        System.out.println("<SERVER> Started a payment process for player: " + payingPlayer.getNickname());
+        out.println("<SERVER> Started a payment process for player: " + payingPlayer.getNickname());
 
         paymentDone = false;
 
@@ -49,7 +54,7 @@ public class ChooseHowToPayState {
     public boolean canPaySomethingWithPowerUps(){
         for (AmmoCubes a: toPay.getAmmoCubesList()) {
             for (PowerUpCard p: payingPlayer.getPowerUpCardsInHand().getCards()) {
-                if(a.getColor()==p.getColor()){
+                if(a.getColor().equals(p.getColor())){
                     return true;
                 }
             }
@@ -103,9 +108,9 @@ public class ChooseHowToPayState {
     public void checkPayMethods(boolean isToPay) {
         this.payingPlayer = payingPlayer;
         if(canPayInSomeWay()) {
-            System.out.println("<SERVER> the player can pay some way");
+            out.println("<SERVER> the player can pay some way");
             if (canPaySomethingWithPowerUps()) {
-                System.out.println("<SERVER> player can pay with power ups");
+                out.println("<SERVER> player can pay with power ups");
                 if(isToPay) {
                     //ask what he wants to pay with powerUp, start Timer
                     SelectorEventPaymentInformation SEPaymentInformation = usablePowerUps();
@@ -120,28 +125,28 @@ public class ChooseHowToPayState {
                     }
                 }
             } else {
-                System.out.println("<SERVER> the player can only pay using his ammoBox");
+                out.println("<SERVER> the player can only pay using his ammoBox");
                 if(isToPay) {
                     //pay as usual
                     payingPlayer.payAmmoCubes(toPay);
-                    System.out.println("<SERVER> DONE PAYING");
+                    out.println("<SERVER> DONE PAYING");
                     paymentDone = true;
                 }
             }
         }
         else{
-            System.out.println("<SERVER> the player can't pay in any way.");
+            out.println("<SERVER> the player can't pay in any way.");
         }
     }
 
     public void doPayment(ViewControllerEventPaymentInformation VCEChosenPowerUps) {
         this.inputTimer.interrupt();
-        System.out.println("<SERVER> player has answered before the timer ended.");
+        out.println("<SERVER> player has answered before the timer ended.");
 
-        System.out.println("<SERVER> "+ this.getClass() +".doPayment();");
+        out.println("<SERVER> "+ this.getClass() +".doPayment();");
 
         for (Object o:VCEChosenPowerUps.getAnswer()) {
-            System.out.println("         player is paying with power up: " + ((PowerUpCardV) o).getName() + " (" + ((PowerUpCardV) o).getColor() + ")");
+            out.println("         player is paying with power up: " + ((PowerUpCardV) o).getName() + " (" + ((PowerUpCardV) o).getColor() + ")");
             for (AmmoCubes a : leftToPay.getAmmoCubesList()) {
                 if (((PowerUpCardV) o).getColor() == a.getColor()) {
                     leftToPay.getAmmoCubesList().remove(a);
@@ -152,18 +157,18 @@ public class ChooseHowToPayState {
         }
         payingPlayer.payAmmoCubes(leftToPay);
 
-        System.out.println("<SERVER> DONE PAYING");
+        out.println("<SERVER> DONE PAYING");
         paymentDone = true;
     }
 
     public void handleAFK() {
         //TODO
         this.payingPlayer.setAFKWithNotify(true);
-        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        System.out.println("<SERVER> forcing payment by AmmoBox");
+        out.println("<SERVER> forcing payment by AmmoBox");
         payingPlayer.payAmmoCubes(toPay);
         paymentDone = true;
-        System.out.println("<SERVER> DONE PAYING");
+        out.println("<SERVER> DONE PAYING");
     }
 }

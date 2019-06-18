@@ -1,8 +1,6 @@
-//package it.polimi.se2019;
+package it.polimi.se2019;
 
 import it.polimi.se2019.model.*;
-import it.polimi.se2019.model.enumerations.CardinalPoint;
-import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.virtualView.VirtualView;
 import org.junit.Test;
 

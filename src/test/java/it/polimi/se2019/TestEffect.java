@@ -147,8 +147,7 @@ public class TestEffect {
 
     }
     */
-    /*
-    @Test
+ /*   @Test
     public void testUsable( ) throws Exception {
 
             System.out.println("\t\tcarta " + 13);
@@ -202,7 +201,7 @@ public class TestEffect {
                 System.out.println("INPUT " + input[counter][0]);
                 w.getEffects().get(0).handleRow(el,input[counter]);
                 counter++;
-              }
+              }*/
         //w.getEffects().get(0).handleInput(input);
 
 
@@ -211,7 +210,7 @@ public class TestEffect {
             //for(Object p:  w.getEffects().get(0).usableInputs().get(2).get(0))
             //    System.out.println("risultato = " + p.toString() + ":" + ((Player) p).getNickname());
 
-            System.out.println("/---------/");
+      /*      System.out.println("/---------/");
 
             Object o[][] = new Object[10][10];
             o[0][0] = user3;
@@ -241,7 +240,6 @@ public class TestEffect {
         System.out.println("/---------/");
 
     }
-
     @Test
     public void testUsable2() throws Exception {
 
@@ -407,4 +405,6 @@ public class TestEffect {
         }
     }
     */
+
+
 }

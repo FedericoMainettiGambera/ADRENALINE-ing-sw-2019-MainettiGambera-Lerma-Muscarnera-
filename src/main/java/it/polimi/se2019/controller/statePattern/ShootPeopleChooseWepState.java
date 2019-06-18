@@ -10,9 +10,13 @@ import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventInt;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class ShootPeopleChooseWepState implements State {
+    private static PrintWriter out= new PrintWriter(System.out, true);
+    private static final Logger logger = Logger.getLogger(ShootPeopleChooseWepState.class.getName());
 
     private Player playerToAsk;
 
@@ -23,14 +27,14 @@ public class ShootPeopleChooseWepState implements State {
     private int actionNumber;
 
     public ShootPeopleChooseWepState(int actionNumber){
-        System.out.println("<SERVER> New state: " + this.getClass());
+        out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 
     @Override
     public void askForInput(Player playerToAsk){
         this.playerToAsk = playerToAsk;
-        System.out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         for (WeaponCard wp:ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards()) {
             wp.passContext(ModelGate.model.getCurrentPlayingPlayer(), ModelGate.model.getPlayerList(), ModelGate.model.getBoard());
@@ -51,7 +55,7 @@ public class ShootPeopleChooseWepState implements State {
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
-            e.printStackTrace();
+           logger.severe("Exception Occured"+e.getClass()+e.getCause());
         }
     }
 
@@ -60,13 +64,13 @@ public class ShootPeopleChooseWepState implements State {
         while(this.inputTimer.isAlive()){
             this.inputTimer.interrupt();
         }
-        System.out.println("<SERVER> player has answered before the timer ended.");
+        out.println("<SERVER> player has answered before the timer ended.");
 
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventInt VCEInt = (ViewControllerEventInt)VCE;
 
-        System.out.println("<SERVER> player has chosen card with ID : " + this.loadedCardInHand.get(VCEInt.getInput()).getID());
+        out.println("<SERVER> player has chosen card with ID : " + this.loadedCardInHand.get(VCEInt.getInput()).getID());
 
         //next state
         ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseEffectState(playerToAsk.getWeaponCardsInHand().getCard(this.loadedCardInHand.get(VCEInt.getInput()).getID()), this.actionNumber));
@@ -77,7 +81,7 @@ public class ShootPeopleChooseWepState implements State {
     @Override
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
-        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
         if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());

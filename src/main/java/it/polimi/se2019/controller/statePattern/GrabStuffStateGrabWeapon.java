@@ -9,10 +9,15 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventStr
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventTwoString;
 import it.polimi.se2019.controller.WaitForPlayerInput;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 
 public class GrabStuffStateGrabWeapon implements  State {
+
+    private static PrintWriter out= new PrintWriter(System.out, true);
+    private static final Logger logger = Logger.getLogger(GrabStuffStateGrabWeapon.class.getName());
 
     private int actionNumber;
 
@@ -21,15 +26,14 @@ public class GrabStuffStateGrabWeapon implements  State {
     private Thread inputTimer;
 
     public GrabStuffStateGrabWeapon(int actionNumber){
-        this.playerToAsk = playerToAsk;
-        System.out.println("<SERVER> New state: " + this.getClass());
+        out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 
     @Override
     public void askForInput(Player playerToAsk) {
         this.playerToAsk = playerToAsk;
-        System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
@@ -39,40 +43,40 @@ public class GrabStuffStateGrabWeapon implements  State {
 
         SpawnPointSquare playerSquare = ((SpawnPointSquare)(ModelGate.model.getBoard().getSquare(playerToAsk.getPosition().getX(), playerToAsk.getPosition().getY())));
         ArrayList<WeaponCard> toPickUp = (ArrayList)playerSquare.getWeaponCards().getCards();
-        System.out.println("<Server> Cards from the Spawn point:");
-        String toPrintln = "";
+        out.println("<Server> Cards from the Spawn point:");
+        StringBuilder toPrintln = new StringBuilder();
         for (int i = 0; i < toPickUp.size() ; i++){
-            toPrintln += "    " + toPickUp.get(i).getID();
+            toPrintln.append("    ").append(toPickUp.get(i).getID());
         }
-        System.out.println(toPrintln);
+        out.println(toPrintln);
 
         for (int i = toPickUp.size()-1; i >= 0; i--) {
             if(!playerToAsk.canPayAmmoCubes(toPickUp.get(i).getPickUpCost())){
-                System.out.println("<SERVER> Player can't pay for card: " + toPickUp.get(i).getID());
+                out.println("<SERVER> Player can't pay for card: " + toPickUp.get(i).getID());
                 toPickUp.remove(i);
             }
         }
-        System.out.println("<Server> Possible cards to pick up from the spawn Point:");
-        toPrintln = "";
-        for (int i = 0; i < toPickUp.size() ; i++) {
-            toPrintln += "    " + toPickUp.get(i).getID();
+        out.println("<Server> Possible cards to pick up from the spawn Point:");
+        toPrintln = new StringBuilder();
+        for (WeaponCard weaponCard : toPickUp) {
+            toPrintln.append("    ").append(weaponCard.getID());
         }
-        System.out.println(toPrintln);
+        out.println(toPrintln);
 
         if(ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards().size() >= 3){
-            System.out.println("<SERVER> The player has already three weapons");
+            out.println("<SERVER> The player has already three weapons");
 
             //ask what weapon in hand to discard and what weapon to pick up.
             ArrayList<WeaponCard> toDiscard = (ArrayList)playerToAsk.getWeaponCardsInHand().getCards();
-            System.out.println("<Server> Possible cards to discard from hand:");
-            toPrintln = "";
-            for (int i = 0; i < toDiscard.size() ; i++) {
-                toPrintln += toDiscard.get(i).getID() + "    ";
+            out.println("<Server> Possible cards to discard from hand:");
+            toPrintln = new StringBuilder();
+            for (WeaponCard weaponCard : toDiscard) {
+                toPrintln.append(weaponCard.getID()).append("    ");
             }
-            System.out.println("    " + toPrintln);
+            out.println("    " + toPrintln);
 
-            if(toPickUp.size()== 0){
-                System.out.println("<SERVER> There are no weapon to pick up, asking another action to the user.");
+            if(toPickUp.isEmpty()){
+                out.println("<SERVER> There are no weapon to pick up, asking another action to the user.");
                 ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
                 ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
             }
@@ -83,15 +87,15 @@ public class GrabStuffStateGrabWeapon implements  State {
                     this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                     this.inputTimer.start();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.severe("Exception Occured"+" "+e.getClass()+" "+e.getCause());
                 }
             }
         }
         else {
             //ask what weapon to pick up
 
-            if(toPickUp.size()== 0){
-                System.out.println("<SERVER> There are no weapon to pick up, asking another action to the user.");
+            if(toPickUp.isEmpty()){
+                out.println("<SERVER> There are no weapon to pick up, asking another action to the user.");
                 ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
                 ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
             }
@@ -102,7 +106,7 @@ public class GrabStuffStateGrabWeapon implements  State {
                     this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                     this.inputTimer.start();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.severe("Exception Occured"+" "+e.getClass()+" "+e.getCause());
                 }
             }
         }
@@ -111,9 +115,9 @@ public class GrabStuffStateGrabWeapon implements  State {
     @Override
     public void doAction(ViewControllerEvent VCE) {
         this.inputTimer.interrupt();
-        System.out.println("<SERVER> player has answered before the timer ended.");
+        out.println("<SERVER> player has answered before the timer ended.");
 
-        System.out.println("<SERVER> "+ this.getClass() +".doAction();");
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         Position playerPosition = ModelGate.model.getCurrentPlayingPlayer().getPosition();
         OrderedCardList<WeaponCard> playerWeapons = ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand();
@@ -127,23 +131,23 @@ public class GrabStuffStateGrabWeapon implements  State {
 
             WeaponCard toDraw = squareWeapons.getCard(VCETwoString.getInput1());
 
-            System.out.println("<SERVER> The player decided to switch his card " + toDiscard.getID() + " with the card " + toDraw.getID());
+            out.println("<SERVER> The player decided to switch his card " + toDiscard.getID() + " with the card " + toDraw.getID());
 
             //reload toDiscard
-            System.out.println("<SERVER> Loading the card to discard (for free)");
+            out.println("<SERVER> Loading the card to discard (for free)");
             toDiscard.reload();
-            System.out.println("<SERVER> Loading the card to pickUp (for free)");
+            out.println("<SERVER> Loading the card to pickUp (for free)");
             toDraw.reload();
 
             //discard old weapon
-            System.out.println("<SERVER> Switching card: " + toDiscard.getID() + " ...");
+            out.println("<SERVER> Switching card: " + toDiscard.getID() + " ...");
             playerWeapons.moveCardTo(squareWeapons,toDiscard.getID());
 
             //draw new weapon
-            System.out.println("<SERVER> ... for picking up card: " + toDraw.getID());
+            out.println("<SERVER> ... for picking up card: " + toDraw.getID());
             squareWeapons.moveCardTo(playerWeapons, toDraw.getID());
 
-            System.out.println("<SERVER> Paying the pick up cost");
+            out.println("<SERVER> Paying the pick up cost");
             ModelGate.model.getCurrentPlayingPlayer().payAmmoCubes(toDraw.getPickUpCost());
         }
         else {
@@ -151,19 +155,19 @@ public class GrabStuffStateGrabWeapon implements  State {
             WeaponCard toDraw = squareWeapons.getCard(VCEString.getInput());
 
             //draw the weapon
-            System.out.println("<SERVER> Picking up new card: " + toDraw.getID());
+            out.println("<SERVER> Picking up new card: " + toDraw.getID());
             squareWeapons.moveCardTo(playerWeapons, toDraw.getID());
 
-            System.out.println("<SERVER> Paying the pick up cost");
+            out.println("<SERVER> Paying the pick up cost");
             ModelGate.model.getCurrentPlayingPlayer().payAmmoCubes(toDraw.getPickUpCost());
 
             //replacing new card
             if(!ModelGate.model.getWeaponDeck().getCards().isEmpty()){
-                System.out.println("<SERVER> Replacing picked up card in the spawn point with card: " + ModelGate.model.getWeaponDeck().getFirstCard().getID());
+                out.println("<SERVER> Replacing picked up card in the spawn point with card: " + ModelGate.model.getWeaponDeck().getFirstCard().getID());
                 ModelGate.model.getWeaponDeck().moveCardTo(squareWeapons, ModelGate.model.getWeaponDeck().getFirstCard().getID());
             }
             else{
-                System.out.println("<SERVER> The weapon deck is empty, so the space left in the SpawnPoint from the picked up card is not replaced.");
+                out.println("<SERVER> The weapon deck is empty, so the space left in the SpawnPoint from the picked up card is not replaced.");
             }
         }
 
@@ -187,7 +191,7 @@ public class GrabStuffStateGrabWeapon implements  State {
     @Override
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
-        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
         if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
