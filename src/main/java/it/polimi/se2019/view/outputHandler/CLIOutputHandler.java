@@ -60,9 +60,6 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     @Override
     public void newPlayersList(ModelViewEvent MVE) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-        //for (PlayerV p :ViewModelGate.getModel().getPlayers().getPlayers()) {
-        //    OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname());
-        //}
         showPlayerList();
     }
 
@@ -117,7 +114,8 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     @Override
     public void newNickname(ModelViewEvent MVE) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + ((String)MVE.getExtraInformation1()) +" has changed Nickname to: " + (String) MVE.getComponent());
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              the new Nickname is: " + (String) MVE.getComponent());
+        showPlayerList();
     }
 
     @Override
@@ -254,7 +252,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     public void cantReachServer() {
         showGeneralStatusOfTheGame();
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> WE ARE SORRY BUT SOMETHING WENT WRONG.");
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("         please try to reconnect to the same server to continue game.");
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("         Please, try to reconnect to the same server to continue game.");
         showConnectionInfo();
         System.exit(0);
     }
@@ -262,16 +260,16 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     @Override
     public void succesfullReconnection() {
         showGeneralStatusOfTheGame();
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> SUCCESFULLY RECONNECTED TO SERVER");
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> your model is up-to-date");
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> SUCCESFULLY RECONNECTED TO SERVER.");
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("         Your model is up-to-date");
         showConnectionInfo();
     }
 
     @Override
     public void disconnect() {
         showGeneralStatusOfTheGame();
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> YOU HAVE BEEN DISCONNECTED \n" +
-                "         please try to reconnect to the same server to continue game.");
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> YOU HAVE BEEN DISCONNECTED.");
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("         Please, try to reconnect to the same server to continue game.");
         showConnectionInfo();
         System.exit(0);
     }
@@ -291,7 +289,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
 
     public static void showConnectionInfo(){
         if(Controller.networkConnection != null && Controller.IP != null && Controller.Port != null){
-            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<<<<<<<<<<<< CONNECTION INFO >>>>>>>>>>>>");
+            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("\n<<<<<<<<<<<< CONNECTION INFO >>>>>>>>>>>>");
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("  CONNECTION TYPE: " + Controller.networkConnection);
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("  IP: " + Controller.IP);
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("  PORT: " + Controller.Port);
@@ -299,7 +297,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     }
 
     public static void showGameInfo(){ //TODO bot, gameMode, gameConstants
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<<<<<<<<<<<< GAME INFO >>>>>>>>>>>>");
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("\n<<<<<<<<<<<< GAME INFO >>>>>>>>>>>>");
 
         if(ViewModelGate.getMe()!=null){
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("YOU ARE PLAYING AS: " + ViewModelGate.getMe());
@@ -326,7 +324,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
 
     public static void showKillshotTrack(){
         //remember the killShot track works from the end to the start ( the first dead player is the last in the list)
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<<<<<<<<<<<< KILLSHOT TRACK >>>>>>>>>>>> ");
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("\n<<<<<<<<<<<< KILLSHOT TRACK >>>>>>>>>>>> ");
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("You are playing with" + ViewModelGate.getModel().getKillshotTrack().getNumberOfStartingSkulls() +" number of staring skulls");
         if(ViewModelGate.getModel()!=null) {
             if (ViewModelGate.getModel().getKillshotTrack() == null) {
@@ -605,7 +603,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             for (String s : mapStringIntermediate) {
                 mapStringFinal += s;
             }
-            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<<<<<<<<<<<< MAP: " + ViewModelGate.getModel().getBoard().getChosenMap() + " >>>>>>>>>>>>");
+            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("\n<<<<<<<<<<<< MAP: " + ViewModelGate.getModel().getBoard().getChosenMap() + " >>>>>>>>>>>>");
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface(mapStringFinal);
         }
         else{

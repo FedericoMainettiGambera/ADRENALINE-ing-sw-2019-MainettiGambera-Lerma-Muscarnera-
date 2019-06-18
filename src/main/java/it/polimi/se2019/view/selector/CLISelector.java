@@ -770,6 +770,19 @@ public class CLISelector implements SelectorV {
             ArrayList<String> requestsString = new ArrayList<>();
 
             for (int j = 0; j < request ; j++) {
+                if(possibleInputs.isEmpty()){
+                    break;
+                }
+                if(request>=2){
+                    out.println("Do you want to chose another one?");
+                    CLISelector.showListOfRequests(Arrays.asList("Yes", "No"));
+                    int choice = askNumber(0,1);
+                    boolean YorN;
+                    if(choice==1){
+                        break;
+                    }
+                }
+
                 if(possibleInputs.get(0).getClass().toString().contains("PlayerV")){
                     out.println("<Client> please choose one of the following players: ");
                     PlayerV p;
@@ -792,16 +805,6 @@ public class CLISelector implements SelectorV {
 
                 answer.add(possibleInputs.get(chosen));
                 possibleInputs.remove(possibleInputs.get(chosen));
-
-                if(request == 999){ //TODO
-                    out.println("Do you want to chose another one?");
-                    CLISelector.showListOfRequests(Arrays.asList("Yes", "No"));
-                    int choice = askNumber(0,1);
-                    boolean YorN;
-                    if(choice!=0){
-                        break;
-                    }
-                }
             }
             ViewControllerEventListOfObject VCEListOfObject = new ViewControllerEventListOfObject(answer);
 
@@ -809,15 +812,6 @@ public class CLISelector implements SelectorV {
         }
 
         public int howManyRequest(){
-            if(this.infoType.equals(EffectInfoType.multipleSquareSelect) ||
-                this.infoType.equals(EffectInfoType.multipleTargets)){
-                try {
-                    throw new Exception("SHOULDN'T BE USED.");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return 999; //means multiple choices
-            }
             if(this.infoType.equals(EffectInfoType.twoTargets)){
                 return 2;
             }
