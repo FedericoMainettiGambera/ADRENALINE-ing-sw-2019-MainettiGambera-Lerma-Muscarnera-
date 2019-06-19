@@ -4,6 +4,7 @@ import it.polimi.se2019.controller.Controller;
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.*;
+import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
@@ -930,8 +931,12 @@ public class CLISelector implements SelectorV {
                     break;
                 }
                 else{
+                    //color of the power up chosen
+                    AmmoCubesColor colorOfTheChosenPowerUp = SEPaymentInformation.getPossibilities().get(choice-1).getColor();
+
+                    //subtract one unit of the color of the power up chosen from the total cost to pay
                     for (AmmoCubesV ammo: amountToPay) {
-                        if(ammo.getColor().equals(SEPaymentInformation.getPossibilities().get(choice-1).getColor())){
+                        if(ammo.getColor().equals(colorOfTheChosenPowerUp)){
                             ammo.setQuantity(ammo.getQuantity()-1);
                             if(ammo.getQuantity()<=0){
                                 amountToPay.remove(ammo);
@@ -940,8 +945,18 @@ public class CLISelector implements SelectorV {
                             break;
                         }
                     }
+
+                    //add the chosen power up to the answer
                     answer.add(SEPaymentInformation.getPossibilities().get(choice-1));
-                    SEPaymentInformation.getPossibilities().remove(choice-1);
+
+                    //delete All the power up card with the same color as the one of the power up chosen from the possibilities
+                    Iterator<PowerUpCardV> elementListIterator = SEPaymentInformation.getPossibilities().iterator();
+                    while (elementListIterator.hasNext()) {
+                        PowerUpCardV element = elementListIterator.next();
+                        if(element.getColor().equals(colorOfTheChosenPowerUp)) {
+                            elementListIterator.remove();
+                        }
+                    }
                 }
 
                 request = new ArrayList<>();
@@ -956,11 +971,12 @@ public class CLISelector implements SelectorV {
 
             ViewControllerEventPaymentInformation VCEPaymentInformation = new ViewControllerEventPaymentInformation(answer);
             sendToServer(VCEPaymentInformation);
+
         }
     }
     @Override
-    public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformormation) {
-        AskPaymentInformation api = new AskPaymentInformation(SEPaymentInformormation);
+    public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformation) {
+        AskPaymentInformation api = new AskPaymentInformation(SEPaymentInformation);
         api.start();
     }
 }
