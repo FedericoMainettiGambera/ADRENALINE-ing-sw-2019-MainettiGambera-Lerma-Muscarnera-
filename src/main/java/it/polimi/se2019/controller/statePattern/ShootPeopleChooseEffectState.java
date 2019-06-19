@@ -3,6 +3,7 @@ package it.polimi.se2019.controller.statePattern;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.controller.WaitForPlayerInput;
+import it.polimi.se2019.model.AmmoList;
 import it.polimi.se2019.model.Effect;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.WeaponCard;
@@ -11,6 +12,7 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventInt
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class ShootPeopleChooseEffectState implements State{
@@ -33,6 +35,7 @@ public class ShootPeopleChooseEffectState implements State{
         out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
         this.choosenWeaponCard = choosenWeaponCard;
+        this.possibleEffects = new ArrayList<>();
     }
 
     @Override
@@ -40,7 +43,18 @@ public class ShootPeopleChooseEffectState implements State{
         this.playerToAsk = playerToAsk;
         out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
-        this.possibleEffects = (ArrayList)choosenWeaponCard.usableEffects();
+        List<Effect> usableEffects = choosenWeaponCard.usableEffects();
+
+        /*TODO waiting for getCost() method in effect
+        TODO check what happen for free effects
+        for (Effect e : usableEffects) {
+            if((new ChooseHowToPayState(playerToAsk,e.getCost()).canPayInSomeWay())){
+                this.possibleEffects.add(e);
+            }
+        }
+        */
+        //per ora uso questa riga di codice:
+        this.possibleEffects = (ArrayList<Effect>)usableEffects;
 
         //ask input
         try {
@@ -65,6 +79,12 @@ public class ShootPeopleChooseEffectState implements State{
         this.chosenEffect = this.possibleEffects.get(VCEInt.getInput());
 
         out.println("<SERVER> Player has chosen effect: " + this.chosenEffect.getEffectName());
+
+        out.println("<SERVER> Paying for the effect cost");
+        /*TODO waiting for getCost methods for Effects
+        TODO CHECK WHAT HAPPEN FOR FREE EFFECTS
+        ChooseHowToPayState.makePayment(playerToAsk,this.chosenEffect.getCost());
+        */
 
         ViewControllerEventHandlerContext.setNextState(new ShootPeopleAskForInputState(this.chosenEffect, this.choosenWeaponCard, this.actionNumber));
         ViewControllerEventHandlerContext.state.askForInput(playerToAsk);

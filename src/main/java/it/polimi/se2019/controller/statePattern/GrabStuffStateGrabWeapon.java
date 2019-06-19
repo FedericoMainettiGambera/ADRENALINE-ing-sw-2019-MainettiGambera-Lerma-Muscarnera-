@@ -51,7 +51,7 @@ public class GrabStuffStateGrabWeapon implements  State {
         out.println(toPrintln);
 
         for (int i = toPickUp.size()-1; i >= 0; i--) {
-            if(!playerToAsk.canPayAmmoCubes(toPickUp.get(i).getPickUpCost())){
+            if(!(new ChooseHowToPayState(playerToAsk,toPickUp.get(i).getPickUpCost())).canPayInSomeWay()){
                 out.println("<SERVER> Player can't pay for card: " + toPickUp.get(i).getID());
                 toPickUp.remove(i);
             }
@@ -148,7 +148,8 @@ public class GrabStuffStateGrabWeapon implements  State {
             squareWeapons.moveCardTo(playerWeapons, toDraw.getID());
 
             out.println("<SERVER> Paying the pick up cost");
-            ModelGate.model.getCurrentPlayingPlayer().payAmmoCubes(toDraw.getPickUpCost());
+            ChooseHowToPayState.makePayment(ModelGate.model.getCurrentPlayingPlayer(), toDraw.getPickUpCost());
+
         }
         else {
             ViewControllerEventString VCEString = (ViewControllerEventString) VCE;
@@ -159,7 +160,7 @@ public class GrabStuffStateGrabWeapon implements  State {
             squareWeapons.moveCardTo(playerWeapons, toDraw.getID());
 
             out.println("<SERVER> Paying the pick up cost");
-            ModelGate.model.getCurrentPlayingPlayer().payAmmoCubes(toDraw.getPickUpCost());
+            ChooseHowToPayState.makePayment(ModelGate.model.getCurrentPlayingPlayer(), toDraw.getPickUpCost());
 
             //replacing new card
             if(!ModelGate.model.getWeaponDeck().getCards().isEmpty()){

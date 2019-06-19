@@ -3,6 +3,7 @@ package it.polimi.se2019.controller.statePattern;
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
+import it.polimi.se2019.model.AmmoList;
 import it.polimi.se2019.model.NormalSquare;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.WeaponCard;
@@ -54,7 +55,7 @@ public class ReloadState implements State{
             //ask which weapon to reload
             ArrayList<WeaponCard> toReaload = new ArrayList<>();
             for (WeaponCard wc: playerToAsk.getWeaponCardsInHand().getCards()) {
-                if (!wc.isLoaded()&&playerToAsk.canPayAmmoCubes(wc.getReloadCost())){
+                if (!wc.isLoaded() && (new ChooseHowToPayState(playerToAsk,wc.getReloadCost())).canPayInSomeWay()){
                     toReaload.add(wc);
                 }
             }
@@ -117,9 +118,11 @@ public class ReloadState implements State{
 
         if( ! VCEString.getInput().equals("SKIP")){
             out.println("<SERVER> Reloading and paying reload cost for weapon card: " + VCEString.getInput());
-            ModelGate.model.getCurrentPlayingPlayer().payAmmoCubes(
-                    ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCard(VCEString.getInput()).getReloadCost()
-            );
+
+            AmmoList cost=ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCard(VCEString.getInput()).getReloadCost();
+            ChooseHowToPayState.makePayment(ModelGate.model.getCurrentPlayingPlayer(), cost);
+
+            //reload the card
             ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCard(VCEString.getInput()).reload();
 
             if(calledFromShootPeople){
@@ -158,7 +161,7 @@ public class ReloadState implements State{
     public boolean canReload(){
 
         for (WeaponCard weaponCard : ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards()){
-            if((ModelGate.model.getCurrentPlayingPlayer().canPayAmmoCubes(weaponCard.getReloadCost())) && (!weaponCard.isLoaded())){
+            if((new ChooseHowToPayState(ModelGate.model.getCurrentPlayingPlayer(),weaponCard.getReloadCost())).canPayInSomeWay() && !weaponCard.isLoaded()){
                 return true;
             }
         }
