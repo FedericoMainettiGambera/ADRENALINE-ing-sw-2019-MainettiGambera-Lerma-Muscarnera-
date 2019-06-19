@@ -38,6 +38,11 @@ END
 END
 
 NEW EFFECT
+EFFECT NAME
+Rocket Jump
+USAGE COST
+b
+1
 EXPECTED INPUT
 player
 TO
@@ -62,6 +67,11 @@ END
 END
 
 NEW EFFECT
+EFFECT NAME
+Fragmenting Warhead
+USAGE COST
+y
+1
 EXPECTED INPUT
 singleTarget
 TO

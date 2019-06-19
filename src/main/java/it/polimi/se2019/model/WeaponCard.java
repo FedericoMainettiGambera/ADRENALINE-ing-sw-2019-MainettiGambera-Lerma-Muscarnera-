@@ -227,19 +227,39 @@ public class WeaponCard extends Card implements Serializable {
                     String A = reader.readLine();	// colore
                     String B = reader.readLine();	// quantità
                     ///*@*/ System.out.println("il costo di ricarica e' " + B + " di colore " + A );
-                    this.reloadCost = new AmmoList();
+
                     if (A.equals("y"))
                         reloadCost.addAmmoCubesOfColor(yellow, Integer.parseInt(B));
                     if (A.equals("b"))
                         reloadCost.addAmmoCubesOfColor(blue, Integer.parseInt(B));
                     if (A.equals("r"))
                         reloadCost.addAmmoCubesOfColor(red, Integer.parseInt(B));
+
                 }
 
                 if(line.equals("NEW EFFECT")) {
                     ///*@*/ System.out.println("\tnuovo effetto corrente");
                     effects.add(new Effect());
                     effects.get(effects.size() - 1).setOf(this);
+                }
+                if(line.equals("EFFECT NAME")) {
+                    line = reader.readLine();
+                    effects.get(effects.size() - 1).setName(line);
+                }
+
+                if(line.equals("USAGE COST")) {
+                    String A = reader.readLine();	// colore
+                    String B = reader.readLine();	// quantità
+                    System.out.println("il costo di ricarica e' " + B + " di colore " + A );
+                    Effect currentEffect = effects.get(effects.size()-1);
+
+                    if (A.equals("y"))
+                        currentEffect.getUsageCost().addAmmoCubesOfColor(yellow, Integer.parseInt(B));
+                    if (A.equals("b"))
+                        currentEffect.getUsageCost().addAmmoCubesOfColor(blue, Integer.parseInt(B));
+                    if (A.equals("r"))
+                        currentEffect.getUsageCost().addAmmoCubesOfColor(red, Integer.parseInt(B));
+                    System.out.println("-");
                 }
 
                 if(line.equals("EXPECTED INPUT")) {

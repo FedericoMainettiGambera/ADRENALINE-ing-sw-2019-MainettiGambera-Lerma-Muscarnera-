@@ -25,6 +25,8 @@ END
 END
 
 NEW EFFECT
+EFFECT NAME
+Cozy Fire
 EXPECTED INPUT
 targetListBySquare
 TO

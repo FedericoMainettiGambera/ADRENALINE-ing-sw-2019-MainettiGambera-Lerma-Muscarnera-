@@ -35,6 +35,8 @@ END
 END
 
 NEW EFFECT
+EFFECT NAME
+Long Barrel Mode
 EXPECTED INPUT
 singleTarget
 TO

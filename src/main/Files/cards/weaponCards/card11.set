@@ -25,6 +25,8 @@ END
 END
 
 NEW EFFECT
+EFFECT NAME
+Phase Glide
 EXPECTED INPUT
 player
 TO
@@ -44,6 +46,11 @@ END
 END
 
 NEW EFFECT
+EFFECT NAME
+Charged Shot
+USAGE COST
+b
+1
 EXPECTED INPUT
 singleTarget
 TO

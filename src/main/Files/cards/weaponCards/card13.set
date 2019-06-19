@@ -39,6 +39,11 @@ END
 END
 
 NEW EFFECT
+EFFECT NAME
+Barbeque Mode
+USAGE COST
+y
+2
 EXPECTED INPUT
 targetListBySquare
 TO

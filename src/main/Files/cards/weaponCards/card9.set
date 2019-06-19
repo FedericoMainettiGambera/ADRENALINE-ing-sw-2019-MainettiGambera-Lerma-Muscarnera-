@@ -25,6 +25,11 @@ END
 END
 
 NEW EFFECT
+EFFECT NAME
+Chain Reaction
+USAGE COST
+b
+1
 EXPECTED INPUT
 singleTarget
 TO
@@ -57,6 +62,11 @@ END
 END
 
 NEW EFFECT
+EFFECT NAME
+High Voltage
+USAGE COST
+b
+1
 EXPECTED INPUT
 singleTarget
 TO

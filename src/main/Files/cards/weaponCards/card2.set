@@ -21,6 +21,11 @@ END
 END
 
 NEW EFFECT
+EFFECT NAME
+Reaper Mode
+USAGE COST
+r
+1
 EXPECTED INPUT
 targetListBySameSquareOfPlayer
 TO
