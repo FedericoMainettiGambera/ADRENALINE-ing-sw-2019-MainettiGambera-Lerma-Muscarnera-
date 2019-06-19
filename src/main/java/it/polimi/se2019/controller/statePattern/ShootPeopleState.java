@@ -10,9 +10,11 @@ import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPosition;
 import it.polimi.se2019.controller.WaitForPlayerInput;
+import it.polimi.se2019.view.components.PowerUpCardV;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Logger;
 
 public class ShootPeopleState implements State {
@@ -146,9 +148,11 @@ public class ShootPeopleState implements State {
             wp.passContext(ModelGate.model.getCurrentPlayingPlayer(), ModelGate.model.getPlayerList(), ModelGate.model.getBoard());
         }
         OrderedCardList<WeaponCard> possibleCards = ModelGate.model.getCurrentPlayingPlayer().getHand().usableWeapons();
-        for (WeaponCard wp:possibleCards.getCards()) {
-            if(!wp.isLoaded()){
-                possibleCards.getCards().remove(wp);
+        Iterator<WeaponCard> elementListIterator = possibleCards.getCards().iterator();
+        while (elementListIterator.hasNext()) {
+            WeaponCard element = elementListIterator.next();
+            if(!element.isLoaded()) {
+                elementListIterator.remove();
             }
         }
         return possibleCards.getCards().size() > 0;

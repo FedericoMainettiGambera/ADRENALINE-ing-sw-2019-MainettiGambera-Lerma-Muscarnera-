@@ -1,9 +1,7 @@
 package it.polimi.se2019.controller.statePattern;
 
 import it.polimi.se2019.controller.ModelGate;
-import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
-import it.polimi.se2019.controller.WaitForPlayerInput;
 import it.polimi.se2019.model.AmmoCubes;
 import it.polimi.se2019.model.AmmoList;
 import it.polimi.se2019.model.Player;
@@ -135,13 +133,15 @@ public class ChooseHowToPayState {
                     e.printStackTrace();
                 }
             }
-            else {*/
+            else {
                 out.println("<SERVER> the player can only pay using his ammoBox");
                 //pay as usual
                 payingPlayer.payAmmoCubes(toPay);
                 out.println("<SERVER> DONE PAYING");
                 paymentDone = true;
-            /*}*/
+            }*/
+            //todo delete
+            paymentDone = true;
             return true;
         }
         else{
@@ -188,10 +188,11 @@ public class ChooseHowToPayState {
         //make the payment process start
         if(ViewControllerEventHandlerContext.paymentProcess.checkPayMethods()) {
             //wait for the payment process to end
+            /*
             while (!ViewControllerEventHandlerContext.paymentProcess.isPaymentDone()) {
                 //DO nothing
-                System.err.println("A");
             }
+            */
         }
         else{
             logger.severe("<SERVER> trying to pay something that player can't afford, this should never happen.");
