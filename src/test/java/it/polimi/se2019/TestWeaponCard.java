@@ -188,8 +188,15 @@ public class TestWeaponCard {
         for(int i = 1;i <= 21;i++) {
             WeaponCard w = new WeaponCard(i + "");
             w.passContext(user1, playerList, board);
-
-            if(w.getEffects().size() > 1) {
+            System.out.println("COSTO DI RELOAD");
+            for (AmmoCubes c : w.getReloadCost().getAmmoCubesList()) {
+                System.out.println("COSTO [ " + c.getColor() + " , " + c.getQuantity() + " ]");
+            }
+            System.out.println("COSTO DI PICKUP");
+            for (AmmoCubes c : w.getPickUpCost().getAmmoCubesList()) {
+                System.out.println("COSTO [ " + c.getColor() + " , " + c.getQuantity() + " ]");
+            }
+            /*if(w.getEffects().size() > 1) {
                 System.out.println("EFFETTO " + w.getEffects().get(1).getName());
 
                 for (AmmoCubes c : w.getEffects().get(1).getUsageCost().getAmmoCubesList()) {
@@ -197,7 +204,7 @@ public class TestWeaponCard {
                 }
                 showMap(user1, playerList, board, w.getEffects().get(1).usableInputs().get(0).get(0));
 
-            }
+            }*/
 
 
               System.out.println("^^^^^ CARTA " + i);

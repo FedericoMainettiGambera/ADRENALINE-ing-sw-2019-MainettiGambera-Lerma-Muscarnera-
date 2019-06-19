@@ -365,13 +365,23 @@ public class WeaponCard extends Card implements Serializable {
     public AmmoList getPickUpCost() {
         AmmoList r = new AmmoList();
         int i = 0;
-        for(AmmoCubes c : reloadCost.getAmmoCubesList()) {
-            if(i == 0)  {
-                r.addAmmoCubesOfColor(c.getColor(),c.getQuantity());
+        int firstQuantity = reloadCost.getAmmoCubesList().get(0).getQuantity();
+        if((firstQuantity - 1) == 0) {
+            // eliminazione del primo cubo
+            for(AmmoCubes c : reloadCost.getAmmoCubesList()) {
+                if(i > 0)  {
+                    r.addAmmoCubesOfColor(c.getColor(),c.getQuantity());
+                }
+                i++;
             }
-            i++;
-
+        } else {
+            // decrementazione del primo cubo
+            for(AmmoCubes c : reloadCost.getAmmoCubesList()) {
+                    r.addAmmoCubesOfColor(c.getColor(),c.getQuantity());
+            }
+            r.getAmmoCubesList().get(0).setQuantity( firstQuantity - 1);
         }
+
         return r;
     }
 
