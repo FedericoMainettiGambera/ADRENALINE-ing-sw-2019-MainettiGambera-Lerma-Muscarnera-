@@ -76,6 +76,12 @@ public class GameConstant implements Serializable {
     /***/
     public final static int maxAmmoCardPerNormalSquare= 0;
 
+    /***/
+    public final static int probabilityDenominatorAmmoCardWithPowerUp = 10;
+
+    /***/
+    public final static int numberOfAmmoCards = 14;
+
     //CLI TITLES:
     public final static String AdrenalineTitle1 =
             " _______  ______   _______  _______  _        _______  _       _________ _        _______ \n" +
