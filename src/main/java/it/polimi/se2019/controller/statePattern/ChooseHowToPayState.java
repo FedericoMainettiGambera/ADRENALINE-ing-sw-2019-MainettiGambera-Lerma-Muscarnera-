@@ -119,7 +119,7 @@ public class ChooseHowToPayState {
         this.payingPlayer = payingPlayer;
         if(canPayInSomeWay()) {
             out.println("<SERVER> the player can pay some way");
-            if (canPaySomethingWithPowerUps()) {
+            /*if (canPaySomethingWithPowerUps()) {
                 out.println("<SERVER> player can pay with power ups");
                 //ask what he wants to pay with powerUp, start Timer
                 SelectorEventPaymentInformation SEPaymentInformation = usablePowerUps();
@@ -135,13 +135,13 @@ public class ChooseHowToPayState {
                     e.printStackTrace();
                 }
             }
-            else {
+            else {*/
                 out.println("<SERVER> the player can only pay using his ammoBox");
                 //pay as usual
                 payingPlayer.payAmmoCubes(toPay);
                 out.println("<SERVER> DONE PAYING");
                 paymentDone = true;
-            }
+            /*}*/
             return true;
         }
         else{
@@ -190,6 +190,7 @@ public class ChooseHowToPayState {
             //wait for the payment process to end
             while (!ViewControllerEventHandlerContext.paymentProcess.isPaymentDone()) {
                 //DO nothing
+                System.err.println("A");
             }
         }
         else{
