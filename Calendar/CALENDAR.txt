@@ -1,10 +1,6 @@
 >>>ADRENALINA<<<
 
     CARDS
-        1-questione dell'autoselezione del player che sta usando la carta da risolvere
-        2-getter dei costi degli effetti
-        3-riempire il campo dei nomi degli effetti nei costruttori
-        4-funzione che costruisce tutte le power up in Game.buildDecks(){...} (ci sono i to-do)
         5-funzione che costruisce tutte le ammo in Game.buildDecks(){...} (ci sono i to-do)
         6-fare un po' di test con Client e Server e controllare che le carte effettivamente funzionino
             (in caso ovviamente correggere i problemi)

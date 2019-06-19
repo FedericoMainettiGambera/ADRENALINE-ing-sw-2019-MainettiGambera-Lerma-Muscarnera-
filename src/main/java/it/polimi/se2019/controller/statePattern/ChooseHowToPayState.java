@@ -1,9 +1,7 @@
 package it.polimi.se2019.controller.statePattern;
 
 import it.polimi.se2019.controller.ModelGate;
-import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
-import it.polimi.se2019.controller.WaitForPlayerInput;
 import it.polimi.se2019.model.AmmoCubes;
 import it.polimi.se2019.model.AmmoList;
 import it.polimi.se2019.model.Player;
@@ -119,7 +117,7 @@ public class ChooseHowToPayState {
     public boolean checkPayMethods() {
         if(canPayInSomeWay()) {
             out.println("<SERVER> the player can pay some way");
-            if (canPaySomethingWithPowerUps()) {
+            /*if (canPaySomethingWithPowerUps()) {
                 out.println("<SERVER> player can pay with power ups");
                 //ask what he wants to pay with powerUp, start Timer
                 SelectorEventPaymentInformation SEPaymentInformation = usablePowerUps();
@@ -141,7 +139,9 @@ public class ChooseHowToPayState {
                 payingPlayer.payAmmoCubes(toPay);
                 out.println("<SERVER> DONE PAYING");
                 paymentDone = true;
-            }
+            }*/
+            //todo delete
+            paymentDone = true;
             return true;
         }
         else{
@@ -188,9 +188,11 @@ public class ChooseHowToPayState {
         //make the payment process start
         if(ViewControllerEventHandlerContext.paymentProcess.checkPayMethods()) {
             //wait for the payment process to end
+            /*
             while (!ViewControllerEventHandlerContext.paymentProcess.isPaymentDone()) {
                 //DO nothing
             }
+            */
         }
         else{
             logger.severe("<SERVER> trying to pay something that player can't afford, this should never happen.");

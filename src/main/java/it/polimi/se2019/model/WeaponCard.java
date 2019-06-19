@@ -17,11 +17,10 @@ public class WeaponCard extends Card implements Serializable {
 
     /***/
 
-   public WeaponCard(String ID, AmmoList pickUpCost, AmmoList reloadCost, List<Effect> effects) {
+   public WeaponCard(String ID, AmmoList reloadCost, List<Effect> effects) {
         super(ID);
         this.isLoaded = true;
         this.effects = effects;
-        this.pickUpCost = pickUpCost;
         this.reloadCost = reloadCost;
 
     }
@@ -336,11 +335,6 @@ public class WeaponCard extends Card implements Serializable {
             reader.close();
         }
 
-
-
-    /***/
-    private AmmoList pickUpCost;
-
     /***/
     private AmmoList reloadCost;
 
@@ -418,17 +412,14 @@ public class WeaponCard extends Card implements Serializable {
             weaponCardV.setName(this.name);
         }
         weaponCardV.setLoaded(this.isLoaded);
-        if(this.pickUpCost!=null) {
-            weaponCardV.setPickUpCost(this.pickUpCost.buildAmmoListV());
-        }
         if(this.description!=null) {
             weaponCardV.setDescription(this.description);
         }
         if(this.reloadCost!= null) {
-            weaponCardV.setReloadCost(this.reloadCost.buildAmmoListV());
+            weaponCardV.setReloadCost(this.getReloadCost().buildAmmoListV());
         }
-        if (this.pickUpCost != null) {
-            weaponCardV.setPickUpCost(this.pickUpCost.buildAmmoListV());
+        if (this.getPickUpCost() != null) {
+            weaponCardV.setPickUpCost(this.getPickUpCost().buildAmmoListV());
         }
         weaponCardV.setID(this.getID());
         if(this.effects!=null){
