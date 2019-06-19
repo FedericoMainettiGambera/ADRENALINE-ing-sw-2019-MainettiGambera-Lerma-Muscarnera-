@@ -1,7 +1,6 @@
 >>>ADRENALINA<<<
 
     CARDS
-        0-sistemare twotarget e threetarget nella CLI
         1-questione dell'autoselezione del player che sta usando la carta da risolvere
         2-getter dei costi degli effetti
         3-riempire il campo dei nomi degli effetti nei costruttori
@@ -19,7 +18,7 @@
         4-gestire l'utilizzo dei power up (alla stessa maniera in cui è stato gestito il ChooseHowToPayState)
         5-finire gli ultimi State (principalmente quelli che avvengono dopo la morte di qualcuno (es. SpawnState FFSetUpState, FinalScoringState...)
         6-Testare completamente lo state pattern con la CLI e risolvere tutti i problemi che sorgono finchè tutto non è perfetto
-        7-killshotTrack sempre null nella CLI del client..
+        7-ChooseHowToPayState incomprensibile errore nel reinvio del ViewControllerEventPaymentInformation dal client al server
 
     FUNZIONALITA' AVANZATA
         0-aggiungere allo State Pattern, al Model e alla View tutto ciò che serve per implementare il Terminator
@@ -34,6 +33,7 @@
     CLI
         0-finire gli ultimi log
         1-tenerla aggiornata con l'avanzare di tutto il resto
+        2-killshotTrack sempre null nella CLI del client
 
     GUI
         0-Studio sulla gestione della grafica e ripartizione dei compiti
