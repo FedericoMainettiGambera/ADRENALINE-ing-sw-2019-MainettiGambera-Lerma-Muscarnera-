@@ -24,9 +24,9 @@ public class PlayerV implements Serializable {
 
     private AmmoListV ammoBox;
 
-    private int X;
+    private Integer X;
 
-    private int Y;
+    private Integer Y;
 
     private int numberOfDeaths;
 
@@ -48,11 +48,11 @@ public class PlayerV implements Serializable {
         this.numberOfDeaths = numberOfDeaths;
     }
 
-    public int getY() {
+    public Integer getY() {
         return Y;
     }
 
-    public int getX() {
+    public Integer getX() {
         return X;
     }
 
