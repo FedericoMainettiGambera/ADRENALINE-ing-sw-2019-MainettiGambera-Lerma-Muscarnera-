@@ -66,7 +66,7 @@ public class ShootPeopleChooseEffectState implements State{
 
         out.println("<SERVER> Player has chosen effect: " + this.chosenEffect.getEffectName());
 
-        ViewControllerEventHandlerContext.setNextState(new ShootPeopleAskForInputState(this.chosenEffect, this.actionNumber));
+        ViewControllerEventHandlerContext.setNextState(new ShootPeopleAskForInputState(this.chosenEffect, this.choosenWeaponCard, this.actionNumber));
         ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
     }
 

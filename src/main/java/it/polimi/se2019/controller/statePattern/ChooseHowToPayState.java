@@ -2,21 +2,18 @@ package it.polimi.se2019.controller.statePattern;
 
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
-import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.controller.WaitForPlayerInput;
 import it.polimi.se2019.model.AmmoCubes;
 import it.polimi.se2019.model.AmmoList;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
+import it.polimi.se2019.model.events.selectorEvents.SelectorEvent;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
-import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
-import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventListOfObject;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPaymentInformation;
 import it.polimi.se2019.view.components.PowerUpCardV;
 
 import java.io.PrintWriter;
-import java.util.List;
 import java.util.logging.Logger;
 
 public class ChooseHowToPayState {
@@ -93,17 +90,18 @@ public class ChooseHowToPayState {
         return SEPaymentInformation;
     }
 
-    /*idea behind the payment process:
-    everytime something must be payed by someone:
-    nel VCEHC si istanzia un nuovo oggetto di tipo ChooseHowToPayState con i valori desiderati.
-    successivamente si chiama il metodo VCEHC.checkPayMethods(...)
-    come parametro gli si da true se si vuole anche effettuare il pagamento, false se si vuole solo controllare se sia possibile pagare:
-            se ritorna true il pagamento è possibile
-                    ora bisogna aspettare che il pagamento vada a buon fine controllando la variabile statica paymentDone, finchè è false si aspetta.
-                    quando diventa true, allora il pagamento è andato a buon fine ed è terminato e si può proseguire col resto
-                    RICORDA DI RESETTARE IL playerToAsk in VCEHC !!
-            se ritorna false il pagamento non è possibile
-                    non si può fare il pagamento
+    /*todo da eliminare in futuro:
+    concetto di utilizzo di questa classe:
+    ogni volta c he bisogna pagare qualcosa
+    Nel VCEHC nell'attributo paymentProcess, si istanzia un nuovo oggetto di tipo ChooseHowToPayState con i valori desiderati.
+    Successivamente si chiama il metodo VCEHC.paymentProcess.checkPayMethods(isToPay: [true/false]).
+    Come parametro gli si da true se si vuole anche effettuare il pagamento, false se si vuole solo controllare se sia possibile pagare:
+            -Se ritorna true il pagamento è possibile
+                    -Se si fosse scelto di effettuare il pagamento: bisogna aspettare che il pagamento vada a buon fine controllando
+                     la variabile statica paymentDone, finchè è false si aspetta.
+                     Quando diventa true, allora il pagamento è andato a buon fine ed è terminato e si può proseguire col resto
+            -Se ritorna false il pagamento non è possibile
+                    -Se si fosse scelto di effettuare il pagamento: beh, non verrà mai eseguito
      */
     public void checkPayMethods(boolean isToPay) {
         this.payingPlayer = payingPlayer;
@@ -116,10 +114,12 @@ public class ChooseHowToPayState {
                     SelectorEventPaymentInformation SEPaymentInformation = usablePowerUps();
                     //ask for input
                     try {
+                        Player tempPlayer = SelectorGate.getCorrectSelectorFor(payingPlayer).getPlayerToAsk();
                         SelectorGate.getCorrectSelectorFor(payingPlayer).setPlayerToAsk(payingPlayer);
                         SelectorGate.getCorrectSelectorFor(payingPlayer).askPaymentInformation(SEPaymentInformation);
                         this.inputTimer = new Thread(new WaitForPlayerInput(this.payingPlayer, this.getClass().toString()));
                         this.inputTimer.start();
+                        SelectorGate.getCorrectSelectorFor(payingPlayer).setPlayerToAsk(tempPlayer); //Restore the original playerToAsk so it doesn't get in the way of the State Pattern
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

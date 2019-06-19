@@ -14,6 +14,10 @@ public class VirtualViewSelector implements Selector {
 
     }
 
+    public Player getPlayerToAsk(){
+        return null;
+    }
+
     @Override
     public void askGameSetUp() {
 

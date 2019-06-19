@@ -27,7 +27,9 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
         this.playerToAsk = playerToAsk;
     }
 
-
+    public Player getPlayerToAsk() {
+        return playerToAsk;
+    }
 
     @Override
     public  void askGameSetUp(){
