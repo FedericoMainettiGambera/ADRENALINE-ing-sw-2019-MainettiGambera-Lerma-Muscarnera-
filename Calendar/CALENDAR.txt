@@ -23,18 +23,21 @@
     FUNZIONALITA' AVANZATA
         0-aggiungere allo State Pattern, al Model e alla View tutto ciò che serve per implementare il Terminator
 
-    GUI
-        0-Studio sulla gestione della grafica e ripartizione dei compiti
-        1-Photoshop delle immagini
-        2-...
-
     RETE
         0-Testare a non completamente tutto Socket
         1-quando Socket sarà perfettamente funzionante, emularne alla perfezione il comportamento con RMI
 
+    VIEW
+        0-PositionV class for PlayerV, and change all methods where Player.getX() or Player.getY() is called.
+
     CLI
         0-finire gli ultimi log
         1-tenerla aggiornata con l'avanzare di tutto il resto
+
+    GUI
+        0-Studio sulla gestione della grafica e ripartizione dei compiti
+        1-Photoshop delle immagini
+        2-...
 
     SONARLINT
         0-assolutamente sistemare le carte
