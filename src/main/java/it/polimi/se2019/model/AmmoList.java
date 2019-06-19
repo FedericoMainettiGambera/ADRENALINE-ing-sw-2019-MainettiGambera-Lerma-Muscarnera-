@@ -7,7 +7,6 @@ import it.polimi.se2019.view.components.AmmoListV;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
 /**
  * The AmmoList class keeps track of the current number of ammos a player has.
@@ -58,8 +57,10 @@ public class AmmoList implements Serializable {
         }
         int i=0;
         this.ammoCubesList.add(new AmmoCubes(color));
-        while( i<this.ammoCubesList.size()){i++;}
-        this.getAmmoCubesList().get(i-1).addQuantity(quantity);
+        //while( i<this.ammoCubesList.size()){i++;}
+        //System.out.println(i);
+        this.getAmmoCubesList().get(ammoCubesList.size() - 1).addQuantity(quantity);
+
     }
 
     /**checks if an amount of ammos can be payed with the current this.ammoCubesList status

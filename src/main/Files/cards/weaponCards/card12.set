@@ -35,6 +35,11 @@ END
 END
 
 NEW EFFECT
+EFFECT NAME
+Black Hole
+USAGE COST
+r
+1
 EXPECTED INPUT
 simpleSquareSelect
 TO

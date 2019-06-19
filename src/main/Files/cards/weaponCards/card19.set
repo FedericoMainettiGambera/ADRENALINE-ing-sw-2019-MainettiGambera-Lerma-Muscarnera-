@@ -22,6 +22,11 @@ END
 END
 
 NEW EFFECT
+EFFECT NAME
+Tsunami
+USAGE COST
+y
+1
 EXPECTED INPUT
 targetListByDistance1
 TO

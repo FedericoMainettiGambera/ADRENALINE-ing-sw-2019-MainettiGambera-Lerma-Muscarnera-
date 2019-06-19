@@ -26,6 +26,8 @@ END
 
 
 NEW EFFECT
+EFFECT NAME
+Shadow Step
 EXPECTED INPUT
 player
 TO
@@ -50,6 +52,11 @@ END
 END
 
 NEW EFFECT
+EFFECT NAME
+Slice and Dice
+USAGE COST
+y
+1
 EXPECTED INPUT
 singleTarget
 TO
