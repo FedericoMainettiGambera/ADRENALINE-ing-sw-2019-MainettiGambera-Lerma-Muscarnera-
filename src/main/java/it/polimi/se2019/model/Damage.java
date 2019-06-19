@@ -32,6 +32,10 @@ public class Damage extends Action implements Serializable {
         /*@*/
         System.out.println("Eseguo azione");
         /*@*/
+        // rimozione dell'eventuale player
+        if( getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList().contains(getActionInfo().getActionContext().getPlayer()))
+            getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList().remove(getActionInfo().getActionContext().getPlayer());
+
          for (Player t : getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList()) {
          //Player t =    getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList().get(0);
              if(t != null) {
