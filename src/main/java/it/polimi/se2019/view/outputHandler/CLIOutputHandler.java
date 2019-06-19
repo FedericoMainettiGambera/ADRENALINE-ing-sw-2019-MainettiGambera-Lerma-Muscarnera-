@@ -77,27 +77,26 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     }
 
     @Override
-    public void movingCardsAround(OrderedCardListV from, OrderedCardListV to, ModelViewEvent MVE) { //TODO change output
+    public void movingCardsAround(OrderedCardListV from, OrderedCardListV to, ModelViewEvent MVE) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
         if(to!=null) {
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "cards Moved from " + from.getContext());
-            OutputHandlerGate.getCLIOutputHandler().updateUserInterface(from.toString());
-
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "to " + to.getContext());
-            OutputHandlerGate.getCLIOutputHandler().updateUserInterface(to.toString());
+            showOrderedCardList(from);
+            showOrderedCardList(to);
         }
         else{
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + from.getContext() + " cards has changed.");
-            OutputHandlerGate.getCLIOutputHandler().updateUserInterface(from.toString());
+            showOrderedCardList(from);
         }
     }
 
     @Override
-    public void shufflingCards(ModelViewEvent MVE) { //TODO change output
+    public void shufflingCards(ModelViewEvent MVE) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
         OrderedCardListV cards = ((OrderedCardListV) MVE.getComponent());
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "cards shuffled: " + (cards.getContext()));
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(cards.toString());
+        showOrderedCardList(cards);
     }
 
     @Override
@@ -357,6 +356,76 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         }
     }
 
+    public static void showOrderedCardList(OrderedCardListV cards){
+        String s = "";
+        if(((!cards.getContext().split(":")[0].equals(ViewModelGate.getMe())) && (cards.getContext().contains(":powerUpInHand")))
+                || (cards.getContext().equals("weaponDeck")) || (cards.getContext().equals("ammoDeck")) || (cards.getContext().equals("powerUpDeck"))) {
+            //don't show power ups other player's hand, or the decks
+            s = "              " + cards.getContext() + ":\n";
+            s+= "                 -CAN'T SHOW YOU THIS CONTENT-";
+            OutputHandlerGate.getCLIOutputHandler().updateUserInterface(s);
+            return;
+        }
+        else{
+            if(cards.getCards().isEmpty()){
+                s = "              " + cards.getContext() + ":\n";
+                s+= "                 -EMPTY-";
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface(s);
+                return;
+            }
+            else {
+                s= "              " + cards.getContext() + ":";
+                for (Object c : cards.getCards()) {
+
+                    if (c.getClass().toString().contains("PowerUpCardV")) {
+                        PowerUpCardV card = (PowerUpCardV) c;
+                        s += "\n                 " + card.getName() + " (" + card.getColor() + "): " + card.getDescription() + "";
+                    }
+
+                    else if (c.getClass().toString().contains("WeaponCardV")) {
+                        WeaponCardV card = (WeaponCardV) c;
+                        s += "\n                 " + card.getName() + ": " + card.getDescription();
+                        String ammo = "Reload Cost:[";
+                        if(card.getReloadCost()==null){
+                            ammo += " EMPTY ] PickUp Cost:[";
+                        }
+                        else {
+                            for (AmmoCubesV a : card.getReloadCost().getAmmoCubesList()) {
+                                ammo += " " + a.getColor() + ":" + a.getQuantity() + " ";
+                            }
+                            ammo += "] PickUp Cost:[";
+                        }
+                        if(card.getPickUpCost()==null){
+                            ammo+= " EMPTY ]";
+                        }
+                        else {
+                            for (AmmoCubesV a : card.getPickUpCost().getAmmoCubesList()) {
+                                ammo += " " + a.getColor() + ":" + a.getQuantity() + " ";
+                            }
+                            ammo += "]";
+                        }
+                        s += "\n                    " + ammo;
+                    }
+
+                    else {
+                        AmmoCardV card = (AmmoCardV) c;
+                        String ammo = "AmmoCard:[";
+                        for (AmmoCubesV a : card.getAmmoList().getAmmoCubesList()) {
+                            ammo += " " + a.getColor() + ":" + a.getQuantity() + " ";
+                        }
+                        ammo += "]";
+                        s += "\n                 " + ammo;
+                        if (card.isPowerUp()) {
+                            s += " + 1 POWER UP";
+                        }
+                    }
+
+                }
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface(s);
+            }
+        }
+    }
+
     public static void showPlayerList(){
         if(ViewModelGate.getModel()!=null && ViewModelGate.getModel().getPlayers()!=null && ViewModelGate.getModel().getPlayers().getPlayers()!=null) {
             for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
@@ -571,16 +640,18 @@ public class CLIOutputHandler implements OutputHandlerInterface{
                         if (ViewModelGate.getModel().getPlayers() != null && ViewModelGate.getModel().getPlayers().getPlayers() != null) {
                             for (int k = 0; k < ViewModelGate.getModel().getPlayers().getPlayers().size(); k++) {
                                 PlayerV p = ViewModelGate.getModel().getPlayers().getPlayers().get(k);
-                                char[] squareArray = mapCLI[p.getX()][p.getY()].get(3 + k).toCharArray();
-                                char[] nameArray = p.getNickname().toCharArray();
-                                int nameDimension = nameArray.length;
-                                if (nameDimension > 15) {
-                                    nameDimension = 15;
+                                if(p.getX()!= null &&p.getY()!=null) {
+                                    char[] squareArray = mapCLI[p.getX()][p.getY()].get(3 + k).toCharArray();
+                                    char[] nameArray = p.getNickname().toCharArray();
+                                    int nameDimension = nameArray.length;
+                                    if (nameDimension > 15) {
+                                        nameDimension = 15;
+                                    }
+                                    for (int l = 2; l < nameDimension + 2; l++) {
+                                        squareArray[l] = nameArray[l - 2];
+                                    }
+                                    mapCLI[p.getX()][p.getY()].set(3 + k, new String(squareArray));
                                 }
-                                for (int l = 2; l < nameDimension + 2; l++) {
-                                    squareArray[l] = nameArray[l - 2];
-                                }
-                                mapCLI[p.getX()][p.getY()].set(3 + k, new String(squareArray));
                             }
                         }
                     }

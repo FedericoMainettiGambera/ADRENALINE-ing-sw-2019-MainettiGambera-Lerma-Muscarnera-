@@ -27,6 +27,11 @@ END
 
 
 NEW EFFECT
+EFFECT NAME
+Focus Shot
+USAGE COST
+y
+1
 EXPECTED INPUT
 singleTarget
 TO
@@ -66,6 +71,11 @@ END
 END
 
 NEW EFFECT
+EFFECT NAME
+Turret Tripod
+USAGE COST
+b
+1
 EXPECTED INPUT
 twoTargets
 TO

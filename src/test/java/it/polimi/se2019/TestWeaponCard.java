@@ -1,15 +1,216 @@
 package it.polimi.se2019;
 
 import it.polimi.se2019.model.*;
+import it.polimi.se2019.model.enumerations.CardinalPoint;
+import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.virtualView.VirtualView;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/*
 //TODO
 public class TestWeaponCard {
+    private String charRepeat(char c,int n) {
+        String retVal = "";
+        for(int i = 0 ; i < n;i++) {
+            retVal += c;
+        }
+        return retVal;
+
+    }
+
+    private void showMap(Player user,PlayersList playersList,Board board,List<Object> possible) {
+        boolean something = true;
+        if(possible == null) {
+            something  = false;
+        } else
+        {
+            if(possible.size() == 0)
+                something = false;
+        }
+        boolean playerHighlight = false;
+        int possibleCounter = 0;
+
+        if(something) {
+            if (possible.get(0).getClass().toString().equals("class it.polimi.se2019.model.Player")) {
+                playerHighlight = true;
+            }
+        }
+        String output = "";
+
+        int rowCounter = 0;
+        for(Square[] row : board.getMap())
+        {
+            int cellCounter = 0;
+            for(Square cell: row) {
+                String currentOutput = "";
+                currentOutput = " ________________ ";
+                String doorUp = "__";
+                if(cell.getSide(CardinalPoint.north).equals(SquareSide.door)) {
+                    doorUp = "    ";
+                    currentOutput = " ______" + doorUp + "______ ";
+                }
+                if ((rowCounter - 1) >= 0)
+                    if (cell.getColor() == board.getMap()[rowCounter - 1][cellCounter].getColor()) {
+
+                        currentOutput = "|" + charRepeat(' ', 16) + "|";
+                    }
+                output += currentOutput;
+                cellCounter++;
+            }
+
+            output +='\n';
+            for (Square cell : row) {
+                char isChoseable = ' ';
+                if(something)
+                    if(!playerHighlight)
+                        if(possible.contains(cell))
+                            isChoseable = '#';
+
+                String label = "|COLOR: " + cell.getColor() + "" + isChoseable + "x:"+cell.getCoordinates().getX() + ",y:"+cell.getCoordinates().getY();
+                output +=  label + charRepeat(' ',17 - (label).length() )  + "|";
+
+            }
+            output +='\n';
+            int counter = 0;
+            double middle = Math.ceil( (playersList.getPlayers().size() * 0.5) );
+            char lastColor = row[0].getColor();
+            for(Player x: playersList.getPlayers()) {
+                cellCounter = 0;
+                for (Square cell : row) {
+                    String content = "";
+                    if(cell.getCoordinates().equals(x.getPosition())) {
+                        char brake1 = ' ';
+                        char brake2 = ' ';
+                        char brake3 = ' ';
+                        char brake4 = ' ';
+                        if(x.equals(user)) {
+                            brake3 = '[';
+                            brake4 = ']';
+                        }
+                        if(something)
+                            if(playerHighlight) {
+
+                                for(Object o : possible) {
+                                    if(((Player) o).equals(x)) {
+                                        brake1 = '<';
+                                        brake2 = '>';
+                                    }
+                                }
+                            }
+                        content = brake1 +""+ brake3 +  x.getNickname() + brake4 +""+ brake2;
+                    }
+                    int spaces = (16 - (content.length()))/2;
+                    int corrector = 0;
+                    if((spaces * 2 + content.length()) < 16) {
+                        corrector++;
+                    }
+                    char charWallWest = '|';
+                    char charWallEast = '|';
+                    char charWallNorth = '|';
+                    char charWallSouth = '|';
+                    if(counter == middle) {
+                        if(cell.getSide(CardinalPoint.west).equals(SquareSide.door)) {
+                            charWallWest = ' ';
+                        }
+                        if(cell.getSide(CardinalPoint.east).equals(SquareSide.door)) {
+                            charWallEast = ' ';
+                        }
+                    }
+                    if(cell.getColor() == lastColor ) {
+                        charWallWest = ' ';
+                    }
+                    if((cellCounter + 1 ) < row.length)
+                        if(cell.getColor() == row[cellCounter+1].getColor() ) {
+                            charWallEast = ' ';
+                        }
+                    output += charWallWest + charRepeat(' ', spaces + corrector) + content + charRepeat(' ', spaces  )  + charWallEast;
+                    lastColor = cell.getColor();
+                    cellCounter++;
+                }
+                output += '\n';
+                counter++;
+            }
+            cellCounter= 0;
+            for(Square cell: row) {
+                String currentOutput = "";
+                currentOutput = "|________________|";
+                String doorDown = "__";
+                if(cell.getSide(CardinalPoint.south).equals(SquareSide.door)) {
+                    doorDown = "    ";
+                    currentOutput = "|______" + doorDown + "______|";
+                }
+
+                if((rowCounter + 1 ) < board.getMap().length)
+                    if(cell.getColor() == board.getMap()[rowCounter+1][cellCounter].getColor()) {
+
+                        currentOutput = "|" + charRepeat(' ',16) + "|";
+                    }
+                output += currentOutput;
+                cellCounter++;
+            }
+            output += '\n';
+            rowCounter++;
+        }
+        System.out.println(output);
+    }
+
+    @Test
+    public void testCosti() throws Exception {
+        Board board = new Board("2",new VirtualView(),new VirtualView());
+        List<Player> user = new ArrayList<>();
+        user.add(new Player());user.add(new Player());user.add(new Player());user.add(new Player());user.add(new Player());
+        Player user1 = user.get(0);
+        Player user2 = user.get(1);
+        Player user3 = user.get(2);
+        Player user4 = user.get(3);
+        Player user5 = user.get(4);
+
+        user1.setNickname("Aldo");
+        user2.setNickname("Bruno");
+        user3.setNickname("Carlo");
+        user4.setNickname("Dario");
+        user5.setNickname("Elena");
+
+        PlayersList playerList = new PlayersList();
+        playerList.getPlayers().add(user1);
+        playerList.getPlayers().add(user2);
+        playerList.getPlayers().add(user3);
+        playerList.getPlayers().add(user4);
+        playerList.getPlayers().add(user5);
+
+        user1.setPosition(0, 1);
+        user2.setPosition(0, 1);
+        user3.setPosition(0 , 2);                 //   same position
+        user4.setPosition(0, 0);
+        user5.setPosition(2, 0);
+        for(int i = 1;i <= 21;i++) {
+            WeaponCard w = new WeaponCard(i + "");
+            w.passContext(user1, playerList, board);
+            System.out.println("COSTO DI RELOAD");
+            for (AmmoCubes c : w.getReloadCost().getAmmoCubesList()) {
+                System.out.println("COSTO [ " + c.getColor() + " , " + c.getQuantity() + " ]");
+            }
+            System.out.println("COSTO DI PICKUP");
+            for (AmmoCubes c : w.getPickUpCost().getAmmoCubesList()) {
+                System.out.println("COSTO [ " + c.getColor() + " , " + c.getQuantity() + " ]");
+            }
+            /*if(w.getEffects().size() > 1) {
+                System.out.println("EFFETTO " + w.getEffects().get(1).getName());
+
+                for (AmmoCubes c : w.getEffects().get(1).getUsageCost().getAmmoCubesList()) {
+                    System.out.println("COSTO [ " + c.getColor() + " , " + c.getQuantity() + " ]");
+                }
+                showMap(user1, playerList, board, w.getEffects().get(1).usableInputs().get(0).get(0));
+
+            }*/
+
+
+              System.out.println("^^^^^ CARTA " + i);
+        }
+
+    }
     /*
     @Test
     public void test() {
@@ -320,149 +521,8 @@ public class TestWeaponCard {
         }
     }
 
-    private String charRepeat(char c,int n) {
-        String retVal = "";
-        for(int i = 0 ; i < n;i++) {
-            retVal += c;
-        }
-        return retVal;
 
-    }
-    private void showMap(Player user,PlayersList playersList,Board board,List<Object> possible) {
-       boolean something = true;
-        if(possible == null) {
-            something  = false;
-        } else
-        {
-            if(possible.size() == 0)
-                something = false;
-        }
-        boolean playerHighlight = false;
-        int possibleCounter = 0;
 
-        if(something) {
-            if (possible.get(0).getClass().toString().equals("class it.polimi.se2019.model.Player")) {
-                playerHighlight = true;
-            }
-        }
-        String output = "";
-
-        int rowCounter = 0;
-        for(Square[] row : board.getMap())
-        {
-            int cellCounter = 0;
-            for(Square cell: row) {
-                String currentOutput = "";
-                currentOutput = " ________________ ";
-                String doorUp = "__";
-                if(cell.getSide(CardinalPoint.north).equals(SquareSide.door)) {
-                    doorUp = "    ";
-                    currentOutput = " ______" + doorUp + "______ ";
-                }
-                if ((rowCounter - 1) >= 0)
-                    if (cell.getColor() == board.getMap()[rowCounter - 1][cellCounter].getColor()) {
-
-                        currentOutput = "|" + charRepeat(' ', 16) + "|";
-                    }
-                output += currentOutput;
-                cellCounter++;
-            }
-
-                output +='\n';
-            for (Square cell : row) {
-                char isChoseable = ' ';
-                if(something)
-                if(!playerHighlight)
-                if(possible.contains(cell))
-                    isChoseable = '#';
-
-                String label = "|COLOR: " + cell.getColor() + "" + isChoseable + "x:"+cell.getCoordinates().getX() + ",y:"+cell.getCoordinates().getY();
-                output +=  label + charRepeat(' ',17 - (label).length() )  + "|";
-
-            }
-            output +='\n';
-            int counter = 0;
-            double middle = Math.ceil( (playersList.getPlayers().size() * 0.5) );
-            char lastColor = row[0].getColor();
-            for(Player x: playersList.getPlayers()) {
-                cellCounter = 0;
-                for (Square cell : row) {
-                    String content = "";
-                    if(cell.getCoordinates().equals(x.getPosition())) {
-                        char brake1 = ' ';
-                        char brake2 = ' ';
-                        char brake3 = ' ';
-                        char brake4 = ' ';
-                        if(x.equals(user)) {
-                            brake3 = '[';
-                            brake4 = ']';
-                        }
-                        if(something)
-                        if(playerHighlight) {
-
-                            for(Object o : possible) {
-                                if(((Player) o).equals(x)) {
-                                    brake1 = '<';
-                                    brake2 = '>';
-                                }
-                            }
-                        }
-                        content = brake1 +""+ brake3 +  x.getNickname() + brake4 +""+ brake2;
-                    }
-                    int spaces = (16 - (content.length()))/2;
-                    int corrector = 0;
-                    if((spaces * 2 + content.length()) < 16) {
-                        corrector++;
-                    }
-                    char charWallWest = '|';
-                    char charWallEast = '|';
-                    char charWallNorth = '|';
-                    char charWallSouth = '|';
-                    if(counter == middle) {
-                        if(cell.getSide(CardinalPoint.west).equals(SquareSide.door)) {
-                            charWallWest = ' ';
-                        }
-                        if(cell.getSide(CardinalPoint.east).equals(SquareSide.door)) {
-                            charWallEast = ' ';
-                        }
-                    }
-                    if(cell.getColor() == lastColor ) {
-                        charWallWest = ' ';
-                        }
-                    if((cellCounter + 1 ) < row.length)
-                    if(cell.getColor() == row[cellCounter+1].getColor() ) {
-                        charWallEast = ' ';
-                    }
-                    output += charWallWest + charRepeat(' ', spaces + corrector) + content + charRepeat(' ', spaces  )  + charWallEast;
-                    lastColor = cell.getColor();
-                    cellCounter++;
-                }
-                output += '\n';
-                counter++;
-            }
-            cellCounter= 0;
-            for(Square cell: row) {
-               String currentOutput = "";
-                currentOutput = "|________________|";
-                String doorDown = "__";
-                if(cell.getSide(CardinalPoint.south).equals(SquareSide.door)) {
-                    doorDown = "    ";
-                    currentOutput = "|______" + doorDown + "______|";
-                }
-
-                if((rowCounter + 1 ) < board.getMap().length)
-                if(cell.getColor() == board.getMap()[rowCounter+1][cellCounter].getColor()) {
-
-                    currentOutput = "|" + charRepeat(' ',16) + "|";
-                }
-                output += currentOutput;
-                cellCounter++;
-            }
-            output += '\n';
-        rowCounter++;
-        }
-        System.out.println(output);
-    }
     @Test
     public void testUsable() throws Exception {
 
@@ -569,7 +629,6 @@ public class TestWeaponCard {
                     e.printStackTrace();
                 }
             }
-    }
+    }*/
 }
 
-    */

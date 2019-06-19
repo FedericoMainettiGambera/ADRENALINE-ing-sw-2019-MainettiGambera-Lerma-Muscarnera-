@@ -13,6 +13,27 @@ import static it.polimi.se2019.model.enumerations.EffectInfoType.*;
 
 /***/
 public class Effect implements Serializable {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    String name;
+
+    public AmmoList getUsageCost() {
+        return usageCost;
+    }
+
+    public void setUsageCost(AmmoList usageCost) {
+        this.usageCost = usageCost;
+    }
+
+    private AmmoList usageCost;
+
+
     public WeaponCard getOf() {
         return of;
     }
@@ -564,6 +585,8 @@ public class Effect implements Serializable {
 
 
     public Effect() {
+        this.setName("Basic Effect");       // default name
+        this.usageCost = new AmmoList();    // default cost ( zero )
         this.filledInputs = new ArrayList<>();
         this.actions = new ArrayList<Action>();
         this.effectName = "no Effect Name";

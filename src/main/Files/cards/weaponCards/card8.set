@@ -33,6 +33,8 @@ END
 
 
 NEW EFFECT
+EFFECT NAME
+Scanner Mode
 EXPECTED INPUT
 threeTargets
 TO

@@ -30,6 +30,11 @@ END
 END
 
 NEW EFFECT
+EFFECT NAME
+Second Lock
+USAGE COST
+r
+1
 EXPECTED INPUT
 singleTarget
 TO
