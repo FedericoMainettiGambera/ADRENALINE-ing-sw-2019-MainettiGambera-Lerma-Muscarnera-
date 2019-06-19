@@ -170,7 +170,9 @@ public class GrabStuffStateGrabWeapon implements  State {
             out.println("<SERVER> Paying the pick up cost");
             ChooseHowToPayState.makePayment(ModelGate.model.getCurrentPlayingPlayer(), toDraw.getPickUpCost());
         }
+    }
 
+    public void afterPayment(){
         //set next state
         if(this.actionNumber == 1){
             if (ModelGate.model.hasFinalFrenzyBegun() && ModelGate.model.getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0) {

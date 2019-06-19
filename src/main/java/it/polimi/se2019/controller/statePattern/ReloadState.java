@@ -119,20 +119,13 @@ public class ReloadState implements State{
         if( ! VCEString.getInput().equals("SKIP")){
             out.println("<SERVER> Reloading and paying reload cost for weapon card: " + VCEString.getInput());
 
-            AmmoList cost=ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCard(VCEString.getInput()).getReloadCost();
-            ChooseHowToPayState.makePayment(ModelGate.model.getCurrentPlayingPlayer(), cost);
-
             //reload the card
             ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCard(VCEString.getInput()).reload();
 
-            if(calledFromShootPeople){
-                ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
-            }
-            else {
-                ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
-            }
+            //payment
+            AmmoList cost=ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCard(VCEString.getInput()).getReloadCost();
+            ChooseHowToPayState.makePayment(ModelGate.model.getCurrentPlayingPlayer(), cost);
+
         }
         else{
             out.println("<SERVER> Player decided not to reload.");
@@ -144,6 +137,17 @@ public class ReloadState implements State{
                 ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
                 ViewControllerEventHandlerContext.state.doAction(null);
             }
+        }
+    }
+
+    public void afterPayment(){
+        if(calledFromShootPeople){
+            ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        }
+        else {
+            ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
     }
 

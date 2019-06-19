@@ -1,7 +1,9 @@
 package it.polimi.se2019.controller.statePattern;
 
 import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
+import it.polimi.se2019.controller.WaitForPlayerInput;
 import it.polimi.se2019.model.AmmoCubes;
 import it.polimi.se2019.model.AmmoList;
 import it.polimi.se2019.model.Player;
@@ -18,23 +20,6 @@ import java.util.logging.Logger;
 public class ChooseHowToPayState {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(ChooseHowToPayState.class.getName());
-
-
-    private boolean paymentDone = false;
-
-    public boolean isPaymentDone() {
-        if(paymentDone){
-            return true;
-        }
-        else {
-            try {
-                TimeUnit.MILLISECONDS.sleep(100);
-            } catch (InterruptedException e) {
-                logger.severe("<SERVER> something interrupted the sleep payiment process but should never happen: " + e.toString());
-            }
-            return paymentDone;
-        }
-    }
 
     private Player payingPlayer;
 
@@ -98,26 +83,11 @@ public class ChooseHowToPayState {
         return SEPaymentInformation;
     }
 
-    /*todo da eliminare in futuro:
-    concetto di utilizzo di questa classe:
-    ogni volta c he bisogna pagare qualcosa
-    Nel VCEHC nell'attributo paymentProcess, si istanzia un nuovo oggetto di tipo ChooseHowToPayState con i valori desiderati.
-    Successivamente si chiama il metodo VCEHC.paymentProcess.checkPayMethods().
-            -se ritorna true il pagamento è possibile:
-                     bisogna aspettare che il pagamento vada a buon fine controllando
-                     la variabile statica paymentDone, finchè è false si aspetta.
-                     Quando diventa true, allora il pagamento è andato a buon fine ed è terminato e si può proseguire col resto
-            -Se ritorna false il pagamento non è possibile
-                    -Se si fosse scelto di effettuare il pagamento: beh, non verrà mai eseguito
-
-    Se si volesse solo controllare che un pagamento sia possibile si può fare così:
-            (new ChooseHowToPayState(... , ... , ...)).canPayInSomeWay();
-     */
     public boolean checkPayMethods() {
         this.payingPlayer = payingPlayer;
         if(canPayInSomeWay()) {
             out.println("<SERVER> the player can pay some way");
-            /*if (canPaySomethingWithPowerUps()) {
+            if (canPaySomethingWithPowerUps()) {
                 out.println("<SERVER> player can pay with power ups");
                 //ask what he wants to pay with powerUp, start Timer
                 SelectorEventPaymentInformation SEPaymentInformation = usablePowerUps();
@@ -138,10 +108,9 @@ public class ChooseHowToPayState {
                 //pay as usual
                 payingPlayer.payAmmoCubes(toPay);
                 out.println("<SERVER> DONE PAYING");
-                paymentDone = true;
-            }*/
-            //todo delete
-            paymentDone = true;
+
+                afterPayment();
+            }
             return true;
         }
         else{
@@ -169,7 +138,8 @@ public class ChooseHowToPayState {
         payingPlayer.payAmmoCubes(leftToPay);
 
         out.println("<SERVER> DONE PAYING");
-        paymentDone = true;
+
+        afterPayment();
     }
 
     public void handleAFK() {
@@ -179,20 +149,31 @@ public class ChooseHowToPayState {
         //pass turn
         out.println("<SERVER> forcing payment by AmmoBox");
         payingPlayer.payAmmoCubes(toPay);
-        paymentDone = true;
+
+        afterPayment();
+
         out.println("<SERVER> DONE PAYING");
+    }
+
+    public void afterPayment(){
+        //here are the three cases where the payment is used:
+
+        if(ViewControllerEventHandlerContext.state.getClass().toString().contains("GrabStuffStateGrabWeapon")){
+            ((GrabStuffStateGrabWeapon)ViewControllerEventHandlerContext.state).afterPayment();
+        }
+        else if(ViewControllerEventHandlerContext.state.getClass().toString().contains("ReloadState")){
+            ((ReloadState)ViewControllerEventHandlerContext.state).afterPayment();
+        }
+        else if(ViewControllerEventHandlerContext.state.getClass().toString().contains("")){
+            //TODO
+        }
     }
 
     public static void makePayment(Player player, AmmoList cost){
         ViewControllerEventHandlerContext.paymentProcess = new ChooseHowToPayState(player, cost);
         //make the payment process start
         if(ViewControllerEventHandlerContext.paymentProcess.checkPayMethods()) {
-            //wait for the payment process to end
-            /*
-            while (!ViewControllerEventHandlerContext.paymentProcess.isPaymentDone()) {
-                //DO nothing
-            }
-            */
+            out.println("<SERVER> waiting for the payment to complete");
         }
         else{
             logger.severe("<SERVER> trying to pay something that player can't afford, this should never happen.");

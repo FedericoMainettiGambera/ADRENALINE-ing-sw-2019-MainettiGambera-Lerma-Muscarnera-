@@ -59,12 +59,6 @@ public class ClientListenerVirtualView extends Observable implements Runnable{
                 System.err.println("Something went Wrong in class ClientListenerVirtualView..." + e.getMessage());
                 e.printStackTrace();
             }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-            catch (Error e ){
-                e.printStackTrace();
-            }
 
             if(o.getClass().toString().contains("ViewControllerEvent")) {
                 this.VCE = (ViewControllerEvent) o;
