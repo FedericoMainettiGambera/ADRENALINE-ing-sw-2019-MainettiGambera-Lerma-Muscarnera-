@@ -46,6 +46,7 @@ public class ClientListenerVirtualView extends Observable implements Runnable{
             Object o = null;
             try {
                 o = ois.readObject();
+                System.err.println("I HAVE RECEIVED ELEMENT " + o.getClass());
             }
             catch (IOException|ClassNotFoundException e){
                 System.err.println("Error in read object from class ClientListenerVirtualView.");

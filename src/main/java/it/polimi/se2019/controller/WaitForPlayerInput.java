@@ -1,5 +1,6 @@
 package it.polimi.se2019.controller;
 
+import it.polimi.se2019.controller.statePattern.ChooseHowToPayState;
 import it.polimi.se2019.controller.statePattern.SpawnState;
 import it.polimi.se2019.model.GameConstant;
 import it.polimi.se2019.model.Player;
@@ -68,6 +69,11 @@ public class WaitForPlayerInput implements Runnable{
         out.println("                                                                        from class: " + this.callingClass);
         out.println("                                                                        VCEHC at the moment is: " + ViewControllerEventHandlerContext.state.getClass());
 
-        ViewControllerEventHandlerContext.state.handleAFK();
+        if(this.callingClass.getClass().toString().contains("ChooseHowToPayState")){
+            ViewControllerEventHandlerContext.paymentProcess.handleAFK();
+        }
+        else {
+            ViewControllerEventHandlerContext.state.handleAFK();
+        }
     }
 }

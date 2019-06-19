@@ -19,6 +19,7 @@
         4-gestire l'utilizzo dei power up (alla stessa maniera in cui è stato gestito il ChooseHowToPayState)
         5-finire gli ultimi State (principalmente quelli che avvengono dopo la morte di qualcuno (es. SpawnState FFSetUpState, FinalScoringState...)
         6-Testare completamente lo state pattern con la CLI e risolvere tutti i problemi che sorgono finchè tutto non è perfetto
+        7-killshotTrack sempre null nella CLI del client..
 
     FUNZIONALITA' AVANZATA
         0-aggiungere allo State Pattern, al Model e alla View tutto ciò che serve per implementare il Terminator
