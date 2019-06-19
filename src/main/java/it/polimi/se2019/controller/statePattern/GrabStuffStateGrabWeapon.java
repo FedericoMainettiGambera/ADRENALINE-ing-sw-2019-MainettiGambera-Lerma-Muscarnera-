@@ -149,7 +149,6 @@ public class GrabStuffStateGrabWeapon implements  State {
 
             out.println("<SERVER> Paying the pick up cost");
             ChooseHowToPayState.makePayment(ModelGate.model.getCurrentPlayingPlayer(), toDraw.getPickUpCost());
-
         }
         else {
             ViewControllerEventString VCEString = (ViewControllerEventString) VCE;
@@ -159,9 +158,6 @@ public class GrabStuffStateGrabWeapon implements  State {
             out.println("<SERVER> Picking up new card: " + toDraw.getID());
             squareWeapons.moveCardTo(playerWeapons, toDraw.getID());
 
-            out.println("<SERVER> Paying the pick up cost");
-            ChooseHowToPayState.makePayment(ModelGate.model.getCurrentPlayingPlayer(), toDraw.getPickUpCost());
-
             //replacing new card
             if(!ModelGate.model.getWeaponDeck().getCards().isEmpty()){
                 out.println("<SERVER> Replacing picked up card in the spawn point with card: " + ModelGate.model.getWeaponDeck().getFirstCard().getID());
@@ -170,6 +166,9 @@ public class GrabStuffStateGrabWeapon implements  State {
             else{
                 out.println("<SERVER> The weapon deck is empty, so the space left in the SpawnPoint from the picked up card is not replaced.");
             }
+
+            out.println("<SERVER> Paying the pick up cost");
+            ChooseHowToPayState.makePayment(ModelGate.model.getCurrentPlayingPlayer(), toDraw.getPickUpCost());
         }
 
         //set next state
