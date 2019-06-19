@@ -427,6 +427,9 @@ public class WeaponCard extends Card implements Serializable {
         if(this.reloadCost!= null) {
             weaponCardV.setReloadCost(this.reloadCost.buildAmmoListV());
         }
+        if (this.pickUpCost != null) {
+            weaponCardV.setPickUpCost(this.pickUpCost.buildAmmoListV());
+        }
         weaponCardV.setID(this.getID());
         if(this.effects!=null){
             List<EffectV> effectV = new ArrayList<>();
