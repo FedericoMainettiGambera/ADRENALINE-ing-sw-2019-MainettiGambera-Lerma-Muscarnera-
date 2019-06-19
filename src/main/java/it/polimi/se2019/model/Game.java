@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.Observable;
 
+import static it.polimi.se2019.model.GameConstant.numberOfAmmoCards;
+
 /***/
 public class Game extends Observable implements Serializable {
 
@@ -179,13 +181,14 @@ public class Game extends Observable implements Serializable {
                 return;
             }
         }
-        /*
+
         // TODO builds power up cards
-        OrderedCardList<PowerUpCard> tempPowerUpDeck = new OrderedCardList<>("powerUpDeck);
+        OrderedCardList<PowerUpCard> tempPowerUpDeck = new OrderedCardList<>("powerUpDeck");
         directory = new File("src/main/Files/cards/powerUpCards");          // insert here path to power up cards folder
         fileCount = directory.list().length;
-        for(int i = 1; i< fileCount;i++) {
-            System.out.println("<SERVER>building weapon cards ID: " + i);
+        System.out.println("<SERVER> powerUp length " + fileCount);
+        for(int i = 1; i<= fileCount;i++) {
+            System.out.println("<SERVER> building powerUp cards ID: " + i);
             try {
                 tempPowerUpDeck.addCard(new PowerUpCard("" + i));
             }
@@ -195,32 +198,33 @@ public class Game extends Observable implements Serializable {
             }
         }
 
-        // TODO builds ammo cards
+
         OrderedCardList<AmmoCard> tempAmmoDeck = new OrderedCardList<>("ammoDeck");
         directory = new File("src/main/Files/cards/ammoCards");          // insert here path to ammo cards folder
-        fileCount = directory.list().length;
-        for(int i = 1; i< fileCount;i++) {
+        int count = numberOfAmmoCards;
+        for(int i = 1; i< count;i++) {
             try {
-                //TODO: tempAmmoDeck.addCard(new AmmoCard("" + i));
+                tempAmmoDeck.addCard(new AmmoCard(""+i));
             }
             catch(Exception e) {
                 e.printStackTrace();
                 return;
             }
         }
-        */
+
 
         this.getWeaponDeck().getCards().addAll(tempWeaponDeck.getCards());
+        this.getPowerUpDeck().getCards().addAll(tempPowerUpDeck.getCards());
         setChanged();
         notifyObservers(new ModelViewEvent(this.getWeaponDeck().buildDeckV(), ModelViewEventTypes.movingCardsAround));
 
-        //this.getAmmoDeck().getCards().addAll(tempAmmoDeck.getCards());
-        //setChanged();
-        //notifyObservers(new ModelViewEvent(this.getWeaponDeck().buildDeckV(), ModelViewEventTypes.movingCardsAround));
+        this.getAmmoDeck().getCards().addAll(tempAmmoDeck.getCards());
+        setChanged();
+        notifyObservers(new ModelViewEvent(this.getWeaponDeck().buildDeckV(), ModelViewEventTypes.movingCardsAround));
 
-        //this.getPowerUpDeck.getCards().addAll(tempPowerUpDeck.getCards());
-        //setChanged();
-        //notifyObservers(new ModelViewEvent(this.getWeaponDeck().buildDeckV(), ModelViewEventTypes.movingCardsAround));
+        this.getPowerUpDeck().getCards().addAll(tempPowerUpDeck.getCards());
+        setChanged();
+        notifyObservers(new ModelViewEvent(this.getWeaponDeck().buildDeckV(), ModelViewEventTypes.movingCardsAround));
 
     }
 
