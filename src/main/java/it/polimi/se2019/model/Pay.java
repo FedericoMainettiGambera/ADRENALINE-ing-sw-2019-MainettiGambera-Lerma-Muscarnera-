@@ -4,7 +4,8 @@ package it.polimi.se2019.model;
 import java.io.Serializable;
 
 /***/
-public class Pay extends Action implements Serializable {
+@Deprecated
+public class Pay extends Action implements Serializable { //TODO DELETE THIS CLASS??
 
     /***/
     @Override

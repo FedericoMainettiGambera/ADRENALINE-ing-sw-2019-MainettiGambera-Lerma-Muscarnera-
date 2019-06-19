@@ -5,10 +5,11 @@ import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.view.components.AmmoListV;
 import it.polimi.se2019.view.components.PowerUpCardV;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectorEventPaymentInformation extends SelectorEvent {
+public class SelectorEventPaymentInformation extends SelectorEvent implements Serializable {
     private List<PowerUpCardV> possibilities;
     private boolean canPayWithoutPowerUps;
     private AmmoListV amount;

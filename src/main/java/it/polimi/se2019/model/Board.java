@@ -59,7 +59,7 @@ public class Board{
 
 
 
-    public Position getSpawnpointOfColor(AmmoCubesColor color)throws NullPointerException, Exception{
+    public Position getSpawnpointOfColor(AmmoCubesColor color)throws Exception{
         int g=0;
 
         if(color.equals(AmmoCubesColor.yellow)){
@@ -343,32 +343,33 @@ public class Board{
     }
 
     public String toString(){
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for (int i = 0; i < this.board.length; i++) {
             for (int j = 0; j < this.board[0].length; j++) {
 
                 if(this.board[i][j] == null){
-                    s+="----------------------------------";
+                    s.append("----------------------------------");
                 }
                 else {
-                    s += this.board[i][j].getSquareType();
-                    s += " " + this.board[i][j].getColor();
-                    s += " [" + i + "][" + j + "]";
-                    s += " n:" + this.board[i][j].getSide(CardinalPoint.north);
-                    s += " e:" + this.board[i][j].getSide(east);
-                    s += " s:" + this.board[i][j].getSide(south);
-                    s += " w:" + this.board[i][j].getSide(CardinalPoint.west);
+
+                    s.append(this.board[i][j].getSquareType());
+                    s.append(" ").append(this.board[i][j].getColor());
+                    s.append(" [").append(i).append("][").append(j).append("]");
+                    s.append(" n:").append(this.board[i][j].getSide(CardinalPoint.north));
+                    s.append(" e:").append(this.board[i][j].getSide(east));
+                    s.append(" s:").append(this.board[i][j].getSide(south));
+                    s.append(" w:").append(this.board[i][j].getSide(CardinalPoint.west));
                 }
-                s+= "      ";
+                s.append("      ");
             }
-            s+="\n\n";
+            s.append("\n\n");
         }
-        return s;
+        return s.toString();
     }
 
     public boolean contains(ArrayList<Position> positions, Position pos){
-        for (int k = 0; k < positions.size(); k++) {
-            if(positions.get(k).equals(pos)){
+        for (Position position : positions) {
+            if (position.equals(pos)) {
                 return true;
             }
         }

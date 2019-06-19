@@ -43,6 +43,7 @@ public class CLISelector implements SelectorV {
         if(networkConnection.equals("SOCKET")){
             try {
                 SocketNetworkHandler.oos.writeObject(o);
+                System.err.println("I HAVE SENT ELEMENT: " +  o.getClass());
             } catch (IOException e) {
                 OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
             }
@@ -146,7 +147,7 @@ public class CLISelector implements SelectorV {
 
 
     public static int askNumber(int rangeInit, int rangeEnd){
-        if(Controller.randomGame == true){
+        if(Controller.randomGame){
             try {
                 TimeUnit.MILLISECONDS.sleep(300);
             } catch (InterruptedException e) {
@@ -770,6 +771,19 @@ public class CLISelector implements SelectorV {
             ArrayList<String> requestsString = new ArrayList<>();
 
             for (int j = 0; j < request ; j++) {
+                if(possibleInputs.isEmpty()){
+                    break;
+                }
+                if(request>=2){
+                    out.println("Do you want to chose another one?");
+                    CLISelector.showListOfRequests(Arrays.asList("Yes", "No"));
+                    int choice = askNumber(0,1);
+                    boolean YorN;
+                    if(choice==1){
+                        break;
+                    }
+                }
+
                 if(possibleInputs.get(0).getClass().toString().contains("PlayerV")){
                     out.println("<Client> please choose one of the following players: ");
                     PlayerV p;
@@ -792,16 +806,6 @@ public class CLISelector implements SelectorV {
 
                 answer.add(possibleInputs.get(chosen));
                 possibleInputs.remove(possibleInputs.get(chosen));
-
-                if(request == 999){ //TODO
-                    out.println("Do you want to chose another one?");
-                    CLISelector.showListOfRequests(Arrays.asList("Yes", "No"));
-                    int choice = askNumber(0,1);
-                    boolean YorN;
-                    if(choice!=0){
-                        break;
-                    }
-                }
             }
             ViewControllerEventListOfObject VCEListOfObject = new ViewControllerEventListOfObject(answer);
 
@@ -809,15 +813,6 @@ public class CLISelector implements SelectorV {
         }
 
         public int howManyRequest(){
-            if(this.infoType.equals(EffectInfoType.multipleSquareSelect) ||
-                this.infoType.equals(EffectInfoType.multipleTargets)){
-                try {
-                    throw new Exception("SHOULDN'T BE USED.");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return 999; //means multiple choices
-            }
             if(this.infoType.equals(EffectInfoType.twoTargets)){
                 return 2;
             }
@@ -909,34 +904,51 @@ public class CLISelector implements SelectorV {
         public void run() {
             ArrayList<String> request = new ArrayList<>();
             ArrayList<Object> answer = new ArrayList<>();
+            List<AmmoCubesV> amountToPay = SEPaymentInformation.getAmount().getAmmoCubesList();
 
             while(true) {
                 out.println("<CLIENT> you have to pay the following amount of ammo: ");
 
-                for (AmmoCubesV a : SEPaymentInformation.getAmount().getAmmoCubesList()) {
+                for (AmmoCubesV a : amountToPay) {
                     out.println("         " + a.getColor() + " --> " + a.getQuantity());
                 }
 
                 if (SEPaymentInformation.canPayWithoutPowerUps()) {
-                    request.add("pay the amount with my Ammo box");
+                    request.add("pay the amount with ammos from the Ammo box");
                 }
 
                 for (PowerUpCardV p : SEPaymentInformation.getPossibilities()) {
-                    request.add("use " + p.getName() + " for a " + p.getColor() + " ammo");
+                    request.add("discard " + p.getName() + " for getting off a " + p.getColor() + " ammo from the total cost");
                 }
 
                 showListOfRequests(request);
-                int choice = askNumber(0, request.size());
+                int choice = askNumber(0, request.size()-1);
 
                 if (choice == 0) {
+                    out.println("<CLIENT> you decided to pay the amount with your ammos from the Ammo Box");
                     break;
                 }
                 else{
+                    for (AmmoCubesV ammo: amountToPay) {
+                        if(ammo.getColor().equals(SEPaymentInformation.getPossibilities().get(choice-1).getColor())){
+                            ammo.setQuantity(ammo.getQuantity()-1);
+                            if(ammo.getQuantity()<=0){
+                                amountToPay.remove(ammo);
+
+                            }
+                            break;
+                        }
+                    }
                     answer.add(SEPaymentInformation.getPossibilities().get(choice-1));
                     SEPaymentInformation.getPossibilities().remove(choice-1);
                 }
 
-                if(SEPaymentInformation.getPossibilities().size()==0){
+                request = new ArrayList<>();
+
+                if(SEPaymentInformation.getPossibilities().isEmpty()){
+                    break;
+                }
+                if(amountToPay.isEmpty()){
                     break;
                 }
             }

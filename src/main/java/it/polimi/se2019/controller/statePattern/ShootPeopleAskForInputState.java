@@ -6,6 +6,7 @@ import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.controller.WaitForPlayerInput;
 import it.polimi.se2019.model.Effect;
 import it.polimi.se2019.model.Player;
+import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventListOfObject;
@@ -29,11 +30,14 @@ public class ShootPeopleAskForInputState implements State {
 
     private int actionNumber;
 
+    private WeaponCard chosenWeaponCard;
 
-    public ShootPeopleAskForInputState(Effect chosenEffect, int actionNumber){
+
+    public ShootPeopleAskForInputState(Effect chosenEffect, WeaponCard chosenWeaponCard, int actionNumber){
         out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
         this.chosenEffect = chosenEffect;
+        this.chosenWeaponCard = chosenWeaponCard;
     }
 
 
@@ -104,12 +108,8 @@ public class ShootPeopleAskForInputState implements State {
             askForInput(playerToAsk);
         }
         else {
-            if(!this.chosenEffect.Exec()) {
-               logger.severe("Exec didnt work");
-            } else {
-                logger.severe("<SERVER> exec worked!");
-            }
             //TODO chiedi a luca se c'è bisogno di scaricare l arma o lo fa già l'exec().
+            this.chosenWeaponCard.unload();
             if(this.actionNumber == 2){
                 ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
             }

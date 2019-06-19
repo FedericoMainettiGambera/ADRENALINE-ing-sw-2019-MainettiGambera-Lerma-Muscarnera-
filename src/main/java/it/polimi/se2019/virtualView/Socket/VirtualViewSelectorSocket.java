@@ -27,6 +27,10 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
         this.playerToAsk = playerToAsk;
     }
 
+    public Player getPlayerToAsk() {
+        return playerToAsk;
+    }
+
     @Override
     public  void askGameSetUp() {
         SocketVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.askGameSetUp));

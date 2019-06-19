@@ -40,6 +40,9 @@ public class Mark extends Action implements Serializable {
 
     /***/
     public void Exec() {
+        // rimozione dell'eventuale player
+        if( getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList().contains(getActionInfo().getActionContext().getPlayer()))
+            getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList().remove(getActionInfo().getActionContext().getPlayer());
 
         List<Player> target = getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList();
         Player marker = getActionInfo().getActionContext().getPlayer();

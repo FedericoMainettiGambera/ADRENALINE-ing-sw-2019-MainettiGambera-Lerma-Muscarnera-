@@ -10,13 +10,12 @@ import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
-import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
-import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventListOfObject;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPaymentInformation;
 import it.polimi.se2019.view.components.PowerUpCardV;
 
 import java.io.PrintWriter;
-import java.util.List;
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class ChooseHowToPayState {
@@ -24,7 +23,21 @@ public class ChooseHowToPayState {
     private static final Logger logger = Logger.getLogger(ChooseHowToPayState.class.getName());
 
 
-    public static boolean paymentDone;
+    private boolean paymentDone = false;
+
+    public boolean isPaymentDone() {
+        if(paymentDone){
+            return true;
+        }
+        else {
+            try {
+                TimeUnit.MILLISECONDS.sleep(100);
+            } catch (InterruptedException e) {
+                logger.severe("<SERVER> something interrupted the sleep payiment process but should never happen: " + e.toString());
+            }
+            return paymentDone;
+        }
+    }
 
     private Player payingPlayer;
 
@@ -34,14 +47,9 @@ public class ChooseHowToPayState {
 
     private Thread inputTimer;
 
-    private Object callingClass;
-
-    public ChooseHowToPayState(Object callingClass, Player payingPlayer, AmmoList toPay){
+    public ChooseHowToPayState(Player payingPlayer, AmmoList toPay){
         out.println("<SERVER> Started a payment process for player: " + payingPlayer.getNickname());
 
-        paymentDone = false;
-
-        this.callingClass = callingClass;
         this.payingPlayer = payingPlayer;
 
         this.toPay = toPay;
@@ -93,49 +101,52 @@ public class ChooseHowToPayState {
         return SEPaymentInformation;
     }
 
-    /*idea behind the payment process:
-    everytime something must be payed by someone:
-    nel VCEHC si istanzia un nuovo oggetto di tipo ChooseHowToPayState con i valori desiderati.
-    successivamente si chiama il metodo VCEHC.checkPayMethods(...)
-    come parametro gli si da true se si vuole anche effettuare il pagamento, false se si vuole solo controllare se sia possibile pagare:
-            se ritorna true il pagamento è possibile
-                    ora bisogna aspettare che il pagamento vada a buon fine controllando la variabile statica paymentDone, finchè è false si aspetta.
-                    quando diventa true, allora il pagamento è andato a buon fine ed è terminato e si può proseguire col resto
-                    RICORDA DI RESETTARE IL playerToAsk in VCEHC !!
-            se ritorna false il pagamento non è possibile
-                    non si può fare il pagamento
+    /*todo da eliminare in futuro:
+    concetto di utilizzo di questa classe:
+    ogni volta c he bisogna pagare qualcosa
+    Nel VCEHC nell'attributo paymentProcess, si istanzia un nuovo oggetto di tipo ChooseHowToPayState con i valori desiderati.
+    Successivamente si chiama il metodo VCEHC.paymentProcess.checkPayMethods().
+            -se ritorna true il pagamento è possibile:
+                     bisogna aspettare che il pagamento vada a buon fine controllando
+                     la variabile statica paymentDone, finchè è false si aspetta.
+                     Quando diventa true, allora il pagamento è andato a buon fine ed è terminato e si può proseguire col resto
+            -Se ritorna false il pagamento non è possibile
+                    -Se si fosse scelto di effettuare il pagamento: beh, non verrà mai eseguito
+
+    Se si volesse solo controllare che un pagamento sia possibile si può fare così:
+            (new ChooseHowToPayState(... , ... , ...)).canPayInSomeWay();
      */
-    public void checkPayMethods(boolean isToPay) {
-        this.payingPlayer = payingPlayer;
+    public boolean checkPayMethods() {
         if(canPayInSomeWay()) {
             out.println("<SERVER> the player can pay some way");
             if (canPaySomethingWithPowerUps()) {
                 out.println("<SERVER> player can pay with power ups");
-                if(isToPay) {
-                    //ask what he wants to pay with powerUp, start Timer
-                    SelectorEventPaymentInformation SEPaymentInformation = usablePowerUps();
-                    //ask for input
-                    try {
-                        SelectorGate.getCorrectSelectorFor(payingPlayer).setPlayerToAsk(payingPlayer);
-                        SelectorGate.getCorrectSelectorFor(payingPlayer).askPaymentInformation(SEPaymentInformation);
-                        this.inputTimer = new Thread(new WaitForPlayerInput(this.payingPlayer, this.getClass().toString()));
-                        this.inputTimer.start();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else {
-                out.println("<SERVER> the player can only pay using his ammoBox");
-                if(isToPay) {
-                    //pay as usual
-                    payingPlayer.payAmmoCubes(toPay);
-                    out.println("<SERVER> DONE PAYING");
-                    paymentDone = true;
+                //ask what he wants to pay with powerUp, start Timer
+                SelectorEventPaymentInformation SEPaymentInformation = usablePowerUps();
+                //ask for input
+                try {
+                    Player tempPlayer = SelectorGate.getCorrectSelectorFor(payingPlayer).getPlayerToAsk();
+                    SelectorGate.getCorrectSelectorFor(payingPlayer).setPlayerToAsk(payingPlayer);
+                    SelectorGate.getCorrectSelectorFor(payingPlayer).askPaymentInformation(SEPaymentInformation);
+                    this.inputTimer = new Thread(new WaitForPlayerInput(this.payingPlayer, this.getClass().toString()));
+                    this.inputTimer.start();
+                    SelectorGate.getCorrectSelectorFor(payingPlayer).setPlayerToAsk(tempPlayer); //Restore the original playerToAsk so it doesn't get in the way of the State Pattern
+                } catch (Exception e) {
+                    logger.severe("exception occured during payment:"+ Arrays.toString(e.getStackTrace()) +" "+e.getClass()+" "+e.getCause());
                 }
             }
+            else {
+                out.println("<SERVER> the player can only pay using his ammoBox");
+                //pay as usual
+                payingPlayer.payAmmoCubes(toPay);
+                out.println("<SERVER> DONE PAYING");
+                paymentDone = true;
+            }
+            return true;
         }
         else{
             out.println("<SERVER> the player can't pay in any way.");
+            return false;
         }
     }
 
@@ -170,5 +181,19 @@ public class ChooseHowToPayState {
         payingPlayer.payAmmoCubes(toPay);
         paymentDone = true;
         out.println("<SERVER> DONE PAYING");
+    }
+
+    public static void makePayment(Player player, AmmoList cost){
+        ViewControllerEventHandlerContext.paymentProcess = new ChooseHowToPayState(player, cost);
+        //make the payment process start
+        if(ViewControllerEventHandlerContext.paymentProcess.checkPayMethods()) {
+            //wait for the payment process to end
+            while (!ViewControllerEventHandlerContext.paymentProcess.isPaymentDone()) {
+                //DO nothing
+            }
+        }
+        else{
+            logger.severe("<SERVER> trying to pay something that player can't afford, this should never happen.");
+        }
     }
 }
