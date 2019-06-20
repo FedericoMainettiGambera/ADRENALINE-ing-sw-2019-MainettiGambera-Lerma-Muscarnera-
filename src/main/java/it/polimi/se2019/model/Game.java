@@ -193,6 +193,7 @@ public class Game extends Observable implements Serializable {
         Colors.add(AmmoCubesColor.blue);
 
         System.out.println("<SERVER> powerUp length " + fileCount);
+        for(int j = 0;j<2;j++)
         for(AmmoCubesColor color: Colors) {
             for (int i = 1; i <= fileCount; i++) {
                 System.out.println("<SERVER> building powerUp cards ID: " + i);
