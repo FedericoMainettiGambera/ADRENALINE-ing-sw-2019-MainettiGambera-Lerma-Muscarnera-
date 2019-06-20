@@ -44,8 +44,6 @@ public class CLISelector implements SelectorV {
         if(networkConnection.equals("SOCKET")){
             try {
                 SocketNetworkHandler.oos.writeObject(o);
-                //TODO delete the following line in the future
-                System.err.println("I HAVE SENT ELEMENT: " +  o.getClass());
             } catch (IOException e) {
                 OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
             }

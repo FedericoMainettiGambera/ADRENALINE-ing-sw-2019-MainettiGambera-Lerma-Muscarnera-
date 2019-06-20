@@ -358,7 +358,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
 
     public static void showOrderedCardList(OrderedCardListV cards){
         String s = "";
-        if(((!cards.getContext().split(":")[0].equals(ViewModelGate.getMe())) && (cards.getContext().contains(":powerUpInHand")))
+        /*if(((!cards.getContext().split(":")[0].equals(ViewModelGate.getMe())) && (cards.getContext().contains(":powerUpInHand")))
                 || (cards.getContext().equals("weaponDeck")) || (cards.getContext().equals("ammoDeck")) || (cards.getContext().equals("powerUpDeck"))) {
             //don't show power ups other player's hand, or the decks
             s = "              " + cards.getContext() + ":\n";
@@ -366,7 +366,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface(s);
             return;
         }
-        else{
+        else{*/
             if(cards.getCards().isEmpty()){
                 s = "              " + cards.getContext() + ":\n";
                 s+= "                 -EMPTY-";
@@ -422,7 +422,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
 
                 }
                 OutputHandlerGate.getCLIOutputHandler().updateUserInterface(s);
-            }
+            /*}*/
         }
     }
 

@@ -249,7 +249,7 @@ public class WeaponCard extends Card implements Serializable {
                 if(line.equals("USAGE COST")) {
                     String A = reader.readLine();	// colore
                     String B = reader.readLine();	// quantità
-                    System.out.println("il costo di ricarica e' " + B + " di colore " + A );
+                    //System.out.println("il costo di ricarica e' " + B + " di colore " + A );
                     Effect currentEffect = effects.get(effects.size()-1);
 
                     if (A.equals("y"))
@@ -258,7 +258,7 @@ public class WeaponCard extends Card implements Serializable {
                         currentEffect.getUsageCost().addAmmoCubesOfColor(blue, Integer.parseInt(B));
                     if (A.equals("r"))
                         currentEffect.getUsageCost().addAmmoCubesOfColor(red, Integer.parseInt(B));
-                    System.out.println("-");
+                    //System.out.println("-");
                 }
 
                 if(line.equals("EXPECTED INPUT")) {

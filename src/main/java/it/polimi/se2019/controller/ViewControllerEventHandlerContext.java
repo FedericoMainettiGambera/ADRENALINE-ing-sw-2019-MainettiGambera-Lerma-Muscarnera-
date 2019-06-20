@@ -27,8 +27,6 @@ public class  ViewControllerEventHandlerContext implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         ViewControllerEvent VCE = (ViewControllerEvent) arg;
-        //TODO delete following line in the future
-        System.err.println("I HAVE BEEN NOTIFIED WITH THE ELEMENT: " + arg.getClass());
         if(VCE.getClass().toString().contains("PaymentInformation")){
             paymentProcess.doPayment((ViewControllerEventPaymentInformation)VCE);
         }

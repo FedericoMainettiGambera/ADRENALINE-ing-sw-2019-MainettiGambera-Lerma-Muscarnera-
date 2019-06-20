@@ -164,8 +164,8 @@ public class ChooseHowToPayState {
         else if(ViewControllerEventHandlerContext.state.getClass().toString().contains("ReloadState")){
             ((ReloadState)ViewControllerEventHandlerContext.state).afterPayment();
         }
-        else if(ViewControllerEventHandlerContext.state.getClass().toString().contains("")){
-            //TODO
+        else if(ViewControllerEventHandlerContext.state.getClass().toString().contains("ShootPeople")){
+            ((ShootPeopleAskForInputState)ViewControllerEventHandlerContext.state).afterPayment();
         }
     }
 

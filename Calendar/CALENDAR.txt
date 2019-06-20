@@ -1,10 +1,12 @@
 >>>ADRENALINA<<<
 
     CARDS
+        4- funzione che costruisce tutte le power up card !
         5-funzione che costruisce tutte le ammo in Game.buildDecks(){...} (ci sono i to-do)
         6-fare un po' di test con Client e Server e controllare che le carte effettivamente funzionino
             (in caso ovviamente correggere i problemi)
             (molte carte danno ancora molti problemi)
+        7-cristo metti i nomi alle cose, power up, weapon, effect...
 
     STATE PATTERN
         0-finire ChooseHowToPayState e aggiungerlo in tutte le occasioni in cui serve e testare che funzioni

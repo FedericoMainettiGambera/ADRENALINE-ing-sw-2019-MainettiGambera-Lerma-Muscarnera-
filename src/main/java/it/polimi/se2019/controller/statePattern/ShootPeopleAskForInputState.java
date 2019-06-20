@@ -107,18 +107,22 @@ public class ShootPeopleAskForInputState implements State {
             askForInput(playerToAsk);
         }
         else {
-            //TODO chiedi a luca se c'è bisogno di scaricare l arma o lo fa già l'exec().
-            this.chosenWeaponCard.unload();
-            if(this.actionNumber == 2){
-                ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
-            }
-            else if(this.actionNumber == 1){
-                ViewControllerEventHandlerContext.setNextState(new TurnState(2));
-            }
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            ChooseHowToPayState.makePayment(playerToAsk, this.chosenEffect.getUsageCost());
         }
     }
+    public void afterPayment(){
+        this.chosenWeaponCard.unload(); //TODO not sure about this, ask luca
 
+        this.chosenEffect.Exec();
+
+        if(this.actionNumber == 2){
+            ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
+        }
+        else if(this.actionNumber == 1){
+            ViewControllerEventHandlerContext.setNextState(new TurnState(2));
+        }
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+    }
 
     @Override
     public void handleAFK() {
