@@ -231,11 +231,11 @@ public class Game extends Observable implements Serializable {
 
         this.getAmmoDeck().getCards().addAll(tempAmmoDeck.getCards());
         setChanged();
-        notifyObservers(new ModelViewEvent(this.getWeaponDeck().buildDeckV(), ModelViewEventTypes.movingCardsAround));
+        notifyObservers(new ModelViewEvent(this.getPowerUpDeck().buildDeckV(), ModelViewEventTypes.movingCardsAround));
 
         this.getPowerUpDeck().getCards().addAll(tempPowerUpDeck.getCards());
         setChanged();
-        notifyObservers(new ModelViewEvent(this.getWeaponDeck().buildDeckV(), ModelViewEventTypes.movingCardsAround));
+        notifyObservers(new ModelViewEvent(this.getAmmoDeck().buildDeckV(), ModelViewEventTypes.movingCardsAround));
 
     }
 
