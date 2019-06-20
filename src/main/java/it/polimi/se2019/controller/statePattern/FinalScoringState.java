@@ -9,10 +9,12 @@ import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**this state is meant to score the killshot track  and provide a final ranking. It is, obviously, only called once, at the end of the game*/
 public class FinalScoringState implements State {
     private static PrintWriter out = new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(FinalScoringState.class.getName());
@@ -22,18 +24,28 @@ public class FinalScoringState implements State {
         out.println("<SERVER> New state: " + this.getClass());
     }
 
+    /**no input required*/
     @Override
     public void askForInput(Player playerToAsk) {
         out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
         //empty
     }
 
+    /**
+     * this doAction does this things in this order:
+     * 1: score the playerBoards that got some damages on it even if the owners of said playerBoards are still alive
+     * 2: calls function getgraduatory
+     * 3:Effectuate the necessary calculus to get the very final ranking, adding up, for each player,  the points earned during the whole game play,
+     * the points from overkills and the points from number of killshots
+     *it eventually effectuate a bubble sort in order to get the ranking,
+     * calls a MVE event in order to get all clients to see the ranking and
+     * ends the application*/
     @Override
     public void doAction(ViewControllerEvent VCE){
         out.println("<SERVER> " + this.getClass() + ".doAction();");
 
 
-        //when the game ends, we score any player that still got tokens on his damage track
+        /**when the game ends, we score any player that still got tokens on his damage track*/
         for (Player player : ModelGate.model.getPlayerList().getPlayers()) {
             scoreTokens(player);
         }
@@ -42,10 +54,12 @@ public class FinalScoringState implements State {
         try {
             graduatory = getGraduatory();
         } catch (Exception e) {
-            e.printStackTrace();
+           logger.severe("Error occurred:"+ e.getClass()+e.getCause()+ Arrays.toString(e.getStackTrace()));
         }
 
         int score=8;
+      /**gives deserved points based on number of killshots*/
+        assert graduatory != null;
         for(PlayerPoint playerPoint: graduatory){
 
             for(Player p: ModelGate.model.getPlayerList().getPlayers()){
@@ -60,7 +74,7 @@ public class FinalScoringState implements State {
             }
             else score=1;
         }
-
+      /**bubble sort to obtain ranking*/
         PlayerPoint temporaryPlayer;
         int s=0;
         while(s<graduatory.size()){
@@ -78,7 +92,7 @@ public class FinalScoringState implements State {
             }
             s+=1;
         }
-
+       /** MVE to send all client the ranking*/
         int i=1;
         out.println("Final Classification is :");
         for(PlayerPoint p: graduatory){
@@ -87,7 +101,7 @@ public class FinalScoringState implements State {
             i++;
         }
 
-
+/** exit the application */
         System.exit(0);
         }
 
@@ -102,6 +116,8 @@ public class FinalScoringState implements State {
     }
 
 
+    /**when the game ends, we score any player that still got tokens on his damage track
+     * @param player  we do it for every player*/
     public void scoreTokens(Player player) {
 
         //list of points (es 8,6,4,2,1,1)
@@ -117,7 +133,7 @@ public class FinalScoringState implements State {
     }
 
 
-    //structure needed to score the kills
+    /**structure needed to score the kills*/
     class PlayerPoint{
         Player player;
         int quantity;

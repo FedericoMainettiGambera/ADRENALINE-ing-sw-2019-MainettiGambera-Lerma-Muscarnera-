@@ -1,6 +1,8 @@
 package it.polimi.se2019.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /***/
 public class Bot extends Person implements Serializable {
@@ -14,11 +16,15 @@ public class Bot extends Person implements Serializable {
         super();
         this.isBotActive = isBotActive;
         this.owner = null;
+        this.damagesTracker=new DamagesTracker();
     }
 
     /*-*****************************************************************************************************ATTRIBUTES*/
     /**is bot active*/
-    private boolean isBotActive;
+    protected boolean isBotActive;
+
+    private DamagesTracker damagesTracker;
+
 
     /**owner*/
     private Player owner;

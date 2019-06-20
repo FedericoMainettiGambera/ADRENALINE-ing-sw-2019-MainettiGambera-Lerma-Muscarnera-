@@ -25,7 +25,14 @@ public class FFSetUpState implements State {
     public void askForInput(Player playerToAsk) {
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
     }
-
+/**Final Frenzy has been triggered,
+ * we need to get ready for it:
+ ***1
+ * makes the players boards that has no damages in FinalFrenzy mode,
+ * 2
+ * we also need to set a dedicated attributed - BeforeorafterStartingPlayer -  in order to understand whether a player will play before of after the starting player, this fact
+ * will make all the difference: the action one can unblock are determined by that attribute!
+ * */
     @Override
     public void doAction(ViewControllerEvent VCE) {
         out.println("<SERVER> "+ this.getClass() +".doAction();");
@@ -34,7 +41,7 @@ public class FFSetUpState implements State {
 
         ModelGate.model.triggerFinalFrenzy(true);
 
-        //makes the players boards that has no damages in FinalFrenzy mode
+
         for(Player player : ModelGate.model.getPlayerList().getPlayers()){
             if(player.getBoard().getDamagesTracker().isEmpty()){
                 player.makePlayerBoardFinalFrenzy();
