@@ -45,11 +45,7 @@ public class ClientListenerVirtualView extends Observable implements Runnable{
         while(isSocketLive){
             Object o = null;
             try {
-                //TODO delete following line in the future
-                System.err.println("I AM TRYING TO READ AN OBJECT");
                 o = ois.readObject();
-                //TODO delete following line in the future
-                System.err.println("I HAVE RECEIVED ELEMENT " + o.getClass());
             }
             catch (IOException|ClassNotFoundException e){
                 System.err.println("Error in read object from class ClientListenerVirtualView.");
@@ -57,12 +53,6 @@ public class ClientListenerVirtualView extends Observable implements Runnable{
             }
             catch (InternalError e){
                 System.err.println("Something went Wrong in class ClientListenerVirtualView..." + e.getMessage());
-                e.printStackTrace();
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-            catch (Error e ){
                 e.printStackTrace();
             }
 

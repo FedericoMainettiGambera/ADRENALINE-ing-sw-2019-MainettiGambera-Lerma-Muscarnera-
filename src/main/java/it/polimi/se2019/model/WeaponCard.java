@@ -1,12 +1,14 @@
 package it.polimi.se2019.model;
 
 
+import it.polimi.se2019.controller.statePattern.ChooseHowToPayState;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.view.components.EffectV;
 import it.polimi.se2019.view.components.WeaponCardV;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static it.polimi.se2019.model.enumerations.AmmoCubesColor.*;
@@ -153,6 +155,14 @@ public class WeaponCard extends Card implements Serializable {
 
         }
 
+        Iterator<Effect> elementListIterator = retVal.iterator();
+        while (elementListIterator.hasNext()) {
+            Effect element = elementListIterator.next();
+
+            if(!(new ChooseHowToPayState(element.getActions().get(0).getActionInfo().getActionContext().getPlayer(), element.getUsageCost())).canPayInSomeWay()) {
+                elementListIterator.remove();
+            }
+        }
         return retVal;
 
 
@@ -249,7 +259,7 @@ public class WeaponCard extends Card implements Serializable {
                 if(line.equals("USAGE COST")) {
                     String A = reader.readLine();	// colore
                     String B = reader.readLine();	// quantità
-                    System.out.println("il costo di ricarica e' " + B + " di colore " + A );
+                    //System.out.println("il costo di ricarica e' " + B + " di colore " + A );
                     Effect currentEffect = effects.get(effects.size()-1);
 
                     if (A.equals("y"))
@@ -258,7 +268,7 @@ public class WeaponCard extends Card implements Serializable {
                         currentEffect.getUsageCost().addAmmoCubesOfColor(blue, Integer.parseInt(B));
                     if (A.equals("r"))
                         currentEffect.getUsageCost().addAmmoCubesOfColor(red, Integer.parseInt(B));
-                    System.out.println("-");
+                    //System.out.println("-");
                 }
 
                 if(line.equals("EXPECTED INPUT")) {

@@ -86,8 +86,11 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             showOrderedCardList(to);
         }
         else{
-            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + from.getContext() + " cards has changed.");
+            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + from.getContext() + "DECK CREATED");
+            String tempContext = from.getContext();
+            from.setContext("NEW DECK");
             showOrderedCardList(from);
+            from.setContext(tempContext);
         }
     }
 
@@ -157,7 +160,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
             if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has setted his board to Final Frenzy");
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has set his board to Final Frenzy");
                 showPlayerStatus(p);
                 break;
             }
@@ -703,3 +706,5 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     }
 
 }
+
+

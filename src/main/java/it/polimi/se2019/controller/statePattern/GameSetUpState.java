@@ -99,24 +99,8 @@ public class GameSetUpState implements State {
 
         //create cards
         out.println("<SERVER> Building decks.");
+
         ModelGate.model.buildDecks();
-
-        out.println("<SERVER> Adding 100 fake ammo cards to the ammoDeck.");
-        AmmoList ammoList = new AmmoList();
-        ammoList.addAmmoCubesOfColor(AmmoCubesColor.yellow, 2);
-        OrderedCardList<AmmoCard> orderedCardListAmmo = new OrderedCardList<>("ammoDeck");
-        for (int i = 0; i < 100; i++) {
-            orderedCardListAmmo.getCards().add(new AmmoCard("fake", ammoList, false));
-        }
-        orderedCardListAmmo.moveAllCardsTo(ModelGate.model.getAmmoDeck());
-
-
-        out.println("<SERVER> Adding 100 fake PowerUpCards to the powerUpDeck.");
-        OrderedCardList<PowerUpCard> orderedCardListPowerUp = new OrderedCardList<>("powerUpDeck");
-        for (int i = 0; i < 100; i++) {
-            orderedCardListPowerUp.getCards().add(new PowerUpCard());
-        }
-        orderedCardListPowerUp.moveAllCardsTo(ModelGate.model.getPowerUpDeck());
 
         //shuffles cards
         out.println("<SERVER> Shuffling decks");

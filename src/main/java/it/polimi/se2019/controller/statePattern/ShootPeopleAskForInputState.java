@@ -14,8 +14,8 @@ import it.polimi.se2019.view.components.PlayerV;
 import it.polimi.se2019.view.components.SquareV;
 
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ShootPeopleAskForInputState implements State {
@@ -66,7 +66,7 @@ public class ShootPeopleAskForInputState implements State {
                 this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                 this.inputTimer.start();
             } catch (Exception e) {
-               logger.severe("Exception Occured: "+e.getClass()+" "+e.getCause()+ Arrays.toString(e.getStackTrace()));
+                logger.log(Level.SEVERE, "EXCEPTION", e);
             }
         }
         else{
@@ -74,6 +74,8 @@ public class ShootPeopleAskForInputState implements State {
             askMoreOrExec();
         }
     }
+
+
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
@@ -108,16 +110,22 @@ public class ShootPeopleAskForInputState implements State {
             askForInput(playerToAsk);
         }
         else {
-            //TODO chiedi a luca se c'è bisogno di scaricare l arma o lo fa già l'exec().
-            this.chosenWeaponCard.unload();
-            if(this.actionNumber == 2){
-                ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
-            }
-            else if(this.actionNumber == 1){
-                ViewControllerEventHandlerContext.setNextState(new TurnState(2));
-            }
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            ChooseHowToPayState.makePayment(playerToAsk, this.chosenEffect.getUsageCost());
         }
+    }
+    public void afterPayment(){
+
+        this.chosenWeaponCard.unload(); //TODO not sure about this, ask luca
+
+        this.chosenEffect.Exec();
+
+        if(this.actionNumber == 2){
+            ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
+        }
+        else if(this.actionNumber == 1){
+            ViewControllerEventHandlerContext.setNextState(new TurnState(2));
+        }
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 
 

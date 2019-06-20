@@ -185,32 +185,18 @@ public class TestWeaponCard {
         user3.setPosition(0 , 2);                 //   same position
         user4.setPosition(0, 0);
         user5.setPosition(2, 0);
-        for(int i = 1;i <= 21;i++) {
-            WeaponCard w = new WeaponCard(i + "");
-            w.passContext(user1, playerList, board);
-            System.out.println("COSTO DI RELOAD");
-            for (AmmoCubes c : w.getReloadCost().getAmmoCubesList()) {
-                System.out.println("COSTO [ " + c.getColor() + " , " + c.getQuantity() + " ]");
-            }
-            System.out.println("COSTO DI PICKUP");
-            for (AmmoCubes c : w.getPickUpCost().getAmmoCubesList()) {
-                System.out.println("COSTO [ " + c.getColor() + " , " + c.getQuantity() + " ]");
-            }
-            /*if(w.getEffects().size() > 1) {
-                System.out.println("EFFETTO " + w.getEffects().get(1).getName());
-
-                for (AmmoCubes c : w.getEffects().get(1).getUsageCost().getAmmoCubesList()) {
-                    System.out.println("COSTO [ " + c.getColor() + " , " + c.getQuantity() + " ]");
-                }
-                showMap(user1, playerList, board, w.getEffects().get(1).usableInputs().get(0).get(0));
-
-            }*/
+        System.out.println();
+        List<Object> output = new ArrayList<>();
+        for(Square s: board.getRoomFromPosition(new Position(1,2))) {
+            output.add((Object)s);
+        }
+        showMap(user1,playerList,board,output);
 
 
-              System.out.println("^^^^^ CARTA " + i);
+              System.out.println("^^^^^ CARTA ");
         }
 
-    }
+
     /*
     @Test
     public void test() {

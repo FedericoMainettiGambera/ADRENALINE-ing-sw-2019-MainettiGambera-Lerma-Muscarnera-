@@ -44,8 +44,6 @@ public class CLISelector implements SelectorV {
         if(networkConnection.equals("SOCKET")){
             try {
                 SocketNetworkHandler.oos.writeObject(o);
-                //TODO delete the following line in the future
-                System.err.println("I HAVE SENT ELEMENT: " +  o.getClass());
             } catch (IOException e) {
                 OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
             }
@@ -919,6 +917,10 @@ public class CLISelector implements SelectorV {
                     request.add("pay the amount with ammos from the Ammo box");
                 }
 
+                if(SEPaymentInformation.getPossibilities().isEmpty()){
+                       System.err.println("WAT DA FUC");
+                }
+
                 for (PowerUpCardV p : SEPaymentInformation.getPossibilities()) {
                     request.add("discard " + p.getName() + " for getting off a " + p.getColor() + " ammo from the total cost");
                 }
@@ -926,37 +928,50 @@ public class CLISelector implements SelectorV {
                 showListOfRequests(request);
                 int choice = askNumber(0, request.size()-1);
 
-                if (choice == 0) {
+                if (choice == 0 && SEPaymentInformation.canPayWithoutPowerUps()) {
                     out.println("<CLIENT> you decided to pay the amount with your ammos from the Ammo Box");
                     break;
                 }
                 else{
                     //color of the power up chosen
-                    AmmoCubesColor colorOfTheChosenPowerUp = SEPaymentInformation.getPossibilities().get(choice-1).getColor();
+                    AmmoCubesColor colorOfTheChosenPowerUp;
+                    if(SEPaymentInformation.canPayWithoutPowerUps()) {
+                        colorOfTheChosenPowerUp = SEPaymentInformation.getPossibilities().get(choice - 1).getColor();
+                    }
+                    else{
+                        colorOfTheChosenPowerUp = SEPaymentInformation.getPossibilities().get(choice).getColor();
+                    }
+
+                    //add the chosen power up to the answer
+                    if(SEPaymentInformation.canPayWithoutPowerUps()) {
+                        answer.add(SEPaymentInformation.getPossibilities().get(choice - 1));
+                    }
+                    else{
+                        answer.add(SEPaymentInformation.getPossibilities().get(choice));
+                    }
 
                     //subtract one unit of the color of the power up chosen from the total cost to pay
                     for (AmmoCubesV ammo: amountToPay) {
                         if(ammo.getColor().equals(colorOfTheChosenPowerUp)){
                             ammo.setQuantity(ammo.getQuantity()-1);
                             if(ammo.getQuantity()<=0){
+                                //remove the color from the amount topay
                                 amountToPay.remove(ammo);
+
+                                //delete All the power up card with the same color as the one of the power up chosen from the possibilities
+                                Iterator<PowerUpCardV> elementListIterator = SEPaymentInformation.getPossibilities().iterator();
+                                while (elementListIterator.hasNext()) {
+                                    PowerUpCardV element = elementListIterator.next();
+                                    if(element.getColor().equals(colorOfTheChosenPowerUp)) {
+                                        elementListIterator.remove();
+                                    }
+                                }
 
                             }
                             break;
                         }
                     }
 
-                    //add the chosen power up to the answer
-                    answer.add(SEPaymentInformation.getPossibilities().get(choice-1));
-
-                    //delete All the power up card with the same color as the one of the power up chosen from the possibilities
-                    Iterator<PowerUpCardV> elementListIterator = SEPaymentInformation.getPossibilities().iterator();
-                    while (elementListIterator.hasNext()) {
-                        PowerUpCardV element = elementListIterator.next();
-                        if(element.getColor().equals(colorOfTheChosenPowerUp)) {
-                            elementListIterator.remove();
-                        }
-                    }
                 }
 
                 request = new ArrayList<>();

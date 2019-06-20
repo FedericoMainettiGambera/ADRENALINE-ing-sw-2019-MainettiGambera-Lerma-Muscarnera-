@@ -54,7 +54,7 @@ public class WaitForPlayerInput implements Runnable{
             this.SVV.sendAllClient(new TimerEvent(i, GameConstant.timeToInsertInputInSeconds, "input"));
             try {
                 TimeUnit.SECONDS.sleep(1);
-                logger.severe("                                            Thread: <SERVER-InputTimer-for-"+playerToAsk.getNickname()+"> time passed: " + i + " seconds.  ID: " + this.randomID);
+                out.println("                                            Thread: <SERVER-InputTimer-for-"+playerToAsk.getNickname()+"> time passed: " + i + " seconds.  ID: " + this.randomID);
             } catch (InterruptedException e) {
                 return;
             }
