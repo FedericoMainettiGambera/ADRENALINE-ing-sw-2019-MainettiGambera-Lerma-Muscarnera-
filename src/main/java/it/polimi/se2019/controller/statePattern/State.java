@@ -6,7 +6,7 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 public interface State {
     public void askForInput(Player playerToAsk);
 
-    public void doAction(ViewControllerEvent VCE) throws Exception;
+    public void doAction(ViewControllerEvent VCE);
 
     public void handleAFK();
 }

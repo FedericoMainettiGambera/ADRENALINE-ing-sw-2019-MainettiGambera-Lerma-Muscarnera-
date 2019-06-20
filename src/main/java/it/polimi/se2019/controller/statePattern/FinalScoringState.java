@@ -28,7 +28,7 @@ public class FinalScoringState implements State {
     }
 
     @Override
-    public void doAction(ViewControllerEvent VCE) throws Exception {
+    public void doAction(ViewControllerEvent VCE){
         out.println("<SERVER> " + this.getClass() + ".doAction();");
 
 
@@ -37,7 +37,12 @@ public class FinalScoringState implements State {
             scoreTokens(player);
         }
 
-        ArrayList<PlayerPoint> graduatory = getGraduatory();
+        ArrayList<PlayerPoint> graduatory = null;
+        try {
+            graduatory = getGraduatory();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         int score=8;
         for(PlayerPoint playerPoint: graduatory){

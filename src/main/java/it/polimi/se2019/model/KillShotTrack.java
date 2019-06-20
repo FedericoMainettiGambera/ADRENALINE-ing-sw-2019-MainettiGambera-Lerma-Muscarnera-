@@ -67,7 +67,7 @@ public class KillShotTrack extends Observable implements Serializable {
                 kills.get(numberOfRemainingSkulls-1).setKillingPlayer(killingPlayer);
                 if (isOverKill) {
                     kills.get(numberOfRemainingSkulls-1).setOverkillingPlayer(killingPlayer);
-                    kills.get(numberOfRemainingSkulls-1).occurance=numberOfRemainingSkulls-1;
+                    kills.get(numberOfRemainingSkulls-1).setOccurance(numberOfRemainingSkulls-1);
                 }
                 numberOfRemainingSkulls--;
                 setChanged();

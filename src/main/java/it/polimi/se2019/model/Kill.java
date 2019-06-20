@@ -90,4 +90,8 @@ public class Kill implements Serializable {
     public int getOccurance() {
         return occurance;
     }
+
+    public void setOccurance(int occurance) {
+        this.occurance = occurance;
+    }
 }
