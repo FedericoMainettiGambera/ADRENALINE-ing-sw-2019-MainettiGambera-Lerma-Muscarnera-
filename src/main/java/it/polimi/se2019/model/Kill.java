@@ -16,6 +16,7 @@ public class Kill implements Serializable {
         killingPlayer=null;
         isOverKill=false;
         overKillingPlayer=null;
+        occurance=0;
     }
 
     /*-****************************************************************************************************ATTRIBUTES*/
@@ -30,6 +31,9 @@ public class Kill implements Serializable {
 
     /**over killing player*/
     private Player overKillingPlayer;
+
+    /**needs for scoring, index aka occurance**/
+    private int occurance=0;
 
     /*-****************************************************************************************************METHODS*/
 
@@ -81,7 +85,9 @@ public class Kill implements Serializable {
             overKillingPlayer = player;
         }
     }
-
-
-
+    /**@return occurance, which it's meant to be useful for tiebreaking
+     * */
+    public int getOccurance() {
+        return occurance;
+    }
 }

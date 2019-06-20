@@ -9,12 +9,19 @@ import it.polimi.se2019.virtualView.VirtualView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
+import java.util.logging.Logger;
 
 /**regular killshot track*/
 public class KillShotTrack extends Observable implements Serializable {
+
+    private static Logger logger=Logger.getLogger(KillShotTrack.class.getName());
+
     /* **************************************************************************CONSTRUCTOR*/
+
+
 
     /**
      * CONSTRUCTOR
@@ -51,39 +58,49 @@ public class KillShotTrack extends Observable implements Serializable {
     /*-*********************************************************************************************************METHODS*/
 
     /**as the number of skull is set once for all at the beginning of the game, it is only allowed to delete'em
-     * @param isOverKill
-     * @param killingPlayer
+     * @param isOverKill @tracks down if player committed an overkill
+     * @param killingPlayer @tracks down whom committed a kill
      * */
-    public void deathOfPlayer(Player killingPlayer, boolean isOverKill) throws IllegalStateException {
+    public void deathOfPlayer(Player killingPlayer, boolean isOverKill){
         if (numberOfRemainingSkulls>0) {
             try {
                 kills.get(numberOfRemainingSkulls-1).setKillingPlayer(killingPlayer);
                 if (isOverKill) {
                     kills.get(numberOfRemainingSkulls-1).setOverkillingPlayer(killingPlayer);
+                    kills.get(numberOfRemainingSkulls-1).occurance=numberOfRemainingSkulls-1;
                 }
                 numberOfRemainingSkulls--;
                 setChanged();
                 notifyObservers(new ModelViewEvent(this.buildKillshotTrackV(), ModelViewEventTypes.deathOfPlayer));
             }
             catch(Exception e){
-                e.printStackTrace();
+                logger.severe("Error occured in KillShotTrack during deathOfPlayer: "+ e.getCause()+ Arrays.toString(e.getStackTrace()));
             }
         }
         else throw new IllegalStateException("Exceeded the maximum number of skulls");
     }
-
+    /**@return kills, a list of kill
+     * */
     public List<Kill> returnKills(){
         return this.kills;
     }
 
+    /**@return boolean value that tells us whether the skulls are over or not
+     * */
     public boolean areSkullsOver(){
         return (this.numberOfRemainingSkulls <= 0);
     }
 
+    /**@return int value that tells us how many skulls are left to play
+     * */
     public int getNumberOfRemainingSkulls() {
         return numberOfRemainingSkulls;
     }
 
+    /**Build the equivalent structure for view purposes
+     * tracks down just as much information as needed for view to show
+     @return killShotTrackV
+     * */
     public KillShotTrackV buildKillshotTrackV(){
         KillShotTrackV killShotTrackV = new KillShotTrackV();
         List<KillsV> listOfKillsV = new ArrayList<>();
@@ -102,7 +119,7 @@ public class KillShotTrack extends Observable implements Serializable {
                     }
                     listOfKillsV.add(tempKill);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                   logger.severe("Error occurred" + Arrays.toString(e.getStackTrace())+e.getCause()+e.getClass());
                 }
             }
         }
