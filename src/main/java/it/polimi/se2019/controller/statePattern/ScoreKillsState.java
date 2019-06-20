@@ -38,7 +38,7 @@ public class ScoreKillsState implements State {
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         //score dead players and create the list of dead players
-        if(this.deadPlayers.isEmpty()) {
+        if(this.deadPlayers.isEmpty()){
             out.println("<SERVER> Searching for dead players and creating the deadPlayers list");
             for (int i = 0; i < ModelGate.model.getPlayerList().getNumberOfPlayers(); i++) {
                 if (ModelGate.model.getPlayerList().getPlayers().get(i).isDead()) {
