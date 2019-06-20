@@ -8,8 +8,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.se2019.model.GameConstant.probabilityDenominatorAmmoCardWithPowerUp;
-
 /***/
 public class AmmoCard extends Card implements Serializable {
 
@@ -26,11 +24,6 @@ public class AmmoCard extends Card implements Serializable {
     /***/
     private boolean isPowerUp;
 
-    public PowerUpCard getPowerUpCardPointer() {
-        return powerUpCardPointer;
-    }
-
-    private PowerUpCard powerUpCardPointer;
     /***/
     public AmmoList getAmmunitions() {
         return ammunitions;
@@ -42,35 +35,50 @@ public class AmmoCard extends Card implements Serializable {
     }
     public AmmoCard(String ID) {
         super(ID);
+        ammunitions = new AmmoList();
         List<AmmoCubesColor> Colors = new ArrayList<>();
+
         Colors.add(AmmoCubesColor.yellow);
         Colors.add(AmmoCubesColor.red);
         Colors.add(AmmoCubesColor.blue);
+        Colors.add(AmmoCubesColor.yellow);
 
-        int randomFactorIsPowerUp = ((int) Math.ceil(Math.random() * 1000))% probabilityDenominatorAmmoCardWithPowerUp;
-
-        ammunitions = new AmmoList();
-        if(randomFactorIsPowerUp == 0) {
-            isPowerUp = true;
-            try {
-                int randomPowerUpCard = ((int) Math.ceil(Math.random() * 1000))%4 + 1;
-                powerUpCardPointer = new PowerUpCard("" + randomPowerUpCard );
-            } catch(Exception e) {
-                System.out.println("<SERVER> errore nella generazione della carta powerup");
-            }
-            int A = ((int) Math.ceil(Math.random() * 1000))% 3;
-            int B = ((int) Math.ceil(Math.random() * 1000))% 3;
-            ammunitions.addAmmoCubesOfColor(Colors.get(A) ,1);
-            ammunitions.addAmmoCubesOfColor(Colors.get(B) ,1);
+        int idUnparsed = Integer.parseInt(ID);
+        int id = 0;
+        if( idUnparsed <= 18) {
+            id = (idUnparsed - 1) / 3 + 1;
         } else {
-            isPowerUp = false;
-            int A = ((int) Math.ceil(Math.random() * 1000))% 3;
-            int B = ((int) Math.ceil(Math.random() * 1000))% 3;
-            int C = ((int) Math.ceil(Math.random() * 1000))% 3;
-            ammunitions.addAmmoCubesOfColor(Colors.get(A) ,1);
-            ammunitions.addAmmoCubesOfColor(Colors.get(B) ,1);
-            ammunitions.addAmmoCubesOfColor(Colors.get(C) ,1);
+
         }
+        if(idUnparsed >= 19) {
+            // poweup
+            int idParsed = 7+ (idUnparsed-19)/2;
+            isPowerUp = true;
+            AmmoCubesColor A = null;
+            AmmoCubesColor B= null;
+            System.out.println(idParsed);
+            if(idParsed <= 9) {
+                A = Colors.get(idParsed - 7);
+                B = Colors.get(idParsed - 7);
+                ammunitions.addAmmoCubesOfColor(A, 1);
+                ammunitions.addAmmoCubesOfColor(B, 1);
+            }
+            if(idParsed > 9) {
+                int idParsedParsed = idParsed - 9;
+                 A = Colors.get(((idParsedParsed)%4)%3);
+                 B = Colors.get(((idParsedParsed)%4)%3 + 1);
+                    ammunitions.addAmmoCubesOfColor(A, 1);
+                    ammunitions.addAmmoCubesOfColor(B, 1);
+            }
+        } else {
+            // cube
+            isPowerUp = false;
+            AmmoCubesColor A = Colors.get( ((id-1)/2));
+            AmmoCubesColor B = Colors.get(  (((id-1)/2) + 2 + -1* id%2)%3  );
+            ammunitions.addAmmoCubesOfColor(A,1);
+            ammunitions.addAmmoCubesOfColor(B,2);
+        }
+
 
 
     }

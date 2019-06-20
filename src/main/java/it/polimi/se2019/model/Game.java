@@ -1,5 +1,6 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.stateEvent.StateEvent;
@@ -8,6 +9,8 @@ import it.polimi.se2019.virtualView.VirtualView;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 import static it.polimi.se2019.model.GameConstant.numberOfAmmoCards;
@@ -186,15 +189,23 @@ public class Game extends Observable implements Serializable {
         OrderedCardList<PowerUpCard> tempPowerUpDeck = new OrderedCardList<>("powerUpDeck");
         directory = new File("src/main/Files/cards/powerUpCards");          // insert here path to power up cards folder
         fileCount = directory.list().length;
+        List<AmmoCubesColor> Colors = new ArrayList<>();
+        Colors.add(AmmoCubesColor.red);
+        Colors.add(AmmoCubesColor.yellow);
+        Colors.add(AmmoCubesColor.blue);
+
         System.out.println("<SERVER> powerUp length " + fileCount);
-        for(int i = 1; i<= fileCount;i++) {
-            System.out.println("<SERVER> building powerUp cards ID: " + i);
-            try {
-                tempPowerUpDeck.addCard(new PowerUpCard("" + i));
-            }
-            catch(Exception e) {
-                e.printStackTrace();
-                return;
+        for(AmmoCubesColor color: Colors) {
+            for (int i = 1; i <= fileCount; i++) {
+                System.out.println("<SERVER> building powerUp cards ID: " + i);
+                try {
+                    PowerUpCard card = new PowerUpCard("" + i);
+                    card.setColor(color);
+                    tempPowerUpDeck.addCard(card);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
+                }
             }
         }
 
@@ -204,7 +215,7 @@ public class Game extends Observable implements Serializable {
         int count = numberOfAmmoCards;
         for(int i = 1; i< count;i++) {
             try {
-                tempAmmoDeck.addCard(new AmmoCard(""+i));
+                tempAmmoDeck.addCard(new AmmoCard(i+""));
             }
             catch(Exception e) {
                 e.printStackTrace();

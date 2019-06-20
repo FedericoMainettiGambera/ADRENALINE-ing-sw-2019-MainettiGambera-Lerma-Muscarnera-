@@ -123,6 +123,10 @@ public class PowerUpCard extends Card implements Serializable {
     /***/
     private AmmoCubesColor color;
 
+    public void setColor(AmmoCubesColor color) {
+        this.color = color;
+    }
+
     /***/
     private Effect specialEffect;
 
