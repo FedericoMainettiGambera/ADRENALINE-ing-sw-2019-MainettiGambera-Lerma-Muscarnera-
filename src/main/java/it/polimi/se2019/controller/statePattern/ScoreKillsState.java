@@ -138,6 +138,14 @@ public class ScoreKillsState implements State {
 
         //restoring health to the player
         deadPlayer.emptyDamagesTracker();
+
+
+
+        for (Player p: ModelGate.model.getPlayerList().getPlayers()){
+
+
+
+        }
     }
 
 }

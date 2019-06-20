@@ -33,4 +33,5 @@ public interface OutputHandlerInterface {
     public void cantReachServer();
     public void succesfullReconnection();
     public void disconnect();
+    public void finalScoring(ModelViewEvent MVE);
 }

@@ -59,6 +59,9 @@ public class Game extends Observable implements Serializable {
     }
 
     /***/
+    private PlayersList rank;
+
+    /***/
     private PlayersList players;
 
     /***/
@@ -242,6 +245,12 @@ public class Game extends Observable implements Serializable {
         this.players = players;
         setChanged();
         notifyObservers(new ModelViewEvent(this.players.buildPlayersListV(), ModelViewEventTypes.newPlayersList));
+    }
+
+
+    public void notifyClients(ModelViewEvent MVE){
+        setChanged();
+        notifyObservers(MVE);
     }
 
     /***/

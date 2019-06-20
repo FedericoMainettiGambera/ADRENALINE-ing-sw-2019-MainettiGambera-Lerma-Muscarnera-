@@ -14,6 +14,7 @@ import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.view.outputHandler.CLIOutputHandler;
 import it.polimi.se2019.view.outputHandler.GUIOutputHandler;
 import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
+import it.polimi.se2019.view.outputHandler.OutputHandlerInterface;
 import it.polimi.se2019.view.selector.ViewSelector;
 
 import java.io.IOException;
@@ -385,6 +386,13 @@ public class View implements Observer {
 
                 OutputHandlerGate.getCorrectOutputHandler(this.userInterface).succesfullReconnection();
                 break;
+
+
+            case finalScoring:
+
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).finalScoring(MVE);
+                break;
+
 
             default:
                 try {

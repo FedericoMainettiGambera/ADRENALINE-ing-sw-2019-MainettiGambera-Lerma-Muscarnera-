@@ -4,11 +4,12 @@ import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.model.Kill;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.PlayersList;
+import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
+import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
-
-import javax.jws.WebParam;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -50,7 +51,7 @@ public class FinalScoringState implements State {
             for(Player p: ModelGate.model.getPlayerList().getPlayers()){
 
                 if(playerPoint.player.getNickname().equals(p.getNickname())){
-                    playerPoint.quantity=p.getScore()+score;
+                    playerPoint.quantity=p.getScore()+score+playerPoint.overkill;
                 }
             }
 
@@ -60,10 +61,29 @@ public class FinalScoringState implements State {
             else score=1;
         }
 
+        PlayerPoint temporaryPlayer;
+        int s=0;
+        while(s<graduatory.size()){
+            int k=1;
+            int j=0;
+            while(k<graduatory.size()) {
+                if((graduatory.get(j).quantity < graduatory.get(k).quantity)||
+                        (graduatory.get(j).quantity == graduatory.get(k).quantity&&graduatory.get(j).numberOfSkullTaken>graduatory.get(k).numberOfSkullTaken)){
+                    temporaryPlayer = graduatory.get(j);
+                    graduatory.set(j, graduatory.get(k));
+                    graduatory.set(k, temporaryPlayer);
+                    j += 1;
+                    k += 1;
+                }
+            }
+            s+=1;
+        }
+
         int i=1;
         out.println("Final Classification is :");
         for(PlayerPoint p: graduatory){
-            out.println(i+":"+p.player.getNickname()+" with "+p.quantity+" points ");
+            out.println("<SERVER> " + i + ":"+p.player.getNickname()+" with "+p.quantity+" points ");
+            ModelGate.model.notifyClients(new ModelViewEvent(p.player.getNickname(), ModelViewEventTypes.finalScoring, p.quantity, i));
             i++;
         }
 
@@ -102,11 +122,13 @@ public class FinalScoringState implements State {
         Player player;
         int quantity;
         int numberOfSkullTaken;
+        int overkill;
 
         public PlayerPoint(Player player) throws Exception {
             this.player = player;
             this.quantity = 0;
             this.numberOfSkullTaken=0;
+            int overkill=0;
         }
     }
 
@@ -124,11 +146,15 @@ public class FinalScoringState implements State {
 
             //takes the killshot track, check which name there's on the first kill and look for it through the whole killshot track,
             //removing each occurance and scoring the points in "quantity", saving the last occurance of it for tiebreaks, do it again till the list is empty.
-            while (ModelGate.model.getKillshotTrack().returnKills() != null) {
+
+            while (!ModelGate.model.getKillshotTrack().returnKills().isEmpty()) {
 
                 p = (ModelGate.model.getKillshotTrack().returnKills().get(0).getKillingPlayer());
                 playerKilling.add(new PlayerPoint(p));
                 playerKilling.get(k).quantity = 0;
+
+                Iterator<Kill> killIterator=ModelGate.model.getKillshotTrack().returnKills().iterator();
+
 
                 for (Kill kill : ModelGate.model.getKillshotTrack().returnKills()) {
 
@@ -140,13 +166,18 @@ public class FinalScoringState implements State {
                         }
 
                         if (kill.getOverKillingPlayer().getNickname().equals(p.getNickname())) {
-                            playerKilling.get(k).quantity += 1;
+                            playerKilling.get(k).overkill += 1;
                         }
 
 
                         last = ModelGate.model.getKillshotTrack().returnKills().size();
-                        while (ModelGate.model.getKillshotTrack().returnKills().get(last).getKillingPlayer().getNickname().equals(p.getNickname())) {
+
+                        while(ModelGate.model.getKillshotTrack().returnKills().get(last).getKillingPlayer().getNickname().equals(p.getNickname())) {
                             playerKilling.get(k).quantity += 1;
+
+                            if (kill.getOverKillingPlayer().getNickname().equals(p.getNickname())) {
+                                playerKilling.get(k).overkill += 1;
+                            }
                             ModelGate.model.getKillshotTrack().returnKills().remove(last);
                             last = ModelGate.model.getKillshotTrack().returnKills().size();
 

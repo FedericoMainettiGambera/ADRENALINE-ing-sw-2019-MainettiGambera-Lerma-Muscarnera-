@@ -23,5 +23,6 @@ public enum ModelViewEventTypes {
     shufflingCards,
     newBoard,
     setAFK,
-    resetGame
+    resetGame,
+    finalScoring
 }

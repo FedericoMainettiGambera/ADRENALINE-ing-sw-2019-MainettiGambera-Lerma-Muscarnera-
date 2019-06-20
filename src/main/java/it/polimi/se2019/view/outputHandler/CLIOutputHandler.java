@@ -16,6 +16,7 @@ import it.polimi.se2019.view.components.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+/** this class handle the CLI Outputs, it receives Events of various kind(MOSTLY MODELVIEW EVENTS) and manage to show the right output to the right client view*/
 
 public class CLIOutputHandler implements OutputHandlerInterface{
 
@@ -23,17 +24,17 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     public void updateUserInterface(String message) {
         System.out.println(message);
     }
-
+/**inform the right client that the Game and the PlayerList have been initialized*/
     @Override
     public void gameCreated() {
         updateUserInterface("<CLIENT> created GameV and PlayerListV");
     }
-
+/** Anytime a client changes his state, every client gets to know it */
     @Override
     public void stateChanged(StateEvent StE) {
         updateUserInterface("<CLIENT> state changed: " + StE.getState());
     }
-
+/***/
     @Override
     public void setFinalFrenzy(ModelViewEvent MVE) {
         updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
@@ -47,7 +48,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             updateUserInterface("              FINAL FRENZY HAS BEGUN");
         }
         else{
-            updateUserInterface("              FINAL FERENZY HASN'T BUGUN");
+            updateUserInterface("              FINAL FRENZY HASN'T BUGUN");
         }
     }
 
@@ -274,6 +275,12 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("         Please, try to reconnect to the same server to continue game.");
         showConnectionInfo();
         System.exit(0);
+    }
+
+    @Override
+    public void finalScoring(ModelViewEvent MVE){
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface((String)MVE.getComponent()+" has arrived "+(String)MVE.getExtraInformation2()+" with  "+MVE.getExtraInformation1()+" points   !!!");
+
     }
 
     public static void showGeneralStatusOfTheGame(){

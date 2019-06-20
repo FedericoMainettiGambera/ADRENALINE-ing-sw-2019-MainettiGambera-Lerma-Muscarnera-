@@ -234,5 +234,10 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
     public void disconnect() {
 
     }
+
+    @Override
+    public void finalScoring(ModelViewEvent MVE) {
+
+    }
 }
 
