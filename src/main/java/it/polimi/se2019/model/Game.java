@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-import static it.polimi.se2019.model.GameConstant.numberOfAmmoCards;
-
 /***/
 public class Game extends Observable implements Serializable {
 
@@ -212,8 +210,8 @@ public class Game extends Observable implements Serializable {
 
         OrderedCardList<AmmoCard> tempAmmoDeck = new OrderedCardList<>("ammoDeck");
         directory = new File("src/main/Files/cards/ammoCards");          // insert here path to ammo cards folder
-        int count = numberOfAmmoCards;
-        for(int i = 1; i< count;i++) {
+        int count = 36;
+        for(int i = 1; i<= count;i++) {
             try {
                 tempAmmoDeck.addCard(new AmmoCard(i+""));
             }
