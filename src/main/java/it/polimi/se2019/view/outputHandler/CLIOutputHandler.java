@@ -86,8 +86,11 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             showOrderedCardList(to);
         }
         else{
-            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + from.getContext() + " cards has changed.");
+            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + from.getContext() + "DECK CREATED");
+            String tempContext = from.getContext();
+            from.setContext("NEW DECK");
             showOrderedCardList(from);
+            from.setContext(tempContext);
         }
     }
 
@@ -157,7 +160,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
             if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has setted his board to Final Frenzy");
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has set his board to Final Frenzy");
                 showPlayerStatus(p);
                 break;
             }
@@ -358,7 +361,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
 
     public static void showOrderedCardList(OrderedCardListV cards){
         String s = "";
-        /*if(((!cards.getContext().split(":")[0].equals(ViewModelGate.getMe())) && (cards.getContext().contains(":powerUpInHand")))
+        if(((!cards.getContext().split(":")[0].equals(ViewModelGate.getMe())) && (cards.getContext().contains(":powerUpInHand")))
                 || (cards.getContext().equals("weaponDeck")) || (cards.getContext().equals("ammoDeck")) || (cards.getContext().equals("powerUpDeck"))) {
             //don't show power ups other player's hand, or the decks
             s = "              " + cards.getContext() + ":\n";
@@ -366,7 +369,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface(s);
             return;
         }
-        else{*/
+        else{
             if(cards.getCards().isEmpty()){
                 s = "              " + cards.getContext() + ":\n";
                 s+= "                 -EMPTY-";
@@ -422,7 +425,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
 
                 }
                 OutputHandlerGate.getCLIOutputHandler().updateUserInterface(s);
-            /*}*/
+            }
         }
     }
 
@@ -703,3 +706,5 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     }
 
 }
+
+

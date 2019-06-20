@@ -17,6 +17,7 @@
         5-finire gli ultimi State (principalmente quelli che avvengono dopo la morte di qualcuno (es. SpawnState FFSetUpState, FinalScoringState...)
         6-Testare completamente lo state pattern con la CLI e risolvere tutti i problemi che sorgono finchè tutto non è perfetto
         7-ChooseHowToPayState incomprensibile errore nel reinvio del ViewControllerEventPaymentInformation dal client al server
+        8-When reload a weapon should notify all client (MVE)
 
     FUNZIONALITA' AVANZATA
         0-aggiungere allo State Pattern, al Model e alla View tutto ciò che serve per implementare il Terminator
@@ -42,6 +43,13 @@
         0-assolutamente sistemare le carte
         1-sistemare tutti i TODOs
         2-sistemare quanto più possibile il resto
+        3-change all exception logger into:
+            try{
+                throw new NullPointerException("hmmm");
+            }
+            catch (NullPointerException e){
+                logger.log(Level.SEVERE, "EXCEPTION", e);
+            }
 
     JAVA DOC
         0-divisione dei compiti

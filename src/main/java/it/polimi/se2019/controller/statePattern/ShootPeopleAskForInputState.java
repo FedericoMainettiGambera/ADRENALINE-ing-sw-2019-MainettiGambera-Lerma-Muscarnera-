@@ -15,6 +15,7 @@ import it.polimi.se2019.view.components.SquareV;
 
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ShootPeopleAskForInputState implements State {
@@ -65,7 +66,7 @@ public class ShootPeopleAskForInputState implements State {
                 this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                 this.inputTimer.start();
             } catch (Exception e) {
-               logger.severe("Exception Occured: "+e.getClass()+" "+e.getCause());
+                logger.log(Level.SEVERE, "EXCEPTION", e);
             }
         }
         else{
@@ -73,6 +74,8 @@ public class ShootPeopleAskForInputState implements State {
             askMoreOrExec();
         }
     }
+
+
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
@@ -111,6 +114,7 @@ public class ShootPeopleAskForInputState implements State {
         }
     }
     public void afterPayment(){
+
         this.chosenWeaponCard.unload(); //TODO not sure about this, ask luca
 
         this.chosenEffect.Exec();
