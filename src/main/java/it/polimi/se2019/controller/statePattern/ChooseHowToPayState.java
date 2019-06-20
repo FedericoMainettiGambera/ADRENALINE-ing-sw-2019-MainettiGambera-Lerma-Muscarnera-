@@ -55,6 +55,12 @@ public class ChooseHowToPayState {
 
     public boolean canPayInSomeWay(){
         //create an ammo list that represents the total budget of the player (AmmoBox + powerUps)
+
+        if(toPay.getAmmoCubesList().isEmpty()){
+            return true;
+            //because it's free
+        }
+
         AmmoList tempAmmoList = new AmmoList();
         for (AmmoCubes a: payingPlayer.getBoard().getAmmoBox().getAmmoCubesList()) {
             tempAmmoList.addAmmoCubesOfColor(a.getColor(),a.getQuantity());
