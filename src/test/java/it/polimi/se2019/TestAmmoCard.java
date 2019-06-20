@@ -10,13 +10,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TestAmmoCard {
     @Test
     public void testRandomGeneratedAmmoCard() {
-        System.out.println((int) Math.ceil(Math.random() * 1000) );
-        for(int i = 0; i < 1000;i++) {
+        for(int i = 1; i <= 36;i++) {
 
             AmmoCard a = new AmmoCard(i+"");
             System.out.println("carta "+ i);
             if(a.isPowerUp()) {
-                System.out.println("\t POWERUP CARD " + a.getPowerUpCardPointer());
+                System.out.println("\t POWERUP CARD ");
             }
             for(AmmoCubes b: a.getAmmunitions().getAmmoCubesList()) {
                 System.out.println("\t COLORE[ " + b.getColor() + ", " + b.getQuantity() + "]");

@@ -1,12 +1,14 @@
 package it.polimi.se2019.model;
 
 
+import it.polimi.se2019.controller.statePattern.ChooseHowToPayState;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.view.components.EffectV;
 import it.polimi.se2019.view.components.WeaponCardV;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static it.polimi.se2019.model.enumerations.AmmoCubesColor.*;
@@ -153,6 +155,14 @@ public class WeaponCard extends Card implements Serializable {
 
         }
 
+        Iterator<Effect> elementListIterator = retVal.iterator();
+        while (elementListIterator.hasNext()) {
+            Effect element = elementListIterator.next();
+
+            if(!(new ChooseHowToPayState(element.getActions().get(0).getActionInfo().getActionContext().getPlayer(), element.getUsageCost())).canPayInSomeWay()) {
+                elementListIterator.remove();
+            }
+        }
         return retVal;
 
 
