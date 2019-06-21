@@ -12,6 +12,7 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventInt
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Logger;
 
 public class ShootPeopleChooseWepState implements State {
@@ -43,6 +44,14 @@ public class ShootPeopleChooseWepState implements State {
         for (WeaponCard wp:possibleCards.getCards()) {
             if(!wp.isLoaded()){
                 possibleCards.getCards().remove(wp);
+            }
+        }
+
+        Iterator<WeaponCard> elementListIterator = possibleCards.getCards().iterator();
+        while (elementListIterator.hasNext()) {
+            WeaponCard element = elementListIterator.next();
+            if(!element.isLoaded()){
+                elementListIterator.remove();
             }
         }
 

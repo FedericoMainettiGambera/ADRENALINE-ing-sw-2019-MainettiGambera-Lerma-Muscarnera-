@@ -37,6 +37,7 @@ public class PowerUpCard extends Card implements Serializable {
 
             if(line.equals("NAME")) {
                 line = reader.readLine();
+                this.setName(line);
                 ///*@*/ System.out.println("il nome e'"+ line);
             }
 
