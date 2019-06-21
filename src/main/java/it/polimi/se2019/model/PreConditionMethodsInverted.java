@@ -229,17 +229,26 @@ public class PreConditionMethodsInverted {
                 if (actionDetails.getUserSelectedActionDetails().getTargetList().size() > 0) {
                     System.out.println("// target list not empty");
 
-                   // Position chosenSquarePosition = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
+                    // Position chosenSquarePosition = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
                     for (Square[] R : actionContext.getBoard().getMap()) {
                         for (Square C : R) {
-                            if(C!= null)
-                            {
+                            if (C != null) {
+                                System.out.println("> POSIZIONE  " + C.getCoordinates().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                                        C.getCoordinates(),
+                                        actionDetails.getUserSelectedActionDetails().getTarget().getPosition()
+                                ));
                                 if (actionContext.getBoard().distanceFromTo(
                                         C.getCoordinates(),
                                         actionDetails.getUserSelectedActionDetails().getTarget().getPosition()
-                                ) == (1)) {
+                                ) == (1 + 0)) {
                                     // la distanza è 1
-                                    retVal.add(C);
+                                    // controllo che ci sia un player li sopra
+                                    for (Player P : actionContext.getPlayerList().getPlayersOnBoard()) {
+                                        if (P.getPosition().equals(C.getCoordinates())) {
+                                            if (!retVal.contains(C))
+                                                retVal.add(C);
+                                        }
+                                    }
                                 }
                             }
 
@@ -250,8 +259,24 @@ public class PreConditionMethodsInverted {
                     System.out.println("  // target list empty");
                     for (Square[] R : actionContext.getBoard().getMap()) {
                         for (Square C : R) {
-                            if(C!=null)
-                            retVal.add(C);
+                            if (C != null)
+                            {
+
+                                for (Player P : actionContext.getPlayerList().getPlayersOnBoard()) {
+                                    System.out.println("> POSIZIONE  " + P.getPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                                            P.getPosition(),
+                                            C.getCoordinates()
+                                    ));
+                                    if (actionContext.getBoard().distanceFromTo(
+                                            C.getCoordinates(),
+                                            P.getPosition()) == (1 + 0)) {
+                                        if (!retVal.contains(C)) {
+                                            retVal.add(C);
+                                            System.out.println("aggiungo");
+                                        }
+                                        }
+                                }
+                            }
                         }
                     }
 
@@ -259,13 +284,18 @@ public class PreConditionMethodsInverted {
 
             }
             if (type.equals(typePlayer)) {
-                if(actionDetails.getUserSelectedActionDetails().getChosenSquare() != null) {
+                if (actionDetails.getUserSelectedActionDetails().getChosenSquare() != null) {
+                    System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
                     // square selezionato
                     for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
+                        System.out.println("> POSIZIONE  " + C.getPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                                C.getPosition(),
+                                actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates()
+                        ));
                         if (actionContext.getBoard().distanceFromTo(
                                 C.getPosition(),
                                 actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates()
-                        ) == (1 + 1)) {
+                        ) == (1 + 0)) {
                             // la distanza è 1
                             retVal.add(C);
                         }
@@ -275,11 +305,23 @@ public class PreConditionMethodsInverted {
 
                 } else {    // square non ancora selezionato
                     for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
-                        retVal.add(C);
+                        for (Square[] R : actionContext.getBoard().getMap()) {
+                            for (Square T : R) {
+                                if (T.getCoordinates().equals(C)) {
+                                    if (C.getPosition().equals(T.getCoordinates()) && actionContext.getBoard().distanceFromTo(
+                                            T.getCoordinates(),
+                                            C.getPosition()) == (1 + 0)) {
+                                        if (!retVal.contains(C))
+                                            retVal.add(C);
+                                    }
+
+                                }
+                            }
+                        }
                     }
                 }
             }
-        } catch (Exception e) {
+        }catch (Exception e) {
             System.out.println("---- "+ e);
 
         }

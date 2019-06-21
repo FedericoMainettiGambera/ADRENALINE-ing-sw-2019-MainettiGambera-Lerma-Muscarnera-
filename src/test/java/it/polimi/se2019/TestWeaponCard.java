@@ -174,7 +174,7 @@ public class TestWeaponCard {
 
     @Test
     public void testCosti() throws Exception {
-        Board board = new Board("0",new VirtualView(),new VirtualView());
+        Board board = new Board("2",new VirtualView(),new VirtualView());
         for(Square[] r: board.getMap()) {
             for (Square c: r)
                 System.out.println(c);
@@ -209,12 +209,18 @@ public class TestWeaponCard {
         WeaponCard w = new WeaponCard(12+"");
         w.passContext(user1,playerList,board);
         Object[] row = new Object[10];
-        row[0] = w.getEffects().get(0).usableInputs().get(0).get(0).get(0);
+        row[0] = w.getEffects().get(0).usableInputs().get(0).get(0).get(1);
         w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(0),row);
-        w.getEffects().get(0).Exec();
+
         showMap(user1,playerList,board,w.getEffects().get(0).usableInputs().get(0).get(0));
 
+        showMap(user1,playerList,board,w.getEffects().get(0).usableInputs().get(1).get(0));
 
+        System.out.println("hai inserito" + ((Square)row[0]).getCoordinates().humanString());
+        w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(1),row);
+
+
+        w.getEffects().get(0).Exec();
               System.out.println("^^^^^ CARTA ");
         }
 
