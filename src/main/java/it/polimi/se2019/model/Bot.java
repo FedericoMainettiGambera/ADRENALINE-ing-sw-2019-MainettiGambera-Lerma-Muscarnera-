@@ -4,13 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 /***/
 public class Bot extends Person implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
      * uses the Person constructor, also set isBotActive and set owner to null
-     * @param isBotActive
+     * @param isBotActive indicates if the option game with the terminator has been selected
      * */
     public Bot(boolean isBotActive) {
         super();
