@@ -1011,9 +1011,11 @@ public class CLISelector implements SelectorV {
             for (PowerUpCardV p : powerUpCardV) {
                 request.add(p.getName() + " of color " + p.getColor());
             }
+            showListOfRequests(request);
             int choice = askNumber(0,powerUpCardV.size()-1);
             String answer1 = powerUpCardV.get(choice).getName();
             String answer2 = powerUpCardV.get(choice).getColor() +"";
+            out.println("<CLIENT> your choice is: " + answer1 + " (" + answer2 + ")");
             ViewControllerEventTwoString VCEString = new ViewControllerEventTwoString(answer1, answer2);
             sendToServer(VCEString);
         }

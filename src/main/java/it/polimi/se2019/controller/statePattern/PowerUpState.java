@@ -46,6 +46,10 @@ public class PowerUpState implements State {
         }
         //ask for input
         try {
+            out.println("<SERVER> possible power ups the user can use: ");
+            for (PowerUpCardV p: powerUpCardsV) {
+                out.println("         " + p.getName() + " " +p.getColor());
+            }
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askPowerUpToUse(powerUpCardsV);
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));

@@ -47,6 +47,9 @@ public class PowerUpAskForInputState implements State {
     @Override
     public void askForInput(Player playerToAsk) {
         this.playerToAsk = playerToAsk;
+
+        this.chosenPowerUp.getSpecialEffect().passContext(playerToAsk, ModelGate.model.getPlayerList(), ModelGate.model.getBoard());
+
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         EffectInfoType inputType = this.chosenPowerUp.getSpecialEffect().getEffectInfo().getEffectInfoElement().get(inputRequestCounterF).getEffectInfoTypelist();
@@ -93,14 +96,15 @@ public class PowerUpAskForInputState implements State {
     }
 
     public boolean isToSend(EffectInfoType infoType) {
-        return (infoType.equals(EffectInfoType.player) ||
-                infoType.equals(EffectInfoType.playerSquare) ||
-                infoType.equals(EffectInfoType.targetListBySameSquareOfPlayer) ||
-                infoType.equals(EffectInfoType.singleRoom) ||
-                infoType.equals(EffectInfoType.squareOfLastTargetSelected) ||
-                infoType.equals(EffectInfoType.targetBySameSquareOfPlayer) ||
-                infoType.equals(EffectInfoType.targetListByLastTargetSelectedSquare)
-        );
+        return (! ( infoType.equals(EffectInfoType.player) ||
+                    infoType.equals(EffectInfoType.playerSquare) ||
+                    infoType.equals(EffectInfoType.targetListBySameSquareOfPlayer) ||
+                    infoType.equals(EffectInfoType.singleRoom) ||
+                    infoType.equals(EffectInfoType.squareOfLastTargetSelected) ||
+                    infoType.equals(EffectInfoType.targetBySameSquareOfPlayer) ||
+                    infoType.equals(EffectInfoType.targetListByLastTargetSelectedSquare)
+                  )
+               );
     }
 
     @Override

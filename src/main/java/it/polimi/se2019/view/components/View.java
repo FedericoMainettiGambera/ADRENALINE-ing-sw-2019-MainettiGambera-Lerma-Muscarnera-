@@ -527,6 +527,10 @@ public class View implements Observer {
                 this.selector.askPowerUpToUse((SelectorEventPowerUpCards)SE);
                 break;
 
+            case wantToUsePowerUpOrNot:
+                this.selector.wantToUsePowerUpOrNot();
+                break;
+
             default: break;
         }
     }

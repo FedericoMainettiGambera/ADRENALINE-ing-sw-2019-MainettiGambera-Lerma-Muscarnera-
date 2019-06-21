@@ -67,7 +67,8 @@ public class FirstSpawnState implements State {
         //set spawning position
         PowerUpCard cardChosen = ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCard(VCEPowerUpId.getInput());
         Position spawnPosition = null;
-        out.println("<SERVER> choosen card: " + cardChosen.getID());
+        out.println("<SERVER> choosen card ID: " + cardChosen.getID());
+        out.println("<SERVER> choosen card name: " + cardChosen.getName());
         out.println("<SERVER> choosen color: " + cardChosen.getColor());
 
         try {
@@ -84,7 +85,7 @@ public class FirstSpawnState implements State {
         out.println("<SERVER> Discarding the choosen power up");
         ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
                 ModelGate.model.getPowerUpDiscardPile(),
-                VCEPowerUpId.getInput()
+                cardChosen.getID()
         );
 
         //set next State

@@ -77,7 +77,7 @@ public class OrderedCardList<T> extends Observable implements Serializable {
      */
     public boolean removeCard(String ID){
         for (int i = 0; i < this.cards.size(); i++) {
-            if( ((Card)this.cards.get(i)).getID() == ID ){
+            if( ((Card)this.cards.get(i)).getID().equals(ID) ){
                 this.cards.remove(i);
                 return true;
             }
@@ -107,7 +107,10 @@ public class OrderedCardList<T> extends Observable implements Serializable {
 
         if(this.getCard(cardID) != null) {
             to.getCards().add(this.getCard(cardID));
-            this.removeCard(cardID);
+
+            if(!this.removeCard(cardID)){
+                System.err.println("<SERVER-OrderedCardList> Couldn't move the card properly, only added the card to the destination, but not removed from the origin");
+            }
 
             setChanged();
             OrderedCardListV cards = this.buildDeckV();
@@ -118,6 +121,7 @@ public class OrderedCardList<T> extends Observable implements Serializable {
             return true;
         }
         else{
+            System.err.println("<SERVER-OrderedCardList> Couldn't move the card properly, the card is null.");
             return false;
         }
     }
