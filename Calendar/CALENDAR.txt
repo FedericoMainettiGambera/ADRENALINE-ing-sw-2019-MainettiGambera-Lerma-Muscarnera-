@@ -19,7 +19,18 @@
         8-When reload a weapon should notify all client (MVE)
 
     FUNZIONALITA' AVANZATA
-        0-aggiungere allo State Pattern, al Model e alla View tutto ciò che serve per implementare il Terminator
+        0-Inizializzarlo o meno nel game set up
+        1-aggiungere gli stati in cui spara e si muove
+        2-far partire gli stati esattamente come quelli del power up
+        3-mettere il terminator come Player nella playerList:
+            no nell'uso dei power up dopo l'exec
+            no nella send to clients
+            no nel nextplaying player
+            no FF board for bot in ffsetup
+            non mettere gli observers alla mano del bot in gamesetup
+            non contarlo nello scoreKillsState ( e quindi di conseguenza anche in spawn state), il bot on muore mai
+            balzalo nella riconnection
+
 
     RETE
         0-Testare a non completamente tutto Socket

@@ -61,7 +61,7 @@ public class PlayersList extends Observable implements Serializable {
 
     public void setNextPlayingPlayer(){
         for(int i = 0; i < this.players.size(); i++){
-            if(this.players.get(i).getNickname() == this.currentPlayingPlayer.getNickname()){
+            if(this.players.get(i).getNickname().equals(this.currentPlayingPlayer.getNickname())){
                 if(i==this.players.size()-1){
                     setCurrentPlayingPlayer(this.players.get(0));
                 }
@@ -121,7 +121,7 @@ public class PlayersList extends Observable implements Serializable {
         notifyObservers(new ModelViewEvent(this.buildPlayersListV(), ModelViewEventTypes.newPlayersList));
     }
 
-    /**@param nickname
+    /**@param nickname player nickname
      * @return the desired player from the playersList
      * */
     public Player getPlayer(String nickname) {

@@ -1,16 +1,10 @@
 package it.polimi.se2019.view.outputHandler;
-import it.polimi.se2019.controller.Controller;
-import it.polimi.se2019.model.PlayersList;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.stateEvent.StateEvent;
 import it.polimi.se2019.view.GUIstarter;
 import it.polimi.se2019.view.LoadingSceneController;
 import it.polimi.se2019.view.components.OrderedCardListV;
-import it.polimi.se2019.view.components.PlayersListV;
-import javafx.application.*;
-import javafx.animation.*;
 import javafx.fxml.FXML;
-import javafx.scene.*;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,12 +12,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
-
-import java.awt.*;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
 import static it.polimi.se2019.view.LoadingSceneController.progressionBarGoal;
