@@ -253,7 +253,7 @@ public class WeaponCard extends Card implements Serializable {
                 }
                 if(line.equals("EFFECT NAME")) {
                     line = reader.readLine();
-                    effects.get(effects.size() - 1).setName(line);
+                    effects.get(effects.size() - 1).setEffectName(line);
                 }
 
                 if(line.equals("USAGE COST")) {

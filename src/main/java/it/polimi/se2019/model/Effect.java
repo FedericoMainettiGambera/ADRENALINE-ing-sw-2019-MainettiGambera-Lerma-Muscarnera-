@@ -265,14 +265,17 @@ public class Effect implements Serializable {
                 for (Square y[] : this.getActions().get(0).getActionInfo().getActionContext().getBoard().getMap()) {
                     for(Square x: y) {
                         try {
-                            if (getActions().get(0).getActionInfo().getActionContext().getBoard().distanceFromTo(
-                                    x.getCoordinates(),
-                                    getActions().get(0).getActionInfo().getActionContext().getPlayer().getPosition()
-                            ) == 1) {
-                                for(Player p: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
-                                    if(p.getPosition().equals(x.getCoordinates())) {
-                                        if(!cell.contains(p))
-                                            cell.add(p);
+                            if (x != null)
+                            {
+                                if (getActions().get(0).getActionInfo().getActionContext().getBoard().distanceFromTo(
+                                        x.getCoordinates(),
+                                        getActions().get(0).getActionInfo().getActionContext().getPlayer().getPosition()
+                                ) == 1) {
+                                    for (Player p : this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
+                                        if (p.getPosition().equals(x.getCoordinates())) {
+                                            if (!cell.contains(p))
+                                                cell.add(p);
+                                        }
                                     }
                                 }
                             }
@@ -296,6 +299,7 @@ public class Effect implements Serializable {
                 List<Object> cell = new ArrayList<>();
                 for (Square y[] : this.getActions().get(0).getActionInfo().getActionContext().getBoard().getMap()) {
                     for(Square x: y) {
+                        if(x != null)
                         cell.add(x);
                     }
                 }
@@ -1385,6 +1389,7 @@ public class Effect implements Serializable {
 
     }
     public boolean Exec() {
+        System.out.println("######## EXEC INIZIATA ###########");
         boolean isExecutable = true;
         /*gestione effect info */
         System.out.println("inizializzo effetto");
@@ -1405,8 +1410,10 @@ public class Effect implements Serializable {
                     //  a.getActionInfo().setActionContext();
                 }
             }
+            System.out.println("######## EXEC FINITA ###########");
             return true;
         }
+        System.out.println("######## EXEC FALLITA ###########");
         return false;
     }
 

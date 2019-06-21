@@ -1,9 +1,7 @@
 package it.polimi.se2019.view.selector;
 
 import it.polimi.se2019.controller.Controller;
-import it.polimi.se2019.controller.ModelGate;
-import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
-import it.polimi.se2019.model.*;
+import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.PlayersColors;
@@ -13,16 +11,11 @@ import it.polimi.se2019.model.events.viewControllerEvents.*;
 import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.view.components.*;
-import it.polimi.se2019.view.outputHandler.CLIOutputHandler;
 import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
-import it.polimi.se2019.virtualView.Selector;
 import it.polimi.se2019.virtualView.SelectorV;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -149,7 +142,7 @@ public class CLISelector implements SelectorV {
     public static int askNumber(int rangeInit, int rangeEnd){
         if(Controller.randomGame){
             try {
-                TimeUnit.MILLISECONDS.sleep(300);
+                TimeUnit.MILLISECONDS.sleep(300);   // time to respond TODO CHANGED FROM 300
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
