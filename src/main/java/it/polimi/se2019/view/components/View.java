@@ -463,7 +463,7 @@ public class View implements Observer {
                 break;
 
             case askTurnAction:
-                this.selector.askTurnAction(((SelectorEventInt)SE).getNumber());
+                this.selector.askTurnAction(((SelectorEventTurnAction)SE).getActionNumber(), ((SelectorEventTurnAction)SE).canUsePowerUp());
                 break;
 
             case askRunAroundPosition:
@@ -521,6 +521,10 @@ public class View implements Observer {
 
             case paymentInformation:
                 this.selector.askPaymentInformation((SelectorEventPaymentInformation)SE);
+                break;
+
+            case askPowerUpToUse:
+                this.selector.askPowerUpToUse((SelectorEventPowerUpCards)SE);
                 break;
 
             default: break;

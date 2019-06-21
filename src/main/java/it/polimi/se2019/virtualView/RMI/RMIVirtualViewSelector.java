@@ -66,7 +66,7 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
     }
 
     @Override
-    public void askTurnAction(int actionNumber) {
+    public void askTurnAction(int actionNumber, boolean canUsePowerUp) {
         try {
             playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEventInt(SelectorEventTypes.askTurnAction, actionNumber));
         } catch (IOException e) {
@@ -277,5 +277,14 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
         }
     }
 
+    @Override
+    public void askPowerUpToUse(List<PowerUpCardV> powerUpCards) {
+
+    }
+
+    @Override
+    public void askWantToUsePowerUpOrNot() {
+
+    }
 
 }

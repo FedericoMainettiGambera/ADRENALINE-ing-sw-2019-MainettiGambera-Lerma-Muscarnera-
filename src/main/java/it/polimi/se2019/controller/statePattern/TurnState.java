@@ -5,6 +5,7 @@ import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.controller.WaitForPlayerInput;
 import it.polimi.se2019.model.Player;
+import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
 
@@ -34,11 +35,11 @@ public class TurnState implements State {
         //ask for input
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-            SelectorGate.getCorrectSelectorFor(playerToAsk).askTurnAction(this.actionNumber);
+            SelectorGate.getCorrectSelectorFor(playerToAsk).askTurnAction(this.actionNumber, canUsePowerUp(ModelGate.model.getCurrentPlayingPlayer()));
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
-            logger.severe("Exception Occured: "+e.getClass()+" "+e.getCause());
+            logger.severe("Exception Occurred: "+e.getClass()+" "+e.getCause());
         }
     }
 
@@ -67,6 +68,10 @@ public class TurnState implements State {
             ViewControllerEventHandlerContext.setNextState(new ShootPeopleState(this.actionNumber));
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
+        else if(actionChosen.equals("use power up")){
+            ViewControllerEventHandlerContext.setNextState(new PowerUpState("movement", new TurnState(this.actionNumber)));
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        }
         else{
             this.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
@@ -81,5 +86,14 @@ public class TurnState implements State {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
             ViewControllerEventHandlerContext.state.doAction(null);
         }
+    }
+
+    public static boolean canUsePowerUp(Player playerToAsk){
+        for (PowerUpCard pu: playerToAsk.getPowerUpCardsInHand().getCards()) {
+            if(pu.getName().toLowerCase().equals("teleporter") || pu.getName().toLowerCase().equals("newton")){
+                return true;
+            }
+        }
+        return false;
     }
 }

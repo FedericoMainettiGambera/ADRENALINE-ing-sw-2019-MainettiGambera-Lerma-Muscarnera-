@@ -119,6 +119,10 @@ public class ShootPeopleAskForInputState implements State {
         this.chosenWeaponCard.unload(); //TODO not sure about this, ask luca
 
         this.chosenEffect.Exec();
+        //TODO make the exec return a list of player damaged by the weapon. And starts the power up stuff
+        //List<Player> damagedPlayer = this.chosenEffect.Exec();
+        //TODO ask to the shooting player if he wants to use the SNIPER
+        //TODO ask to the damaged player if they wants to use the TAGGRANADE
 
         if(this.actionNumber == 2){
             ViewControllerEventHandlerContext.setNextState(new ReloadState(false));

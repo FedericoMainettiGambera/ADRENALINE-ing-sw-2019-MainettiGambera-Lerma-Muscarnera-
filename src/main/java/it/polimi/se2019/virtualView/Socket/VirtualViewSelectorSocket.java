@@ -52,8 +52,8 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     }
 
     @Override
-    public void askTurnAction(int actionNumber) {
-        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventInt(SelectorEventTypes.askTurnAction, actionNumber));
+    public void askTurnAction(int actionNumber, boolean canUsePowerUp) {
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventTurnAction(SelectorEventTypes.askTurnAction, actionNumber, canUsePowerUp));
     }
 
     @Override
@@ -190,5 +190,15 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     @Override
     public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformation) {
         SocketVirtualView.sendToClient(playerToAsk, SEPaymentInformation);
+    }
+
+    @Override
+    public void askPowerUpToUse(List<PowerUpCardV> powerUpCards) {
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askPowerUpToUse,(ArrayList<PowerUpCardV>)powerUpCards));
+    }
+
+    @Override
+    public void askWantToUsePowerUpOrNot() {
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.wantToUsePowerUpOrNot));
     }
 }

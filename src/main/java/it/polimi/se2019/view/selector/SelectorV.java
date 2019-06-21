@@ -3,7 +3,9 @@ package it.polimi.se2019.virtualView;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
+import it.polimi.se2019.model.events.selectorEvents.SelectorEvent;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
+import it.polimi.se2019.model.events.selectorEvents.SelectorEventPowerUpCards;
 import it.polimi.se2019.view.components.EffectV;
 import it.polimi.se2019.view.components.PowerUpCardV;
 import it.polimi.se2019.view.components.WeaponCardV;
@@ -20,7 +22,7 @@ public interface SelectorV {
 
     public void askFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards);
 
-    public void askTurnAction(int actionNumber);
+    public void askTurnAction(int actionNumber, boolean canUsePowerUp);
 
     public void askRunAroundPosition(ArrayList<Position> positions);
 
@@ -55,4 +57,7 @@ public interface SelectorV {
 
     public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformormation);
 
+    public void askPowerUpToUse(SelectorEventPowerUpCards powerUpCards);
+
+    public void wantToUsePowerUpOrNot();
 }

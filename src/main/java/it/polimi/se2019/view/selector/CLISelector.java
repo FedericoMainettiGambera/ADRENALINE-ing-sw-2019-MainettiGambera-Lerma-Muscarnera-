@@ -3,12 +3,14 @@ package it.polimi.se2019.view.selector;
 import it.polimi.se2019.controller.Controller;
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
+import it.polimi.se2019.controller.statePattern.WantToPlayPowerUpState;
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
+import it.polimi.se2019.model.events.selectorEvents.SelectorEventPowerUpCards;
 import it.polimi.se2019.model.events.viewControllerEvents.*;
 import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
@@ -333,9 +335,11 @@ public class CLISelector implements SelectorV {
 
     private class AskTurnAction extends Thread {
         private int actionNumber;
+        private boolean canUsePowerUp;
 
-        public AskTurnAction(int actionNumber){
+        public AskTurnAction(int actionNumber, boolean canUsePowerUp){
             this.actionNumber = actionNumber;
+            this.canUsePowerUp = canUsePowerUp;
         }
         @Override
         public void run() {
@@ -346,12 +350,15 @@ public class CLISelector implements SelectorV {
                 out.println("\n<CLIENT> Choose your second action");
             }
 
-
-            CLISelector.showListOfRequests(Arrays.asList("run around","grab stuff", "shoot people"));
-
-            //FOR DEBUGGING:
-            int choice = askNumber(0,2);
-            //int choice = askNumber(0,2);
+            int choice;
+            if(!canUsePowerUp) {
+                CLISelector.showListOfRequests(Arrays.asList("run around", "grab stuff", "shoot people"));
+                choice = askNumber(0,2);
+            }
+            else{
+                CLISelector.showListOfRequests(Arrays.asList("run around", "grab stuff", "shoot people", "use power up"));
+                choice = askNumber(0,3);
+            }
 
             String action = null;
             if(choice == 0){
@@ -363,6 +370,9 @@ public class CLISelector implements SelectorV {
             else if(choice == 2){
                 action = "shoot people";
             }
+            else if(choice == 3){
+                action = "use power up";
+            }
 
             ViewControllerEventString VCEString = new ViewControllerEventString(action);
 
@@ -371,8 +381,8 @@ public class CLISelector implements SelectorV {
     }
 
     @Override
-    public void askTurnAction(int actionNumber) {
-        AskTurnAction askTurnAction = new AskTurnAction(actionNumber);
+    public void askTurnAction(int actionNumber, boolean canUsePowerUp) {
+        AskTurnAction askTurnAction = new AskTurnAction(actionNumber, canUsePowerUp);
         askTurnAction.start();
     }
 
@@ -917,10 +927,6 @@ public class CLISelector implements SelectorV {
                     request.add("pay the amount with ammos from the Ammo box");
                 }
 
-                if(SEPaymentInformation.getPossibilities().isEmpty()){
-                       System.err.println("WAT DA FUC");
-                }
-
                 for (PowerUpCardV p : SEPaymentInformation.getPossibilities()) {
                     request.add("discard " + p.getName() + " for getting off a " + p.getColor() + " ammo from the total cost");
                 }
@@ -993,6 +999,57 @@ public class CLISelector implements SelectorV {
     public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformation) {
         AskPaymentInformation api = new AskPaymentInformation(SEPaymentInformation);
         api.start();
+    }
+
+
+    public class AskPowerUpToUse extends Thread{
+        private List<PowerUpCardV> powerUpCardV;
+        public AskPowerUpToUse(List<PowerUpCardV> powerUpCards){
+            out.println("<CLIENT> choose one of the following power up to use: ");
+            this.powerUpCardV = powerUpCards;
+        }
+
+        @Override
+        public void run() {
+            ArrayList<String> request = new ArrayList<>();
+            for (PowerUpCardV p : powerUpCardV) {
+                request.add(p.getName() + " of color " + p.getColor());
+            }
+            int choice = askNumber(0,powerUpCardV.size()-1);
+            String answer1 = powerUpCardV.get(choice).getName();
+            String answer2 = powerUpCardV.get(choice).getColor() +"";
+            ViewControllerEventTwoString VCEString = new ViewControllerEventTwoString(answer1, answer2);
+            sendToServer(VCEString);
+        }
+    }
+
+    @Override
+    public void askPowerUpToUse(SelectorEventPowerUpCards powerUpCards) {
+        AskPowerUpToUse aputu = new AskPowerUpToUse(powerUpCards.getPowerUpCards());
+        aputu.start();
+    }
+
+
+
+
+    public class WantToUsePowerUpOrNot extends Thread{
+        @Override
+        public void run(){
+            out.println("<CLIENT> Do you want to use a power up?");
+            CLISelector.showListOfRequests(Arrays.asList("yes", "no"));
+            int choice = askNumber(0,1);
+            if(choice == 0){
+                sendToServer(new ViewControllerEventBoolean(true));
+            }
+            else{
+                sendToServer(new ViewControllerEventBoolean(false));
+            }
+        }
+    }
+    @Override
+    public void wantToUsePowerUpOrNot() {
+        WantToUsePowerUpOrNot wtupon = new WantToUsePowerUpOrNot();
+        wtupon.start();
     }
 }
 

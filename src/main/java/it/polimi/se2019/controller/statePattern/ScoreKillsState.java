@@ -86,7 +86,7 @@ public class ScoreKillsState implements State {
             }
         }
         else{
-          //If player died during FF
+          //If a player dies during FF --> make player board FF
             if(ModelGate.model.hasFinalFrenzyBegun()){
                 for(Player player : deadPlayers){
                     player.makePlayerBoardFinalFrenzy();

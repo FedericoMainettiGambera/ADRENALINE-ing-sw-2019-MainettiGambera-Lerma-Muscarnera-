@@ -19,5 +19,7 @@ public enum SelectorEventTypes {
     askWhatEffect,
     askEffectInputs,
     askNickname,
-    paymentInformation
+    paymentInformation,
+    askPowerUpToUse,
+    wantToUsePowerUpOrNot
 }

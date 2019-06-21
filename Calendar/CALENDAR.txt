@@ -5,6 +5,7 @@
             (in caso ovviamente correggere i problemi)
             (molte carte danno ancora molti problemi)
         7-controlla che ci siano i nomi alle cose, power up, weapon, effect...
+        8-gli id delle power up devono essere unici
 
     STATE PATTERN
         0-finire ChooseHowToPayState e aggiungerlo in tutte le occasioni in cui serve e testare che funzioni
