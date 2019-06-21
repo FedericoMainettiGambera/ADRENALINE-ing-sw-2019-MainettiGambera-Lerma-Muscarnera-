@@ -3,7 +3,7 @@ TELEPORTER
 
 NEW EFFECT
 EXPECTED INPUT
-singleTarget
+player
 TO
 ALL
 END
@@ -16,6 +16,6 @@ ACTIONS
 Move
 ACTION INFO
 PRECONDITION
-notEndingTurn
+alwaysTrue
 END
 END

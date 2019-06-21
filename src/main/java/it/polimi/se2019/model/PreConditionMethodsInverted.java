@@ -72,7 +72,121 @@ public class PreConditionMethodsInverted {
     }
 
     /*********/
-    public List<Object> inverted(String preconditionName, ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
+    public List<Object> pureCardinalMovement(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
+        List<Object> retVal = new ArrayList<>();
+        if(type.equals(typePlayer)) {
+            // tutti i player possiedono almeno un punto in cui muoversi dritto
+            // si da per scontato che venga scelto prima il player
+            // vedi distancefromOriginalpositionis1
+            for(Player p: actionContext.getPlayerList().getPlayersOnBoard())
+            {
+                retVal.add(p);
+            }
+        }
+        if(type.equals(typeSquare)) {
+                if(actionDetails.getUserSelectedActionDetails().getTarget() != null)
+                {
+                    // target selezionato
+                    Player p = actionDetails.getUserSelectedActionDetails().getTarget();
+
+                    int left = 0;
+                    int right = 0;
+                    int up = 0;
+                    int down = 0;
+                    while( (left!=-1) && (up != -1) && (down != -1) && (right != -1) ) {
+                        int width = actionContext.getBoard().getMap()[0].length;
+                        int height = actionContext.getBoard().getMap().length;
+
+                        if(!((p.getPosition().getX() + down) >= height )) {
+                            if (actionContext.getBoard().getSquare(p.getPosition().getX() + down, p.getPosition().getY()) != null) {
+                                retVal.add(actionContext.getBoard().getSquare(p.getPosition().getX() + down, p.getPosition().getY()));
+                            }
+                            else down = -1;
+                        } else down = -1;
+
+                        if(!((p.getPosition().getX() - up) <= 0 )) {
+                            if (actionContext.getBoard().getSquare(p.getPosition().getX() - up, p.getPosition().getY()) != null) {
+                                retVal.add(actionContext.getBoard().getSquare(p.getPosition().getX() - up, p.getPosition().getY()));
+                            }
+                            else up = -1;
+                        } else up = -1;
+
+                        if(!((p.getPosition().getY() + right) >= width )) {
+                            if (actionContext.getBoard().getSquare(p.getPosition().getX() , p.getPosition().getY() + right) != null) {
+                                retVal.add(actionContext.getBoard().getSquare(p.getPosition().getX() , p.getPosition().getY() + right));
+                            }
+                            else right = -1;
+                        } else right = -1;
+
+                        if(!((p.getPosition().getY() - left) <= 0)) {
+                            if (actionContext.getBoard().getSquare(p.getPosition().getX() , p.getPosition().getY() - left) != null) {
+                                retVal.add(actionContext.getBoard().getSquare(p.getPosition().getX() , p.getPosition().getY() - left));
+                            }
+                            else left = -1;
+                        } else left = -1;
+
+
+                        if(left != -1) left++;
+                        if(up != -1) up++;
+                        if(right != -1) right++;
+                        if(down != -1) down++;
+                    }
+                }
+                else
+                {
+                    // target non selezionato
+                    for(Player p: actionContext.getPlayerList().getPlayersOnBoard()) {
+                        int left = 0;
+                        int right = 0;
+                        int up = 0;
+                        int down = 0;
+                        while( (left!=-1) && (up != -1) && (down != -1) && (right != -1) ) {
+                            int width = actionContext.getBoard().getMap()[0].length;
+                            int height = actionContext.getBoard().getMap().length;
+
+                            if(!((p.getPosition().getX() + down) >= height )) {
+                                if (actionContext.getBoard().getSquare(p.getPosition().getX() + down, p.getPosition().getY()) != null) {
+                                    retVal.add(actionContext.getBoard().getSquare(p.getPosition().getX() + down, p.getPosition().getY()));
+                                }
+                                else down = -1;
+                            } else down = -1;
+
+                            if(!((p.getPosition().getX() - up) <= 0 )) {
+                                if (actionContext.getBoard().getSquare(p.getPosition().getX() - up, p.getPosition().getY()) != null) {
+                                    retVal.add(actionContext.getBoard().getSquare(p.getPosition().getX() - up, p.getPosition().getY()));
+                                }
+                                else up = -1;
+                            } else up = -1;
+
+                            if(!((p.getPosition().getY() + right) >= width )) {
+                                if (actionContext.getBoard().getSquare(p.getPosition().getX() , p.getPosition().getY() + right) != null) {
+                                    retVal.add(actionContext.getBoard().getSquare(p.getPosition().getX() , p.getPosition().getY() + right));
+                                }
+                                else right = -1;
+                            } else right = -1;
+
+                            if(!((p.getPosition().getY() - left) <= 0)) {
+                                if (actionContext.getBoard().getSquare(p.getPosition().getX() , p.getPosition().getY() - left) != null) {
+                                    retVal.add(actionContext.getBoard().getSquare(p.getPosition().getX() , p.getPosition().getY() - left));
+                                }
+                                else left = -1;
+                            } else left = -1;
+
+
+                            if(left != -1) left++;
+                            if(up != -1) up++;
+                            if(right != -1) right++;
+                            if(down != -1) down++;
+                        }
+
+                    }
+                }
+        }
+        return retVal;
+    }
+
+
+        public List<Object> inverted(String preconditionName, ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoElement> inputSlots) {
         List<Object> retVal = new ArrayList<>();
         Action a = new Action();
         a.getActionInfo().setActionContext(actionContext);
