@@ -3,6 +3,7 @@ package it.polimi.se2019;
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.SquareSide;
+import it.polimi.se2019.model.enumerations.SquareTypes;
 import it.polimi.se2019.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
@@ -19,9 +20,22 @@ public class TestWeaponCard {
         return retVal;
 
     }
-
     private void showMap(Player user,PlayersList playersList,Board board,List<Object> possible) {
         boolean something = true;
+        Square[][] Mappa = new Square[3][4];
+        int Y = 0;
+        int X = 0;
+        for(Square r[] : board.getMap()) {
+            X = 0;
+            for(Square c: r) {
+                if(c!= null)
+                    Mappa[Y][X] = c;
+                else
+                    Mappa[Y][X] = new NormalSquare(Y,X,SquareSide.wall,SquareSide.wall,SquareSide.wall,SquareSide.wall, SquareTypes.normal,'X');
+                X++;
+            }
+                    Y++;
+        }
         if(possible == null) {
             something  = false;
         } else
@@ -40,7 +54,7 @@ public class TestWeaponCard {
         String output = "";
 
         int rowCounter = 0;
-        for(Square[] row : board.getMap())
+        for(Square[] row : Mappa)
         {
             int cellCounter = 0;
             for(Square cell: row) {
@@ -52,7 +66,7 @@ public class TestWeaponCard {
                     currentOutput = " ______" + doorUp + "______ ";
                 }
                 if ((rowCounter - 1) >= 0)
-                    if (cell.getColor() == board.getMap()[rowCounter - 1][cellCounter].getColor()) {
+                    if (cell.getColor() == Mappa[rowCounter - 1][cellCounter].getColor()) {
 
                         currentOutput = "|" + charRepeat(' ', 16) + "|";
                     }
@@ -80,6 +94,8 @@ public class TestWeaponCard {
                 cellCounter = 0;
                 for (Square cell : row) {
                     String content = "";
+                    if(cell.getColor() == 'X')
+                        content = "XXXXXXXXXXXXXX";
                     if(cell.getCoordinates().equals(x.getPosition())) {
                         char brake1 = ' ';
                         char brake2 = ' ';
@@ -142,8 +158,8 @@ public class TestWeaponCard {
                     currentOutput = "|______" + doorDown + "______|";
                 }
 
-                if((rowCounter + 1 ) < board.getMap().length)
-                    if(cell.getColor() == board.getMap()[rowCounter+1][cellCounter].getColor()) {
+                if((rowCounter + 1 ) < Mappa.length)
+                    if(cell.getColor() == Mappa[rowCounter+1][cellCounter].getColor()) {
 
                         currentOutput = "|" + charRepeat(' ',16) + "|";
                     }
@@ -159,6 +175,11 @@ public class TestWeaponCard {
     @Test
     public void testCosti() throws Exception {
         Board board = new Board("2",new VirtualView(),new VirtualView());
+        for(Square[] r: board.getMap()) {
+            for (Square c: r)
+                System.out.println(c);
+            System.out.println("\n");
+        }
         List<Player> user = new ArrayList<>();
         user.add(new Player());user.add(new Player());user.add(new Player());user.add(new Player());user.add(new Player());
         Player user1 = user.get(0);
@@ -185,14 +206,21 @@ public class TestWeaponCard {
         user3.setPosition(0 , 2);                 //   same position
         user4.setPosition(0, 0);
         user5.setPosition(2, 0);
-        System.out.println();
-        List<Object> output = new ArrayList<>();
-        for(Square s: board.getRoomFromPosition(new Position(1,2))) {
-            output.add((Object)s);
-        }
-        showMap(user1,playerList,board,output);
+        WeaponCard w = new WeaponCard(12+"");
+        w.passContext(user1,playerList,board);
+        Object[] row = new Object[10];
+        row[0] = w.getEffects().get(0).usableInputs().get(0).get(0).get(1);
+        w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(0),row);
+
+        showMap(user1,playerList,board,w.getEffects().get(0).usableInputs().get(0).get(0));
+
+        showMap(user1,playerList,board,w.getEffects().get(0).usableInputs().get(1).get(0));
+
+        System.out.println("hai inserito" + ((Square)row[0]).getCoordinates().humanString());
+        w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(1),row);
 
 
+        w.getEffects().get(0).Exec();
               System.out.println("^^^^^ CARTA ");
         }
 

@@ -14,6 +14,9 @@ public class Position implements Serializable {
      * @param Y must be >= 0
      * @throws IllegalArgumentException
      * */
+    public String humanString() {
+        return "[y:" + this.getY() + " , x: " +this.getX() + "]";
+    }
     public Position(int X, int Y) throws IllegalArgumentException {
         if(X<0 || Y<0){
             throw new IllegalArgumentException("Coordinates can't be negative.");

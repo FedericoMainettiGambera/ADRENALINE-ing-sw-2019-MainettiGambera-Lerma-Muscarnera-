@@ -36,7 +36,7 @@ public class AmmoList implements Serializable {
 
 
     /**avoid this method if possible, do not access directly attributes, but use method that interact with them for you.
-     * @return
+     * @return ammoCubesList
      * */
     public List<AmmoCubes> getAmmoCubesList() {
         return ammoCubesList;
@@ -45,8 +45,8 @@ public class AmmoList implements Serializable {
     /**add a specific amount of ammo of a specific color to the ArrayList of AmmoCubes.
      * this method uses the AmmoCubes.addQuantity(int quantity) method that makes sure that the resulting quantity
      * is never more than GameConstant.MaxNumberOfAmmoCubes.
-     * @param quantity
-     * @param color
+     * @param quantity indicates how many ammos
+     * @param color indicates the color of the ammo (blue, yellow or red)
      * */
     public void addAmmoCubesOfColor(AmmoCubesColor color, int quantity){
         for(int i = 0; i < this.ammoCubesList.size(); i++){
@@ -97,9 +97,9 @@ public class AmmoList implements Serializable {
 
     /**subtract a specified amount of ammos to the current this.ammoCubesList of the player.
      * Also this method checks if the payment can be done or not using the canPayAmmoCubes(...) method.
-     * @param quantity
-     * @param color
-     * @return
+     * @param quantity quantity due to pay
+     * @param color color of the ammo to pay
+     * @return boolean
      * */
     public boolean payAmmoCubes(AmmoCubesColor color, int quantity){
         if(!canPayAmmoCubes(color, quantity)){
@@ -118,8 +118,8 @@ public class AmmoList implements Serializable {
 
     /**subtract a specified amount of ammos to the current this.ammoCubesList of the player.
      * Also this method checks if the payment can be done or not using the canPayAmmoCubes(...) method.
-     * @param cost
-     * @return
+     * @param cost indicates how many ammos you need to pay
+     * @return boolean
      * */
     public boolean payAmmoCubes(AmmoList cost) {
         if(!canPayAmmoCubes(cost)){

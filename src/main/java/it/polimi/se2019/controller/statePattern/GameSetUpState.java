@@ -37,7 +37,7 @@ public class GameSetUpState implements State {
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         out.println("<SERVER> Setting hasGameBegun to true.");
-        ModelGate.model.hasGameBegun = true;
+        Game.hasGameBegun = true;
 
         out.println("<SERVER> Setting Starting Player.");
         ModelGate.model.getPlayerList().setStartingPlayer(playerToAsk);
@@ -50,7 +50,8 @@ public class GameSetUpState implements State {
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe("Exception occurred:"+" "+ " "+ Arrays.toString(e.getStackTrace())+e.getClass()+e.getCause());
+
         }
     }
 
