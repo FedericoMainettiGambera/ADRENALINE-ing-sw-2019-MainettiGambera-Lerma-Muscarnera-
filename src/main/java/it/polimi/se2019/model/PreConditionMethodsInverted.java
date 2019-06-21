@@ -327,65 +327,116 @@ public class PreConditionMethodsInverted {
         System.out.println("123 " + retVal);
         return retVal;
     }
-    public List<Object> distanceFromOriginalPositionLessThan2(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
+
+        public List<Object>  distanceFromOriginalPositionLessThan2 (ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
+
         List<Object> retVal = new ArrayList<>();
-        if(type.equals(typeSquare)) {
-            Player target = null;
-            if(actionDetails.getUserSelectedActionDetails().getTargetList().size() > 0)
-                target = actionDetails.getUserSelectedActionDetails().getTarget();
-           if(target != null) {
-               System.out.println("il target selezionato è "+ target.getNickname());
-               for(Square[] r: actionContext.getBoard().getMap()) {
-                    for(Square c: r) {
-                        try {
-                            if (actionContext.getBoard().distanceFromTo(
-                                    c.getCoordinates(),
-                                    target.getPosition()
-                            ) <= 3)
-                                retVal.add(c);
-                        } catch(Exception e) {
-                            System.out.println(e.getMessage());
+        try {
+            if (type.equals(typeSquare)) {
+
+                if (actionDetails.getUserSelectedActionDetails().getTargetList().size() > 0) {
+                    System.out.println("// target list not empty");
+
+                    // Position chosenSquarePosition = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
+                    for (Square[] R : actionContext.getBoard().getMap()) {
+                        for (Square C : R) {
+                            if (C != null) {
+                                System.out.println("> POSIZIONE  " + C.getCoordinates().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                                        C.getCoordinates(),
+                                        actionDetails.getUserSelectedActionDetails().getTarget().getPosition()
+                                ));
+                                if (actionContext.getBoard().distanceFromTo(
+                                        C.getCoordinates(),
+                                        actionDetails.getUserSelectedActionDetails().getTarget().getPosition()
+                                ) <= (2)) {
+                                    // la distanza è 1
+                                    // controllo che ci sia un player li sopra
+                                    for (Player P : actionContext.getPlayerList().getPlayersOnBoard()) {
+                                        if (P.getPosition().equals(C.getCoordinates())) {
+                                            if (!retVal.contains(C))
+                                                retVal.add(C);
+                                        }
+                                    }
+                                }
+                            }
+
                         }
                     }
-                }
-            } else {
-            // non   stato selezionato ancora il target: tutti gli square possibili
-                for(Square[] r: actionContext.getBoard().getMap()) {
-                    for(Square c: r) {
-                        retVal.add(c);
+                } else {
+
+                    System.out.println("  // target list empty");
+                    for (Square[] R : actionContext.getBoard().getMap()) {
+                        for (Square C : R) {
+                            if (C != null)
+                            {
+
+                                for (Player P : actionContext.getPlayerList().getPlayersOnBoard()) {
+                                    System.out.println("> POSIZIONE  " + P.getPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                                            P.getPosition(),
+                                            C.getCoordinates()
+                                    ));
+                                    if (actionContext.getBoard().distanceFromTo(
+                                            C.getCoordinates(),
+                                            P.getPosition()) <= (2)) {
+                                        if (!retVal.contains(C)) {
+                                            retVal.add(C);
+                                            System.out.println("aggiungo");
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
+
                 }
 
             }
-        }
-        if(type.equals(typePlayer)) {
-            Square chosenSquare = actionDetails.getUserSelectedActionDetails().getChosenSquare();
-            if(chosenSquare != null) {
-            // è gia stato selezionato lo square: solo i player che rispettano la precondizione
-                for(Player p:actionContext.getPlayerList().getPlayersOnBoard()) {
-                    try {
+            if (type.equals(typePlayer)) {
+                if (actionDetails.getUserSelectedActionDetails().getChosenSquare() != null) {
+                    System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
+                    System.out.println("// square selezionato");
+                    for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
+                        System.out.println("> POSIZIONE  " + C.getPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                                C.getPosition(),
+                                actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates()
+                        ));
                         if (actionContext.getBoard().distanceFromTo(
-                                chosenSquare.getCoordinates(),
-                                p.getPosition()
-                        ) <= 3) {
-
-                            retVal.add(p);
+                                C.getPosition(),
+                                actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates()
+                        ) <= (2)) {
+                            // la distanza è 1
+                            retVal.add(C);
                         }
-                    }catch(Exception e) {
-                        System.out.println(e.getMessage());
+
+
+                    }
+
+                } else {
+                    System.out.println(";// square non ancora selezionato");
+                    for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
+                        for (Square[] R : actionContext.getBoard().getMap()) {
+                            for (Square T : R) {
+                                if (actionContext.getBoard().distanceFromTo(
+                                        T.getCoordinates(),
+                                        C.getPosition()) <= (2)) {
+                                    if (!retVal.contains(C))
+                                        retVal.add(C);
+                                }
+
+                            }
+                        }
                     }
                 }
-            } else {
-            // non è stato ancora selezionato lo square: tutti i player possibii
-                for(Player p:actionContext.getPlayerList().getPlayersOnBoard()) {
-                    retVal.add(p);
-                }
             }
+        }catch (Exception e) {
+            System.out.println("---- "+ e);
 
         }
-        System.out.println("rispettata da " + retVal);
+        System.out.println("123 " + retVal);
         return retVal;
     }
+
+
     public List<Object> distanceFromOriginalSquareIs1(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
         /*Target.square */
 
