@@ -62,6 +62,7 @@ public class Board{
     public Position getSpawnpointOfColor(AmmoCubesColor color)throws Exception{
         int g=0;
 
+
         if(color.equals(AmmoCubesColor.yellow)){
             while(spawnPointslist[g].getColor()!='Y'){
                 g++;
@@ -275,7 +276,9 @@ public class Board{
         }
         return map;
     }
-
+/**it is a Minimum Paths Algorythm used to calculate the position allowed
+ * @param startingPosition from a given starting position with a given with a given
+ * @param numberOfMoves  number of moves*/
     public ArrayList<Position> possiblePositions(Position startingPosition, int numberOfMoves){
         ArrayList<Position> possiblePositions = new ArrayList<>();
         possiblePositions.add(startingPosition);

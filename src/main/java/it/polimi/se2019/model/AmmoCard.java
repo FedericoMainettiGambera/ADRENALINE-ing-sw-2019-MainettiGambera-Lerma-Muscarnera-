@@ -8,31 +8,38 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/***/
+/** information regarding ammunition are stored and mostly handled in this class*/
 public class AmmoCard extends Card implements Serializable {
 
-    /***/
+    /**constructor any ammunition is initialized  with a list of ammos(ie "1 yellow, 1 blue"),
+     * @param ammunitions contains this list
+     * a boolean attributed is set as well, it's name is
+     * @param isPowerUp  it indicates whether an ammoCard allows you to draw a PowerUpCard or not
+     * @param ID is needed to know specifically how to iniziliaze each single istance, since most ammoCard are different
+     * from one another*/
     public AmmoCard(String ID, AmmoList ammunitions, boolean isPowerUp){
         super(ID);
         this.ammunitions = ammunitions;
         this.isPowerUp = isPowerUp;
     }
 
-    /***/
+    /** list of ammos */
     private AmmoList ammunitions;
 
-    /***/
+    /**whether the ammocard allows you to fraw a power up or not*/
     private boolean isPowerUp;
 
-    /***/
+    /**return a list of ammos */
     public AmmoList getAmmunitions() {
         return ammunitions;
     }
 
-    /***/
+    /**return the boolean value of isPowerUp*/
     public boolean isPowerUp() {
         return isPowerUp;
     }
+   /**build a card from a given
+    * @param ID, indeed, it allows to distinguish between different group of ammocards*/
     public AmmoCard(String ID) {
         super(ID);
         ammunitions = new AmmoList();
@@ -82,6 +89,7 @@ public class AmmoCard extends Card implements Serializable {
 
 
     }
+    /**build the equivalent class in the view, but with just the minimum information needed*/
     public AmmoCardV buildAmmoCardV(){
         AmmoCardV ammoCardV=new AmmoCardV();
         ammoCardV.setAmmoList(this.ammunitions.buildAmmoListV());
