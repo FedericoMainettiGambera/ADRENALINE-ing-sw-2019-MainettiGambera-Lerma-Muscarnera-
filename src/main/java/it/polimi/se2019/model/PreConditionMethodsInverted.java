@@ -308,6 +308,7 @@ public class PreConditionMethodsInverted {
                     for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
                         for (Square[] R : actionContext.getBoard().getMap()) {
                             for (Square T : R) {
+                                if(T != null)
                                     if (actionContext.getBoard().distanceFromTo(
                                             T.getCoordinates(),
                                             C.getPosition()) == (1 + 0)) {
@@ -416,6 +417,7 @@ public class PreConditionMethodsInverted {
                     for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
                         for (Square[] R : actionContext.getBoard().getMap()) {
                             for (Square T : R) {
+                                if(T != null)
                                 if (actionContext.getBoard().distanceFromTo(
                                         T.getCoordinates(),
                                         C.getPosition()) <= (2)) {
