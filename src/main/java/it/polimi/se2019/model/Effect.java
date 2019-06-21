@@ -1388,7 +1388,9 @@ public class Effect implements Serializable {
         }
 
     }
-    public boolean Exec() {
+    public List<List<Player>> Exec() {
+        List<List<Player>> retVal = new ArrayList<>();
+
         System.out.println("######## EXEC INIZIATA ###########");
         boolean isExecutable = true;
         /*gestione effect info */
@@ -1406,15 +1408,18 @@ public class Effect implements Serializable {
                 //System.out.println("> " + a.getActionInfo().getActionContext().getActionContextFilteredInputs().get(0));
                 a.Exec();
                 /*refreshing the context of the action*/
-                for(Action b: this.actions) {
-                    //  a.getActionInfo().setActionContext();
+                if(a.getClass().equals(Damage.class)) {
+                    retVal.add(new ArrayList<>());
+                    for(Player p: a.getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList()){
+                        retVal.get(retVal.size() - 1).add(p);
+                    }
                 }
             }
             System.out.println("######## EXEC FINITA ###########");
-            return true;
+
         }
         System.out.println("######## EXEC FALLITA ###########");
-        return false;
+        return retVal;
     }
 
     public EffectV buildEffectV(){
