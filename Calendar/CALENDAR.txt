@@ -17,19 +17,22 @@
         6-Testare completamente lo state pattern con la CLI e risolvere tutti i problemi che sorgono finchè tutto non è perfetto
         7-ChooseHowToPayState incomprensibile errore nel reinvio del ViewControllerEventPaymentInformation dal client al server
         8-When reload a weapon should notify all client (MVE)
+        9- cosa succede se muore uno che è afk, come va lo spawn ???
 
     FUNZIONALITA' AVANZATA
         0-Inizializzarlo o meno nel game set up
         1-aggiungere gli stati in cui spara e si muove
         2-far partire gli stati esattamente come quelli del power up
         3-mettere il terminator come Player nella playerList:
-            no nell'uso dei power up dopo l'exec
-            no nella send to clients
-            no nel nextplaying player
-            no FF board for bot in ffsetup
-            non mettere gli observers alla mano del bot in gamesetup
-            non contarlo nello scoreKillsState ( e quindi di conseguenza anche in spawn state), il bot on muore mai
-            balzalo nella riconnection
+            no nell'uso dei power up dopo l'exec ok
+            no nella send to clients ok
+            no nel nextplaying player ok
+            no FF board for bot in ffsetup  ok
+            non mettere gli observers alla mano del bot in gamesetup ok
+            non contarlo nello scoreKillsState ( e quindi di conseguenza anche in spawn state), il bot non muore mai, ok
+            balzalo nella riconnection ok
+            non contare il bot nel controllo di quanti player sono ancora non afk ok
+            fai in modo che i player non possano scegliere il nome terminator ok
 
 
     RETE
