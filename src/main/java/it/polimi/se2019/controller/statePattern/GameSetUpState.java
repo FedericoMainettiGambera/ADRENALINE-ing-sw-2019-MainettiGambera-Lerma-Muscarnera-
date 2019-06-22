@@ -46,7 +46,11 @@ public class GameSetUpState implements State {
         //ask for gameSetUp to the player
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-            SelectorGate.getCorrectSelectorFor(playerToAsk).askGameSetUp();
+           //if there's 5 player no room for bot
+            if(ModelGate.model.getPlayerList().getPlayers().size()==GameConstant.maxNumberOfPlayerPerGame) {
+                SelectorGate.getCorrectSelectorFor(playerToAsk).askGameSetUp(false);
+            }
+            else SelectorGate.getCorrectSelectorFor(playerToAsk).askGameSetUp(true);
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
@@ -86,7 +90,13 @@ public class GameSetUpState implements State {
         ModelGate.model.setFinalFrenzy(VCEGameSetUp.isFinalFrezy());
 
         out.println("<SERVER> Setting a Bot: "+ VCEGameSetUp.isBotActive());
-        ModelGate.model.setBot(new Bot(VCEGameSetUp.isBotActive()));
+        if(VCEGameSetUp.isBotActive()) {
+            ModelGate.model.getPlayerList().addPlayer(new Player(true));
+            ModelGate.model.setBotActive(true);
+        }
+        else {
+            ModelGate.model.setBotActive(false);
+        }
 
         //registering VV as Observer of the Decks
         ModelGate.model.getWeaponDeck().addObserver(ModelGate.model.getSocketVirtualView());

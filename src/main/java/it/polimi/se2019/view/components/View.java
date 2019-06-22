@@ -455,11 +455,11 @@ public class View implements Observer {
         SelectorEventTypes SET = SE.getSelectorEventTypes();
         switch (SET) {
             case askGameSetUp:
-                this.selector.askGameSetUp();
+                this.selector.askGameSetUp(((SelectorEventBoolean)SE).isCanBot());
                 break;
 
             case askFirstSpawnPosition:
-                this.selector.askFirstSpawnPosition(((SelectorEventPowerUpCards)SE).getPowerUpCards());
+                this.selector.askFirstSpawnPosition(((SelectorEventPowerUpCardsAndBoolean)SE).getPowerUpCards(),((SelectorEventPowerUpCardsAndBoolean)SE).isSpawnBot());
                 break;
 
             case askTurnAction:

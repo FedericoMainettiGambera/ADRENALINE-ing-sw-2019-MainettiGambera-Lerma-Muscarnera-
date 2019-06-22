@@ -14,12 +14,12 @@ import java.util.List;
 
 public interface Selector {
 
-    public void askGameSetUp();
+    public void askGameSetUp(boolean canBot);
 
     @Deprecated
     public void askPlayerSetUp();
 
-    public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards);
+    public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards, boolean spawnBot);
 
     public void askTurnAction(int actionNumber, boolean canUsePowerUp);
 

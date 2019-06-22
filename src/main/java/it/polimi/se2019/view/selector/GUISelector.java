@@ -12,7 +12,7 @@ import it.polimi.se2019.view.components.EffectV;
 import it.polimi.se2019.view.components.PowerUpCardV;
 import it.polimi.se2019.view.components.WeaponCardV;
 import it.polimi.se2019.virtualView.Selector;
-import it.polimi.se2019.virtualView.SelectorV;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class GUISelector implements SelectorV {
 
 
     @Override
-    public void askGameSetUp() {
+    public void askGameSetUp(boolean canBot) {
 
     }
 
@@ -38,7 +38,7 @@ public class GUISelector implements SelectorV {
     }
 
     @Override
-    public void askFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards) {
+    public void askFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards, boolean spawnBot) {
 
     }
 

@@ -32,7 +32,7 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
     }
 
     @Override
-    public  void askGameSetUp(){
+    public  void askGameSetUp(boolean canBot){
         try {
             SelectorEvent SE = new SelectorEvent(SelectorEventTypes.askGameSetUp);
             playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(), SE);
@@ -53,7 +53,7 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
     }
 
     @Override
-    public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards) {
+    public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards, boolean spawnBot) {
         ArrayList<PowerUpCardV> powerUpCardsV= new ArrayList<>();
         for (PowerUpCard c : powerUpCards) {
             powerUpCardsV.add(c.buildPowerUpCardV());

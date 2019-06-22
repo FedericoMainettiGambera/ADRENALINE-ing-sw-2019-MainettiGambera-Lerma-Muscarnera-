@@ -1,4 +1,4 @@
-package it.polimi.se2019.virtualView;
+package it.polimi.se2019.view.selector;
 
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
@@ -15,12 +15,12 @@ import java.util.List;
 
 public interface SelectorV {
 
-    public void askGameSetUp();
+    public void askGameSetUp(boolean canBot);
 
     @Deprecated
     public void askPlayerSetUp();
 
-    public void askFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards);
+    public void askFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards, boolean spawnBot);
 
     public void askTurnAction(int actionNumber, boolean canUsePowerUp);
 

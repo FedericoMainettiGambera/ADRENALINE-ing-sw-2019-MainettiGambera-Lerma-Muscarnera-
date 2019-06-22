@@ -17,7 +17,6 @@ import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.view.components.*;
 import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
-import it.polimi.se2019.virtualView.SelectorV;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -175,6 +174,12 @@ public class CLISelector implements SelectorV {
 
 
     private class AskGameSetUp extends Thread{
+        private boolean canBot;
+
+        public AskGameSetUp(boolean canBot){
+            this.canBot=canBot;
+        }
+
         @Override
         public void run(){
             String gameMode = "normalMode";
@@ -215,10 +220,15 @@ public class CLISelector implements SelectorV {
                 isFinalFrenzy=false;
             }
 
-            System.out.println("\n<CLIENT> : Do you want to play with the Terminator active?");
-            CLISelector.showListOfRequests(Arrays.asList("Yes","No"));
-            int Terminator = askNumber(0,1);
-            isBotActive = Terminator==0;
+            if(canBot) {
+                System.out.println("\n<CLIENT> : Do you want to play with the Terminator active?");
+                CLISelector.showListOfRequests(Arrays.asList("Yes", "No"));
+                int Terminator = askNumber(0, 1);
+                isBotActive = Terminator == 0;
+            }
+            else {
+                isBotActive=false;
+            }
 
             System.out.println("\n<CLIENT> : Choose number of starting skulls:");
             CLISelector.showListOfRequests(Arrays.asList("5 starting skulls","8 starting skulls"));
@@ -236,8 +246,8 @@ public class CLISelector implements SelectorV {
         }
     }
     @Override
-    public void askGameSetUp() {
-        AskGameSetUp askGameSetUp = new AskGameSetUp();
+    public void askGameSetUp(boolean canBot) {
+        AskGameSetUp askGameSetUp = new AskGameSetUp(canBot);
         askGameSetUp.start();
     }
 
@@ -300,11 +310,29 @@ public class CLISelector implements SelectorV {
 
     private class AskFirstSpawnPosition extends Thread {
         private ArrayList<PowerUpCardV> powerUpCards;
-        public  AskFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards){
+        private boolean spawnBot;
+        public  AskFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards, boolean spawnBot){
             this.powerUpCards = powerUpCards;
+            this.spawnBot=spawnBot;
         }
         @Override
         public void run() {
+            String botSpawn = "none";
+            if(spawnBot) {
+                out.println("\n<CLIENT> choose the color of the SpawnPoint where you want the bot to spawn: ");
+                CLISelector.showListOfRequests(Arrays.asList("red", "blue", "yellow"));
+                int spawnColorChoice = askNumber(0, 2);
+                if(spawnColorChoice == 0){
+                    botSpawn="red";
+                }
+                else if(spawnColorChoice == 1){
+                    botSpawn="blue";
+                }
+                else{
+                    botSpawn="yellow";
+                }
+            }
+
             out.println("\n<CLIENT> choose the PowerUp to discard and spawn to: ");
             ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < powerUpCards.size(); i++) {
@@ -315,14 +343,14 @@ public class CLISelector implements SelectorV {
 
             String cardID = powerUpCards.get(choice).getID();
 
-            ViewControllerEventString VCEString = new ViewControllerEventString(cardID);
+            ViewControllerEventTwoString VCETwoString = new ViewControllerEventTwoString(cardID, botSpawn);
 
-            sendToServer(VCEString);
+            sendToServer(VCETwoString);
         }
     }
     @Override
-    public void askFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards) {
-        AskFirstSpawnPosition afsp = new AskFirstSpawnPosition(powerUpCards);
+    public void askFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards, boolean spawnBot) {
+        AskFirstSpawnPosition afsp = new AskFirstSpawnPosition(powerUpCards, spawnBot);
         afsp.start();
     }
 

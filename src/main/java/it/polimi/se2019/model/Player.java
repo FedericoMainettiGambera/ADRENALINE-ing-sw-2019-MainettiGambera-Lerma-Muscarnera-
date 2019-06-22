@@ -18,10 +18,14 @@ public class Player extends Person implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /***/
-    public Player(boolean isBot){
-        this.isBot=true;
+    public Player(boolean thisIsBot){
+        this.isBot=thisIsBot;
         this.nickname="Terminator";
         this.isAFK=true;
+        //initially set to true so the first player will not use it, but from the second it will be reset to false.
+        boolean botUsed=true;
+        this.hand = new PlayerHand();
+
     }
 
 
@@ -51,6 +55,8 @@ public class Player extends Person implements Serializable {
 
     /***/
     private String IP;
+    /** indicates whether the bot has already been used during a turn*/
+    private boolean botUsed;
 
     /***/
     private transient ObjectOutputStream oos;
@@ -214,6 +220,13 @@ public class Player extends Person implements Serializable {
         return isBot;
     }
 
+    public void setBotUsed(boolean botUsed) {
+        this.botUsed = botUsed;
+    }
+
+    public boolean isBotUsed() {
+        return botUsed;
+    }
 
     public PlayerV buildPlayerV(){
         PlayerV playerV = new PlayerV();
