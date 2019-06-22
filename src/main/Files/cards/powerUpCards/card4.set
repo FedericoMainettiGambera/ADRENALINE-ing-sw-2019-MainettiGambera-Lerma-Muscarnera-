@@ -3,7 +3,7 @@ TELEPORTER
 
 NEW EFFECT
 EXPECTED INPUT
-player
+singleTarget
 TO
 ALL
 END

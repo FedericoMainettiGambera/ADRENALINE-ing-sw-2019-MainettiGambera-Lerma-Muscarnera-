@@ -1111,27 +1111,26 @@ public class PreConditionMethodsInverted {
 
         Square[][] map = actionContext.getBoard().getMap();
         if(type == typePlayer) {
-            for (int x = (user.getPosition().getX() - 1); x < (user.getPosition().getX() + 1); x++) {
-                for (int y = (user.getPosition().getX() - 1); y < (user.getPosition().getX() + 1); y++) {
-
-                    for (Player possibile : actionContext.getPlayerList().getPlayersOnBoard()) {
-                        if ((possibile.getPosition().getX() == x) && (possibile.getPosition().getY() == y)) {
-                            if (!retVal.contains(possibile)) {
-                                retVal.add(possibile);
-                            }
-                        }
-
+            for(Player p: actionContext.getPlayerList().getPlayersOnBoard())
+            {
+                try {
+                    if (actionContext.getBoard().distanceFromTo(
+                            p.getPosition(),
+                            actionContext.getPlayer().getPosition()
+                    ) == 1) {
+                                retVal.add(p);
                     }
-
+                } catch(Exception e) {
+                    System.out.println("distanceOfTargetFromPlayerSquareIs1 : errore " + e);
                 }
-
             }
         }
         if(type == typeSquare) {
             for(Square[] r: actionContext.getBoard().getMap()) {
                 for(Square c: r ) {
-                    if(c!=null)
-                    retVal.add(c);
+                    if(c!=null) {
+                        retVal.add(c);
+                    }
                 }
             }
         }

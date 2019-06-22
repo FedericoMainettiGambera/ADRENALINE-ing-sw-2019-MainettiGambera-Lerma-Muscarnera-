@@ -125,7 +125,6 @@ public class ShootPeopleAskForInputState implements State {
         //List<Player> damagedPlayer = this.chosenEffect.Exec();
         //TODO ask to the shooting player if he wants to use the TARGETING SCOPE
         //TODO ask to the damaged player if they wants to use the TAGGRANADE
-        //TODO balza il targeting scope se sei un bot
 
         if(this.actionNumber == 2){
             ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
@@ -156,6 +155,7 @@ public class ShootPeopleAskForInputState implements State {
                 infoType.equals(EffectInfoType.singleRoom)||
                 infoType.equals(EffectInfoType.squareOfLastTargetSelected)||
                 infoType.equals(EffectInfoType.targetBySameSquareOfPlayer)||
+                infoType.equals(EffectInfoType.targetListBySquareOfLastTarget)||
                 infoType.equals(EffectInfoType.targetListByLastTargetSelectedSquare)
         ){
             Object[] inputRow = new Object[10];
