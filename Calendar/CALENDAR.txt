@@ -20,10 +20,16 @@
         9- cosa succede se muore uno che è afk, come va lo spawn ???
 
     FUNZIONALITA' AVANZATA
-        0-Inizializzarlo o meno nel game set up
+        0-Inizializzarlo o meno nel game set up ok
+            chiedere se lo vuole usare o no in base al fatto che ci siano più o meno di 5 giocatori ok
+            fare la spawn nel FirstSpawnState ok
+        1-flag nel player ok
+            gestione del flag, quando viene usato metterlo a true, quando si passa il turno metterlo a false
+            usarlo sempre per controllare se va chiesto di usare il bot
+            usarlo per forzare ad usare il bot in caso il turno stesse finendo ma il bot non fosse stato usato
         1-aggiungere gli stati in cui spara e si muove
         2-far partire gli stati esattamente come quelli del power up
-        3-mettere il terminator come Player nella playerList:
+        3-mettere il terminator come Player nella playerList: OK
             no nell'uso dei power up dopo l'exec ok
             no nella send to clients ok
             no nel nextplaying player ok
@@ -33,7 +39,7 @@
             balzalo nella riconnection ok
             non contare il bot nel controllo di quanti player sono ancora non afk ok
             fai in modo che i player non possano scegliere il nome terminator ok
-
+        4-fix all the handleAFK
 
     RETE
         0-Testare a non completamente tutto Socket
