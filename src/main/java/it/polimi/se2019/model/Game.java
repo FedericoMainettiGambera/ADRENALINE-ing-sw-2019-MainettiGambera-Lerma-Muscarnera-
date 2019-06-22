@@ -65,7 +65,15 @@ public class Game extends Observable implements Serializable {
     private PlayersList players;
 
     /***/
-    private Bot bot;
+    private boolean isBotActive;
+
+    public boolean isBotActive() {
+        return isBotActive;
+    }
+
+    public void setBotActive(boolean isBotActive){
+        this.isBotActive = isBotActive;
+    }
 
     /***/
     private OrderedCardList<PowerUpCard> powerUpDeck;
@@ -139,18 +147,6 @@ public class Game extends Observable implements Serializable {
         notifyObservers(new ModelViewEvent(this.hasFinalFrenzyBegun, ModelViewEventTypes.finalFrenzyBegun));
     }
 
-
-    /***/
-    public Bot getBot() {
-        return bot;
-    }
-
-    public void setBot(Bot bot) {
-        this.bot = bot;
-        //setChanged();
-        //notifyObservers();
-    }
-
     /***/
     public KillShotTrack getKillshotTrack() {
         return killshotTrack;
@@ -175,7 +171,7 @@ public class Game extends Observable implements Serializable {
         int fileCount = directory.list().length;
         for(int i = 1; i< fileCount+1; i++) {
             try {
-                int id = 15;
+                int id = 1;
                 WeaponCard card= new WeaponCard("" + id);
                 card.reload();
                 tempWeaponDeck.addCard(card);

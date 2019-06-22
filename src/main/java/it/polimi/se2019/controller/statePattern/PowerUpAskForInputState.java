@@ -82,6 +82,8 @@ public class PowerUpAskForInputState implements State {
         else {
             //TODO il pagamento nelle PowerUp avviene pagando un cubo qualunque... gestisci questa cosa
             //ChooseHowToPayState.makePayment(playerToAsk, this.chosenPowerUp.getSpecialEffect().getUsageCost());
+            //TODO per ora semplicemente ignoro i pagamenti:
+            afterPayment();
         }
     }
     public void afterPayment(){
