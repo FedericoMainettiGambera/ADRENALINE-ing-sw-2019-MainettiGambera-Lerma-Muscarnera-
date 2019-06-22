@@ -2,10 +2,6 @@ package it.polimi.se2019.view.selector;
 
 import it.polimi.se2019.controller.Controller;
 import it.polimi.se2019.model.Position;
-import it.polimi.se2019.controller.ModelGate;
-import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
-import it.polimi.se2019.controller.statePattern.WantToPlayPowerUpState;
-import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.PlayersColors;
@@ -231,10 +227,16 @@ public class CLISelector implements SelectorV {
             }
 
             System.out.println("\n<CLIENT> : Choose number of starting skulls:");
-            CLISelector.showListOfRequests(Arrays.asList("5 starting skulls","8 starting skulls"));
-            numberOfStartingSkulls = askNumber(0,1);
+            CLISelector.showListOfRequests(Arrays.asList("5 starting skulls","6 starting skulls","7 starting skulls","8 starting skulls"));
+            numberOfStartingSkulls = askNumber(0,3);
             if(numberOfStartingSkulls==0){
                 numberOfStartingSkulls = 5;
+            }
+            else if(numberOfStartingSkulls==1){
+                numberOfStartingSkulls = 6;
+            }
+            else if(numberOfStartingSkulls==2){
+                numberOfStartingSkulls = 7;
             }
             else{
                 numberOfStartingSkulls = 8;
