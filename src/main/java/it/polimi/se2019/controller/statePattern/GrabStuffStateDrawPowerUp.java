@@ -46,8 +46,8 @@ public class GrabStuffStateDrawPowerUp implements State {
               else  state = new TurnState(2);
         }
         if(this.actionNumber == 2){
-            //TODO
-
+            //TODO not sure
+            state = new ReloadState(false);
         }
         ViewControllerEventHandlerContext.setNextState(state);
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());

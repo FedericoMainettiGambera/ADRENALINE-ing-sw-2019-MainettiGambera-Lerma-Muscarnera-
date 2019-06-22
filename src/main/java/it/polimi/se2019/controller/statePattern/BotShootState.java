@@ -16,6 +16,7 @@ import it.polimi.se2019.view.components.PlayerV;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -123,7 +124,37 @@ public class BotShootState implements State{
             playersBotCanShoot.addAll(getPlayersInRoom(new Position(botPosition.getX(), botPosition.getY()-1)));
         }
 
-        return playersBotCanShoot;
+        List<Player> playersBotCanShootFinal = new ArrayList<>();
+
+        Iterator<Player> playerIterator = playersBotCanShoot.iterator();
+        while(playerIterator.hasNext()){
+            Player p = playerIterator.next();
+            boolean duplicate = false;
+            if(playersBotCanShootFinal.isEmpty()){
+                playersBotCanShootFinal.add(p);
+            }
+            else {
+                for (Player pFinal : playersBotCanShootFinal) {
+                    if (p.getNickname().equals(pFinal.getNickname())) {
+                        playerIterator.remove();
+                    }
+                }
+            }
+        }
+
+        for (Player p: playersBotCanShootFinal) {
+            if(p.getNickname().equals(playerToAsk.getNickname())){
+                playersBotCanShootFinal.remove(p);
+                break;
+            }
+        }
+
+        out.println("<SERVER> all the player the bot can shoot are:");
+        for (Player p: playersBotCanShootFinal) {
+            out.println("         " + p.getNickname());
+        }
+
+        return playersBotCanShootFinal;
     }
 
     private List<Player> getPlayersInRoom(Position pos){

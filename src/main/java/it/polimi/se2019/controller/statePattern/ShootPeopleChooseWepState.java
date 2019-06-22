@@ -41,11 +41,6 @@ public class ShootPeopleChooseWepState implements State {
             wp.passContext(ModelGate.model.getCurrentPlayingPlayer(), ModelGate.model.getPlayerList(), ModelGate.model.getBoard());
         }
         OrderedCardList<WeaponCard> possibleCards = ModelGate.model.getCurrentPlayingPlayer().getHand().usableWeapons();
-        for (WeaponCard wp:possibleCards.getCards()) {
-            if(!wp.isLoaded()){
-                possibleCards.getCards().remove(wp);
-            }
-        }
 
         Iterator<WeaponCard> elementListIterator = possibleCards.getCards().iterator();
         while (elementListIterator.hasNext()) {

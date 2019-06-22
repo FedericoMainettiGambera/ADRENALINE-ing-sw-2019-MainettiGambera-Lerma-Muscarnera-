@@ -99,10 +99,10 @@ public class ScoreKillsState implements State {
                 }
             }
 
-            out.println("<SERVER> Spawning player: " + this.deadPlayers.get(0));
+            out.println("<SERVER> Spawning player: " + this.deadPlayers.get(0).getNickname());
 
             ViewControllerEventHandlerContext.setNextState(new SpawnState(this.deadPlayers));
-            ViewControllerEventHandlerContext.state.askForInput(null);
+            ViewControllerEventHandlerContext.state.askForInput(this.deadPlayers.get(0));
         }
     }
 

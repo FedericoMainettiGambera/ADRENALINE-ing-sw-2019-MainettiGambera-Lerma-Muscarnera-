@@ -42,6 +42,8 @@
             fai in modo che i player non possano scegliere il nome terminator ok
         4-fix all the handleAFK
 
+        5-TOGLIERE IL BOT DALLO SPAWN STATE
+
     RETE
         0-Testare a non completamente tutto Socket
         1-quando Socket sarà perfettamente funzionante, emularne alla perfezione il comportamento con RMI

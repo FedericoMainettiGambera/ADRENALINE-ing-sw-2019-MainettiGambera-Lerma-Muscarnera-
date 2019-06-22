@@ -331,10 +331,10 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         }
     }
 
-    public static void showKillshotTrack(){
+    public static void showKillshotTrack(){ //TODO
         //remember the killShot track works from the end to the start ( the first dead player is the last in the list)
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("\n<<<<<<<<<<<< KILLSHOT TRACK >>>>>>>>>>>> ");
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("You are playing with" + ViewModelGate.getModel().getKillshotTrack().getNumberOfStartingSkulls() +" number of staring skulls");
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("You are playing with " + ViewModelGate.getModel().getKillshotTrack().getNumberOfStartingSkulls() +" number of staring skulls");
         if(ViewModelGate.getModel()!=null) {
             if (ViewModelGate.getModel().getKillshotTrack() == null) {
                 OutputHandlerGate.getCLIOutputHandler().updateUserInterface("Sorry, the Killshot track hasn't been initialized yet.");
@@ -343,21 +343,21 @@ public class CLIOutputHandler implements OutputHandlerInterface{
 
             } else {
                 int counter = 0;
-                String s = "   [";
+                String s = "    [";
                 for (KillsV k : ViewModelGate.getModel().getKillshotTrack().getKillsV()) {
                     if (k.isSkull()) {
-                        s += "   SKULL" + s;
+                        s += "    SKULL" + s;
                     } else {
                         if (!k.isOverKill()) {
-                            s += "   KILL:" + k.getKillingPlayer() + s;
+                            s += "    KILL by" + k.getKillingPlayer() + s;
                         } else {
-                            s += "   OVERKILL:" + k.getOverKillingPlayer() + s;
+                            s += "    KILL with OVERKILL by" + k.getOverKillingPlayer() + s;
 
                         }
                     }
                     counter++;
                 }
-                s += "   [" + s;
+                s += s + "    ]";
                 OutputHandlerGate.getCLIOutputHandler().updateUserInterface(s);
             }
         }
@@ -532,7 +532,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             deaths += " " + point + " ";
             point -= 2;
         }
-        if (point < 0) {
+        if (point <= 0) {
             deaths += " 1  1 ";
         }
         deaths += "]";
@@ -550,6 +550,10 @@ public class CLIOutputHandler implements OutputHandlerInterface{
                     damage += " (AG)" + d.getShootingPlayerNickname() + " ";
                 } else if (damageSlotNumber == 5) {
                     damage += " (AS)" + d.getShootingPlayerNickname() + " ";
+                } else if(damageSlotNumber == 10){
+                    damage += " (K)" + d.getShootingPlayerNickname() + " ";
+                }else if(damageSlotNumber == 11){
+                    damage += " (OK)" + d.getShootingPlayerNickname() + " ";
                 } else {
                     damage += " " + d.getShootingPlayerNickname() + " ";
                 }
@@ -570,7 +574,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         if(playerToShow!=null && playerToShow.getMarksTracker()!=null && playerToShow.getMarksTracker().getMarkSlotsList()!=null) {
             String mark = "MARKS: [";
             for (MarkSlotV m : playerToShow.getMarksTracker().getMarkSlotsList()) {
-                mark += " " + m.getMarkingPlayer() + ":" + m.getQuantity() + ",";
+                mark += "  " + m.getMarkingPlayer() + ":" + m.getQuantity() + "  ";
             }
             mark += "]";
             return mark;

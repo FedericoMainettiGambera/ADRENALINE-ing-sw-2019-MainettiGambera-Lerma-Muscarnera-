@@ -228,6 +228,9 @@ public class CLISelector implements SelectorV {
                 isBotActive=false;
             }
 
+            //TODO DELETE! just for testing...
+            isBotActive = true;
+
             System.out.println("\n<CLIENT> : Choose number of starting skulls:");
             CLISelector.showListOfRequests(Arrays.asList("5 starting skulls","6 starting skulls","7 starting skulls","8 starting skulls"));
             numberOfStartingSkulls = askNumber(0,3);
@@ -395,6 +398,11 @@ public class CLISelector implements SelectorV {
             int choice = askNumber(0,requests.size()-1);
 
             String action = requests.get(choice);
+
+            //TODO DELETE! just for testing...
+            if(action.equals("use power up")){
+                action = "grab stuff";
+            }
 
             ViewControllerEventString VCEString = new ViewControllerEventString(action);
 

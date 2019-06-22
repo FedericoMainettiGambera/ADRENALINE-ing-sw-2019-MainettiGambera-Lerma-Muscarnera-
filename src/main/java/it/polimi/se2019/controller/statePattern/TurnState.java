@@ -10,6 +10,7 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
 
 import java.io.PrintWriter;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TurnState implements State {
@@ -36,12 +37,17 @@ public class TurnState implements State {
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             out.println("<SERVER> Can Use Power Up: " + canUsePowerUp(ModelGate.model.getCurrentPlayingPlayer()));
-            out.println("<SERVER> Can Use Bot: " + ModelGate.model.getPlayerList().getPlayer("Terminator").isBotUsed());
-            SelectorGate.getCorrectSelectorFor(playerToAsk).askTurnAction(this.actionNumber, canUsePowerUp(ModelGate.model.getCurrentPlayingPlayer()), !ModelGate.model.getPlayerList().getPlayer("Terminator").isBotUsed());
+            if(ModelGate.model.isBotActive()) {
+                out.println("<SERVER> Can Use Bot: " + ModelGate.model.getPlayerList().getPlayer("Terminator").isBotUsed());
+                SelectorGate.getCorrectSelectorFor(playerToAsk).askTurnAction(this.actionNumber, canUsePowerUp(ModelGate.model.getCurrentPlayingPlayer()), !ModelGate.model.getPlayerList().getPlayer("Terminator").isBotUsed());
+            }
+            else{
+                SelectorGate.getCorrectSelectorFor(playerToAsk).askTurnAction(this.actionNumber, canUsePowerUp(ModelGate.model.getCurrentPlayingPlayer()), false);
+            }
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
-            logger.severe("Exception Occurred: "+e.getClass()+" "+e.getCause());
+            logger.log(Level.SEVERE, "EXCEPTION", e);
         }
     }
 
