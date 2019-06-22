@@ -22,6 +22,7 @@ public class KillShotTrack extends Observable implements Serializable {
     /* **************************************************************************CONSTRUCTOR*/
 
 
+    private int startingSKulls;
 
     /**
      * CONSTRUCTOR
@@ -46,6 +47,7 @@ public class KillShotTrack extends Observable implements Serializable {
             }
         }
         numberOfRemainingSkulls = numberOfStartingSkulls;
+        startingSKulls=numberOfStartingSkulls;
     }
 
 
@@ -64,10 +66,10 @@ public class KillShotTrack extends Observable implements Serializable {
     public void deathOfPlayer(Player killingPlayer, boolean isOverKill){
         if (numberOfRemainingSkulls>0) {
             try {
-                kills.get(numberOfRemainingSkulls-1).setKillingPlayer(killingPlayer);
+                kills.get(startingSKulls-numberOfRemainingSkulls).setKillingPlayer(killingPlayer);
                 if (isOverKill) {
-                    kills.get(numberOfRemainingSkulls-1).setOverkillingPlayer(killingPlayer);
-                    kills.get(numberOfRemainingSkulls-1).setOccurance(numberOfRemainingSkulls-1);
+                    kills.get(startingSKulls-numberOfRemainingSkulls).setOverkillingPlayer(killingPlayer);
+                    kills.get(startingSKulls-numberOfRemainingSkulls).setOccurance(startingSKulls-numberOfRemainingSkulls);
                 }
                 numberOfRemainingSkulls--;
                 setChanged();
