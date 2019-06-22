@@ -8,10 +8,17 @@ public class SelectorEventTurnAction extends SelectorEvent {
 
     private boolean canUsePowerUp;
 
-    public SelectorEventTurnAction(SelectorEventTypes selectorEventType, int actionNumber, boolean canUsePowerUp){
+    private boolean canUseBot;
+
+    public SelectorEventTurnAction(SelectorEventTypes selectorEventType, int actionNumber, boolean canUsePowerUp, boolean canUseBot){
         super(selectorEventType);
         this.actionNumber = actionNumber;
         this.canUsePowerUp = canUsePowerUp;
+        this.canUseBot = canUseBot;
+    }
+
+    public boolean canUseBot() {
+        return canUseBot;
     }
 
     public boolean canUsePowerUp() {

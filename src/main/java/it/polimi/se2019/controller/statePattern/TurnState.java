@@ -35,7 +35,7 @@ public class TurnState implements State {
         //ask for input
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-            SelectorGate.getCorrectSelectorFor(playerToAsk).askTurnAction(this.actionNumber, canUsePowerUp(ModelGate.model.getCurrentPlayingPlayer()));
+            SelectorGate.getCorrectSelectorFor(playerToAsk).askTurnAction(this.actionNumber, canUsePowerUp(ModelGate.model.getCurrentPlayingPlayer()), canUseBot());
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
@@ -72,6 +72,10 @@ public class TurnState implements State {
             ViewControllerEventHandlerContext.setNextState(new PowerUpState("movement", new TurnState(this.actionNumber)));
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
+        else if(actionChosen.equals("use Bot")){
+            ViewControllerEventHandlerContext.setNextState(new BotMoveState(new TurnState(this.actionNumber)));
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        }
         else{
             this.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
@@ -95,5 +99,14 @@ public class TurnState implements State {
             }
         }
         return false;
+    }
+
+    public static boolean canUseBot(){
+        if(ModelGate.model.getPlayerList().getPlayer("Terminator").isBotUsed()){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 }

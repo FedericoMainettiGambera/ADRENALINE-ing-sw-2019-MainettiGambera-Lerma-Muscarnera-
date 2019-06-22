@@ -21,5 +21,6 @@ public enum SelectorEventTypes {
     askNickname,
     paymentInformation,
     askPowerUpToUse,
-    wantToUsePowerUpOrNot
+    wantToUsePowerUpOrNot,
+    askBotMove
 }

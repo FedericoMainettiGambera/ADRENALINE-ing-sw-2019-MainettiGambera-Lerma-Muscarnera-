@@ -21,9 +21,11 @@ public interface Selector {
 
     public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards, boolean spawnBot);
 
-    public void askTurnAction(int actionNumber, boolean canUsePowerUp);
+    public void askTurnAction(int actionNumber, boolean canUsePowerUp, boolean canUseBot);
 
     public void askRunAroundPosition(ArrayList<Position> positions);
+
+    public void askBotMove(ArrayList<Position> positions);
 
     public void askGrabStuffAction();
 

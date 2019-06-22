@@ -18,6 +18,7 @@
         7-ChooseHowToPayState incomprensibile errore nel reinvio del ViewControllerEventPaymentInformation dal client al server
         8-When reload a weapon should notify all client (MVE)
         9- cosa succede se muore uno che è afk, come va lo spawn ???
+        10- per i power up devi inserire le cose dell'usable weapon e usable effect
 
     FUNZIONALITA' AVANZATA
         0-Inizializzarlo o meno nel game set up ok

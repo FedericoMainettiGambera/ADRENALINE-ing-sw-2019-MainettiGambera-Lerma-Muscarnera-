@@ -7,6 +7,7 @@ import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
+import it.polimi.se2019.model.events.selectorEvents.SelectorEventPositions;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPowerUpCards;
 import it.polimi.se2019.view.components.EffectV;
 import it.polimi.se2019.view.components.PowerUpCardV;
@@ -59,8 +60,13 @@ public class ViewSelector implements SelectorV {
     }
 
     @Override
-    public void askTurnAction(int actionNumber, boolean canUsePowerUp) {
-       this.getCorrectSelector().askTurnAction(actionNumber, canUsePowerUp);
+    public void askTurnAction(int actionNumber, boolean canUsePowerUp, boolean canUseBot) {
+       this.getCorrectSelector().askTurnAction(actionNumber, canUsePowerUp, canUseBot);
+    }
+
+    @Override
+    public void askBotMove(SelectorEventPositions SEPositions) {
+        this.getCorrectSelector().askBotMove(SEPositions);
     }
 
     @Override

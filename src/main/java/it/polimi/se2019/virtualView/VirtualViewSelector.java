@@ -36,12 +36,17 @@ public class VirtualViewSelector implements Selector {
     }
 
     @Override
-    public void askTurnAction(int actionNumber, boolean canUsePowerUp) {
+    public void askTurnAction(int actionNumber, boolean canUsePowerUp, boolean canUseBot) {
 
     }
 
     @Override
     public void askRunAroundPosition(ArrayList<Position> positions) {
+
+    }
+
+    @Override
+    public void askBotMove(ArrayList<Position> positions) {
 
     }
 

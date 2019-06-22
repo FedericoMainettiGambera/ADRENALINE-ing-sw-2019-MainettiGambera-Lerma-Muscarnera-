@@ -66,7 +66,7 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
     }
 
     @Override
-    public void askTurnAction(int actionNumber, boolean canUsePowerUp) {
+    public void askTurnAction(int actionNumber, boolean canUsePowerUp, boolean canUseBot) {
         try {
             playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(),new SelectorEventInt(SelectorEventTypes.askTurnAction, actionNumber));
         } catch (IOException e) {
@@ -81,6 +81,11 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void askBotMove(ArrayList<Position> positions) {
+
     }
 
     @Override

@@ -52,13 +52,19 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     }
 
     @Override
-    public void askTurnAction(int actionNumber, boolean canUsePowerUp) {
-        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventTurnAction(SelectorEventTypes.askTurnAction, actionNumber, canUsePowerUp));
+    public void askTurnAction(int actionNumber, boolean canUsePowerUp, boolean canUseBot) {
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventTurnAction(SelectorEventTypes.askTurnAction, actionNumber, canUsePowerUp, canUseBot));
     }
 
     @Override
     public void askRunAroundPosition(ArrayList<Position> positions) {
         SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPositions(SelectorEventTypes.askRunAroundPosition, positions));
+    }
+
+    @Override
+    public void askBotMove(ArrayList<Position> positions) {
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPositions(SelectorEventTypes.askBotMove, positions));
+
     }
 
     @Override

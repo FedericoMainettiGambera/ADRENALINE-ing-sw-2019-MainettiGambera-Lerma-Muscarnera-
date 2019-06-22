@@ -1,27 +1,5 @@
 package it.polimi.se2019.controller.statePattern;
 
-import it.polimi.se2019.model.Player;
-import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
-
-public interface State {
-    public void askForInput(Player playerToAsk);
-
-    public void doAction(ViewControllerEvent VCE);
-
-    public void handleAFK();
-}
-
-/* The state pattern can access the model using:
- * ModelGame.model.whateverYouNeed()
- * */
-
-/* The state pattern can set the next State like this:
- * ViewControllerEventHandlerContext.setNextState(new nextState());
- * */
-
-/* TEMPLATE :
-package ...
-
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
@@ -32,7 +10,7 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import java.io.PrintWriter;
 import java.util.logging.Logger;
 
-public class classState implements State{
+public class BotShootState implements State{
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(TurnState.class.getName());
 
@@ -40,8 +18,11 @@ public class classState implements State{
 
     private Thread inputTimer;
 
-    public classState(){
+    private State nextState;
+
+    public BotShootState(State state){
         out.println("<SERVER> New state: " + this.getClass());
+        this.nextState = state;
     }
 
     @Override
@@ -62,6 +43,8 @@ public class classState implements State{
         //parse VCE
 
         //DO STUFF
+
+        //change state in the next state
     }
 
     @Override
@@ -72,4 +55,3 @@ public class classState implements State{
         //handle case timer ends before player answers
     }
 }
-*/

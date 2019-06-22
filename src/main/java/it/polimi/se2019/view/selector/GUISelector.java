@@ -7,6 +7,7 @@ import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
+import it.polimi.se2019.model.events.selectorEvents.SelectorEventPositions;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPowerUpCards;
 import it.polimi.se2019.view.components.EffectV;
 import it.polimi.se2019.view.components.PowerUpCardV;
@@ -20,6 +21,9 @@ import java.util.List;
 public class GUISelector implements SelectorV {
 
     private String networkConnection;
+    private int actionNumber;
+    private boolean canUsePowerUp;
+    private boolean canUseBot;
 
     public GUISelector(String networkConnection){
         this.networkConnection = networkConnection;
@@ -43,7 +47,15 @@ public class GUISelector implements SelectorV {
     }
 
     @Override
-    public void askTurnAction(int actionNumber, boolean canUsePowerUp) {
+    public void askTurnAction(int actionNumber, boolean canUsePowerUp, boolean canUseBot) {
+
+        this.actionNumber = actionNumber;
+        this.canUsePowerUp = canUsePowerUp;
+        this.canUseBot = canUseBot;
+    }
+
+    @Override
+    public void askBotMove(SelectorEventPositions SEPositions) {
 
     }
 

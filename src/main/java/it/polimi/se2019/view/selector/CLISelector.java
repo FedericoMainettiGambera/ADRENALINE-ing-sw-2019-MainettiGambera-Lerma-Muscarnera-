@@ -7,6 +7,7 @@ import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
+import it.polimi.se2019.model.events.selectorEvents.SelectorEventPositions;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPowerUpCards;
 import it.polimi.se2019.model.events.viewControllerEvents.*;
 import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
@@ -363,9 +364,12 @@ public class CLISelector implements SelectorV {
         private int actionNumber;
         private boolean canUsePowerUp;
 
-        public AskTurnAction(int actionNumber, boolean canUsePowerUp){
+        private boolean canUseBot;
+
+        public AskTurnAction(int actionNumber, boolean canUsePowerUp, boolean canUseBot){
             this.actionNumber = actionNumber;
             this.canUsePowerUp = canUsePowerUp;
+            this.canUseBot = canUseBot;
         }
         @Override
         public void run() {
@@ -376,29 +380,20 @@ public class CLISelector implements SelectorV {
                 out.println("\n<CLIENT> Choose your second action");
             }
 
-            int choice;
-            if(!canUsePowerUp) {
-                CLISelector.showListOfRequests(Arrays.asList("run around", "grab stuff", "shoot people"));
-                choice = askNumber(0,2);
+            List<String> requests = new ArrayList<>();
+
+            requests.addAll(Arrays.asList("run around", "grab stuff", "shoot people"));
+            if(canUseBot) {
+                requests.add("use Bot");
             }
-            else{
-                CLISelector.showListOfRequests(Arrays.asList("run around", "grab stuff", "shoot people", "use power up"));
-                choice = askNumber(0,3);
+            if(canUsePowerUp) {
+                requests.add("use power up");
             }
 
-            String action = null;
-            if(choice == 0){
-                action = "run around";
-            }
-            else if(choice == 1){
-                action = "grab stuff";
-            }
-            else if(choice == 2){
-                action = "shoot people";
-            }
-            else if(choice == 3){
-                action = "use power up";
-            }
+            CLISelector.showListOfRequests(requests);
+            int choice = askNumber(0,requests.size()-1);
+
+            String action = requests.get(choice);
 
             ViewControllerEventString VCEString = new ViewControllerEventString(action);
 
@@ -407,9 +402,37 @@ public class CLISelector implements SelectorV {
     }
 
     @Override
-    public void askTurnAction(int actionNumber, boolean canUsePowerUp) {
-        AskTurnAction askTurnAction = new AskTurnAction(actionNumber, canUsePowerUp);
+    public void askTurnAction(int actionNumber, boolean canUsePowerUp, boolean canUseBot) {
+        AskTurnAction askTurnAction = new AskTurnAction(actionNumber, canUsePowerUp, canUseBot);
         askTurnAction.start();
+    }
+
+
+    private class AskBotMove extends Thread{
+        private ArrayList<Position> possiblePositions;
+        public AskBotMove(ArrayList<Position> possiblePositions){
+            this.possiblePositions = possiblePositions;
+        }
+        @Override
+        public void run(){
+            out.println("<CLIENT> choose where you want to move the Bot:");
+
+            ArrayList<String> requests = new ArrayList<>();
+            for (int i = 0; i < possiblePositions.size(); i++) {
+                Position pos = possiblePositions.get(i);
+                requests.add("["+  pos.getX() + "][" + pos.getY() + "]");
+            }
+            CLISelector.showListOfRequests(requests);
+
+            int choosenPosition = askNumber(0,possiblePositions.size()-1);
+
+            ViewControllerEventPosition VCEPosition = new ViewControllerEventPosition(possiblePositions.get(choosenPosition).getX(),possiblePositions.get(choosenPosition).getY());
+
+            sendToServer(VCEPosition);
+        }
+    }
+    @Override
+    public void askBotMove(SelectorEventPositions SEPositions) {
     }
 
 

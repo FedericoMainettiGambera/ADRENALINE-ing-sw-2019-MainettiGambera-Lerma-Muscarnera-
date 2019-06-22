@@ -5,6 +5,7 @@ import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEvent;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
+import it.polimi.se2019.model.events.selectorEvents.SelectorEventPositions;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPowerUpCards;
 import it.polimi.se2019.view.components.EffectV;
 import it.polimi.se2019.view.components.PowerUpCardV;
@@ -22,7 +23,9 @@ public interface SelectorV {
 
     public void askFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards, boolean spawnBot);
 
-    public void askTurnAction(int actionNumber, boolean canUsePowerUp);
+    public void askTurnAction(int actionNumber, boolean canUsePowerUp, boolean canUseBot);
+
+    public void askBotMove(SelectorEventPositions SEPositions);
 
     public void askRunAroundPosition(ArrayList<Position> positions);
 
