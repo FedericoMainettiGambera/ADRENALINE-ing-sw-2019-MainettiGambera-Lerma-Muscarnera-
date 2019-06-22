@@ -389,12 +389,12 @@ public class CLIOutputHandler implements OutputHandlerInterface{
 
                     if (c.getClass().toString().contains("PowerUpCardV")) {
                         PowerUpCardV card = (PowerUpCardV) c;
-                        s += "\n                 " + card.getName() + " (" + card.getColor() + "): " + card.getDescription() + "";
+                        s += "\n                 " + card.getName() + " (" + card.getColor() + ")";
                     }
 
                     else if (c.getClass().toString().contains("WeaponCardV")) {
                         WeaponCardV card = (WeaponCardV) c;
-                        s += "\n                 " + card.getName() + ": " + card.getDescription();
+                        s += "\n                 " + card.getName();
                         String ammo = "Reload Cost:[";
                         if(card.getReloadCost()==null){
                             ammo += " EMPTY ] PickUp Cost:[";

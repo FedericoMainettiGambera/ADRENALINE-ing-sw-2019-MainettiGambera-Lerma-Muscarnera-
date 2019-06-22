@@ -340,7 +340,7 @@ public class CLISelector implements SelectorV {
             out.println("\n<CLIENT> choose the PowerUp to discard and spawn to: ");
             ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < powerUpCards.size(); i++) {
-                requests.add(powerUpCards.get(i).getName() + ": " + powerUpCards.get(i).getDescription() + ".       COLOR: " + powerUpCards.get(i).getColor());
+                requests.add(powerUpCards.get(i).getName() + "       COLOR: " + powerUpCards.get(i).getColor());
             }
             CLISelector.showListOfRequests(requests);
             int choice = askNumber(0,powerUpCards.size()-1);
