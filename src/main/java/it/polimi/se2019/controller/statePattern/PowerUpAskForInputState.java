@@ -82,8 +82,6 @@ public class PowerUpAskForInputState implements State {
         else {
             //TODO il pagamento nelle PowerUp avviene pagando un cubo qualunque... gestisci questa cosa
             //ChooseHowToPayState.makePayment(playerToAsk, this.chosenPowerUp.getSpecialEffect().getUsageCost());
-            //TODO per ora semplicemente ignoro i pagamenti:
-            afterPayment();
         }
     }
     public void afterPayment(){
@@ -99,14 +97,15 @@ public class PowerUpAskForInputState implements State {
 
     public boolean isToSend(EffectInfoType infoType) {
         return (! ( infoType.equals(EffectInfoType.player) ||
-                    infoType.equals(EffectInfoType.playerSquare) ||
-                    infoType.equals(EffectInfoType.targetListBySameSquareOfPlayer) ||
-                    infoType.equals(EffectInfoType.singleRoom) ||
-                    infoType.equals(EffectInfoType.squareOfLastTargetSelected) ||
-                    infoType.equals(EffectInfoType.targetBySameSquareOfPlayer) ||
-                    infoType.equals(EffectInfoType.targetListByLastTargetSelectedSquare)
-                  )
-               );
+                infoType.equals(EffectInfoType.playerSquare) ||
+                infoType.equals(EffectInfoType.targetListBySameSquareOfPlayer) ||
+                infoType.equals(EffectInfoType.singleRoom) ||
+                infoType.equals(EffectInfoType.squareOfLastTargetSelected) ||
+                infoType.equals(EffectInfoType.targetBySameSquareOfPlayer) ||
+                infoType.equals(EffectInfoType.targetListBySquareOfLastTarget) ||
+                infoType.equals(EffectInfoType.targetListByLastTargetSelectedSquare)
+        )
+        );
     }
 
     @Override

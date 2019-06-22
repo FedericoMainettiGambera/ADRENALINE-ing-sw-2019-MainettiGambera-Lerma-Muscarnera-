@@ -65,15 +65,7 @@ public class Game extends Observable implements Serializable {
     private PlayersList players;
 
     /***/
-    private boolean isBotActive;
-
-    public boolean isBotActive() {
-        return isBotActive;
-    }
-
-    public void setBotActive(boolean isBotActive){
-        this.isBotActive = isBotActive;
-    }
+    private Bot bot;
 
     /***/
     private OrderedCardList<PowerUpCard> powerUpDeck;
@@ -147,6 +139,18 @@ public class Game extends Observable implements Serializable {
         notifyObservers(new ModelViewEvent(this.hasFinalFrenzyBegun, ModelViewEventTypes.finalFrenzyBegun));
     }
 
+
+    /***/
+    public Bot getBot() {
+        return bot;
+    }
+
+    public void setBot(Bot bot) {
+        this.bot = bot;
+        //setChanged();
+        //notifyObservers();
+    }
+
     /***/
     public KillShotTrack getKillshotTrack() {
         return killshotTrack;
@@ -171,7 +175,7 @@ public class Game extends Observable implements Serializable {
         int fileCount = directory.list().length;
         for(int i = 1; i< fileCount+1; i++) {
             try {
-                int id = i;
+                int id = 15;
                 WeaponCard card= new WeaponCard("" + id);
                 card.reload();
                 tempWeaponDeck.addCard(card);
@@ -193,20 +197,22 @@ public class Game extends Observable implements Serializable {
         Colors.add(AmmoCubesColor.blue);
 
         System.out.println("<SERVER> powerUp length " + fileCount);
+        int idCounter = 0;
         for(int j = 0;j<2;j++)
-        for(AmmoCubesColor color: Colors) {
-            for (int i = 1; i <= fileCount; i++) {
-                System.out.println("<SERVER> building powerUp cards ID: " + i);
-                try {
-                    PowerUpCard card = new PowerUpCard("" + i);
-                    card.setColor(color);
-                    tempPowerUpDeck.addCard(card);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return;
+            for(AmmoCubesColor color: Colors) {
+                for (int i = 1; i <= fileCount; i++) {
+                    System.out.println("<SERVER> building powerUp cards ID: " + i);
+                    try {
+                        PowerUpCard card = new PowerUpCard("" + i,idCounter);
+                        card.setColor(color);
+                        tempPowerUpDeck.addCard(card);
+                        idCounter++;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return;
+                    }
                 }
             }
-        }
 
 
         OrderedCardList<AmmoCard> tempAmmoDeck = new OrderedCardList<>("ammoDeck");

@@ -27,8 +27,8 @@ public class PowerUpCard extends Card implements Serializable {
 
 
 
-    public PowerUpCard(String ID) throws FileNotFoundException, IOException,InstantiationException, Exception  {
-        super(ID);
+    public PowerUpCard(String ID,int nID) throws FileNotFoundException, IOException,InstantiationException, Exception  {
+        super(nID + "");
 
         BufferedReader reader = new BufferedReader(new FileReader("src/main/Files/cards/powerUpCards/card"+ID+".set"));
         String line = reader.readLine();
