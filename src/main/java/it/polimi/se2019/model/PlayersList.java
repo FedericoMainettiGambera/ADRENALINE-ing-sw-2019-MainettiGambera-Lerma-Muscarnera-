@@ -71,7 +71,7 @@ public class PlayersList extends Observable implements Serializable {
                 break;
             }
         }
-        if(this.getCurrentPlayingPlayer().isAFK()){
+        if(this.getCurrentPlayingPlayer().isAFK()||this.getCurrentPlayingPlayer().isBot()){
             this.setNextPlayingPlayer();
         }
     }

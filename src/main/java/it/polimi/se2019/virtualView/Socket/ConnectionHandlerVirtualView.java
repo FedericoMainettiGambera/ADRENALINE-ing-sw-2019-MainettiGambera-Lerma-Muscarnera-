@@ -20,11 +20,15 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static it.polimi.se2019.controller.ViewControllerEventHandlerContext.setNextState;
 import static it.polimi.se2019.controller.ViewControllerEventHandlerContext.state;
 
 public class ConnectionHandlerVirtualView extends Thread {
+
+    static final Logger logger=Logger.getLogger(ConnectionHandlerVirtualView.class.getName());
 
     private ServerSocket serverSocket;
 
@@ -59,16 +63,10 @@ public class ConnectionHandlerVirtualView extends Thread {
                 this.tempSocket = serverSocket.accept();
             }
             catch(IOException e){
-                e.printStackTrace();
-                try {
-                    this.tempSocket.close();
-                }
-                catch(IOException a) {
-                    a.printStackTrace();
-                }
+                logger.log(Level.SEVERE, "EXCEPTION", e);
             }
 
-            if(ModelGate.model.hasGameBegun){
+            if(Game.hasGameBegun){
                 System.out.println("<SERVER-soket> Game has already begun, the connection received must be a request of Reconnection.");
                 //TODO
                 //in a separate Thread handle the reconnection.
@@ -97,7 +95,7 @@ public class ConnectionHandlerVirtualView extends Thread {
             if(ModelGate.model.getPlayerList().isSomeoneAFK()){
                 ArrayList<String> listOfAFKnames = new ArrayList<>();
                 for (Player p: ModelGate.model.getPlayerList().getPlayers()) {
-                    if(p.isAFK()){
+                    if(p.isAFK()&&!p.isBot()){
                         listOfAFKnames.add(p.getNickname());
                     }
                 }
@@ -144,16 +142,14 @@ public class ConnectionHandlerVirtualView extends Thread {
             try {
                 p.setOos(new ObjectOutputStream(this.tempSocket.getOutputStream()));
             } catch (IOException e) {
-                e.printStackTrace();
-            }
+                logger.log(Level.SEVERE, "EXCEPTION", e);            }
 
             //ObjectInputStream
             ObjectInputStream ois = null;
             try {
                 ois = new ObjectInputStream(this.tempSocket.getInputStream());
             } catch (IOException e) {
-                e.printStackTrace();
-            }
+                logger.log(Level.SEVERE, "EXCEPTION", e);            }
 
             boolean correctNicknameFound = false;
             while(!correctNicknameFound) {
@@ -168,16 +164,13 @@ public class ConnectionHandlerVirtualView extends Thread {
                 ViewControllerEventNickname VCENickname = null;
                 try {
                     VCENickname = (ViewControllerEventNickname) ois.readObject();
-                } catch (IOException e) {
-                    System.err.println("can't use the OutputStream during connection: " + e.getMessage());
-                    break;
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     System.err.println("can't use the OutputStream during connection: " + e.getMessage());
                     break;
                 }
 
                 //set nickname
-                if(ModelGate.model.getPlayerList().getPlayer(VCENickname.getNickname())!=null){
+                if(ModelGate.model.getPlayerList().getPlayer(VCENickname.getNickname())!=null||VCENickname.getNickname().equals("Terminator")){
                     correctNicknameFound = false;
                 }
                 else {

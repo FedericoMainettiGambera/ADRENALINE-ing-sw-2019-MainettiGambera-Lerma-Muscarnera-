@@ -65,7 +65,15 @@ public class Game extends Observable implements Serializable {
     private PlayersList players;
 
     /***/
-    private Bot bot;
+    private boolean isBotActive;
+
+    public boolean isBotActive() {
+        return isBotActive;
+    }
+
+    public void setBotActive(boolean isBotActive){
+        this.isBotActive = isBotActive;
+    }
 
     /***/
     private OrderedCardList<PowerUpCard> powerUpDeck;
@@ -137,18 +145,6 @@ public class Game extends Observable implements Serializable {
         this.hasFinalFrenzyBegun = hasFinalFrenzyBegun;
         setChanged();
         notifyObservers(new ModelViewEvent(this.hasFinalFrenzyBegun, ModelViewEventTypes.finalFrenzyBegun));
-    }
-
-
-    /***/
-    public Bot getBot() {
-        return bot;
-    }
-
-    public void setBot(Bot bot) {
-        this.bot = bot;
-        //setChanged();
-        //notifyObservers();
     }
 
     /***/

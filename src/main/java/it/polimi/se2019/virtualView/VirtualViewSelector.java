@@ -20,7 +20,7 @@ public class VirtualViewSelector implements Selector {
     }
 
     @Override
-    public void askGameSetUp() {
+    public void askGameSetUp(boolean canBot) {
 
     }
 
@@ -31,7 +31,7 @@ public class VirtualViewSelector implements Selector {
     }
 
     @Override
-    public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards) {
+    public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards, boolean spawnBot) {
 
     }
 

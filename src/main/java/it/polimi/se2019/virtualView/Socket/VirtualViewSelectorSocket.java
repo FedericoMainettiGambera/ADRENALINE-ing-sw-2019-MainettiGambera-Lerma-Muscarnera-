@@ -32,8 +32,8 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     }
 
     @Override
-    public  void askGameSetUp() {
-        SocketVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.askGameSetUp));
+    public  void askGameSetUp(boolean canBot) {
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventBoolean(SelectorEventTypes.askGameSetUp, canBot));
     }
 
     @Deprecated
@@ -43,12 +43,12 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     }
 
     @Override
-    public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards) {
+    public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards, boolean spawnBot) {
         ArrayList<PowerUpCardV> powerUpCardsV= new ArrayList<>();
         for (PowerUpCard c : powerUpCards) {
             powerUpCardsV.add(c.buildPowerUpCardV());
         }
-        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askFirstSpawnPosition, powerUpCardsV));
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCardsAndBoolean(SelectorEventTypes.askFirstSpawnPosition, powerUpCardsV, spawnBot));
     }
 
     @Override

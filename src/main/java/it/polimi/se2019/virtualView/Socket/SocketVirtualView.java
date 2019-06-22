@@ -64,7 +64,7 @@ public class SocketVirtualView extends VirtualView {
 
     public static void sendToClient(Player playerToSend, Object o){
         try{
-            if(!playerToSend.isAFK() && playerToSend.getOos()!=null) {
+            if(!playerToSend.isAFK() && playerToSend.getOos()!=null&&!playerToSend.isBot()) {
                 playerToSend.getOos().writeObject(o);
                 playerToSend.getOos().reset();
             }

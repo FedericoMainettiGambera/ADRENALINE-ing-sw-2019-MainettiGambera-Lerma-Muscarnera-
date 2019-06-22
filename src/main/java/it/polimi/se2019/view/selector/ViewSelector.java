@@ -12,7 +12,6 @@ import it.polimi.se2019.view.components.EffectV;
 import it.polimi.se2019.view.components.PowerUpCardV;
 import it.polimi.se2019.view.components.WeaponCardV;
 import it.polimi.se2019.virtualView.Selector;
-import it.polimi.se2019.virtualView.SelectorV;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +43,8 @@ public class ViewSelector implements SelectorV {
     }
 
     @Override
-    public void askGameSetUp() {
-        this.getCorrectSelector().askGameSetUp();
+    public void askGameSetUp(boolean canBot) {
+        this.getCorrectSelector().askGameSetUp(canBot);
     }
 
     @Deprecated
@@ -55,8 +54,8 @@ public class ViewSelector implements SelectorV {
     }
 
     @Override
-    public void askFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards) {
-        this.getCorrectSelector().askFirstSpawnPosition(powerUpCards);
+    public void askFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards, boolean spawnBot) {
+        this.getCorrectSelector().askFirstSpawnPosition(powerUpCards, spawnBot);
     }
 
     @Override

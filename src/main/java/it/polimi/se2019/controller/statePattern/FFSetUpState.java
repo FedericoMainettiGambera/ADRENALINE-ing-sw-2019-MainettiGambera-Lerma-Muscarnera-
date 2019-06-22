@@ -42,35 +42,32 @@ public class FFSetUpState implements State {
         ModelGate.model.triggerFinalFrenzy(true);
 
 
-        for(Player player : ModelGate.model.getPlayerList().getPlayers()){
-            if(player.getBoard().getDamagesTracker().isEmpty()){
-                player.makePlayerBoardFinalFrenzy();
+        for(Player player : ModelGate.model.getPlayerList().getPlayers()) {
+            if (!player.isBot()){
+                if (player.getBoard().getDamagesTracker().isEmpty()) {
+                    player.makePlayerBoardFinalFrenzy();
+
+                }
+
+                if (ModelGate.model.getPlayerList().getStartingPlayer().getNickname().equals(player.getNickname())) {
+                    player.setBeforeorafterStartingPlayer(0);
+                    position = 1;
+                    number++;
+                } else if (position < 0) {
+                    player.setBeforeorafterStartingPlayer(position);
+                    position--;
+                    number++;
+                } else if (position > 0) {
+                    player.setBeforeorafterStartingPlayer(position);
+                    position++;
+                    number++;
+                }
+                if (number == ModelGate.model.getPlayerList().getNumberOfPlayers()) {
+                    player.setLastPlayingPlayer();
+                }
 
             }
-
-            if(ModelGate.model.getPlayerList().getStartingPlayer().getNickname().equals(player.getNickname())){
-                player.setBeforeorafterStartingPlayer(0);
-                position=1;
-                number++;
-            }
-
-           else if(position<0) {
-                player.setBeforeorafterStartingPlayer(position);
-                position--;
-                number++;
-            }
-
-           else if(position>0){
-                player.setBeforeorafterStartingPlayer(position);
-                position++;
-                number++;
-            }
-            if(number==ModelGate.model.getPlayerList().getNumberOfPlayers()){
-                player.setLastPlayingPlayer();
-            }
-
         }
-
 
         ViewControllerEventHandlerContext.setNextState(new TurnState(1));
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());

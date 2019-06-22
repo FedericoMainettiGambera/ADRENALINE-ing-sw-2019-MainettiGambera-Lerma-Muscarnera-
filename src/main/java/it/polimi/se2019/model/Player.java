@@ -18,11 +18,24 @@ public class Player extends Person implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /***/
+    public Player(boolean thisIsBot){
+        this.isBot=thisIsBot;
+        this.nickname="Terminator";
+        this.isAFK=true;
+        //initially set to true so the first player will not use it, but from the second it will be reset to false.
+        boolean botUsed=true;
+        this.hand = new PlayerHand();
+
+    }
+
+
+    /***/
     public Player() {
         super();
         this.playerHistory = new PlayerHistory();
         this.hand = new PlayerHand();
         this.isAFK = false;
+        this.isBot=false;
     }
 
     /*-*****************************************************************************************************ATTRIBUTES*/
@@ -42,6 +55,8 @@ public class Player extends Person implements Serializable {
 
     /***/
     private String IP;
+    /** indicates whether the bot has already been used during a turn*/
+    private boolean botUsed;
 
     /***/
     private transient ObjectOutputStream oos;
@@ -60,10 +75,12 @@ public class Player extends Person implements Serializable {
         return isAFK;
     }
 
+    private boolean isBot;
+
 
 
     public void setAFKWithNotify(boolean isAFK){
-        //notify everybody, even the one just setted AFK
+        //notify everybody, even the one just set AFK
         regulateNumberOfConnection(isAFK);
         this.isAFK = isAFK;
         setChanged();
@@ -75,7 +92,7 @@ public class Player extends Person implements Serializable {
             System.err.println("Couldn't reach the player to tell him he is AFK. From method Player.setAFKWithNotify(...)");
         }
         //this notify every other player.
-        if(this.isAFK == false) {
+        if(!this.isAFK) {
             notifyObservers(MVE);
         }
         if(ModelGate.model.getPlayerList().isMinimumPlayerNotAFK()){
@@ -189,6 +206,26 @@ public class Player extends Person implements Serializable {
     /***/
     public OrderedCardList<PowerUpCard> getPowerUpCardsInHand() {
         return this.hand.getPowerUpCards();
+    }
+
+    /** needed to set whether the player is the terminator or not
+     * @param bot boolean value*/
+    public void setBot(boolean bot) {
+        isBot = bot;
+    }
+   /**needed to know whether the player is the terminator or not
+    * @return true or false
+    * */
+    public boolean isBot(){
+        return isBot;
+    }
+
+    public void setBotUsed(boolean botUsed) {
+        this.botUsed = botUsed;
+    }
+
+    public boolean isBotUsed() {
+        return botUsed;
     }
 
     public PlayerV buildPlayerV(){
