@@ -40,7 +40,7 @@ public class ScoreKillsState implements State {
 
         if(ModelGate.model.isBotActive()){
             out.println("<SERVER> setting bot usable for next player...");
-            ModelGate.model.getPlayerList().getPlayer("Terminator").setBotUsed(true);
+            ModelGate.model.getPlayerList().getPlayer("Terminator").setBotUsed(false);
         }
 
         //score dead players and create the list of dead players

@@ -48,8 +48,14 @@ public class ReloadState implements State{
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         if ((ModelGate.model.hasFinalFrenzyBegun()  && !calledFromShootPeople)) {
-            ViewControllerEventHandlerContext.setNextState(new WantToPlayPowerUpState());
-            ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+            if(ModelGate.model.isBotActive() && !ModelGate.model.getPlayerList().getPlayer("Terminator").isBotUsed()){
+                ViewControllerEventHandlerContext.setNextState(new BotMoveState(new WantToPlayPowerUpState()));
+                ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+            }
+            else {
+                ViewControllerEventHandlerContext.setNextState(new WantToPlayPowerUpState());
+                ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+            }
         }
         else if(canReload()){
             out.println("<SERVER> The player can reload");
@@ -101,8 +107,14 @@ public class ReloadState implements State{
                 t.start();
             }
             else {
-                ViewControllerEventHandlerContext.setNextState(new WantToPlayPowerUpState());
-                ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+                if(ModelGate.model.isBotActive() && !ModelGate.model.getPlayerList().getPlayer("Terminator").isBotUsed()){
+                    ViewControllerEventHandlerContext.setNextState(new BotMoveState(new WantToPlayPowerUpState()));
+                    ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+                }
+                else {
+                    ViewControllerEventHandlerContext.setNextState(new WantToPlayPowerUpState());
+                    ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+                }
             }
         }
 
@@ -135,8 +147,14 @@ public class ReloadState implements State{
                 ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
             }
             else {
-                ViewControllerEventHandlerContext.setNextState(new WantToPlayPowerUpState());
-                ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+                if(ModelGate.model.isBotActive() && !ModelGate.model.getPlayerList().getPlayer("Terminator").isBotUsed()){
+                    ViewControllerEventHandlerContext.setNextState(new BotMoveState(new WantToPlayPowerUpState()));
+                    ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+                }
+                else {
+                    ViewControllerEventHandlerContext.setNextState(new WantToPlayPowerUpState());
+                    ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+                }
             }
         }
     }

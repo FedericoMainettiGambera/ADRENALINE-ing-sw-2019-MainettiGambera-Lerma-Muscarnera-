@@ -33,6 +33,10 @@ public class BotMoveState implements State {
 
     @Override
     public void askForInput(Player playerToAsk){
+
+        out.println("<SERVER> setting bot used...");
+        ModelGate.model.getPlayerList().getPlayer("Terminator").setBotUsed(true);
+
         this.playerToAsk = playerToAsk;
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 

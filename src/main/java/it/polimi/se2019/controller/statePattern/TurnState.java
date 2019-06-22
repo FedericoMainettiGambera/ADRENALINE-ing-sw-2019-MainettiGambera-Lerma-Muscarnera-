@@ -35,7 +35,9 @@ public class TurnState implements State {
         //ask for input
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-            SelectorGate.getCorrectSelectorFor(playerToAsk).askTurnAction(this.actionNumber, canUsePowerUp(ModelGate.model.getCurrentPlayingPlayer()), canUseBot());
+            out.println("<SERVER> Can Use Power Up: " + canUsePowerUp(ModelGate.model.getCurrentPlayingPlayer()));
+            out.println("<SERVER> Can Use Bot: " + ModelGate.model.getPlayerList().getPlayer("Terminator").isBotUsed());
+            SelectorGate.getCorrectSelectorFor(playerToAsk).askTurnAction(this.actionNumber, canUsePowerUp(ModelGate.model.getCurrentPlayingPlayer()), !ModelGate.model.getPlayerList().getPlayer("Terminator").isBotUsed());
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
@@ -99,14 +101,5 @@ public class TurnState implements State {
             }
         }
         return false;
-    }
-
-    public static boolean canUseBot(){
-        if(ModelGate.model.getPlayerList().getPlayer("Terminator").isBotUsed()){
-            return false;
-        }
-        else{
-            return true;
-        }
     }
 }

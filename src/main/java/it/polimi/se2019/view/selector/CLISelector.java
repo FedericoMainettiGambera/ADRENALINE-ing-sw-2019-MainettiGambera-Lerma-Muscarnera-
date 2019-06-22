@@ -434,6 +434,8 @@ public class CLISelector implements SelectorV {
     }
     @Override
     public void askBotMove(SelectorEventPositions SEPositions) {
+        AskBotMove abm = new AskBotMove(SEPositions.getPositions());
+        abm.start();
     }
 
 

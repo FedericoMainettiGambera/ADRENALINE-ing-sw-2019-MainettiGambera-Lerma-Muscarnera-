@@ -64,7 +64,6 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     @Override
     public void askBotMove(ArrayList<Position> positions) {
         SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPositions(SelectorEventTypes.askBotMove, positions));
-
     }
 
     @Override

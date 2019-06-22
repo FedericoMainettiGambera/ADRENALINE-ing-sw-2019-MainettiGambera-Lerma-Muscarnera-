@@ -23,7 +23,7 @@ public class Player extends Person implements Serializable {
         this.nickname="Terminator";
         this.isAFK=true;
         //initially set to true so the first player will not use it, but from the second it will be reset to false.
-        boolean botUsed=true;
+        this.botUsed=true;
         this.hand = new PlayerHand();
 
     }

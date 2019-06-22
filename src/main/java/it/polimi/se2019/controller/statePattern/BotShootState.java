@@ -29,9 +29,9 @@ public class BotShootState implements State{
 
     private State nextState;
 
-    public BotShootState(State state){
+    public BotShootState(State nextState){
         out.println("<SERVER> New state: " + this.getClass());
-        this.nextState = state;
+        this.nextState = nextState;
     }
 
     @Override
@@ -45,9 +45,8 @@ public class BotShootState implements State{
             playersV.add(p.buildPlayerV());
         }
         if(playersV.isEmpty()){
-
             out.println("<SERVER>bot cant see anybody");
-            ViewControllerEventHandlerContext.setNextState(new BotShootState(this.nextState));
+            ViewControllerEventHandlerContext.setNextState(this.nextState);
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
         //ask for input
@@ -74,7 +73,6 @@ public class BotShootState implements State{
         ViewControllerEventString VCEString = (ViewControllerEventString)VCE;
         Player player=ModelGate.model.getPlayerList().getPlayer(VCEString.getInput());
 
-
         player.addDamages(ModelGate.model.getPlayerList().getPlayer("Terminator"),1);
 
         out.println("<SERVER> bot giving damage to: "+ VCEString.getInput());
@@ -84,12 +82,10 @@ public class BotShootState implements State{
             out.println("<SERVER> bot giving mark to: "+ VCEString.getInput());
         }
 
-
         out.println("<SERVER> setting bot used...");
-
         ModelGate.model.getPlayerList().getPlayer("Terminator").setBotUsed(true);
 
-        ViewControllerEventHandlerContext.setNextState(new BotShootState(this.nextState));
+        ViewControllerEventHandlerContext.setNextState(this.nextState);
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 
