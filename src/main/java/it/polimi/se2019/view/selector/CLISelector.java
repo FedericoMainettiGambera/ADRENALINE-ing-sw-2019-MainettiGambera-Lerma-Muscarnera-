@@ -2,10 +2,6 @@ package it.polimi.se2019.view.selector;
 
 import it.polimi.se2019.controller.Controller;
 import it.polimi.se2019.model.Position;
-import it.polimi.se2019.controller.ModelGate;
-import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
-import it.polimi.se2019.controller.statePattern.WantToPlayPowerUpState;
-import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.PlayersColors;
@@ -231,10 +227,16 @@ public class CLISelector implements SelectorV {
             }
 
             System.out.println("\n<CLIENT> : Choose number of starting skulls:");
-            CLISelector.showListOfRequests(Arrays.asList("5 starting skulls","8 starting skulls"));
-            numberOfStartingSkulls = askNumber(0,1);
+            CLISelector.showListOfRequests(Arrays.asList("5 starting skulls","6 starting skulls","7 starting skulls","8 starting skulls"));
+            numberOfStartingSkulls = askNumber(0,3);
             if(numberOfStartingSkulls==0){
                 numberOfStartingSkulls = 5;
+            }
+            else if(numberOfStartingSkulls==1){
+                numberOfStartingSkulls = 6;
+            }
+            else if(numberOfStartingSkulls==2){
+                numberOfStartingSkulls = 7;
             }
             else{
                 numberOfStartingSkulls = 8;
@@ -490,7 +492,12 @@ public class CLISelector implements SelectorV {
             out.println("\n<CLIENT>Choose what to pick up:");
             ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < toPickUp.size(); i++) {
-                requests.add(toPickUp.get(i).getName() + ": " + toPickUp.get(i).getPickUpCost());
+                if(toPickUp.get(i).getPickUpCost().getAmmoCubesList().isEmpty()){
+                    requests.add(toPickUp.get(i).getName() + ": FREE");
+                }
+                else {
+                    requests.add(toPickUp.get(i).getName() + ": " + toPickUp.get(i).getPickUpCost());
+                }
             }
             CLISelector.showListOfRequests(requests);
 
@@ -547,7 +554,12 @@ public class CLISelector implements SelectorV {
             requests.clear();
             out.println("<CLIENT>Switch with:");
             for (int i = 0; i < toSwitch.size(); i++) {
-                requests.add(toSwitch.get(i).getName());
+                if(toSwitch.get(i).getPickUpCost() == null){
+                    requests.add(toSwitch.get(i).getName() + ": free");
+                }
+                else {
+                    requests.add(toSwitch.get(i).getName() + ": " + toPickUp.get(i).getPickUpCost().toString());
+                }
             }
             CLISelector.showListOfRequests(requests);
 
@@ -611,7 +623,12 @@ public class CLISelector implements SelectorV {
             ArrayList<String> requests = new ArrayList<>();
             requests.add("skip reload");
             for (int i = 0; i < toReload.size() ; i++) {
-                requests.add(toReload.get(i).getName() + ": " + toReload.get(i).getReloadCost().toString());
+                if(toReload.get(i).getPickUpCost() == null){
+                    requests.add(toReload.get(i).getName() + ": free");
+                }
+                else {
+                    requests.add(toReload.get(i).getName() + ": " + toReload.get(i).getPickUpCost().toString());
+                }
             }
             CLISelector.showListOfRequests(requests);
             int chosen = askNumber(0, toReload.size());
