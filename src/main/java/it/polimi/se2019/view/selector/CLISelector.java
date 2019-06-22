@@ -490,7 +490,12 @@ public class CLISelector implements SelectorV {
             out.println("\n<CLIENT>Choose what to pick up:");
             ArrayList<String> requests = new ArrayList<>();
             for (int i = 0; i < toPickUp.size(); i++) {
-                requests.add(toPickUp.get(i).getName() + ": " + toPickUp.get(i).getPickUpCost());
+                if(toPickUp.get(i).getPickUpCost().getAmmoCubesList().isEmpty()){
+                    requests.add(toPickUp.get(i).getName() + ": FREE");
+                }
+                else {
+                    requests.add(toPickUp.get(i).getName() + ": " + toPickUp.get(i).getPickUpCost());
+                }
             }
             CLISelector.showListOfRequests(requests);
 
@@ -547,7 +552,12 @@ public class CLISelector implements SelectorV {
             requests.clear();
             out.println("<CLIENT>Switch with:");
             for (int i = 0; i < toSwitch.size(); i++) {
-                requests.add(toSwitch.get(i).getName());
+                if(toSwitch.get(i).getPickUpCost() == null){
+                    requests.add(toSwitch.get(i).getName() + ": free");
+                }
+                else {
+                    requests.add(toSwitch.get(i).getName() + ": " + toPickUp.get(i).getPickUpCost().toString());
+                }
             }
             CLISelector.showListOfRequests(requests);
 
@@ -611,7 +621,12 @@ public class CLISelector implements SelectorV {
             ArrayList<String> requests = new ArrayList<>();
             requests.add("skip reload");
             for (int i = 0; i < toReload.size() ; i++) {
-                requests.add(toReload.get(i).getName() + ": " + toReload.get(i).getReloadCost().toString());
+                if(toReload.get(i).getPickUpCost() == null){
+                    requests.add(toReload.get(i).getName() + ": free");
+                }
+                else {
+                    requests.add(toReload.get(i).getName() + ": " + toReload.get(i).getPickUpCost().toString());
+                }
             }
             CLISelector.showListOfRequests(requests);
             int chosen = askNumber(0, toReload.size());
