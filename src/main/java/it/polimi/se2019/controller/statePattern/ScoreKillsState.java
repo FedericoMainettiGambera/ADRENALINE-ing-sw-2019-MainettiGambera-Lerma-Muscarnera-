@@ -2,6 +2,7 @@ package it.polimi.se2019.controller.statePattern;
 
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
+import it.polimi.se2019.model.Game;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 
@@ -36,6 +37,11 @@ public class ScoreKillsState implements State {
         //(VCE is null)
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
+
+        if(ModelGate.model.isBotActive()){
+            out.println("<SERVER> setting bot usable for next player...");
+            ModelGate.model.getPlayerList().getPlayer("Terminator").setBotUsed(true);
+        }
 
         //score dead players and create the list of dead players
         if(this.deadPlayers.isEmpty()){

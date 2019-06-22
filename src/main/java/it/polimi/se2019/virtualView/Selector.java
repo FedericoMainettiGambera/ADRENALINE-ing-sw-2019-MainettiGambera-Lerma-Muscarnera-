@@ -1,12 +1,10 @@
 package it.polimi.se2019.virtualView;
 
-import it.polimi.se2019.model.Effect;
-import it.polimi.se2019.model.Position;
-import it.polimi.se2019.model.PowerUpCard;
-import it.polimi.se2019.model.WeaponCard;
+import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
+import it.polimi.se2019.view.components.PlayerV;
 import it.polimi.se2019.view.components.PowerUpCardV;
 
 import java.util.ArrayList;
@@ -61,4 +59,6 @@ public interface Selector {
     public void askPowerUpToUse(List<PowerUpCardV> powerUpCards);
 
     public void askWantToUsePowerUpOrNot();
+
+    public void askBotShoot(List<PlayerV> playerVList);
 }

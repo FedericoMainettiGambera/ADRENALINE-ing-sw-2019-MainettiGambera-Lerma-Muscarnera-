@@ -535,6 +535,10 @@ public class View implements Observer {
                 this.selector.askBotMove((SelectorEventPositions)SE);
                 break;
 
+            case askBotShoot:
+                this.selector.askBotShoot((SelectorEventPlayers)SE);
+                break;
+
             default: break;
         }
     }

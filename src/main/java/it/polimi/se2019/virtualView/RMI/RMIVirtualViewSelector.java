@@ -292,4 +292,9 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
 
     }
 
+    @Override
+    public void askBotShoot(List<PlayerV> playerVList) {
+
+    }
+
 }

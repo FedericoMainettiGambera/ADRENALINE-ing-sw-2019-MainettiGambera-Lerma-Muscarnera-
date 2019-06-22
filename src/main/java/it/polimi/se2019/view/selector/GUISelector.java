@@ -7,6 +7,7 @@ import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
+import it.polimi.se2019.model.events.selectorEvents.SelectorEventPlayers;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPositions;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPowerUpCards;
 import it.polimi.se2019.view.components.EffectV;
@@ -147,6 +148,11 @@ public class GUISelector implements SelectorV {
 
     @Override
     public void wantToUsePowerUpOrNot() {
+
+    }
+
+    @Override
+    public void askBotShoot(SelectorEventPlayers SEPlayers) {
 
     }
 }

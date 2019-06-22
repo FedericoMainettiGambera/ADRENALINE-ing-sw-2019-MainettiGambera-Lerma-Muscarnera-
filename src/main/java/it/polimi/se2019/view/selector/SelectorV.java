@@ -3,10 +3,7 @@ package it.polimi.se2019.view.selector;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
-import it.polimi.se2019.model.events.selectorEvents.SelectorEvent;
-import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
-import it.polimi.se2019.model.events.selectorEvents.SelectorEventPositions;
-import it.polimi.se2019.model.events.selectorEvents.SelectorEventPowerUpCards;
+import it.polimi.se2019.model.events.selectorEvents.*;
 import it.polimi.se2019.view.components.EffectV;
 import it.polimi.se2019.view.components.PowerUpCardV;
 import it.polimi.se2019.view.components.WeaponCardV;
@@ -63,4 +60,6 @@ public interface SelectorV {
     public void askPowerUpToUse(SelectorEventPowerUpCards powerUpCards);
 
     public void wantToUsePowerUpOrNot();
+
+    public void askBotShoot(SelectorEventPlayers SEPlayers);
 }

@@ -207,4 +207,9 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     public void askWantToUsePowerUpOrNot() {
         SocketVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.wantToUsePowerUpOrNot));
     }
+
+    @Override
+    public void askBotShoot(List<PlayerV> playerVList){
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPlayers(SelectorEventTypes.askBotShoot, playerVList));
+    }
 }

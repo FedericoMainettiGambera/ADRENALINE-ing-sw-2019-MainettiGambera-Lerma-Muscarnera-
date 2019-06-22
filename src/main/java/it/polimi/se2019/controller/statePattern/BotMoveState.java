@@ -32,7 +32,7 @@ public class BotMoveState implements State {
     }
 
     @Override
-    public void askForInput(Player playerToAsk) {
+    public void askForInput(Player playerToAsk){
         this.playerToAsk = playerToAsk;
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
@@ -70,13 +70,18 @@ public class BotMoveState implements State {
         out.println("<SERVER> Bot's new position is: [" + VCEPosition.getX() + "][" + VCEPosition.getY() + "]");
 
         //change state in botShootState passing him the next state
+        ViewControllerEventHandlerContext.setNextState(new BotShootState(this.nextState));
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 
     @Override
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
-
-        //handle case timer ends before player answers
+        //pass turn
+        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+            ViewControllerEventHandlerContext.state.doAction(null);
+        }
     }
 }

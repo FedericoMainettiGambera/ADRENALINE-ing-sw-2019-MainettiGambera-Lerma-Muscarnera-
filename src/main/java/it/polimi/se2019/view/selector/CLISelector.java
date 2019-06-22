@@ -7,6 +7,7 @@ import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
+import it.polimi.se2019.model.events.selectorEvents.SelectorEventPlayers;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPositions;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPowerUpCards;
 import it.polimi.se2019.model.events.viewControllerEvents.*;
@@ -1066,7 +1067,7 @@ public class CLISelector implements SelectorV {
     }
 
 
-    public class AskPowerUpToUse extends Thread{
+    private class AskPowerUpToUse extends Thread{
         private List<PowerUpCardV> powerUpCardV;
         public AskPowerUpToUse(List<PowerUpCardV> powerUpCards){
             out.println("<CLIENT> choose one of the following power up to use: ");
@@ -1098,7 +1099,7 @@ public class CLISelector implements SelectorV {
 
 
 
-    public class WantToUsePowerUpOrNot extends Thread{
+    private class WantToUsePowerUpOrNot extends Thread{
         @Override
         public void run(){
             out.println("<CLIENT> Do you want to use a power up?");
@@ -1116,6 +1117,37 @@ public class CLISelector implements SelectorV {
     public void wantToUsePowerUpOrNot() {
         WantToUsePowerUpOrNot wtupon = new WantToUsePowerUpOrNot();
         wtupon.start();
+    }
+
+
+
+
+    private class AskBotShoot extends Thread{
+        private List<PlayerV> playerVList;
+
+        public AskBotShoot(List<PlayerV> playersVList){
+            this.playerVList=playersVList;
+        }
+
+        @Override
+        public void run(){
+
+            List<String> requests=new ArrayList<>();
+            out.println("Who do you want the bot to shoot?");
+            for (PlayerV p: playerVList){
+                requests.add(p.getNickname());
+            }
+            CLISelector.showListOfRequests(requests);
+            int choice=askNumber(0,requests.size()-1);
+            ViewControllerEventString VCE=new ViewControllerEventString(requests.get(choice));
+            sendToServer(VCE);
+        }
+    }
+    @Override
+    public void askBotShoot(SelectorEventPlayers SEPlayers){
+
+        AskBotShoot abs=new AskBotShoot(SEPlayers.getPlayerVList());
+        abs.start();
     }
 }
 
