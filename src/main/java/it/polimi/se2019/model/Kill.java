@@ -33,7 +33,7 @@ public class Kill implements Serializable {
     private Player overKillingPlayer;
 
     /**needs for scoring, index aka occurance**/
-    private int occurance=0;
+    private int occurance;
 
     /*-****************************************************************************************************METHODS*/
 
@@ -48,7 +48,7 @@ public class Kill implements Serializable {
     }
 
     /**@return the killing player if ther is, or an exception*/
-    public Player getKillingPlayer() throws NullPointerException{
+    public Player getKillingPlayer() {
         if(!isSkull && this.killingPlayer!=null){
             return killingPlayer;
         }
@@ -58,7 +58,7 @@ public class Kill implements Serializable {
     /**
      * @param player
      */
-    public void setKillingPlayer(Player player) throws Exception{
+    public void setKillingPlayer(Player player){
         if(isSkull && player!=null) {
             killingPlayer = player;
             isSkull = false;
@@ -68,7 +68,7 @@ public class Kill implements Serializable {
 
     /**@return
      * */
-    public Player getOverKillingPlayer() throws Exception {
+    public Player getOverKillingPlayer() {
         if(!isSkull && this.overKillingPlayer!=null) {
             return overKillingPlayer;
         }
@@ -79,7 +79,7 @@ public class Kill implements Serializable {
     /**Keeps track of the OverkillingPlayer for scores purposes
      * @param player
      */
-    public void setOverkillingPlayer(Player player) throws Exception{
+    public void setOverkillingPlayer(Player player) {
         if(!isSkull && player!=null) {
             isOverKill = true;
             overKillingPlayer = player;

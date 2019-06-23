@@ -33,15 +33,20 @@ public class SpawnState implements State {
     }
 
     @Override
-    public void askForInput(Player playerToAsk) {
+    public void askForInput(Player nullPlayer) {
         //player to ask is null !
+
+        System.err.println("---------------------------------------------------------------------------------------------------------");
+        System.err.println("---------------------------------------------------------------------------------------------------------");
+        System.err.println("---------------------------------------------------------------------------------------------------------");
+        System.err.println("---------------------------------------------------------------------------------------------------------");
 
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + deadPlayers.get(0).getNickname() + "\"");
 
         if(!this.deadPlayers.isEmpty()) {
             this.playerToSpawn = deadPlayers.get(0);
 
-            out.println("<SERVER> Making " + playerToSpawn.getNickname() + " draw a power");
+            out.println("<SERVER> Making " + playerToSpawn.getNickname() + " draw a power up");
             //draw a power up
             ModelGate.model.getPowerUpDeck().moveCardTo(
                     playerToSpawn.getPowerUpCardsInHand(),
@@ -58,8 +63,8 @@ public class SpawnState implements State {
 
         //ask which power up he wants to discard and spawn to
         try {
-            SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-            SelectorGate.getCorrectSelectorFor(playerToAsk).askSpawn(powerUpCardsV);
+            SelectorGate.getCorrectSelectorFor(playerToSpawn).setPlayerToAsk(playerToSpawn);
+            SelectorGate.getCorrectSelectorFor(playerToSpawn).askSpawn(powerUpCardsV);
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToSpawn, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {

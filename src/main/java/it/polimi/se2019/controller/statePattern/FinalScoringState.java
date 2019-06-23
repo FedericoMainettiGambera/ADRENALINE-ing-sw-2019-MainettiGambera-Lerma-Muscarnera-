@@ -56,21 +56,18 @@ public class FinalScoringState implements State {
         else score=8;
 
         ArrayList<PlayerPoint> graduatory = null;
-        out.println("linea 54 final scoring");
         try {
             graduatory = getGraduatory();
         } catch (Exception e) {
            logger.severe("Error occurred:"+ e.getClass()+e.getCause()+ Arrays.toString(e.getStackTrace()));
         }
 
-        out.println("Server Linea 60 final scoring");
 
       /*gives deserved points based on number of killshots*/
         if (graduatory !=null) {
             for (PlayerPoint playerPoint : graduatory) {
 
                 for (Player p : ModelGate.model.getPlayerList().getPlayers()) {
-                    out.println("linea 67 final scoring");
 
                     if (playerPoint.player.getNickname().equals(p.getNickname())) {
                         playerPoint.quantity = p.getScore() + score + playerPoint.overkill;
@@ -107,7 +104,6 @@ public class FinalScoringState implements State {
                 }
                 s += 1;
             }
-            out.println("linea 95 server final scoring");
             /** MVE to send all client the ranking*/
             int i = 1;
             out.println("Final Classification is :");
@@ -192,8 +188,8 @@ public class FinalScoringState implements State {
                 while (killIterator.hasNext()){
 
                     Kill kill = killIterator.next();
-                    out.println(p.getNickname() + kill.getKillingPlayer().getNickname());
-                    if (p.getNickname().equals(kill.getKillingPlayer().getNickname())) {
+
+                    if ((!kill.isSkull())&&p.getNickname().equals(kill.getKillingPlayer().getNickname())) {
 
                         playerKilling.get(k).quantity += 1;
 
@@ -201,17 +197,19 @@ public class FinalScoringState implements State {
                             playerKilling.get(k).numberOfSkullTaken = kill.getOccurance();
                         }
 
-                        if (kill.getOverKillingPlayer().getNickname().equals(p.getNickname())) {
+                        if(kill.isOverKill()&&kill.getOverKillingPlayer().getNickname().equals(p.getNickname())) {
                             playerKilling.get(k).overkill += 1;
                         }
 
 
-                        last = ModelGate.model.getKillshotTrack().returnKills().size();
+                        last = (ModelGate.model.getKillshotTrack().returnKills().size())-1;
 
-                        while (ModelGate.model.getKillshotTrack().returnKills().get(last).getKillingPlayer().getNickname().equals(p.getNickname())) {
+                        out.println(" "+ ModelGate.model.getKillshotTrack().returnKills().get(last).isSkull()+ ModelGate.model.getKillshotTrack().returnKills().get(last).getKillingPlayer().getNickname().equals(p.getNickname()));
+
+                        while ((!ModelGate.model.getKillshotTrack().returnKills().get(last).isSkull())&&ModelGate.model.getKillshotTrack().returnKills().get(last).getKillingPlayer().getNickname().equals(p.getNickname())) {
                             playerKilling.get(k).quantity += 1;
 
-                            if (kill.getOverKillingPlayer().getNickname().equals(p.getNickname())) {
+                            if (kill.isOverKill()&&kill.getOverKillingPlayer().getNickname().equals(p.getNickname())) {
                                 playerKilling.get(k).overkill += 1;
                             }
 
@@ -221,7 +219,7 @@ public class FinalScoringState implements State {
                             killIterator.remove();
                             killIterator = ModelGate.model.getKillshotTrack().returnKills().iterator();
 
-                            last = ModelGate.model.getKillshotTrack().returnKills().size();
+                            last = ModelGate.model.getKillshotTrack().returnKills().size()-1;
 
                             if (playerKilling.get(k).numberOfSkullTaken < kill.getOccurance()) {
                                 playerKilling.get(k).numberOfSkullTaken = kill.getOccurance();
