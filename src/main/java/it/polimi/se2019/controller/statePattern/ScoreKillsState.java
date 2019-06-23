@@ -138,7 +138,7 @@ public class ScoreKillsState implements State {
 
         //the overkilling player receive a mark from the overkilled player
         if(deadPlayer.isOverkilled()){
-            deadPlayer.getDamageSlot(12).getShootingPlayer().addMarksFrom(deadPlayer,1);
+            deadPlayer.getDamageSlot(11).getShootingPlayer().addMarksFrom(deadPlayer,1);
         }
 
         //adding skull to the dead player

@@ -565,8 +565,13 @@ public class CLIOutputHandler implements OutputHandlerInterface{
                 }
                 damageSlotNumber++;
             }
-            for (int i = damageSlotNumber; i < 12; i++) {
-                damage += " EMPTY ";
+            if(damageSlotNumber<12) {
+                for (int i = damageSlotNumber; i < 12; i++) {
+                    damage += " EMPTY ";
+                }
+            }
+            else{
+                damage += " ... ";
             }
             damage += "]";
             return damage;
