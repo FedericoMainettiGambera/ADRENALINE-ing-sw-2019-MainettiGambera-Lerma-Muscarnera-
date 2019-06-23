@@ -57,7 +57,7 @@ public class ShootPeopleState implements State {
                     this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                     this.inputTimer.start();
                 } catch (Exception e) {
-                    logger.severe("Exception Occured: "+e.getClass()+" "+e.getCause());
+                    logger.severe("Exception Occurred: "+e.getClass()+" "+e.getCause());
                 }
             }
             else{
