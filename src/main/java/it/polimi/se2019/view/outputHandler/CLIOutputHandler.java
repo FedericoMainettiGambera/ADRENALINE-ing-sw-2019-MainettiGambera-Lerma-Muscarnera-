@@ -328,6 +328,12 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             else {
                 OutputHandlerGate.getCLIOutputHandler().updateUserInterface("FINAL FRENZY HASN'T BEGUN");
             }
+            if(ViewModelGate.getModel().isBotActive()){
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("YOU ARE PLAYING WITH THE TERMINATOR");
+            }
+            else{
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("YOU ARE PLAYING WITHOUT THE TERMINATOR");
+            }
         }
     }
 

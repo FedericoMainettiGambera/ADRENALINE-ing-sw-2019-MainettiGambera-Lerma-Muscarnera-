@@ -80,21 +80,16 @@ public class PowerUpAskForInputState implements State {
             askForInput(playerToAsk);
         }
         else {
-            //TODO il pagamento nelle PowerUp avviene pagando un cubo qualunque... gestisci questa cosa
-            //ChooseHowToPayState.makePayment(playerToAsk, this.chosenPowerUp.getSpecialEffect().getUsageCost());
-            //TODO per ora semplicemente ignoro i pagamenti:
-            afterPayment();
+
+            //there is no payment process because this state is meant only for power up teleport and newton
+            this.chosenPowerUp.getSpecialEffect().Exec();
+
+            out.println("<SERVER> discarding the used power up");
+            playerToAsk.getPowerUpCardsInHand().moveCardTo(ModelGate.model.getPowerUpDiscardPile(), this.chosenPowerUp.getID());
+
+            ViewControllerEventHandlerContext.setNextState(this.nextState);
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
-    }
-    public void afterPayment(){
-
-        this.chosenPowerUp.getSpecialEffect().Exec();
-
-        //TODO DISCARD THE POWER UP, BUT I STILL DON'T HAVE THE UNIQUE ID
-        //playerToAsk.getPowerUpCardsInHand().moveCardTo(ModelGate.model.getPowerUpDiscardPile(), this.chosenPowerUp.getID());
-
-        ViewControllerEventHandlerContext.setNextState(this.nextState);
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 
     public boolean isToSend(EffectInfoType infoType) {

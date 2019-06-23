@@ -5,6 +5,7 @@ import it.polimi.se2019.virtualView.VirtualView;
 
 import java.io.Serializable;
 
+@Deprecated
 /**Turrets mode killshot track*/
 public class TurretsModeTrack extends KillShotTrack implements Serializable {
     /*-****************************************************************************************************CONSTRUCTOR*/
