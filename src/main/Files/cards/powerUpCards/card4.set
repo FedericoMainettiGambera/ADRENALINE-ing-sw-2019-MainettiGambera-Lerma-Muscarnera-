@@ -3,11 +3,11 @@ TELEPORTER
 
 NEW EFFECT
 EXPECTED INPUT
-singleTarget
+simpleSquareSelect
 TO
 ALL
 END
-simpleSquareSelect
+player
 TO
 ALL
 END
