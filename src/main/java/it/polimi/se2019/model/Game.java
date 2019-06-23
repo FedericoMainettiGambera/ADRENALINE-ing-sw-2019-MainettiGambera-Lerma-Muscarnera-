@@ -183,7 +183,6 @@ public class Game extends Observable implements Serializable {
             }
         }
 
-        // TODO builds power up cards
         OrderedCardList<PowerUpCard> tempPowerUpDeck = new OrderedCardList<>("powerUpDeck");
         directory = new File("src/main/Files/cards/powerUpCards");          // insert here path to power up cards folder
         fileCount = directory.list().length;
@@ -216,7 +215,7 @@ public class Game extends Observable implements Serializable {
         int count = 36;
         for(int i = 1; i<= count;i++) {
             try {
-                tempAmmoDeck.addCard(new AmmoCard(i+""));
+                tempAmmoDeck.addCard(new AmmoCard("<SERVER> building Ammo cards ID: " +i));
             }
             catch(Exception e) {
                 e.printStackTrace();
@@ -306,6 +305,7 @@ public class Game extends Observable implements Serializable {
         }
         gameV.setHasFinalFrenzyBegun(this.hasFinalFrenzyBegun);
         gameV.setFinalFrenzy(this.isFinalFrenzy);
+        gameV.setBotActive(this.isBotActive);
 
         return gameV;
     }

@@ -24,6 +24,16 @@ public class GameV implements Serializable {
 
     private BoardV board;
 
+    private boolean isBotActive;
+
+    public boolean isBotActive() {
+        return isBotActive;
+    }
+
+    public void setBotActive(boolean isBotActive){
+        this.isBotActive = isBotActive;
+    }
+
     public PlayerV getMe() throws Exception {
         for (PlayerV p: this.players.getPlayers()) {
             if(p.getNickname().equals(ViewModelGate.getMe())){

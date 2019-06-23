@@ -71,9 +71,6 @@ public class  Controller{
         }
         ViewControllerEventHandlerContext.RMIVV = RMIVV;
 
-        //TODO
-        //Starts a thread that checks if clients are alive, if they aren't puts them in AFK.
-
         //Registering the VirtualView as an observer of the model so it can receive the MVEs
         out.println("<SERVER> Registering the VirtualViews (RMI and Socket) as observers of the Model");
         ModelGate.model.setVirtualView(ViewControllerEventHandlerContext.socketVV, ViewControllerEventHandlerContext.RMIVV);
