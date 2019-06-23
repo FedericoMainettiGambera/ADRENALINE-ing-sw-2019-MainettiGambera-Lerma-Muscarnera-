@@ -85,7 +85,7 @@ public class Kill implements Serializable {
             overKillingPlayer = player;
         }
     }
-    /**@return occurance, which it's meant to be useful for tiebreaking
+    /**@return occurance, which is meant to be useful for tiebreaking
      * */
     public int getOccurance() {
         return occurance;
