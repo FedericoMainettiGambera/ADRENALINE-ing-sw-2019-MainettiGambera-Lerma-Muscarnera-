@@ -173,9 +173,6 @@ public class ChooseHowToPayState {
         else if(ViewControllerEventHandlerContext.state.getClass().toString().contains("ShootPeople")){
             ((ShootPeopleAskForInputState)ViewControllerEventHandlerContext.state).afterPayment();
         }
-        else if(ViewControllerEventHandlerContext.state.getClass().toString().contains("PowerUpAskForInputState")){
-            ((PowerUpAskForInputState)ViewControllerEventHandlerContext.state).afterPayment();
-        }
     }
 
     public static void makePayment(Player player, AmmoList cost){

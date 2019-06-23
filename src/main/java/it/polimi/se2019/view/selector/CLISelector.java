@@ -228,6 +228,9 @@ public class CLISelector implements SelectorV {
                 isBotActive=false;
             }
 
+            //TODO DELETE THIS, FORCING A BOT:
+            isBotActive = true;
+
 
             System.out.println("\n<CLIENT> : Choose number of starting skulls:");
             CLISelector.showListOfRequests(Arrays.asList("5 starting skulls","6 starting skulls","7 starting skulls","8 starting skulls"));
@@ -394,6 +397,11 @@ public class CLISelector implements SelectorV {
 
             CLISelector.showListOfRequests(requests);
             int choice = askNumber(0,requests.size()-1);
+
+            //TODO SETTING CHOICE SO THAT IT DOESN'T SHOOT TO PEOPLE
+            if(choice == 2){
+                choice =  1;
+            }
 
             String action = requests.get(choice);
 
