@@ -103,45 +103,53 @@ public class BotShootState implements State{
         List<Player> playersBotCanShoot=new ArrayList<>();
 
         Position botPosition=ModelGate.model.getPlayerList().getPlayer("Terminator").getPosition();
+        //takes all players in the bot's room
         playersBotCanShoot.addAll(getPlayersInRoom(botPosition));
 
         Square botSquare=ModelGate.model.getBoard().getSquare(botPosition);
 
+        //takes all players in the adjacent rooms:
         //TODO absolutely not sure about the coordinates (just used the same of possiblePositions in Board)
         if(botSquare.getSide(CardinalPoint.north).equals(SquareSide.door)){
            playersBotCanShoot.addAll(getPlayersInRoom(new Position(botPosition.getX()-1, botPosition.getY())));
         }
-
         if(botSquare.getSide(CardinalPoint.south).equals(SquareSide.door)){
             playersBotCanShoot.addAll(getPlayersInRoom(new Position(botPosition.getX()+1, botPosition.getY())));
         }
-
         if(botSquare.getSide(CardinalPoint.east).equals(SquareSide.door)){
             playersBotCanShoot.addAll(getPlayersInRoom(new Position(botPosition.getX(), botPosition.getY()+1)));
         }
-
         if(botSquare.getSide(CardinalPoint.west).equals(SquareSide.door)){
             playersBotCanShoot.addAll(getPlayersInRoom(new Position(botPosition.getX(), botPosition.getY()-1)));
         }
 
-        List<Player> playersBotCanShootFinal = new ArrayList<>();
+        out.println("<SERVER> all the player the bot can shoot are (BEFORE REMOVING DUPLICATES):");
+        for (Player p: playersBotCanShoot) {
+            out.println("         " + p.getNickname());
+        }
 
+        //deletes duplicates
+        List<Player> playersBotCanShootFinal = new ArrayList<>();
         Iterator<Player> playerIterator = playersBotCanShoot.iterator();
         while(playerIterator.hasNext()){
             Player p = playerIterator.next();
-            boolean duplicate = false;
+
             if(playersBotCanShootFinal.isEmpty()){
                 playersBotCanShootFinal.add(p);
             }
             else {
                 for (Player pFinal : playersBotCanShootFinal) {
                     if (p.getNickname().equals(pFinal.getNickname())) {
-                        playerIterator.remove();
+                        break;
+                    }
+                    else{
+                        playersBotCanShootFinal.add(p);
                     }
                 }
             }
         }
 
+        //remove the player who is using the bot
         for (Player p: playersBotCanShootFinal) {
             if(p.getNickname().equals(playerToAsk.getNickname())){
                 playersBotCanShootFinal.remove(p);
@@ -149,7 +157,15 @@ public class BotShootState implements State{
             }
         }
 
-        out.println("<SERVER> all the player the bot can shoot are:");
+        //remove the bot itself
+        for (Player p: playersBotCanShootFinal) {
+            if(p.getNickname().equals("Terminator")){
+                playersBotCanShootFinal.remove(p);
+                break;
+            }
+        }
+
+        out.println("<SERVER> all the player the bot can shoot are (WITHOUT DUPLICATES, WITHOUT THE PLAYING PLAYER AND WITHOUT THE TERMINATOR):");
         for (Player p: playersBotCanShootFinal) {
             out.println("         " + p.getNickname());
         }
