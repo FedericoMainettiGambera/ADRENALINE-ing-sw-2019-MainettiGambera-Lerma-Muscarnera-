@@ -165,13 +165,10 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
     }
 
     @Override
-    public void askSpawn(ArrayList<PowerUpCard> powerUpCards) {
-        ArrayList<PowerUpCardV> powerUpCardsV= new ArrayList<>();
-        for (PowerUpCard c : powerUpCards) {
-            powerUpCardsV.add(c.buildPowerUpCardV());
-        }
+    public void askSpawn(ArrayList<PowerUpCardV> powerUpCards) {
+
         try {
-            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(), new SelectorEventPowerUpCards(SelectorEventTypes.askSpawn, powerUpCardsV));
+            playerToAsk.getRmiInterface().getClient(playerToAsk.getRmiIdentifier()).sendToClient(playerToAsk.getRmiIdentifier(), new SelectorEventPowerUpCards(SelectorEventTypes.askSpawn, powerUpCards));
         } catch (IOException e) {
             e.printStackTrace();
         }

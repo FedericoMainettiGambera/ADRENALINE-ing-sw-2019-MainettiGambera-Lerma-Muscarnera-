@@ -9,6 +9,7 @@ import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
 import it.polimi.se2019.controller.WaitForPlayerInput;
+import it.polimi.se2019.view.components.PowerUpCardV;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -50,10 +51,16 @@ public class SpawnState implements State {
             );
         }
 
+        ArrayList<PowerUpCard> powerUpCards = (ArrayList)playerToSpawn.getPowerUpCardsInHand().getCards();
+        ArrayList<PowerUpCardV> powerUpCardsV = new ArrayList<>();
+        for (PowerUpCard p: powerUpCards) {
+            powerUpCardsV.add(p.buildPowerUpCardV());
+        }
+
         //ask which power up he wants to discard
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-            SelectorGate.getCorrectSelectorFor(playerToAsk).askSpawn((ArrayList)playerToSpawn.getPowerUpCardsInHand().getCards());
+            SelectorGate.getCorrectSelectorFor(playerToAsk).askSpawn(powerUpCardsV);
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {

@@ -46,7 +46,7 @@ public class BotShootState implements State{
             playersV.add(p.buildPlayerV());
         }
         if(playersV.isEmpty()){
-            out.println("<SERVER>bot cant see anybody");
+            out.println("<SERVER> bot can't see anybody");
             ViewControllerEventHandlerContext.setNextState(this.nextState);
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }

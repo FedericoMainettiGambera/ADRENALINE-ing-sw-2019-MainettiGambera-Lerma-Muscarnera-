@@ -118,12 +118,9 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     }
 
     @Override
-    public void askSpawn(ArrayList<PowerUpCard> powerUpCards) {
-        ArrayList<PowerUpCardV> powerUpCardsV= new ArrayList<>();
-        for (PowerUpCard c : powerUpCards) {
-            powerUpCardsV.add(c.buildPowerUpCardV());
-        }
-        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askSpawn, powerUpCardsV));
+    public void askSpawn(ArrayList<PowerUpCardV> powerUpCards) {
+
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askSpawn, powerUpCards));
     }
 
     @Override

@@ -82,7 +82,7 @@ public class VirtualViewSelector implements Selector {
     }
 
     @Override
-    public void askSpawn(ArrayList<PowerUpCard> powerUpCards) {
+    public void askSpawn(ArrayList<PowerUpCardV> powerUpCards) {
 
     }
 

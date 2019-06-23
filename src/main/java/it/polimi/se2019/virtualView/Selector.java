@@ -37,7 +37,7 @@ public interface Selector {
 
     public void askWhatReaload(ArrayList<WeaponCard> toReload);
 
-    public void askSpawn(ArrayList<PowerUpCard> powerUpCards);
+    public void askSpawn(ArrayList<PowerUpCardV> powerUpCards);
 
     public void askShootOrMove();
 

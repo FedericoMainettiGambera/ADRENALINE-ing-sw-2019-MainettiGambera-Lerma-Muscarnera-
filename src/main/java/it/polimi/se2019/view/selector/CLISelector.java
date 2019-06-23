@@ -228,8 +228,6 @@ public class CLISelector implements SelectorV {
                 isBotActive=false;
             }
 
-            //TODO DELETE! just for testing...
-            isBotActive = true;
 
             System.out.println("\n<CLIENT> : Choose number of starting skulls:");
             CLISelector.showListOfRequests(Arrays.asList("5 starting skulls","6 starting skulls","7 starting skulls","8 starting skulls"));
@@ -399,10 +397,6 @@ public class CLISelector implements SelectorV {
 
             String action = requests.get(choice);
 
-            //TODO DELETE! just for testing...
-            if(action.equals("use power up")){
-                action = "grab stuff";
-            }
 
             ViewControllerEventString VCEString = new ViewControllerEventString(action);
 
@@ -693,7 +687,16 @@ public class CLISelector implements SelectorV {
         }
         @Override
         public void run() {
-            //TODO??
+            out.println("<CLIENT> choose what power up to discard and spawn to: ");
+            List<String> requests = new ArrayList<>();
+            for (PowerUpCardV p : powerUpCards) {
+                requests.add(p.getName() + "    COLOR: " + p.getColor());
+            }
+            showListOfRequests(requests);
+            int choice = askNumber(0,requests.size()-1);
+            String chosenId = powerUpCards.get(choice).getID();
+            ViewControllerEventString VCEString = new ViewControllerEventString(chosenId);
+            sendToServer(VCEString);
         }
     }
     @Override
