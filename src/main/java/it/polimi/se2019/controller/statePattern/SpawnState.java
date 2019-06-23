@@ -38,7 +38,7 @@ public class SpawnState implements State {
     public void askForInput(Player playerToAsk) {
         this.playerToAsk = playerToAsk;
         //(playerToAsk is null)
-        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToSpawn.getNickname() + "\"");
+        out.println("<SERVER> ("+ this.getClass() +") AskingForInput started");
 
         if(!this.deadPlayers.isEmpty()) {
             this.playerToSpawn = deadPlayers.get(0);

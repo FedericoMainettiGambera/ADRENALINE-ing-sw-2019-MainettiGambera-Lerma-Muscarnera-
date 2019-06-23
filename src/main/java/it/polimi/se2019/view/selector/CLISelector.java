@@ -594,7 +594,7 @@ public class CLISelector implements SelectorV {
                     requests.add(toSwitch.get(i).getName() + ": free");
                 }
                 else {
-                    requests.add(toSwitch.get(i).getName() + ": " + toPickUp.get(i).getPickUpCost().toString());
+                    requests.add(toSwitch.get(i).getName() + ": " + toSwitch.get(i).getPickUpCost().toString());
                 }
             }
             CLISelector.showListOfRequests(requests);

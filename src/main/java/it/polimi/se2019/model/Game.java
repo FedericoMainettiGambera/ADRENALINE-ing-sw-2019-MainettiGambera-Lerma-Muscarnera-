@@ -214,8 +214,9 @@ public class Game extends Observable implements Serializable {
         directory = new File("src/main/Files/cards/ammoCards");          // insert here path to ammo cards folder
         int count = 36;
         for(int i = 1; i<= count;i++) {
+            System.out.println("<SERVER> building Ammo cards ID: " +i);
             try {
-                tempAmmoDeck.addCard(new AmmoCard("<SERVER> building Ammo cards ID: " +i));
+                tempAmmoDeck.addCard(new AmmoCard(i+ ""));
             }
             catch(Exception e) {
                 e.printStackTrace();
