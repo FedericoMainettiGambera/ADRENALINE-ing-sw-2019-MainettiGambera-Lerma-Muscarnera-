@@ -138,6 +138,7 @@ public class ShootPeopleAskForInputState implements State {
         else if(this.actionNumber == 1){
             nextState = (new TurnState(2));
         }
+        ViewControllerEventHandlerContext.setNextState(nextState);
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
 
         if(hasTargetingScope(playerToAsk)){

@@ -93,6 +93,7 @@ public abstract class Person extends Observable implements Serializable {
     /***/
     public void addPoints(int points) {
         this.score+=points;
+        System.out.println("<SERVER-model> player " + this.getNickname() + " has " + this.score + " points");
         setChanged();
         notifyObservers(new ModelViewEvent(score, ModelViewEventTypes.newScore, nickname));
     }
