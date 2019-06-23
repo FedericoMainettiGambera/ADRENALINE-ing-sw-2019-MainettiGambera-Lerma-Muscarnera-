@@ -143,7 +143,7 @@ public class ShootPeopleAskForInputState implements State {
         if(hasTargetingScope(playerToAsk)){
             //TODO ask to the shooting player if he wants to use the TARGETING SCOPE
             //send in targeting scope and ask stuff
-            ViewControllerEventHandlerContext.setNextState(new TargetingScopeState(nextState, damagedPlayer));
+            //ViewControllerEventHandlerContext.setNextState(new TargetingScopeState(nextState, damagedPlayer));
         }
         else{
             //send in targeting scope and jump in TagGranade
