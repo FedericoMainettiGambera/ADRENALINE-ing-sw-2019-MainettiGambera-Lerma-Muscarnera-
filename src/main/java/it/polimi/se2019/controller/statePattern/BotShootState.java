@@ -139,7 +139,7 @@ public class BotShootState implements State{
             }
             else {
                 for (Player pFinal : playersBotCanShootFinal) {
-                    if (p.getNickname().equals(pFinal.getNickname())) {
+                    if(p.getNickname().equals(pFinal.getNickname())){
                         break;
                     }
                     else{
