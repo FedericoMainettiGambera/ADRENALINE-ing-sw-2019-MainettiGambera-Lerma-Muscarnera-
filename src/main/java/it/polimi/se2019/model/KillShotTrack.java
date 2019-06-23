@@ -126,7 +126,7 @@ public class KillShotTrack extends Observable implements Serializable {
             }
         }
         killShotTrackV.setKillsV(listOfKillsV);
-        killShotTrackV.setNumberOfStartingSkulls(this.numberOfRemainingSkulls);
+        killShotTrackV.setNumberOfStartingSkulls(startingSKulls);
 
         return killShotTrackV;
     }

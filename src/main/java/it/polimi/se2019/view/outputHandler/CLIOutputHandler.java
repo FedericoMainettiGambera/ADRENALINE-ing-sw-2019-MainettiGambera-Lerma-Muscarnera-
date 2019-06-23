@@ -352,18 +352,18 @@ public class CLIOutputHandler implements OutputHandlerInterface{
                 String s = "    [";
                 for (KillsV k : ViewModelGate.getModel().getKillshotTrack().getKillsV()) {
                     if (k.isSkull()) {
-                        s += "    SKULL" + s;
+                        s += "    SKULL";
                     } else {
                         if (!k.isOverKill()) {
-                            s += "    KILL by" + k.getKillingPlayer() + s;
+                            s += "    KILL-by-" + k.getKillingPlayer();
                         } else {
-                            s += "    KILL with OVERKILL by" + k.getOverKillingPlayer() + s;
+                            s += "    KILL-with-OVERKILL-by-" + k.getOverKillingPlayer() ;
 
                         }
                     }
                     counter++;
                 }
-                s += s + "    ]";
+                s += "    ]";
                 OutputHandlerGate.getCLIOutputHandler().updateUserInterface(s);
             }
         }

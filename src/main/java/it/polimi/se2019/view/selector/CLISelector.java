@@ -218,6 +218,9 @@ public class CLISelector implements SelectorV {
                 isFinalFrenzy=false;
             }
 
+            //TODO deleteTHis, forcing final frenzy:
+            isFinalFrenzy = true;
+
             if(canBot) {
                 System.out.println("\n<CLIENT> : Do you want to play with the Terminator active?");
                 CLISelector.showListOfRequests(Arrays.asList("Yes", "No"));
@@ -247,6 +250,9 @@ public class CLISelector implements SelectorV {
             else{
                 numberOfStartingSkulls = 8;
             }
+
+            //TODO delete this, forcing number of skulls
+            numberOfStartingSkulls = 5;
 
             ViewControllerEventGameSetUp VCEGameSetUp = new ViewControllerEventGameSetUp(gameMode,mapChoice,numberOfStartingSkulls,isFinalFrenzy,isBotActive);
 

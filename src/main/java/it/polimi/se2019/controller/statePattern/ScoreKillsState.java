@@ -87,7 +87,6 @@ public class ScoreKillsState implements State {
             }
             //Game is ended and FinalFrenzy is active --> FFSetUpState
             else if(ModelGate.model.getKillshotTrack().areSkullsOver() && (ModelGate.model.isFinalFrenzy())){
-                ModelGate.model.getPlayerList().setNextPlayingPlayer();
                 ViewControllerEventHandlerContext.setNextState(new FFSetUpState());
                 ViewControllerEventHandlerContext.state.doAction(null);
             }
@@ -128,13 +127,15 @@ public class ScoreKillsState implements State {
         //list of players in order from the one who made most damages to the one who did the less damages
         ArrayList<Player> playerRankInOrder = deadPlayer.getPlayersDamageRank();
         //give points to each player
-        for (int i = 0; i < playerRankInOrder.size(); i++) {
+        for (int i = 0; i < playerRankInOrder.size(); i++){
             out.println("<SERVER> Player " + playerRankInOrder.get(i).getNickname() +" receives " + pointsList.get(i) + " points.");
             playerRankInOrder.get(i).addPoints(pointsList.get(i));
         }
 
         //add skull to the killshotTrack
-        ModelGate.model.getKillshotTrack().deathOfPlayer(deadPlayer, deadPlayer.isOverkilled());
+        if(!ModelGate.model.hasFinalFrenzyBegun()) {
+            ModelGate.model.getKillshotTrack().deathOfPlayer(deadPlayer, deadPlayer.isOverkilled());
+        }
 
         //the overkilling player receive a mark from the overkilled player
         if(deadPlayer.isOverkilled()){
@@ -142,10 +143,13 @@ public class ScoreKillsState implements State {
         }
 
         //adding skull to the dead player
-        deadPlayer.addDeath();
+        if(!ModelGate.model.hasFinalFrenzyBegun()) {
+            deadPlayer.addDeath();
+        }
 
         //restoring health to the player
         deadPlayer.emptyDamagesTracker();
+
 
     }
 
