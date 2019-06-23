@@ -3,26 +3,25 @@ package it.polimi.se2019.controller.statePattern;
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.model.Kill;
 import it.polimi.se2019.model.Player;
-import it.polimi.se2019.model.PlayersList;
 import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 import java.util.logging.Logger;
 
 /**this state is meant to score the killshot track  and provide a final ranking. It is, obviously, only called once, at the end of the game*/
 public class FinalScoringState implements State {
     private static PrintWriter out = new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(FinalScoringState.class.getName());
+    private ArrayList<PlayerPoint> graduatory;
 
 
     public FinalScoringState() {
         out.println("<SERVER> New state: " + this.getClass());
+        graduatory=new ArrayList<PlayerPoint>();
     }
 
     /**
@@ -59,19 +58,18 @@ public class FinalScoringState implements State {
             score = 0;
         } else score = 8;
 
-        ArrayList<PlayerPoint> graduatory = null;
         try {
-            graduatory = getGraduatory();
+            getGraduatory();
         } catch (Exception e) {
             logger.severe("Error occurred:" + e.getClass() + e.getCause() + Arrays.toString(e.getStackTrace()));
         }
 
 
-        /*gives deserved points based on number of killshots*/
+
         if (graduatory != null){
 
-            graduatory=setPoints(graduatory, score);
-            graduatory=bubbleSort(graduatory);
+            setPoints(score);
+            bubbleSort();
             sendResults(graduatory);
 
 
@@ -80,9 +78,10 @@ public class FinalScoringState implements State {
         System.exit(0);
     }
 
+/**gives deserved points based on number of killshots
+ * @param punti  needed because if nobody died, nobody deserves the points for max number of killshots*/
+    private  void setPoints( int punti ) {
 
-    private  ArrayList<PlayerPoint> setPoints(ArrayList<PlayerPoint> classifica, int punti ) {
-        ArrayList<PlayerPoint> graduatory = classifica;
         int score = punti;
 
         if (graduatory != null){
@@ -103,7 +102,6 @@ public class FinalScoringState implements State {
             }
 
         }
-        return graduatory;
     }
 
     /**send results to all clients
@@ -124,11 +122,7 @@ public class FinalScoringState implements State {
 
     }
 
-
-
-
-
-
+    /***/
     @Override
     public void handleAFK() {
         out.println("<SERVER> (" + this.getClass() + ") Handling AFK Player.");
@@ -176,20 +170,17 @@ public class FinalScoringState implements State {
 
     /**
      * this function analyze the killshot track in order to get a final score for each player and a graduatory
-     *
-     * @return graduatory
      */
-    private ArrayList<PlayerPoint> getGraduatory(){
+    private void getGraduatory(){
 
         int k=0;
-        ArrayList<PlayerPoint> playerKilling = new ArrayList<>();
 
         //takes the killshot track, check which name there's on the first kill and look for it through the whole killshot track,
         //removing each occurance and scoring the points in "quantity", saving the last occurance of it for tiebreaks, do it again till the list is empty.
 
         for (Player p : ModelGate.model.getPlayerList().getPlayers()){
 
-            playerKilling.add(new PlayerPoint(p));
+            graduatory.add(new PlayerPoint(p));
 
 
             Iterator<Kill> killIterator = ModelGate.model.getKillshotTrack().returnKills().iterator();
@@ -202,14 +193,14 @@ public class FinalScoringState implements State {
 
                 if ((!kill.isSkull()) && p.getNickname().equals(kill.getKillingPlayer().getNickname())) {
 
-                    playerKilling.get(k).quantity += 1;
+                    graduatory.get(k).quantity += 1;
 
-                    if (playerKilling.get(k).numberOfSkullTaken < kill.getOccurance()) {
-                        playerKilling.get(k).numberOfSkullTaken = kill.getOccurance();
+                    if (graduatory.get(k).numberOfSkullTaken < kill.getOccurance()) {
+                        graduatory.get(k).numberOfSkullTaken = kill.getOccurance();
                     }
 
                     if(kill.isOverKill()) {
-                        playerKilling.get(k).overkill += 1;
+                        graduatory.get(k).overkill += 1;
                     }
 
                 }
@@ -218,33 +209,33 @@ public class FinalScoringState implements State {
 
         }
 
-        playerKilling=bubbleSort(playerKilling);
+       bubbleSort();
 
-
-        return playerKilling;
     }
 
 
-    private ArrayList<PlayerPoint> bubbleSort(ArrayList<PlayerPoint> listToSort){
+    /**very common and simple function to order a list, known as bubbleSort
+     * (
+     * although there are more efficent algorythm of sorting,
+     * linear complexity of this one for list of under 20 elements is satisfying
+     * )
+     * */
+    private void bubbleSort(){
 
-        ArrayList<PlayerPoint> playerKilling=listToSort;
-
-
-
-        if (!playerKilling.isEmpty()){
+        if (!graduatory.isEmpty()){
 
             PlayerPoint temporaryPlayer;
             int k = 0;
             int s = 0;
-            while (s < playerKilling.size()) {
+            while (s < graduatory.size()) {
                 k = 1;
                 int j = 0;
-                while (k < playerKilling.size()) {
-                    if ((playerKilling.get(j).quantity < playerKilling.get(k).quantity) ||
-                            (playerKilling.get(j).quantity == playerKilling.get(k).quantity && playerKilling.get(j).numberOfSkullTaken > playerKilling.get(k).numberOfSkullTaken)) {
-                        temporaryPlayer = playerKilling.get(j);
-                        playerKilling.set(j, playerKilling.get(k));
-                        playerKilling.set(k, temporaryPlayer);
+                while (k < graduatory.size()) {
+                    if ((graduatory.get(j).quantity < graduatory.get(k).quantity) ||
+                            (graduatory.get(j).quantity == graduatory.get(k).quantity && graduatory.get(j).numberOfSkullTaken > graduatory.get(k).numberOfSkullTaken)) {
+                        temporaryPlayer = graduatory.get(j);
+                        graduatory.set(j, graduatory.get(k));
+                        graduatory.set(k, temporaryPlayer);
                         j += 1;
                         k += 1;
                     } else {
@@ -255,7 +246,7 @@ public class FinalScoringState implements State {
                 s += 1;
             }
         }
-        return playerKilling;
+
     }
 
 }
