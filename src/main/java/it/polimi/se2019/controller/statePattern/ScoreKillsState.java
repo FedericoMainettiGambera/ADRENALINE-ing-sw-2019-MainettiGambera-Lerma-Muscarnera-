@@ -48,7 +48,7 @@ public class ScoreKillsState implements State {
         if(this.deadPlayers.isEmpty()){
             out.println("<SERVER> Searching for dead players and creating the deadPlayers list");
             for (int i = 0; i < ModelGate.model.getPlayerList().getNumberOfPlayers(); i++) {
-                if (ModelGate.model.getPlayerList().getPlayers().get(i).isDead()) {
+                if(ModelGate.model.getPlayerList().getPlayers().get(i).isDead()&&!ModelGate.model.getPlayerList().getPlayers().get(i).isBot()) {
                     out.println("<SERVER> Scoring player: " + ModelGate.model.getPlayerList().getPlayers().get(i).getNickname());
                     this.scoreKill(ModelGate.model.getPlayerList().getPlayers().get(i));
                     deadPlayers.add(ModelGate.model.getPlayerList().getPlayers().get(i));
@@ -103,12 +103,13 @@ public class ScoreKillsState implements State {
             out.println("<SERVER> Spawning player: " + this.deadPlayers.get(0).getNickname());
 
             ViewControllerEventHandlerContext.setNextState(new SpawnState(this.deadPlayers));
-            ViewControllerEventHandlerContext.state.askForInput(this.deadPlayers.get(0));
+            ViewControllerEventHandlerContext.state.askForInput(null);
         }
     }
 
     @Override
     public void handleAFK() {
+        //TODO
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
     }
 
@@ -146,13 +147,6 @@ public class ScoreKillsState implements State {
         //restoring health to the player
         deadPlayer.emptyDamagesTracker();
 
-
-
-        for (Player p: ModelGate.model.getPlayerList().getPlayers()){
-
-
-
-        }
     }
 
 }

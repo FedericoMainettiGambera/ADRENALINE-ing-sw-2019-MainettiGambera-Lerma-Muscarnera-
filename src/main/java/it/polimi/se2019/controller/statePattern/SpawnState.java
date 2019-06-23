@@ -24,8 +24,6 @@ public class SpawnState implements State {
 
     private ArrayList<Player> deadPlayers;
 
-    private Player playerToAsk;
-
     private Thread inputTimer;
 
 
@@ -36,9 +34,9 @@ public class SpawnState implements State {
 
     @Override
     public void askForInput(Player playerToAsk) {
-        this.playerToAsk = playerToAsk;
-        //(playerToAsk is null)
-        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToSpawn.getNickname() + "\"");
+        //player to ask is null !
+
+        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + deadPlayers.get(0).getNickname() + "\"");
 
         if(!this.deadPlayers.isEmpty()) {
             this.playerToSpawn = deadPlayers.get(0);
@@ -51,20 +49,21 @@ public class SpawnState implements State {
             );
         }
 
+        //list of power up of the player to spawn
         ArrayList<PowerUpCard> powerUpCards = (ArrayList)playerToSpawn.getPowerUpCardsInHand().getCards();
         ArrayList<PowerUpCardV> powerUpCardsV = new ArrayList<>();
         for (PowerUpCard p: powerUpCards) {
             powerUpCardsV.add(p.buildPowerUpCardV());
         }
 
-        //ask which power up he wants to discard
+        //ask which power up he wants to discard and spawn to
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askSpawn(powerUpCardsV);
-            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToSpawn, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
-            logger.severe("Exception Occured: "+e.getClass()+" "+e.getCause());
+            logger.severe("Exception Occurred: "+e.getClass()+" "+e.getCause());
         }
     }
 
@@ -107,7 +106,8 @@ public class SpawnState implements State {
 
     @Override
     public void handleAFK() {
-        this.playerToAsk.setAFKWithNotify(true);
+        //TODO
+        this.playerToSpawn.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         out.println("<SERVER> randomly making player spawn using first card in hand.");
         this.doAction(new ViewControllerEventString(playerToSpawn.getPowerUpCardsInHand().getCards().get(0).getID()));
