@@ -185,7 +185,7 @@ public class BotShootState implements State{
             positionsList.add(square.getCoordinates());
         }
 
-        for (Player p: ModelGate.model.getPlayerList().getPlayers()){
+        for (Player p: ModelGate.model.getPlayerList().getPlayersOnBoard()){
             if(!p.isBot()){
                 for (Position position: positionsList){
                     if(p.getPosition().equals(position)){
