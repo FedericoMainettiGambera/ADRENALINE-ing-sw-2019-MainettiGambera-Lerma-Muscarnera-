@@ -96,7 +96,6 @@ public class Board{
         List<Square> room = new ArrayList<>();
         Square originalPos = this.getSquare(pos);
         char roomColor=originalPos.getColor();
-        room.add(originalPos);
         for (int i = 0; i < this.board.length; i++) {
             for (int j = 0; j < this.board[0].length; j++) {
                 if(this.board[i][j]!=null && this.board[i][j].getColor() == roomColor){

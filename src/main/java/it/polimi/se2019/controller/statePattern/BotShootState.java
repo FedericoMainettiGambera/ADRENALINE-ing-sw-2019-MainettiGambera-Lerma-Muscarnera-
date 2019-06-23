@@ -102,23 +102,30 @@ public class BotShootState implements State{
     private List<Player> playersCanBotSee(){
         List<Player> playersBotCanShoot=new ArrayList<>();
 
+        out.println("<SERVER> searching for the players the bot can see:");
+
         Position botPosition=ModelGate.model.getPlayerList().getPlayer("Terminator").getPosition();
         //takes all players in the bot's room
+        out.println("         checking bot's room");
         playersBotCanShoot.addAll(getPlayersInRoom(botPosition));
 
         Square botSquare=ModelGate.model.getBoard().getSquare(botPosition);
 
         //takes all players in the adjacent rooms:
         //TODO absolutely not sure about the coordinates (just used the same of possiblePositions in Board)
+        out.println("         checking north");
         if(botSquare.getSide(CardinalPoint.north).equals(SquareSide.door)){
            playersBotCanShoot.addAll(getPlayersInRoom(new Position(botPosition.getX()-1, botPosition.getY())));
         }
+        out.println("         checking south");
         if(botSquare.getSide(CardinalPoint.south).equals(SquareSide.door)){
             playersBotCanShoot.addAll(getPlayersInRoom(new Position(botPosition.getX()+1, botPosition.getY())));
         }
+        out.println("         checking east");
         if(botSquare.getSide(CardinalPoint.east).equals(SquareSide.door)){
             playersBotCanShoot.addAll(getPlayersInRoom(new Position(botPosition.getX(), botPosition.getY()+1)));
         }
+        out.println("         checking west");
         if(botSquare.getSide(CardinalPoint.west).equals(SquareSide.door)){
             playersBotCanShoot.addAll(getPlayersInRoom(new Position(botPosition.getX(), botPosition.getY()-1)));
         }
@@ -128,6 +135,7 @@ public class BotShootState implements State{
             out.println("         " + p.getNickname());
         }
 
+        /*
         //deletes duplicates
         List<Player> playersBotCanShootFinal = new ArrayList<>();
         Iterator<Player> playerIterator = playersBotCanShoot.iterator();
@@ -148,39 +156,33 @@ public class BotShootState implements State{
                 }
             }
         }
+        */
 
         //remove the player who is using the bot
-        for (Player p: playersBotCanShootFinal) {
+        for (Player p: playersBotCanShoot) {
             if(p.getNickname().equals(playerToAsk.getNickname())){
-                playersBotCanShootFinal.remove(p);
+                playersBotCanShoot.remove(p);
                 break;
             }
         }
 
-        //remove the bot itself
-        for (Player p: playersBotCanShootFinal) {
-            if(p.getNickname().equals("Terminator")){
-                playersBotCanShootFinal.remove(p);
-                break;
-            }
-        }
-
-        out.println("<SERVER> all the player the bot can shoot are (WITHOUT DUPLICATES, WITHOUT THE PLAYING PLAYER AND WITHOUT THE TERMINATOR):");
-        for (Player p: playersBotCanShootFinal) {
+        out.println("<SERVER> all the player the bot can shoot are (WITHOUT THE PLAYING PLAYER):");
+        for (Player p: playersBotCanShoot) {
             out.println("         " + p.getNickname());
         }
 
-        return playersBotCanShootFinal;
+        return playersBotCanShoot;
     }
 
     private List<Player> getPlayersInRoom(Position pos){
         List<Position> positionsList=new ArrayList<>();
         List<Player> players=new ArrayList<>();
 
+        out.println("         checking players in room: " +ModelGate.model.getBoard().getSquare(pos).getColor());
+
         List<Square> squareList= ModelGate.model.getBoard().getRoomFromPosition(pos);
         for (Square square : squareList){
-            //TODO check se x y sono giuste o al contrario
-            positionsList.add(new Position(square.getCoordinates().getX(), square.getCoordinates().getY()));
+            positionsList.add(square.getCoordinates());
         }
 
         for (Player p: ModelGate.model.getPlayerList().getPlayers()){
@@ -191,6 +193,11 @@ public class BotShootState implements State{
                     }
                 }
             }
+        }
+
+        out.println("             players found are:");
+        for (Player p: players) {
+            out.println("             " + p.getNickname());
         }
 
         return players;
