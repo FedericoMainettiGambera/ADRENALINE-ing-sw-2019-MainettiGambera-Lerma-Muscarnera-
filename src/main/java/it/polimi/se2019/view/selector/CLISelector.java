@@ -945,6 +945,8 @@ public class CLISelector implements SelectorV {
 
             int request = howManyRequest();
 
+            boolean firstRequest = true;
+
             List<Object> answer = new ArrayList<>();
 
             ArrayList<String> requestsString = new ArrayList<>();
@@ -953,13 +955,18 @@ public class CLISelector implements SelectorV {
                 if(possibleInputs.isEmpty()){
                     break;
                 }
-                if(request>=2){
-                    out.println("Do you want to chose another one?");
-                    CLISelector.showListOfRequests(Arrays.asList("Yes", "No"));
-                    int choice = askNumber(0,1);
-                    if(choice==1){
-                        break;
+                if(!firstRequest) {
+                    if (request >= 2) {
+                        out.println("Do you want to chose another one?");
+                        CLISelector.showListOfRequests(Arrays.asList("Yes", "No"));
+                        int choice = askNumber(0, 1);
+                        if (choice == 1) {
+                            break;
+                        }
                     }
+                }
+                else{
+                    firstRequest = false;
                 }
 
                 if(possibleInputs.get(0).getClass().toString().contains("PlayerV")){

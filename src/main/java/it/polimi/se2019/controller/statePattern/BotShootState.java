@@ -54,23 +54,6 @@ public class BotShootState implements State{
 
         List<Player> players = playersCanBotSee();
 
-        //remove the player who is using the bot
-        out.println("<SERVER> removing from the list of player the playing player");
-        for (Player p: players) {
-            if(p.getNickname().equals(playerToAsk.getNickname())){
-                players.remove(p);
-                break;
-            }
-        }
-        //remove the Terminator who is using the bot
-        out.println("<SERVER> removing from the list of player the Terminator");
-        for (Player p: players) {
-            if(p.isBot()){
-                players.remove(p);
-                break;
-            }
-        }
-
         List<PlayerV> playersV = new  ArrayList<>();
         for (Player p: players) {
             playersV.add(p.buildPlayerV());
@@ -111,7 +94,7 @@ public class BotShootState implements State{
         Player player=ModelGate.model.getPlayerList().getPlayer(vceString.getInput());
 
 
-        player.addDamages(ModelGate.model.getPlayerList().getPlayer(botNickname),5);
+        player.addDamages(ModelGate.model.getPlayerList().getPlayer(botNickname),1);
 
         out.println("<SERVER> bot giving damage to: "+ vceString.getInput());
 
@@ -151,9 +134,31 @@ public class BotShootState implements State{
 
         List<Player> playersBotCanShoot = Board.getCanSeePlayerFrom(botPosition);
 
-        out.println("<SERVER> all the player the bot can shoot are:");
+        //remove the player who is using the bot
         for (Player p: playersBotCanShoot) {
-            out.println("         " + p.getNickname());
+            if(p.getNickname().equals(playerToAsk.getNickname())){
+                out.println("<SERVER> removing from the list of player the current playing player");
+                playersBotCanShoot.remove(p);
+                break;
+            }
+        }
+        //remove the Terminator who is using the bot
+        for (Player p: playersBotCanShoot) {
+            if(p.isBot()){
+                out.println("<SERVER> removing from the list of player the Terminator");
+                playersBotCanShoot.remove(p);
+                break;
+            }
+        }
+
+        out.println("<SERVER> all the player the bot can shoot are:");
+        if(playersBotCanShoot.isEmpty()){
+            out.println("         can't see anybody.");
+        }
+        else {
+            for (Player p : playersBotCanShoot) {
+                out.println("         " + p.getNickname());
+            }
         }
 
         return playersBotCanShoot;

@@ -130,6 +130,25 @@ public class ShootPeopleAskForInputState implements State {
             damagedPlayer.addAll(listOfPlayer);
         }
 
+        //remove the terminator from the damagedPlayer list
+        for (Player p: damagedPlayer){
+            if(p.isBot()){
+                out.println("<SERVER> removed the bot from the damagedPlayers list");
+                damagedPlayer.remove(p);
+                break;
+            }
+        }
+
+        out.println("<SERVER> list of damaged player from the last EXEC: ");
+        if(damagedPlayer.isEmpty()){
+            out.println("         nobody");
+        }
+        else{
+            for (Player p: damagedPlayer) {
+                out.println("         " + p.getNickname());
+            }
+        }
+
         State nextState = null;
 
         if(this.actionNumber == 2){
