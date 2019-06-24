@@ -17,11 +17,8 @@ import it.polimi.se2019.view.components.PlayerV;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
-
-import static it.polimi.se2019.model.Board.getPlayersInRoom;
 
 /**
  * this class makes possible for the bot to shoot
@@ -106,7 +103,10 @@ public class BotShootState implements State{
         out.println("<SERVER> setting bot used...");
         ModelGate.model.getPlayerList().getPlayer(botNickname).setBotUsed(true);
 
-        ViewControllerEventHandlerContext.setNextState(this.nextState);
+        List<Player> damagedPlayer = new ArrayList<>();
+        damagedPlayer.add(player);
+
+        ViewControllerEventHandlerContext.setNextState(new TagBackGranadeState(this.nextState, damagedPlayer, ModelGate.model.getPlayerList().getPlayer("Terminator")));
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 
