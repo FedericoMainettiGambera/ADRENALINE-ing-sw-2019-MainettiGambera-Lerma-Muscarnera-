@@ -399,7 +399,7 @@ public class CLISelector implements SelectorV {
             int choice = askNumber(0,requests.size()-1);
 
             String action = requests.get(choice);
-            
+
             ViewControllerEventString VCEString = new ViewControllerEventString(action);
 
             sendToServer(VCEString);
