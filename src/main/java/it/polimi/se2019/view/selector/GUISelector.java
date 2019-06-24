@@ -161,4 +161,9 @@ public class GUISelector implements SelectorV {
     public void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV) {
 
     }
+
+    @Override
+    public void askTagBackGranade(List<PowerUpCardV> listOfTagBackGranade) {
+
+    }
 }

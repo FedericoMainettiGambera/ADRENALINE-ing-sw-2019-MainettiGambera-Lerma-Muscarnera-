@@ -4,6 +4,7 @@ import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.controller.WaitForPlayerInput;
+import it.polimi.se2019.model.Board;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.Square;
@@ -16,9 +17,9 @@ import it.polimi.se2019.view.components.PlayerV;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
+
 /**
  * this class makes possible for the bot to shoot
  * */
@@ -49,6 +50,7 @@ public class BotShootState implements State{
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         List<Player> players = playersCanBotSee();
+
         List<PlayerV> playersV = new  ArrayList<>();
         for (Player p: players) {
             playersV.add(p.buildPlayerV());
@@ -89,7 +91,7 @@ public class BotShootState implements State{
         Player player=ModelGate.model.getPlayerList().getPlayer(vceString.getInput());
 
 
-        player.addDamages(ModelGate.model.getPlayerList().getPlayer(botNickname),5);
+        player.addDamages(ModelGate.model.getPlayerList().getPlayer(botNickname),1);
 
         out.println("<SERVER> bot giving damage to: "+ vceString.getInput());
 
@@ -101,7 +103,10 @@ public class BotShootState implements State{
         out.println("<SERVER> setting bot used...");
         ModelGate.model.getPlayerList().getPlayer(botNickname).setBotUsed(true);
 
-        ViewControllerEventHandlerContext.setNextState(this.nextState);
+        List<Player> damagedPlayer = new ArrayList<>();
+        damagedPlayer.add(player);
+
+        ViewControllerEventHandlerContext.setNextState(new TagBackGranadeState(this.nextState, damagedPlayer, ModelGate.model.getPlayerList().getPlayer("Terminator")));
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 
@@ -122,112 +127,44 @@ public class BotShootState implements State{
      * to the Square of the bot and divided by a door
      * */
     private List<Player> playersCanBotSee(){
-        List<Player> playersBotCanShoot=new ArrayList<>();
 
         out.println("<SERVER> searching for the players the bot can see:");
 
         Position botPosition=ModelGate.model.getPlayerList().getPlayer(botNickname).getPosition();
-        //takes all players in the bot's room
-        out.println("         checking bot's room");
-        playersBotCanShoot.addAll(getPlayersInRoom(botPosition));
 
-        Square botSquare=ModelGate.model.getBoard().getSquare(botPosition);
-
-        //takes all players in the adjacent rooms:
-        //TODO absolutely not sure about the coordinates (just used the same of possiblePositions in Board)
-        out.println("         checking north");
-        if(botSquare.getSide(CardinalPoint.north).equals(SquareSide.door)){
-           playersBotCanShoot.addAll(getPlayersInRoom(new Position(botPosition.getX()-1, botPosition.getY())));
-        }
-        out.println("         checking south");
-        if(botSquare.getSide(CardinalPoint.south).equals(SquareSide.door)){
-            playersBotCanShoot.addAll(getPlayersInRoom(new Position(botPosition.getX()+1, botPosition.getY())));
-        }
-        out.println("         checking east");
-        if(botSquare.getSide(CardinalPoint.east).equals(SquareSide.door)){
-            playersBotCanShoot.addAll(getPlayersInRoom(new Position(botPosition.getX(), botPosition.getY()+1)));
-        }
-        out.println("         checking west");
-        if(botSquare.getSide(CardinalPoint.west).equals(SquareSide.door)){
-            playersBotCanShoot.addAll(getPlayersInRoom(new Position(botPosition.getX(), botPosition.getY()-1)));
-        }
-
-        out.println("<SERVER> all the player the bot can shoot are (BEFORE REMOVING DUPLICATES):");
-        for (Player p: playersBotCanShoot) {
-            out.println("         " + p.getNickname());
-        }
-
-        /*
-        //deletes duplicates
-        List<Player> playersBotCanShootFinal = new ArrayList<>();
-        Iterator<Player> playerIterator = playersBotCanShoot.iterator();
-        while(playerIterator.hasNext()){
-            Player p = playerIterator.next();
-
-            if(playersBotCanShootFinal.isEmpty()){
-                playersBotCanShootFinal.add(p);
-            }
-            else {
-                for (Player pFinal : playersBotCanShootFinal) {
-                    if(p.getNickname().equals(pFinal.getNickname())){
-                        break;
-                    }
-                    else{
-                        playersBotCanShootFinal.add(p);
-                    }
-                }
-            }
-        }
-        */
+        List<Player> playersBotCanShoot = Board.getCanSeePlayerFrom(botPosition);
 
         //remove the player who is using the bot
         for (Player p: playersBotCanShoot) {
             if(p.getNickname().equals(playerToAsk.getNickname())){
+                out.println("<SERVER> removing from the list of player the current playing player");
+                playersBotCanShoot.remove(p);
+                break;
+            }
+        }
+        //remove the Terminator who is using the bot
+        for (Player p: playersBotCanShoot) {
+            if(p.isBot()){
+                out.println("<SERVER> removing from the list of player the Terminator");
                 playersBotCanShoot.remove(p);
                 break;
             }
         }
 
-        out.println("<SERVER> all the player the bot can shoot are (WITHOUT THE PLAYING PLAYER):");
-        for (Player p: playersBotCanShoot) {
-            out.println("         " + p.getNickname());
+        out.println("<SERVER> all the player the bot can shoot are:");
+        if(playersBotCanShoot.isEmpty()){
+            out.println("         can't see anybody.");
+        }
+        else {
+            for (Player p : playersBotCanShoot) {
+                out.println("         " + p.getNickname());
+            }
         }
 
         return playersBotCanShoot;
     }
 
 
-    /**@return a list of player in the same room as the position
-     * @param pos given
-     * */
-    private List<Player> getPlayersInRoom(Position pos){
-        List<Position> positionsList=new ArrayList<>();
-        List<Player> players=new ArrayList<>();
-
-        out.println("         checking players in room: " +ModelGate.model.getBoard().getSquare(pos).getColor());
-
-        List<Square> squareList= ModelGate.model.getBoard().getRoomFromPosition(pos);
-        for (Square square : squareList){
-            positionsList.add(square.getCoordinates());
-        }
-
-        for (Player p: ModelGate.model.getPlayerList().getPlayersOnBoard()){
-            if(!p.isBot()){
-                for (Position position: positionsList){
-                    if(p.getPosition().equalPositions(position)){
-                        players.add(p);
-                    }
-                }
-            }
-        }
-
-        out.println("             players found are:");
-        for (Player p: players) {
-            out.println("             " + p.getNickname());
-        }
-
-        return players;
-    }
 
 }
 

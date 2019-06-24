@@ -35,7 +35,9 @@ public class TargetingScopeState implements State{
         out.println("<SERVER> New state: " + this.getClass());
         this.nextState = nextState;
         this.damagedPlayers = damagedPlayers;
-        this.listOfTargetingScope = getListOfTargetingScope();
+        if(!damagedPlayers.isEmpty()) {
+            this.listOfTargetingScope = getListOfTargetingScope();
+        }
     }
 
     @Override

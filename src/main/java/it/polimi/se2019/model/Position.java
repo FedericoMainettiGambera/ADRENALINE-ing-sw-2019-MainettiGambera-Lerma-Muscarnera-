@@ -10,7 +10,7 @@ public class Position implements Serializable {
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**makes coordinates readable for human users*/
     public String humanString() {
-        return "[y:" + this.getY() + " , x: " +this.getX() + "]";
+        return "[y:" + this.getY() + "][x:" +this.getX() + "]";
     }
 
     /**Constructor:

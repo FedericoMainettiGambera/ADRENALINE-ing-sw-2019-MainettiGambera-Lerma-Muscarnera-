@@ -225,8 +225,6 @@ public class CLISelector implements SelectorV {
                 isFinalFrenzy=false;
             }
 
-            //TODO deleteTHis, forcing final frenzy:
-            isFinalFrenzy = true;
 
             if(canBot) {
                 System.out.println("\n<CLIENT> : Do you want to play with the Terminator active?");
@@ -238,8 +236,6 @@ public class CLISelector implements SelectorV {
                 isBotActive=false;
             }
 
-            //TODO DELETE THIS, FORCING A BOT:
-            isBotActive = true;
 
 
             System.out.println("\n<CLIENT> : Choose number of starting skulls:");
@@ -258,8 +254,6 @@ public class CLISelector implements SelectorV {
                 numberOfStartingSkulls = 8;
             }
 
-            //TODO delete this, forcing number of skulls
-            numberOfStartingSkulls = 5;
 
             ViewControllerEventGameSetUp VCEGameSetUp = new ViewControllerEventGameSetUp(gameMode,mapChoice,numberOfStartingSkulls,isFinalFrenzy,isBotActive);
 
@@ -425,13 +419,9 @@ public class CLISelector implements SelectorV {
             CLISelector.showListOfRequests(requests);
             int choice = askNumber(0,requests.size()-1);
 
-            //TODO SETTING CHOICE SO THAT IT DOESN'T SHOOT TO PEOPLE
-            if(choice == 2){
-                choice =  1;
-            }
-
             String action = requests.get(choice);
 
+            ViewControllerEventString VCEString = new ViewControllerEventString(action);
 
             ViewControllerEventString viewControllerEventString = new ViewControllerEventString(action);
 
@@ -955,6 +945,8 @@ public class CLISelector implements SelectorV {
 
             int request = howManyRequest();
 
+            boolean firstRequest = true;
+
             List<Object> answer = new ArrayList<>();
 
             ArrayList<String> requestsString = new ArrayList<>();
@@ -963,13 +955,18 @@ public class CLISelector implements SelectorV {
                 if(possibleInputs.isEmpty()){
                     break;
                 }
-                if(request>=2){
-                    out.println("Do you want to chose another one?");
-                    CLISelector.showListOfRequests(Arrays.asList("Yes", "No"));
-                    int choice = askNumber(0,1);
-                    if(choice==1){
-                        break;
+                if(!firstRequest) {
+                    if (request >= 2) {
+                        out.println("Do you want to chose another one?");
+                        CLISelector.showListOfRequests(Arrays.asList("Yes", "No"));
+                        int choice = askNumber(0, 1);
+                        if (choice == 1) {
+                            break;
+                        }
                     }
+                }
+                else{
+                    firstRequest = false;
                 }
 
                 if(possibleInputs.get(0).getClass().toString().contains("PlayerV")){
@@ -1314,7 +1311,7 @@ public class CLISelector implements SelectorV {
                     }
                 }
                 out.println("How do you want to pay?");
-                showListOfRequests(requestTargetingScope);
+                showListOfRequests(requestPossiblePayment);
                 chosenPayingMethod = askNumber(0, requestTargetingScope.size() - 1);
 
 
@@ -1323,7 +1320,7 @@ public class CLISelector implements SelectorV {
                     requestPlayerTohit.add(p.getNickname());
                 }
                 out.println("who do you want to inflict the damage to?");
-                showListOfRequests(requestTargetingScope);
+                showListOfRequests(requestPlayerTohit);
                 chosenPlayertoHit = askNumber(0, requestTargetingScope.size() - 1);
             }
 
@@ -1340,6 +1337,35 @@ public class CLISelector implements SelectorV {
     public void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV) {
         AskTargetingScope ats = new AskTargetingScope(listOfTargetingScopeV, possiblePaymentsV, damagedPlayersV);
         ats.start();
+    }
+
+
+
+    private class AskTagBackGranade extends Thread{
+        private List<PowerUpCardV> listOfTagBackGranade;
+        public AskTagBackGranade(List<PowerUpCardV> listOfTagBackGranade){
+            this.listOfTagBackGranade = listOfTagBackGranade;
+        }
+        @Override
+        public void run(){
+            out.println("<CLIENT> do you want to use tagback granade?");
+            List<String> request = new ArrayList<>();
+            for (PowerUpCardV p: listOfTagBackGranade) {
+                request.add(p.getName() + "   COLOR: " + p.getColor());
+            }
+            request.add("skip");
+
+            showListOfRequests(request);
+            int choice = askNumber(0, request.size()-1);
+
+            ViewControllerEventInt VCEInt = new ViewControllerEventInt(choice);
+            sendToServer(VCEInt);
+        }
+    }
+    @Override
+    public void askTagBackGranade(List<PowerUpCardV> listOfTagBackGranade) {
+        AskTagBackGranade atbg = new AskTagBackGranade(listOfTagBackGranade);
+        atbg.start();
     }
 }
 

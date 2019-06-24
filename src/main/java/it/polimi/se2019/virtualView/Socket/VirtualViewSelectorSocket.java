@@ -213,4 +213,9 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     public void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV) {
         SocketVirtualView.sendToClient(playerToAsk, new SelectorEventTargetingScope(SelectorEventTypes.askTargetingScope, listOfTargetingScopeV, possiblePaymentsV, damagedPlayersV));
     }
+
+    @Override
+    public void askTagBackGranade(List<PowerUpCardV> listOfTagBackGranadesV){
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askTagBackGranade, (ArrayList<PowerUpCardV>)listOfTagBackGranadesV));
+    }
 }

@@ -1,6 +1,7 @@
 package it.polimi.se2019.view.selector;
 
 import it.polimi.se2019.model.Position;
+import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.*;
@@ -65,4 +66,6 @@ public interface SelectorV {
     public void askBotShoot(SelectorEventPlayers SEPlayers);
 
     public void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV);
+
+    public void askTagBackGranade(List<PowerUpCardV> listOfTagBackGranade);
 }

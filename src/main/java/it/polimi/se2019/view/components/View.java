@@ -540,6 +540,10 @@ public class View implements Observer {
                 this.selector.askTargetingScope(((SelectorEventTargetingScope)selectorEvent).getListOfTargetingScopeV(),((SelectorEventTargetingScope)selectorEvent).getPossiblePaymentsV(),((SelectorEventTargetingScope)selectorEvent).getDamagedPlayersV());
                 break;
 
+            case askTagBackGranade:
+                this.selector.askTagBackGranade(((SelectorEventPowerUpCards)selectorEvent).getPowerUpCards());
+                break;
+
             default: break;
         }
     }

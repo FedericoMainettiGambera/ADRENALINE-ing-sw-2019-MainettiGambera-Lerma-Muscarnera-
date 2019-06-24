@@ -1,5 +1,6 @@
 package it.polimi.se2019.controller.statePattern;
 
+import it.polimi.se2019.model.Board;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.events.viewControllerEvents.*;
@@ -13,12 +14,8 @@ import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.controller.WaitForPlayerInput;
-import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.view.components.PowerUpCardV;
-
-import java.io.PrintWriter;
-import java.util.logging.Logger;
 
 public class TagBackGranadeState implements State{
     private static PrintWriter out= new PrintWriter(System.out, true);
@@ -51,7 +48,7 @@ public class TagBackGranadeState implements State{
             //update the listOfTagbackGranades
             this.listOfTagBackgranade = getListOfTagBackGranade(currentPlayer);
 
-            if(!this.listOfTagBackgranade.isEmpty()){
+            if(this.listOfTagBackgranade.isEmpty()){
                 out.println("<SERVER> player don't have tagbackgranades.");
                 askNextDamagedPlayer();
             }
@@ -72,9 +69,8 @@ public class TagBackGranadeState implements State{
                 if(canSee(currentPlayer, shootingPlayer)) {
                     try {
                         SelectorGate.getCorrectSelectorFor(currentPlayer).setPlayerToAsk(currentPlayer);
-                        //TODO
-                        //ask him what TagBackgranade want to use or skip
-                        //SelectorGate.getCorrectSelectorFor(currentPlayer).askTagBackGranade(listOfTagBackGranadesV);
+                        //ask him what TagBackgranade want to use or if he wants to "skip" the tagbackgranade state
+                        SelectorGate.getCorrectSelectorFor(currentPlayer).askTagBackGranade(listOfTagBackGranadesV);
                         this.inputTimer = new Thread(new WaitForPlayerInput(this.currentPlayer, this.getClass().toString()));
                         this.inputTimer.start();
                     } catch (Exception e) {
@@ -102,13 +98,20 @@ public class TagBackGranadeState implements State{
 
         ViewControllerEventInt VCEInt = (ViewControllerEventInt)VCE;
         //the answer is an int that represents the number of the TagBackGranade the user wants to use from the listOfTagBackGranade.
-        //if the number exceed the size of the listOfTagBackGranade means the player doesn't want to use it
+        //if the int exceeds the size of the listOfTagBackGranade, it means the player doesn't want to use it
 
         if(VCEInt.getInput() != this.listOfTagBackgranade.size()){//means the player want to use it
-            //TODO
             //take the correct TagBackGranade from the listOfTagbackgranade
+            PowerUpCard chosenTagBackGranade = this.listOfTagBackgranade.get(VCEInt.getInput());
+            out.println("<SERVER> chosen tag back granade is : " + chosenTagBackGranade.getName() + "    COLOR: " + chosenTagBackGranade.getColor() + "    ID: " + chosenTagBackGranade.getID());
+
             //mark the shooting player
+            out.println("<SERVER> marking the shooting player");
+            this.shootingPlayer.addMarksFrom(currentPlayer,1);
+
             //discard the tagBackGranade
+            out.println("<SERVER> discarding th echone tag back granade");
+            this.currentPlayer.getPowerUpCardsInHand().moveCardTo(ModelGate.model.getPowerUpDiscardPile(), chosenTagBackGranade.getID());
         }
         else{//the player doesn't want to use the tag back granade
             out.println("<SERVER> player doesn't want to use tagBackGranade");
@@ -117,14 +120,18 @@ public class TagBackGranadeState implements State{
     }
 
     public boolean canSee(Player currentPlayer, Player shootingPlayer){
-        //TODO
-        //try to reuse existing method in BotShootState
+        List<Player> playersViewable = Board.getCanSeePlayerFrom(currentPlayer.getPosition());
+        for (Player p: playersViewable) {
+            if(p.getNickname().equals(shootingPlayer.getNickname())){
+                return true;
+            }
+        }
         return false;
     }
 
     public void askNextDamagedPlayer(){
-        //TODO
         //remove the currentPlayer from this.listOfDamagedPlayers
+        this.damagedPlayers.remove(currentPlayer);
         //repeat the process with the next damaged player
         askForInput(null);
     }

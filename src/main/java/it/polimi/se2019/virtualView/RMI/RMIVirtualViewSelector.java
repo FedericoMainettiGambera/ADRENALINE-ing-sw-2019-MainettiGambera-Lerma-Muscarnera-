@@ -299,4 +299,8 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
 
     }
 
+    @Override
+    public void askTagBackGranade(List<PowerUpCardV> listOfTagBackGranadesV){
+
+    }
 }
