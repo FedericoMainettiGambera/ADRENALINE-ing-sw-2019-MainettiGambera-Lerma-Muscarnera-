@@ -140,7 +140,7 @@ public class AmmoList implements Serializable {
         /*error case*/
         return false;
     }
-
+/**make the list of ammo cubes readable by humans*/
     public String toString(){
         String s = "     ";
         for (int i = 0; i < this.ammoCubesList.size() ; i++) {
@@ -149,6 +149,8 @@ public class AmmoList implements Serializable {
         return s;
     }
 
+    /**build ad equivalent class of this in the view for safeness and graphical reason
+     * return ammoListV */
     public AmmoListV buildAmmoListV(){
         AmmoListV ammoListV = new AmmoListV();
         List<AmmoCubesV> listOfAmmoCubesV = new ArrayList<>();

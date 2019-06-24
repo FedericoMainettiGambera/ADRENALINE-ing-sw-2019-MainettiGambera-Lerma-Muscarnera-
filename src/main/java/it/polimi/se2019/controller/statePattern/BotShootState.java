@@ -19,7 +19,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
-
+/**
+ * this class makes possible for the bot to shoot
+ * */
 public class BotShootState implements State{
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(TurnState.class.getName());
@@ -30,11 +32,17 @@ public class BotShootState implements State{
 
     private State nextState;
 
+    private String botNickname="Terminator";
+
     public BotShootState(State nextState){
         out.println("<SERVER> New state: " + this.getClass());
         this.nextState = nextState;
     }
 
+    /**@param playerToAsk indicates the owner of the bot
+     * here, askForInput Function is needed because we need to know whom to shoot, anyway sometimes the bot can't see
+     *any target, so no information is needed and the doAction function skipped
+     * */
     @Override
     public void askForInput(Player playerToAsk) {
         this.playerToAsk = playerToAsk;
@@ -58,38 +66,48 @@ public class BotShootState implements State{
                 this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                 this.inputTimer.start();
             } catch (Exception e) {
-                logger.severe("Exception occured  " + e.getClass() + "  " + e.getCause() + Arrays.toString(e.getStackTrace()));
+                logger.severe("Exception occurred  " + e.getClass() + "  " + e.getCause() + Arrays.toString(e.getStackTrace()));
             }
         }
     }
 
+    /**@param vce from which needed information is extrapolated
+     * this doAction add damage to a player, chosen by the owner of the bot,
+     *  between the ones the bot can see
+     * */
     @Override
-    public void doAction(ViewControllerEvent VCE) {
+    public void doAction(ViewControllerEvent vce) {
+
+
         this.inputTimer.interrupt();
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         //parse VCE
-        ViewControllerEventString VCEString = (ViewControllerEventString)VCE;
-        Player player=ModelGate.model.getPlayerList().getPlayer(VCEString.getInput());
+        ViewControllerEventString vceString = (ViewControllerEventString)vce;
+        Player player=ModelGate.model.getPlayerList().getPlayer(vceString.getInput());
 
-        player.addDamages(ModelGate.model.getPlayerList().getPlayer("Terminator"),5);
+        player.addDamages(ModelGate.model.getPlayerList().getPlayer(botNickname),5);
 
-        out.println("<SERVER> bot giving damage to: "+ VCEString.getInput());
+        out.println("<SERVER> bot giving damage to: "+ vceString.getInput());
 
-        if(ModelGate.model.getPlayerList().getPlayer("Terminator").hasAdrenalineShootAction()){
-            player.addMarksFrom(ModelGate.model.getPlayerList().getPlayer("Terminator"),1);
-            out.println("<SERVER> bot giving mark to: "+ VCEString.getInput());
+        if(ModelGate.model.getPlayerList().getPlayer(botNickname).hasAdrenalineShootAction()){
+            player.addMarksFrom(ModelGate.model.getPlayerList().getPlayer(botNickname),1);
+            out.println("<SERVER> bot giving mark to: "+ vceString.getInput());
         }
 
         out.println("<SERVER> setting bot used...");
-        ModelGate.model.getPlayerList().getPlayer("Terminator").setBotUsed(true);
+        ModelGate.model.getPlayerList().getPlayer(botNickname).setBotUsed(true);
 
         ViewControllerEventHandlerContext.setNextState(this.nextState);
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 
+
+    /**
+     * set the player AFK in case they don't send required input in a while
+     * */
     @Override
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
@@ -99,12 +117,15 @@ public class BotShootState implements State{
     }
 
 
+    /**@return a list of player who are in the same room as the bot or who are in a room adjacent
+     * to the Square of the bot and divided by a door
+     * */
     private List<Player> playersCanBotSee(){
         List<Player> playersBotCanShoot=new ArrayList<>();
 
         out.println("<SERVER> searching for the players the bot can see:");
 
-        Position botPosition=ModelGate.model.getPlayerList().getPlayer("Terminator").getPosition();
+        Position botPosition=ModelGate.model.getPlayerList().getPlayer(botNickname).getPosition();
         //takes all players in the bot's room
         out.println("         checking bot's room");
         playersBotCanShoot.addAll(getPlayersInRoom(botPosition));
@@ -174,6 +195,10 @@ public class BotShootState implements State{
         return playersBotCanShoot;
     }
 
+
+    /**@return a list of player in the same room as the position
+     * @param pos given
+     * */
     private List<Player> getPlayersInRoom(Position pos){
         List<Position> positionsList=new ArrayList<>();
         List<Player> players=new ArrayList<>();

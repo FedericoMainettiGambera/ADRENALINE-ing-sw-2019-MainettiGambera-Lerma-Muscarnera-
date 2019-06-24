@@ -8,7 +8,7 @@ import java.util.Observable;
 public class Kill implements Serializable {
     /*-****************************************************************************************************CONSTRUCTOR*/
 
-    /**COnstructor:
+    /**Constructor:
      * only isSkull is true
      * */
     public Kill(){
@@ -56,7 +56,7 @@ public class Kill implements Serializable {
     }
 
     /**
-     * @param player
+     * @param player, the one who inflicted killing
      */
     public void setKillingPlayer(Player player){
         if(isSkull && player!=null) {
@@ -66,7 +66,7 @@ public class Kill implements Serializable {
     }
 
 
-    /**@return
+    /**@return overKillingPlayer
      * */
     public Player getOverKillingPlayer() {
         if(!isSkull && this.overKillingPlayer!=null) {
@@ -77,7 +77,7 @@ public class Kill implements Serializable {
 
 
     /**Keeps track of the OverkillingPlayer for scores purposes
-     * @param player
+     * @param player is the who inflicted overkilling
      */
     public void setOverkillingPlayer(Player player) {
         if(!isSkull && player!=null) {

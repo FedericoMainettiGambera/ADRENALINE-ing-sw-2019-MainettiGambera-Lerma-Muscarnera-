@@ -122,7 +122,9 @@ public class FinalScoringState implements State {
 
     }
 
-    /***/
+    /**
+     * set the player AFK in case they don't send required input in a while
+     * */
     @Override
     public void handleAFK() {
         out.println("<SERVER> (" + this.getClass() + ") Handling AFK Player.");

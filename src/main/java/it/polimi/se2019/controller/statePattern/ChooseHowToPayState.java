@@ -148,6 +148,9 @@ public class ChooseHowToPayState {
         afterPayment();
     }
 
+    /**
+     * set the player AFK in case they don't send required input in a while
+     * */
     public void handleAFK() {
         //TODO
         this.payingPlayer.setAFKWithNotify(true);

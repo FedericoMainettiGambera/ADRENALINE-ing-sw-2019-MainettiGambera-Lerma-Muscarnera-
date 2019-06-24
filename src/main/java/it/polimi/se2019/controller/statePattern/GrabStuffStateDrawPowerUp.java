@@ -53,6 +53,9 @@ public class GrabStuffStateDrawPowerUp implements State {
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 
+    /**
+     * set the player AFK in case they don't send required input in a while
+     * */
     @Override
     public void handleAFK() {
     }

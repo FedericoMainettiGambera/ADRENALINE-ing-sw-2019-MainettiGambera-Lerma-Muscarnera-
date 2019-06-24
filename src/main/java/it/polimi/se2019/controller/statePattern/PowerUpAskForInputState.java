@@ -132,6 +132,9 @@ public class PowerUpAskForInputState implements State {
         askMoreOrExec();
     }
 
+    /**
+     * set the player AFK in case they don't send required input in a while
+     * */
     @Override
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
