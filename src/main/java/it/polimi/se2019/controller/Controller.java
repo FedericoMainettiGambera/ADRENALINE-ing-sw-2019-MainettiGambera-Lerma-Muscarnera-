@@ -190,7 +190,8 @@ public class  Controller{
     }
 
 
-    /*TODO public void reconnect(String networkConnection, String userInterface){
+    //delete..?
+    /*public void reconnect(String networkConnection, String userInterface){
 
         if(userInterface.equals("CLI")) {
             System.out.println("<CLIENT> TRYING TO RECONNECT TO SERVER.");
