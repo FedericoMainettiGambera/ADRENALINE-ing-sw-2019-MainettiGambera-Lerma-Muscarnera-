@@ -1,4 +1,4 @@
-package it.polimi.se2019;
+package it.polimi.se2019.ModelTest;
 
 import it.polimi.se2019.networkHandler.Socket.ServerListenerNetworkHandler;
 import it.polimi.se2019.view.components.View;

@@ -1,4 +1,4 @@
-package it.polimi.se2019;
+package it.polimi.se2019.ModelTest;
 
 import it.polimi.se2019.model.*;
 import org.junit.Test;

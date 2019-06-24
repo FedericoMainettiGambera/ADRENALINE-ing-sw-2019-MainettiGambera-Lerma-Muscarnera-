@@ -1,10 +1,10 @@
-package it.polimi.se2019;
+package it.polimi.se2019.ModelTest;
 
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.virtualView.VirtualView;
 import org.junit.Test;
 
-public class TestPowerUpCard {
+/*public class TestPowerUpCard {
 
     @Test
     public void testConstructor() throws Exception {
@@ -45,4 +45,4 @@ public class TestPowerUpCard {
 
     }
 
-}
+}*/

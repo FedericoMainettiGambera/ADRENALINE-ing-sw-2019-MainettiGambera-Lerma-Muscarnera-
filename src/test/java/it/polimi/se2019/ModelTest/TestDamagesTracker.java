@@ -1,4 +1,4 @@
-package it.polimi.se2019;
+package it.polimi.se2019.ModelTest;
 
 import it.polimi.se2019.model.DamageSlot;
 import it.polimi.se2019.model.DamagesTracker;

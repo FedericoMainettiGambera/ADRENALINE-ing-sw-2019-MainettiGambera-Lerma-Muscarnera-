@@ -1,4 +1,4 @@
-package it.polimi.se2019;
+package it.polimi.se2019.ModelTest;
 
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.OrderedCardList;

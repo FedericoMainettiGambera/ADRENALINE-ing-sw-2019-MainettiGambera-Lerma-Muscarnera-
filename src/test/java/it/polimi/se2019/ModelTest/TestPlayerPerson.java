@@ -1,4 +1,4 @@
-package it.polimi.se2019;
+package it.polimi.se2019.ModelTest;
 
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
@@ -9,9 +9,9 @@ import java.io.ObjectOutputStream;
 import static junit.framework.TestCase.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestPlayerPerson{
-/*FOR MAVEN PURPOSE
-    Player p=new Player();
+/*public class TestPlayerPerson{
+
+  /*  Player p=new Player();
     Player p2=new Player();
 
    @Test
@@ -108,5 +108,5 @@ public class TestPlayerPerson{
         p.makePlayerBoardFinalFrenzy();
         assertEquals(1, p.getPointsList().get(3));
     }
-    */
-}
+
+}*/
