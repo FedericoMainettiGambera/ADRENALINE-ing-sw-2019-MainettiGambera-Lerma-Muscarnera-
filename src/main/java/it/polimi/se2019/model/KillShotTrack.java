@@ -64,6 +64,13 @@ public class KillShotTrack extends Observable implements Serializable {
      * @param killingPlayer @tracks down whom committed a kill
      * */
     public void deathOfPlayer(Player killingPlayer, boolean isOverKill){
+        
+        //TODO:
+        //prendiamo per ipotesi un gioco a 5 startingSkulls e quindi una killshot track a 5 Kills
+        //durante il gioco muoiono le 5 persone e viene triggerata la FF
+        //se nella FF muore qualcuno quest'ultimo non viene inserito nella killshot track ! problema !
+        //è importante sistemare questa cosa perchè può fare la differenza nell'assegnazione dei punti nel FinalScoringState
+
         if (numberOfRemainingSkulls>0) {
             try {
                 kills.get(startingSKulls-numberOfRemainingSkulls).setKillingPlayer(killingPlayer);
