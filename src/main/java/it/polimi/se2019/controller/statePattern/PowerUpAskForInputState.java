@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/** */
 public class PowerUpAskForInputState implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);
@@ -37,11 +38,7 @@ public class PowerUpAskForInputState implements State {
 
     private Integer inputRequestCounterF = 0;
     public boolean canIncrementRequest(){
-        if(inputRequestCounterF < this.chosenPowerUp.getSpecialEffect().requestedInputs().size()-1 ){
-            return true;
-        }else{
-            return false;
-        }
+        return inputRequestCounterF < this.chosenPowerUp.getSpecialEffect().requestedInputs().size() - 1;
     }
 
     @Override
@@ -106,13 +103,13 @@ public class PowerUpAskForInputState implements State {
     }
 
     @Override
-    public void doAction(ViewControllerEvent VCE) {
+    public void doAction(ViewControllerEvent viewControllerEvent) {
         this.inputTimer.interrupt();
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> " + this.getClass() + ".doAction();");
 
-        List<Object> response = ((ViewControllerEventListOfObject)VCE).getAnswer();
+        List<Object> response = ((ViewControllerEventListOfObject)viewControllerEvent).getAnswer();
 
         Object[] inputRow = new Object[10];
 

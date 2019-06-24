@@ -9,28 +9,38 @@ import it.polimi.se2019.model.enumerations.SquareTypes;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 
 import java.io.PrintWriter;
-import java.util.logging.Logger;
 
+/**this class implements the GrabStuffStateGrab which makes possible for the users to grab ammo card or weapon card*/
 public class GrabStuffStateGrab implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);
-    private static final Logger logger = Logger.getLogger(GrabStuffState.class.getName());
 
     private int actionNumber;
 
+    /** constructor:
+     * @param actionNumber needed to know if it's 1st or 2nd action of the player
+     * */
     public GrabStuffStateGrab(int actionNumber){
         out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 
+    /**@param playerToAsk incates the current playing player
+     * no need for inputs here
+     * */
     @Override
     public void askForInput(Player playerToAsk) {
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
         //empty
     }
 
+    /**this function discern whether the player is in a normal square, so that they will be grabbing a ammo card
+     * or in a spawn point square, so that they will be grabbing a weapon card
+     * in the first case the player will just grab the ammo card
+     * in the second case it will be asked to the player to choose the weapon they want to draw (in case there are more than one)
+     * */
     @Override
-    public void doAction(ViewControllerEvent VCE) {
+    public void doAction(ViewControllerEvent viewControllerEvent) {
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         //the player is in a spawnpoint
@@ -111,6 +121,7 @@ public class GrabStuffStateGrab implements State {
 
     /**
      * set the player AFK in case they don't send required input in a while
+     * no input is asked in this state, so we will have to wait the next one to find out!
      * */
     @Override
     public void handleAFK() {

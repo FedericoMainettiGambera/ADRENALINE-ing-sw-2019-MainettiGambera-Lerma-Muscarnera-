@@ -9,8 +9,10 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventStr
 import it.polimi.se2019.controller.WaitForPlayerInput;
 
 import java.io.PrintWriter;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**this class it's a carrefour for the two actions that the choosing to grab put on your way: move and grab or stay still and grab*/
 public class GrabStuffState implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);
@@ -27,6 +29,8 @@ public class GrabStuffState implements State {
         this.actionNumber = actionNumber;
     }
 
+    /**this function asks the player to choose between two actions: to move or to grab
+     * @param playerToAsk holds the current playing player*/
     @Override
     public void askForInput(Player playerToAsk) {
         this.playerToAsk = playerToAsk;
@@ -39,19 +43,23 @@ public class GrabStuffState implements State {
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
-            e.printStackTrace();
+           logger.log(Level.SEVERE, "EXCEPTION", e);
         }
     }
 
+    /**once received the decision of the user,
+     * this function calls the correct next state,
+     * @param viewControllerEvent contains the needed information to discern
+     * whether to call GrabStuffStateMove or GrabStuffStateGrab*/
     @Override
-    public void doAction(ViewControllerEvent VCE) {
+    public void doAction(ViewControllerEvent viewControllerEvent) {
         this.inputTimer.interrupt();
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        ViewControllerEventString VCEString = (ViewControllerEventString)VCE;
-        String choice = VCEString.getInput();
+        ViewControllerEventString viewControllerEventString = (ViewControllerEventString)viewControllerEvent;
+        String choice = viewControllerEventString.getInput();
 
         out.println("<SERVER> Player's choice: " + choice);
 

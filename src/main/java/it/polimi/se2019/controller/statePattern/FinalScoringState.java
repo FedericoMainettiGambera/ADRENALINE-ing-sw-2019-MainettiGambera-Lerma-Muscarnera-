@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
-/**this state is meant to score the killshot track  and provide a final ranking. It is, obviously, only called once, at the end of the game*/
+/**this state is meant to score the kill shot track  and provide a final ranking. It is, obviously, only called once, at the end of the game*/
 public class FinalScoringState implements State {
     private static PrintWriter out = new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(FinalScoringState.class.getName());
@@ -21,7 +21,7 @@ public class FinalScoringState implements State {
 
     public FinalScoringState() {
         out.println("<SERVER> New state: " + this.getClass());
-        graduatory=new ArrayList<PlayerPoint>();
+        graduatory=new ArrayList<>();
     }
 
     /**
@@ -44,7 +44,7 @@ public class FinalScoringState implements State {
      * ends the application
      */
     @Override
-    public void doAction(ViewControllerEvent VCE) {
+    public void doAction(ViewControllerEvent viewControllerEvent) {
         out.println("<SERVER> " + this.getClass() + ".doAction();");
         int score;
 
@@ -136,7 +136,7 @@ public class FinalScoringState implements State {
      *
      * @param player we do it for every player
      */
-    public void scoreTokens(Player player) {
+    private void scoreTokens(Player player) {
 
         //list of points (es 8,6,4,2,1,1)
         ArrayList<Integer> pointsList = player.getPointsList();
@@ -160,7 +160,7 @@ public class FinalScoringState implements State {
         int numberOfSkullTaken;
         int overkill;
 
-        public PlayerPoint(Player player) {
+        private PlayerPoint(Player player) {
             this.player = player;
             this.quantity = 0;
             this.numberOfSkullTaken = 0;
@@ -184,13 +184,7 @@ public class FinalScoringState implements State {
             graduatory.add(new PlayerPoint(p));
 
 
-            Iterator<Kill> killIterator = ModelGate.model.getKillshotTrack().returnKills().iterator();
-
-
-            while(killIterator.hasNext()) {
-
-                Kill kill = killIterator.next();
-
+            for (Kill kill : ModelGate.model.getKillshotTrack().returnKills()) {
 
                 if ((!kill.isSkull()) && p.getNickname().equals(kill.getKillingPlayer().getNickname())) {
 
@@ -200,7 +194,7 @@ public class FinalScoringState implements State {
                         graduatory.get(k).numberOfSkullTaken = kill.getOccurance();
                     }
 
-                    if(kill.isOverKill()) {
+                    if (kill.isOverKill()) {
                         graduatory.get(k).overkill += 1;
                     }
 
@@ -226,7 +220,7 @@ public class FinalScoringState implements State {
         if (!graduatory.isEmpty()){
 
             PlayerPoint temporaryPlayer;
-            int k = 0;
+            int k;
             int s = 0;
             while (s < graduatory.size()) {
                 k = 1;

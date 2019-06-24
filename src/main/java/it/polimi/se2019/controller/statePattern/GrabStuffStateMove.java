@@ -3,7 +3,6 @@ package it.polimi.se2019.controller.statePattern;
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
-import it.polimi.se2019.model.NormalSquare;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
@@ -15,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
+/**this class allows the user to move somewhere else to grab*/
 public class GrabStuffStateMove implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);
@@ -22,17 +22,25 @@ public class GrabStuffStateMove implements State {
 
 
     private int actionNumber;
-    private int numberOfMovement;
+
+    int numberOfMovement;
 
     private Player playerToAsk;
 
     private Thread inputTimer;
 
+    /**constructor,
+     * @param actionNumber indicates if it's being performed 1st or 2nd action
+     * */
     public GrabStuffStateMove(int actionNumber){
         out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 
+    /**@param playerToAsk indicates current playing player
+     * user must tell the function where they wants to be moved
+     * (within limits determined by many factors apart of his will)
+     * */
     @Override
     public void askForInput(Player playerToAsk){
         this.playerToAsk = playerToAsk;
@@ -64,24 +72,28 @@ public class GrabStuffStateMove implements State {
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
-           logger.severe("Exception Occured"+" "+e.getClass()+" "+e.getCause()+ Arrays.toString(e.getStackTrace()));
+           logger.severe("Exception Occurred"+" "+e.getClass()+" "+e.getCause()+ Arrays.toString(e.getStackTrace()));
         }
     }
 
+    /**the player is moved in the desired position
+     * @param viewControllerEvent contains the user's choice
+     * we extrapolate the square where to move the player from it
+     * */
     @Override
-    public void doAction(ViewControllerEvent VCE) {
+    public void doAction(ViewControllerEvent viewControllerEvent) {
         this.inputTimer.interrupt();
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        ViewControllerEventPosition VCEPosition = (ViewControllerEventPosition)VCE;
+        ViewControllerEventPosition viewControllerEventPosition = (ViewControllerEventPosition)viewControllerEvent;
 
         //set new position for the player
-        out.println("<SERVER> moving player to position: [" +VCEPosition.getX()+ "][" +VCEPosition.getY() + "]");
+        out.println("<SERVER> moving player to position: [" +viewControllerEventPosition.getX()+ "][" +viewControllerEventPosition.getY() + "]");
         ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setPosition(
-                VCEPosition.getX(),
-                VCEPosition.getY()
+                viewControllerEventPosition.getX(),
+                viewControllerEventPosition.getY()
         );
 
         ViewControllerEventHandlerContext.setNextState(new GrabStuffStateGrab(this.actionNumber));
