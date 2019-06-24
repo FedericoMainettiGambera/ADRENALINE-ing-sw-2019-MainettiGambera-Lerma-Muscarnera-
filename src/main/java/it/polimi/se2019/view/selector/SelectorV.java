@@ -5,6 +5,7 @@ import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.*;
 import it.polimi.se2019.view.components.EffectV;
+import it.polimi.se2019.view.components.PlayerV;
 import it.polimi.se2019.view.components.PowerUpCardV;
 import it.polimi.se2019.view.components.WeaponCardV;
 
@@ -62,4 +63,6 @@ public interface SelectorV {
     public void wantToUsePowerUpOrNot();
 
     public void askBotShoot(SelectorEventPlayers SEPlayers);
+
+    public void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV);
 }

@@ -539,6 +539,10 @@ public class View implements Observer {
                 this.selector.askBotShoot((SelectorEventPlayers)SE);
                 break;
 
+            case askTargetingScope:
+                this.selector.askTargetingScope(((SelectorEventTargetingScope)SE).getListOfTargetingScopeV(),((SelectorEventTargetingScope)SE).getPossiblePaymentsV(),((SelectorEventTargetingScope)SE).getDamagedPlayersV());
+                break;
+
             default: break;
         }
     }

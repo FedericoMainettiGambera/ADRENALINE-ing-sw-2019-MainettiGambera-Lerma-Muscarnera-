@@ -23,5 +23,6 @@ public enum SelectorEventTypes {
     askPowerUpToUse,
     wantToUsePowerUpOrNot,
     askBotShoot,
-    askBotMove
+    askBotMove,
+    askTargetingScope
 }

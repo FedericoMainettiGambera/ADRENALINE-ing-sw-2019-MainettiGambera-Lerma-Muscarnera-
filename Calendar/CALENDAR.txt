@@ -19,6 +19,8 @@
         8-When reload a weapon should notify all client (MVE)
         9- cosa succede se muore uno che è afk, come va lo spawn ???
         10- per i power up devi inserire le cose dell'usable weapon e usable effect
+        11- controllare i pagamenti degli effect prima di poterli usare
+        12- quando e se avanzerà tempo fixare il problema che il targeting scope non può essere pagato da un targeting scope...
 
     FUNZIONALITA' AVANZATA
         0-Inizializzarlo o meno nel game set up ok

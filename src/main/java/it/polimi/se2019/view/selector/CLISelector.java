@@ -1176,5 +1176,70 @@ public class CLISelector implements SelectorV {
         AskBotShoot abs=new AskBotShoot(SEPlayers.getPlayerVList());
         abs.start();
     }
+
+
+    private class AskTargetingScope extends Thread{
+        private List<PowerUpCardV> listOfTargetingScopeV;
+        private List<Object> possiblePaymentsV;
+        private List<PlayerV> damagedPlayersV;
+
+        public AskTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV){
+            this.listOfTargetingScopeV =listOfTargetingScopeV;
+            this.possiblePaymentsV = possiblePaymentsV;
+            this.damagedPlayersV = damagedPlayersV;
+        }
+
+        @Override
+        public void run(){
+
+            //ask what targeting scope to use and the possibility to not use it
+            List<String> requestTargetingScope = new ArrayList<>();
+            for (PowerUpCardV p: listOfTargetingScopeV) {
+                requestTargetingScope.add(p.getName() + "    COLOR: " + p.getColor());
+            }
+            requestTargetingScope.add("skip");
+            out.println("Do you want to use Targeting scope?");
+            showListOfRequests(requestTargetingScope);
+            Integer chosenTargetingScope = askNumber(0, requestTargetingScope.size()-1);
+
+            int chosenPayingMethod = 0;
+            int chosenPlayertoHit = 0;
+            if(chosenTargetingScope < requestTargetingScope.size()-1) {
+                List<String> requestPossiblePayment = new ArrayList<>();
+                for (Object o : possiblePaymentsV) {
+                    if (o.getClass().toString().contains("AmmoCube")) {
+                        requestPossiblePayment.add("pay using a " + ((AmmoCubesV) o).getColor() + " from the ammo box");
+                    } else {
+                        requestPossiblePayment.add("pay discarding power up " + ((PowerUpCardV) o).getName() + "    COLOR: " + ((PowerUpCardV) o).getColor());
+                    }
+                }
+                out.println("How do you want to pay?");
+                showListOfRequests(requestTargetingScope);
+                chosenPayingMethod = askNumber(0, requestTargetingScope.size() - 1);
+
+
+                List<String> requestPlayerTohit = new ArrayList<>();
+                for (PlayerV p : damagedPlayersV) {
+                    requestPlayerTohit.add(p.getNickname());
+                }
+                out.println("who do you want to inflict the damage to?");
+                showListOfRequests(requestTargetingScope);
+                chosenPlayertoHit = askNumber(0, requestTargetingScope.size() - 1);
+            }
+
+            List<Object> answer = new ArrayList<>();
+            answer.add(chosenTargetingScope);
+            answer.add(chosenPayingMethod);
+            answer.add(chosenPlayertoHit);
+
+            ViewControllerEventListOfObject VCEListOfObject = new ViewControllerEventListOfObject(answer);
+            sendToServer(VCEListOfObject);
+        }
+    }
+    @Override
+    public void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV) {
+        AskTargetingScope ats = new AskTargetingScope(listOfTargetingScopeV, possiblePaymentsV, damagedPlayersV);
+        ats.start();
+    }
 }
 

@@ -11,6 +11,7 @@ import it.polimi.se2019.model.events.selectorEvents.SelectorEventPlayers;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPositions;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPowerUpCards;
 import it.polimi.se2019.view.components.EffectV;
+import it.polimi.se2019.view.components.PlayerV;
 import it.polimi.se2019.view.components.PowerUpCardV;
 import it.polimi.se2019.view.components.WeaponCardV;
 import it.polimi.se2019.virtualView.Selector;
@@ -153,6 +154,11 @@ public class GUISelector implements SelectorV {
 
     @Override
     public void askBotShoot(SelectorEventPlayers SEPlayers) {
+
+    }
+
+    @Override
+    public void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV) {
 
     }
 }

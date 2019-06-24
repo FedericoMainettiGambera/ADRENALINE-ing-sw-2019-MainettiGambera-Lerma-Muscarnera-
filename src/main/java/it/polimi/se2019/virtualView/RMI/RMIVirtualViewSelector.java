@@ -294,4 +294,9 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
 
     }
 
+    @Override
+    public void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV) {
+
+    }
+
 }

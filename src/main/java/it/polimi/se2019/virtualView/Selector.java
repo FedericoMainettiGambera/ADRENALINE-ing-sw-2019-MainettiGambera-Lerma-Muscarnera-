@@ -61,4 +61,6 @@ public interface Selector {
     public void askWantToUsePowerUpOrNot();
 
     public void askBotShoot(List<PlayerV> playerVList);
+
+    public void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV);
 }

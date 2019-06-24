@@ -139,26 +139,10 @@ public class ShootPeopleAskForInputState implements State {
             nextState = (new TurnState(2));
         }
 
+        ViewControllerEventHandlerContext.setNextState(new TargetingScopeState(nextState, damagedPlayer));
+
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
 
-        if(hasTargetingScope(playerToAsk)){
-            //TODO ask to the shooting player if he wants to use the TARGETING SCOPE
-            //send in targeting scope and ask stuff
-            //ViewControllerEventHandlerContext.setNextState(new TargetingScopeState(nextState, damagedPlayer));
-        }
-        else{
-            //send in targeting scope and jump in TagGranade
-            //TODO ask to the damaged player if they wants to use the TAGGRANADE
-        }
-    }
-
-    public boolean hasTargetingScope(Player playerToAsk){
-        for (PowerUpCard p:playerToAsk.getPowerUpCardsInHand().getCards()) {
-            if(p.getName().equals("TANGERINE SCOPE")){
-                return true;
-            }
-        }
-        return false;
     }
 
 
