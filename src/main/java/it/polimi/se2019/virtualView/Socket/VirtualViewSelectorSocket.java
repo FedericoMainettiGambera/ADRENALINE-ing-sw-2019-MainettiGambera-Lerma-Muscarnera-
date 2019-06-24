@@ -131,7 +131,6 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     @Deprecated
     @Override
     public void askShootReloadMove(){
-        ObjectOutputStream oos = this.playerToAsk.getOos();
         SocketVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.askShootReloadMove));
     }
 

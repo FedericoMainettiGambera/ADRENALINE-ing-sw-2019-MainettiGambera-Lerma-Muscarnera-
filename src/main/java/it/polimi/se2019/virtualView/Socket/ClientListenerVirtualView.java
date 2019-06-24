@@ -66,12 +66,12 @@ public class ClientListenerVirtualView extends Observable implements Runnable{
                     this.notifyObservers(viewControllerEvent);
                 } else if (o.getClass().toString().contains("ReconnectionEvent")) {
                     ReconnectionEvent reconnectionEvent = (ReconnectionEvent) o;
-                    resetPlayer(reconnectionEvent);
+                    this.resetPlayer(reconnectionEvent);
                 }
-             else {
-                System.err.println("Received Event not recognized. class: ClientListenerVirtualView: object received->" + o.getClass());
-             }
-           }
+                else {
+                    System.err.println("Received Event not recognized. class: ClientListenerVirtualView: object received->" + o.getClass());
+                }
+            }
         }
     }
 

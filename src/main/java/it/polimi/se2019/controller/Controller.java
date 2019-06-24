@@ -42,7 +42,7 @@ public class  Controller{
 
     public static void startServerWithRMIAndSocket(){
 
-        //inizializza il model
+        //initialize model
         out.println("<SERVER> Creating the Game.");
         ModelGate.model = new Game();
         out.println("<SERVER> Creating a PlayerList.");
