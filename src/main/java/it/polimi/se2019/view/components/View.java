@@ -541,7 +541,7 @@ public class View implements Observer {
                 break;
 
             case askTagBackGranade:
-                this.selector.askTagBackGranade(((SelectorEventPowerUpCards)SE).getPowerUpCards());
+                this.selector.askTagBackGranade(((SelectorEventPowerUpCards)selectorEvent).getPowerUpCards());
                 break;
 
             default: break;
