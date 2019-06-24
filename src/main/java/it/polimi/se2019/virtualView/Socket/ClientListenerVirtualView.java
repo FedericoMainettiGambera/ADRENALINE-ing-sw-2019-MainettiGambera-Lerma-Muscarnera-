@@ -68,10 +68,10 @@ public class ClientListenerVirtualView extends Observable implements Runnable{
                     ReconnectionEvent reconnectionEvent = (ReconnectionEvent) o;
                     resetPlayer(reconnectionEvent);
                 }
-             else {
-                System.err.println("Received Event not recognized. class: ClientListenerVirtualView: object received->" + o.getClass());
-             }
-           }
+                else {
+                    System.err.println("Received Event not recognized. class: ClientListenerVirtualView: object received->" + o.getClass());
+                }
+            }
         }
     }
 
