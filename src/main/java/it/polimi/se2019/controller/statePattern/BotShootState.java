@@ -88,6 +88,7 @@ public class BotShootState implements State{
         ViewControllerEventString vceString = (ViewControllerEventString)vce;
         Player player=ModelGate.model.getPlayerList().getPlayer(vceString.getInput());
 
+
         player.addDamages(ModelGate.model.getPlayerList().getPlayer(botNickname),5);
 
         out.println("<SERVER> bot giving damage to: "+ vceString.getInput());
