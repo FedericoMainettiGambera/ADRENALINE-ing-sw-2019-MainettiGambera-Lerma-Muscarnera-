@@ -1214,7 +1214,7 @@ public class CLISelector implements SelectorV {
                     }
                 }
                 out.println("How do you want to pay?");
-                showListOfRequests(requestTargetingScope);
+                showListOfRequests(requestPossiblePayment);
                 chosenPayingMethod = askNumber(0, requestTargetingScope.size() - 1);
 
 
@@ -1223,7 +1223,7 @@ public class CLISelector implements SelectorV {
                     requestPlayerTohit.add(p.getNickname());
                 }
                 out.println("who do you want to inflict the damage to?");
-                showListOfRequests(requestTargetingScope);
+                showListOfRequests(requestPlayerTohit);
                 chosenPlayertoHit = askNumber(0, requestTargetingScope.size() - 1);
             }
 
@@ -1240,6 +1240,35 @@ public class CLISelector implements SelectorV {
     public void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV) {
         AskTargetingScope ats = new AskTargetingScope(listOfTargetingScopeV, possiblePaymentsV, damagedPlayersV);
         ats.start();
+    }
+
+
+
+    private class AskTagBackGranade extends Thread{
+        private List<PowerUpCardV> listOfTagBackGranade;
+        public AskTagBackGranade(List<PowerUpCardV> listOfTagBackGranade){
+            this.listOfTagBackGranade = listOfTagBackGranade;
+        }
+        @Override
+        public void run(){
+            out.println("<CLIENT> do you want to use tagback granade?");
+            List<String> request = new ArrayList<>();
+            for (PowerUpCardV p: listOfTagBackGranade) {
+                request.add(p.getName() + "   COLOR: " + p.getColor());
+            }
+            request.add("skip");
+
+            showListOfRequests(request);
+            int choice = askNumber(0, request.size()-1);
+
+            ViewControllerEventInt VCEInt = new ViewControllerEventInt(choice);
+            sendToServer(VCEInt);
+        }
+    }
+    @Override
+    public void askTagBackGranade(List<PowerUpCardV> listOfTagBackGranade) {
+        AskTagBackGranade atbg = new AskTagBackGranade(listOfTagBackGranade);
+        atbg.start();
     }
 }
 

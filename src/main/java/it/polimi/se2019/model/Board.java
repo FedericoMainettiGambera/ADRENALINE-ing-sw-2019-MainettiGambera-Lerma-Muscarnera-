@@ -1,5 +1,6 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.SquareSide;
@@ -401,6 +402,69 @@ public class Board{
         }
         return false;
     }
+
+    /**@return a list of player in the same room as the position
+     * @param pos given
+     * */
+    public static List<Player> getPlayersInRoom(Position pos){
+        List<Position> positionsList=new ArrayList<>();
+        List<Player> players=new ArrayList<>();
+
+        System.out.println("<SERVER-model> checking players in room: " + ModelGate.model.getBoard().getSquare(pos).getColor());
+
+        List<Square> squareList= ModelGate.model.getBoard().getRoomFromPosition(pos);
+        for (Square square : squareList){
+            positionsList.add(square.getCoordinates());
+        }
+
+        for (Player p: ModelGate.model.getPlayerList().getPlayersOnBoard()){
+            for (Position position: positionsList){
+                if(p.getPosition().equals(position)){
+                    players.add(p);
+                }
+            }
+        }
+
+        System.out.println("<SERVER-model> players found are:");
+        for (Player p: players) {
+            System.out.println("               " + p.getNickname());
+        }
+
+        return players;
+    }
+
+    public static List<Player> getCanSeePlayerFrom(Position pos){
+        List<Player> players=new ArrayList<>();
+
+        System.out.println("<SERVER> searching for the players that can be seen from position " +pos.humanString());
+
+        //takes all players in the bot's room
+        System.out.println("         checking current position room");
+        players.addAll(getPlayersInRoom(pos));
+
+        Square botSquare=ModelGate.model.getBoard().getSquare(pos);
+
+        //takes all players in the adjacent rooms:
+        System.out.println("         checking north room");
+        if(botSquare.getSide(CardinalPoint.north).equals(SquareSide.door)){
+            players.addAll(getPlayersInRoom(new Position(pos.getX()-1, pos.getY())));
+        }
+        System.out.println("         checking south room");
+        if(botSquare.getSide(CardinalPoint.south).equals(SquareSide.door)){
+            players.addAll(getPlayersInRoom(new Position(pos.getX()+1, pos.getY())));
+        }
+        System.out.println("         checking east room");
+        if(botSquare.getSide(CardinalPoint.east).equals(SquareSide.door)){
+            players.addAll(getPlayersInRoom(new Position(pos.getX(), pos.getY()+1)));
+        }
+        System.out.println("         checking west room");
+        if(botSquare.getSide(CardinalPoint.west).equals(SquareSide.door)){
+            players.addAll(getPlayersInRoom(new Position(pos.getX(), pos.getY()-1)));
+        }
+        return players;
+    }
+
+
 /**build an equivalent class of this for the view usage  for graphical and safeness  reasons
  * @return BoardV
  * */

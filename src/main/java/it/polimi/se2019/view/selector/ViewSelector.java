@@ -170,5 +170,10 @@ public class ViewSelector implements SelectorV {
         this.getCorrectSelector().askTargetingScope(listOfTargetingScopeV, possiblePaymentsV, damagedPlayersV);
     }
 
+    @Override
+    public void askTagBackGranade(List<PowerUpCardV> listOfTagBackGranade) {
+        this.getCorrectSelector().askTagBackGranade(listOfTagBackGranade);
+    }
+
 
 }

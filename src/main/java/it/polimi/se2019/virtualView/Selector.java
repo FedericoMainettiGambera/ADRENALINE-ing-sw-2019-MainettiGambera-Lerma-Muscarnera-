@@ -63,4 +63,6 @@ public interface Selector {
     public void askBotShoot(List<PlayerV> playerVList);
 
     public void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV);
+
+    public void askTagBackGranade(List<PowerUpCardV> listOfTagBackGranadesV);
 }

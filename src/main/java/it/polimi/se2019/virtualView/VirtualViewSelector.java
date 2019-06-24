@@ -147,4 +147,10 @@ public class VirtualViewSelector implements Selector {
 
     }
 
+    @Override
+    public void askTagBackGranade(List<PowerUpCardV> listOfTagBackGranadesV) {
+
+    }
+
+
 }
