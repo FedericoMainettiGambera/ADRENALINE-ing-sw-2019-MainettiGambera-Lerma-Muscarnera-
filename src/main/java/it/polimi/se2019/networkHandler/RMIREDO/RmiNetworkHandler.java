@@ -18,21 +18,21 @@ public class RmiNetworkHandler implements RmiInterface, Observer {
 
     private int port;
 
-    private InetAddress inetAddress;
+    private String ip;
 
     private View view;
 
     public static RmiInterface server;
 
-    public RmiNetworkHandler(InetAddress inetAddress, int port, View view) throws IOException {
+    public RmiNetworkHandler(String ip, int port, View view) throws IOException {
         this.view = view;
 
         this.port = port;
-        this.inetAddress = inetAddress;
+        this.ip = ip;
 
         logger.info("<CLIENT>New Client with IP: " + InetAddress.getLocalHost().getHostAddress());
 
-        logger.info("<CLIENT>Trying to connect to: " + this.inetAddress.getHostAddress() + ":" + this.port);
+        logger.info("<CLIENT>Trying to connect to: " + this.ip + ":" + this.port);
 
         //TODO
         //inizializza l'RMI e effettua la connessione e tutto ciò che serve

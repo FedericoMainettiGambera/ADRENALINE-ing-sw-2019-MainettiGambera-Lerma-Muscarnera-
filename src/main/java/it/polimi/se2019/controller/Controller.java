@@ -4,6 +4,7 @@ import it.polimi.se2019.model.Game;
 import it.polimi.se2019.model.GameConstant;
 import it.polimi.se2019.model.PlayersList;
 import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
+import it.polimi.se2019.networkHandler.RMIREDO.RmiNetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.networkHandler.sendPingRequest;
 import it.polimi.se2019.view.GUIstarter;
@@ -11,11 +12,13 @@ import it.polimi.se2019.view.components.View;
 import it.polimi.se2019.view.components.ViewModelGate;
 import it.polimi.se2019.view.selector.CLISelector;
 import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
+import it.polimi.se2019.virtualView.RMIREDO.RmiVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -28,10 +31,10 @@ public class  Controller{
     private static PrintWriter out= new PrintWriter(System.out, true);
 
     public static SocketVirtualView socketVirtualView;
-    public static RMIVirtualView rmiVirtualView;
+    public static RmiVirtualView rmiVirtualView;
 
     public static SocketNetworkHandler SNH;
-    public static RMINetworkHandler RMINH;
+    public static RmiNetworkHandler RMINH;
 
     public static ViewControllerEventHandlerContext viewControllerEventHandlerContext;
 
@@ -54,22 +57,28 @@ public class  Controller{
 
         //Starting the Server Socket
         socketVirtualView = new SocketVirtualView(viewControllerEventHandlerContext);
-        try {
-            socketVirtualView.startServer();
-        }
-        catch (IOException e){
-            logger.log(Level.SEVERE, "EXCEPTION", e);
-        }
+        socketVirtualView.startServer();
         ViewControllerEventHandlerContext.socketVV = socketVirtualView;
 
+        //-----------------OLD-----------------//
         //Starting the Server as RMI
-        try {
+        /*try {
             rmiVirtualView = new RMIVirtualView(viewControllerEventHandlerContext);
             rmiVirtualView.startServer();
         } catch (IOException e) {
             logger.log(Level.SEVERE, "EXCEPTION", e);
         }
-        ViewControllerEventHandlerContext.RMIVV = rmiVirtualView;
+        ViewControllerEventHandlerContext.RMIVV = rmiVirtualView;*/
+
+        //-----------------NEW-----------------//
+        //starting the Server as RMi
+        rmiVirtualView = new RmiVirtualView(viewControllerEventHandlerContext);
+        try {
+            rmiVirtualView.startRMI();
+        } catch (RemoteException e) {
+            logger.log(Level.SEVERE, " EXCEPTION ", e);
+        }
+        ViewControllerEventHandlerContext.RMIVV=rmiVirtualView;
 
         //Registering the VirtualView as an observer of the model so it can receive the MVEs
         out.println("<SERVER> Registering the VirtualViews (RMI and Socket) as observers of the Model");
@@ -108,6 +117,7 @@ public class  Controller{
                 logger.severe("error in rmi starting server occurred"+ e.getCause());
                 return false;
             }
+            RMINH = new RmiNetworkHandler()
         }
         else {
             if(userInterface.equalsIgnoreCase("GUI")){
