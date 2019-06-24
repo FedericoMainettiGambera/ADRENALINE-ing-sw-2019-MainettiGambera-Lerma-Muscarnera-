@@ -4,24 +4,43 @@ import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventNickname;
+import it.polimi.se2019.virtualView.RMI.RMIInterface;
+import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
 import it.polimi.se2019.virtualView.Socket.ConnectionHandlerVirtualView;
 import it.polimi.se2019.virtualView.VirtualView;
 
+import java.io.PrintWriter;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Observable;
 
+/**implements rmi server*/
 public class RmiVirtualView extends VirtualView implements RmiInterface{
+
+    private PrintWriter out=new PrintWriter(System.out, true);
 
     private ViewControllerEventHandlerContext controller;
 
     public static Player newPlayer;
 
+    private String name="http//:AdrenalineRmiServer:1099";
+
     public RmiVirtualView(ViewControllerEventHandlerContext controller){
         this.controller = controller;
     }
 
-    public void startRMI(){
-        //TODO
-        //fa partire l'Rmi, fa tutte le cose che deve...
+    /** start the rmi server*/
+    public void startRMI() throws RemoteException {
+
+        RMIInterface RMIS = new RMIVirtualView(controller);
+        RMIInterface stub = (RMIInterface) UnicastRemoteObject.exportObject(RMIS, 1099);
+        Registry reg = LocateRegistry.createRegistry(1099);
+        reg.rebind(name, stub);
+
+        out.println("<SERVER>: RMI SERVER running at the adress "+ name);
+
     }
 
     public void sendAllClient(Object o){
@@ -40,6 +59,9 @@ public class RmiVirtualView extends VirtualView implements RmiInterface{
         //      if(!playerToSend.isAFK() && playerToSend."getInterfacciaDelClient()"!=null && !playerToSend.isBot()) {
         //          playerToSend."getInterfacciaDelClient()".send(o);
         //      }
+            if((!playerToSend.isBot())&&(!playerToSend.isAFK())&&((playerToSend.getRmiInterface()!=null))){
+                //playerToSend.getRmiInterface().send(o);
+        }
     }
 
     public static void sendToClientEvenAFK(Player playerToSend, Object o) {
