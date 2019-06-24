@@ -14,8 +14,6 @@ import java.util.List;
 
 public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selector{
 
-
-    //deve usare metodi di rmivirtualview sendtoclient
     private Player playerToAsk;
 
     public void setPlayerToAsk(it.polimi.se2019.model.Player playerToAsk){
@@ -26,7 +24,9 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
         return playerToAsk;
     }
 
-//guarda Socket
+    //guarda Socket per completare tutte queste @Override
+    //      deve usare metodi di rmivirtualview sendtoclient
+
     @Override
     public void askGameSetUp(boolean canBot) {
 

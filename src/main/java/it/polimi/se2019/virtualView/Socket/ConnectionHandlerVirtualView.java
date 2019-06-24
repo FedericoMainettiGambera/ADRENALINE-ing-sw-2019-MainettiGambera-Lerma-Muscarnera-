@@ -70,13 +70,11 @@ public class ConnectionHandlerVirtualView extends Thread {
 
             if(Game.hasGameBegun){
                 System.out.println("<SERVER-soket> Game has already begun, the connection received must be a request of Reconnection.");
-                //TODO
                 //in a separate Thread handle the reconnection.
                 (new Reconnection(tempSocket)).start();
             }
             else {
                 System.out.println("<SERVER-soket> Game hasn't begun, the connection received must be a new Player.");
-                //TODO
                 //in a separate Thread ask for the nickname and listen for the answer, once done it should create a player and add it to the model.
                 (new NewConnection(tempSocket)).start();
             }
