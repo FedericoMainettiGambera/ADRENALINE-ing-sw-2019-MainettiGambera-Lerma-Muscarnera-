@@ -70,6 +70,11 @@ public class KillShotTrack extends Observable implements Serializable {
         //durante il gioco muoiono le 5 persone e viene triggerata la FF
         //se nella FF muore qualcuno quest'ultimo non viene inserito nella killshot track ! problema !
         //è importante sistemare questa cosa perchè può fare la differenza nell'assegnazione dei punti nel FinalScoringState
+        //p.s. per testing rapido e vedere il problema si può far partire una partita Random con:
+        //  -bot che fa 12 danni a volta
+        //  -FF sempre attiva
+        //  -5 starting skulls
+        //  -shoot people bloccata
 
         if (numberOfRemainingSkulls>0) {
             try {
