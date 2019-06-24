@@ -4,7 +4,6 @@ import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.controller.WaitForPlayerInput;
 import it.polimi.se2019.model.Player;
-import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventBoolean;
 
@@ -22,7 +21,7 @@ public class WantToPlayPowerUpState  implements State{
     private Thread inputTimer;
 
     public WantToPlayPowerUpState(){
-        System.out.println("<SERVER> New state: " + this.getClass());
+        out.println("<SERVER> New state: " + this.getClass());
     }
 
     @Override
@@ -54,15 +53,15 @@ public class WantToPlayPowerUpState  implements State{
     }
 
     @Override
-    public void doAction(ViewControllerEvent VCE) {
+    public void doAction(ViewControllerEvent viewControllerEvent) {
         this.inputTimer.interrupt();
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         //parse the VCE
-        ViewControllerEventBoolean VCEBoolean = (ViewControllerEventBoolean)VCE;
-        if(VCEBoolean.getInput()){
+        ViewControllerEventBoolean viewControllerEventBoolean = (ViewControllerEventBoolean)viewControllerEvent;
+        if(viewControllerEventBoolean.getInput()){
             //if he wants to use a power up, send player to state powerUpState (after which should restart this state (to play more than 1 powerup)
             ViewControllerEventHandlerContext.setNextState(new PowerUpState("movement", this)); //i'm already sure he can play at least 1 power up (cheked in the askForInput)
             ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
