@@ -104,20 +104,11 @@ public class  Controller{
                 view = new View("RMI", "CLI");
             }
             try {
-                if(sendPingRequest.sendPingRequest(ip)) {
-                    try {
-                        RMINH = new RMINetworkHandler(ip, Integer.parseInt(port), view);
-                    }
-                    catch (NumberFormatException e){
-                        logger.severe("error in rmi network handler occurred"+ e.getCause());
-                        return false;
-                    }
-                }
-            } catch (NotBoundException|IOException e ) {
-                logger.severe("error in rmi starting server occurred"+ e.getCause());
+                RMINH = new RmiNetworkHandler(ip, Integer.parseInt(port), view);
+            } catch (IOException e) {
+                logger.log(Level.SEVERE, "EXCEPTION", e);
                 return false;
             }
-            RMINH = new RmiNetworkHandler()
         }
         else {
             if(userInterface.equalsIgnoreCase("GUI")){
