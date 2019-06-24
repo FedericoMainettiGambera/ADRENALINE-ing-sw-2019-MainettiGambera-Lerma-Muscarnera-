@@ -21,11 +21,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Observable;
 
-import static it.polimi.se2019.model.enumerations.ModelViewEventTypes.newPlayer;
-import static it.polimi.se2019.model.enumerations.ModelViewEventTypes.newPlayersList;
-
-//import sun.net.util.IPAddressUtil;
-//import sun.security.x509.IPAddressName;
 
 public class RMIVirtualView extends VirtualView implements RMIInterface {
 

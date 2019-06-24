@@ -15,7 +15,6 @@ import it.polimi.se2019.view.components.PowerUpCardV;
 
 import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class ChooseHowToPayState {
