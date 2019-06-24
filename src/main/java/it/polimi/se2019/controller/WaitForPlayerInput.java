@@ -1,11 +1,9 @@
 package it.polimi.se2019.controller;
 
-import it.polimi.se2019.controller.statePattern.ChooseHowToPayState;
-import it.polimi.se2019.controller.statePattern.SpawnState;
 import it.polimi.se2019.model.GameConstant;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.timerEvent.TimerEvent;
-import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
+import it.polimi.se2019.virtualView.RMIREDO.RmiVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
 
 import java.io.PrintWriter;
@@ -29,7 +27,7 @@ public class WaitForPlayerInput implements Runnable{
 
     private SocketVirtualView SVV = ViewControllerEventHandlerContext.socketVV;
 
-    private RMIVirtualView RMIVV = ViewControllerEventHandlerContext.RMIVV;
+    private RmiVirtualView RMIVV = ViewControllerEventHandlerContext.RMIVV;
 
     public WaitForPlayerInput(Player p, String callingClass){
         this.playerToAsk = p;
@@ -47,11 +45,7 @@ public class WaitForPlayerInput implements Runnable{
         int i = 1;
 
         while (i <= GameConstant.timeToInsertInputInSeconds) {
-            try {
-                this.RMIVV.sendAllClient(new TimerEvent(i, GameConstant.timeToInsertInputInSeconds, "input"));
-            } catch (RemoteException e) {
-                logger.log(Level.WARNING,"Exception Occurred: "+e.getClass()+" "+e.getCause());
-            }
+            this.RMIVV.sendAllClient(new TimerEvent(i, GameConstant.timeToInsertInputInSeconds, "input"));
             this.SVV.sendAllClient(new TimerEvent(i, GameConstant.timeToInsertInputInSeconds, "input"));
             try {
                 TimeUnit.SECONDS.sleep(1);
