@@ -93,6 +93,7 @@ public abstract class Person extends Observable implements Serializable {
     /***/
     public void addPoints(int points) {
         this.score+=points;
+        System.out.println("<SERVER-model> player " + this.getNickname() + " has " + this.score + " points");
         setChanged();
         notifyObservers(new ModelViewEvent(score, ModelViewEventTypes.newScore, nickname));
     }
@@ -156,6 +157,12 @@ public abstract class Person extends Observable implements Serializable {
                     pointsList.add(1);
                 }
             }
+            System.out.println("<SERVER-model> PointsList:");
+            String s = "               ";
+            for (Integer i:pointsList) {
+                s+= i + "   ";
+            }
+            System.out.println(s);
             return pointsList;
         }
         else {
@@ -166,6 +173,12 @@ public abstract class Person extends Observable implements Serializable {
             for (int i = 0; i < 10; i++) {
                 pointsList.add(1);
             }
+            System.out.println("<SERVER-model> PointsList of player " + this.getNickname());
+            String s = "               ";
+            for (Integer i:pointsList) {
+                s+= i + "   ";
+            }
+            System.out.println(s);
             return pointsList;
         }
     }
@@ -257,6 +270,13 @@ public abstract class Person extends Observable implements Serializable {
         for(int i = 0; i<playersShooting.size(); i++){
             finalResult.add(playersShooting.list.get(i).player);
         }
+
+        System.out.println("<SERVER-model> list of players ordered by number of damage made to " + this.nickname);
+        String s = "               ";
+        for (Player p : finalResult) {
+            s+= p.getNickname() + "   ";
+        }
+        System.out.println(s);
 
         return finalResult;
     }

@@ -134,12 +134,12 @@ public class ScoreKillsState implements State {
 
         //add skull to the killshotTrack
         if(!ModelGate.model.hasFinalFrenzyBegun()) {
-            ModelGate.model.getKillshotTrack().deathOfPlayer(deadPlayer, deadPlayer.isOverkilled());
+            ModelGate.model.getKillshotTrack().deathOfPlayer(deadPlayer.getLastDamageSlot().getShootingPlayer(), deadPlayer.isOverkilled());
         }
 
         //the overkilling player receive a mark from the overkilled player
         if(deadPlayer.isOverkilled()){
-            deadPlayer.getDamageSlot(12).getShootingPlayer().addMarksFrom(deadPlayer,1);
+            deadPlayer.getDamageSlot(11).getShootingPlayer().addMarksFrom(deadPlayer,1);
         }
 
         //adding skull to the dead player

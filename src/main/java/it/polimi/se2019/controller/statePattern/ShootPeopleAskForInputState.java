@@ -6,6 +6,7 @@ import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.controller.WaitForPlayerInput;
 import it.polimi.se2019.model.Effect;
 import it.polimi.se2019.model.Player;
+import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
@@ -14,6 +15,7 @@ import it.polimi.se2019.view.components.PlayerV;
 import it.polimi.se2019.view.components.SquareV;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -120,19 +122,43 @@ public class ShootPeopleAskForInputState implements State {
 
         this.chosenWeaponCard.unload(); //TODO not sure about this, ask luca
 
-        this.chosenEffect.Exec();
-        //TODO make the exec return a list of player damaged by the weapon. And starts the power up stuff
-        //List<Player> damagedPlayer = this.chosenEffect.Exec();
-        //TODO ask to the shooting player if he wants to use the TARGETING SCOPE
-        //TODO ask to the damaged player if they wants to use the TAGGRANADE
+        List<List<Player>> listListDamagedPlayer = this.chosenEffect.Exec();
+
+        //transform the List<List<Player>> in List<Player>
+        List<Player> damagedPlayer = new ArrayList<>();
+        for (List<Player> listOfPlayer: listListDamagedPlayer) {
+            damagedPlayer.addAll(listOfPlayer);
+        }
+
+        State nextState = null;
 
         if(this.actionNumber == 2){
-            ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
+            nextState = (new ReloadState(false));
         }
         else if(this.actionNumber == 1){
-            ViewControllerEventHandlerContext.setNextState(new TurnState(2));
+            nextState = (new TurnState(2));
         }
+        ViewControllerEventHandlerContext.setNextState(nextState);
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+
+        if(hasTargetingScope(playerToAsk)){
+            //TODO ask to the shooting player if he wants to use the TARGETING SCOPE
+            //send in targeting scope and ask stuff
+            //ViewControllerEventHandlerContext.setNextState(new TargetingScopeState(nextState, damagedPlayer));
+        }
+        else{
+            //send in targeting scope and jump in TagGranade
+            //TODO ask to the damaged player if they wants to use the TAGGRANADE
+        }
+    }
+
+    public boolean hasTargetingScope(Player playerToAsk){
+        for (PowerUpCard p:playerToAsk.getPowerUpCardsInHand().getCards()) {
+            if(p.getName().equals("TANGERINE SCOPE")){
+                return true;
+            }
+        }
+        return false;
     }
 
 

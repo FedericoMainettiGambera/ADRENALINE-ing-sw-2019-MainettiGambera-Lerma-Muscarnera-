@@ -1,6 +1,5 @@
 package it.polimi.se2019.controller.statePattern;
 
-import com.sun.tools.internal.xjc.model.Model;
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;

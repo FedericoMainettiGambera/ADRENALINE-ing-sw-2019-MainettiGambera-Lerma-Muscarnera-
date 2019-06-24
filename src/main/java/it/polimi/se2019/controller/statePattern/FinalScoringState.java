@@ -113,8 +113,7 @@ public class FinalScoringState implements State {
         int i = 1;
         out.println("Final Classification is :");
         for (PlayerPoint p : graduatory) {
-
-
+            p.player.setScore(p.quantity);
             out.println("<SERVER> " + i + ":" + p.player.getNickname() + " with " + p.quantity + " points ");
             ModelGate.model.notifyClients(new ModelViewEvent(p.player.getNickname(), ModelViewEventTypes.finalScoring, p.quantity, " " +i));
             i++;
