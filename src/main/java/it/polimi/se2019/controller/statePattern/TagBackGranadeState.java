@@ -48,7 +48,7 @@ public class TagBackGranadeState implements State{
             //update the listOfTagbackGranades
             this.listOfTagBackgranade = getListOfTagBackGranade(currentPlayer);
 
-            if(!this.listOfTagBackgranade.isEmpty()){
+            if(this.listOfTagBackgranade.isEmpty()){
                 out.println("<SERVER> player don't have tagbackgranades.");
                 askNextDamagedPlayer();
             }

@@ -419,7 +419,7 @@ public class Board{
 
         for (Player p: ModelGate.model.getPlayerList().getPlayersOnBoard()){
             for (Position position: positionsList){
-                if(p.getPosition().equals(position)){
+                if(p.getPosition().equalPositions(position)){
                     players.add(p);
                 }
             }
