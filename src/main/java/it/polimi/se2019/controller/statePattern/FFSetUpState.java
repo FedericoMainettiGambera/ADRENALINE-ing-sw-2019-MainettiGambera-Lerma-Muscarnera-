@@ -8,7 +8,6 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class FFSetUpState implements State {
 

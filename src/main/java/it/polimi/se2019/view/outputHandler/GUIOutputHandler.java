@@ -2,6 +2,7 @@ package it.polimi.se2019.view.outputHandler;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.stateEvent.StateEvent;
 import it.polimi.se2019.view.GUIstarter;
+import it.polimi.se2019.view.InitialSceneController;
 import it.polimi.se2019.view.LoadingSceneController;
 import it.polimi.se2019.view.components.OrderedCardListV;
 import javafx.fxml.FXML;
@@ -25,7 +26,7 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
         launch(args);
     }
 
-    public ControllerInizialScene controller;
+    public InitialSceneController controller;
 
     @FXML
     Parent root;
@@ -61,8 +62,8 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
     }
 
     @Override
-    public void stateChanged(StateEvent StE) {
-        if(StE.getState().contains("GameSetUpState")){
+    public void stateChanged(StateEvent stateEvent) {
+        if(stateEvent.getState().contains("GameSetUpState")){
             while(true) {
                 if (GUIstarter.stageController.getClass().toString().contains("LoadingSceneController")) {
                     ((LoadingSceneController)GUIstarter.stageController).changeScene("GAMESCENE1.fxml");
@@ -80,26 +81,26 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
     }
 
     @Override
-    public void setFinalFrenzy(ModelViewEvent MVE) {
+    public void setFinalFrenzy(ModelViewEvent modelViewEvent) {
 
     }
 
     @Override
-    public void finalFrenzyBegun(ModelViewEvent MVE) {
+    public void finalFrenzyBegun(ModelViewEvent modelViewEvent) {
 
     }
 
     @Override
-    public void newKillshotTrack(ModelViewEvent MVE) {
+    public void newKillshotTrack(ModelViewEvent modelViewEvent) {
 
     }
 
     @Override
-    public void newPlayersList(ModelViewEvent MVE){
+    public void newPlayersList(ModelViewEvent modelViewEvent){
         boolean done = false;
         while(!done) {
             if (GUIstarter.stageController.getClass().toString().contains("LoadingSceneController")) {
-                ((LoadingSceneController) GUIstarter.stageController).newPlayersList(MVE);
+                ((LoadingSceneController) GUIstarter.stageController).newPlayersList(modelViewEvent);
                 done = true;
             }
             else{
@@ -115,86 +116,86 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
 
 
     @Override
-    public void newBoard(ModelViewEvent MVE) {
+    public void newBoard(ModelViewEvent modelViewEvent) {
 
     }
 
     @Override
-    public void deathOfPlayer(ModelViewEvent MVE) {
+    public void deathOfPlayer(ModelViewEvent modelViewEvent) {
 
     }
 
     @Override
-    public void movingCardsAround(OrderedCardListV from, OrderedCardListV to, ModelViewEvent MVE) {
+    public void movingCardsAround(OrderedCardListV from, OrderedCardListV to, ModelViewEvent modelViewEvent) {
 
     }
 
     @Override
-    public void shufflingCards(ModelViewEvent MVE) {
+    public void shufflingCards(ModelViewEvent modelViewEvent) {
 
     }
 
     @Override
-    public void newColor(ModelViewEvent MVE) {
+    public void newColor(ModelViewEvent modelViewEvent) {
 
     }
 
     @Override
-    public void newNickname(ModelViewEvent MVE) {
+    public void newNickname(ModelViewEvent modelViewEvent) {
 
     }
 
     @Override
-    public void newPosition(ModelViewEvent MVE) {
+    public void newPosition(ModelViewEvent modelViewEvent) {
 
     }
 
     @Override
-    public void newScore(ModelViewEvent MVE) {
+    public void newScore(ModelViewEvent modelViewEvent) {
 
     }
 
     @Override
-    public void addDeathCounter(ModelViewEvent MVE) {
+    public void addDeathCounter(ModelViewEvent modelViewEvent) {
 
     }
 
     @Override
-    public void setFinalFrenzyBoard(ModelViewEvent MVE) {
+    public void setFinalFrenzyBoard(ModelViewEvent modelViewEvent) {
 
     }
 
     @Override
-    public void newAmmoBox(ModelViewEvent MVE) {
+    public void newAmmoBox(ModelViewEvent modelViewEvent) {
 
     }
 
     @Override
-    public void newDamageTracker(ModelViewEvent MVE) {
+    public void newDamageTracker(ModelViewEvent modelViewEvent) {
 
     }
 
     @Override
-    public void newMarksTracker(ModelViewEvent MVE) {
+    public void newMarksTracker(ModelViewEvent modelViewEvent) {
 
     }
 
     @Override
-    public void setCurrentPlayingPlayer(ModelViewEvent MVE) {
+    public void setCurrentPlayingPlayer(ModelViewEvent modelViewEvent) {
     }
 
     @Override
-    public void setStartingPlayer(ModelViewEvent MVE) {
-
-    }
-
-    @Override
-    public void newPlayer(ModelViewEvent MVE) {
+    public void setStartingPlayer(ModelViewEvent modelViewEvent) {
 
     }
 
     @Override
-    public void setAFK(ModelViewEvent MVE) {
+    public void newPlayer(ModelViewEvent modelViewEvent) {
+
+    }
+
+    @Override
+    public void setAFK(ModelViewEvent modelViewEvent) {
 
     }
 
@@ -226,7 +227,7 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
     }
 
     @Override
-    public void finalScoring(ModelViewEvent MVE) {
+    public void finalScoring(ModelViewEvent modelViewEvent) {
 
     }
 }

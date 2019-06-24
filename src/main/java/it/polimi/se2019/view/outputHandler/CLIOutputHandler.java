@@ -21,6 +21,8 @@ import java.util.List;
 public class CLIOutputHandler implements OutputHandlerInterface{
 
 
+    private String clientMve="<CLIENT> MVE: ";
+
     public void updateUserInterface(String message) {
         System.out.println(message);
     }
@@ -31,19 +33,19 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     }
 /** Anytime a client changes his state, every client gets to know it */
     @Override
-    public void stateChanged(StateEvent StE) {
-        updateUserInterface("<CLIENT> state changed: " + StE.getState());
+    public void stateChanged(StateEvent stateEvent) {
+        updateUserInterface("<CLIENT> state changed: " + stateEvent.getState());
     }
 /***/
     @Override
-    public void setFinalFrenzy(ModelViewEvent MVE) {
-        updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+    public void setFinalFrenzy(ModelViewEvent modelViewEvent) {
+        updateUserInterface(clientMve + modelViewEvent.getInformation());
         updateUserInterface("              FINAL FRENZY: " + ViewModelGate.getModel().isFinalFrenzy());
     }
 
     @Override
-    public void finalFrenzyBegun(ModelViewEvent MVE) {
-        updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+    public void finalFrenzyBegun(ModelViewEvent modelViewEvent) {
+        updateUserInterface(clientMve + modelViewEvent.getInformation());
         if(ViewModelGate.getModel().isHasFinalFrenzyBegun()) {
             updateUserInterface("              FINAL FRENZY HAS BEGUN");
         }
@@ -53,33 +55,33 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     }
 
     @Override
-    public void newKillshotTrack(ModelViewEvent MVE) {
-        updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+    public void newKillshotTrack(ModelViewEvent modelViewEvent) {
+        updateUserInterface(clientMve + modelViewEvent.getInformation());
         showKillshotTrack();
     }
 
     @Override
-    public void newPlayersList(ModelViewEvent MVE) {
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+    public void newPlayersList(ModelViewEvent modelViewEvent) {
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         showPlayerList();
     }
 
     @Override
-    public void newBoard(ModelViewEvent MVE) {
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+    public void newBoard(ModelViewEvent modelViewEvent) {
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         showMap();
     }
 
     @Override
-    public void deathOfPlayer(ModelViewEvent MVE) {
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+    public void deathOfPlayer(ModelViewEvent modelViewEvent) {
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         showKillshotTrack();
         showPlayerList();
     }
 
     @Override
-    public void movingCardsAround(OrderedCardListV from, OrderedCardListV to, ModelViewEvent MVE) {
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+    public void movingCardsAround(OrderedCardListV from, OrderedCardListV to, ModelViewEvent modelViewEvent) {
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         if(to!=null) {
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "cards Moved from " + from.getContext());
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "to " + to.getContext());
@@ -96,37 +98,37 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     }
 
     @Override
-    public void shufflingCards(ModelViewEvent MVE) {
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-        OrderedCardListV cards = ((OrderedCardListV) MVE.getComponent());
+    public void shufflingCards(ModelViewEvent modelViewEvent) {
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
+        OrderedCardListV cards = ((OrderedCardListV) modelViewEvent.getComponent());
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "cards shuffled: " + (cards.getContext()));
         showOrderedCardList(cards);
     }
 
     @Override
-    public void newColor(ModelViewEvent MVE) { //TODO change output
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+    public void newColor(ModelViewEvent modelViewEvent) { //TODO change output
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-            if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has changed color to: " + ((PlayersColors) MVE.getComponent()));
+            if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has changed color to: " + (modelViewEvent.getComponent()));
                 break;
             }
         }
     }
 
     @Override
-    public void newNickname(ModelViewEvent MVE) {
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              the new Nickname is: " + (String) MVE.getComponent());
+    public void newNickname(ModelViewEvent modelViewEvent) {
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              the new Nickname is: " + modelViewEvent.getComponent());
         showPlayerList();
     }
 
     @Override
-    public void newPosition(ModelViewEvent MVE) {
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+    public void newPosition(ModelViewEvent modelViewEvent) {
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve+ modelViewEvent.getInformation());
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-            if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has changed Position to: [" + ((Position) MVE.getComponent()).getX() + "][" + ((Position) MVE.getComponent()).getY() + "]");
+            if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has changed Position to: [" + ((Position) modelViewEvent.getComponent()).getX() + "][" + ((Position) modelViewEvent.getComponent()).getY() + "]");
                 break;
             }
         }
@@ -134,21 +136,21 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     }
 
     @Override
-    public void newScore(ModelViewEvent MVE) {
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+    public void newScore(ModelViewEvent modelViewEvent) {
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-            if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has changed score to: " + (int) MVE.getComponent());
+            if (p.getNickname().equals( modelViewEvent.getExtraInformation1())) {
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has changed score to: " +  modelViewEvent.getComponent());
                 break;
             }
         }
     }
 
     @Override
-    public void addDeathCounter(ModelViewEvent MVE) {
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+    public void addDeathCounter(ModelViewEvent modelViewEvent) {
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-            if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
+            if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
                 OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has died");
                 showPlayerStatus(p);
                 break;
@@ -157,10 +159,10 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     }
 
     @Override
-    public void setFinalFrenzyBoard(ModelViewEvent MVE) {
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+    public void setFinalFrenzyBoard(ModelViewEvent modelViewEvent) {
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-            if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
+            if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
                 OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has set his board to Final Frenzy");
                 showPlayerStatus(p);
                 break;
@@ -169,10 +171,10 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     }
 
     @Override
-    public void newAmmoBox(ModelViewEvent MVE) {
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+    public void newAmmoBox(ModelViewEvent modelViewEvent) {
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-            if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
+            if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
                 OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has changed his ammo box: ");
                 showPlayerStatus(p);
                 break;
@@ -181,10 +183,10 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     }
 
     @Override
-    public void newDamageTracker(ModelViewEvent MVE) {
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+    public void newDamageTracker(ModelViewEvent modelViewEvent) {
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-            if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
+            if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
                 OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +"'s damage tracker has changed");
                 showPlayerStatus(p);
                 break;
@@ -194,10 +196,10 @@ public class CLIOutputHandler implements OutputHandlerInterface{
 
 
     @Override
-    public void newMarksTracker(ModelViewEvent MVE) {
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+    public void newMarksTracker(ModelViewEvent modelViewEvent) {
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve+ modelViewEvent.getInformation());
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-            if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
+            if (p.getNickname().equals( modelViewEvent.getExtraInformation1())) {
                 OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +"'s marks tracker has changed");
                 showPlayerStatus(p);
                 break;
@@ -207,35 +209,35 @@ public class CLIOutputHandler implements OutputHandlerInterface{
 
 
     @Override
-    public void setCurrentPlayingPlayer(ModelViewEvent MVE) {
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              Current playing player is: " +(String) MVE.getComponent());
+    public void setCurrentPlayingPlayer(ModelViewEvent modelViewEvent) {
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              Current playing player is: " + modelViewEvent.getComponent());
     }
 
     @Override
-    public void setStartingPlayer(ModelViewEvent MVE) {
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
+    public void setStartingPlayer(ModelViewEvent modelViewEvent) {
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve+ modelViewEvent.getInformation());
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              Starting player is: " + ViewModelGate.getModel().getPlayers().getStartingPlayer());
     }
 
     @Override
-    public void newPlayer(ModelViewEvent MVE) {
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "new player added: " + ((PlayerV) MVE.getComponent()).getNickname());
+    public void newPlayer(ModelViewEvent modelViewEvent) {
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "new player added: " + ((PlayerV) modelViewEvent.getComponent()).getNickname());
         showPlayerList();
     }
 
     @Override
-    public void setAFK(ModelViewEvent MVE) {
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> MVE: " + MVE.getInformation());
-        if(ViewModelGate.getMe().equals((String) MVE.getExtraInformation1() )){
+    public void setAFK(ModelViewEvent modelViewEvent) {
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve+ modelViewEvent.getInformation());
+        if(ViewModelGate.getMe().equals(modelViewEvent.getExtraInformation1() )){
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "You've been set to AFK.");
         }
         else {
-            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "player " + (String) MVE.getExtraInformation1() + " AFK status: " + MVE.getComponent());
+            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "player " + modelViewEvent.getExtraInformation1() + " AFK status: " + modelViewEvent.getComponent());
         }
         for (PlayerV p: ViewModelGate.getModel().getPlayers().getPlayers()) {
-            if(p.getNickname().equals(MVE.getExtraInformation1())){
+            if(p.getNickname().equals(modelViewEvent.getExtraInformation1())){
                 showPlayerStatus(p);
             }
         }
@@ -297,11 +299,11 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     }
 
     public static void showConnectionInfo(){
-        if(Controller.networkConnection != null && Controller.IP != null && Controller.Port != null){
+        if(Controller.networkConnection != null && Controller.ip != null && Controller.port != null){
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("\n<<<<<<<<<<<< CONNECTION INFO >>>>>>>>>>>>");
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("  CONNECTION TYPE: " + Controller.networkConnection);
-            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("  IP: " + Controller.IP);
-            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("  PORT: " + Controller.Port);
+            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("  IP: " + Controller.ip);
+            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("  PORT: " + Controller.port);
         }
     }
 
@@ -349,22 +351,22 @@ public class CLIOutputHandler implements OutputHandlerInterface{
 
             } else {
                 int counter = 0;
-                String s = "    [";
+                StringBuilder s = new StringBuilder("    [");
                 for (KillsV k : ViewModelGate.getModel().getKillshotTrack().getKillsV()) {
                     if (k.isSkull()) {
-                        s += "    SKULL";
+                        s.append("    SKULL");
                     } else {
                         if (!k.isOverKill()) {
-                            s += "    KILL-by-" + k.getKillingPlayer();
+                            s.append("    KILL-by-").append(k.getKillingPlayer());
                         } else {
-                            s += "    KILL-with-OVERKILL-by-" + k.getOverKillingPlayer() ;
+                            s.append("    KILL-with-OVERKILL-by-").append(k.getOverKillingPlayer());
 
                         }
                     }
                     counter++;
                 }
-                s += "    ]";
-                OutputHandlerGate.getCLIOutputHandler().updateUserInterface(s);
+                s.append("    ]");
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface(s.toString());
             }
         }
         else{
@@ -373,71 +375,71 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     }
 
     public static void showOrderedCardList(OrderedCardListV cards){
-        String s = "";
+        StringBuilder s = new StringBuilder();
         if(((!cards.getContext().split(":")[0].equals(ViewModelGate.getMe())) && (cards.getContext().contains(":powerUpInHand")))
                 || (cards.getContext().equals("weaponDeck")) || (cards.getContext().equals("ammoDeck")) || (cards.getContext().equals("powerUpDeck"))) {
             //don't show power ups other player's hand, or the decks
-            s = "              " + cards.getContext() + ":\n";
-            s+= "                 -CAN'T SHOW YOU THIS CONTENT-";
-            OutputHandlerGate.getCLIOutputHandler().updateUserInterface(s);
+            s = new StringBuilder("              " + cards.getContext() + ":\n");
+            s.append("                 -CAN'T SHOW YOU THIS CONTENT-");
+            OutputHandlerGate.getCLIOutputHandler().updateUserInterface(s.toString());
             return;
         }
         else{
             if(cards.getCards().isEmpty()){
-                s = "              " + cards.getContext() + ":\n";
-                s+= "                 -EMPTY-";
-                OutputHandlerGate.getCLIOutputHandler().updateUserInterface(s);
+                s = new StringBuilder("              " + cards.getContext() + ":\n");
+                s.append("                 -EMPTY-");
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface(s.toString());
                 return;
             }
             else {
-                s= "              " + cards.getContext() + ":";
+                s = new StringBuilder("              " + cards.getContext() + ":");
                 for (Object c : cards.getCards()) {
 
                     if (c.getClass().toString().contains("PowerUpCardV")) {
                         PowerUpCardV card = (PowerUpCardV) c;
-                        s += "\n                 " + card.getName() + " (" + card.getColor() + ")";
+                        s.append("\n                 ").append(card.getName()).append(" (").append(card.getColor()).append(")");
                     }
 
                     else if (c.getClass().toString().contains("WeaponCardV")) {
                         WeaponCardV card = (WeaponCardV) c;
-                        s += "\n                 " + card.getName();
-                        String ammo = "Reload Cost:[";
+                        s.append("\n                 ").append(card.getName());
+                        StringBuilder ammo = new StringBuilder("Reload Cost:[");
                         if(card.getReloadCost()==null){
-                            ammo += " EMPTY ] PickUp Cost:[";
+                            ammo.append(" EMPTY ] PickUp Cost:[");
                         }
                         else {
                             for (AmmoCubesV a : card.getReloadCost().getAmmoCubesList()) {
-                                ammo += " " + a.getColor() + ":" + a.getQuantity() + " ";
+                                ammo.append(" ").append(a.getColor()).append(":").append(a.getQuantity()).append(" ");
                             }
-                            ammo += "] PickUp Cost:[";
+                            ammo.append("] PickUp Cost:[");
                         }
                         if(card.getPickUpCost()==null){
-                            ammo+= " EMPTY ]";
+                            ammo.append(" EMPTY ]");
                         }
                         else {
                             for (AmmoCubesV a : card.getPickUpCost().getAmmoCubesList()) {
-                                ammo += " " + a.getColor() + ":" + a.getQuantity() + " ";
+                                ammo.append(" ").append(a.getColor()).append(":").append(a.getQuantity()).append(" ");
                             }
-                            ammo += "]";
+                            ammo.append("]");
                         }
-                        s += "\n                    " + ammo;
+                        s.append("\n                    ").append(ammo);
                     }
 
                     else {
                         AmmoCardV card = (AmmoCardV) c;
-                        String ammo = "AmmoCard:[";
+                        StringBuilder ammo = new StringBuilder("AmmoCard:[");
                         for (AmmoCubesV a : card.getAmmoList().getAmmoCubesList()) {
-                            ammo += " " + a.getColor() + ":" + a.getQuantity() + " ";
+                            ammo.append(" ").append(a.getColor()).append(":").append(a.getQuantity()).append(" ");
                         }
-                        ammo += "]";
-                        s += "\n                 " + ammo;
+                        ammo.append("]");
+                        s.append("\n                 ").append(ammo);
                         if (card.isPowerUp()) {
-                            s += " + 1 POWER UP";
+                            s.append(" + 1 POWER UP");
                         }
                     }
 
                 }
-                OutputHandlerGate.getCLIOutputHandler().updateUserInterface(s);
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface(s.toString());
             }
         }
     }
@@ -491,12 +493,12 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         }
 
         for (int i = 1; i < 6; i++) {
-            String currentLine = stringPlayer.get(i); //iterate through nickname, marks, damage, deaths, ammo
+            StringBuilder currentLine = new StringBuilder(stringPlayer.get(i)); //iterate through nickname, marks, damage, deaths, ammo
             while (currentLine.length()<maxLenght+4){
-                currentLine += " ";
+                currentLine.append(" ");
             }
-            currentLine += "  PP";
-            stringPlayer.set(i, currentLine);
+            currentLine.append("  PP");
+            stringPlayer.set(i, currentLine.toString());
         }
 
         for (String s: stringPlayer) {
@@ -508,12 +510,12 @@ public class CLIOutputHandler implements OutputHandlerInterface{
 
     public static String ammoString(PlayerV playerToShow){
         if( playerToShow != null && playerToShow.getAmmoBox()!= null && playerToShow.getAmmoBox().getAmmoCubesList()!=null) {
-            String ammos = "AMMO: [";
+            StringBuilder ammos = new StringBuilder("AMMO: [");
             for (AmmoCubesV a : playerToShow.getAmmoBox().getAmmoCubesList()) {
-                ammos += " " + a.getColor() + ":" + a.getQuantity() + " ";
+                ammos.append(" ").append(a.getColor()).append(":").append(a.getQuantity()).append(" ");
             }
-            ammos += "]";
-            return ammos;
+            ammos.append("]");
+            return ammos.toString();
         }
         else{
             return "Sorry, the player or the ammoBox or the AmmoCubesList are null";
@@ -521,60 +523,60 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     }
 
     public static String deathsString(PlayerV playerToShow){
-        String deaths;
+        StringBuilder deaths;
         int point;
         if(playerToShow.isHasFinalFrenzyBoard()){
-            deaths = "DEATHS FF : [";
+            deaths = new StringBuilder("DEATHS FF : [");
             point = 2 - (playerToShow.getNumberOfDeaths());
         }
         else {
-            deaths = "DEATHS: [";
+            deaths = new StringBuilder("DEATHS: [");
             point = 8 - (playerToShow.getNumberOfDeaths()*2);
         }
         for (int i = 0; i < playerToShow.getNumberOfDeaths(); i++) {
-            deaths += " SKULL ";
+            deaths.append(" SKULL ");
         }
         while (point > 0) {
-            deaths += " " + point + " ";
+            deaths.append(" ").append(point).append(" ");
             point -= 2;
         }
-        if (point <= 0) {
-            deaths += " 1  1 ";
-        }
-        deaths += "]";
-        return deaths;
+
+            deaths.append(" 1  1 ");
+
+        deaths.append("]");
+        return deaths.toString();
     }
 
     public static String damageString(PlayerV playerToShow){
         if(playerToShow!=null && playerToShow.getDamageTracker()!=null && playerToShow.getDamageTracker().getDamageSlotsList()!=null) {
-            String damage = "DAMAGE: [";
+            StringBuilder damage = new StringBuilder("DAMAGE: [");
             int damageSlotNumber = 0;
             for (DamageSlotV d : playerToShow.getDamageTracker().getDamageSlotsList()) {
                 if (damageSlotNumber == 0) {
-                    damage += " (FB)" + d.getShootingPlayerNickname() + " ";
+                    damage.append(" (FB)").append(d.getShootingPlayerNickname()).append(" ");
                 } else if (damageSlotNumber == 2) {
-                    damage += " (AG)" + d.getShootingPlayerNickname() + " ";
+                    damage.append(" (AG)").append(d.getShootingPlayerNickname()).append(" ");
                 } else if (damageSlotNumber == 5) {
-                    damage += " (AS)" + d.getShootingPlayerNickname() + " ";
+                    damage.append(" (AS)").append(d.getShootingPlayerNickname()).append(" ");
                 } else if(damageSlotNumber == 10){
-                    damage += " (K)" + d.getShootingPlayerNickname() + " ";
+                    damage.append(" (K)").append(d.getShootingPlayerNickname()).append(" ");
                 }else if(damageSlotNumber == 11){
-                    damage += " (OK)" + d.getShootingPlayerNickname() + " ";
+                    damage.append(" (OK)").append(d.getShootingPlayerNickname()).append(" ");
                 } else {
-                    damage += " " + d.getShootingPlayerNickname() + " ";
+                    damage.append(" ").append(d.getShootingPlayerNickname()).append(" ");
                 }
                 damageSlotNumber++;
             }
             if(damageSlotNumber<12) {
                 for (int i = damageSlotNumber; i < 12; i++) {
-                    damage += " EMPTY ";
+                    damage.append(" EMPTY ");
                 }
             }
             else{
-                damage += " ... ";
+                damage.append(" ... ");
             }
-            damage += "]";
-            return damage;
+            damage.append("]");
+            return damage.toString();
         }
         else {
             return "Sorry, the player or the damageTracker or the damageSlotList  are null";
@@ -583,12 +585,12 @@ public class CLIOutputHandler implements OutputHandlerInterface{
 
     public static String markString(PlayerV playerToShow){
         if(playerToShow!=null && playerToShow.getMarksTracker()!=null && playerToShow.getMarksTracker().getMarkSlotsList()!=null) {
-            String mark = "MARKS: [";
+            StringBuilder mark = new StringBuilder("MARKS: [");
             for (MarkSlotV m : playerToShow.getMarksTracker().getMarkSlotsList()) {
-                mark += "  " + m.getMarkingPlayer() + ":" + m.getQuantity() + "  ";
+                mark.append("  ").append(m.getMarkingPlayer()).append(":").append(m.getQuantity()).append("  ");
             }
-            mark += "]";
-            return mark;
+            mark.append("]");
+            return mark.toString();
         }
         else{
             return "Sorry, the player or the marksTracker or the marksSlotsList are null";
@@ -686,21 +688,21 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             List<String> mapStringIntermediate = new ArrayList<>();
             for (int i = 0; i < 3; i++) {//currentSquareRow
                 for (int j = 0; j < 12; j++) { //currentLine
-                    String line = "";
+                    StringBuilder line = new StringBuilder();
                     for (int k = 0; k < 4; k++) { //currentSquare
-                        line += mapCLI[i][k].get(j);
+                        line.append(mapCLI[i][k].get(j));
                     }
-                    line += "\n";
-                    mapStringIntermediate.add(line);
+                    line.append("\n");
+                    mapStringIntermediate.add(line.toString());
                 }
             }
 
-            String mapStringFinal = "";
+            StringBuilder mapStringFinal = new StringBuilder();
             for (String s : mapStringIntermediate) {
-                mapStringFinal += s;
+                mapStringFinal.append(s);
             }
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("\n<<<<<<<<<<<< MAP: " + ViewModelGate.getModel().getBoard().getChosenMap() + " >>>>>>>>>>>>");
-            OutputHandlerGate.getCLIOutputHandler().updateUserInterface(mapStringFinal);
+            OutputHandlerGate.getCLIOutputHandler().updateUserInterface(mapStringFinal.toString());
         }
         else{
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("Sorry, the model or the Board or the matrix of squares are null");

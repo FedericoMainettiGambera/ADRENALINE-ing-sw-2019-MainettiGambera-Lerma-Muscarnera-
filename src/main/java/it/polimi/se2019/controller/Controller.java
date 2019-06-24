@@ -16,9 +16,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
@@ -27,18 +27,18 @@ public class  Controller{
     private static final Logger logger= Logger.getLogger(Controller.class.getName());
     private static PrintWriter out= new PrintWriter(System.out, true);
 
-    public static SocketVirtualView SVV;
-    public static RMIVirtualView RMIVV;
+    public static SocketVirtualView socketVirtualView;
+    public static RMIVirtualView rmiVirtualView;
 
     public static SocketNetworkHandler SNH;
     public static RMINetworkHandler RMINH;
 
-    public static ViewControllerEventHandlerContext VCEHC;
+    public static ViewControllerEventHandlerContext viewControllerEventHandlerContext;
 
-    public static View V;
+    private static View view;
     public static String networkConnection;
-    public static String IP;
-    public static String Port;
+    public static String ip;
+    public static String port;
 
     public static void startServerWithRMIAndSocket(){
 
@@ -50,26 +50,26 @@ public class  Controller{
         ModelGate.model.setPlayerList(pl);
 
         //Setting the state pattern
-        VCEHC = new ViewControllerEventHandlerContext();
+        viewControllerEventHandlerContext = new ViewControllerEventHandlerContext();
 
         //Starting the Server Socket
-        SVV = new SocketVirtualView(VCEHC);
+        socketVirtualView = new SocketVirtualView(viewControllerEventHandlerContext);
         try {
-            SVV.startServer();
+            socketVirtualView.startServer();
         }
         catch (IOException e){
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "EXCEPTION", e);
         }
-        ViewControllerEventHandlerContext.socketVV = SVV;
+        ViewControllerEventHandlerContext.socketVV = socketVirtualView;
 
         //Starting the Server as RMI
         try {
-            RMIVV = new RMIVirtualView(VCEHC);
-            RMIVV.startServer();
+            rmiVirtualView = new RMIVirtualView(viewControllerEventHandlerContext);
+            rmiVirtualView.startServer();
         } catch (IOException e) {
-           logger.severe("error in rmi starting server occured"+ e.getCause());
+            logger.log(Level.SEVERE, "EXCEPTION", e);
         }
-        ViewControllerEventHandlerContext.RMIVV = RMIVV;
+        ViewControllerEventHandlerContext.RMIVV = rmiVirtualView;
 
         //Registering the VirtualView as an observer of the model so it can receive the MVEs
         out.println("<SERVER> Registering the VirtualViews (RMI and Socket) as observers of the Model");
@@ -83,45 +83,45 @@ public class  Controller{
 
     public static boolean randomGame = false;
 
-    public static boolean connect(String networkConnection, String userInterface, String IP, String Port){
+    public static boolean connect(String networkConnection, String userInterface, String ip, String port){
         Controller.networkConnection = networkConnection;
-        Controller.IP = IP;
-        Controller.Port = Port;
+        Controller.ip = ip;
+        Controller.port = port;
         if(networkConnection.equalsIgnoreCase("RMI")){
             if(userInterface.equalsIgnoreCase("GUI")){
-                V = new View("RMI", "GUI");
+                view = new View("RMI", "GUI");
             }
             else {
-                V = new View("RMI", "CLI");
+                view = new View("RMI", "CLI");
             }
             try {
-                if(sendPingRequest.sendPingRequest(IP)) {
+                if(sendPingRequest.sendPingRequest(ip)) {
                     try {
-                        RMINH = new RMINetworkHandler(IP, Integer.parseInt(Port), V);
+                        RMINH = new RMINetworkHandler(ip, Integer.parseInt(port), view);
                     }
                     catch (NumberFormatException e){
-                        logger.severe("error in rmi network handler occured"+ e.getCause());
+                        logger.severe("error in rmi network handler occurred"+ e.getCause());
                         return false;
                     }
                 }
             } catch (NotBoundException|IOException e ) {
-                logger.severe("error in rmi starting server occured"+ e.getCause());
+                logger.severe("error in rmi starting server occurred"+ e.getCause());
                 return false;
             }
         }
         else {
             if(userInterface.equalsIgnoreCase("GUI")){
-                V = new View("SOCKET", "GUI");
+                view = new View("SOCKET", "GUI");
             }
             else {
-                V = new View("SOCKET", "CLI");
+                view = new View("SOCKET", "CLI");
             }
 
             try{
-                    SNH = new SocketNetworkHandler(InetAddress.getByName(IP), Integer.parseInt(Port) , V);
+                    SNH = new SocketNetworkHandler(InetAddress.getByName(ip), Integer.parseInt(port) , view);
                 }
                 catch (NumberFormatException|  IOException e){
-                logger.severe("Socket network handler error occured"+e.getMessage());
+                logger.severe("Socket network handler error occurred"+e.getMessage());
                     return false;
                 }
              }
@@ -152,7 +152,7 @@ public class  Controller{
             networkConnectionChoice = "SOCKET" ;
         }
 
-        String IP = null;
+        String ip = null;
 
         String port = null;
 
@@ -163,14 +163,14 @@ public class  Controller{
 
             //ask for IP and PORT
             out.println("\n<CLIENT> Insert Server's IP:");
-            IP = br.nextLine();
+            ip = br.nextLine();
 
             port = "1099";
         } else {
             out.println("<CLIENT> Starting Client with Socket connection");
 
             out.println("\n<CLIENT> Insert Server IP:");
-            IP = br.nextLine();
+            ip = br.nextLine();
             out.println("\n<CLIENT> Insert Port:");
             port = br.nextLine();
         }
@@ -183,7 +183,7 @@ public class  Controller{
             randomGame = true;
         }
 
-        if (!connect(networkConnectionChoice, userInterface, IP, port)) {
+        if (!connect(networkConnectionChoice, userInterface, ip, port)) {
             startClientSocketOrRMIWithCLI();
         }
     }

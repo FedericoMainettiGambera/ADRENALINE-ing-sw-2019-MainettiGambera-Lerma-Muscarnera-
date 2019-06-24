@@ -1,23 +1,17 @@
 package it.polimi.se2019.networkHandler.RMI;
 
-import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.model.GameConstant;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.networkHandler.NetworkHandler;
 import it.polimi.se2019.view.components.View;
-import it.polimi.se2019.view.outputHandler.ControllerInizialScene;
 import it.polimi.se2019.virtualView.RMI.RMIInterface;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Observable;
-import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class RMINetworkHandler extends NetworkHandler{

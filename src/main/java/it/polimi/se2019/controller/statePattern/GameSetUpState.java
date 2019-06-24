@@ -11,17 +11,16 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventGam
 import it.polimi.se2019.controller.WaitForPlayerInput;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
+
+/** this class set up the game options as desired by the user*/
 public class GameSetUpState implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(GameSetUpState.class.getName());
-
-    private ObjectOutputStream objectOutputStream;
 
     private Player playerToAsk;
 
@@ -31,6 +30,10 @@ public class GameSetUpState implements State {
         out.println("<SERVER> New state: " + this.getClass());
     }
 
+    /** this functions ask the required information to the starting player
+     * if there's less than 5 human player, make possible to add a bot
+     * @param playerToAsk refers to the starting player
+     * */
     @Override
     public void askForInput(Player playerToAsk) {
         this.playerToAsk = playerToAsk;
@@ -59,20 +62,29 @@ public class GameSetUpState implements State {
         }
     }
 
+
+    /**
+     * this doAction initialize the Game as indicated in
+     * @param viewControllerEvent  received from the user
+     * 1 creates the map
+     * 2 create the killshot track with desired number of skulls
+     * 3 sets or doesnt set the Final Frenzy Mode
+     * 4 if possible and desired, sets a botx
+     * */
     @Override
-    public void doAction(ViewControllerEvent VCE){
+    public void doAction(ViewControllerEvent viewControllerEvent){
         this.inputTimer.interrupt();
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        ViewControllerEventGameSetUp VCEGameSetUp = (ViewControllerEventGameSetUp)VCE;
+        ViewControllerEventGameSetUp viewControllerEventGameSetUp = (ViewControllerEventGameSetUp)viewControllerEvent;
 
         out.println("<SERVER> Setting up Game in normal mode.");
 
         try {
-            out.println("<SERVER> Creating Map: " + VCEGameSetUp.getMapChoice());
-            ModelGate.model.setBoard(new Board(VCEGameSetUp.getMapChoice(), ModelGate.model.getSocketVirtualView(), ModelGate.model.getRMIVirtualView()));
+            out.println("<SERVER> Creating Map: " + viewControllerEventGameSetUp.getMapChoice());
+            ModelGate.model.setBoard(new Board(viewControllerEventGameSetUp.getMapChoice(), ModelGate.model.getSocketVirtualView(), ModelGate.model.getRMIVirtualView()));
         }
         catch (IOException|NullPointerException e){
            logger.severe("Creating map went wrong"+e.getCause()+ Arrays.toString(e.getStackTrace()));
@@ -82,15 +94,15 @@ public class GameSetUpState implements State {
         out.println("<SERVER> MAP: \n" + ModelGate.model.getBoard().toString());
 
         out.println("<SERVER> Creating Killshot Track with " +
-                            VCEGameSetUp.getNumberOfStartingSkulls() +
+                            viewControllerEventGameSetUp.getNumberOfStartingSkulls() +
                             " number of starting skulls.");
-        ModelGate.model.setKillshotTrack(new KillShotTrack(VCEGameSetUp.getNumberOfStartingSkulls(), ModelGate.model.getSocketVirtualView(), ModelGate.model.getRMIVirtualView()));
+        ModelGate.model.setKillshotTrack(new KillShotTrack(viewControllerEventGameSetUp.getNumberOfStartingSkulls(), ModelGate.model.getSocketVirtualView(), ModelGate.model.getRMIVirtualView()));
 
-        out.println("<SERVER> Setting Final Frenzy: " + VCEGameSetUp.isFinalFrezy());
-        ModelGate.model.setFinalFrenzy(VCEGameSetUp.isFinalFrezy());
+        out.println("<SERVER> Setting Final Frenzy: " + viewControllerEventGameSetUp.isFinalFrezy());
+        ModelGate.model.setFinalFrenzy(viewControllerEventGameSetUp.isFinalFrezy());
 
-        out.println("<SERVER> Setting a Bot: "+ VCEGameSetUp.isBotActive());
-        if(VCEGameSetUp.isBotActive()) {
+        out.println("<SERVER> Setting a Bot: "+ viewControllerEventGameSetUp.isBotActive());
+        if(viewControllerEventGameSetUp.isBotActive()) {
             ModelGate.model.getPlayerList().addPlayer(new Player(true));
             ModelGate.model.setBotActive(true);
         }

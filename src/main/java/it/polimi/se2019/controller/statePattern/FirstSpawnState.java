@@ -8,7 +8,6 @@ import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
-import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
 import it.polimi.se2019.controller.WaitForPlayerInput;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventTwoString;
 
