@@ -96,7 +96,7 @@ public class TestWeaponCard {
                     String content = "";
                     if(cell.getColor() == 'X')
                         content = "XXXXXXXXXXXXXX";
-                    if(cell.getCoordinates().equals(x.getPosition())) {
+                    if(cell.getCoordinates().equalPositions(x.getPosition())) {
                         char brake1 = ' ';
                         char brake2 = ' ';
                         char brake3 = ' ';

@@ -41,7 +41,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
-public class ControllerInizialScene extends Thread implements Initializable, OutputHandlerInterface {
+public class ControllerInizialScene implements Initializable, OutputHandlerInterface {
 
 Parent root;
 

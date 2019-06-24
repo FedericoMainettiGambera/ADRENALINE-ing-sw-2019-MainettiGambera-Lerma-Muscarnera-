@@ -71,6 +71,7 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
                     try {
                         TimeUnit.MILLISECONDS.sleep(300);
                     } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
                         break;
                     }
                 }
@@ -105,6 +106,7 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
                 try {
                     TimeUnit.MILLISECONDS.sleep(300);
                 } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                     break;
                 }
             }

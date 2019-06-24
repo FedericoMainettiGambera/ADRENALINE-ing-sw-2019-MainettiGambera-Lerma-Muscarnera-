@@ -495,8 +495,8 @@ public class PreConditionMethods implements Serializable {
     public boolean targetOnYourSquare(ActionDetails actionDetails,ActionContext actionContext) {
         Position A = actionDetails.getUserSelectedActionDetails().getTarget().getPosition();
         Position B = actionContext.getPlayer().getPosition();
-        if(A.equals(B)) System.out.println("# ok!");else System.out.println("# no!");
-        return A.equals(B);
+        if(A.equalPositions(B)) System.out.println("# ok!");else System.out.println("# no!");
+        return A.equalPositions(B);
 
     }
     public boolean distanceFromOriginalPositionIs1(ActionDetails actionDetails,ActionContext actionContext) {

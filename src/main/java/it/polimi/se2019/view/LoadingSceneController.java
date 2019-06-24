@@ -10,13 +10,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.util.StringConverter;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -144,6 +140,7 @@ public class LoadingSceneController implements Initializable {
                         TimeUnit .MILLISECONDS.sleep(50);
                     } catch (InterruptedException e) {
                         stop=true;
+                        Thread.currentThread().interrupt();
                     }
                 }
 

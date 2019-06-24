@@ -3,6 +3,7 @@ package it.polimi.se2019.view.components;
 import it.polimi.se2019.model.enumerations.CardinalPoint;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import javafx.scene.image.Image;
 
@@ -28,45 +29,49 @@ public class BoardV implements Serializable {
 
     @Override
     public String toString() {
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for (int i = 0; i < this.map.length; i++) {
             for (int j = 0; j < this.map[0].length; j++) {
 
                 if (this.map[i][j] == null) {
-                    s += "----------------------------------";
+                    s.append("----------------------------------");
                 } else {
-                    s += this.map[i][j].getSquareType();
-                    s += " " + this.map[i][j].getColor();
-                    s += " [" + i + "][" + j + "]";
-                    s += " n:" + this.map[i][j].getSide(CardinalPoint.north);
-                    s += " e:" + this.map[i][j].getSide(CardinalPoint.east);
-                    s += " s:" + this.map[i][j].getSide(CardinalPoint.south);
-                    s += " w:" + this.map[i][j].getSide(CardinalPoint.west);
+                    s.append(this.map[i][j].getSquareType());
+                    s.append(" ").append(this.map[i][j].getColor());
+                    s.append(" [").append(i).append("][").append(j).append("]");
+                    s.append(" n:").append(this.map[i][j].getSide(CardinalPoint.north));
+                    s.append(" e:").append(this.map[i][j].getSide(CardinalPoint.east));
+                    s.append(" s:").append(this.map[i][j].getSide(CardinalPoint.south));
+                    s.append(" w:").append(this.map[i][j].getSide(CardinalPoint.west));
                 }
-                s += "      ";
+                s.append("      ");
             }
-            s += "\n\n";
+            s.append("\n\n");
         }
-        return s;
+        return s.toString();
     }
 
-    public Image GUIchosenMap(String chosenMap) throws Exception {
-        Image map=null;
+    public Image GUIchosenMap(String chosenMap) throws IOException{
+        Image mapImage=null;
         switch (chosenMap) {
             case "map2":
-                map = new Image(new FileInputStream("src/main/Files/Images/Map/map2.png"));
+                mapImage = new Image(new FileInputStream("src/main/Files/Images/Map/map2.png"));
+                break;
             case "map0":
-                map = new Image(new FileInputStream("src/main/Files/Images/Map/Map0.png"));
+                mapImage = new Image(new FileInputStream("src/main/Files/Images/Map/Map0.png"));
+                break;
             case "map1":
-                map = new Image(new FileInputStream("src/main/Files/Images/Map/map1.png"));
+                mapImage = new Image(new FileInputStream("src/main/Files/Images/Map/map1.png"));
+                break;
             case "map3":
-                map = new Image(new FileInputStream("src/main/Files/Images/Map/map3.png"));
+                mapImage = new Image(new FileInputStream("src/main/Files/Images/Map/map3.png"));
+                break;
             default:
                     //nothing
 
         }
 
-        return map;
+        return mapImage;
 
     }
 

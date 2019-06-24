@@ -7,10 +7,13 @@ import it.polimi.se2019.model.events.timerEvent.TimerEvent;
 
 import java.rmi.RemoteException;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ConnectionGameCountDown implements Runnable {
 
     private int numberOfConnectionAtInstantiationTime;
+    static final Logger logger=Logger.getLogger(ConnectionGameCountDown.class.getName());
 
     public ConnectionGameCountDown(int numberOfConnectionAtInstantiationTime){
         this.numberOfConnectionAtInstantiationTime = numberOfConnectionAtInstantiationTime;
@@ -26,7 +29,7 @@ public class ConnectionGameCountDown implements Runnable {
             try {
                 ViewControllerEventHandlerContext.RMIVV.sendAllClient(new TimerEvent(i, GameConstant.countdownInSecondsForConnectionQueue, "Connection"));
             } catch (RemoteException e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, "EXCEPTION ", e);
             }
             ViewControllerEventHandlerContext.socketVV.sendAllClient(new TimerEvent(i, GameConstant.countdownInSecondsForConnectionQueue, "Connection"));
 
@@ -34,7 +37,8 @@ public class ConnectionGameCountDown implements Runnable {
                 TimeUnit.SECONDS.sleep(1);
                 System.out.println("                                            Thread: <SERVER-ConnectionCountDOwn> time passed: " + i + " seconds.");
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.log(Level.WARNING, "EXCEPTION ", e);
+                Thread.currentThread().interrupt();
             }
             if(ModelGate.model.getNumberOfClientsConnected() > GameConstant.maxNumberOfPlayerPerGame-1){
                 System.out.println("<SERVER> max number of clients connected.");

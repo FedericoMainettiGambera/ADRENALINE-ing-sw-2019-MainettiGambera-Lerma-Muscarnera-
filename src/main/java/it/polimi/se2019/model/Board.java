@@ -396,7 +396,7 @@ public class Board{
      */
     public boolean contains(ArrayList<Position> positions, Position pos){
         for (Position position : positions) {
-            if (position.equals(pos)) {
+            if (position.equalPositions(pos)) {
                 return true;
             }
         }
