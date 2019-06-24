@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
+/**in case a ammo card drew made it possible to draw a power up and user already holds too many,
+ *the state pattern will get here*/
 public class GrabStuffStateDrawAndDiscardPowerUp implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);
@@ -29,6 +31,10 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
         this.actionNumber = actionNumber;
     }
 
+    /**if the user gets lucky, the card he decided to grab give them the possibility to draw a power up,
+     * lucky but not lucky enough! If they want to draw it, they will have to discard one they already have in their hand,
+     * indeed it is only possible to hold in hand 2 power up at the same time
+     * @param playerToAsk holds the current playing player*/
     @Override
     public void askForInput(Player playerToAsk) {
         this.playerToAsk = playerToAsk;
@@ -52,27 +58,33 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
         }
     }
 
+    /**once the player has made their choices, we can handle them using a
+     * @param viewControllerEvent as parameter to discern what to do
+     *this function will let the player discards the power up he prefers
+     * and make him able to continue their turn with the second action,
+     * in case this was it, the turn will pass to the next playing player
+     * */
     @Override
-    public void doAction(ViewControllerEvent VCE) {
+    public void doAction(ViewControllerEvent viewControllerEvent) {
         this.inputTimer.interrupt();
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        ViewControllerEventInt VCEInt = (ViewControllerEventInt)VCE;
+        ViewControllerEventInt viewControllerEventInt = (ViewControllerEventInt)viewControllerEvent;
 
         //discard power up
-        out.println("<SERVER> The player discards power up: " + ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().get(VCEInt.getInput()).getID());
+        out.println("<SERVER> The player discards power up: " + ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().get(viewControllerEventInt.getInput()).getID());
         ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
                 ModelGate.model.getPowerUpDiscardPile(),
-                ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().get(VCEInt.getInput()).getID()
+                ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().get(viewControllerEventInt.getInput()).getID()
         );
 
         //set next state
 
         if(this.actionNumber == 1){
 
-//if you are in final frenzy mode and you are or come after the starting player
+           //if you are in final frenzy mode and you are or come after the starting player
             if (ModelGate.model.hasFinalFrenzyBegun() && ModelGate.model.getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0) {
                 ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
                 ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());

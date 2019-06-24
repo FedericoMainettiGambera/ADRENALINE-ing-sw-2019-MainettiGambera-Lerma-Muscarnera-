@@ -6,29 +6,33 @@ import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 
 import java.io.PrintWriter;
-import java.util.logging.Logger;
 
+/**in case a ammo card drew made it possible to draw a power up,
+ *the state pattern will get here*/
 public class GrabStuffStateDrawPowerUp implements State {
     private int actionNumber;
     private static PrintWriter out= new PrintWriter(System.out, true);
-    private static final Logger logger = Logger.getLogger(State.class.getName());
 
+    /** @param actionNumber indicates if this is the first or the second action*/
     public GrabStuffStateDrawPowerUp(int actionNumber){
         out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 
+    /**@param playerToAsk indicates the current playing player
+     * any input is needed here */
     @Override
     public void askForInput(Player playerToAsk) {
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
         //empty
     }
 
+    /**@param viewControllerEvent  unused
+     *this function let the player draw a power up, they wont have to discard any because they are holding in their hand
+     * less than two*/
     @Override
-    public void doAction(ViewControllerEvent VCE) {
+    public void doAction(ViewControllerEvent viewControllerEvent) {
         out.println("<SERVER> "+ this.getClass() +".doAction();");
-
-        Position PlayerPosition = ModelGate.model.getCurrentPlayingPlayer().getPosition();
 
         out.println("<SERVER> The ammo card makes the player draw a power up");
         ModelGate.model.getPowerUpDeck().moveCardTo(
@@ -54,7 +58,8 @@ public class GrabStuffStateDrawPowerUp implements State {
     }
 
     /**
-     * set the player AFK in case they don't send required input in a while
+     * theorically sets the player AFK in case they don't send required input in a while
+     * here we have no input so we'll find out in the next state
      * */
     @Override
     public void handleAFK() {
