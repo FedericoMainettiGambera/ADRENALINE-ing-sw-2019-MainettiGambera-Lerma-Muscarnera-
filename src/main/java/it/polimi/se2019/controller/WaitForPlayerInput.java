@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import java.rmi.RemoteException;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class WaitForPlayerInput implements Runnable{
@@ -49,13 +50,14 @@ public class WaitForPlayerInput implements Runnable{
             try {
                 this.RMIVV.sendAllClient(new TimerEvent(i, GameConstant.timeToInsertInputInSeconds, "input"));
             } catch (RemoteException e) {
-                logger.severe("Exception Occured: "+e.getClass()+" "+e.getCause());
+                logger.log(Level.WARNING,"Exception Occurred: "+e.getClass()+" "+e.getCause());
             }
             this.SVV.sendAllClient(new TimerEvent(i, GameConstant.timeToInsertInputInSeconds, "input"));
             try {
                 TimeUnit.SECONDS.sleep(1);
                 out.println("                                            Thread: <SERVER-InputTimer-for-"+playerToAsk.getNickname()+"> time passed: " + i + " seconds.  ID: " + this.randomID);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException e){
+                Thread.currentThread().interrupt();
                 return;
             }
             i++;

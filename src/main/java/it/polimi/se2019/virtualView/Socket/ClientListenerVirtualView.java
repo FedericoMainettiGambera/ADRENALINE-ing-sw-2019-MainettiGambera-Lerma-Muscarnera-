@@ -12,6 +12,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ClientListenerVirtualView extends Observable implements Runnable{
 
@@ -22,7 +24,8 @@ public class ClientListenerVirtualView extends Observable implements Runnable{
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
 
-    private ViewControllerEvent VCE;
+
+    private static Logger logger=Logger.getLogger(ClientListenerVirtualView.class.getName());
 
     public ClientListenerVirtualView(Socket socket, ObjectInputStream ois, ViewControllerEventHandlerContext controller){
         this.socket = socket;
@@ -42,38 +45,39 @@ public class ClientListenerVirtualView extends Observable implements Runnable{
 
     @Override
     public void run(){
-        while(isSocketLive){
+        while(isSocketLive) {
+
+            ViewControllerEvent viewControllerEvent;
             Object o = null;
             try {
                 o = ois.readObject();
-            }
-            catch (IOException|ClassNotFoundException e){
+            } catch (IOException | ClassNotFoundException e) {
                 System.err.println("Error in read object from class ClientListenerVirtualView.");
                 break;
-            }
-            catch (InternalError e){
+            } catch (InternalError e) {
                 System.err.println("Something went Wrong in class ClientListenerVirtualView..." + e.getMessage());
-                e.printStackTrace();
+                logger.log(Level.SEVERE, "EXCEPTION", e);
             }
 
-            if(o.getClass().toString().contains("ViewControllerEvent")) {
-                this.VCE = (ViewControllerEvent) o;
-                setChanged();
-                this.notifyObservers(this.VCE);
-            }
-            else if(o.getClass().toString().contains("ReconnectionEvent")){
-                ReconnectionEvent RE = (ReconnectionEvent) o;
-                resetPlayer(RE);
-            }
-            else{
+            if (o != null) {
+                if (o.getClass().toString().contains("ViewControllerEvent")) {
+                    viewControllerEvent = (ViewControllerEvent) o;
+                    setChanged();
+                    this.notifyObservers(viewControllerEvent);
+                } else if (o.getClass().toString().contains("ReconnectionEvent")) {
+                    ReconnectionEvent reconnectionEvent = (ReconnectionEvent) o;
+                    resetPlayer(reconnectionEvent);
+                }
+             else {
                 System.err.println("Received Event not recognized. class: ClientListenerVirtualView: object received->" + o.getClass());
-            }
+             }
+           }
         }
     }
 
-    public void resetPlayer(ReconnectionEvent RE){
-        String nickname = RE.getListOfAFKPlayers().get(0);
-        String networkConnection = RE.getListOfAFKPlayers().get(1);
+    public void resetPlayer(ReconnectionEvent reconnectionEvent){
+        String nickname = reconnectionEvent.getListOfAFKPlayers().get(0);
+        String networkConnection = reconnectionEvent.getListOfAFKPlayers().get(1);
 
         System.out.println("<SERVER-socket> received the Reconnection event for player: " + nickname);
         //reset previous connection

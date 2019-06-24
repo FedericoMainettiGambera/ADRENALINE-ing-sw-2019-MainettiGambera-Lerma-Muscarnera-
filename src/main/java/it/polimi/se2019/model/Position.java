@@ -8,15 +8,17 @@ import java.io.Serializable;
 public class Position implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
+    /**makes coordinates readable for human users*/
+    public String humanString() {
+        return "[y:" + this.getY() + " , x: " +this.getX() + "]";
+    }
+
     /**Constructor:
      * sets X and Y.
      * @param X must be >= 0
      * @param Y must be >= 0
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException coordinqates cant be negative
      * */
-    public String humanString() {
-        return "[y:" + this.getY() + " , x: " +this.getX() + "]";
-    }
     public Position(int X, int Y) throws IllegalArgumentException {
         if(X<0 || Y<0){
             throw new IllegalArgumentException("Coordinates can't be negative.");
@@ -45,7 +47,8 @@ public class Position implements Serializable {
         return this.Y;
     }
 
-    public boolean equals(Position position){
+
+    public boolean equalPositions(Position position){
         return this.X == position.getX() && this.Y == position.getY();
     }
 

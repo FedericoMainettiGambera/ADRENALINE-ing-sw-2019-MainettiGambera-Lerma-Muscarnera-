@@ -14,14 +14,12 @@ import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.view.outputHandler.CLIOutputHandler;
 import it.polimi.se2019.view.outputHandler.GUIOutputHandler;
 import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
-import it.polimi.se2019.view.outputHandler.OutputHandlerInterface;
 import it.polimi.se2019.view.selector.ViewSelector;
 
-import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Scanner;
 
 public class View implements Observer {
 
@@ -30,6 +28,8 @@ public class View implements Observer {
     private String networkConnection;
 
     private String userInterface;
+
+    private static PrintWriter out=new PrintWriter(System.out, true);
 
 
     public View(String networkConnection, String userInterface){
@@ -56,116 +56,116 @@ public class View implements Observer {
 
     @Override
     public void update(Observable o, Object arg){
-        SelectorEvent SE = null;
-        ModelViewEvent MVE = null;
-        StateEvent StE = null;
-        TimerEvent TE = null;
-        ReconnectionEvent RE = null;
+        SelectorEvent selectorEvent = null;
+        ModelViewEvent modelViewEvent = null;
+        StateEvent stateEvent = null;
+        TimerEvent timerEvent = null;
+        ReconnectionEvent reconnectionEvent = null;
         if(arg.getClass().toString().contains("ModelViewEvent")){
-            MVE = (ModelViewEvent)arg;
-            this.callCorrectComponent(MVE);
+            modelViewEvent = (ModelViewEvent)arg;
+            this.callCorrectComponent(modelViewEvent);
         }
         else if(arg.getClass().toString().contains("SelectorEvent")){
-            SE = (SelectorEvent)arg;
-            this.callCorrectSelector(SE);
+            selectorEvent = (SelectorEvent)arg;
+            this.callCorrectSelector(selectorEvent);
         }
         else if(arg.getClass().toString().contains("StateEvent")){
-            StE = (StateEvent)arg;
+            stateEvent = (StateEvent)arg;
 
-            OutputHandlerGate.getCorrectOutputHandler(this.userInterface).stateChanged(StE);
+            OutputHandlerGate.getCorrectOutputHandler(this.userInterface).stateChanged(stateEvent);
         }
         else if(arg.getClass().toString().contains("TimerEvent")){
-            TE = (TimerEvent)arg;
-            if(TE.getContext().equalsIgnoreCase("input")) {
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).showInputTimer(TE.getCurrentTime(), TE.getTotalTime());
+            timerEvent = (TimerEvent)arg;
+            if(timerEvent.getContext().equalsIgnoreCase("input")) {
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).showInputTimer(timerEvent.getCurrentTime(), timerEvent.getTotalTime());
             }
             else{
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).showConnectionTimer(TE.getCurrentTime(), TE.getTotalTime());
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).showConnectionTimer(timerEvent.getCurrentTime(), timerEvent.getTotalTime());
             }
         }
         else if(arg.getClass().toString().contains("ReconnectionEvent")){
-            RE = (ReconnectionEvent)arg;
-            this.selector.askReconnectionNickname(RE);
+            reconnectionEvent = (ReconnectionEvent)arg;
+            this.selector.askReconnectionNickname(reconnectionEvent);
         }
         else{
             try {
-                throw new Exception("Event not recognized");
+                throw new IllegalArgumentException("Event not recognized");
             } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
         }
     }
 
-    public void callCorrectComponent(ModelViewEvent MVE)  {
-        ModelViewEventTypes information = MVE.getInformation();
+    public void callCorrectComponent(ModelViewEvent modelViewEvent)  {
+        ModelViewEventTypes information = modelViewEvent.getInformation();
 
         switch (information){
 
             //from Game class
             case setFinalFrenzy:
-                ViewModelGate.getModel().setFinalFrenzy((boolean)MVE.getComponent());
+                ViewModelGate.getModel().setFinalFrenzy((boolean)modelViewEvent.getComponent());
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setFinalFrenzy(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setFinalFrenzy(modelViewEvent);
                 break;
 
 
             case finalFrenzyBegun:
-                ViewModelGate.getModel().setHasFinalFrenzyBegun((boolean)MVE.getComponent());
+                ViewModelGate.getModel().setHasFinalFrenzyBegun((boolean)modelViewEvent.getComponent());
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).finalFrenzyBegun(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).finalFrenzyBegun(modelViewEvent);
                 break;
 
 
             case newKillshotTrack:
                 ViewModelGate.getModel().setKillshotTrack(new KillShotTrackV());
-                ViewModelGate.getModel().getKillshotTrack().setNumberOfStartingSkulls((int)MVE.getComponent());
+                ViewModelGate.getModel().getKillshotTrack().setNumberOfStartingSkulls((int)modelViewEvent.getComponent());
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newKillshotTrack(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newKillshotTrack(modelViewEvent);
                 break;
 
 
             case newPlayersList:
-                ViewModelGate.getModel().setPlayers((PlayersListV)MVE.getComponent());
+                ViewModelGate.getModel().setPlayers((PlayersListV)modelViewEvent.getComponent());
                 if(ViewModelGate.getModel()==null){
-                    ViewModelGate.setMe(((PlayersListV)MVE.getComponent()).getPlayers().get(((PlayersListV)MVE.getComponent()).getPlayers().size()-1).getNickname());
+                    ViewModelGate.setMe(((PlayersListV)modelViewEvent.getComponent()).getPlayers().get(((PlayersListV)modelViewEvent.getComponent()).getPlayers().size()-1).getNickname());
                 }
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newPlayersList(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newPlayersList(modelViewEvent);
                 break;
 
 
             case newBoard:
-                ViewModelGate.getModel().setBoard((BoardV)MVE.getComponent());
+                ViewModelGate.getModel().setBoard((BoardV)modelViewEvent.getComponent());
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newBoard(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newBoard(modelViewEvent);
                 break;
 
 
             //from KillshotTrack class
             case deathOfPlayer:
-                ViewModelGate.getModel().setKillshotTrack((KillShotTrackV)MVE.getComponent());
+                ViewModelGate.getModel().setKillshotTrack((KillShotTrackV)modelViewEvent.getComponent());
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).deathOfPlayer(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).deathOfPlayer(modelViewEvent);
                 break;
 
 
             //from OrderedCardList class
             case movingCardsAround:
-                OrderedCardListV from = (OrderedCardListV)MVE.getComponent();
-                OrderedCardListV to = (OrderedCardListV)MVE.getExtraInformation1();
+                OrderedCardListV from = (OrderedCardListV)modelViewEvent.getComponent();
+                OrderedCardListV to = (OrderedCardListV)modelViewEvent.getExtraInformation1();
                 setOrderedCardListV(from);
                 if(to!=null) {
                     setOrderedCardListV(to);
                 }
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).movingCardsAround(from, to, MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).movingCardsAround(from, to, modelViewEvent);
                 break;
 
 
             case shufflingCards:
-                setOrderedCardListV((OrderedCardListV)MVE.getComponent());
+                setOrderedCardListV((OrderedCardListV)modelViewEvent.getComponent());
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).shufflingCards(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).shufflingCards(modelViewEvent);
                 break;
 
 
@@ -173,14 +173,14 @@ public class View implements Observer {
             case newColor:
                 if (ViewModelGate.getModel().getPlayers() != null) {
                     for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                            p.setColor((PlayersColors) MVE.getComponent());
+                        if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
+                            p.setColor((PlayersColors) modelViewEvent.getComponent());
                             break;
                         }
                     }
                 }
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newColor(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newColor(modelViewEvent);
                 break;
 
 
@@ -191,147 +191,147 @@ public class View implements Observer {
                         ViewModelGate.getModel().getPlayers().setPlayers(new ArrayList<>());
                     }
                     for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                            p.setNickname((String) MVE.getComponent());
+                        if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
+                            p.setNickname((String) modelViewEvent.getComponent());
                             found = true;
                             break;
                         }
                     }
                     if(!found){
                         PlayerV playerV = new PlayerV();
-                        playerV.setNickname((String) MVE.getComponent());
+                        playerV.setNickname((String) modelViewEvent.getComponent());
                         ViewModelGate.getModel().getPlayers().getPlayers().add(playerV);
                     }
                 }
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newNickname(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newNickname(modelViewEvent);
                 break;
 
 
             case newPosition:
                 if (ViewModelGate.getModel().getPlayers() != null) {
                     for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                            p.setX(((Position) MVE.getComponent()).getX());
-                            p.setY(((Position) MVE.getComponent()).getY());
+                        if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
+                            p.setX(((Position) modelViewEvent.getComponent()).getX());
+                            p.setY(((Position) modelViewEvent.getComponent()).getY());
                             break;
                         }
                     }
                 }
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newPosition(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newPosition(modelViewEvent);
                 break;
 
 
             case newScore:
                 if (ViewModelGate.getModel().getPlayers() != null) {
                     for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                            p.setScore((int) MVE.getComponent());
+                        if (p.getNickname().equals( modelViewEvent.getExtraInformation1())) {
+                            p.setScore((int) modelViewEvent.getComponent());
                             break;
                         }
                     }
                 }
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newScore(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newScore(modelViewEvent);
                 break;
 
 
             case addDeathCounter:
                 if (ViewModelGate.getModel().getPlayers() != null) {
                     for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                            p.setNumberOfDeaths((int) MVE.getComponent());
+                        if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
+                            p.setNumberOfDeaths((int) modelViewEvent.getComponent());
                             break;
                         }
                     }
                 }
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).addDeathCounter(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).addDeathCounter(modelViewEvent);
                 break;
 
 
             case setFinalFrenzyBoard:
                 if (ViewModelGate.getModel().getPlayers() != null) {
                     for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                            p.setHasFinalFrenzyBoard((boolean) MVE.getComponent());
+                        if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
+                            p.setHasFinalFrenzyBoard((boolean) modelViewEvent.getComponent());
                             break;
                         }
                     }
                 }
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setFinalFrenzyBoard(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setFinalFrenzyBoard(modelViewEvent);
                 break;
 
 
             case newAmmoBox:
                 if (ViewModelGate.getModel().getPlayers() != null) {
                     for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                            p.setAmmoBox((AmmoListV) MVE.getComponent());
+                        if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
+                            p.setAmmoBox((AmmoListV) modelViewEvent.getComponent());
                             break;
                         }
                     }
                 }
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newAmmoBox(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newAmmoBox(modelViewEvent);
                 break;
 
 
             case newDamageTracker:
                 if (ViewModelGate.getModel().getPlayers() != null) {
                     for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                            p.setDamageTracker((DamageTrackerV) MVE.getComponent());
+                        if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
+                            p.setDamageTracker((DamageTrackerV) modelViewEvent.getComponent());
                             break;
                         }
                     }
                 }
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newDamageTracker(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newDamageTracker(modelViewEvent);
                 break;
 
 
             case newMarksTracker:
                 if (ViewModelGate.getModel().getPlayers() != null) {
                     for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                            p.setMarksTracker((MarksTrackerV) MVE.getComponent());
+                        if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
+                            p.setMarksTracker((MarksTrackerV) modelViewEvent.getComponent());
                             break;
                         }
                     }
                 }
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newMarksTracker(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newMarksTracker(modelViewEvent);
                 break;
 
 
             //from PlayerList class
             case setCurrentPlayingPlayer:
                 if (ViewModelGate.getModel().getPlayers() != null) {
-                    ViewModelGate.getModel().getPlayers().setCurrentPlayingPlayer((String)MVE.getComponent());
+                    ViewModelGate.getModel().getPlayers().setCurrentPlayingPlayer((String)modelViewEvent.getComponent());
                 }
                 else{
                     ViewModelGate.getModel().setPlayers(new PlayersListV());
-                    ViewModelGate.getModel().getPlayers().setCurrentPlayingPlayer((String)MVE.getComponent());
+                    ViewModelGate.getModel().getPlayers().setCurrentPlayingPlayer((String)modelViewEvent.getComponent());
                 }
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setCurrentPlayingPlayer(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setCurrentPlayingPlayer(modelViewEvent);
                 break;
 
 
 
             case setStartingPlayer:
                 if(ViewModelGate.getModel().getPlayers() != null) {
-                    ViewModelGate.getModel().getPlayers().setStartingPlayer((String)MVE.getComponent());
+                    ViewModelGate.getModel().getPlayers().setStartingPlayer((String)modelViewEvent.getComponent());
                 }
                 else{
                     ViewModelGate.getModel().setPlayers(new PlayersListV());
-                    ViewModelGate.getModel().getPlayers().setStartingPlayer((String)MVE.getComponent());
+                    ViewModelGate.getModel().getPlayers().setStartingPlayer((String)modelViewEvent.getComponent());
                 }
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setStartingPlayer(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setStartingPlayer(modelViewEvent);
                 break;
 
 
@@ -339,34 +339,34 @@ public class View implements Observer {
             case newPlayer:
                 boolean alreadyExist = false;
                 for (PlayerV p: ViewModelGate.getModel().getPlayers().getPlayers()) {
-                    if(p.getNickname().equals(((PlayerV)MVE.getComponent()).getNickname())){
+                    if(p.getNickname().equals(((PlayerV)modelViewEvent.getComponent()).getNickname())){
                         alreadyExist = true;
                     }
                 }
                 if(!alreadyExist) {
-                    ViewModelGate.getModel().getPlayers().getPlayers().add((PlayerV) MVE.getComponent());
+                    ViewModelGate.getModel().getPlayers().getPlayers().add((PlayerV) modelViewEvent.getComponent());
                     if (ViewModelGate.getMe() == null) {
-                        ViewModelGate.setMe(((PlayerV) MVE.getComponent()).getNickname());
+                        ViewModelGate.setMe(((PlayerV) modelViewEvent.getComponent()).getNickname());
                     }
                 }
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newPlayer(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newPlayer(modelViewEvent);
                 break;
 
 
             case setAFK:
                 if (ViewModelGate.getModel().getPlayers() != null) {
                     for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        if (p.getNickname().equals((String) MVE.getExtraInformation1())) {
-                            p.setIsAFK((boolean) MVE.getComponent());
+                        if (p.getNickname().equals((String) modelViewEvent.getExtraInformation1())) {
+                            p.setIsAFK((boolean) modelViewEvent.getComponent());
                             break;
                         }
                     }
                 }
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setAFK(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setAFK(modelViewEvent);
 
-                if(ViewModelGate.getMe().equals((String) MVE.getExtraInformation1() )){
-                    if((boolean)MVE.getComponent()) {
+                if(ViewModelGate.getMe().equals((String) modelViewEvent.getExtraInformation1() )){
+                    if((boolean)modelViewEvent.getComponent()) {
                         if (networkConnection.equalsIgnoreCase("SOCKET")) {
                             SocketNetworkHandler.disconnect();
                         } else {
@@ -376,13 +376,13 @@ public class View implements Observer {
                     }
                     else{
                         //TODO player has been reset to not AFK.
-                        System.out.println("<CLIENT> you are no more AFK yay");
+                         out.println("<CLIENT> you are no more AFK yay");
                     }
                 }
                 break;
 
             case resetGame:
-                ViewModelGate.setModel((GameV)MVE.getComponent());
+                ViewModelGate.setModel((GameV)modelViewEvent.getComponent());
 
                 OutputHandlerGate.getCorrectOutputHandler(this.userInterface).succesfullReconnection();
                 break;
@@ -390,13 +390,13 @@ public class View implements Observer {
 
             case finalScoring:
 
-                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).finalScoring(MVE);
+                OutputHandlerGate.getCorrectOutputHandler(this.userInterface).finalScoring(modelViewEvent);
                 break;
 
 
             default:
                 try {
-                    throw new Exception("<CLIENT> MVE NOT RECOGNIZED");
+                    throw new IllegalStateException("<CLIENT> MVE NOT RECOGNIZED");
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }
@@ -411,9 +411,6 @@ public class View implements Observer {
         }
         else if(orderedCardListV.getContext().contains("weaponDeck")){
             ViewModelGate.getModel().setWeaponDeck(orderedCardListV);
-        }
-        else if(orderedCardListV.getContext().contains("powerUpDeck")){
-            ViewModelGate.getModel().setAmmoDeck(orderedCardListV);
         }
         else if(orderedCardListV.getContext().contains("ammoDiscardPile")){
             ViewModelGate.getModel().setAmmoDiscardPile(orderedCardListV);
@@ -440,34 +437,34 @@ public class View implements Observer {
             }
         }
         else if(orderedCardListV.getContext().contains("normalSquare")){
-            String X = orderedCardListV.getContext().split("-")[1];
-            String Y = orderedCardListV.getContext().split("-")[2];
+            String x = orderedCardListV.getContext().split("-")[1];
+            String y = orderedCardListV.getContext().split("-")[2];
 
-            ((NormalSquareV)ViewModelGate.getModel().getBoard().getMap()[Integer.parseInt(X)][Integer.parseInt(Y)]).setAmmoCards(orderedCardListV);
+            ((NormalSquareV)ViewModelGate.getModel().getBoard().getMap()[Integer.parseInt(x)][Integer.parseInt(y)]).setAmmoCards(orderedCardListV);
         }
         else if(orderedCardListV.getContext().contains("spawnPoint")){
-            String X = orderedCardListV.getContext().split("-")[1];
-            String Y = orderedCardListV.getContext().split("-")[2];
-            ((SpawnPointSquareV)ViewModelGate.getModel().getBoard().getMap()[Integer.parseInt(X)][Integer.parseInt(Y)]).setWeaponCards(orderedCardListV);        }
+            String x = orderedCardListV.getContext().split("-")[1];
+            String y = orderedCardListV.getContext().split("-")[2];
+            ((SpawnPointSquareV)ViewModelGate.getModel().getBoard().getMap()[Integer.parseInt(x)][Integer.parseInt(y)]).setWeaponCards(orderedCardListV);        }
     }
 
-    public void callCorrectSelector(SelectorEvent SE){
-        SelectorEventTypes SET = SE.getSelectorEventTypes();
-        switch (SET) {
+    public void callCorrectSelector(SelectorEvent selectorEvent){
+        SelectorEventTypes selectorEventTypes = selectorEvent.getSelectorEventTypes();
+        switch (selectorEventTypes) {
             case askGameSetUp:
-                this.selector.askGameSetUp(((SelectorEventBoolean)SE).isCanBot());
+                this.selector.askGameSetUp(((SelectorEventBoolean)selectorEvent).isCanBot());
                 break;
 
             case askFirstSpawnPosition:
-                this.selector.askFirstSpawnPosition(((SelectorEventPowerUpCardsAndBoolean)SE).getPowerUpCards(),((SelectorEventPowerUpCardsAndBoolean)SE).isSpawnBot());
+                this.selector.askFirstSpawnPosition(((SelectorEventPowerUpCardsAndBoolean)selectorEvent).getPowerUpCards(),((SelectorEventPowerUpCardsAndBoolean)selectorEvent).isSpawnBot());
                 break;
 
             case askTurnAction:
-                this.selector.askTurnAction(((SelectorEventTurnAction)SE).getActionNumber(), ((SelectorEventTurnAction)SE).canUsePowerUp(), ((SelectorEventTurnAction)SE).canUseBot());
+                this.selector.askTurnAction(((SelectorEventTurnAction)selectorEvent).getActionNumber(), ((SelectorEventTurnAction)selectorEvent).canUsePowerUp(), ((SelectorEventTurnAction)selectorEvent).canUseBot());
                 break;
 
             case askRunAroundPosition:
-                this.selector.askRunAroundPosition(((SelectorEventPositions)SE).getPositions());
+                this.selector.askRunAroundPosition(((SelectorEventPositions)selectorEvent).getPositions());
                 break;
 
             case askGrabStuffAction:
@@ -475,28 +472,28 @@ public class View implements Observer {
                 break;
 
             case askGrabStuffMove:
-                this.selector.askGrabStuffMove(((SelectorEventPositions)SE).getPositions());
+                this.selector.askGrabStuffMove(((SelectorEventPositions)selectorEvent).getPositions());
                 break;
 
             case askGrabStuffGrabWeapon:
-                this.selector.askGrabStuffGrabWeapon(((SelectorEventWeaponCards)SE).getWeaponCards());
+                this.selector.askGrabStuffGrabWeapon(((SelectorEventWeaponCards)selectorEvent).getWeaponCards());
 
                 break;
 
             case askGrabStuffSwitchWeapon:
-                this.selector.askGrabStuffSwitchWeapon(((SelectorEventDoubleWeaponCards)SE).getWeaponCards1(), ((SelectorEventDoubleWeaponCards)SE).getWeaponCards2());
+                this.selector.askGrabStuffSwitchWeapon(((SelectorEventDoubleWeaponCards)selectorEvent).getWeaponCards1(), ((SelectorEventDoubleWeaponCards)selectorEvent).getWeaponCards2());
                 break;
 
             case askPowerUpToDiscard:
-                this.selector.askPowerUpToDiscard(((SelectorEventPowerUpCards)SE).getPowerUpCards());
+                this.selector.askPowerUpToDiscard(((SelectorEventPowerUpCards)selectorEvent).getPowerUpCards());
                 break;
 
             case askWhatReaload:
-                this.selector.askWhatReaload(((SelectorEventWeaponCards)SE).getWeaponCards());
+                this.selector.askWhatReaload(((SelectorEventWeaponCards)selectorEvent).getWeaponCards());
                 break;
 
             case askSpawn:
-                this.selector.askSpawn(((SelectorEventPowerUpCards)SE).getPowerUpCards());
+                this.selector.askSpawn(((SelectorEventPowerUpCards)selectorEvent).getPowerUpCards());
                 break;
 
             case askShootOrMove:
@@ -504,15 +501,15 @@ public class View implements Observer {
                 break;
 
             case askWhatWep:
-                this.selector.askWhatWep(((SelectorEventWeaponCards)SE).getWeaponCards());
+                this.selector.askWhatWep(((SelectorEventWeaponCards)selectorEvent).getWeaponCards());
                 break;
 
             case askWhatEffect:
-                this.selector.askWhatEffect(((SelectorEventEffect)SE).getPossibleEffects());
+                this.selector.askWhatEffect(((SelectorEventEffect)selectorEvent).getPossibleEffects());
                 break;
 
             case askEffectInputs:
-                this.selector.askEffectInputs(((SelectorEventEffectInputs)SE).getInputType(),((SelectorEventEffectInputs)SE).getPossibleInputs());
+                this.selector.askEffectInputs(((SelectorEventEffectInputs)selectorEvent).getInputType(),((SelectorEventEffectInputs)selectorEvent).getPossibleInputs());
                 break;
 
             case askNickname:
@@ -520,11 +517,11 @@ public class View implements Observer {
                 break;
 
             case paymentInformation:
-                this.selector.askPaymentInformation((SelectorEventPaymentInformation)SE);
+                this.selector.askPaymentInformation((SelectorEventPaymentInformation)selectorEvent);
                 break;
 
             case askPowerUpToUse:
-                this.selector.askPowerUpToUse((SelectorEventPowerUpCards)SE);
+                this.selector.askPowerUpToUse((SelectorEventPowerUpCards)selectorEvent);
                 break;
 
             case wantToUsePowerUpOrNot:
@@ -532,15 +529,15 @@ public class View implements Observer {
                 break;
 
             case askBotMove:
-                this.selector.askBotMove((SelectorEventPositions)SE);
+                this.selector.askBotMove((SelectorEventPositions)selectorEvent);
                 break;
 
             case askBotShoot:
-                this.selector.askBotShoot((SelectorEventPlayers)SE);
+                this.selector.askBotShoot((SelectorEventPlayers)selectorEvent);
                 break;
 
             case askTargetingScope:
-                this.selector.askTargetingScope(((SelectorEventTargetingScope)SE).getListOfTargetingScopeV(),((SelectorEventTargetingScope)SE).getPossiblePaymentsV(),((SelectorEventTargetingScope)SE).getDamagedPlayersV());
+                this.selector.askTargetingScope(((SelectorEventTargetingScope)selectorEvent).getListOfTargetingScopeV(),((SelectorEventTargetingScope)selectorEvent).getPossiblePaymentsV(),((SelectorEventTargetingScope)selectorEvent).getDamagedPlayersV());
                 break;
 
             default: break;

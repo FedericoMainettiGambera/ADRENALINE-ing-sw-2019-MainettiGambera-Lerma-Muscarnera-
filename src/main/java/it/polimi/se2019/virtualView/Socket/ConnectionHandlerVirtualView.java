@@ -38,6 +38,8 @@ public class ConnectionHandlerVirtualView extends Thread {
 
     private ViewControllerEventHandlerContext controller;
 
+    private String exception = "EXCEPTION";
+
     //private int numberOfConnections;
 
 
@@ -63,7 +65,7 @@ public class ConnectionHandlerVirtualView extends Thread {
                 this.tempSocket = serverSocket.accept();
             }
             catch(IOException e){
-                logger.log(Level.SEVERE, "EXCEPTION", e);
+                logger.log(Level.SEVERE, exception, e);
             }
 
             if(Game.hasGameBegun){
@@ -142,14 +144,14 @@ public class ConnectionHandlerVirtualView extends Thread {
             try {
                 p.setOos(new ObjectOutputStream(this.tempSocket.getOutputStream()));
             } catch (IOException e) {
-                logger.log(Level.SEVERE, "EXCEPTION", e);            }
+                logger.log(Level.SEVERE, exception, e);            }
 
             //ObjectInputStream
             ObjectInputStream ois = null;
             try {
                 ois = new ObjectInputStream(this.tempSocket.getInputStream());
             } catch (IOException e) {
-                logger.log(Level.SEVERE, "EXCEPTION", e);            }
+                logger.log(Level.SEVERE, exception, e);            }
 
             boolean correctNicknameFound = false;
             while(!correctNicknameFound) {
@@ -161,34 +163,37 @@ public class ConnectionHandlerVirtualView extends Thread {
                     break;
                 }
                 //read nickname received
-                ViewControllerEventNickname VCENickname = null;
+                ViewControllerEventNickname viewControllerEventNickname = null;
                 try {
-                    VCENickname = (ViewControllerEventNickname) ois.readObject();
+                    if(ois!=null){
+                        viewControllerEventNickname = (ViewControllerEventNickname) ois.readObject();
+                    }
                 } catch (IOException | ClassNotFoundException e) {
                     System.err.println("can't use the OutputStream during connection: " + e.getMessage());
                     break;
                 }
 
                 //set nickname
-                if(ModelGate.model.getPlayerList().getPlayer(VCENickname.getNickname())!=null||VCENickname.getNickname().equals("Terminator")){
-                    correctNicknameFound = false;
-                }
-                else {
-                    p.setNickname(VCENickname.getNickname());
+                if(viewControllerEventNickname!=null) {
+                    if (ModelGate.model.getPlayerList().getPlayer(viewControllerEventNickname.getNickname()) != null || viewControllerEventNickname.getNickname().equals("Terminator")) {
+                        correctNicknameFound = false;
+                    } else {
+                        p.setNickname(viewControllerEventNickname.getNickname());
 
-                    ClientListenerVirtualView sl = new ClientListenerVirtualView(this.tempSocket, ois, controller);
+                        ClientListenerVirtualView sl = new ClientListenerVirtualView(this.tempSocket, ois, controller);
 
-                    //starts the Thread that listen for Object sent from the NetworkHandler.
-                    Thread t = new Thread(sl);
-                    t.start();
+                        //starts the Thread that listen for Object sent from the NetworkHandler.
+                        Thread t = new Thread(sl);
+                        t.start();
 
-                    System.out.println("<SERVER-socket> Adding Player (" + p.getNickname() + ") to the PlayerList.");
-                    ModelGate.model.getPlayerList().addPlayer(p);
+                        System.out.println("<SERVER-socket> Adding Player (" + p.getNickname() + ") to the PlayerList.");
+                        ModelGate.model.getPlayerList().addPlayer(p);
 
-                    ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected() + 1);
-                    System.out.println("<SERVER-socket> Number of Connections: " + ModelGate.model.getNumberOfClientsConnected());
+                        ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected() + 1);
+                        System.out.println("<SERVER-socket> Number of Connections: " + ModelGate.model.getNumberOfClientsConnected());
 
-                    correctNicknameFound = true;
+                        correctNicknameFound = true;
+                    }
                 }
             }
         }

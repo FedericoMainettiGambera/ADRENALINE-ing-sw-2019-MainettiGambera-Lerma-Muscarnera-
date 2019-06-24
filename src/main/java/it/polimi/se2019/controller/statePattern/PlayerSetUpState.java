@@ -24,7 +24,7 @@ public class PlayerSetUpState implements State {
     private Thread inputTimer;
 
     public PlayerSetUpState(){
-        this.playerToAsk = playerToAsk;
+
         System.out.println("<SERVER> New state: " + this.getClass());
         this.numberOfPlayer = ModelGate.model.getPlayerList().getNumberOfPlayers();
         this.numberOfPlayersSet = 0;

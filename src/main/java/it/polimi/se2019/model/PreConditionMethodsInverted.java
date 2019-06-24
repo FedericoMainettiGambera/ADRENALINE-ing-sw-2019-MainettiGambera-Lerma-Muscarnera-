@@ -358,7 +358,7 @@ public class PreConditionMethodsInverted {
                                     // la distanza è 1
                                     // controllo che ci sia un player li sopra
                                     for (Player P : actionContext.getPlayerList().getPlayersOnBoard()) {
-                                        if (P.getPosition().equals(C.getCoordinates())) {
+                                        if (P.getPosition().equalPositions(C.getCoordinates())) {
                                             if (!retVal.contains(C))
                                                 retVal.add(C);
                                         }
@@ -467,7 +467,7 @@ public class PreConditionMethodsInverted {
                                     // la distanza è 1
                                     // controllo che ci sia un player li sopra
                                     for (Player P : actionContext.getPlayerList().getPlayersOnBoard()) {
-                                        if (P.getPosition().equals(C.getCoordinates())) {
+                                        if (P.getPosition().equalPositions(C.getCoordinates())) {
                                             if (!retVal.contains(C))
                                                 retVal.add(C);
                                         }
@@ -629,7 +629,7 @@ public class PreConditionMethodsInverted {
         PlayersList playersList = actionContext.getPlayerList();
         try {
             for (Player t : playersList.getPlayersOnBoard()) {
-                if (me.getPosition().equals(t.getPosition())) {
+                if (me.getPosition().equalPositions(t.getPosition())) {
                     retVal.add(t);
                 }
             }
@@ -648,7 +648,7 @@ public class PreConditionMethodsInverted {
         PlayersList playersList = actionContext.getPlayerList();
         try {
             for (Player t : playersList.getPlayersOnBoard()) {
-                if (!me.getPosition().equals(t.getPosition())) {
+                if (!me.getPosition().equalPositions(t.getPosition())) {
                     retVal.add(t);
                 }
             }

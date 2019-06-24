@@ -245,7 +245,7 @@ public class Effect implements Serializable {
             if(e.getEffectInfoTypelist() == targetListBySameSquareOfPlayer){
                 List<Object> cell = new ArrayList<>();
                 for (Player x : this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
-                    if(x.getPosition().equals(this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPosition()))
+                    if(x.getPosition().equalPositions(this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPosition()))
                         cell.add(x);
                 }
 
@@ -272,7 +272,7 @@ public class Effect implements Serializable {
                                         getActions().get(0).getActionInfo().getActionContext().getPlayer().getPosition()
                                 ) == 1) {
                                     for (Player p : this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
-                                        if (p.getPosition().equals(x.getCoordinates())) {
+                                        if (p.getPosition().equalPositions(x.getCoordinates())) {
                                             if (!cell.contains(p))
                                                 cell.add(p);
                                         }
@@ -765,7 +765,7 @@ public class Effect implements Serializable {
                     PlayersList potential = getActions().get(position).getActionInfo().getActionContext().getPlayerList();
                     PlayersList targets = new PlayersList();
                     for(Player po : potential.getPlayersOnBoard()) {
-                        if(po.getPosition().equals(me.getPosition()))
+                        if(po.getPosition().equalPositions(me.getPosition()))
                             targets.addPlayer(po);
                     }
                     this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTargetList(targets.getPlayersOnBoard());
@@ -967,7 +967,7 @@ public class Effect implements Serializable {
                     Player lastTarget = this.getActions().get(position - 1).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
                     Position positionOfLastTarget = lastTarget.getPosition();
                     for(Player x: getActions().get(position).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
-                        if(x.getPosition().equals(positionOfLastTarget)) {
+                        if(x.getPosition().equalPositions(positionOfLastTarget)) {
                             targets.add(x);
                         }
                     }
@@ -1126,7 +1126,7 @@ public class Effect implements Serializable {
                     PlayersList potential = getActions().get(position).getActionInfo().getActionContext().getPlayerList();
                     PlayersList targets = new PlayersList();
                     for(Player po : potential.getPlayersOnBoard()) {
-                        if(po.getPosition().equals(me.getPosition()))
+                        if(po.getPosition().equalPositions(me.getPosition()))
                             targets.addPlayer(po);
                     }
                     this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTargetList(targets.getPlayersOnBoard());
@@ -1327,7 +1327,7 @@ public class Effect implements Serializable {
                     Player lastTarget = this.getActions().get(position - 1).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
                     Position positionOfLastTarget = lastTarget.getPosition();
                     for(Player x: getActions().get(position).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
-                        if(x.getPosition().equals(positionOfLastTarget)) {
+                        if(x.getPosition().equalPositions(positionOfLastTarget)) {
                             targets.add(x);
                         }
                     }
