@@ -13,19 +13,28 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.util.List;
 import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class SocketVirtualView extends VirtualView {
+/***/
+public class SocketVirtualView extends VirtualView{
+
+    private static final Logger logger=Logger.getLogger(SocketVirtualView.class.getName());
 
     private ServerSocket serverSocket;
 
-    private int port;
+    public int port;
 
-    private List<ObjectOutputStream> oos;
+    public List<ObjectOutputStream> oos;
 
     private ConnectionHandlerVirtualView connectionHandler;
 
     private ViewControllerEventHandlerContext controller;
 
+    /**constructor,
+     * @param controller needed to be registered as an observer since it needs to be notified of the events
+     *                   received from the clients connected to the server
+     * */
     public SocketVirtualView(ViewControllerEventHandlerContext controller){
 
         this.controller = controller;
@@ -35,18 +44,21 @@ public class SocketVirtualView extends VirtualView {
             this.port = serverSocket.getLocalPort();
         }
         catch (IOException e) {
-            e.printStackTrace();
+          logger.log(Level.SEVERE, "EXCEPTION", e);
         }
 
         this.oos = null;
     }
 
-    public void startServer() throws IOException{
+    /**makes the server start
+     * */
+    public void startServer(){
         this.connectionHandler = new ConnectionHandlerVirtualView(this.serverSocket, this.controller);
         this.connectionHandler.start();
         System.out.println("<SERVER-socket> FOR SOCKETS CLIENTS. Running Server on: " + this.serverSocket.getInetAddress().getHostAddress() + ":" + this.serverSocket.getLocalPort());
     }
 
+    /**Anytime the model is updated, the server sends the changes to all client*/
     @Override
     public void update(Observable o, Object arg) {
         //System.out.println("                                        <SERVER-socket> SENDING MVE FROM: " +o.getClass());
@@ -69,7 +81,7 @@ public class SocketVirtualView extends VirtualView {
                 playerToSend.getOos().reset();
             }
         }catch (IOException e ){
-            System.err.println(playerToSend.getNickname() + " is not reachable. Setting him AFK. Executed from method SocketVirtualView.sendToClient()");
+            logger.severe(playerToSend.getNickname() + " is not reachable. Setting him AFK. Executed from method SocketVirtualView.sendToClient()");
             playerToSend.setAFKWIthoutNotify(true);
         }
     }
@@ -79,7 +91,7 @@ public class SocketVirtualView extends VirtualView {
             playerToSend.getOos().writeObject(o);
             playerToSend.getOos().reset();
         }catch (IOException e ){
-            System.err.println(playerToSend.getNickname() + " is not reachable. Setting him AFK. Executed from method SocketVirtualView.sendToClient()");
+            logger.severe(playerToSend.getNickname() + " is not reachable. Setting him AFK. Executed from method SocketVirtualView.sendToClient()");
             playerToSend.setAFKWIthoutNotify(true);
         }
     }
