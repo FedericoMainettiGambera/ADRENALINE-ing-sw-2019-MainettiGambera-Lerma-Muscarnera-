@@ -109,6 +109,9 @@ public class GrabStuffStateGrab implements State {
         }
     }
 
+    /**
+     * set the player AFK in case they don't send required input in a while
+     * */
     @Override
     public void handleAFK() {
     }

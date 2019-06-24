@@ -14,12 +14,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
+/**
+ * allows player to move around the map
+ * */
 public class RunAroundState implements State {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(RunAroundState.class.getName());
 
     private int actionNumber;
-    private int numberOfMoves;
 
     private Player playerToAsk;
 
@@ -30,10 +32,17 @@ public class RunAroundState implements State {
         this.actionNumber = actionNumber;
     }
 
+    /**
+     * @param playerToAsk is the current playing player
+     *  this function send to the playerToAsk all the possible positions they can move to
+     *  within a certain number of moves
+     * */
     @Override
     public void askForInput(Player playerToAsk) {
         this.playerToAsk = playerToAsk;
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+
+        int numberOfMoves;
 
         if(ModelGate.model.hasFinalFrenzyBegun()&&playerToAsk.getBeforeorafterStartingPlayer()<0){numberOfMoves=4;}
         else{numberOfMoves=3;}
@@ -53,24 +62,27 @@ public class RunAroundState implements State {
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
-            logger.severe("Exception occured  "+e.getClass()+"  "+e.getCause()+ Arrays.toString(e.getStackTrace()));
+            logger.severe("Exception occurred  "+e.getClass()+"  "+e.getCause()+ Arrays.toString(e.getStackTrace()));
         }
     }
 
+    /**@param vce from which needed information is extrapolated
+     * this doAction moves the player in the board to the desired position
+     * */
     @Override
-    public void doAction(ViewControllerEvent VCE) {
+    public void doAction(ViewControllerEvent vce) {
         this.inputTimer.interrupt();
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        ViewControllerEventPosition VCEPosition = (ViewControllerEventPosition)VCE;
+        ViewControllerEventPosition viewControllerEventPosition = (ViewControllerEventPosition)vce;
 
         //set new position for the player
-        out.println("<SERVER> Setting player position to: [" +VCEPosition.getX()+ "][" +VCEPosition.getY() + "]");
+        out.println("<SERVER> Setting player position to: [" +viewControllerEventPosition.getX()+ "][" +viewControllerEventPosition.getY() + "]");
         ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setPosition(
-                VCEPosition.getX(),
-                VCEPosition.getY()
+                viewControllerEventPosition.getX(),
+                viewControllerEventPosition.getY()
         );
 
         //set next State
@@ -83,6 +95,9 @@ public class RunAroundState implements State {
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 
+    /**
+     * set the player AFK in case they don't send required input in a while
+     * */
     @Override
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);

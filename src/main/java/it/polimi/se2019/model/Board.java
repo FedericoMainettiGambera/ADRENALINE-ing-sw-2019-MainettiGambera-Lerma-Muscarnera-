@@ -19,46 +19,62 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static it.polimi.se2019.model.enumerations.CardinalPoint.*;
 
 
-/***/
+
+
+
+/**build and keep the board of the game*/
 public class Board{
 
+    private final static Logger logger=Logger.getLogger(Board.class.getName());
     public VirtualView VVRMI;
     public VirtualView VVSocket;
 
-    /***/
-    public Board(String chosenMap, VirtualView VVSocket, VirtualView VVRMI) throws IOException, NullPointerException {
+    /** constructor
+     * @param chosenMap indicates the one map chosen between the 4 available
+     * @param VVRMI it keeps a connection with the RMI system
+     * @param VVSocket it keeps a connection with the Socket System */
+    public Board(String chosenMap, VirtualView VVSocket, VirtualView VVRMI) throws IOException{
         this.VVSocket = VVSocket;
         this.VVRMI = VVRMI;
         this.board = buildMap(chosenMap);
         this.chosenMap=chosenMap;
     }
 
+    /**@return board*/
     public Square[][] getMap() {
         return board;
     }
 
-    /***/
+    /**list of attributes*/
     private Square[][] board;
-    private FileReader fileReader;
     private BufferedReader bufferedReader;
     private Square[] spawnPointslist = new Square[3];
     private String chosenMap;
 
+    /** from a specified
+     * @param position this function allows you to get the equivalent
+     * @return Square*/
     public Square getSquare(Position position){
         return this.board[position.getX()][position.getY()];
     }
 
+    /**@param X it's equivalent of the previous function but requires coordinates
+     * @param Y it's equivalent of the previous function but requires coordinates
+     * @return Square*/
     public Square getSquare(int X, int Y){
         return this.board[X][Y];
     }
-    //function used in controller to get the SpawnSquare where players want to spawn
 
-
-
+    /**
+     * function used in controller to get the SpawnSquare where players want to spawn
+     * @param color of the spawn point the player want to spawn in
+     * */
     public Position getSpawnpointOfColor(AmmoCubesColor color)throws Exception{
         int g=0;
 
@@ -92,6 +108,9 @@ public class Board{
         throw new Exception("Square not found.");
     }
 
+    /**@param pos indicates the position you want to know the room of
+     * @return room , a list of Squares which the said room is composed of
+     * */
     public List<Square> getRoomFromPosition(Position pos){
         List<Square> room = new ArrayList<>();
         Square originalPos = this.getSquare(pos);
@@ -106,6 +125,10 @@ public class Board{
         return room;
     }
 
+    /**@param from starting position
+     * @param to final position
+     * @return int value that indicates the distance between the said positions
+     * */
     public int distanceFromTo(Position from, Position to) throws Exception {
         boolean found = false;
         int distanceN = 0;
@@ -161,18 +184,23 @@ public class Board{
 
             //if distanceN is >= 4*3 (dimension of the map, i've put 15 for sureness..) it should have visited the whole grid
             if(distanceN >= 15){
-                throw new Exception("couldn't calculate the distance, already visited the entire map but have not found the \"to\" position.");
+                throw new IllegalStateException("couldn't calculate the distance, already visited the entire map but have not found the \"to\" position.");
             }
         }
     }
 
+    /**@param chosenMap indicates which map has been chosen to play with
+     * this function build the map from a given file
+     * */
     private Square[][] buildMap(String chosenMap) throws IOException{
         Square[][] map = new Square[3][4];
         SquareSide[] sides = new SquareSide[4];
         SquareTypes type;
-        char color, type2;
+        char color;
+        char type2;
         String line = null;
         int s =0;
+        FileReader fileReader;
 
 
         //apre file
@@ -181,7 +209,7 @@ public class Board{
             bufferedReader = new BufferedReader(fileReader);
             line = bufferedReader.readLine();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "EXCEPTION ", e );
         }
         //cerca la linea dopo map0,1,2,o 3
         while (!line.contains(chosenMap)){
@@ -269,15 +297,14 @@ public class Board{
             if(line!=null)
             {string=line.toCharArray();}
 
-         //    while (string[0] == '\b') {
-          //       string = bufferedReader.readLine().toCharArray();
-            //  }
         }
         return map;
     }
-/**it is a Minimum Paths Algorythm used to calculate the position allowed
+/**it is a Minimum Paths algorythm used to calculate the position allowed
  * @param startingPosition from a given starting position with a given with a given
- * @param numberOfMoves  number of moves*/
+ * @param numberOfMoves  number of moves
+ * @return an arraylist of possible positions where to move
+ * */
     public ArrayList<Position> possiblePositions(Position startingPosition, int numberOfMoves){
         ArrayList<Position> possiblePositions = new ArrayList<>();
         possiblePositions.add(startingPosition);
@@ -288,10 +315,6 @@ public class Board{
         for (int i = 0; i < numberOfMoves; i++) {
             for (int j = 0; j < possiblePositions.size(); j++) {
 
-                //System.out.println("Starting position: " + startingPosition);
-                //System.out.println("Calculating possible position considering coordinates (X: " + possiblePositions.get(j).getX() + ", Y: " + possiblePositions.get(j).getY() +")");
-                //pay attention to the this.board.lenght and the this.board[0].lenght, they are inverted and makes confusion.
-
                 tempSquare = this.board[possiblePositions.get(j).getX()][possiblePositions.get(j).getY()];
 
                 //NORTH
@@ -300,7 +323,6 @@ public class Board{
                         && (this.board[possiblePositions.get(j).getX()-1][possiblePositions.get(j).getY()] != null)){ //la casella che stiamo osservando non sia vuota
                     tempPos = new Position(possiblePositions.get(j).getX()-1,possiblePositions.get(j).getY());
                     if(!contains(possiblePositions, tempPos) && !contains(possiblePositionsToAddInNextCycle,tempPos)){
-                        //System.out.println("adding north: (X: " + tempPos.getX() + ", Y: " + tempPos.getY() +")");
                         possiblePositionsToAddInNextCycle.add(tempPos);
                     }
                 }
@@ -311,7 +333,6 @@ public class Board{
                         && (this.board[possiblePositions.get(j).getX()+1][possiblePositions.get(j).getY()] != null)){ //la casella che stiamo osservando non sia vuota
                     tempPos = new Position(possiblePositions.get(j).getX()+1,possiblePositions.get(j).getY());
                     if(!contains(possiblePositions, tempPos) && !contains(possiblePositionsToAddInNextCycle,tempPos)){
-                        //System.out.println("adding south: (X: " + tempPos.getX() + ", Y: " + tempPos.getY() +")");
                         possiblePositionsToAddInNextCycle.add(tempPos);
                     }
                 }
@@ -322,7 +343,6 @@ public class Board{
                         && (this.board[possiblePositions.get(j).getX()][possiblePositions.get(j).getY()+1] != null)){ //la casella che stiamo osservando non sia vuota
                     tempPos = new Position(possiblePositions.get(j).getX(),possiblePositions.get(j).getY()+1);
                     if(!contains(possiblePositions, tempPos) && !contains(possiblePositionsToAddInNextCycle,tempPos)){
-                        //System.out.println("adding east: (X: " + tempPos.getX() + ", Y: " + tempPos.getY() +")");
                         possiblePositionsToAddInNextCycle.add(tempPos);
                     }
                 }
@@ -333,7 +353,6 @@ public class Board{
                         && (this.board[possiblePositions.get(j).getX()][possiblePositions.get(j).getY()-1] != null)){ //la casella che stiamo osservando non sia vuota
                     tempPos = new Position(possiblePositions.get(j).getX(),possiblePositions.get(j).getY()-1);
                     if(!contains(possiblePositions, tempPos) && !contains(possiblePositionsToAddInNextCycle,tempPos)){
-                        //System.out.println("adding west: (X: " + tempPos.getX() + ", Y: " + tempPos.getY() +")");
                         possiblePositionsToAddInNextCycle.add(tempPos);
                     }
                 }
@@ -344,6 +363,7 @@ public class Board{
         return possiblePositions;
     }
 
+    /**make the board understandable for human user*/
     public String toString(){
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < this.board.length; i++) {
@@ -369,6 +389,10 @@ public class Board{
         return s.toString();
     }
 
+    /**@param positions with a given list of positions
+       @param pos  and a given position
+        @return a boolean value that indicates if the array contains the position
+     */
     public boolean contains(ArrayList<Position> positions, Position pos){
         for (Position position : positions) {
             if (position.equals(pos)) {
@@ -377,7 +401,9 @@ public class Board{
         }
         return false;
     }
-
+/**build an equivalent class of this for the view usage  for graphical and safeness  reasons
+ * @return BoardV
+ * */
     public BoardV buildBoardV(){
         BoardV boardV = new BoardV();
         SquareV[][] squareV = new SquareV[this.board.length][this.board[0].length];

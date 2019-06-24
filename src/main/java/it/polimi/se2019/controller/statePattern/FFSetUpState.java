@@ -13,14 +13,11 @@ import java.util.logging.Logger;
 public class FFSetUpState implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);
-    private static final Logger logger = Logger.getLogger(FFSetUpState.class.getName());
 
 
-    private int numberOfPlayerTurnsToEndGame;
 
     public FFSetUpState(){
         out.println("<SERVER> New state: " + this.getClass());
-        this.numberOfPlayerTurnsToEndGame = ModelGate.model.getPlayerList().getNumberOfPlayers();
     }
 
     @Override
@@ -36,7 +33,7 @@ public class FFSetUpState implements State {
      * will make all the difference: the action one can unblock are determined by that attribute!
      * */
     @Override
-    public void doAction(ViewControllerEvent VCE) {
+    public void doAction(ViewControllerEvent vce) {
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ModelGate.model.triggerFinalFrenzy(true);
@@ -92,6 +89,9 @@ public class FFSetUpState implements State {
 
     }
 
+    /**
+     * set the player AFK in case they don't send required input in a while
+     * */
     @Override
     public void handleAFK() {
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");

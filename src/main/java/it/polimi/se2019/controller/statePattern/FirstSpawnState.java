@@ -30,6 +30,7 @@ public class FirstSpawnState implements State {
 
     private Player playerToAsk;
     private Thread inputTimer;
+    private String botNickname="Terminator" ;
 
 
     /** @param playerToAsk  we need to know who is spawning and where it wants to spawn
@@ -42,7 +43,7 @@ public class FirstSpawnState implements State {
         //ask to "playerToAsk" what power up he want to discard to spawn on its correspondent SpawnPointColor
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-            if(ModelGate.model.isBotActive()&&ModelGate.model.getPlayerList().getPlayer("Terminator").getPosition()==null){
+            if(ModelGate.model.isBotActive()&&ModelGate.model.getPlayerList().getPlayer(botNickname).getPosition()==null){
                 out.println("<SERVER> asking player to spawn himself and the bot");
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askFirstSpawnPosition((ArrayList)playerToAsk.getPowerUpCardsInHand().getCards(), true);
             }
@@ -58,51 +59,53 @@ public class FirstSpawnState implements State {
     }
 
     /**
-     * @param VCE is needed to know which powerup card has been discarded this card will determine where the player will spawn,
+     * @param vce is needed to know which powerup card has been discarded this card will determine where the player will spawn,
      * the player is set in the correct position on the map
      * the power up discarded is moved to the discard pile of power up
      * the player who just spawned is now ready for his first turn!
      * context is set on turnstate */
     @Override
-    public void doAction(ViewControllerEvent VCE){
+    public void doAction(ViewControllerEvent vce){
         this.inputTimer.interrupt();
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        ViewControllerEventTwoString VCETwoString = (ViewControllerEventTwoString) VCE;
+        ViewControllerEventTwoString viewControllerEventTwoString = (ViewControllerEventTwoString) vce;
 
-        if(ModelGate.model.isBotActive() && ModelGate.model.getPlayerList().getPlayer("Terminator").getPosition()==null){
-            String spawnPointColorForBot = VCETwoString.getInput2();
+        if(ModelGate.model.isBotActive() && ModelGate.model.getPlayerList().getPlayer(botNickname).getPosition()==null){
+            String spawnPointColorForBot = viewControllerEventTwoString.getInput2();
             AmmoCubesColor spawnForBot =  AmmoCubesColor.red;
-            if(spawnPointColorForBot.equals("red")){
-                spawnForBot = AmmoCubesColor.red;
-            }
-            else if(spawnPointColorForBot.equals("blue")){
-                spawnForBot = AmmoCubesColor.blue;
-            }
-            else if((spawnPointColorForBot.equals("yellow"))){
-                spawnForBot = AmmoCubesColor.yellow;
-            }
-            else{
-                try {
-                    throw new Exception("shouldn't spawn the bot");
-                } catch (Exception e) {
-                    logger.log(Level.SEVERE, "EXCEPTION ", e);
-                }
+            switch (spawnPointColorForBot) {
+                case "red":
+                    spawnForBot = AmmoCubesColor.red;
+                    break;
+                case "blue":
+                    spawnForBot = AmmoCubesColor.blue;
+                    break;
+                case "yellow":
+                    spawnForBot = AmmoCubesColor.yellow;
+                    break;
+                default:
+                    try {
+                        throw new IllegalStateException("shouldn't spawn the bot");
+                    } catch (Exception e) {
+                        logger.log(Level.SEVERE, "EXCEPTION ", e);
+                    }
 
+                    break;
             }
             out.println("<SERVER> the bot will spawn in the SpawnPoint of color: " + spawnPointColorForBot);
             try {
-                Position SpawnPointPositionForBot = ModelGate.model.getBoard().getSpawnpointOfColor(spawnForBot);
-                ModelGate.model.getPlayerList().getPlayer("Terminator").setPosition(SpawnPointPositionForBot);
+                Position spawnPointPositionForBot = ModelGate.model.getBoard().getSpawnpointOfColor(spawnForBot);
+                ModelGate.model.getPlayerList().getPlayer(botNickname).setPosition(spawnPointPositionForBot);
             } catch (Exception e) {
                 logger.log(Level.SEVERE, "EXCEPTION", e);
             }
         }
 
         //set spawning position
-        PowerUpCard cardChosen = ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCard(VCETwoString.getInput1());
+        PowerUpCard cardChosen = ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCard(viewControllerEventTwoString.getInput1());
         Position spawnPosition = null;
         out.println("<SERVER> choosen card ID: " + cardChosen.getID());
         out.println("<SERVER> choosen card name: " + cardChosen.getName());
@@ -119,7 +122,7 @@ public class FirstSpawnState implements State {
 
 
         //discard the power up card
-        out.println("<SERVER> Discarding the choosen power up");
+        out.println("<SERVER> Discarding the chosen power up");
         ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
                 ModelGate.model.getPowerUpDiscardPile(),
                 cardChosen.getID()
