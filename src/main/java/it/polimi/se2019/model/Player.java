@@ -77,7 +77,15 @@ public class Player extends Person implements Serializable {
 
     private boolean isBot;
 
+    private int turnID = 0;
 
+    public int getTurnID() {
+        return turnID;
+    }
+
+    public void incrementTurnID(){
+        this.turnID++;
+    }
 
     public void setAFKWithNotify(boolean isAFK){
         //notify everybody, even the one just set AFK

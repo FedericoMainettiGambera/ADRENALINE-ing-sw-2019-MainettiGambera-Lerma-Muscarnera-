@@ -39,6 +39,7 @@ public class PlayersList extends Observable implements Serializable {
     }
 
     public void setCurrentPlayingPlayer(Player currentPlayingPlayer){
+        currentPlayingPlayer.incrementTurnID();
         this.currentPlayingPlayer = currentPlayingPlayer;
         setChanged();
         notifyObservers(new ModelViewEvent(this.currentPlayingPlayer.getNickname(), ModelViewEventTypes.setCurrentPlayingPlayer));
@@ -74,6 +75,7 @@ public class PlayersList extends Observable implements Serializable {
         if(this.getCurrentPlayingPlayer().isAFK()||this.getCurrentPlayingPlayer().isBot()){
             this.setNextPlayingPlayer();
         }
+
     }
 
     public boolean isMinimumPlayerNotAFK(){
