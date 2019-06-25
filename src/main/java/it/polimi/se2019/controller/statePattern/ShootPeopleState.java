@@ -6,6 +6,7 @@ import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.OrderedCardList;
 import it.polimi.se2019.model.Player;
+import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPosition;
@@ -13,8 +14,10 @@ import it.polimi.se2019.controller.WaitForPlayerInput;
 import it.polimi.se2019.view.components.PowerUpCardV;
 
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class ShootPeopleState implements State {
@@ -52,7 +55,7 @@ public class ShootPeopleState implements State {
         else if(!ModelGate.model.hasFinalFrenzyBegun()&&ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineShootAction()){
             try {
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-                SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(), 1));
+                SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(this.possiblePositions(1));
                 this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                 this.inputTimer.start();
             } catch (Exception e) {
@@ -69,7 +72,7 @@ public class ShootPeopleState implements State {
             }
             try {
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-                SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(), numberOfMoves));
+                SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(this.possiblePositions(numberOfMoves));
                 this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
                 this.inputTimer.start();
             } catch (Exception e) {
@@ -155,5 +158,11 @@ public class ShootPeopleState implements State {
             }
         }
         return possibleCards.getCards().size() > 0;
+    }
+
+    public ArrayList<Position> possiblePositions(int numberOfMoves){
+        //TODO
+        ArrayList<Position> possiblePositions = new ArrayList<>();
+        return possiblePositions;
     }
 }
