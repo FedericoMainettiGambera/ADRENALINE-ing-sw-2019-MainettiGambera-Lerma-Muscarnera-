@@ -46,18 +46,10 @@ public class RmiClientListenerVirtualView extends Observable implements Runnable
         ModelGate.model.getPlayerList().getPlayer(nickname).setOos(null);
 
         ModelGate.model.getPlayerList().getPlayer(nickname).setRmiInterface(null);
-        //TODO
-        //set new connection
-        //esempio:
-        //      ModelGate.model.getPlayerList().getPlayer(nickname).setRmiIdentifier(0);
-        //      ModelGate.model.getPlayerList().getPlayer(nickname).setRmiInterface(null);
-        //      (probabilemente l'RmiIdentifier è INUTILE, comunque queste cose dipendo strettamente dall'RMI, quindi le lascio fare a te Ludo)
-        //      (p.s. modifica la classe player come preferisci)
+
+        ModelGate.model.getPlayerList().getPlayer(nickname).setRmiInterface(reconnectionEvent.getClient());
 
         //set afk false and update the Model to the reconnected Client
-
-
-
         RmiVirtualView.sendToClientEvenAFK(ModelGate.model.getPlayerList().getPlayer(nickname),(new ModelViewEvent(ModelGate.model.buildGameV(), ModelViewEventTypes.resetGame)));
         ModelGate.model.getPlayerList().getPlayer(nickname).setAFKWIthoutNotify(false);
     }

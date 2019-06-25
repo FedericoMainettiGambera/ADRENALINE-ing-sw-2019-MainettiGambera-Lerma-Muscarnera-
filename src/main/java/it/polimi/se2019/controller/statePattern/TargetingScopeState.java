@@ -35,12 +35,6 @@ public class TargetingScopeState implements State{
         out.println("<SERVER> New state: " + this.getClass());
         this.nextState = nextState;
         this.damagedPlayers = damagedPlayers;
-        if(!damagedPlayers.isEmpty()) {
-            this.listOfTargetingScope = getListOfTargetingScope();
-        }
-        else{
-            this.listOfTargetingScope = new ArrayList<>();
-        }
     }
 
     @Override
@@ -50,6 +44,13 @@ public class TargetingScopeState implements State{
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         this.possiblePayments = possiblePayments();
+
+        if(!damagedPlayers.isEmpty()) {
+            this.listOfTargetingScope = getListOfTargetingScope();
+        }
+        else{
+            this.listOfTargetingScope = new ArrayList<>();
+        }
 
         //out.println everything
         out.println("<SERVER> Possible Targeting Scope to use:");
@@ -164,19 +165,12 @@ public class TargetingScopeState implements State{
 
     public List<PowerUpCard> getListOfTargetingScope(){
         List<PowerUpCard> listOfTargetingScope = new ArrayList<>();
-        // TODO <REMOVE THIS>
-        //System.out.println(this.playerToAsk);
-        //System.out.println(this.playerToAsk.getPowerUpCardsInHand());
-        //System.out.println(this.playerToAsk.getPowerUpCardsInHand().getCards());
-        // TODO </REMOVE>
-        // TODO <remove THIS COMMENT>
-        /*
+
         for (PowerUpCard powerUpCard:this.playerToAsk.getPowerUpCardsInHand().getCards()) {
             if(powerUpCard.getName().equalsIgnoreCase("TARGETING SCOPE")){
                 listOfTargetingScope.add(powerUpCard);
             }
-        }*/
-        // TODO </remove>
+        }
         return listOfTargetingScope;
     }
 

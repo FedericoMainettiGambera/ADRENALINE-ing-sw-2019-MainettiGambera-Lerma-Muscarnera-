@@ -50,46 +50,32 @@ public class ShootPeopleState implements State {
         }
        //FF aint begun & adrenaline action avaible
         else if(!ModelGate.model.hasFinalFrenzyBegun()&&ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineShootAction()){
-            if(canShoot()) {
-                try {
-                    SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-                    SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(), 1));
-                    this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
-                    this.inputTimer.start();
-                } catch (Exception e) {
-                    logger.severe("Exception Occurred: "+e.getClass()+" "+e.getCause());
-                }
+            try {
+                SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
+                SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(), 1));
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+                this.inputTimer.start();
+            } catch (Exception e) {
+                logger.severe("Exception Occurred: "+e.getClass()+" "+e.getCause());
             }
-            else{
-                out.println("Player cant shoot");
-                ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
-                ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
-            }
-
         }
         //FF began
         else if(ModelGate.model.hasFinalFrenzyBegun()){
-            if(canShoot()) {
-                int numberOfMoves = 1;
-                if (playerToAsk.getBeforeorafterStartingPlayer() < 0) {
-                    numberOfMoves = 1;
-                } else if (playerToAsk.getBeforeorafterStartingPlayer() >= 0) {
-                    numberOfMoves = 2;
-                }
-                try {
-                    SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-                    SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(), numberOfMoves));
-                    this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
-                    this.inputTimer.start();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            int numberOfMoves = 1;
+            if (playerToAsk.getBeforeorafterStartingPlayer() < 0) {
+                numberOfMoves = 1;
+            } else if (playerToAsk.getBeforeorafterStartingPlayer() >= 0) {
+                numberOfMoves = 2;
             }
-            else{
-                out.println("Player cant shoot");
-                ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
-                ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+            try {
+                SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
+                SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(), numberOfMoves));
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+                this.inputTimer.start();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
         }
     }
 
@@ -112,12 +98,25 @@ public class ShootPeopleState implements State {
         );
 
         if(!ModelGate.model.hasFinalFrenzyBegun()&&ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineShootAction()){
-            ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            if(canShoot()) {
+                ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            }
+            else{
+                out.println("Player cant shoot from the new position.");
+                ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
+                ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+            }
         }
         else if(ModelGate.model.hasFinalFrenzyBegun()){
-            ViewControllerEventHandlerContext.setNextState(new ReloadState(true, this.actionNumber));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            if(canShoot()){
+                ViewControllerEventHandlerContext.setNextState(new ReloadState(true, this.actionNumber));
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());}
+            else{
+                out.println("Player cant shoot from the new position");
+                ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
+                ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+            }
         }
 
     }

@@ -88,7 +88,6 @@ public class RmiNetworkHandler extends UnicastRemoteObject implements RmiInterfa
             RmiNetworkHandler.server.send(o);
         } catch (RemoteException e) {
             logger.log(Level.SEVERE, "EXCEPTION", e);
-
         }
     }
 

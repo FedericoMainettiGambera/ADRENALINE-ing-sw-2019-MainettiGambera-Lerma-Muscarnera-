@@ -854,7 +854,7 @@ public class CLISelector implements SelectorV {
             }
             CLISelector.showListOfRequests(requests);
 
-            int chosen = askNumber(0,loadedCardInHand.size()-1);
+            int chosen = askNumber(0,requests.size()-1);
 
             ViewControllerEventInt viewControllerEventInt = new ViewControllerEventInt(chosen);
 
@@ -1028,7 +1028,11 @@ public class CLISelector implements SelectorV {
         ViewModelGate.setMe(answer.get(0));
 
         answer.add(this.networkConnection);
-        ViewSelector.sendToServer(new ReconnectionEvent(answer));
+        ReconnectionEvent reconnectEvent = new ReconnectionEvent(answer);
+        if(networkConnection.equalsIgnoreCase("RMI")){
+            reconnectEvent.setClient(Controller.RMINH);
+        }
+        ViewSelector.sendToServer(reconnectEvent);
     }
 
 
