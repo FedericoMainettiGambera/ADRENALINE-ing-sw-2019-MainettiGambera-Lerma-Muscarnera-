@@ -54,12 +54,10 @@ public class  Controller{
 
         //Starting the Server Socket
         socketVirtualView = new SocketVirtualView(viewControllerEventHandlerContext);
-        try {
-            socketVirtualView.startServer();
-        }
-        catch (IOException e){
-            logger.log(Level.SEVERE, "EXCEPTION", e);
-        }
+
+        socketVirtualView.startServer();
+
+
         ViewControllerEventHandlerContext.socketVV = socketVirtualView;
 
         //Starting the Server as RMI
