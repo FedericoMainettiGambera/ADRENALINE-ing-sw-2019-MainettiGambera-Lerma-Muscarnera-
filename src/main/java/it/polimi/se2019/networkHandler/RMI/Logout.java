@@ -1,4 +1,4 @@
-package it.polimi.se2019.networkHandler.RMI;
+/**package it.polimi.se2019.networkHandler.RMI;
 
 import it.polimi.se2019.virtualView.RMI.RMIInterface;
 
@@ -46,4 +46,4 @@ public class Logout extends Thread {
 }
 
 
-
+*/

@@ -3,17 +3,22 @@ package it.polimi.se2019.networkHandler.RMIREDO;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.view.components.View;
-import it.polimi.se2019.virtualView.RMI.RMIInterface;
 import it.polimi.se2019.virtualView.RMIREDO.RmiInterface;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class RmiNetworkHandler implements RmiInterface, Observer {
+public class RmiNetworkHandler extends UnicastRemoteObject implements RmiInterface, Observer {
+
     private static final Logger logger=Logger.getLogger(SocketNetworkHandler.class.getName());
 
     private int port;
@@ -38,6 +43,20 @@ public class RmiNetworkHandler implements RmiInterface, Observer {
         //inizializza l'RMI e effettua la connessione e tutto ciò che serve
         //salva in RmiNetworkHandler.server l'interfaccia del server
         //esegui il metodo remoto sul server ".connect(RmiInterface client)"
+        //TODO fede alternativamente si puo usare solo il nome del "sito"
+
+        Registry reg = LocateRegistry.getRegistry(ip, 1099);
+
+        try {
+
+            this.server=(RmiInterface)reg.lookup("http://AdrenalineServer:1099");
+
+
+        } catch (NotBoundException e) {
+           logger.log(Level.SEVERE, "EXCEPTION",e);
+        }
+
+
         RmiNetworkHandler.server.connect(this);
 
     }
@@ -59,8 +78,8 @@ public class RmiNetworkHandler implements RmiInterface, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        ViewControllerEvent VCE = (ViewControllerEvent) arg;
-        sendToServer(VCE);
+        ViewControllerEvent viewControllerEvent = (ViewControllerEvent) arg;
+        sendToServer(viewControllerEvent);
     }
 
     public static void sendToServer(Object o){
@@ -68,7 +87,10 @@ public class RmiNetworkHandler implements RmiInterface, Observer {
         try {
             RmiNetworkHandler.server.send(o);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "EXCEPTION", e);
+
         }
     }
+
+
 }

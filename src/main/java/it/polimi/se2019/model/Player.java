@@ -7,6 +7,7 @@ import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.view.components.PlayerV;
 import it.polimi.se2019.virtualView.RMI.RMIInterface;
+import it.polimi.se2019.virtualView.RMIREDO.RmiInterface;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -60,7 +61,7 @@ public class Player extends Person implements Serializable {
     /***/
     private transient ObjectOutputStream oos;
 
-    private transient RMIInterface rmiInterface;
+    private transient RmiInterface rmiInterface;
 
     private int rmiIdentifier;
 
@@ -94,7 +95,10 @@ public class Player extends Person implements Serializable {
         ModelViewEvent MVE = new ModelViewEvent(this.isAFK, ModelViewEventTypes.setAFK, nickname);
         //because the player has just been set AFK, he can't be reached with the notify observers, so we force to send him the afk message, so he disconnects
         try {
-            this.oos.writeObject(MVE);
+            if(oos!=null)
+            { this.oos.writeObject(MVE);}
+
+           else  this.getRmiInterface().send(MVE);
         } catch (IOException e) {
             System.err.println("Couldn't reach the player to tell him he is AFK. From method Player.setAFKWithNotify(...)");
         }
@@ -165,11 +169,11 @@ public class Player extends Person implements Serializable {
     }
 
     ////rmi
-    public void setRmiInterface(RMIInterface rmi){
+    public void setRmiInterface(RmiInterface rmi){
         this.rmiInterface=rmi;
     }
 
-    public RMIInterface getRmiInterface(){
+    public RmiInterface getRmiInterface(){
         return this.rmiInterface;
     }
 

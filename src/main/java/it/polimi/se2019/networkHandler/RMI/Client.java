@@ -1,4 +1,4 @@
-package it.polimi.se2019.networkHandler.RMI;
+/**package it.polimi.se2019.networkHandler.RMI;
 
 
 import it.polimi.se2019.controller.ModelGate;
@@ -155,7 +155,7 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
         } catch (RemoteException e) {
             e.printStackTrace();
         }*/
-    }
+ /**   }
 
 
     public static void main(String[] args){
@@ -183,7 +183,7 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
         int port= scanner1.nextInt();
 
 
-        reg = LocateRegistry.getRegistry(IP, port);
+        reg = LocateRegistry.getRegistry(port);
         RMIInterface chatinterface = (RMIInterface) reg.lookup("http://AdrenalineServer:1099");
 
         // RMISocketFactory.getDefaultSocketFactory().createSocket(IP, port);
@@ -217,3 +217,4 @@ public class Client extends UnicastRemoteObject implements RMIInterface, Runnabl
     }
 
 }
+**/

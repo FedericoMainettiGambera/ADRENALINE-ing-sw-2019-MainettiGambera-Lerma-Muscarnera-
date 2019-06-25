@@ -2,22 +2,20 @@ package it.polimi.se2019.view.selector;
 
 import it.polimi.se2019.model.Effect;
 import it.polimi.se2019.model.Position;
-import it.polimi.se2019.model.PowerUpCard;
-import it.polimi.se2019.model.WeaponCard;
+
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPlayers;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPositions;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPowerUpCards;
-import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
+import it.polimi.se2019.networkHandler.RMIREDO.RmiNetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.view.components.EffectV;
 import it.polimi.se2019.view.components.PlayerV;
 import it.polimi.se2019.view.components.PowerUpCardV;
 import it.polimi.se2019.view.components.WeaponCardV;
 import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
-import it.polimi.se2019.virtualView.Selector;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -60,7 +58,7 @@ public class ViewSelector implements SelectorV {
         }
         else{
             try {
-                RMINetworkHandler.client.returnInterface().sendToServer(o);
+                RmiNetworkHandler.server.send(o);
             } catch (RemoteException e) {
                 OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
             }

@@ -28,7 +28,7 @@ import static it.polimi.se2019.controller.ViewControllerEventHandlerContext.stat
 
 public class ConnectionHandlerVirtualView extends Thread {
 
-    static final Logger logger=Logger.getLogger(ConnectionHandlerVirtualView.class.getName());
+    private static final Logger logger=Logger.getLogger(ConnectionHandlerVirtualView.class.getName());
 
     private ServerSocket serverSocket;
 

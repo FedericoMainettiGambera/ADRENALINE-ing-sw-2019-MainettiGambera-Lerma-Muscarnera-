@@ -4,9 +4,12 @@ import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Game;
 import it.polimi.se2019.model.Player;
+import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
+import it.polimi.se2019.model.events.selectorEvents.SelectorEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventNickname;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class RmiConnectionHandlerVirtualView implements Runnable{
@@ -20,20 +23,21 @@ public class RmiConnectionHandlerVirtualView implements Runnable{
     @Override
     public void run(){
         if(Game.hasGameBegun){
-            System.out.println("<SERVER-soket> Game has already begun, the connection received must be a request of Reconnection.");
+            System.out.println("<SERVER> Game has already begun, the connection received must be a request of Reconnection.");
             //in a separate Thread handle the reconnection.
             (new Reconnection()).start();
         }
         else {
-            System.out.println("<SERVER-soket> Game hasn't begun, the connection received must be a new Player.");
+            System.out.println("<SERVER> Game hasn't begun, the connection received must be a new Player.");
             //in a separate Thread ask for the nickname and listen for the answer, once done it should create a player and add it to the model.
             (new NewConnection()).start();
         }
     }
 
     private class Reconnection extends Thread {
+        private RmiInterface tempinterface=client;
 
-        public Reconnection() {
+        public Reconnection(){
         }
 
         @Override
@@ -46,15 +50,17 @@ public class RmiConnectionHandlerVirtualView implements Runnable{
                     }
                 }
 
-                //TODO
-                //send to the connected client (this.client) this Event: new ReconnectionEvent(listOfAFKnames)
-                //esempio:
-                //      p."getInterfacciaDelClient()".send(new ReconnectionEvent(listOfAFKnames));
+                try {
+                    client.send(new ReconnectionEvent(listOfAFKnames));
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+
 
             }
-            else{
-                //non ci sono persone AFK nel gioco, quindi non c'è modo di riconnettersi
-                //bisognerebbe disconnettere il client (this.client), o comunque ingorarlo in modo che non interferisca col gioco
+            else {
+
+                System.out.println("non è possibile riconnettersi");
             }
         }
     }
@@ -67,25 +73,18 @@ public class RmiConnectionHandlerVirtualView implements Runnable{
         @Override
         public void run() {
 
-            //TODO
-            //System.out.println("<SERVER-socket> New Connection from: " + );
-
-            System.out.println("<SERVER-socket> Creating a Player.");
+            System.out.println("<SERVER-rmi> Creating a Player.");
             Player p = new Player();
 
-            //TODO
-            //set everything Rmi-related in the Player p
-            //esempio:
-            //      p."setInterfacciaDelClient"(this.client)
-            //      ...
 
-            //pass reference "Player p" to RmiVirtualView
+            p.setRmiInterface(client);
             RmiVirtualView.setNewPlayer(p);
 
-            //TODO
-            //send request for nickname
-            //esempio:
-            //      p."getInterfacciaDelClient()".send(new SelectorEvent(SelectorEventTypes.askNickname));
+            try {
+                p.getRmiInterface().send(new SelectorEvent(SelectorEventTypes.askNickname));
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
 
             //the next part of the process is done in the method "RmiConnectionHandlerVirtualView.handleNewConnectionNickname()", called from the method "RmiVirtualView.send()" in the first if statement.
         }

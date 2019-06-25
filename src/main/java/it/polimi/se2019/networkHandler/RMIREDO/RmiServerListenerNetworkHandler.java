@@ -17,9 +17,9 @@ public class RmiServerListenerNetworkHandler extends Observable implements Runna
     @Override
     public void run() {
         //inoltra gli eventi ricevuti dal server alla view
-        Event E = (Event)this.objectReceived;
+        Event event = (Event)this.objectReceived;
         this.setChanged();
-        this.notifyObservers(E);
+        this.notifyObservers(event);
     }
 
 }

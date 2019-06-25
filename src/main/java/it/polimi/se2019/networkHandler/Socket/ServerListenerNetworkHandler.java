@@ -2,23 +2,18 @@
 package it.polimi.se2019.networkHandler.Socket;
 
 
-import it.polimi.se2019.model.WeaponCard;
+
 import it.polimi.se2019.model.events.Event;
-import it.polimi.se2019.model.events.selectorEvents.SelectorEvent;
-import it.polimi.se2019.model.events.selectorEvents.SelectorEventWeaponCards;
 import it.polimi.se2019.view.components.View;
-import it.polimi.se2019.view.components.ViewModelGate;
 import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static it.polimi.se2019.model.enumerations.SelectorEventTypes.askGrabStuffGrabWeapon;
 
 public class ServerListenerNetworkHandler extends Observable implements Runnable {
 
@@ -26,7 +21,7 @@ public class ServerListenerNetworkHandler extends Observable implements Runnable
 
     private Socket socket;
 
-    private boolean isSocketLive;
+    public boolean isSocketLive;
 
     private ObjectInputStream ois;
 
@@ -51,13 +46,13 @@ public class ServerListenerNetworkHandler extends Observable implements Runnable
                     System.err.println(o);
                     System.exit(1);
                 }
-                Event E = (Event)o;
+                Event event = (Event)o;
                 this.setChanged();
-                this.notifyObservers(E);
+                this.notifyObservers(event);
             }
             catch (InternalError e){
                logger.severe("Something went Wrong in class ServerListenerNetworkHandler..." + e.getMessage());
-                e.printStackTrace();
+               logger.log(Level.SEVERE, "EXCEPTION", e);
             }
             catch (IOException|ClassNotFoundException e) {
                 OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();

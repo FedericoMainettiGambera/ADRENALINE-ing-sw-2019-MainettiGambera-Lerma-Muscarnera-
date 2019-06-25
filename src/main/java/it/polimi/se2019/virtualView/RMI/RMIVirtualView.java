@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 
-public class RMIVirtualView extends VirtualView implements RMIInterface {
+/**public class RMIVirtualView extends VirtualView implements RMIInterface {
 
     private static final long serialVersionUID = 1L;
     protected static ArrayList<RMIInterface> clientList;
@@ -215,7 +215,6 @@ public class RMIVirtualView extends VirtualView implements RMIInterface {
         }
     }
 
-}
-
+}**/
 
 

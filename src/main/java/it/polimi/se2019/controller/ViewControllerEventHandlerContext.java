@@ -5,7 +5,6 @@ import it.polimi.se2019.controller.statePattern.State;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPaymentInformation;
 import it.polimi.se2019.networkHandler.RMIREDO.RmiNetworkHandler;
-import it.polimi.se2019.virtualView.RMI.RMIVirtualView;
 import it.polimi.se2019.virtualView.RMIREDO.RmiVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
 
