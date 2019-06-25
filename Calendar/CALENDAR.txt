@@ -10,6 +10,7 @@
     STATE PATTERN
         0-finire ChooseHowToPayState e aggiungerlo in tutte le occasioni in cui serve e testare che funzioni
         1-gestire i colori all'inizio dello state pattern nella fase di connesione
+        4-fix all the handleAFK
         6-Testare completamente lo state pattern con la CLI e risolvere tutti i problemi che sorgono finchè tutto non è perfetto
         8-When reload a weapon should notify all client (MVE)
         9-cosa succede se muore uno che è afk, come va lo spawn ???
@@ -17,7 +18,6 @@
         13-quando saranno finite le carte testa per bene la targeting scope
 
     FUNZIONALITA' AVANZATA
-        4-fix all the handleAFK
 
     RETE
         0-Testare completamente tutto Socket
