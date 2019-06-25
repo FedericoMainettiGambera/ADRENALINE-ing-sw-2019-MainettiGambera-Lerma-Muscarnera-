@@ -20,7 +20,7 @@ public class GUIstarter extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getClassLoader().getResource("INITIALSCENE1.fxml"));
+        fxmlLoader.setLocation(getClass().getClassLoader().getResource("FXML/INITIALSCENE1.fxml"));
         Parent root = fxmlLoader.load();
 
         Scene scene= new Scene(root, 430, 529);
