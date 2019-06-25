@@ -38,6 +38,7 @@ public class RmiConnectionHandlerVirtualView implements Runnable{
         private RmiInterface tempinterface=client;
 
         public Reconnection(){
+            tempinterface=client;
         }
 
         @Override

@@ -56,13 +56,8 @@ public class RmiVirtualView extends VirtualView implements RmiInterface{
     }
 
     public static void sendToClient(Player playerToSend, Object o){
-        //TODO
-        //extract all the information needed to perform the send to client from the "playerToSend"
-        //send to player "playerToSend" the object "o", but don't send him the event if he is AFK or BOT
-        //esempio di funzionamento:
-        //      if(!playerToSend.isAFK() && playerToSend."getInterfacciaDelClient()"!=null && !playerToSend.isBot()) {
-        //          playerToSend."getInterfacciaDelClient()".send(o);
-        //      }
+
+
             if((!playerToSend.isBot())&&(!playerToSend.isAFK())&&((playerToSend.getRmiInterface()!=null))){
                 try {
                     playerToSend.getRmiInterface().send(o);
@@ -73,10 +68,7 @@ public class RmiVirtualView extends VirtualView implements RmiInterface{
     }
 
     public static void sendToClientEvenAFK(Player playerToSend, Object o) {
-        //TODO
-        //extract all the information needed to perform the send to client from the "playerToSend"
-        //send to player "playerToSend" the object "o", without checking for BOT or AFK
-        //esempio di funzionamento:
+
         try {
             playerToSend.getRmiInterface().send(o);
         } catch (RemoteException e) {
