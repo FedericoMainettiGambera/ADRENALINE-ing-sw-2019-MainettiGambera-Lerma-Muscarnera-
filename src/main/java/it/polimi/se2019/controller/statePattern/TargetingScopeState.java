@@ -164,11 +164,19 @@ public class TargetingScopeState implements State{
 
     public List<PowerUpCard> getListOfTargetingScope(){
         List<PowerUpCard> listOfTargetingScope = new ArrayList<>();
+        // TODO <REMOVE THIS>
+        //System.out.println(this.playerToAsk);
+        //System.out.println(this.playerToAsk.getPowerUpCardsInHand());
+        //System.out.println(this.playerToAsk.getPowerUpCardsInHand().getCards());
+        // TODO </REMOVE>
+        // TODO <remove THIS COMMENT>
+        /*
         for (PowerUpCard powerUpCard:this.playerToAsk.getPowerUpCardsInHand().getCards()) {
             if(powerUpCard.getName().equalsIgnoreCase("TARGETING SCOPE")){
                 listOfTargetingScope.add(powerUpCard);
             }
-        }
+        }*/
+        // TODO </remove>
         return listOfTargetingScope;
     }
 

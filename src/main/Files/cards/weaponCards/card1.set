@@ -57,6 +57,6 @@ END
 Action
 ACTION INFO
 PRECONDITION
-notPreviousTarget
+previousTarget
 END
 END

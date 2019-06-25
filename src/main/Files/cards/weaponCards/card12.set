@@ -64,7 +64,7 @@ END
 Damage
 ACTION INFO
 PRECONDITION
-alwaysTrue
+moveOtherPlayer
 SET
 1
 END

@@ -7,7 +7,6 @@ import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.view.components.PlayerV;
 import it.polimi.se2019.virtualView.RMI.RMIInterface;
-import it.polimi.se2019.virtualView.Socket.ConnectionHandlerVirtualView;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -32,7 +31,7 @@ public class Player extends Person implements Serializable {
     /***/
     public Player() {
         super();
-        this.playerHistory = new PlayerHistory();
+        this.playerHistory = new PlayerHistory(this);
         this.hand = new PlayerHand();
         this.isAFK = false;
         this.isBot=false;
