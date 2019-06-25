@@ -1,4 +1,4 @@
-package it.polimi.se2019.virtualView.RMI;
+/**package it.polimi.se2019.virtualView.RMI;
 
 import java.io.Serializable;
 
@@ -18,3 +18,4 @@ public class NumberOfConnection implements Serializable {
        number--;
 }
 }
+**/

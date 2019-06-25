@@ -11,7 +11,6 @@ import it.polimi.se2019.model.events.selectorEvents.SelectorEventPlayers;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPositions;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPowerUpCards;
 import it.polimi.se2019.model.events.viewControllerEvents.*;
-import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.view.components.*;
 import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
@@ -34,26 +33,6 @@ public class CLISelector implements SelectorV {
 
     public CLISelector(String networkConnection){
         this.networkConnection = networkConnection;
-    }
-
-
-
-
-    public void sendToServer(Object o){
-        if(networkConnection.equals("SOCKET")){
-            try {
-                SocketNetworkHandler.oos.writeObject(o);
-            } catch (IOException e) {
-                OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
-            }
-        }
-        else{
-            try {
-                RMINetworkHandler.client.returnInterface().sendToServer(o);
-            } catch (RemoteException e) {
-                OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
-            }
-        }
     }
 
     public static void showTitleRequest(String title){
@@ -257,7 +236,7 @@ public class CLISelector implements SelectorV {
 
             ViewControllerEventGameSetUp VCEGameSetUp = new ViewControllerEventGameSetUp(gameMode,mapChoice,numberOfStartingSkulls,isFinalFrenzy,isBotActive);
 
-            sendToServer(VCEGameSetUp);
+            ViewSelector.sendToServer(VCEGameSetUp);
         }
     }
 
@@ -313,7 +292,7 @@ public class CLISelector implements SelectorV {
             }
 
             ViewControllerEventPlayerSetUp VCEPlayerSetUp = new ViewControllerEventPlayerSetUp(nickaname, color);
-            sendToServer(VCEPlayerSetUp);
+            ViewSelector.sendToServer(VCEPlayerSetUp);
         }
     }
     /**@deprecated  */
@@ -369,7 +348,7 @@ public class CLISelector implements SelectorV {
 
             ViewControllerEventTwoString viewControllerEventTwoString = new ViewControllerEventTwoString(cardID, botSpawn);
 
-            sendToServer(viewControllerEventTwoString);
+            ViewSelector.sendToServer(viewControllerEventTwoString);
         }
     }
 
@@ -425,7 +404,7 @@ public class CLISelector implements SelectorV {
 
             ViewControllerEventString viewControllerEventString = new ViewControllerEventString(action);
 
-            sendToServer(viewControllerEventString);
+            ViewSelector.sendToServer(viewControllerEventString);
         }
     }
 
@@ -461,7 +440,7 @@ public class CLISelector implements SelectorV {
 
             ViewControllerEventPosition viewControllerEventPosition = new ViewControllerEventPosition(possiblePositions.get(choosenPosition).getX(),possiblePositions.get(choosenPosition).getY());
 
-            sendToServer(viewControllerEventPosition);
+            ViewSelector.sendToServer(viewControllerEventPosition);
         }
     }
 
@@ -498,7 +477,7 @@ public class CLISelector implements SelectorV {
 
             ViewControllerEventPosition viewControllerEventPosition = new ViewControllerEventPosition(positions.get(choosenPosition).getX(),positions.get(choosenPosition).getY());
 
-            sendToServer(viewControllerEventPosition);
+            ViewSelector.sendToServer(viewControllerEventPosition);
         }
     }
     @Override
@@ -537,7 +516,7 @@ public class CLISelector implements SelectorV {
 
             ViewControllerEventString viewControllerEventString = new ViewControllerEventString(action);
 
-            sendToServer(viewControllerEventString);
+            ViewSelector.sendToServer(viewControllerEventString);
         }
     }
 
@@ -586,7 +565,7 @@ public class CLISelector implements SelectorV {
 
             ViewControllerEventString viewControllerEventString = new ViewControllerEventString(toPickUpID);
 
-            sendToServer(viewControllerEventString);
+            ViewSelector.sendToServer(viewControllerEventString);
         }
     }
 
@@ -656,7 +635,7 @@ public class CLISelector implements SelectorV {
 
             ViewControllerEventTwoString viewControllerEventTwoString = new ViewControllerEventTwoString(toPickUpID, toDiscardID);
 
-            sendToServer(viewControllerEventTwoString);
+            ViewSelector.sendToServer(viewControllerEventTwoString);
         }
     }
 
@@ -692,7 +671,7 @@ public class CLISelector implements SelectorV {
 
             ViewControllerEventInt viewControllerEventInt = new ViewControllerEventInt(chosen);
 
-            sendToServer(viewControllerEventInt);
+            ViewSelector.sendToServer(viewControllerEventInt);
         }
     }
 
@@ -740,7 +719,7 @@ public class CLISelector implements SelectorV {
                 viewControllerEventString = new ViewControllerEventString(chosenID);
             }
 
-            sendToServer(viewControllerEventString);
+            ViewSelector.sendToServer(viewControllerEventString);
         }
     }
 
@@ -773,7 +752,7 @@ public class CLISelector implements SelectorV {
             int choice = askNumber(0,requests.size()-1);
             String chosenId = powerUpCards.get(choice).getID();
             ViewControllerEventString viewControllerEventString = new ViewControllerEventString(chosenId);
-            sendToServer(viewControllerEventString);
+            ViewSelector.sendToServer(viewControllerEventString);
         }
     }
 
@@ -811,7 +790,7 @@ public class CLISelector implements SelectorV {
                 viewControllerEventString = new ViewControllerEventString("shoot");
             }
 
-            sendToServer(viewControllerEventString);
+            ViewSelector.sendToServer(viewControllerEventString);
         }
     }
     /**starts a dedicated thread which asks the user if he wants to move before shooting or just shooting*/
@@ -842,7 +821,7 @@ public class CLISelector implements SelectorV {
             int chosen = br.nextInt();
             ViewControllerEventInt viewControllerEventInt = new ViewControllerEventInt(chosen);
 
-            sendToServer(viewControllerEventInt);
+            ViewSelector.sendToServer(viewControllerEventInt);
         }
     }
 
@@ -879,7 +858,7 @@ public class CLISelector implements SelectorV {
 
             ViewControllerEventInt viewControllerEventInt = new ViewControllerEventInt(chosen);
 
-            sendToServer(viewControllerEventInt);
+            ViewSelector.sendToServer(viewControllerEventInt);
         }
     }
 
@@ -914,7 +893,7 @@ public class CLISelector implements SelectorV {
 
             ViewControllerEventInt viewControllerEventInt = new ViewControllerEventInt(chosen);
 
-            sendToServer(viewControllerEventInt);
+            ViewSelector.sendToServer(viewControllerEventInt);
         }
     }
 
@@ -994,7 +973,7 @@ public class CLISelector implements SelectorV {
             }
             ViewControllerEventListOfObject viewControllerEventListOfObject = new ViewControllerEventListOfObject(answer);
 
-            sendToServer(viewControllerEventListOfObject);
+            ViewSelector.sendToServer(viewControllerEventListOfObject);
         }
 
         public int howManyRequest(){
@@ -1049,7 +1028,7 @@ public class CLISelector implements SelectorV {
         ViewModelGate.setMe(answer.get(0));
 
         answer.add(this.networkConnection);
-        sendToServer(new ReconnectionEvent(answer));
+        ViewSelector.sendToServer(new ReconnectionEvent(answer));
     }
 
 
@@ -1065,7 +1044,7 @@ public class CLISelector implements SelectorV {
             String newNickname = br.nextLine();
             ViewModelGate.setMe(newNickname);
             out.println("<CLIENT> informing the server of your new nickname.");
-            sendToServer(new ViewControllerEventNickname(ViewModelGate.getMe()));
+            ViewSelector.sendToServer(new ViewControllerEventNickname(ViewModelGate.getMe()));
         }
     }
 
@@ -1077,7 +1056,7 @@ public class CLISelector implements SelectorV {
     public void askNickname() {
         if(nicknameIsAvailable) {
             out.println("<CLIENT> informing the server of your nickname");
-            sendToServer(new ViewControllerEventNickname(ViewModelGate.getMe()));
+            ViewSelector.sendToServer(new ViewControllerEventNickname(ViewModelGate.getMe()));
             nicknameIsAvailable = false;
         }
         else{
@@ -1169,7 +1148,7 @@ public class CLISelector implements SelectorV {
             }
 
             ViewControllerEventPaymentInformation viewControllerEventPaymentInformation = new ViewControllerEventPaymentInformation(answer);
-            sendToServer(viewControllerEventPaymentInformation);
+            ViewSelector.sendToServer(viewControllerEventPaymentInformation);
 
         }
     }
@@ -1204,7 +1183,7 @@ public class CLISelector implements SelectorV {
             String answer2 = powerUpCardV.get(choice).getColor() +"";
             out.println("<CLIENT> your choice is: " + answer1 + " (" + answer2 + ")");
             ViewControllerEventTwoString viewControllerEventTwoString = new ViewControllerEventTwoString(answer1, answer2);
-            sendToServer(viewControllerEventTwoString);
+            ViewSelector.sendToServer(viewControllerEventTwoString);
         }
     }
 
@@ -1227,10 +1206,10 @@ public class CLISelector implements SelectorV {
             CLISelector.showListOfRequests(Arrays.asList("yes", "no"));
             int choice = askNumber(0,1);
             if(choice == 0){
-                sendToServer(new ViewControllerEventBoolean(true));
+                ViewSelector.sendToServer(new ViewControllerEventBoolean(true));
             }
             else{
-                sendToServer(new ViewControllerEventBoolean(false));
+                ViewSelector.sendToServer(new ViewControllerEventBoolean(false));
             }
         }
     }
@@ -1262,7 +1241,7 @@ public class CLISelector implements SelectorV {
             CLISelector.showListOfRequests(requests);
             int choice=askNumber(0,requests.size()-1);
             ViewControllerEventString VCE=new ViewControllerEventString(requests.get(choice));
-            sendToServer(VCE);
+            ViewSelector.sendToServer(VCE);
         }
     }
 
@@ -1330,7 +1309,7 @@ public class CLISelector implements SelectorV {
             answer.add(chosenPlayertoHit);
 
             ViewControllerEventListOfObject viewControllerEventListOfObject = new ViewControllerEventListOfObject(answer);
-            sendToServer(viewControllerEventListOfObject);
+            ViewSelector.sendToServer(viewControllerEventListOfObject);
         }
     }
     @Override
@@ -1359,7 +1338,7 @@ public class CLISelector implements SelectorV {
             int choice = askNumber(0, request.size()-1);
 
             ViewControllerEventInt VCEInt = new ViewControllerEventInt(choice);
-            sendToServer(VCEInt);
+            ViewSelector.sendToServer(VCEInt);
         }
     }
     @Override

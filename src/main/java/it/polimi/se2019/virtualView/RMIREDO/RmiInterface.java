@@ -1,10 +1,12 @@
 package it.polimi.se2019.virtualView.RMIREDO;
 
-public interface RmiInterface{
+import java.rmi.RemoteException;
 
-    public void send(Object o);
+public interface RmiInterface extends java.rmi.Remote{
 
-    public void connect(RmiInterface client);
+    public void send(Object o) throws RemoteException;
+
+    public void connect(RmiInterface client) throws RemoteException;
 
 
 }

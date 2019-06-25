@@ -1,4 +1,4 @@
-package it.polimi.se2019.networkHandler.RMI;
+/**package it.polimi.se2019.networkHandler.RMI;
 
 import it.polimi.se2019.model.events.Event;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
@@ -18,3 +18,4 @@ public class RMIObsHandler extends Observable {
         this.notifyObservers(E);
     }
 }
+**/

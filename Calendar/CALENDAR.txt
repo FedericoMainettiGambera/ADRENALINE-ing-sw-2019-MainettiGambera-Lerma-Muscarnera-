@@ -10,53 +10,24 @@
     STATE PATTERN
         0-finire ChooseHowToPayState e aggiungerlo in tutte le occasioni in cui serve e testare che funzioni
         1-gestire i colori all'inizio dello state pattern nella fase di connesione
-        2-gestire il pagamento degli effetti
-        3-risolvere la questione dello "scaricare" le armi quando vengono giocate
-        4-gestire l'utilizzo dei power up (alla stessa maniera in cui è stato gestito il ChooseHowToPayState)
-        5-finire gli ultimi State (principalmente quelli che avvengono dopo la morte di qualcuno (es. SpawnState FFSetUpState, FinalScoringState...)
         6-Testare completamente lo state pattern con la CLI e risolvere tutti i problemi che sorgono finchè tutto non è perfetto
-        7-ChooseHowToPayState incomprensibile errore nel reinvio del ViewControllerEventPaymentInformation dal client al server
         8-When reload a weapon should notify all client (MVE)
-        9- cosa succede se muore uno che è afk, come va lo spawn ???
-        10- per i power up devi inserire le cose dell'usable weapon e usable effect
-        11- controllare i pagamenti degli effect prima di poterli usare
-        12- quando e se avanzerà tempo fixare il problema che il targeting scope non può essere pagato da un targeting scope...
+        9-cosa succede se muore uno che è afk, come va lo spawn ???
+        12-quando e se avanzerà tempo fixare il problema che il targeting scope non può essere pagato da un targeting scope...
+        13-quando saranno finite le carte testa per bene la targeting scope
 
     FUNZIONALITA' AVANZATA
-        0-Inizializzarlo o meno nel game set up ok
-            chiedere se lo vuole usare o no in base al fatto che ci siano più o meno di 5 giocatori ok
-            fare la spawn nel FirstSpawnState ok
-        1-flag nel player ok
-            gestione del flag, quando viene usato metterlo a true, quando si passa il turno metterlo a false
-            usarlo sempre per controllare se va chiesto di usare il bot
-            usarlo per forzare ad usare il bot in caso il turno stesse finendo ma il bot non fosse stato usato
-        1-aggiungere gli stati in cui spara e si muove
-        2-far partire gli stati esattamente come quelli del power up
-        3-mettere il terminator come Player nella playerList: OK
-            no nell'uso dei power up dopo l'exec ok
-            no nella send to clients ok
-            no nel nextplaying player ok
-            no FF board for bot in ffsetup  ok
-            non mettere gli observers alla mano del bot in gamesetup ok
-            non contarlo nello scoreKillsState ( e quindi di conseguenza anche in spawn state), il bot non muore mai, ok
-            balzalo nella riconnection ok
-            non contare il bot nel controllo di quanti player sono ancora non afk ok
-            fai in modo che i player non possano scegliere il nome terminator ok
         4-fix all the handleAFK
 
-        5-TOGLIERE IL BOT DALLO SPAWN STATE
-
     RETE
-        0-Testare a non completamente tutto Socket
+        0-Testare completamente tutto Socket
         1-quando Socket sarà perfettamente funzionante, emularne alla perfezione il comportamento con RMI
 
     VIEW
-        0-PositionV class for PlayerV, and change all methods where Player.getX() or Player.getY() is called.
 
     CLI
         0-finire gli ultimi log
         1-tenerla aggiornata con l'avanzare di tutto il resto
-        2-killshotTrack sempre null nella CLI del client
 
     GUI
         0-Studio sulla gestione della grafica e ripartizione dei compiti
@@ -91,12 +62,23 @@
         1-sonnellino della felicità
         2-prepararsi per l'esposizione del progetto
 
+    FARE TESTING CON IL VERO TERMINALE
+        0-per eseguirlo fare:
+            da IntellyJ vai su view>Tool Windows> Maven
+            entra in LifeCycle
+            doppio clic su package e lascialo costruire il jar
+            copia il path che ti dice alla fine ,
+            vai sul cdm e scrivi:
+                java -classpath [incolla qua il path che hai preso] [copia e incolla qua la reference alla classe main che vuoi eseguire qua]
+                esempio:
+                java -classpath C:\Users\Federico\IdeaProjects\ing-sw-2019-MainettiGambera-Lerma-Muscarnera\target\adrenalina-1.0-SNAPSHOT.jar it.polimi.se2019.controller.StartServer
+                java -classpath C:\Users\Federico\IdeaProjects\ing-sw-2019-MainettiGambera-Lerma-Muscarnera\target\adrenalina-1.0-SNAPSHOT.jar it.polimi.se2019.controller.StartClient
+
 
 
 PER VISUALIZZARE IL CALENDARIO:
 https://calendar.google.com/calendar?cid=cWc4OXE0bTZjaWl1YXNudGZxN291bGlwb29AZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
 o in caso vi ho invitati quindi se andate su gmail e confermate la mail, poi su google Calendar dovreste vederlo
-
 LEGENDA:
     GIALLO-> da compilare
     ROSSO-> GUI

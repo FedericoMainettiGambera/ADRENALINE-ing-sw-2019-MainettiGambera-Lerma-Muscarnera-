@@ -14,7 +14,7 @@ import java.rmi.registry.Registry;
 import java.util.Observable;
 import java.util.logging.Logger;
 
-public class RMINetworkHandler extends NetworkHandler{
+/**public class RMINetworkHandler extends NetworkHandler{
     private static final Logger LOGGER = Logger.getLogger(RMINetworkHandler.class.getName());
 
 
@@ -78,3 +78,4 @@ public class RMINetworkHandler extends NetworkHandler{
     }
 
 }
+**/

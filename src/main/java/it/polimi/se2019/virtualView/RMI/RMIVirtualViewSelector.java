@@ -1,4 +1,4 @@
-package it.polimi.se2019.virtualView.RMI;
+/**package it.polimi.se2019.virtualView.RMI;
 
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.CardinalPoint;
@@ -303,4 +303,4 @@ public class RMIVirtualViewSelector extends VirtualViewSelector implements Selec
     public void askTagBackGranade(List<PowerUpCardV> listOfTagBackGranadesV){
 
     }
-}
+}**/

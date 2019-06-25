@@ -1,4 +1,4 @@
-package it.polimi.se2019.virtualView.RMI;
+/**package it.polimi.se2019.virtualView.RMI;
 
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 
@@ -15,3 +15,4 @@ public class RMIObsVirtualView extends Observable {
         this.notifyObservers(o);
     }
 }
+**/

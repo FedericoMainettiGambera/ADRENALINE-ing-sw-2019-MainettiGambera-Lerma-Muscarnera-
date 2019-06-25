@@ -21,7 +21,7 @@
 
 /*background with adrenaline image*/
 .adrenalineBackground{
-    -fx-background-image: url(adremOpacity3.png);
+    -fx-background-image: url(../IMG/adremOpacity3.png);
     -fx-background-size: 100% auto;
     -fx-background-color: dark-background;
 }
@@ -56,27 +56,27 @@
     -fx-background-color: linear-gradient(rgba(0, 0, 0, 0) 34.9%, rgba(0, 0, 0, 0.6) 35%, rgba(0, 0, 0, 0.6) 65%, rgba(0, 0, 0, 0) 65.1%);
 }
 .User1Active{/*mi aspetto un immagine più larga che alta, in cui il personaggino sia rappresentato sulla sinistra*/
-    -fx-background-image: url(giphy.gif);
+    -fx-background-image: url(../IMG/giphy.gif);
     -fx-background-size: auto 100%;
     -fx-background-color: dark-background;
 }
 .User2Active{/*mi aspetto un immagine più larga che alta, in cui il personaggino sia rappresentato sulla sinistra*/
-    -fx-background-image: url(giphy-2.gif);
+    -fx-background-image: url(../IMG/giphy-2.gif);
     -fx-background-size: auto 100%;
     -fx-background-color: dark-background;
 }
 .User3Active{/*mi aspetto un immagine più larga che alta, in cui il personaggino sia rappresentato sulla sinistra*/
-    -fx-background-image: url(giphy-5.gif);
+    -fx-background-image: url(../IMG/giphy-5.gif);
     -fx-background-size: auto 100%;
     -fx-background-color: dark-background;
 }
 .User4Active{/*mi aspetto un immagine più larga che alta, in cui il personaggino sia rappresentato sulla sinistra*/
-    -fx-background-image: url(giphy-7.gif);
+    -fx-background-image: url(../IMG/giphy-7.gif);
     -fx-background-size: auto 100%;
     -fx-background-color: dark-background;
 }
 .User5Active{/*mi aspetto un immagine più larga che alta, in cui il personaggino sia rappresentato sulla sinistra*/
-    -fx-background-image: url(giphy-8.gif);
+    -fx-background-image: url(../IMG/giphy-8.gif);
     -fx-background-size: auto 100%;
     -fx-background-color: dark-background;
 }

@@ -45,6 +45,7 @@ public class RmiClientListenerVirtualView extends Observable implements Runnable
         //reset previous connection
         ModelGate.model.getPlayerList().getPlayer(nickname).setOos(null);
 
+        ModelGate.model.getPlayerList().getPlayer(nickname).setRmiInterface(null);
         //TODO
         //set new connection
         //esempio:
@@ -54,6 +55,9 @@ public class RmiClientListenerVirtualView extends Observable implements Runnable
         //      (p.s. modifica la classe player come preferisci)
 
         //set afk false and update the Model to the reconnected Client
+
+
+
         RmiVirtualView.sendToClientEvenAFK(ModelGate.model.getPlayerList().getPlayer(nickname),(new ModelViewEvent(ModelGate.model.buildGameV(), ModelViewEventTypes.resetGame)));
         ModelGate.model.getPlayerList().getPlayer(nickname).setAFKWIthoutNotify(false);
     }

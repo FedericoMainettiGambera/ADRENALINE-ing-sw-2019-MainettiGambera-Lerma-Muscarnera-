@@ -2,26 +2,29 @@ package it.polimi.se2019.view.selector;
 
 import it.polimi.se2019.model.Effect;
 import it.polimi.se2019.model.Position;
-import it.polimi.se2019.model.PowerUpCard;
-import it.polimi.se2019.model.WeaponCard;
+
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPlayers;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPositions;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPowerUpCards;
+import it.polimi.se2019.networkHandler.RMIREDO.RmiNetworkHandler;
+import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.view.components.EffectV;
 import it.polimi.se2019.view.components.PlayerV;
 import it.polimi.se2019.view.components.PowerUpCardV;
 import it.polimi.se2019.view.components.WeaponCardV;
-import it.polimi.se2019.virtualView.Selector;
+import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
 
+import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViewSelector implements SelectorV {
 
-    private String networkConnection;
+    private static String networkConnection;
 
     private String userInterface;
 
@@ -30,7 +33,7 @@ public class ViewSelector implements SelectorV {
     private it.polimi.se2019.view.selector.GUISelector GUISelector;
 
     public ViewSelector(String networConnection, String userInterface){
-        this.networkConnection = networConnection;
+        networkConnection = networConnection;
         this.userInterface = userInterface;
         this.CLISelector = new CLISelector(networkConnection);
         this.GUISelector = new GUISelector(networkConnection);
@@ -42,6 +45,23 @@ public class ViewSelector implements SelectorV {
         }
         else{
             return this.GUISelector;
+        }
+    }
+
+    public static void sendToServer(Object o){
+        if(networkConnection.equals("SOCKET")){
+            try {
+                SocketNetworkHandler.oos.writeObject(o);
+            } catch (IOException e) {
+                OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
+            }
+        }
+        else{
+            try {
+                RmiNetworkHandler.server.send(o);
+            } catch (RemoteException e) {
+                OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
+            }
         }
     }
 

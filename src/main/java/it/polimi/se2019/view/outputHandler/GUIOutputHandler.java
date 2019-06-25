@@ -66,7 +66,7 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
         if(stateEvent.getState().contains("GameSetUpState")){
             while(true) {
                 if (GUIstarter.stageController.getClass().toString().contains("LoadingSceneController")) {
-                    ((LoadingSceneController)GUIstarter.stageController).changeScene("GAMESCENE1.fxml");
+                    ((LoadingSceneController)GUIstarter.stageController).changeScene("FXML/GAMESCENE1.fxml");
                     break;
                 } else {
                     try {

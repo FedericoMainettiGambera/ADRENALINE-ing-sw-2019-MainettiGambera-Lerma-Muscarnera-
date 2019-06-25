@@ -580,6 +580,25 @@ public class PreConditionMethodsInverted {
         System.out.println(retVal);
         return retVal;
     }
+    public List<Object> previousTarget(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
+        List<Object> retVal = new ArrayList<>();
+        System.out.println("tipo input " + type);
+        if (type.equals(UsableInputTableRowType.typePlayer)) {
+            System.out.println("A");
+            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
+                retVal.add(t);
+        }
+        if (type.equals(typeSquare)) {
+            System.out.println("B");
+            for (Square y[] : actionContext.getBoard().getMap()) {
+                for (Square x : y) {
+                    if(x!=null)
+                        retVal.add(x);
+                }
+            }
+        }
+        return retVal;
+    }
 
     public List<Object> alwaysTrue(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
         List<Object> retVal = new ArrayList<>();
@@ -659,24 +678,36 @@ public class PreConditionMethodsInverted {
         return retVal;
 
     }
-    public List<Object> notFirstNorSecondExecuted(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
+    public List<Object> notFirstNorSecondExecuted(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect)
+    {
+        // TODO: passare il record corrente della playerHistory
+        int minimum = 2;
         List<Object> retVal = new ArrayList<>();
-        WeaponCard thisCard = contextEffect.getOf();
-        WeaponCard cardOfPreviousEffect = thisCard;
-        if(actionContext.getPlayer().getPlayerHistory().getSize() > 0)
-           cardOfPreviousEffect = actionContext.getPlayer().getPlayerHistory().getLast().getContextEffect().getOf();
+        boolean fill = false;
+        PlayerHistory historyCurrentTurn = actionContext.getPlayer().getPlayerHistory().getTurnChunkR(
+                actionContext.getPlayer().getTurnID()
+        );
+        if((historyCurrentTurn.getCurrentBlockId() - historyCurrentTurn.getStartBlockId()) >= minimum)
+        {
+            fill = true;
+        }
 
-        if (!thisCard.equals(cardOfPreviousEffect)) {
-            if (type.equals(typePlayer)) {
-                for (Player p : actionContext.getPlayerList().getPlayersOnBoard()) {
-                    retVal.add(p);
-                }
-            }
-            if (type.equals(typeSquare)) {
-                for (Square[] r : actionContext.getBoard().getMap()) {
-                    for (Square c : r) {
-                        retVal.add(c);
+
+        if(type.equals(typeSquare)) {
+            if(fill) {
+                for(Square[] R: actionContext.getBoard().getMap()){
+                    for(Square C: R){
+                        if(C!=null)
+                            retVal.add(C);
                     }
+                }
+
+            }
+        }
+        if(type.equals(UsableInputTableRowType.typePlayer)) {
+            if(fill) {
+                for(Player p: actionContext.getPlayerList().getPlayersOnBoard()) {
+                    retVal.add(p);
                 }
             }
         }
@@ -967,11 +998,37 @@ public class PreConditionMethodsInverted {
     public List<Object> notFirstExecuted(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect)
     {
         // TODO: passare il record corrente della playerHistory
+        int minimum = 1;
         List<Object> retVal = new ArrayList<>();
         boolean fill = false;
-        if(actionContext.getPlayer().getPlayerHistory().historyElementList.size() > 0)
-            if(!actionContext.getPlayer().getPlayerHistory().getRecord(actionContext.getPlayer().getPlayerHistory().historyElementList.size()-1).getContextEffect().equals(contextEffect));
-        fill = true;
+        System.out.println("TURNO >> " + actionContext.getPlayer().getTurnID());
+       try {
+           actionContext.getPlayer().getPlayerHistory().show();
+       }catch(Exception e) {
+           System.out.println("tabella vuota");
+       }
+        PlayerHistory historyCurrentTurn = actionContext.getPlayer().getPlayerHistory().getTurnChunkR(
+                actionContext.getPlayer().getTurnID()
+        );
+        System.out.println("turno corrente ----------------------------");
+        historyCurrentTurn.show();
+        System.out.println("split per blocco --------------------------");
+        for(List<PlayerHistoryElement> l : historyCurrentTurn.rawDataSplittenByBlockId()) {
+            System.out.println("{");
+            for(PlayerHistoryElement r: l)
+            {
+                r.show();
+            }
+            System.out.println("}");
+            System.out.println("--------");
+        }
+        if((historyCurrentTurn.rawDataSplittenByBlockId().size()) >= minimum)
+        {
+            if(historyCurrentTurn.rawDataSplittenByBlockId().get(0).size() > 0 )
+            fill = true;
+        }
+
+        System.out.println(fill);
 
         if(type.equals(typeSquare)) {
             if(fill) {
@@ -987,10 +1044,9 @@ public class PreConditionMethodsInverted {
         if(type.equals(UsableInputTableRowType.typePlayer)) {
             if(fill) {
                 for(Player p: actionContext.getPlayerList().getPlayersOnBoard()) {
-
+                    System.out.println("aggiungo " + p.getNickname());
                     retVal.add(p);
                 }
-
             }
         }
         return retVal;

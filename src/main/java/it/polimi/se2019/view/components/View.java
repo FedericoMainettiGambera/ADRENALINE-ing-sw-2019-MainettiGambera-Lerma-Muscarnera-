@@ -9,7 +9,7 @@ import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.*;
 import it.polimi.se2019.model.events.stateEvent.StateEvent;
 import it.polimi.se2019.model.events.timerEvent.TimerEvent;
-import it.polimi.se2019.networkHandler.RMI.RMINetworkHandler;
+import it.polimi.se2019.networkHandler.RMIREDO.RmiNetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.view.outputHandler.CLIOutputHandler;
 import it.polimi.se2019.view.outputHandler.GUIOutputHandler;
@@ -370,7 +370,7 @@ public class View implements Observer {
                         if (networkConnection.equalsIgnoreCase("SOCKET")) {
                             SocketNetworkHandler.disconnect();
                         } else {
-                            RMINetworkHandler.disconnect(); //todo
+
                         }
                         OutputHandlerGate.getCorrectOutputHandler(this.userInterface).disconnect();
                     }

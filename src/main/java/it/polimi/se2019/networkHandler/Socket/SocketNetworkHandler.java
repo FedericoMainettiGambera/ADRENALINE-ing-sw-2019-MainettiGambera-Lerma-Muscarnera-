@@ -24,7 +24,7 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
 
     private static ObjectInputStream ois;
 
-    private View view;
+    public View view;
 
     public SocketNetworkHandler(InetAddress inetAddress, int port, View view) throws IOException {
         this.view = view;
@@ -52,9 +52,9 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        ViewControllerEvent VCE = (ViewControllerEvent) arg;
+        ViewControllerEvent viewControllerEvent = (ViewControllerEvent) arg;
         try {
-            this.oos.writeObject(VCE);
+            this.oos.writeObject(viewControllerEvent);
         } catch (IOException e) {
             OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
         }

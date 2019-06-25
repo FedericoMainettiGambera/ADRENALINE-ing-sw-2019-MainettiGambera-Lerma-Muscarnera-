@@ -10,13 +10,15 @@ import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformat
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPlayers;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPositions;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPowerUpCards;
-import it.polimi.se2019.view.components.EffectV;
-import it.polimi.se2019.view.components.PlayerV;
-import it.polimi.se2019.view.components.PowerUpCardV;
-import it.polimi.se2019.view.components.WeaponCardV;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventNickname;
+import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
+import it.polimi.se2019.view.components.*;
+import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
 import it.polimi.se2019.virtualView.Selector;
 
 
+import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +32,6 @@ public class GUISelector implements SelectorV {
     public GUISelector(String networkConnection){
         this.networkConnection = networkConnection;
     }
-
 
     @Override
     public void askGameSetUp(boolean canBot) {
@@ -132,9 +133,17 @@ public class GUISelector implements SelectorV {
 
     }
 
+    private boolean nicknameIsAvailable = true;
     @Override
     public void askNickname() {
-
+        if(nicknameIsAvailable) {
+            ViewSelector.sendToServer(new ViewControllerEventNickname(ViewModelGate.getMe()));
+            nicknameIsAvailable = false;
+        }
+        else{
+            //TODO
+            //  show a pop up that ask for a new nickname
+        }
     }
 
     @Override
