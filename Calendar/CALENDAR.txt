@@ -62,6 +62,18 @@
         1-sonnellino della felicità
         2-prepararsi per l'esposizione del progetto
 
+    FARE TESTING CON IL VERO TERMINALE
+        0-per eseguirlo fare:
+            da IntellyJ vai su view>Tool Windows> Maven
+            entra in LifeCycle
+            doppio clic su package e lascialo costruire il jar
+            copia il path che ti dice alla fine ,
+            vai sul cdm e scrivi:
+                java -classpath [incolla qua il path che hai preso] [copia e incolla qua la reference alla classe main che vuoi eseguire qua]
+                esempio:
+                java -classpath C:\Users\Federico\IdeaProjects\ing-sw-2019-MainettiGambera-Lerma-Muscarnera\target\adrenalina-1.0-SNAPSHOT.jar it.polimi.se2019.controller.StartServer
+                java -classpath C:\Users\Federico\IdeaProjects\ing-sw-2019-MainettiGambera-Lerma-Muscarnera\target\adrenalina-1.0-SNAPSHOT.jar it.polimi.se2019.controller.StartClient
+
 
 
 PER VISUALIZZARE IL CALENDARIO:
