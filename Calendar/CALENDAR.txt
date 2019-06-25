@@ -14,6 +14,7 @@
         8-When reload a weapon should notify all client (MVE)
         9-cosa succede se muore uno che è afk, come va lo spawn ???
         12-quando e se avanzerà tempo fixare il problema che il targeting scope non può essere pagato da un targeting scope...
+        13-quando saranno finite le carte testa per bene la targeting scope
 
     FUNZIONALITA' AVANZATA
         4-fix all the handleAFK
