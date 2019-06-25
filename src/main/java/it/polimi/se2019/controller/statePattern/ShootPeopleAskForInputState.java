@@ -130,16 +130,6 @@ public class ShootPeopleAskForInputState implements State {
             damagedPlayer.addAll(listOfPlayer);
         }
 
-        out.println("<SERVER> list of damaged player from the last EXEC: (without removing the bot)");
-        if(damagedPlayer.isEmpty()){
-            out.println("         nobody");
-        }
-        else{
-            for (Player p: damagedPlayer) {
-                out.println("         " + p.getNickname());
-            }
-        }
-
         //remove the terminator from the damagedPlayer list
         for (Player p: damagedPlayer){
             if(p.isBot()){
@@ -149,9 +139,7 @@ public class ShootPeopleAskForInputState implements State {
             }
         }
 
-        //TODO should delete duplicates
-
-        out.println("<SERVER> list of damaged player from the last EXEC: (with bot removed)");
+        out.println("<SERVER> list of damaged player from the last EXEC: ");
         if(damagedPlayer.isEmpty()){
             out.println("         nobody");
         }
