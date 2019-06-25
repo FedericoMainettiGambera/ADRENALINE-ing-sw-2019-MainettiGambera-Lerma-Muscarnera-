@@ -38,6 +38,9 @@ public class TargetingScopeState implements State{
         if(!damagedPlayers.isEmpty()) {
             this.listOfTargetingScope = getListOfTargetingScope();
         }
+        else{
+            this.listOfTargetingScope = new ArrayList<>();
+        }
     }
 
     @Override

@@ -405,6 +405,7 @@ public class WeaponCard extends Card implements Serializable {
 
     public void unload(){
         this.isLoaded = false;
+        //TODO should notify and tell to clients
     }
 
     /***/
