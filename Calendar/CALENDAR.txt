@@ -74,19 +74,7 @@
                 java -classpath C:\Users\Federico\IdeaProjects\ing-sw-2019-MainettiGambera-Lerma-Muscarnera\target\adrenalina-1.0-SNAPSHOT.jar it.polimi.se2019.controller.StartServer
                 java -classpath C:\Users\Federico\IdeaProjects\ing-sw-2019-MainettiGambera-Lerma-Muscarnera\target\adrenalina-1.0-SNAPSHOT.jar it.polimi.se2019.controller.StartClient
 
-    TODO:
-    errore in ShootPeopleState
-    [17:23, 25/6/2019] federicomainettigambera: rega questo errore era dovuto al fatto che se si è in FF o se si ha l'adrenaline-shoot-action un giocatore può [muoversi,ricaricare,sparare] nel primo caso, e [muoversi,sparare] nel secondo
-    [17:25, 25/6/2019] federicomainettigambera: c'era un problema che lui controllava le usableWeapons prima che il movimento venisse fatto, quindi una volta mosso magari alcune armi diventavano inutilizzabili, ma ad ogni modo ormai lo state pattern aveva già fatto il check delle possibili armi usabili e indistintamente dal fatto che potesse o meno usarle dalla nuova posizione del player inviava una lista di usableWeapons
-    [17:26, 25/6/2019] federicomainettigambera: e in certi casi sfortunati dalla nuova posizione succede che non si possa sparare con nessun arma, quindi inviava una lista vuota e il client crashava
-    [17:26, 25/6/2019] federicomainettigambera: quindi le opzioni sono due, ditemi quale preferite:
-    [17:27, 25/6/2019] federicomainettigambera: 1) quella facile e che ho appena messo nel gioco:
-    [17:28, 25/6/2019] federicomainettigambera: dopo che il player si è mosso e prima che venga chiesta quale arma utilizzare si controlla se dalla nuova posizione il player può sparare, se può bene, tutto regolare, se non può male e si perde la possibilità di sparare continuando con la seconda azione del turno o quel che deve succede dopo diciamo
-    [17:29, 25/6/2019] federicomainettigambera: 2) soluzione un po' più sbatti, ma sicuramente molto più corretta:
-    [17:30, 25/6/2019] federicomainettigambera: prima di inviare le possibili Position dove il player si può muovere, si controllano tutte e si filtrano tenendo buone solo quelle da cui il player potrà ancora sparare.
-    [17:34, 25/6/2019] federicomainettigambera: faccio un esempio della 2:
-    calcolare tutte le posizioni in cui il player potrebbe muoversi normalmente (se per esempio può fare due movimenti avremo in media circa 8/9 square possibili); successivamente creare un contesto simulato da passare alle carte con il player per ognuno dei 8/9 square calcolati prima; per ognuno di questi calcolare usable weapon che calcola usable effect di ogni effetto della weapon; in seguito vedere gli unici da cui sarebbe possibile sparare e richiedere all'utente in quale square muoversi
-    [17:34, 25/6/2019] federicomainettigambera: (comunque io sono per la soluzione 2) ma ditemi voi cosa ne pensate
+
 
 
 PER VISUALIZZARE IL CALENDARIO:

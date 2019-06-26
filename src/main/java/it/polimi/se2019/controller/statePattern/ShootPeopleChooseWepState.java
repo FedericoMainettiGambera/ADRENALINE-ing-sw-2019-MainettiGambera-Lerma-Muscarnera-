@@ -64,6 +64,7 @@ public class ShootPeopleChooseWepState implements State {
             }
         }
         else{
+            //TODO check if this works:
             out.println("<SERVER> ----------------------------------------------------------------------------------------------------|");
             out.println("|         WARNING: This text should be displayed only if the player doesn't have any loaded playable weapon  |\n" +
                         "|                  and the FinalFrenzyHasBegun.                                                              |\n" +
@@ -73,7 +74,7 @@ public class ShootPeopleChooseWepState implements State {
             out.println("|                  I'll let the user have this possibility of moving, reloading and than not shooting,       |\n" +
                         "|                  because it can led to some very special tactics in the game. N.B. this is not a mistake.  |");
             out.println("|         End warning message. FedericoMainettiGambera.                                                      |");
-            out.println("|         This is a very hard to replicate scenario, so please, if you encounter this message, check if      |\n" +
+            out.println("|         This is a very hard scenario to replicate, so please, if you encounter this message, check if      |\n" +
                         "|         everything is correct.                                                                             |");
             out.println("<SERVER> ----------------------------------------------------------------------------------------------------|");
             //set next state
