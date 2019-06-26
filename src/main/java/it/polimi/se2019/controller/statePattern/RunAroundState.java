@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 /**
  * allows player to move around the map
  * */
-public class RunAroundState implements State {
+public class RunAroundState implements State{
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(RunAroundState.class.getName());
 
