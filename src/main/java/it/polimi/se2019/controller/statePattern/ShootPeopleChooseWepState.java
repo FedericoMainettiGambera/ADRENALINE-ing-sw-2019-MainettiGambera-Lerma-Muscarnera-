@@ -52,14 +52,40 @@ public class ShootPeopleChooseWepState implements State {
 
         this.loadedCardInHand = (ArrayList)possibleCards.getCards();
 
-        //ask input
-        try {
-            SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-            SelectorGate.getCorrectSelectorFor(playerToAsk).askWhatWep(loadedCardInHand);
-            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
-            this.inputTimer.start();
-        } catch (Exception e) {
-           logger.severe("Exception Occured"+e.getClass()+e.getCause());
+        if(!possibleCards.getCards().isEmpty()) {
+            //ask input
+            try {
+                SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
+                SelectorGate.getCorrectSelectorFor(playerToAsk).askWhatWep(loadedCardInHand);
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+                this.inputTimer.start();
+            } catch (Exception e) {
+                logger.severe("Exception Occured" + e.getClass() + e.getCause());
+            }
+        }
+        else{
+            out.println("<SERVER> ----------------------------------------------------------------------------------------------------|");
+            out.println("|         WARNING: This text should be displayed only if the player doesn't have any loaded playable weapon  |\n" +
+                        "|                  and the FinalFrenzyHasBegun.                                                              |\n" +
+                        "|                  To be noticed is the fact that the player could have shoot somebody if would have reloaded|\n" +
+                        "|                  the correct weapon.                                                                       |\n" +
+                        "|                  Anyway the player decided to reload an unusable weapon and so he now can't shoot.         |");
+            out.println("|                  I'll let the user have this possibility of moving, reloading and than not shooting,       |\n" +
+                        "|                  because it can led to some very special tactics in the game. N.B. this is not a mistake.  |");
+            out.println("|         End warning message. FedericoMainettiGambera.                                                      |");
+            out.println("|         This is a very hard to replicate scenario, so please, if you encounter this message, check if      |\n" +
+                        "|         everything is correct.                                                                             |");
+            out.println("<SERVER> ----------------------------------------------------------------------------------------------------|");
+            //set next state
+            State nextState = null;
+            if(this.actionNumber == 2){
+                nextState = (new ReloadState(false));
+            }
+            else if(this.actionNumber == 1){
+                nextState = (new TurnState(2));
+            }
+            ViewControllerEventHandlerContext.setNextState(nextState);
+            ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
         }
     }
 

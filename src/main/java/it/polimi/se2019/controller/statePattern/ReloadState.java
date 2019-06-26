@@ -187,7 +187,7 @@ public class ReloadState implements State{
     public boolean canReload(){
 
         for (WeaponCard weaponCard : ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards()){
-            if((new ChooseHowToPayState(ModelGate.model.getCurrentPlayingPlayer(),weaponCard.getReloadCost())).canPayInSomeWay() && !weaponCard.isLoaded()){
+            if(!weaponCard.isLoaded() && (new ChooseHowToPayState(ModelGate.model.getCurrentPlayingPlayer(),weaponCard.getReloadCost())).canPayInSomeWay()){
                 return true;
             }
         }
