@@ -1452,9 +1452,10 @@ public class Effect implements Serializable {
         /*gestione effect info */
         System.out.println("inizializzo effetto");
         for(Action a:this.actions){
-            if(a.getActionInfo().preCondition() == false ) {            // checks if all the preConditions are true
-                isExecutable = false;
-            }
+            // TODO DELETE THIS
+            //if(a.getActionInfo().preCondition() == false ) {            // checks if all the preConditions are true
+            //    isExecutable = false;
+            //}
         }
         isExecutable = true; // TODO TET FORZATO PROVVISORIO
         System.out.println("è eseguibile? "+ isExecutable);
