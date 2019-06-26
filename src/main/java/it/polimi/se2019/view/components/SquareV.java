@@ -1,6 +1,5 @@
 package it.polimi.se2019.view.components;
 
-import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.SquareTypes;

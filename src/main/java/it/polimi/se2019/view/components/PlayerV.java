@@ -1,6 +1,7 @@
 package it.polimi.se2019.view.components;
 
 import it.polimi.se2019.model.enumerations.PlayersColors;
+import javafx.beans.property.*;
 
 import java.io.Serializable;
 

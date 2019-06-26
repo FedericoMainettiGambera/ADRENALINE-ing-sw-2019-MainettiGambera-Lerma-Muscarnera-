@@ -120,7 +120,7 @@ public class Player extends Person implements Serializable {
         setChanged();
         ModelViewEvent MVE = new ModelViewEvent(this.isAFK, ModelViewEventTypes.setAFK, nickname);
         //this notify every other player.
-        if(this.isAFK == false) {
+        if(!this.isAFK) {
             notifyObservers(MVE);
         }
         if(ModelGate.model.getPlayerList().isMinimumPlayerNotAFK()){

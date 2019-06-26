@@ -1,7 +1,6 @@
 package it.polimi.se2019.view.selector;
 
 import it.polimi.se2019.model.Position;
-import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.*;
@@ -9,63 +8,68 @@ import it.polimi.se2019.view.components.EffectV;
 import it.polimi.se2019.view.components.PlayerV;
 import it.polimi.se2019.view.components.PowerUpCardV;
 import it.polimi.se2019.view.components.WeaponCardV;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public interface SelectorV {
 
-    public void askGameSetUp(boolean canBot);
+     void askGameSetUp(boolean canBot);
 
+    /**
+     * @deprecated
+     */
     @Deprecated
-    public void askPlayerSetUp();
+     void askPlayerSetUp();
 
-    public void askFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards, boolean spawnBot);
+     void askFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards, boolean spawnBot);
 
-    public void askTurnAction(int actionNumber, boolean canUsePowerUp, boolean canUseBot);
+     void askTurnAction(int actionNumber, boolean canUsePowerUp, boolean canUseBot);
 
-    public void askBotMove(SelectorEventPositions SEPositions);
+     void askBotMove(SelectorEventPositions selectorEventPositions);
 
-    public void askRunAroundPosition(ArrayList<Position> positions);
+     void askRunAroundPosition(ArrayList<Position> positions);
 
-    public void askGrabStuffAction();
+     void askGrabStuffAction();
 
-    public void askGrabStuffMove(ArrayList<Position> positions);
+     void askGrabStuffMove(ArrayList<Position> positions);
 
-    public void askGrabStuffGrabWeapon(ArrayList<WeaponCardV> toPickUp);
+     void askGrabStuffGrabWeapon(ArrayList<WeaponCardV> toPickUp);
 
-    public void askGrabStuffSwitchWeapon(ArrayList<WeaponCardV> toPickUp, ArrayList<WeaponCardV> toSwitch);
+     void askGrabStuffSwitchWeapon(ArrayList<WeaponCardV> toPickUp, ArrayList<WeaponCardV> toSwitch);
 
-    public void askPowerUpToDiscard(ArrayList<PowerUpCardV> toDiscard);
+     void askPowerUpToDiscard(ArrayList<PowerUpCardV> toDiscard);
 
-    public void askWhatReaload(ArrayList<WeaponCardV> toReload);
+     void askWhatReaload(ArrayList<WeaponCardV> toReload);
 
-    public void askSpawn(ArrayList<PowerUpCardV> powerUpCards);
+     void askSpawn(ArrayList<PowerUpCardV> powerUpCards);
 
-    public void askShootOrMove();
+     void askShootOrMove();
 
+    /**
+     * @deprecated
+     */
     @Deprecated
-    public void askShootReloadMove();
+     void askShootReloadMove();
 
-    public void askWhatWep(ArrayList<WeaponCardV> loadedCardInHand);
+     void askWhatWep(ArrayList<WeaponCardV> loadedCardInHand);
 
-    public void askWhatEffect(ArrayList<EffectV> possibleEffects);
+     void askWhatEffect(ArrayList<EffectV> possibleEffects);
 
-    public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs);
+     void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs);
 
-    public void askReconnectionNickname (ReconnectionEvent RE);
+     void askReconnectionNickname (ReconnectionEvent reconnectionEvent);
 
-    public void askNickname();
+     void askNickname();
 
-    public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformormation);
+     void askPaymentInformation(SelectorEventPaymentInformation selectorEventPaymentInformation);
 
-    public void askPowerUpToUse(SelectorEventPowerUpCards powerUpCards);
+     void askPowerUpToUse(SelectorEventPowerUpCards powerUpCards);
 
-    public void wantToUsePowerUpOrNot();
+     void wantToUsePowerUpOrNot();
 
-    public void askBotShoot(SelectorEventPlayers SEPlayers);
+     void askBotShoot(SelectorEventPlayers selectorEventPlayers);
 
-    public void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV);
+     void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV);
 
-    public void askTagBackGranade(List<PowerUpCardV> listOfTagBackGranade);
+     void askTagBackGranade(List<PowerUpCardV> listOfTagBackGranade);
 }
