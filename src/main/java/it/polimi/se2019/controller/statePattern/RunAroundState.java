@@ -72,18 +72,9 @@ public class RunAroundState implements State{
     @Override
     public void doAction(ViewControllerEvent vce) {
         this.inputTimer.interrupt();
-        out.println("<SERVER> player has answered before the timer ended.");
-
-        out.println("<SERVER> "+ this.getClass() +".doAction();");
-
-        ViewControllerEventPosition viewControllerEventPosition = (ViewControllerEventPosition)vce;
 
         //set new position for the player
-        out.println("<SERVER> Setting player position to: [" +viewControllerEventPosition.getX()+ "][" +viewControllerEventPosition.getY() + "]");
-        ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setPosition(
-                viewControllerEventPosition.getX(),
-                viewControllerEventPosition.getY()
-        );
+        handleVce(vce);
 
         //set next State
         if(this.actionNumber == 1){ //first action of the turn
@@ -107,6 +98,22 @@ public class RunAroundState implements State{
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
             ViewControllerEventHandlerContext.state.doAction(null);
         }
+    }
+
+    /**@param vce, where the state extrapulate the information to know where  player is going to be placed*/
+    public void handleVce(ViewControllerEvent vce){
+
+        out.println("<SERVER> player has answered before the timer ended.");
+
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
+
+        ViewControllerEventPosition viewControllerEventPosition = (ViewControllerEventPosition)vce;
+
+        //set new position for the player
+        Position newPosition=new Position(viewControllerEventPosition.getX(), viewControllerEventPosition.getY());
+        out.println("<SERVER> Setting player position to: [" +newPosition.getX()+ "][" +newPosition.getY() + "]");
+        ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setPosition(newPosition);
+
     }
 
 }
