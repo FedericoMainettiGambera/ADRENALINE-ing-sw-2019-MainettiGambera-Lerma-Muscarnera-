@@ -38,10 +38,23 @@ r
 EXPECTED INPUT
 singleTarget
 TO
-ALL
+1
+2
+END
+singleTarget
+TO
+3
+4
 END
 END
 ACTIONS
+Damage
+ACTION INFO
+PRECONDITION
+youCanSee
+SET
+2
+END
 Mark
 ACTION INFO
 PRECONDITION
@@ -49,14 +62,16 @@ youCanSee
 SET
 1
 END
-Action
+Mark
 ACTION INFO
 PRECONDITION
-notFirstExecuted
+differentSingleTargets
+SET
+1
 END
 Action
 ACTION INFO
 PRECONDITION
-previousTarget
+youCanSeee
 END
 END

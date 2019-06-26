@@ -293,7 +293,7 @@ public class PreConditionMethodsInverted {
             realCounter++;
         }
 
-        if(listOfTargets.size() < 0 ) {
+        if(listOfTargets.size() == 0 ) {
                 // lista vuota: tutti i target possibili
 
             } else {
@@ -486,7 +486,7 @@ public class PreConditionMethodsInverted {
                             {
 
                                 for (Player P : actionContext.getPlayerList().getPlayersOnBoard()) {
-                                    System.out.println("> POSIZIONE  " + P.getPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                                    System.out.println("> POSIZIONE  " + P.getPosition().humanString() + " vs " + C.getCoordinates().humanString() + ":" + actionContext.getBoard().distanceFromTo(
                                             P.getPosition(),
                                             C.getCoordinates()
                                     ));
@@ -495,7 +495,7 @@ public class PreConditionMethodsInverted {
                                             P.getPosition()) <= (2)) {
                                         if (!retVal.contains(C)) {
                                             retVal.add(C);
-                                            System.out.println("aggiungo");
+                                            System.out.println("aggiungo " );
                                         }
                                     }
                                 }
@@ -580,12 +580,22 @@ public class PreConditionMethodsInverted {
         System.out.println(retVal);
         return retVal;
     }
-    public List<Object> previousTarget(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
+    public List<Object> previousEffectTarget(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
+
+        int thisTurn = actionContext.getPlayer().getPlayerHistory().getCurrentTurnId();
+        List<Player> targets = new ArrayList<>();
+        try {
+            actionContext.getPlayer().getPlayerHistory().getTurnChunkR(thisTurn).show();
+            targets = actionContext.getPlayer().getPlayerHistory().getTurnChunkR(thisTurn).getTargets();
+        } catch ( Exception e) {}
+        for(Player p: targets)
+            System.out.println(p.getNickname());
+
         List<Object> retVal = new ArrayList<>();
         System.out.println("tipo input " + type);
         if (type.equals(UsableInputTableRowType.typePlayer)) {
             System.out.println("A");
-            for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
+            for (Player t : targets)
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
@@ -681,17 +691,37 @@ public class PreConditionMethodsInverted {
     public List<Object> notFirstNorSecondExecuted(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect)
     {
         // TODO: passare il record corrente della playerHistory
-        int minimum = 2;
+        int minimum = 2 ;
         List<Object> retVal = new ArrayList<>();
         boolean fill = false;
+        System.out.println("TURNO >> " + actionContext.getPlayer().getTurnID());
+        try {
+            actionContext.getPlayer().getPlayerHistory().show();
+        }catch(Exception e) {
+            System.out.println("tabella vuota");
+        }
         PlayerHistory historyCurrentTurn = actionContext.getPlayer().getPlayerHistory().getTurnChunkR(
                 actionContext.getPlayer().getTurnID()
         );
-        if((historyCurrentTurn.getCurrentBlockId() - historyCurrentTurn.getStartBlockId()) >= minimum)
+        System.out.println("turno corrente ----------------------------");
+        historyCurrentTurn.show();
+        System.out.println("split per blocco --------------------------");
+        for(List<PlayerHistoryElement> l : historyCurrentTurn.rawDataSplittenByBlockId()) {
+            System.out.println("{");
+            for(PlayerHistoryElement r: l)
+            {
+                r.show();
+            }
+            System.out.println("}");
+            System.out.println("--------");
+        }
+        if((historyCurrentTurn.rawDataSplittenByBlockId().size()) >= minimum)
         {
-            fill = true;
+            if(historyCurrentTurn.rawDataSplittenByBlockId().get(0).size() > 0 )
+                fill = true;
         }
 
+        System.out.println(fill);
 
         if(type.equals(typeSquare)) {
             if(fill) {
@@ -707,6 +737,7 @@ public class PreConditionMethodsInverted {
         if(type.equals(UsableInputTableRowType.typePlayer)) {
             if(fill) {
                 for(Player p: actionContext.getPlayerList().getPlayersOnBoard()) {
+                    System.out.println("aggiungo " + p.getNickname());
                     retVal.add(p);
                 }
             }
@@ -1005,7 +1036,7 @@ public class PreConditionMethodsInverted {
        try {
            actionContext.getPlayer().getPlayerHistory().show();
        }catch(Exception e) {
-           System.out.println("tabella vuota");
+            System.out.println("lista vuota");
        }
         PlayerHistory historyCurrentTurn = actionContext.getPlayer().getPlayerHistory().getTurnChunkR(
                 actionContext.getPlayer().getTurnID()

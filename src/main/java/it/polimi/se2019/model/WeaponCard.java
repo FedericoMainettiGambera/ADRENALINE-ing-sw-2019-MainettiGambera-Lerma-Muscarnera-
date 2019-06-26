@@ -170,71 +170,28 @@ public class WeaponCard extends Card implements Serializable {
 
 
 
-    public List<Effect> usable(Player player,Board board,PlayersList playersList) {
-        List<List<Object>> cartesianMatrix;
-
-        List<Effect> effectList = new ArrayList<>();                //effetti finali -- inizializzata vuota
-        List<Effect> potentialEffects = this.effects;    //effetti iniziali -- inizializzata piena
-
-        for(Effect e: potentialEffects) {       // controllo ogni effetto
-            ActionContext context = new ActionContext();
-            context.setBoard(board);
-            context.setPlayerList(playersList);
-            context.setPlayer(player);
-            e.setContext(context);                         // costruisce un contesto fittizio
-            System.out.println("start");
-            for (EffectInfoType input : e.requestedInputs()) {
-                if (input == EffectInfoType.player) {
-                    boolean correct = true;
-
-
-                    Object inputGrid[][] = new Object[10][10];
-                    inputGrid[0][0] = (Object) e.getActions().get(0).getActionInfo().getActionContext().getPlayer();
-                    e.handleInput(inputGrid);
-
-                    for (Action a : e.getActions()) {
-                        System.out.println("verifico la condizione di " + a.toString());
-                        if (a.getActionInfo().preCondition() == false) {
-                            correct = false;
-                        }
-
-                    }
-                    if (correct) break;      // appena una buona la aggiunge senza reiterare per gli altri player
-
-                    if (correct) {
-
-                        effectList.add(e);
-
-                    }
-                }
-            }
-            return effectList;
-        }
-        return effectList;
-
-
-    }
 
     // WeaponCard from File, polymorphic constructor
 
     public WeaponCard(String ID) throws FileNotFoundException, IOException,InstantiationException, Exception  {
-            super(ID);
-            this.effects = new ArrayList<>();
-            this.reloadCost = new AmmoList();
+        super(ID);
+        this.effects = new ArrayList<>();
+        this.reloadCost = new AmmoList();
 
-            BufferedReader reader = new BufferedReader(new FileReader("src/main/Files/cards/weaponCards/card"+ID+".set"));
+        BufferedReader reader = new BufferedReader(new FileReader("src/main/Files/cards/weaponCards/card"+ID+".set"));
+        try {
             String line = reader.readLine();
-            while(line != null) {
+            while (line != null) {
 
 
-                if(line.equals("NAME")) {
+                if (line.equals("NAME")) {
                     line = reader.readLine();
                     this.setName(line);
                     ///*@*/ System.out.println("il nome e'"+ line);
                 }
-                if(line.equals("RELOAD COST")) {
-                    String A = reader.readLine();	// colore
-                    String B = reader.readLine();	// quantità
+                if (line.equals("RELOAD COST")) {
+                    String A = reader.readLine();    // colore
+                    String B = reader.readLine();    // quantità
                     ///*@*/ System.out.println("il costo di ricarica e' " + B + " di colore " + A );
 
                     if (A.equals("y"))
@@ -246,21 +203,21 @@ public class WeaponCard extends Card implements Serializable {
 
                 }
 
-                if(line.equals("NEW EFFECT")) {
+                if (line.equals("NEW EFFECT")) {
                     ///*@*/ System.out.println("\tnuovo effetto corrente");
                     effects.add(new Effect());
                     effects.get(effects.size() - 1).setOf(this);
                 }
-                if(line.equals("EFFECT NAME")) {
+                if (line.equals("EFFECT NAME")) {
                     line = reader.readLine();
                     effects.get(effects.size() - 1).setEffectName(line);
                 }
 
-                if(line.equals("USAGE COST")) {
-                    String A = reader.readLine();	// colore
-                    String B = reader.readLine();	// quantità
+                if (line.equals("USAGE COST")) {
+                    String A = reader.readLine();    // colore
+                    String B = reader.readLine();    // quantità
                     //System.out.println("il costo di ricarica e' " + B + " di colore " + A );
-                    Effect currentEffect = effects.get(effects.size()-1);
+                    Effect currentEffect = effects.get(effects.size() - 1);
 
                     if (A.equals("y"))
                         currentEffect.getUsageCost().addAmmoCubesOfColor(yellow, Integer.parseInt(B));
@@ -271,57 +228,57 @@ public class WeaponCard extends Card implements Serializable {
                     //System.out.println("-");
                 }
 
-                if(line.equals("EXPECTED INPUT")) {
+                if (line.equals("EXPECTED INPUT")) {
 
-                    EffectInfo effectInfo = new EffectInfo();		// inizializza la lista degl input
+                    EffectInfo effectInfo = new EffectInfo();        // inizializza la lista degl input
 
-                    line = reader.readLine();		// parametro
-                    while(!line.equals("END")) {
+                    line = reader.readLine();        // parametro
+                    while (!line.equals("END")) {
 
                         ///*@*/ System.out.println("parametro input del parametro atteso:\t <" + line + ">");
 
 
                         effectInfo.getEffectInfoElement().add(new EffectInfoElement());
                         effectInfo.getEffectInfoElement().get(effectInfo.getEffectInfoElement().size() - 1).setEffectInfoTypelist(EffectInfoType.valueOf(line));
-                        line = reader.readLine(); 	//parametro
-                        if(line.equals("TO")) {     // a quale azione è destinato l'input
+                        line = reader.readLine();    //parametro
+                        if (line.equals("TO")) {     // a quale azione è destinato l'input
                             line = reader.readLine(); //parametro numerico
-                            if(line.equals("ALL")) {
+                            if (line.equals("ALL")) {
                                 effectInfo.getEffectInfoElement().get(effectInfo.getEffectInfoElement().size() - 1).getEffectInfoTypeDestination().add(0);
                                 line = reader.readLine();
                             }
-                            while(!line.equals("END")) {
+                            while (!line.equals("END")) {
                                 effectInfo.getEffectInfoElement().get(effectInfo.getEffectInfoElement().size() - 1).getEffectInfoTypeDestination().add(Integer.parseInt(line));
                                 line = reader.readLine(); // parametro
                             }
                             line = reader.readLine();   // input successivo
                         }
                     }
-                    effects.get(effects.size() - 1).setEffectInfo(effectInfo);					//setta gli input
-                    line = reader.readLine();	//istruzione successiva
+                    effects.get(effects.size() - 1).setEffectInfo(effectInfo);                    //setta gli input
+                    line = reader.readLine();    //istruzione successiva
                 }
-                if(line.equals("ACTIONS")) {
-                    line = reader.readLine();			// parametro azione
-                    while(!line.equals("END")) {
+                if (line.equals("ACTIONS")) {
+                    line = reader.readLine();            // parametro azione
+                    while (!line.equals("END")) {
                         ///*@*/ System.out.println("azione nell'evento corrente:" + line);
                         Class<?> Cref = Class.forName("it.polimi.se2019.model." + line);
                         Action demo = (Action) Cref.newInstance();
 
-                        line = reader.readLine();		// parametro azione
+                        line = reader.readLine();        // parametro azione
 
-                        ActionInfo actionInfo = new ActionInfo();		// carico action info vuota
+                        ActionInfo actionInfo = new ActionInfo();        // carico action info vuota
 
-                        if(line.equals("ACTION INFO")) {
+                        if (line.equals("ACTION INFO")) {
                             ///*$*/System.out.println("//inizio action info");
                             line = reader.readLine();
-                            while(!line.equals("END")) {
-                                if(line.equals("SET")) {
-                                    line = reader.readLine();	// parametro
+                            while (!line.equals("END")) {
+                                if (line.equals("SET")) {
+                                    line = reader.readLine();    // parametro
                                     ///*@*/ System.out.println("info sull'azione corrente nell'evento corrente:" + line);
                                     actionInfo.getActionDetails().getFileSelectedActionDetails().addFileSettingData((Object) line);
                                 }
-                                if(line.equals("PRECONDITION")) {
-                                    line = reader.readLine();	// parametro
+                                if (line.equals("PRECONDITION")) {
+                                    line = reader.readLine();    // parametro
                                     ///*@*/ System.out.println("precondizione sull'azione corrente nell'evento corrente:" + line);
                                     actionInfo.setPreConditionMethodName(line);
                                 }
@@ -342,8 +299,13 @@ public class WeaponCard extends Card implements Serializable {
                 line = reader.readLine();
 
             }
+        } catch(Exception e)
+        {
+            // ...
+        } finally {
             reader.close();
         }
+    }
 
     /***/
     private AmmoList reloadCost;
