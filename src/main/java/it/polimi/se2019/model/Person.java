@@ -83,6 +83,10 @@ public abstract class Person extends Observable implements Serializable {
         notifyObservers(new ModelViewEvent(position, ModelViewEventTypes.newPosition, this.nickname));
     }
 
+    public void setPositionWithoutNotify(Position pos){
+        this.position = pos;
+    }
+
     /**@return person's position+
      * */
     public Position getPosition() {

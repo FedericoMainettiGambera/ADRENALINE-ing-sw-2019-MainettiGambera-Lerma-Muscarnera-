@@ -11,13 +11,11 @@ import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPosition;
 import it.polimi.se2019.controller.WaitForPlayerInput;
-import it.polimi.se2019.view.components.PowerUpCardV;
 
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ShootPeopleState implements State {
@@ -39,27 +37,29 @@ public class ShootPeopleState implements State {
     public void askForInput(Player playerToAsk){
         this.playerToAsk = playerToAsk;
         out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
-        //final frenzy hasnt begun and no adrenaline action available
+        //final frenzy hasn't begun and no adrenaline action available
         if(!ModelGate.model.hasFinalFrenzyBegun()&&!ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineShootAction()){
-             if(canShoot()){
+             if(canShoot(playerToAsk)){
                  ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
                  ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
              }
              else{
-                 out.println("Player cant shoot");
+                 out.println("<SERVER> Player cant shoot");
                  ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
                  ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
              }
         }
        //FF aint begun & adrenaline action avaible
         else if(!ModelGate.model.hasFinalFrenzyBegun()&&ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineShootAction()){
-            try {
-                SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-                SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(this.possiblePositions(1));
-                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
-                this.inputTimer.start();
-            } catch (Exception e) {
-                logger.severe("Exception Occurred: "+e.getClass()+" "+e.getCause());
+            ArrayList<Position> possiblePositions = this.possiblePositionsToShootFrom(1, playerToAsk);
+            if(possiblePositions.isEmpty()){
+                out.println("<SERVER> there are no possible positions to move where the player can shoot from");
+                //asking a new turn state action
+                ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
+                ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+            }
+            else {
+                askWhereToMove(possiblePositions);
             }
         }
         //FF began
@@ -70,18 +70,31 @@ public class ShootPeopleState implements State {
             } else if (playerToAsk.getBeforeorafterStartingPlayer() >= 0) {
                 numberOfMoves = 2;
             }
-            try {
-                SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-                SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(this.possiblePositions(numberOfMoves));
-                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
-                this.inputTimer.start();
-            } catch (Exception e) {
-                e.printStackTrace();
+            ArrayList<Position> possiblePositions = this.possiblePositionsToShootFromConsideringReloadableWeapons(1, playerToAsk);
+            if(possiblePositions.isEmpty()){
+                out.println("<SERVER> there are no possible positions to move where the player can shoot from, considering even reloadable weapons.");
+                //asking a new action to take
+                ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
+                ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
             }
-
+            else {
+                askWhereToMove(possiblePositions);
+            }
         }
     }
 
+    private void askWhereToMove(ArrayList<Position> possiblePositions){
+        try {
+            out.println("<SERVER> the player can move and shoot from another position");
+            //asking where to move
+            SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
+            SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(possiblePositions);
+            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+            this.inputTimer.start();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "EXCEPTION", e);
+        }
+    }
 
     @Override
     public void doAction(ViewControllerEvent VCE) {
@@ -101,25 +114,12 @@ public class ShootPeopleState implements State {
         );
 
         if(!ModelGate.model.hasFinalFrenzyBegun()&&ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineShootAction()){
-            if(canShoot()) {
-                ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
-            }
-            else{
-                out.println("Player cant shoot from the new position.");
-                ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
-                ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
-            }
+            ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
         else if(ModelGate.model.hasFinalFrenzyBegun()){
-            if(canShoot()){
-                ViewControllerEventHandlerContext.setNextState(new ReloadState(true, this.actionNumber));
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());}
-            else{
-                out.println("Player cant shoot from the new position");
-                ViewControllerEventHandlerContext.setNextState(new TurnState(this.actionNumber));
-                ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
-            }
+            ViewControllerEventHandlerContext.setNextState(new ReloadState(true, this.actionNumber));
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
 
     }
@@ -135,21 +135,90 @@ public class ShootPeopleState implements State {
         }
     }
 
-    public ArrayList<WeaponCard> UsableWep(){
-        ArrayList<WeaponCard> UsableWep=new ArrayList<>();
-        for (WeaponCard card:ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards()) {
-          if(card.isLoaded()){
-              UsableWep.add(card);
-          }
+    private ArrayList<Position> possiblePositionsToShootFrom(int numberOfMoves, Player player){
+        //all possible positions where the player can move
+        ArrayList<Position> possiblePositions = ModelGate.model.getBoard().possiblePositions(player.getPosition(), numberOfMoves);
+
+        //filtering all the possible position: keeping only the ones from where the player can shoot
+        Iterator<Position> possiblePositionsIterator = possiblePositions.iterator();
+        while (possiblePositionsIterator.hasNext()){
+            Position currentPossiblePositionElement = possiblePositionsIterator.next();
+
+            out.println("<SERVER> checking if player can shoot from position " + currentPossiblePositionElement.humanString());
+
+            if(!canShootFrom(currentPossiblePositionElement, player)){
+                possiblePositionsIterator.remove();
+                out.println("         no, he can't!");
+            }
+            else{
+                out.println("         yes, he can!");
+            }
         }
-        return UsableWep;
+
+        return possiblePositions;
     }
 
-    public boolean canShoot(){
-        for (WeaponCard wp:ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards()) {
-            wp.passContext(ModelGate.model.getCurrentPlayingPlayer(), ModelGate.model.getPlayerList(), ModelGate.model.getBoard());
+    private ArrayList<Position> possiblePositionsToShootFromConsideringReloadableWeapons(int numberOfMoves, Player player){
+        ArrayList<WeaponCard> loadableWeapons = new ArrayList<>();
+
+        //finds all unloaded weapons
+        for (WeaponCard wp: player.getWeaponCardsInHand().getCards()) {
+            if(!wp.isLoaded()){
+                loadableWeapons.add(wp);
+            }
         }
-        OrderedCardList<WeaponCard> possibleCards = ModelGate.model.getCurrentPlayingPlayer().getHand().usableWeapons();
+
+        //filters the unloaded weapons with only the ones that are loadable
+        Iterator<WeaponCard> loadableWeaponsIterator = loadableWeapons.iterator();
+        while(loadableWeaponsIterator.hasNext()){
+            WeaponCard weaponCardElement = loadableWeaponsIterator.next();
+            if(!(new ChooseHowToPayState(player, weaponCardElement.getReloadCost())).canPayInSomeWay()){
+                loadableWeaponsIterator.remove();
+            }
+        }
+
+        //now we have the possible loadable weapons and we load them for a moment
+        for (WeaponCard wp: loadableWeapons){
+            wp.reloadWithoutNotify();
+        }
+
+        //we now search for possiblePosition in the usual way
+        ArrayList<Position> possiblePositions = possiblePositionsToShootFrom(numberOfMoves, player);
+
+        //we unload the previosly loaded weapons
+        for (WeaponCard wp: loadableWeapons){
+            wp.unloadWithoutNotify();
+        }
+
+        return possiblePositions;
+    }
+
+    private boolean canShootFrom(Position pos, Player shootingPlayer){
+        //old position of the player saved to restore
+        Position oldPosition = shootingPlayer.getPosition();
+
+        //changing the players position to the new we want to calculate
+        shootingPlayer.setPositionWithoutNotify(pos);
+
+        //checks if the player can shoot
+        boolean canShoot = this.canShoot(shootingPlayer);
+
+        //restore old position
+        shootingPlayer.setPositionWithoutNotify(oldPosition);
+
+        return canShoot;
+    }
+
+    private boolean canShoot(Player player){
+        //passing context to the weapons
+        for (WeaponCard wp:player.getWeaponCardsInHand().getCards()) {
+            wp.passContext(player, ModelGate.model.getPlayerList(), ModelGate.model.getBoard());
+        }
+
+        //all possible usable cards
+        OrderedCardList<WeaponCard> possibleCards = player.getHand().usableWeapons();
+
+        //filtering cards with the only loaded ones
         Iterator<WeaponCard> elementListIterator = possibleCards.getCards().iterator();
         while (elementListIterator.hasNext()) {
             WeaponCard element = elementListIterator.next();
@@ -160,9 +229,4 @@ public class ShootPeopleState implements State {
         return possibleCards.getCards().size() > 0;
     }
 
-    public ArrayList<Position> possiblePositions(int numberOfMoves){
-        //TODO
-        ArrayList<Position> possiblePositions = new ArrayList<>();
-        return possiblePositions;
-    }
 }
