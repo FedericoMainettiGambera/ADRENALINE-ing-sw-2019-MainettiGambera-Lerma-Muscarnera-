@@ -277,8 +277,9 @@ public class PreConditionMethods implements Serializable {
 
         return ((actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition())-1) <= 2);
     }
+    /*
     public boolean distanceFromOriginalPositionLessThan2(ActionDetails actionDetails,ActionContext actionContext) {
-    /*Target.square, ChosenSquare*/
+    //Target.square, ChosenSquare
         Position A = actionDetails.getUserSelectedActionDetails().getTarget().getPosition();
         Position B = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
 
@@ -294,6 +295,7 @@ public class PreConditionMethods implements Serializable {
         return (Distance <= 4);
 
     }
+    */
     public boolean moveOtherPlayer(ActionDetails actionDetails,ActionContext actionContext) {
         Player A = actionContext.getPlayer();
         Player B = actionDetails.getUserSelectedActionDetails().getTarget();
@@ -348,8 +350,9 @@ public class PreConditionMethods implements Serializable {
             }
         return false;
     }
+    /*
     public boolean previousPreviousTargetDifferent(ActionDetails actionDetails,ActionContext actionContext) {
-        /*@*/ System.out.println("# verifico notPreviousTarget" +  actionContext.getPlayer().toString() + ":" + actionContext.getActionContextFilteredInputs().size());
+        System.out.println("# verifico notPreviousTarget" +  actionContext.getPlayer().toString() + ":" + actionContext.getActionContextFilteredInputs().size());
 
         boolean FLAG = false;
         for(int i = actionContext.getActionContextFilteredInputs().size()-2;i >= 0; i--) {
@@ -377,7 +380,8 @@ public class PreConditionMethods implements Serializable {
         }
         return true;
 
-    }
+    }*/
+
     private List<Square> squareSelect(List<ActionContextFilteredInput> l) {
         List<Square> ret = new ArrayList<>();
         for(ActionContextFilteredInput a: l) {

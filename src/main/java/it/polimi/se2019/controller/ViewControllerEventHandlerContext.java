@@ -4,7 +4,6 @@ import it.polimi.se2019.controller.statePattern.ChooseHowToPayState;
 import it.polimi.se2019.controller.statePattern.State;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPaymentInformation;
-import it.polimi.se2019.networkHandler.RMIREDO.RmiNetworkHandler;
 import it.polimi.se2019.virtualView.RMIREDO.RmiVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
 
@@ -27,12 +26,12 @@ public class  ViewControllerEventHandlerContext implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        ViewControllerEvent VCE = (ViewControllerEvent) arg;
-        if(VCE.getClass().toString().contains("PaymentInformation")){
-            paymentProcess.doPayment((ViewControllerEventPaymentInformation)VCE);
+        ViewControllerEvent viewControllerEvent = (ViewControllerEvent) arg;
+        if(viewControllerEvent.getClass().toString().contains("PaymentInformation")){
+            paymentProcess.doPayment((ViewControllerEventPaymentInformation)viewControllerEvent);
         }
         else {
-            state.doAction(VCE);
+            state.doAction(viewControllerEvent);
         }
     }
 }

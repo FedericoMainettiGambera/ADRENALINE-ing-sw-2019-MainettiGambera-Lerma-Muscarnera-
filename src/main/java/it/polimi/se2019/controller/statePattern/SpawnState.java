@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+/**Implements the spawn of the players who died*/
 public class SpawnState implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);
@@ -36,24 +37,7 @@ public class SpawnState implements State {
     public void askForInput(Player nullPlayer) {
         //player to ask is null !
 
-        System.err.println("---------------------------------------------------------------------------------------------------------");
-        System.err.println("---------------------------------------------------------------------------------------------------------");
-        System.err.println("----------------------------------        SOMEONE DIED        -------------------------------------------");
-        System.err.println("---------------------------------------------------------------------------------------------------------");
-        System.err.println("---------------------------------------------------------------------------------------------------------");
-
-        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + deadPlayers.get(0).getNickname() + "\"");
-
-        if(!this.deadPlayers.isEmpty()) {
-            this.playerToSpawn = deadPlayers.get(0);
-
-            out.println("<SERVER> Making " + playerToSpawn.getNickname() + " draw a power up");
-            //draw a power up
-            ModelGate.model.getPowerUpDeck().moveCardTo(
-                    playerToSpawn.getPowerUpCardsInHand(),
-                    ModelGate.model.getPowerUpDeck().getFirstCard().getID()
-            );
-        }
+        deadDrawPowerUp();
 
         //list of power up of the player to spawn
         ArrayList<PowerUpCard> powerUpCards = (ArrayList)playerToSpawn.getPowerUpCardsInHand().getCards();
@@ -74,31 +58,10 @@ public class SpawnState implements State {
     }
 
     @Override
-    public void doAction(ViewControllerEvent VCE) {
+    public void doAction(ViewControllerEvent viewControllerEvent) {
         this.inputTimer.interrupt();
-        out.println("<SERVER> player has answered before the timer ended.");
 
-        out.println("<SERVER> "+ this.getClass() +".doAction();");
-
-        ViewControllerEventString VCEString = (ViewControllerEventString)VCE;
-
-        //set spawning position
-        PowerUpCard cardChosen = playerToSpawn.getPowerUpCardsInHand().getCard(VCEString.getInput());
-
-        try {
-            Position spawnPosition = ModelGate.model.getBoard().getSpawnpointOfColor(cardChosen.getColor());
-            out.println("<SERVER> Spawning player in position [" + spawnPosition.getX() + "][" + spawnPosition.getY() +"]");
-            playerToSpawn.setPosition(spawnPosition);
-        } catch (Exception e) {
-            logger.severe("Exception Occured: "+e.getClass()+" "+e.getCause());
-        }
-
-        //discard the power up card
-        out.println("<SERVER>Discarding the chosen power up: " + cardChosen.getID());
-        playerToSpawn.getPowerUpCardsInHand().moveCardTo(
-                ModelGate.model.getPowerUpDiscardPile(),
-                VCEString.getInput()
-        );
+        handleVce(viewControllerEvent);
 
         if(!this.deadPlayers.isEmpty()) {
             out.println("<SERVER> Player spawned and removed from the list of dead players");
@@ -111,11 +74,73 @@ public class SpawnState implements State {
     }
 
     @Override
-    public void handleAFK() {
+    public void handleAFK(){
         //TODO
         this.playerToSpawn.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         out.println("<SERVER> randomly making player spawn using first card in hand.");
         this.doAction(new ViewControllerEventString(playerToSpawn.getPowerUpCardsInHand().getCards().get(0).getID()));
+    }
+
+    public void printDied(){
+
+        String string="---------------------------------------------------------------------------------------------------------";
+
+        System.err.println(string);
+        System.err.println(string);
+        System.err.println("----------------------------------        SOMEONE DIED        -------------------------------------------");
+        System.err.println(string);
+        System.err.println(string);
+    }
+
+    public void handleVce(ViewControllerEvent viewControllerEvent){
+
+        out.println("<SERVER> player has answered before the timer ended.");
+
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
+
+        ViewControllerEventString viewControllerEventString = (ViewControllerEventString)viewControllerEvent;
+
+        //set spawning position
+        PowerUpCard cardChosen = playerToSpawn.getPowerUpCardsInHand().getCard(viewControllerEventString.getInput());
+
+        try {
+            Position spawnPosition = ModelGate.model.getBoard().getSpawnpointOfColor(cardChosen.getColor());
+            out.println("<SERVER> Spawning player in position [" + spawnPosition.getX() + "][" + spawnPosition.getY() +"]");
+            playerToSpawn.setPosition(spawnPosition);
+        } catch (Exception e) {
+            logger.severe("Exception Occured: "+e.getClass()+" "+e.getCause());
+        }
+
+
+
+        //discard the power up card
+        out.println("<SERVER>Discarding the chosen power up: " + cardChosen.getID());
+
+        playerToSpawn.getPowerUpCardsInHand().moveCardTo(
+                ModelGate.model.getPowerUpDiscardPile(),
+                viewControllerEventString.getInput()
+        );
+
+
+    }
+
+    public void deadDrawPowerUp(){
+
+        printDied();
+
+        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + deadPlayers.get(0).getNickname() + "\"");
+
+        if(!this.deadPlayers.isEmpty()) {
+            this.playerToSpawn = deadPlayers.get(0);
+
+            out.println("<SERVER> Making " + playerToSpawn.getNickname() + " draw a power up");
+            //draw a power up
+            ModelGate.model.getPowerUpDeck().moveCardTo(
+                    playerToSpawn.getPowerUpCardsInHand(),
+                    ModelGate.model.getPowerUpDeck().getFirstCard().getID()
+            );
+        }
+
     }
 }

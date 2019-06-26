@@ -11,12 +11,13 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Observable;
 
-/***/
+/** takes track of the entire state of the game*/
 public class Game extends Observable implements Serializable {
 
-    /***/
+    /** when instanced, build up all the deck needed*/
     public Game() {
         this.powerUpDeck = new OrderedCardList<>("powerUpDeck");
         this.weaponDeck = new OrderedCardList<>("weaponDeck");
@@ -47,7 +48,7 @@ public class Game extends Observable implements Serializable {
         }
     }
 
-    /***/
+    /** game has a reference to the killshottrack */
     private KillShotTrack killshotTrack;
 
     private String currentState;
@@ -58,13 +59,11 @@ public class Game extends Observable implements Serializable {
         notifyObservers(new StateEvent(this.currentState));
     }
 
-    /***/
-    private PlayersList rank;
 
-    /***/
+    /** reference to all the player playing or afk */
     private PlayersList players;
 
-    /***/
+    /** need to know if bot is active or not*/
     private boolean isBotActive;
 
     public boolean isBotActive() {
@@ -168,10 +167,10 @@ public class Game extends Observable implements Serializable {
         //builds weapon cards
         OrderedCardList<WeaponCard> tempWeaponDeck = new OrderedCardList<>("weaponDeck");
         File directory = new File("src/main/Files/cards/weaponCards");     // insert here path to weapon cards folder
-        int fileCount = directory.list().length;
+        int fileCount = Objects.requireNonNull(directory.list()).length;
         for(int i = 1; i< fileCount+1; i++) {
             try {
-                int id = 1;
+                int id = /*1 + i %*/ 8;
                 WeaponCard card= new WeaponCard("" + id);
                 card.reload();
                 tempWeaponDeck.addCard(card);
@@ -185,7 +184,7 @@ public class Game extends Observable implements Serializable {
 
         OrderedCardList<PowerUpCard> tempPowerUpDeck = new OrderedCardList<>("powerUpDeck");
         directory = new File("src/main/Files/cards/powerUpCards");          // insert here path to power up cards folder
-        fileCount = directory.list().length;
+        fileCount = Objects.requireNonNull(directory.list()).length;
         List<AmmoCubesColor> Colors = new ArrayList<>();
         Colors.add(AmmoCubesColor.red);
         Colors.add(AmmoCubesColor.yellow);

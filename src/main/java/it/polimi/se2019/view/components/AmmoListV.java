@@ -16,10 +16,10 @@ public class AmmoListV implements Serializable {
 
     @Override
     public String toString(){
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for (AmmoCubesV a: ammoCubesList) {
-            s+= a.getColor() + "->" + a.getQuantity() + "; ";
+            s.append(a.getColor()).append("->").append(a.getQuantity()).append("; ");
         }
-        return s;
+        return s.toString();
     }
 }

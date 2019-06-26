@@ -39,11 +39,6 @@ public class RmiNetworkHandler extends UnicastRemoteObject implements RmiInterfa
 
         logger.info("<CLIENT>Trying to connect to: " + this.ip + ":" + this.port);
 
-        //TODO
-        //inizializza l'RMI e effettua la connessione e tutto ciò che serve
-        //salva in RmiNetworkHandler.server l'interfaccia del server
-        //esegui il metodo remoto sul server ".connect(RmiInterface client)"
-        //TODO fede alternativamente si puo usare solo il nome del "sito"
 
         Registry reg = LocateRegistry.getRegistry(ip, 1099);
 

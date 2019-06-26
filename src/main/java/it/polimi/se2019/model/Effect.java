@@ -82,6 +82,58 @@ public class Effect implements Serializable {
 
         /*initializing the rows of retVal table*/
         for(EffectInfoElement e: this.getEffectInfo().getEffectInfoElement()) {
+            if(e.getEffectInfoTypelist() == targetListBySquareOfLastTarget) {
+                rowType.add(UsableInputTableRowType.typePlayer);
+                frontEndRowType.add(null);
+
+                rowCardinality.add(1);
+
+
+                List<Object> cell = new ArrayList<>();
+                Player currentPlayer = this.getActions().get(0).getActionInfo().getActionContext().getPlayer();
+                Object lastRow;
+                Object lastTarget;
+
+                boolean addAll = false;
+                if(currentPlayer.getPlayerHistory().getTurnChunkR(currentPlayer.getTurnID()) != null) {
+                    PlayerHistory currentHistory =  currentPlayer.getPlayerHistory().getTurnChunkR(currentPlayer.getTurnID());
+                    System.out.println("<SERVER> showing player history ");
+
+                    currentHistory.show();
+                    if( currentHistory.getSize() > 0 ) {
+                        lastRow = currentPlayer.getPlayerHistory().getTurnChunkR(currentPlayer.getTurnID()).getLast().getInput();
+                        lastTarget = ((Player) (((Object[]) lastRow)[0]));
+                    } else{
+                        addAll = true;
+                        lastTarget = null;
+                    }
+                } else {
+                    addAll = true;
+                    lastTarget = null;
+                }
+                System.out.println(lastTarget);
+                if(addAll) {
+                   for(Player p: getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard())
+                       cell.add(p);
+                } else {
+                    System.out.println(lastTarget);
+                    Square lastTargetSquare = this.getActions().get(0).getActionInfo().getActionContext().getBoard().getSquare(
+                            ((Player) lastTarget).getPosition()
+                    );
+                    for (Player t : this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
+                        if(t.getPosition().equalPositions(
+                                lastTargetSquare.getCoordinates()
+                        ))  {
+                                cell.add((Object) t);
+                            }
+                    }
+                }
+
+                List<List<Object>> row = new ArrayList<>();
+                row.add(cell);
+                retVal.add(row);
+
+            }
 
             if(e.getEffectInfoTypelist() == targetListBySquare) {
                 rowType.add(UsableInputTableRowType.typePlayer);
@@ -99,6 +151,7 @@ public class Effect implements Serializable {
                 retVal.add(row);
 
             }
+
             if(e.getEffectInfoTypelist() == singleTargetBySquare) {
                 rowType.add(UsableInputTableRowType.typePlayer);
                 frontEndRowType.add(UsableInputTableRowType.typeSquare);
@@ -797,6 +850,7 @@ public class Effect implements Serializable {
                             (Player)input[0]
                     );
 
+                    if(input[1] != null)
                     this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
                             (Player)input[1]
                     );
@@ -812,14 +866,16 @@ public class Effect implements Serializable {
                     this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
                             (Player)input[0]
                     );
-
+                    if(input[1] != null)
                     this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
                             (Player)input[1]
                     );
 
+                    if(input[2] != null)
                     this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
                             (Player)input[2]
                     );
+
                     for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
 
                         a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input, "Target"));
@@ -1396,9 +1452,10 @@ public class Effect implements Serializable {
         /*gestione effect info */
         System.out.println("inizializzo effetto");
         for(Action a:this.actions){
-            if(a.getActionInfo().preCondition() == false ) {            // checks if all the preConditions are true
-                isExecutable = false;
-            }
+            // TODO DELETE THIS
+            //if(a.getActionInfo().preCondition() == false ) {            // checks if all the preConditions are true
+            //    isExecutable = false;
+            //}
         }
         isExecutable = true; // TODO TET FORZATO PROVVISORIO
         System.out.println("è eseguibile? "+ isExecutable);
@@ -1411,7 +1468,8 @@ public class Effect implements Serializable {
                 if(a.getClass().equals(Damage.class)) {
                     retVal.add(new ArrayList<>());
                     for(Player p: a.getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList()){
-                        retVal.get(retVal.size() - 1).add(p);
+                        if(p != null)
+                            retVal.get(retVal.size() - 1).add(p);
                     }
                 }
             }
