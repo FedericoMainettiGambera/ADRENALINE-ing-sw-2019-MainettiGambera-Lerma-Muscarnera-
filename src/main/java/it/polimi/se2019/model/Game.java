@@ -170,7 +170,7 @@ public class Game extends Observable implements Serializable {
         int fileCount = Objects.requireNonNull(directory.list()).length;
         for(int i = 1; i< fileCount+1; i++) {
             try {
-                int id = 1;
+                int id = /*1 + i %*/ 8;
                 WeaponCard card= new WeaponCard("" + id);
                 card.reload();
                 tempWeaponDeck.addCard(card);

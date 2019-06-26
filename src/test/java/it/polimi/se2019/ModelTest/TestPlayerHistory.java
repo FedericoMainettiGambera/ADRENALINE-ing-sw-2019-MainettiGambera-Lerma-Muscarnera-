@@ -22,8 +22,10 @@ public class TestPlayerHistory {
         WeaponCard card2 = new WeaponCard("2");
 
         Object row1[] = new Object[10];
-        Object row2[] = new Object[10];
+        row1[0] = p;
 
+        Object row2[] = new Object[10];
+/*
         p.getPlayerHistory().addRecord(card1,effect1,row1);
         p.getPlayerHistory().addRecord(card1,effect1,row2);
         p.getPlayerHistory().addRecord(card2,effect2,row1);
@@ -40,10 +42,18 @@ public class TestPlayerHistory {
         p.getPlayerHistory().addRecord(card2,effect2,row2);
         p.incrementTurnID();
         p.getPlayerHistory().addRecord(card2,effect2,row2);
+        p.getPlayerHistory().addRecord(card2,effect2,row2);*/
+        p.getPlayerHistory().addRecord(card2,effect2,row1);
         p.getPlayerHistory().addRecord(card2,effect2,row2);
+        p.incrementTurnID();
+        p.getPlayerHistory().addRecord(card2,effect2,row1);
+        p.getPlayerHistory().addRecord(card2,effect3,row1);
+        p.getPlayerHistory().addRecord(card2,effect2,row1);
+        p.getPlayerHistory().addRecord(card2,effect2,row1);
         //p.getPlayerHistory().addRecord(card2,effect3,row2);
         //p.incrementTurnID();
         //T.show();
+        p.getPlayerHistory().show();
         for(List<PlayerHistoryElement> l: T.rawDataSplittenByBlockId()) {
             for(PlayerHistoryElement r: l) {
                 r.show();

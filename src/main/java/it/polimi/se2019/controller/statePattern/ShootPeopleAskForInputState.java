@@ -6,7 +6,6 @@ import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.controller.WaitForPlayerInput;
 import it.polimi.se2019.model.Effect;
 import it.polimi.se2019.model.Player;
-import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.WeaponCard;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
@@ -115,7 +114,10 @@ public class ShootPeopleAskForInputState implements State {
             askForInput(playerToAsk);
         }
         else {
-            ChooseHowToPayState.makePayment(playerToAsk, this.chosenEffect.getUsageCost());
+            // TODO DEBUG SOLUTION
+            this.afterPayment();
+            //TODO REAL SOLUTION:
+            // ChooseHowToPayState.makePayment(playerToAsk, this.chosenEffect.getUsageCost());
         }
     }
     public void afterPayment(){
@@ -127,7 +129,11 @@ public class ShootPeopleAskForInputState implements State {
         //transform the List<List<Player>> in List<Player>
         List<Player> damagedPlayer = new ArrayList<>();
         for (List<Player> listOfPlayer: listListDamagedPlayer) {
-            damagedPlayer.addAll(listOfPlayer);
+            for(Player p: listOfPlayer)
+                if(!damagedPlayer.contains(p)) {
+                    damagedPlayer.add(p);
+                    System.out.println("<SERVER> DAMAGED PLAYERS ADD " + p);
+                }
         }
 
         //remove the terminator from the damagedPlayer list

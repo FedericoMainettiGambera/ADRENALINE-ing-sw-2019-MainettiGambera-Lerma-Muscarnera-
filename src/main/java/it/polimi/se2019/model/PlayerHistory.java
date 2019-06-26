@@ -37,6 +37,11 @@ public class PlayerHistory {
     private int    currentBlockId;
     private int    currentInputId;
 
+    public int getCurrentTurnId() {
+        return currentTurnId;
+    }
+
+    private int    currentTurnId;
     // TODO ADD
     public PlayerHistory getBlock(int BI) {
         PlayerHistory retVal = new PlayerHistory(this.owner);
@@ -104,7 +109,22 @@ public class PlayerHistory {
 
         return retVal;
     }
+    public List<Player> getTargets() {
+        List<Player> retVal = new ArrayList<>();
+        for(PlayerHistoryElement r: this.getHistoryElementList()) {
+            int j = 0;
+            while(((Object[]) r.getInput())[j] != null) {
+                if( ((Object[]) r.getInput())[j].getClass().equals(Player.class)) {
+                    if(!retVal.contains(((Object[]) r.getInput())[j])) {
+                        retVal.add((Player) ((Object[]) r.getInput())[j]);
+                    }
+                }
+                j++;
+            }
+        }
+        return retVal;
 
+    }
     public List<List<PlayerHistoryElement>> rawDataSplittenByBlockId() {
         List<List<PlayerHistoryElement>> retVal = new ArrayList<>();
         for(int i = this.getStartBlockId(); i <= this.getCurrentBlockId();i++) {
@@ -127,7 +147,7 @@ public class PlayerHistory {
     }
 
     public void addRecord(Card card,Effect e,Object input) {
-        if(lastEffect != e) {
+        if((lastEffect != e) || (owner.getTurnID() != currentTurnId)) {
             // si sta introducendo l'input di un nuovo effetto
             // il block id aumenta di 1
             // si azzera inputId
@@ -140,6 +160,7 @@ public class PlayerHistory {
         }
 
         lastEffect = e;
+        currentTurnId = owner.getTurnID();
         PlayerHistoryElement playerHistoryElement = new PlayerHistoryElement();
         playerHistoryElement.setContextCard(card);
         playerHistoryElement.setContextEffect(e);
@@ -177,6 +198,7 @@ public class PlayerHistory {
         lastEffect = null;
         currentBlockId = 0;
         currentInputId = 0;
+        currentTurnId = owner.getTurnID();
         historyElementList = new ArrayList<>();
     }
 }
