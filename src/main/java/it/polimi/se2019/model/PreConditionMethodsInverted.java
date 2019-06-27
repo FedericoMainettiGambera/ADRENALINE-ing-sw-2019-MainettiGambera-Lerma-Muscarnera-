@@ -84,102 +84,40 @@ public class PreConditionMethodsInverted {
             }
         }
         if(type.equals(typeSquare)) {
-                if(actionDetails.getUserSelectedActionDetails().getTarget() != null)
+                if(actionDetails.getUserSelectedActionDetails().getTargetList().size() > 0)
                 {
                     // target selezionato
-                    Player p = actionDetails.getUserSelectedActionDetails().getTarget();
-
-                    int left = 0;
-                    int right = 0;
-                    int up = 0;
-                    int down = 0;
-                    while( (left!=-1) && (up != -1) && (down != -1) && (right != -1) ) {
-                        int width = actionContext.getBoard().getMap()[0].length;
-                        int height = actionContext.getBoard().getMap().length;
-
-                        if(!((p.getPosition().getX() + down) >= height )) {
-                            if (actionContext.getBoard().getSquare(p.getPosition().getX() + down, p.getPosition().getY()) != null) {
-                                retVal.add(actionContext.getBoard().getSquare(p.getPosition().getX() + down, p.getPosition().getY()));
+                    Player target = actionDetails.getUserSelectedActionDetails().getTarget();
+                    for(Square[] R: actionContext.getBoard().getMap())
+                        for(Square C: R) {
+                            if(C != null) {
+                                if (
+                                        ((C.getCoordinates().getX() - target.getPosition().getX()) == 0) ||
+                                                ((C.getCoordinates().getY() - target.getPosition().getY()) == 0)
+                                )       {
+                                            retVal.add(C);
+                                         }
                             }
-                            else down = -1;
-                        } else down = -1;
-
-                        if(!((p.getPosition().getX() - up) <= 0 )) {
-                            if (actionContext.getBoard().getSquare(p.getPosition().getX() - up, p.getPosition().getY()) != null) {
-                                retVal.add(actionContext.getBoard().getSquare(p.getPosition().getX() - up, p.getPosition().getY()));
-                            }
-                            else up = -1;
-                        } else up = -1;
-
-                        if(!((p.getPosition().getY() + right) >= width )) {
-                            if (actionContext.getBoard().getSquare(p.getPosition().getX() , p.getPosition().getY() + right) != null) {
-                                retVal.add(actionContext.getBoard().getSquare(p.getPosition().getX() , p.getPosition().getY() + right));
-                            }
-                            else right = -1;
-                        } else right = -1;
-
-                        if(!((p.getPosition().getY() - left) <= 0)) {
-                            if (actionContext.getBoard().getSquare(p.getPosition().getX() , p.getPosition().getY() - left) != null) {
-                                retVal.add(actionContext.getBoard().getSquare(p.getPosition().getX() , p.getPosition().getY() - left));
-                            }
-                            else left = -1;
-                        } else left = -1;
-
-
-                        if(left != -1) left++;
-                        if(up != -1) up++;
-                        if(right != -1) right++;
-                        if(down != -1) down++;
-                    }
-                }
-                else
-                {
-                    // target non selezionato
-                    for(Player p: actionContext.getPlayerList().getPlayersOnBoard()) {
-                        int left = 0;
-                        int right = 0;
-                        int up = 0;
-                        int down = 0;
-                        while( (left!=-1) && (up != -1) && (down != -1) && (right != -1) ) {
-                            int width = actionContext.getBoard().getMap()[0].length;
-                            int height = actionContext.getBoard().getMap().length;
-
-                            if(!((p.getPosition().getX() + down) >= height )) {
-                                if (actionContext.getBoard().getSquare(p.getPosition().getX() + down, p.getPosition().getY()) != null) {
-                                    retVal.add(actionContext.getBoard().getSquare(p.getPosition().getX() + down, p.getPosition().getY()));
-                                }
-                                else down = -1;
-                            } else down = -1;
-
-                            if(!((p.getPosition().getX() - up) <= 0 )) {
-                                if (actionContext.getBoard().getSquare(p.getPosition().getX() - up, p.getPosition().getY()) != null) {
-                                    retVal.add(actionContext.getBoard().getSquare(p.getPosition().getX() - up, p.getPosition().getY()));
-                                }
-                                else up = -1;
-                            } else up = -1;
-
-                            if(!((p.getPosition().getY() + right) >= width )) {
-                                if (actionContext.getBoard().getSquare(p.getPosition().getX() , p.getPosition().getY() + right) != null) {
-                                    retVal.add(actionContext.getBoard().getSquare(p.getPosition().getX() , p.getPosition().getY() + right));
-                                }
-                                else right = -1;
-                            } else right = -1;
-
-                            if(!((p.getPosition().getY() - left) <= 0)) {
-                                if (actionContext.getBoard().getSquare(p.getPosition().getX() , p.getPosition().getY() - left) != null) {
-                                    retVal.add(actionContext.getBoard().getSquare(p.getPosition().getX() , p.getPosition().getY() - left));
-                                }
-                                else left = -1;
-                            } else left = -1;
-
-
-                            if(left != -1) left++;
-                            if(up != -1) up++;
-                            if(right != -1) right++;
-                            if(down != -1) down++;
                         }
 
-                    }
+                } else {
+                    // target non selezionato
+                    // lista dei quadrati "perpendicolari a un player"
+                    for (Square[] R : actionContext.getBoard().getMap())
+                        for (Square C : R) {
+                            if (C != null) {
+                                for(Player p: actionContext.getPlayerList().getPlayersOnBoard()) {
+                                    if (
+                                            ((C.getCoordinates().getX() - p.getPosition().getX()) == 0) ||
+                                                    ((C.getCoordinates().getY() - p.getPosition().getY()) == 0)
+                                    )       {
+                                        if(!retVal.contains(C))
+                                        retVal.add(C);
+                                    }
+                                }
+                            }
+                        }
+
                 }
         }
         return retVal;
@@ -221,11 +159,60 @@ public class PreConditionMethodsInverted {
         }
         return retVal;
     }
-    public List<Object> differentSingleTargets(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
+    public List<Object> youWillSee(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
+        List<Object> retVal = new ArrayList<>();
+        Square   newSquare   = actionDetails.getUserSelectedActionDetails().getChosenSquare();
+        if( newSquare != null) {
+            // square già selezionato
+            Position newPosition = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
+            Position oldPosition = new Position(
+                    actionContext.getPlayer().getPosition().getX(),
+                    actionContext.getPlayer().getPosition().getY()
+            );
+
+            actionContext.getPlayer().setPosition(newPosition);
+            retVal = youCanSee(actionContext, typePlayer, actionDetails, inputs, inputSlots, contextEffect);
+            actionContext.getPlayer().setPosition(oldPosition);
+        } else {
+            // square non ancora selezionato
+            if(type == typePlayer) {
+                // un player per cui esiste almeno uno square in cui è visibile
+                // --> tutti gli square
+                for(Player p: actionContext.getPlayerList().getPlayersOnBoard()) {
+                    retVal.add(p);
+                }
+            }
+            if(type == typeSquare) {
+                // uno square su cui posto il player gli rende visibile almeno un giocatore
+                for(Square[] r: actionContext.getBoard().getMap()) {
+                    for(Square c: r) {
+                        if (c != null)
+                        {
+                            // cambio posizione nel contesto da player.pos a c.coord
+                            List<Object> buffer = new ArrayList<>();
+                        Position oldPosition = new Position(
+                                actionContext.getPlayer().getPosition().getX(),
+                                actionContext.getPlayer().getPosition().getY()
+                        );
+                        actionContext.getPlayer().setPosition(c.getCoordinates());
+                        // chiamo you can see
+                        int n = youCanSee(actionContext, typePlayer, actionDetails, inputs, inputSlots, contextEffect).size() - 1; // numero di player visibili meno il player
+                        System.out.println("<SERVER> BUFFER DI YOUWILLSEE " + n);
+                        // ripristino il contesto
+                        actionContext.getPlayer().setPosition(oldPosition);
+                        // (return di you can see).size > 0 --> aggiungo C  a retVal
+                        if (n > 0) retVal.add(c);
+                        }
+                    }
+                }
+            }
+        }
+        return retVal;
+    }
+        public List<Object> differentSingleTargets(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
         List<Object> retVal = new ArrayList<>();
         if(type.equals(typePlayer)) {
             System.out.println("entro in");
-            PreConditionMethods preConditionMethods = new PreConditionMethods();
             for(Player p: actionContext.getPlayerList().getPlayersOnBoard()) {
 
 
@@ -234,6 +221,12 @@ public class PreConditionMethodsInverted {
                 retVal.add(p);
             }
             int eieCounter = 0;
+            int singleTargetCounter = 0;
+            for( EffectInfoType slot: inputSlots) {
+                if(slot == EffectInfoType.singleTarget)
+                    singleTargetCounter++;
+            }
+
             for (Object[] r : (List<Object[]>) inputs)
             {
                 System.out.println("ROW");
@@ -246,7 +239,11 @@ public class PreConditionMethodsInverted {
                 }
                 eieCounter++;
             }
+            System.out.println("@@@@@@@@@@ò" + retVal);
+            if(singleTargetCounter  < retVal.size())
             return retVal;
+            else
+                return new ArrayList<>(); // return vuoto se non ci sono abbastanza target diversi
         }
 
 
@@ -334,7 +331,8 @@ public class PreConditionMethodsInverted {
         return retVal;
     }
 
-        public List<Object> distanceFromOriginalPositionIs1 (ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
+
+    public List<Object> distanceFromOriginalPositionIs1 (ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
 
         List<Object> retVal = new ArrayList<>();
         try {
@@ -357,11 +355,19 @@ public class PreConditionMethodsInverted {
                                 ) == (1 + 0)) {
                                     // la distanza è 1
                                     // controllo che ci sia un player li sopra
-                                    for (Player P : actionContext.getPlayerList().getPlayersOnBoard()) {
-                                        if (P.getPosition().equalPositions(C.getCoordinates())) {
-                                            if (!retVal.contains(C))
+                                    /*for (Player P : actionContext.getPlayerList().getPlayersOnBoard()) {
+                                        System.out.println("testo " + P.getNickname() + " : " + P.getPosition().humanString());
+                                        if (P.getPosition().equals(C.getCoordinates())) {
+                                            System.out.println("la posizione è uguale");
+                                            if (!retVal.contains(C)) {
+                                                System.out.println("inserisco");
                                                 retVal.add(C);
+                                            }
                                         }
+                                    }*/
+                                    if (!retVal.contains(C)) {
+                                        System.out.println("inserisco");
+                                        retVal.add(C);
                                     }
                                 }
                             }
@@ -388,7 +394,7 @@ public class PreConditionMethodsInverted {
                                             retVal.add(C);
                                             System.out.println("aggiungo");
                                         }
-                                        }
+                                    }
                                 }
                             }
                         }
@@ -443,7 +449,8 @@ public class PreConditionMethodsInverted {
         return retVal;
     }
 
-        public List<Object>  distanceFromOriginalPositionLessThan2 (ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
+
+    public List<Object>  distanceFromOriginalPositionLessThan2 (ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
 
         List<Object> retVal = new ArrayList<>();
         try {
@@ -466,11 +473,19 @@ public class PreConditionMethodsInverted {
                                 ) <= (2)) {
                                     // la distanza è 1
                                     // controllo che ci sia un player li sopra
-                                    for (Player P : actionContext.getPlayerList().getPlayersOnBoard()) {
-                                        if (P.getPosition().equalPositions(C.getCoordinates())) {
-                                            if (!retVal.contains(C))
+                                    /*for (Player P : actionContext.getPlayerList().getPlayersOnBoard()) {
+                                        System.out.println("testo " + P.getNickname() + " : " + P.getPosition().humanString());
+                                        if (P.getPosition().equals(C.getCoordinates())) {
+                                            System.out.println("la posizione è uguale");
+                                            if (!retVal.contains(C)) {
+                                                System.out.println("inserisco");
                                                 retVal.add(C);
+                                            }
                                         }
+                                    }*/
+                                    if (!retVal.contains(C)) {
+                                        System.out.println("inserisco");
+                                        retVal.add(C);
                                     }
                                 }
                             }
@@ -773,6 +788,8 @@ public class PreConditionMethodsInverted {
                     System.out.println("i visibili dall'ultimo : " + p.getNickname());
                     retVal.add(p);
                 }
+                if(retVal.contains(lastTarget))
+                    retVal.remove(lastTarget);
             }
         }
         System.out.println("fine");

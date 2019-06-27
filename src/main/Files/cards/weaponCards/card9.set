@@ -24,6 +24,7 @@ SET
 END
 END
 
+
 NEW EFFECT
 EFFECT NAME
 Chain Reaction
@@ -33,31 +34,27 @@ b
 EXPECTED INPUT
 singleTarget
 TO
-ALL
+1
+END
+singleTarget
+TO
+2
 END
 END
 ACTIONS
-Action
+Damage
 ACTION INFO
 PRECONDITION
-withChainReaction
+youCanSee
+SET
+2
 END
 Damage
 ACTION INFO
 PRECONDITION
 previousTargetCanSee
 SET
-1
-END
-Action
-ACTION INFO
-PRECONDITION
-notFirstExecuted
-END
-Action
-ACTION INFO
-PRECONDITION
-notPreviousTarget
+2
 END
 END
 
@@ -70,19 +67,32 @@ b
 EXPECTED INPUT
 singleTarget
 TO
-ALL
+1
+END
+singleTarget
+TO
+2
+END
+singleTarget
+TO
+3
+4
 END
 END
 ACTIONS
-Action
+Damage
 ACTION INFO
 PRECONDITION
-notPreviousTarget
+youCanSee
+SET
+2
 END
-Action
+Damage
 ACTION INFO
 PRECONDITION
-withHighVoltage
+previousTargetCanSee
+SET
+1
 END
 Damage
 ACTION INFO
@@ -94,7 +104,6 @@ END
 Action
 ACTION INFO
 PRECONDITION
-notFirstNorSecondExecuted
+differentSingleTargets
 END
 END
-

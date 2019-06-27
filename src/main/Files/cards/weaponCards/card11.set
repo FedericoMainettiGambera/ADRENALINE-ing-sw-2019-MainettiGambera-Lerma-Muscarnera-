@@ -24,17 +24,52 @@ SET
 END
 END
 
+
+
 NEW EFFECT
 EFFECT NAME
-Phase Glide
+Shoot & Move
 EXPECTED INPUT
-player
+singleTarget
 TO
-ALL
+1
 END
 simpleSquareSelect
 TO
-ALL
+2
+END
+player
+TO
+2
+END
+END
+ACTIONS
+Damage
+ACTION INFO
+PRECONDITION
+youCanSee
+SET
+2
+END
+Move
+ACTION INFO
+PRECONDITION
+distanceFromOriginalPositionLessThan2
+END
+END
+
+NEW EFFECT
+EFFECT NAME
+xxx
+EXPECTED INPUT
+targetListBySquare
+TO
+1
+2
+END
+simpleSquareSelect
+TO
+1
 END
 END
 ACTIONS
@@ -43,7 +78,53 @@ ACTION INFO
 PRECONDITION
 distanceFromOriginalPositionLessThan2
 END
+Action
+ACTION INFO
+PRECONDITION
+moveOtherPlayer
 END
+END
+
+
+
+
+
+NEW EFFECT
+EFFECT NAME
+Move & Shoot
+EXPECTED INPUT
+player
+TO
+1
+END
+simpleSquareSelect
+TO
+1
+2
+END
+singleTarget
+TO
+2
+END
+END
+ACTIONS
+Move
+ACTION INFO
+PRECONDITION
+distanceFromOriginalPositionLessThan2
+END
+Damage
+ACTION INFO
+PRECONDITION
+youWillSee
+SET
+2
+END
+END
+
+
+
+
 
 NEW EFFECT
 EFFECT NAME
