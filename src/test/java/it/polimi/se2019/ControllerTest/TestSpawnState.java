@@ -9,20 +9,18 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 
 public class TestSpawnState{
 
-   private Game game=new Game();
    private FakeModel fakeModel=new FakeModel();
 
    @Test
     public void testSpawnState() throws IOException {
 
-       game=fakeModel.create();
-       ModelGate.model=game;
+      Game game = fakeModel.create();
+       ModelGate.model= game;
 
        PowerUpCard powerUpCard= new PowerUpCard();
        powerUpCard.setName("1");
@@ -53,8 +51,8 @@ public class TestSpawnState{
        Position pos=new Position(1,0);
 
 
-       assertEquals( pos.getX(),game.getPlayerList().getCurrentPlayingPlayer().getPosition().getX() );
-       assertEquals( pos.getY(),game.getPlayerList().getCurrentPlayingPlayer().getPosition().getY());
+       assertEquals( pos.getX(), game.getPlayerList().getCurrentPlayingPlayer().getPosition().getX() );
+       assertEquals( pos.getY(), game.getPlayerList().getCurrentPlayingPlayer().getPosition().getY());
 
 
 
