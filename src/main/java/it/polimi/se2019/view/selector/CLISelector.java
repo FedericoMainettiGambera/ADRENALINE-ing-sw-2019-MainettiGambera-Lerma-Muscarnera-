@@ -39,9 +39,9 @@ public class CLISelector implements SelectorV {
 
         int maxLenght = 10;
 
-        for (int i = 0; i < requests.size(); i++) {
-            if(requests.get(i).length()+3>maxLenght){
-                maxLenght = requests.get(i).length()+3;
+        for (String request : requests) {
+            if (request.length() + 3 > maxLenght) {
+                maxLenght = request.length() + 3;
             }
         }
 
@@ -165,11 +165,11 @@ public class CLISelector implements SelectorV {
 
         @Override
         public void run(){
-            String gameMode = "normalMode";
-            String mapChoice = "map0";
-            int numberOfStartingSkulls = 5;
-            boolean isFinalFrenzy = false;
-            boolean isBotActive = false;
+            String gameMode;
+            String mapChoice;
+            int numberOfStartingSkulls;
+            boolean isFinalFrenzy;
+            boolean isBotActive;
 
             gameMode = "normalMode";
 
@@ -201,11 +201,12 @@ public class CLISelector implements SelectorV {
             }
 
 
+
             if(canBot) {
                 System.out.println("\n<CLIENT> : Do you want to play with the Terminator active?");
                 CLISelector.showListOfRequests(Arrays.asList("Yes", "No"));
-                int Terminator = askNumber(0, 1);
-                isBotActive = Terminator == 0;
+                int terminator = askNumber(0, 1);
+                isBotActive = terminator == 0;
             }
             else {
                 isBotActive=false;
@@ -230,9 +231,9 @@ public class CLISelector implements SelectorV {
             }
 
 
-            ViewControllerEventGameSetUp VCEGameSetUp = new ViewControllerEventGameSetUp(gameMode,mapChoice,numberOfStartingSkulls,isFinalFrenzy,isBotActive);
+            ViewControllerEventGameSetUp viewControllerEventGameSetUp = new ViewControllerEventGameSetUp(gameMode,mapChoice,numberOfStartingSkulls,isFinalFrenzy,isBotActive);
 
-            ViewSelector.sendToServer(VCEGameSetUp);
+            ViewSelector.sendToServer(viewControllerEventGameSetUp);
         }
     }
 
@@ -285,10 +286,12 @@ public class CLISelector implements SelectorV {
                 case "purple":
                     color = PlayersColors.purple;
                     break;
+
+                    default: break;
             }
 
-            ViewControllerEventPlayerSetUp VCEPlayerSetUp = new ViewControllerEventPlayerSetUp(nickaname, color);
-            ViewSelector.sendToServer(VCEPlayerSetUp);
+            ViewControllerEventPlayerSetUp viewControllerEventPlayerSetUp = new ViewControllerEventPlayerSetUp(nickaname, color);
+            ViewSelector.sendToServer(viewControllerEventPlayerSetUp);
         }
     }
     /**@deprecated  */
@@ -308,9 +311,9 @@ public class CLISelector implements SelectorV {
      * collects the answer
      * and sends it to the server using a specific event*/
     private class AskFirstSpawnPosition extends Thread {
-        private ArrayList<PowerUpCardV> powerUpCards;
+        private List<PowerUpCardV> powerUpCards;
         private boolean spawnBot;
-        public  AskFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards, boolean spawnBot){
+        public  AskFirstSpawnPosition(List<PowerUpCardV> powerUpCards, boolean spawnBot){
             this.powerUpCards = powerUpCards;
             this.spawnBot=spawnBot;
         }
@@ -351,7 +354,7 @@ public class CLISelector implements SelectorV {
     /**starts a dedicated thread that manages to ask the user
      * where they want to spawn, on the base of the color of the power up discarded, on their very first turn */
     @Override
-    public void askFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards, boolean spawnBot) {
+    public void askFirstSpawnPosition(List<PowerUpCardV> powerUpCards, boolean spawnBot) {
         AskFirstSpawnPosition afsp = new AskFirstSpawnPosition(powerUpCards, spawnBot);
         afsp.start();
     }
@@ -396,8 +399,6 @@ public class CLISelector implements SelectorV {
 
             String action = requests.get(choice);
 
-            ViewControllerEventString VCEString = new ViewControllerEventString(action);
-
             ViewControllerEventString viewControllerEventString = new ViewControllerEventString(action);
 
             ViewSelector.sendToServer(viewControllerEventString);
@@ -418,8 +419,8 @@ public class CLISelector implements SelectorV {
      * collects the answer
      * and sends it to the server using a specific event*/
     private class AskBotMove extends Thread{
-        private ArrayList<Position> possiblePositions;
-        public AskBotMove(ArrayList<Position> possiblePositions){
+        private List<Position> possiblePositions;
+        public AskBotMove(List<Position> possiblePositions){
             this.possiblePositions = possiblePositions;
         }
         @Override
@@ -432,9 +433,9 @@ public class CLISelector implements SelectorV {
             }
             CLISelector.showListOfRequests(requests);
 
-            int choosenPosition = askNumber(0,possiblePositions.size()-1);
+            int chosenPosition = askNumber(0,possiblePositions.size()-1);
 
-            ViewControllerEventPosition viewControllerEventPosition = new ViewControllerEventPosition(possiblePositions.get(choosenPosition).getX(),possiblePositions.get(choosenPosition).getY());
+            ViewControllerEventPosition viewControllerEventPosition = new ViewControllerEventPosition(possiblePositions.get(chosenPosition).getX(),possiblePositions.get(chosenPosition).getY());
 
             ViewSelector.sendToServer(viewControllerEventPosition);
         }
@@ -454,8 +455,8 @@ public class CLISelector implements SelectorV {
      * collects the answer
      * and sends it to the server using a specific event*/
     private class AskRunAroundPosition extends Thread {
-        private ArrayList<Position> positions;
-        public AskRunAroundPosition(ArrayList<Position> positions){
+        private List<Position> positions;
+        public AskRunAroundPosition(List<Position> positions){
             this.positions = positions;
         }
         @Override
@@ -463,9 +464,8 @@ public class CLISelector implements SelectorV {
             out.println("\n<CLIENT> choose where to move: ");
 
             ArrayList<String> requests = new ArrayList<>();
-            for (int i = 0; i < positions.size(); i++) {
-                Position pos = positions.get(i);
-                requests.add("["+  pos.getX() + "][" + pos.getY() + "]");
+            for (Position pos : positions) {
+                requests.add("[" + pos.getX() + "][" + pos.getY() + "]");
             }
             CLISelector.showListOfRequests(requests);
 
@@ -477,7 +477,7 @@ public class CLISelector implements SelectorV {
         }
     }
     @Override
-    public void askRunAroundPosition(ArrayList<Position> positions) {
+    public void askRunAroundPosition(List<Position> positions) {
         AskRunAroundPosition arap = new AskRunAroundPosition(positions);
         arap.start();
     }
@@ -485,7 +485,7 @@ public class CLISelector implements SelectorV {
     /**starts a dedicated thread that manages to ask the user
      * where they want to go to grab*/
     @Override
-    public void askGrabStuffMove(ArrayList<Position> positions) {
+    public void askGrabStuffMove(List<Position> positions) {
         AskRunAroundPosition arap = new AskRunAroundPosition(positions);
         arap.start();
     }
@@ -500,10 +500,10 @@ public class CLISelector implements SelectorV {
             out.println("\n<CLIENT> What do you want to do?");
             CLISelector.showListOfRequests(Arrays.asList("move to another position and grab there","grab where you are without moving"));
 
-            int choosenAction = askNumber(0,1);
+            int chosenAction = askNumber(0,1);
 
             String action;
-            if(choosenAction == 0){
+            if(chosenAction == 0){
                 action = "move";
             }
             else{
@@ -533,8 +533,8 @@ public class CLISelector implements SelectorV {
      * collects the answer
      * and sends it to the server using a specific event*/
     private class AskGrabStuffGrabWeapon extends Thread {
-        private ArrayList<WeaponCardV> toPickUp;
-        public AskGrabStuffGrabWeapon(ArrayList<WeaponCardV> toPickUp){
+        private List<WeaponCardV> toPickUp;
+        public AskGrabStuffGrabWeapon(List<WeaponCardV> toPickUp){
             this.toPickUp = toPickUp;
         }
         @Override
@@ -568,7 +568,7 @@ public class CLISelector implements SelectorV {
     /**starts a dedicated thread that manages to ask the user
      * which weapon they want to pick up, if they can pick up any*/
     @Override
-    public void askGrabStuffGrabWeapon(ArrayList<WeaponCardV> toPickUp) {
+    public void askGrabStuffGrabWeapon(List<WeaponCardV> toPickUp) {
         AskGrabStuffGrabWeapon agsg = new AskGrabStuffGrabWeapon(toPickUp);
         agsg.start();
     }
@@ -581,9 +581,9 @@ public class CLISelector implements SelectorV {
      * collects the answer
      * and sends it to the server using a specific event*/
     private class AskGrabStuffSwitchWeapon extends Thread {
-        private ArrayList<WeaponCardV> toPickUp;
-        private ArrayList<WeaponCardV> toSwitch;
-        public AskGrabStuffSwitchWeapon(ArrayList<WeaponCardV> toPickUp, ArrayList<WeaponCardV> toSwitch){
+        private List<WeaponCardV> toPickUp;
+        private List<WeaponCardV> toSwitch;
+        public AskGrabStuffSwitchWeapon(List<WeaponCardV> toPickUp, List<WeaponCardV> toSwitch){
             this.toPickUp = toPickUp;
             this.toSwitch = toSwitch;
         }
@@ -638,7 +638,7 @@ public class CLISelector implements SelectorV {
     /**starts a dedicated thread that manages to ask the user
      * to swap one of their weapon with one to collect*/
     @Override
-    public void askGrabStuffSwitchWeapon(ArrayList<WeaponCardV> toPickUp, ArrayList<WeaponCardV> toSwitch) {
+    public void askGrabStuffSwitchWeapon(List<WeaponCardV> toPickUp, List<WeaponCardV> toSwitch) {
         AskGrabStuffSwitchWeapon agssw = new AskGrabStuffSwitchWeapon(toPickUp, toSwitch);
         agssw.start();
     }
@@ -650,8 +650,8 @@ public class CLISelector implements SelectorV {
      * collects the answer
      * and sends it to the server using a specific event*/
     private class AskPowerUpToDiscard extends Thread {
-        private ArrayList<PowerUpCardV> toDiscard;
-        private AskPowerUpToDiscard(ArrayList<PowerUpCardV> toDiscard){
+        private List<PowerUpCardV> toDiscard;
+        private AskPowerUpToDiscard(List<PowerUpCardV> toDiscard){
             this.toDiscard = toDiscard;
         }
         @Override
@@ -674,7 +674,7 @@ public class CLISelector implements SelectorV {
     /**starts a dedicated thread that manages to ask the user
      * which power up they want to discard*/
     @Override
-    public void askPowerUpToDiscard(ArrayList<PowerUpCardV> toDiscard) {
+    public void askPowerUpToDiscard(List<PowerUpCardV> toDiscard) {
         AskPowerUpToDiscard aputd = new AskPowerUpToDiscard(toDiscard);
         aputd.start();
     }
@@ -687,8 +687,8 @@ public class CLISelector implements SelectorV {
      * collects the answer
      * and sends it to the server using a specific event*/
     private class AskWhatReaload extends Thread {
-        private ArrayList<WeaponCardV> toReload;
-        public AskWhatReaload(ArrayList<WeaponCardV> toReload){
+        private List<WeaponCardV> toReload;
+        public AskWhatReaload(List<WeaponCardV> toReload){
             this.toReload = toReload;
         }
         @Override
@@ -722,7 +722,7 @@ public class CLISelector implements SelectorV {
     /**starts a dedicated thread that manages to ask the user
      *  which weapon they want to reload*/
     @Override
-    public void askWhatReaload(ArrayList<WeaponCardV> toReload) {
+    public void askWhatReaload(List<WeaponCardV> toReload) {
         AskWhatReaload awr = new AskWhatReaload(toReload);
         awr.start();
     }
@@ -733,8 +733,8 @@ public class CLISelector implements SelectorV {
      * sends it to the server
      * */
     private class AskSpawn extends Thread {
-        private ArrayList<PowerUpCardV> powerUpCards;
-        public AskSpawn(ArrayList<PowerUpCardV> powerUpCards){
+        private List<PowerUpCardV> powerUpCards;
+        public AskSpawn(List<PowerUpCardV> powerUpCards){
             this.powerUpCards = powerUpCards;
         }
         @Override
@@ -754,7 +754,7 @@ public class CLISelector implements SelectorV {
 
     /**starts a dedicated thread that manages to ask the user where he wants to spawn on the basis of the power up card he chooses to discard*/
     @Override
-    public void askSpawn(ArrayList<PowerUpCardV> powerUpCards) {
+    public void askSpawn(List<PowerUpCardV> powerUpCards) {
         AskSpawn as = new AskSpawn(powerUpCards);
         as.start();
     }
@@ -836,8 +836,8 @@ public class CLISelector implements SelectorV {
      * collects the answer
      * then sends it to the server using a specific event*/
     private class AskWhatWep extends Thread {
-        private ArrayList<WeaponCardV> loadedCardInHand;
-        public AskWhatWep(ArrayList<WeaponCardV> loadedCardInHand){
+        private List<WeaponCardV> loadedCardInHand;
+        public AskWhatWep(List<WeaponCardV> loadedCardInHand){
             this.loadedCardInHand = loadedCardInHand;
         }
         @Override
@@ -860,7 +860,7 @@ public class CLISelector implements SelectorV {
 
     /**starts a thread that manages to show the possible weapon for the user to use*/
     @Override
-    public void askWhatWep(ArrayList<WeaponCardV> loadedCardInHand) {
+    public void askWhatWep(List<WeaponCardV> loadedCardInHand) {
         AskWhatWep aww = new AskWhatWep(loadedCardInHand);
         aww.start();
     }
@@ -871,8 +871,8 @@ public class CLISelector implements SelectorV {
     /** implements a thread that manages to show the possible effect of a card
      * then send the answer to the server by using a specific event */
     private class AskWhatEffect extends Thread {
-        private ArrayList<EffectV> possibleEffects;
-        public AskWhatEffect(ArrayList<EffectV> possibleEffects){
+        private List<EffectV> possibleEffects;
+        public AskWhatEffect(List<EffectV> possibleEffects){
             this.possibleEffects = possibleEffects;
         }
         @Override
@@ -895,7 +895,7 @@ public class CLISelector implements SelectorV {
 
     /**starts a thread that manages to show the possible effect of a card*/
     @Override
-    public void askWhatEffect(ArrayList<EffectV> possibleEffects) {
+    public void askWhatEffect(List<EffectV> possibleEffects) {
         AskWhatEffect awe = new AskWhatEffect(possibleEffects);
         awe.start();
     }
@@ -1240,8 +1240,8 @@ public class CLISelector implements SelectorV {
             }
             CLISelector.showListOfRequests(requests);
             int choice=askNumber(0,requests.size()-1);
-            ViewControllerEventString VCE=new ViewControllerEventString(requests.get(choice));
-            ViewSelector.sendToServer(VCE);
+            ViewControllerEventString viewControllerEventString=new ViewControllerEventString(requests.get(choice));
+            ViewSelector.sendToServer(viewControllerEventString);
         }
     }
 
@@ -1337,8 +1337,8 @@ public class CLISelector implements SelectorV {
             showListOfRequests(request);
             int choice = askNumber(0, request.size()-1);
 
-            ViewControllerEventInt VCEInt = new ViewControllerEventInt(choice);
-            ViewSelector.sendToServer(VCEInt);
+            ViewControllerEventInt viewControllerEventInt = new ViewControllerEventInt(choice);
+            ViewSelector.sendToServer(viewControllerEventInt);
         }
     }
     @Override

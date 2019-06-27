@@ -46,6 +46,23 @@ public class BotMoveState implements State {
     @Override
     public void askForInput(Player playerToAsk){
 
+        calculatePossiblePositions(playerToAsk);
+
+        //ask for input
+        try {
+            SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
+            SelectorGate.getCorrectSelectorFor(playerToAsk).askBotMove(possiblePositions);
+            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+            this.inputTimer.start();
+        } catch (Exception e) {
+            logger.severe("Exception occurred  "+e.getClass()+"  "+e.getCause()+ Arrays.toString(e.getStackTrace()));
+        }
+    }
+
+    /**calculates the possible position where the bot can be moved*/
+    public void calculatePossiblePositions(Player playerToAsk){
+
+
         out.println("<SERVER> setting bot used...");
         ModelGate.model.getPlayerList().getPlayer(botNickname).setBotUsed(true);
 
@@ -62,17 +79,8 @@ public class BotMoveState implements State {
         }
         out.println("    " + toPrintln);
 
-        //ask for input
-        try {
-            SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-            SelectorGate.getCorrectSelectorFor(playerToAsk).askBotMove(possiblePositions);
-            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
-            this.inputTimer.start();
-        } catch (Exception e) {
-            logger.severe("Exception occurred  "+e.getClass()+"  "+e.getCause()+ Arrays.toString(e.getStackTrace()));
-        }
-    }
 
+    }
     /**
      * @param vce a view controller event is needed to get the correct information about where to place the bot
      * this function move the bot in the position indicated by the player who owns it during the turn
@@ -80,6 +88,17 @@ public class BotMoveState implements State {
     @Override
     public void doAction(ViewControllerEvent vce) {
         this.inputTimer.interrupt();
+
+        parseVce(vce);
+
+        //change state in botShootState passing him the next state
+        ViewControllerEventHandlerContext.setNextState(new BotShootState(this.nextState));
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+    }
+
+    /**@param vce, event that we need to extrapolate information from */
+    public void parseVce(ViewControllerEvent vce){
+
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
@@ -89,10 +108,9 @@ public class BotMoveState implements State {
         ModelGate.model.getPlayerList().getPlayer(botNickname).setPosition(vcePosition.getX(), vcePosition.getY());
         out.println("<SERVER> Bot's new position is: [" + vcePosition.getX() + "][" + vcePosition.getY() + "]");
 
-        //change state in botShootState passing him the next state
-        ViewControllerEventHandlerContext.setNextState(new BotShootState(this.nextState));
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+
     }
+
 
     /**
      * set the player AFK in case they don't send required input in a while

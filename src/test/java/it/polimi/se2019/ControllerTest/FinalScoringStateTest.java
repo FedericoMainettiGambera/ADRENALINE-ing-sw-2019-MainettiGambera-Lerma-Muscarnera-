@@ -3,9 +3,8 @@ package it.polimi.se2019.ControllerTest;
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.statePattern.FinalScoringState;
 import it.polimi.se2019.model.Game;
-;
+
 import it.polimi.se2019.model.KillShotTrack;
-import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -14,7 +13,7 @@ import static junit.framework.TestCase.assertEquals;
 
 
 public class FinalScoringStateTest {
-    private Game game = new Game();
+
     private FakeModel fakeModel = new FakeModel();
 
     @Test
@@ -30,7 +29,6 @@ public class FinalScoringStateTest {
     game.getKillshotTrack().deathOfPlayer(game.getPlayerList().getPlayer("Alex"), true);
 
    FinalScoringState state = new FinalScoringState();
-   ViewControllerEvent viewControllerEvent=null;
 
    game.getPlayerList().getPlayer("Alex").setScore(18);
    game.getPlayerList().getPlayer("B").setScore(2);

@@ -1,6 +1,5 @@
 package it.polimi.se2019.view.selector;
 
-import it.polimi.se2019.model.Effect;
 import it.polimi.se2019.model.Position;
 
 import it.polimi.se2019.model.enumerations.EffectInfoType;
@@ -19,7 +18,6 @@ import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ViewSelector implements SelectorV {
@@ -77,7 +75,7 @@ public class ViewSelector implements SelectorV {
     }
 
     @Override
-    public void askFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards, boolean spawnBot) {
+    public void askFirstSpawnPosition(List<PowerUpCardV> powerUpCards, boolean spawnBot) {
         this.getCorrectSelector().askFirstSpawnPosition(powerUpCards, spawnBot);
     }
 
@@ -87,12 +85,12 @@ public class ViewSelector implements SelectorV {
     }
 
     @Override
-    public void askBotMove(SelectorEventPositions SEPositions) {
-        this.getCorrectSelector().askBotMove(SEPositions);
+    public void askBotMove(SelectorEventPositions selectorEventPositions) {
+        this.getCorrectSelector().askBotMove(selectorEventPositions);
     }
 
     @Override
-    public void askRunAroundPosition(ArrayList<Position> positions) {
+    public void askRunAroundPosition(List<Position> positions) {
         this.getCorrectSelector().askRunAroundPosition(positions);
     }
 
@@ -102,32 +100,32 @@ public class ViewSelector implements SelectorV {
     }
 
     @Override
-    public void askGrabStuffMove(ArrayList<Position> positions) {
+    public void askGrabStuffMove(List<Position> positions) {
         this.getCorrectSelector().askGrabStuffMove(positions);
     }
 
     @Override
-    public void askGrabStuffGrabWeapon(ArrayList<WeaponCardV> toPickUp) {
+    public void askGrabStuffGrabWeapon(List<WeaponCardV> toPickUp) {
         this.getCorrectSelector().askGrabStuffGrabWeapon(toPickUp);
     }
 
     @Override
-    public void askGrabStuffSwitchWeapon(ArrayList<WeaponCardV> toPickUp, ArrayList<WeaponCardV> toSwitch) {
+    public void askGrabStuffSwitchWeapon(List<WeaponCardV> toPickUp, List<WeaponCardV> toSwitch) {
         this.getCorrectSelector().askGrabStuffSwitchWeapon(toPickUp, toSwitch);
     }
 
     @Override
-    public void askPowerUpToDiscard(ArrayList<PowerUpCardV> toDiscard) {
+    public void askPowerUpToDiscard(List<PowerUpCardV> toDiscard) {
         this.getCorrectSelector().askPowerUpToDiscard(toDiscard);
     }
 
     @Override
-    public void askWhatReaload(ArrayList<WeaponCardV> toReload) {
+    public void askWhatReaload(List<WeaponCardV> toReload) {
         this.getCorrectSelector().askWhatReaload(toReload);
     }
 
     @Override
-    public void askSpawn(ArrayList<PowerUpCardV> powerUpCards) {
+    public void askSpawn(List<PowerUpCardV> powerUpCards) {
         this.getCorrectSelector().askSpawn(powerUpCards);
     }
 
@@ -136,6 +134,7 @@ public class ViewSelector implements SelectorV {
       this.getCorrectSelector().askShootOrMove();
     }
 
+    /**@deprecated*/
     @Deprecated
     @Override
     public void askShootReloadMove() {
@@ -143,12 +142,12 @@ public class ViewSelector implements SelectorV {
     }
 
     @Override
-    public void askWhatWep(ArrayList<WeaponCardV> loadedCardInHand) {
+    public void askWhatWep(List<WeaponCardV> loadedCardInHand) {
         this.getCorrectSelector().askWhatWep(loadedCardInHand);
     }
 
     @Override
-    public void askWhatEffect(ArrayList<EffectV> possibleEffects) {
+    public void askWhatEffect(List<EffectV> possibleEffects) {
         this.getCorrectSelector().askWhatEffect(possibleEffects);
     }
 
@@ -158,8 +157,8 @@ public class ViewSelector implements SelectorV {
     }
 
     @Override
-    public void askReconnectionNickname(ReconnectionEvent RE) {
-        this.getCorrectSelector().askReconnectionNickname(RE);
+    public void askReconnectionNickname(ReconnectionEvent reconnectionEvent) {
+        this.getCorrectSelector().askReconnectionNickname(reconnectionEvent);
     }
 
     @Override
@@ -168,8 +167,8 @@ public class ViewSelector implements SelectorV {
     }
 
     @Override
-    public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformormation) {
-        this.getCorrectSelector().askPaymentInformation(SEPaymentInformormation);
+    public void askPaymentInformation(SelectorEventPaymentInformation selectorEventPaymentInformation) {
+        this.getCorrectSelector().askPaymentInformation(selectorEventPaymentInformation);
     }
 
     @Override
@@ -183,7 +182,7 @@ public class ViewSelector implements SelectorV {
     }
 
     @Override
-    public void askBotShoot(SelectorEventPlayers SEPlayers) {this.getCorrectSelector().askBotShoot(SEPlayers);}
+    public void askBotShoot(SelectorEventPlayers selectorEventPlayers) {this.getCorrectSelector().askBotShoot(selectorEventPlayers);}
 
     @Override
     public void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV) {

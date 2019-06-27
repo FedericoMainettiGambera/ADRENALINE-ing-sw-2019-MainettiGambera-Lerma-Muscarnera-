@@ -11,14 +11,13 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestGrabStaffState{
-    private Game game = new Game();
+
     private FakeModel fakeModel = new FakeModel();
 
     @Test
     public void testGrabStaffState() throws IOException{
 
-            Game game = fakeModel.create();
-            ModelGate.model=game;
+        ModelGate.model= fakeModel.create();
             ViewControllerEventString viewControllerEventString=  new ViewControllerEventString("palla");
 
             GrabStuffState state=new GrabStuffState(1);

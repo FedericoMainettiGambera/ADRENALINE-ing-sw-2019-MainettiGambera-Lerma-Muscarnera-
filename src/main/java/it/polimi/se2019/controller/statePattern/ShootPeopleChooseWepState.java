@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
+/**allow users to shoot*/
 public class ShootPeopleChooseWepState implements State {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(ShootPeopleChooseWepState.class.getName());
@@ -27,6 +28,7 @@ public class ShootPeopleChooseWepState implements State {
 
     private int actionNumber;
 
+    /**@param actionNumber needed to set the following state*/
     public ShootPeopleChooseWepState(int actionNumber){
         out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
@@ -42,13 +44,7 @@ public class ShootPeopleChooseWepState implements State {
         }
         OrderedCardList<WeaponCard> possibleCards = ModelGate.model.getCurrentPlayingPlayer().getHand().usableWeapons();
 
-        Iterator<WeaponCard> elementListIterator = possibleCards.getCards().iterator();
-        while (elementListIterator.hasNext()) {
-            WeaponCard element = elementListIterator.next();
-            if(!element.isLoaded()){
-                elementListIterator.remove();
-            }
-        }
+        possibleCards.getCards().removeIf(element -> !element.isLoaded());
 
         this.loadedCardInHand = (ArrayList)possibleCards.getCards();
 
@@ -91,7 +87,7 @@ public class ShootPeopleChooseWepState implements State {
     }
 
     @Override
-    public void doAction(ViewControllerEvent VCE){
+    public void doAction(ViewControllerEvent viewControllerEvent){
         while(this.inputTimer.isAlive()){
             this.inputTimer.interrupt();
         }
@@ -99,12 +95,12 @@ public class ShootPeopleChooseWepState implements State {
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        ViewControllerEventInt VCEInt = (ViewControllerEventInt)VCE;
+        ViewControllerEventInt viewControllerEventInt = (ViewControllerEventInt)viewControllerEvent;
 
-        out.println("<SERVER> player has chosen card with ID : " + this.loadedCardInHand.get(VCEInt.getInput()).getID());
+        out.println("<SERVER> player has chosen card with ID : " + this.loadedCardInHand.get(viewControllerEventInt.getInput()).getID());
 
         //next state
-        ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseEffectState(playerToAsk.getWeaponCardsInHand().getCard(this.loadedCardInHand.get(VCEInt.getInput()).getID()), this.actionNumber));
+        ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseEffectState(playerToAsk.getWeaponCardsInHand().getCard(this.loadedCardInHand.get(viewControllerEventInt.getInput()).getID()), this.actionNumber));
         ViewControllerEventHandlerContext.state.askForInput(this.playerToAsk);
 
     }

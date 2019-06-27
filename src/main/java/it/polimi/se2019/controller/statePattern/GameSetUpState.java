@@ -36,15 +36,8 @@ public class GameSetUpState implements State {
      * */
     @Override
     public void askForInput(Player playerToAsk) {
-        this.playerToAsk = playerToAsk;
-        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
-        out.println("<SERVER> Setting hasGameBegun to true.");
-        Game.hasGameBegun = true;
-
-        out.println("<SERVER> Setting Starting Player.");
-        ModelGate.model.getPlayerList().setStartingPlayer(playerToAsk);
-        ModelGate.model.getPlayerList().setCurrentPlayingPlayer(ModelGate.model.getPlayerList().getStartingPlayer());
+        gameHasBegun(playerToAsk);
 
         //ask for gameSetUp to the player
         try {
@@ -62,6 +55,21 @@ public class GameSetUpState implements State {
         }
     }
 
+    public void gameHasBegun(Player playerToAsk){
+
+        this.playerToAsk = playerToAsk;
+
+        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+
+        out.println("<SERVER> Setting hasGameBegun to true.");
+        Game.hasGameBegun = true;
+
+        out.println("<SERVER> Setting Starting Player.");
+        ModelGate.model.getPlayerList().setStartingPlayer(playerToAsk);
+        ModelGate.model.getPlayerList().setCurrentPlayingPlayer(ModelGate.model.getPlayerList().getStartingPlayer());
+
+
+    }
 
     /**
      * this doAction initialize the Game as indicated in
@@ -73,7 +81,25 @@ public class GameSetUpState implements State {
      * */
     @Override
     public void doAction(ViewControllerEvent viewControllerEvent){
+
         this.inputTimer.interrupt();
+
+        gameSetUp(viewControllerEvent);
+
+        createDecks();
+
+        preparePlayers();
+
+        //setting next State
+        ViewControllerEventHandlerContext.setNextState(new FirstSpawnState());
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+    }
+
+    /**set up the game extrapolating the information needed from
+     * @param viewControllerEvent, which contains the options chosen by the starting player*/
+
+    public void gameSetUp(ViewControllerEvent viewControllerEvent){
+
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
@@ -87,15 +113,15 @@ public class GameSetUpState implements State {
             ModelGate.model.setBoard(new Board(viewControllerEventGameSetUp.getMapChoice(), ModelGate.model.getSocketVirtualView(), ModelGate.model.getRMIVirtualView()));
         }
         catch (IOException|NullPointerException e){
-           logger.severe("Creating map went wrong"+e.getCause()+ Arrays.toString(e.getStackTrace()));
+            logger.severe("Creating map went wrong"+e.getCause()+ Arrays.toString(e.getStackTrace()));
 
         }
 
         out.println("<SERVER> MAP: \n" + ModelGate.model.getBoard().toString());
 
         out.println("<SERVER> Creating Killshot Track with " +
-                            viewControllerEventGameSetUp.getNumberOfStartingSkulls() +
-                            " number of starting skulls.");
+                viewControllerEventGameSetUp.getNumberOfStartingSkulls() +
+                " number of starting skulls.");
         ModelGate.model.setKillshotTrack(new KillShotTrack(viewControllerEventGameSetUp.getNumberOfStartingSkulls(), ModelGate.model.getSocketVirtualView(), ModelGate.model.getRMIVirtualView()));
 
         out.println("<SERVER> Setting Final Frenzy: " + viewControllerEventGameSetUp.isFinalFrezy());
@@ -109,28 +135,11 @@ public class GameSetUpState implements State {
         else {
             ModelGate.model.setBotActive(false);
         }
-
-        //registering VV as Observer of the Decks
-        ModelGate.model.getWeaponDeck().addObserver(ModelGate.model.getSocketVirtualView());
-        ModelGate.model.getWeaponDeck().addObserver(ModelGate.model.getRMIVirtualView());
-
-        ModelGate.model.getPowerUpDeck().addObserver(ModelGate.model.getSocketVirtualView());
-        ModelGate.model.getPowerUpDeck().addObserver(ModelGate.model.getRMIVirtualView());
-
-        ModelGate.model.getAmmoDeck().addObserver(ModelGate.model.getSocketVirtualView());
-        ModelGate.model.getAmmoDeck().addObserver(ModelGate.model.getRMIVirtualView());
-
-
-        createDecks();
-
-        preparePlayers();
-
-        //setting next State
-        ViewControllerEventHandlerContext.setNextState(new FirstSpawnState());
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 
-    /**set the players ready to play*/
+
+
+    /**set players ready to play*/
     public void preparePlayers(){
 
         for (Player p :ModelGate.model.getPlayerList().getPlayers()) {
@@ -138,10 +147,14 @@ public class GameSetUpState implements State {
             if (!p.isBot()){
 
                 out.println("<SERVER> Adding Observers to the Player weapons and power ups");
-                p.getWeaponCardsInHand().addObserver(ModelGate.model.getSocketVirtualView());
-                p.getWeaponCardsInHand().addObserver(ModelGate.model.getRMIVirtualView());
-                p.getPowerUpCardsInHand().addObserver(ModelGate.model.getSocketVirtualView());
-                p.getWeaponCardsInHand().addObserver(ModelGate.model.getRMIVirtualView());
+             if((ModelGate.model.getSocketVirtualView()!=null)) {
+                    p.getWeaponCardsInHand().addObserver(ModelGate.model.getSocketVirtualView());
+                    p.getPowerUpCardsInHand().addObserver(ModelGate.model.getSocketVirtualView());
+                }
+                if(ModelGate.model.getRMIVirtualView()!=null){
+                    p.getWeaponCardsInHand().addObserver(ModelGate.model.getRMIVirtualView());
+                    p.getWeaponCardsInHand().addObserver(ModelGate.model.getRMIVirtualView());
+                }
 
                 //draw two power up cards
                 out.println("<SERVER> draw two power up cards.");
@@ -163,6 +176,21 @@ public class GameSetUpState implements State {
 
     /**create Decks, shuffle them and place the cards on the Board*/
     public void createDecks(){
+
+        //registering VV as Observer of the Decks
+        if((ModelGate.model.getSocketVirtualView()!=null)){
+            ModelGate.model.getWeaponDeck().addObserver(ModelGate.model.getSocketVirtualView());
+            ModelGate.model.getPowerUpDeck().addObserver(ModelGate.model.getSocketVirtualView());
+            ModelGate.model.getAmmoDeck().addObserver(ModelGate.model.getSocketVirtualView());
+        }
+
+        if(ModelGate.model.getRMIVirtualView()!=null){
+            ModelGate.model.getWeaponDeck().addObserver(ModelGate.model.getRMIVirtualView());
+            ModelGate.model.getPowerUpDeck().addObserver(ModelGate.model.getRMIVirtualView());
+            ModelGate.model.getAmmoDeck().addObserver(ModelGate.model.getRMIVirtualView());
+        }
+
+
         out.println("<SERVER> Building decks.");
 
         ModelGate.model.buildDecks();

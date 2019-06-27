@@ -21,27 +21,27 @@ public interface SelectorV {
     @Deprecated
      void askPlayerSetUp();
 
-     void askFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards, boolean spawnBot);
+     void askFirstSpawnPosition(List<PowerUpCardV> powerUpCards, boolean spawnBot);
 
      void askTurnAction(int actionNumber, boolean canUsePowerUp, boolean canUseBot);
 
      void askBotMove(SelectorEventPositions selectorEventPositions);
 
-     void askRunAroundPosition(ArrayList<Position> positions);
+     void askRunAroundPosition(List<Position> positions);
 
      void askGrabStuffAction();
 
-     void askGrabStuffMove(ArrayList<Position> positions);
+     void askGrabStuffMove(List<Position> positions);
 
-     void askGrabStuffGrabWeapon(ArrayList<WeaponCardV> toPickUp);
+     void askGrabStuffGrabWeapon(List<WeaponCardV> toPickUp);
 
-     void askGrabStuffSwitchWeapon(ArrayList<WeaponCardV> toPickUp, ArrayList<WeaponCardV> toSwitch);
+     void askGrabStuffSwitchWeapon(List<WeaponCardV> toPickUp, List<WeaponCardV> toSwitch);
 
-     void askPowerUpToDiscard(ArrayList<PowerUpCardV> toDiscard);
+     void askPowerUpToDiscard(List<PowerUpCardV> toDiscard);
 
-     void askWhatReaload(ArrayList<WeaponCardV> toReload);
+     void askWhatReaload(List<WeaponCardV> toReload);
 
-     void askSpawn(ArrayList<PowerUpCardV> powerUpCards);
+     void askSpawn(List<PowerUpCardV> powerUpCards);
 
      void askShootOrMove();
 
@@ -51,9 +51,9 @@ public interface SelectorV {
     @Deprecated
      void askShootReloadMove();
 
-     void askWhatWep(ArrayList<WeaponCardV> loadedCardInHand);
+     void askWhatWep(List<WeaponCardV> loadedCardInHand);
 
-     void askWhatEffect(ArrayList<EffectV> possibleEffects);
+     void askWhatEffect(List<EffectV> possibleEffects);
 
      void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs);
 
