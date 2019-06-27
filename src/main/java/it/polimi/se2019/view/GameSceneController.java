@@ -223,6 +223,7 @@ public class GameSceneController implements Initializable {
         //initialize everything
         //      1) all css classes to the corresponding element (we'll manipulates images with css classes)
         //      2) initialize the canvas
+        //      3) add everything that is already setted in the ViewModel (for example the PlayerList, the current State, Timers, etc...)
     }
 
 
