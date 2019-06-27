@@ -3,11 +3,44 @@ XXX
 RELOAD COST
 y
 1
+
 NEW EFFECT
+EFFECT NAME
+danno gratis
 EXPECTED INPUT
+singleTarget
+TO
+ALL
+END
 simpleSquareSelect
 TO
 ALL
+END
+END
+ACTIONS
+Damage
+ACTION INFO
+PRECONDITION
+distanceFromOriginalPositionIs1
+SET
+1
+END
+END
+
+
+NEW EFFECT
+EXPECTED INPUT
+singleTarget
+TO
+1
+END
+singleTarget
+TO
+2
+END
+singleTarget
+TO
+3
 END
 END
 ACTIONS
@@ -15,6 +48,20 @@ Action
 ACTION INFO
 PRECONDITION
 alwaysTrue
+SET
+2
+END
+Action
+ACTION INFO
+PRECONDITION
+differentSingleTargets
+SET
+2
+END
+Action
+ACTION INFO
+PRECONDITION
+differentSingleTargets
 SET
 2
 END
