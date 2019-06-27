@@ -17,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 
 
 public class GUIOutputHandler extends Application implements OutputHandlerInterface{
+    //TODO EVERYTHING THAT CHANGES THE GUI (that in this class is litterally everything) must be done with Worker (Task & Service)
+    //     if you don't do it you'll receive java.lang.IllegalStateException: Not on FX application thread.
 
     private FXMLLoader fxmlLoader;
 

@@ -220,6 +220,9 @@ public class GameSceneController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //initialize everything
+        //      1) all css classes to the corresponding element (we'll manipulates images with css classes)
+        //      2) initialize the canvas
     }
 
 
