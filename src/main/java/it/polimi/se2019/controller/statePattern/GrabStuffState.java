@@ -54,14 +54,8 @@ public class GrabStuffState implements State {
     @Override
     public void doAction(ViewControllerEvent viewControllerEvent) {
         this.inputTimer.interrupt();
-        out.println("<SERVER> player has answered before the timer ended.");
 
-        out.println("<SERVER> "+ this.getClass() +".doAction();");
-
-        ViewControllerEventString viewControllerEventString = (ViewControllerEventString)viewControllerEvent;
-        String choice = viewControllerEventString.getInput();
-
-        out.println("<SERVER> Player's choice: " + choice);
+        String choice= readInput(viewControllerEvent);
 
         if(choice.equals("move")){
             ViewControllerEventHandlerContext.setNextState(new GrabStuffStateMove(this.actionNumber));
@@ -76,6 +70,21 @@ public class GrabStuffState implements State {
         }
     }
 
+    /**@param viewControllerEvent, this function extrapolate the needed info from the event*/
+    public String readInput(ViewControllerEvent viewControllerEvent){
+
+        out.println("<SERVER> player has answered before the timer ended.");
+
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
+
+        ViewControllerEventString viewControllerEventString = (ViewControllerEventString)viewControllerEvent;
+        String choice = viewControllerEventString.getInput();
+
+        out.println("<SERVER> Player's choice: " + choice);
+
+        return choice;
+
+    }
     /**
      * set the player AFK in case they don't send required input in a while
      * */

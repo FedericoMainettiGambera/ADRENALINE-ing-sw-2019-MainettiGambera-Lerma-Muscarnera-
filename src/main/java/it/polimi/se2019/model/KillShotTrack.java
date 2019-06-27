@@ -29,10 +29,14 @@ public class KillShotTrack extends Observable implements Serializable {
      * @param numberOfStartingSkulls
      * as many skulls as indicated by number
      * */
-    public KillShotTrack(int numberOfStartingSkulls, VirtualView VVSocket, VirtualView VVRMI){
+    public KillShotTrack(int numberOfStartingSkulls, VirtualView vvSocket, VirtualView vvRmi){
 
-        this.addObserver(VVSocket);
-        this.addObserver(VVRMI);
+        if(vvSocket!=null){
+            this.addObserver(vvSocket);
+        }
+        if(vvRmi!=null) {
+            this.addObserver(vvRmi);
+        }
 
         kills = new ArrayList<>();
 
