@@ -26,17 +26,20 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     public void updateUserInterface(String message) {
         System.out.println(message);
     }
-/**inform the right client that the Game and the PlayerList have been initialized*/
+
+    /**inform the right client that the Game and the PlayerList have been initialized*/
     @Override
     public void gameCreated() {
         updateUserInterface("<CLIENT> created GameV and PlayerListV");
     }
-/** Anytime a client changes his state, every client gets to know it */
+
+    /** Anytime a client changes his state, every client gets to know it */
     @Override
     public void stateChanged(StateEvent stateEvent) {
         updateUserInterface("<CLIENT> state changed: " + stateEvent.getState());
     }
-/***/
+
+    /***/
     @Override
     public void setFinalFrenzy(ModelViewEvent modelViewEvent) {
         updateUserInterface(clientMve + modelViewEvent.getInformation());

@@ -1,5 +1,7 @@
 package it.polimi.se2019.view;
 
+import it.polimi.se2019.model.events.Event;
+import it.polimi.se2019.view.selector.ViewSelector;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -26,6 +28,7 @@ public class GameSceneController implements Initializable {
     //1-selector section
     @FXML
     private AnchorPane selectorSection;
+    @FXML private Label selectorLabel;
     //create at run time... TODO.
 
     //------------------------------2
@@ -45,6 +48,7 @@ public class GameSceneController implements Initializable {
     //1-state section
     @FXML
     private AnchorPane stateSection;
+    @FXML private Label stateLabel;
     //... TODO.
 
 
@@ -226,5 +230,27 @@ public class GameSceneController implements Initializable {
         //      3) add everything that is already setted in the ViewModel (for example the PlayerList, the current State, Timers, etc...)
     }
 
+    private void sendToServer(Event event){
+        (new SendToServerThread(event)).start();
+    }
+    private class SendToServerThread extends Thread{
+        private Event event;
+        private SendToServerThread(Event event){
+            this.event = event ;
+        }
+        @Override
+        public void run(){
+            ViewSelector.sendToServer(this.event);
+        }
+    }
+
+
+    public void updateStateLabel(String state){
+        this.stateLabel.setText(state);
+    }
+
+    public void updateSelectorLabel(String request){
+        this.selectorLabel.setText(request);
+    }
 
 }
