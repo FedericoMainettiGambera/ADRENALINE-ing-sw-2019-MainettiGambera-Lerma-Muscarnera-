@@ -97,7 +97,7 @@ public class GameSceneController implements Initializable {
     private VBox powerUpCardsVBox;
     //3.1.1.1-power up cards title
     @FXML private StackPane powerUpCardsTitle;
-    //3.1.1.2-power up cards images;
+    //3.1.1.2-power up cards images
     @FXML private HBox powerUpCardsBackground;
     @FXML private StackPane powerUpCardBackground1;
     @FXML private StackPane powerUpCardMainImage1;
@@ -200,7 +200,7 @@ public class GameSceneController implements Initializable {
     private VBox weaponCardsVBox;
     //3.1.3.1-weapon cards title
     @FXML private StackPane weaponCardsTitle;
-    //3.1.3.2-weapon cards images;
+    //3.1.3.2-weapon cards images
     @FXML private HBox weaponCardsBackground;
     @FXML private StackPane weaponCardBackground1;
     @FXML private StackPane weaponCardMainImage1;
