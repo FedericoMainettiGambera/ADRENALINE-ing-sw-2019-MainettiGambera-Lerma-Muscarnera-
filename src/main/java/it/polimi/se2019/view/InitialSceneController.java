@@ -52,6 +52,10 @@ public class InitialSceneController implements Initializable {
 
     @FXML
     public void onStartButtonPressed() throws IOException {
+        //TODO probably clicking the button will freezy temporary the gui because it is tryin to do others stuff
+        //     so you should do all of this in a separate thread, probably works fine using only Platform.runLater(...)
+        //     if Platform.runLater() doesn't work, make some research about the javafx.concurrent.Task Class, it may help you
+        //     otherwise you should use Task and Service to do the work (optimal solution!!)
         //disable buttons
         this.startButton.setDisable(true);
         this.reconnectHyperlink.setDisable(true);

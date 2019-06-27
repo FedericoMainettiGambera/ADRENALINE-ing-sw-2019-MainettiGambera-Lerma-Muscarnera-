@@ -15,8 +15,6 @@ import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import java.util.concurrent.TimeUnit;
 
-import static it.polimi.se2019.view.LoadingSceneController.progressionBarGoal;
-
 
 public class GUIOutputHandler extends Application implements OutputHandlerInterface{
 
@@ -66,7 +64,7 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
         if(stateEvent.getState().contains("GameSetUpState")){
             while(true) {
                 if (GUIstarter.stageController.getClass().toString().contains("LoadingSceneController")) {
-                    ((LoadingSceneController)GUIstarter.stageController).changeScene("FXML/GAMESCENE1.fxml");
+                    ((LoadingSceneController)GUIstarter.stageController).changeScene("UNUSED/GAMESCENE1.fxml");
                     break;
                 } else {
                     try {

@@ -4,6 +4,8 @@ package it.polimi.se2019.view;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -11,13 +13,11 @@ import java.util.ResourceBundle;
 public class GameSceneController implements Initializable {
 
     @FXML
-    private GridPane gridPaneMap;
+    private HBox root;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
 
-    public void fixRatioMap(){
-        gridPaneMap.prefHeightProperty().bind(gridPaneMap.widthProperty().multiply(0.75));
-    }
+
 }
