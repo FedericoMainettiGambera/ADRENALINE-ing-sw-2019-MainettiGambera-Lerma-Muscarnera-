@@ -173,7 +173,7 @@ public class InitialSceneController implements Initializable {
 
     @FXML
     public void onReconnectionPressed(){
-        //TODO
+        //TODO delete (?)
     }
 
     @FXML
