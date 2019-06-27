@@ -177,7 +177,7 @@ public class LoadingSceneController implements Initializable {
                     return;
                 }
                 GUIstarter.stageController=fxmlLoader.getController();
-                Scene scene = new Scene(root);
+                Scene scene = new Scene(root, 1200, 900);
                 scene.setFill(Color.BLACK);
 
                 //hide old stage

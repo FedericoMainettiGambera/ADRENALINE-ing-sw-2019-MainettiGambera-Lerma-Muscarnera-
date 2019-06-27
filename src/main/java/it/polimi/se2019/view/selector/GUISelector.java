@@ -35,7 +35,21 @@ public class GUISelector implements SelectorV {
 
     @Override
     public void askGameSetUp(boolean canBot) {
+        //ask map
+        //ask FF active or not
+        //if(canBot) ask bot active or not
+        //ask number of starting skulls
+        //send ViewControllerEventGameSetUp with correct informations
 
+        //to do this stuffs you should use a Thread that modify the GUI, but the only way to modify the GUI is from the JavaFx Application Thread
+        // so you should public static void runLater(Runnable runnable) !!! read this and try it !!
+        //Run the specified Runnable on the JavaFX Application Thread at some unspecified time in the future. This method, which may be called from any thread,
+        // will post the Runnable to an event queue and then return immediately to the caller. The Runnables are executed in the order they are posted. A runnable
+        // passed into the runLater method will be executed before any Runnable passed into a subsequent call to runLater. If this method is called after the JavaFX
+        // runtime has been shutdown, the call will be ignored: the Runnable will not be executed and no exception will be thrown.
+        //NOTE: applications should avoid flooding JavaFX with too many pending Runnables. Otherwise, the application may become unresponsive. Applications are
+        // encouraged to batch up multiple operations into fewer runLater calls. Additionally, long-running operations should be done on a background thread where
+        // possible, freeing up the JavaFX Application Thread for GUI operations.
     }
 
     @Deprecated

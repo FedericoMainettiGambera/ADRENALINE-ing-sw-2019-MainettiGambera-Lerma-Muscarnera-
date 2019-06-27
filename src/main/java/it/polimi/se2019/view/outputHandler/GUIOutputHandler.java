@@ -63,12 +63,13 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
 
     @Override
     public void stateChanged(StateEvent stateEvent) {
+        //ps really bad code
         if(stateEvent.getState().contains("GameSetUpState")){
             while(true) {
                 if (GUIstarter.stageController.getClass().toString().contains("LoadingSceneController")) {
                     ((LoadingSceneController)GUIstarter.stageController).changeScene("FXML/GAME.fxml");
                     break;
-                } else {
+                } else { //wait because some times the event sent from the server is faster than the process of changing scene in javafx
                     try {
                         TimeUnit.MILLISECONDS.sleep(300);
                     } catch (InterruptedException e) {
@@ -103,7 +104,7 @@ public class GUIOutputHandler extends Application implements OutputHandlerInterf
                 ((LoadingSceneController) GUIstarter.stageController).newPlayersList(modelViewEvent);
                 done = true;
             }
-            else{
+            else{ //wait because some times the event sent from the server is faster than the process of changing scene in javafx
                 try {
                     TimeUnit.MILLISECONDS.sleep(300);
                 } catch (InterruptedException e) {
