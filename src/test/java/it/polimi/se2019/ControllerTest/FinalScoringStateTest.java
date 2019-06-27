@@ -3,9 +3,8 @@ package it.polimi.se2019.ControllerTest;
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.statePattern.FinalScoringState;
 import it.polimi.se2019.model.Game;
-;
+
 import it.polimi.se2019.model.KillShotTrack;
-import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import org.junit.Test;
 
 import java.io.IOException;

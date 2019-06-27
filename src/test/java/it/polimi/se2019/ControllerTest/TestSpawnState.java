@@ -6,7 +6,6 @@ import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
 import org.junit.Test;
-
 import java.io.IOException;
 import java.util.ArrayList;
 

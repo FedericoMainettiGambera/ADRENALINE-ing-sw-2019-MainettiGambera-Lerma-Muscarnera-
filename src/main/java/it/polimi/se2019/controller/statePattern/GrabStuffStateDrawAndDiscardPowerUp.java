@@ -37,15 +37,8 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
      * @param playerToAsk holds the current playing player*/
     @Override
     public void askForInput(Player playerToAsk) {
-        this.playerToAsk = playerToAsk;
-        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
-        //draw a new power up
-        out.println("<Server> The player draws a power up: " + ModelGate.model.getPowerUpDeck().getFirstCard().getID());
-        ModelGate.model.getPowerUpDeck().moveCardTo(
-                playerToAsk.getPowerUpCardsInHand(),
-                ModelGate.model.getPowerUpDeck().getFirstCard().getID()
-        );
+        drawANewPowerUp(playerToAsk);
 
         //ask which power up to discard
         try {
@@ -58,6 +51,21 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
         }
     }
 
+    /**@param playerToAsk, make the player to ask draw a new power up*/
+    public void drawANewPowerUp(Player playerToAsk){
+
+        this.playerToAsk = playerToAsk;
+        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+
+        //draw a new power up
+        out.println("<Server> The player draws a power up: " + ModelGate.model.getPowerUpDeck().getFirstCard().getID());
+        ModelGate.model.getPowerUpDeck().moveCardTo(
+                playerToAsk.getPowerUpCardsInHand(),
+                ModelGate.model.getPowerUpDeck().getFirstCard().getID()
+        );
+
+    }
+
     /**once the player has made their choices, we can handle them using a
      * @param viewControllerEvent as parameter to discern what to do
      *this function will let the player discards the power up he prefers
@@ -66,19 +74,10 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
      * */
     @Override
     public void doAction(ViewControllerEvent viewControllerEvent) {
+
         this.inputTimer.interrupt();
-        out.println("<SERVER> player has answered before the timer ended.");
 
-        out.println("<SERVER> "+ this.getClass() +".doAction();");
-
-        ViewControllerEventInt viewControllerEventInt = (ViewControllerEventInt)viewControllerEvent;
-
-        //discard power up
-        out.println("<SERVER> The player discards power up: " + ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().get(viewControllerEventInt.getInput()).getID());
-        ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
-                ModelGate.model.getPowerUpDiscardPile(),
-                ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().get(viewControllerEventInt.getInput()).getID()
-        );
+        discardPowerUp(viewControllerEvent);
 
         //set next state
 
@@ -98,6 +97,24 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
             ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
         }
+    }
+
+    /**@param viewControllerEvent, this function extrapolates from the event the power up the player wants to discard*/
+    public void discardPowerUp(ViewControllerEvent viewControllerEvent){
+
+        out.println("<SERVER> player has answered before the timer ended.");
+
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
+
+        ViewControllerEventInt viewControllerEventInt = (ViewControllerEventInt)viewControllerEvent;
+
+        //discard power up
+        out.println("<SERVER> The player discards power up: " + ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().get(viewControllerEventInt.getInput()).getID());
+        ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
+                ModelGate.model.getPowerUpDiscardPile(),
+                ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().get(viewControllerEventInt.getInput()).getID()
+        );
+
     }
 
     /**
