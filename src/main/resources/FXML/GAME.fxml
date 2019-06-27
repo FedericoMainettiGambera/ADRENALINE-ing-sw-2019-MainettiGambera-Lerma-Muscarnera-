@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox fx:id="root" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../CSS/styleGame.css" fx:controller="it.polimi.se2019.view.GameSceneController">
+<HBox fx:id="root" stylesheets="@../CSS/styleGame.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.GameSceneController">
    <children>
       <AnchorPane fx:id="gameSection" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="641.0" prefWidth="782.0" HBox.hgrow="ALWAYS">
          <children>
@@ -115,7 +115,7 @@
                   </HBox>
                   <AnchorPane fx:id="playerSection" minHeight="250.0" VBox.vgrow="SOMETIMES">
                      <children>
-                        <HBox fx:id="playerHBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="500.0" prefHeight="151.0" prefWidth="642.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <HBox fx:id="playerHBox" minHeight="-Infinity" minWidth="500.0" prefHeight="151.0" prefWidth="642.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <VBox fx:id="powerUpCardsVBox" minWidth="100.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                  <children>
@@ -148,7 +148,7 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <GridPane fx:id="playerStats" layoutX="344.0" layoutY="10.0" minWidth="250.0" prefHeight="341.0" prefWidth="537.0">
+                              <GridPane fx:id="playerStats" layoutX="344.0" layoutY="10.0" minWidth="300.0" HBox.hgrow="ALWAYS">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="ALWAYS" maxWidth="476.0" minWidth="10.0" prefWidth="476.0" />
                                     <ColumnConstraints hgrow="ALWAYS" maxWidth="336.0" minWidth="10.0" prefWidth="215.0" />
@@ -516,25 +516,25 @@
                                        <children>
                                           <StackPane fx:id="weaponCardBackground1" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <StackPane  fx:id="weaponCardMainImage1" >
+                                                <StackPane fx:id="weaponCardMainImage1">
                                                    <children>
                                                       <Label text="WEP1" />
                                                    </children>
                                                 </StackPane>
                                              </children>
                                           </StackPane>
-                                          <StackPane  fx:id="weaponBackground2" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                          <StackPane fx:id="weaponBackground2" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <StackPane fx:id="weaponCardMainImage2" >
+                                                <StackPane fx:id="weaponCardMainImage2">
                                                    <children>
                                                       <Label text="WEP2" />
                                                    </children>
                                                 </StackPane>
                                              </children>
                                           </StackPane>
-                                          <StackPane  fx:id="weaponBackground3" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                          <StackPane fx:id="weaponBackground3" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <StackPane fx:id="weaponCardMainImage3" >
+                                                <StackPane fx:id="weaponCardMainImage3">
                                                    <children>
                                                       <Label text="WEP3" />
                                                    </children>
