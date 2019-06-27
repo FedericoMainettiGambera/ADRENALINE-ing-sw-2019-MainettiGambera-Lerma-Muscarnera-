@@ -13,6 +13,7 @@ import it.polimi.se2019.view.components.PowerUpCardV;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**Implements the spawn of the players who died*/
@@ -23,12 +24,12 @@ public class SpawnState implements State {
 
     private Player playerToSpawn;
 
-    private ArrayList<Player> deadPlayers;
+    private List<Player> deadPlayers;
 
     private Thread inputTimer;
 
 
-    public SpawnState(ArrayList<Player> deadPlayers){
+    public SpawnState(List<Player> deadPlayers){
         out.println("<SERVER> New state: " + this.getClass());
         this.deadPlayers = deadPlayers;
     }

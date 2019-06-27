@@ -31,9 +31,24 @@ public class FFSetUpState implements State {
      * 2
      * we also need to set a dedicated attributed - BeforeorafterStartingPlayer -  in order to understand whether a player will play before of after the starting player, this fact
      * will make all the difference: the action one can unblock are determined by that attribute!
+     *
+     * @param vce null, we don't need any input
      * */
     @Override
     public void doAction(ViewControllerEvent vce) {
+
+        prepareForFF();
+
+        //pass the turn
+        ModelGate.model.getPlayerList().setNextPlayingPlayer();
+
+        ViewControllerEventHandlerContext.setNextState(new TurnState(1));
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+
+    }
+
+    public void prepareForFF(){
+
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ModelGate.model.triggerFinalFrenzy(true);
@@ -80,12 +95,6 @@ public class FFSetUpState implements State {
                 position++;
             }
         }
-
-        //pass the turn
-        ModelGate.model.getPlayerList().setNextPlayingPlayer();
-
-        ViewControllerEventHandlerContext.setNextState(new TurnState(1));
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
 
     }
 

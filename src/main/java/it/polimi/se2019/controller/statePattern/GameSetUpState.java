@@ -120,7 +120,49 @@ public class GameSetUpState implements State {
         ModelGate.model.getAmmoDeck().addObserver(ModelGate.model.getSocketVirtualView());
         ModelGate.model.getAmmoDeck().addObserver(ModelGate.model.getRMIVirtualView());
 
-        //create cards
+
+        createDecks();
+
+        preparePlayers();
+
+        //setting next State
+        ViewControllerEventHandlerContext.setNextState(new FirstSpawnState());
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+    }
+
+    /**set the players ready to play*/
+    public void preparePlayers(){
+
+        for (Player p :ModelGate.model.getPlayerList().getPlayers()) {
+
+            if (!p.isBot()){
+
+                out.println("<SERVER> Adding Observers to the Player weapons and power ups");
+                p.getWeaponCardsInHand().addObserver(ModelGate.model.getSocketVirtualView());
+                p.getWeaponCardsInHand().addObserver(ModelGate.model.getRMIVirtualView());
+                p.getPowerUpCardsInHand().addObserver(ModelGate.model.getSocketVirtualView());
+                p.getWeaponCardsInHand().addObserver(ModelGate.model.getRMIVirtualView());
+
+                //draw two power up cards
+                out.println("<SERVER> draw two power up cards.");
+                for (int i = 0; i < 2; i++) {
+                    ModelGate.model.getPowerUpDeck().moveCardTo(
+                            p.getPowerUpCardsInHand(),
+                            ModelGate.model.getPowerUpDeck().getFirstCard().getID()
+                    );
+                }
+
+                //set starting ammocubes
+                out.println("<SERVER> setting starting ammo cubes");
+                for (AmmoCubesColor color : AmmoCubesColor.values()) {
+                    p.getPlayerBoard().addAmmoCubes(color, GameConstant.NumberOfStartingAmmos);
+                }
+            }
+        }
+    }
+
+    /**create Decks, shuffle them and place the cards on the Board*/
+    public void createDecks(){
         out.println("<SERVER> Building decks.");
 
         ModelGate.model.buildDecks();
@@ -161,34 +203,8 @@ public class GameSetUpState implements State {
             }
         }
 
-        for (Player p :ModelGate.model.getPlayerList().getPlayers()) {
-            if (!p.isBot()){
 
-                out.println("<SERVER> Adding Observers to the Player weapons and power ups");
-                p.getWeaponCardsInHand().addObserver(ModelGate.model.getSocketVirtualView());
-                p.getWeaponCardsInHand().addObserver(ModelGate.model.getRMIVirtualView());
-                p.getPowerUpCardsInHand().addObserver(ModelGate.model.getSocketVirtualView());
-                p.getWeaponCardsInHand().addObserver(ModelGate.model.getRMIVirtualView());
 
-                //draw two power up cards
-                out.println("<SERVER> draw two power up cards.");
-                for (int i = 0; i < 2; i++) {
-                    ModelGate.model.getPowerUpDeck().moveCardTo(
-                            p.getPowerUpCardsInHand(),
-                            ModelGate.model.getPowerUpDeck().getFirstCard().getID()
-                    );
-                }
-
-                //set starting ammocubes
-                out.println("<SERVER> setting starting ammo cubes");
-                for (AmmoCubesColor color : AmmoCubesColor.values()) {
-                    p.getPlayerBoard().addAmmoCubes(color, GameConstant.NumberOfStartingAmmos);
-                }
-            }
-        }
-        //setting next State
-        ViewControllerEventHandlerContext.setNextState(new FirstSpawnState());
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 
     /**
