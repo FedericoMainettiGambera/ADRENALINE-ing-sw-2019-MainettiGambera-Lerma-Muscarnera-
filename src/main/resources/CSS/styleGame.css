@@ -1,0 +1,64 @@
+/*
+GENERAL CLASSES
+ */
+
+
+/*
+SPECIFIC CLASSES
+ */
+
+/*------------------------------------------------------------------*/
+/*interactive section*/
+
+        /*------------------------------1*/
+        /*1-selector section*/
+
+        /*------------------------------2*/
+        /*2-information section*/
+
+/*------------------------------------------------------------------*/
+/*game section*/
+
+        /*------------------------------1*/
+        /*1-state section*/
+
+        /*------------------------------2*/
+        /*2-killshot track section*/
+
+            /*2.1-killshot track VBox*/
+
+                /*2.1.n-killshot n-th kill background & main image*/
+
+        /*------------------------------3*/
+        /*3-player section*/
+
+                /*3.1-player HBox*/
+
+                /*3.1.1-players power up cards*/
+
+                        /*3.1.1.1-power up cards title*/
+
+                        /*3.1.1.2-power up cards images*/
+
+                /*3.1.2-player main statistics*/
+
+                        /*3.1.2[0,0]- players marks*/
+
+                        /*3.1.2[0,1]- player damages & deaths*/
+
+                                /*3.1.2[0,1].1 - player damages*/
+
+                                /*3.1.2[0,1].2 - player deaths*/
+
+                        /*3.1.2[1,0]- player nickname*/
+
+                        /*3.1.2[1,1]- player ammo box*/
+
+                /*3.1.3-player weapon cards*/
+
+                        /*3.1.3.1-weapon cards title*/
+
+                        /*3.1.3.2-weapon cards images*/
+
+        /*------------------------------3*/
+        /*4-board section*/
