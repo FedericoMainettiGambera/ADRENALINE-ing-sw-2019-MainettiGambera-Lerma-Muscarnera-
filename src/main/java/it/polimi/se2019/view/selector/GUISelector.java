@@ -59,7 +59,7 @@ public class GUISelector implements SelectorV {
     }
 
     @Override
-    public void askFirstSpawnPosition(ArrayList<PowerUpCardV> powerUpCards, boolean spawnBot) {
+    public void askFirstSpawnPosition(List<PowerUpCardV> powerUpCards, boolean spawnBot) {
 
     }
 
@@ -77,7 +77,7 @@ public class GUISelector implements SelectorV {
     }
 
     @Override
-    public void askRunAroundPosition(ArrayList<Position> positions) {
+    public void askRunAroundPosition(List<Position> positions) {
 
     }
 
@@ -87,32 +87,32 @@ public class GUISelector implements SelectorV {
     }
 
     @Override
-    public void askGrabStuffMove(ArrayList<Position> positions) {
+    public void askGrabStuffMove(List<Position> positions) {
 
     }
 
     @Override
-    public void askGrabStuffGrabWeapon(ArrayList<WeaponCardV> toPickUp) {
+    public void askGrabStuffGrabWeapon(List<WeaponCardV> toPickUp) {
 
     }
 
     @Override
-    public void askGrabStuffSwitchWeapon(ArrayList<WeaponCardV> toPickUp, ArrayList<WeaponCardV> toSwitch) {
+    public void askGrabStuffSwitchWeapon(List<WeaponCardV> toPickUp, List<WeaponCardV> toSwitch) {
 
     }
 
     @Override
-    public void askPowerUpToDiscard(ArrayList<PowerUpCardV> toDiscard) {
+    public void askPowerUpToDiscard( List<PowerUpCardV> toDiscard) {
 
     }
 
     @Override
-    public void askWhatReaload(ArrayList<WeaponCardV> toReload) {
+    public void askWhatReaload( List<WeaponCardV> toReload) {
 
     }
 
     @Override
-    public void askSpawn(ArrayList<PowerUpCardV> powerUpCards) {
+    public void askSpawn( List<PowerUpCardV> powerUpCards) {
 
     }
 
@@ -128,12 +128,12 @@ public class GUISelector implements SelectorV {
     }
 
     @Override
-    public void askWhatWep(ArrayList<WeaponCardV> loadedCardInHand) {
+    public void askWhatWep( List<WeaponCardV> loadedCardInHand) {
 
     }
 
     @Override
-    public void askWhatEffect(ArrayList<EffectV> possibleEffects) {
+    public void askWhatEffect( List<EffectV> possibleEffects) {
 
     }
 

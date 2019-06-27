@@ -56,7 +56,7 @@
                <children>
                   <StackPane alignment="CENTER_RIGHT" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <RadioButton fx:id="RMIRadio" mnemonicParsing="false" onAction="#onRMISelected" styleClass="text" text="RMI">
+                        <RadioButton fx:id="rmiRadio" mnemonicParsing="false" onAction="#onRMISelected" styleClass="text" text="RMI">
                            <StackPane.margin>
                               <Insets right="30.0" />
                            </StackPane.margin>
@@ -104,7 +104,7 @@
                   </StackPane>
                   <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
-                        <TextField fx:id="IPTextField" alignment="CENTER" promptText="XXX.XXX.XXX.XXX">
+                        <TextField fx:id="ipTextField" alignment="CENTER" promptText="XXX.XXX.XXX.XXX">
                            <styleClass>
                               <String fx:value="text" />
                               <String fx:value="textareaIPANDPORT" />
@@ -117,7 +117,7 @@
                   </StackPane>
                   <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <TextField fx:id="PORTTextField" alignment="CENTER" promptText="XXXXX">
+                        <TextField fx:id="portTextField" alignment="CENTER" promptText="XXXXX">
                            <styleClass>
                               <String fx:value="text" />
                               <String fx:value="textareaIPANDPORT" />
@@ -149,7 +149,7 @@
                               <Label layoutX="157.0" layoutY="3.0" styleClass="text" text="or" />
                               <Hyperlink fx:id="reconnectHyperlink" layoutX="172.0" onAction="#onReconnectionPressed" text="reconnect" />
                               <Label layoutX="221.0" layoutY="60.0" styleClass="text" text="Want to play with" />
-                              <Hyperlink fx:id="CLIHyperlink" layoutX="344.0" layoutY="57.0" onAction="#onCLIHyperlinkPressed" text="CLI" />
+                              <Hyperlink fx:id="cliHyperlink" layoutX="344.0" layoutY="57.0" onAction="#onCLIHyperlinkPressed" text="CLI" />
                               <Label layoutX="374.0" layoutY="60.0" styleClass="text" text="?" />
                               <Label fx:id="logLabel" alignment="TOP_CENTER" layoutY="29.0" prefHeight="20.0" prefWidth="383.0" textFill="RED">
                                  <font>
