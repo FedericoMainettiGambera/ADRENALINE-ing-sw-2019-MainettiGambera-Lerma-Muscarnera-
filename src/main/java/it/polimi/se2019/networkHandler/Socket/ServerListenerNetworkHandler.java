@@ -28,12 +28,12 @@ public class ServerListenerNetworkHandler extends Observable implements Runnable
     private View view;
 
     public ServerListenerNetworkHandler(Socket socket, ObjectInputStream ois, View view){
-            this.socket = socket;
-            this.isSocketLive = true;
-            this.ois = ois;
-            this.view = view;
+        this.socket = socket;
+        this.isSocketLive = true;
+        this.ois = ois;
+        this.view = view;
 
-            this.addObserver(this.view);
+        this.addObserver(this.view);
     }
 
 
@@ -51,8 +51,8 @@ public class ServerListenerNetworkHandler extends Observable implements Runnable
                 this.notifyObservers(event);
             }
             catch (InternalError e){
-               logger.severe("Something went Wrong in class ServerListenerNetworkHandler..." + e.getMessage());
-               logger.log(Level.SEVERE, "EXCEPTION", e);
+                logger.severe("Something went Wrong in class ServerListenerNetworkHandler..." + e.getMessage());
+                logger.log(Level.SEVERE, "EXCEPTION", e);
             }
             catch (IOException|ClassNotFoundException e) {
                 OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();

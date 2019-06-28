@@ -1,5 +1,6 @@
 package it.polimi.se2019.networkHandler.Socket;
 
+import it.polimi.se2019.controller.Controller;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.networkHandler.NetworkHandler;
 import it.polimi.se2019.view.components.View;
@@ -32,13 +33,17 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
         this.port = port;
         this.inetAddress = inetAddress;
 
-        logger.info("<CLIENT>New Client with IP: " + InetAddress.getLocalHost().getHostAddress());
+        if(Controller.userInterface.equalsIgnoreCase("CLI")) {
+            logger.info("<CLIENT>New Client with IP: " + InetAddress.getLocalHost().getHostAddress());
 
-        logger.info("<CLIENT>Trying to connect to: " + this.inetAddress.getHostAddress() + ":" + this.port);
+            logger.info("<CLIENT>Trying to connect to: " + this.inetAddress.getHostAddress() + ":" + this.port);
+        }
 
         this.socket = new Socket(this.inetAddress, this.port);
-        logger.info("<CLIENT>Connected to: " + this.inetAddress.getHostAddress() + ":" + this.port);
 
+        if(Controller.userInterface.equalsIgnoreCase("CLI")) {
+            logger.info("<CLIENT>Connected to: " + this.inetAddress.getHostAddress() + ":" + this.port);
+        }
 
         this.oos = new ObjectOutputStream(this.socket.getOutputStream());
 
@@ -65,7 +70,7 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
         try {
             socket.close();
         } catch (IOException e) {
-           logger.warning("disconnection went wrong" + e.getCause());
+            logger.warning("disconnection went wrong" + e.getCause());
         }
         // if i use this there are problem with the buffer reader
         // OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();

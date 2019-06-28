@@ -5,17 +5,16 @@ import it.polimi.se2019.model.GameConstant;
 import it.polimi.se2019.model.PlayersList;
 import it.polimi.se2019.networkHandler.RMIREDO.RmiNetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
-import it.polimi.se2019.networkHandler.sendPingRequest;
 import it.polimi.se2019.view.GUIstarter;
 import it.polimi.se2019.view.components.View;
 import it.polimi.se2019.view.components.ViewModelGate;
 import it.polimi.se2019.view.selector.CLISelector;
 import it.polimi.se2019.virtualView.RMIREDO.RmiVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -38,6 +37,7 @@ public class  Controller{
 
     private static View view;
     public static String networkConnection;
+    public static String userInterface;
     public static String ip;
     public static String port;
 
@@ -53,13 +53,13 @@ public class  Controller{
         //Setting the state pattern
         viewControllerEventHandlerContext = new ViewControllerEventHandlerContext();
 
-        //Starting the Server Socket
+        //Starting the Server socket
         socketVirtualView = new SocketVirtualView(viewControllerEventHandlerContext);
         socketVirtualView.startServer();
         ViewControllerEventHandlerContext.socketVV = socketVirtualView;
 
         //-----------------OLD-----------------//
-        //Starting the Server as RMI
+        //Starting the Server as rmi
         /*try {
             rmiVirtualView = new RMIVirtualView(viewControllerEventHandlerContext);
             rmiVirtualView.startServer();
@@ -79,7 +79,7 @@ public class  Controller{
         ViewControllerEventHandlerContext.RMIVV=rmiVirtualView;
 
         //Registering the VirtualView as an observer of the model so it can receive the MVEs
-        out.println("<SERVER> Registering the VirtualViews (RMI and Socket) as observers of the Model");
+        out.println("<SERVER> Registering the VirtualViews (rmi and socket) as observers of the Model");
         ModelGate.model.setVirtualView(ViewControllerEventHandlerContext.socketVV, ViewControllerEventHandlerContext.RMIVV);
         ModelGate.model.registerVirtualView();
     }
@@ -94,12 +94,13 @@ public class  Controller{
         Controller.networkConnection = networkConnection;
         Controller.ip = ip;
         Controller.port = port;
-        if(networkConnection.equalsIgnoreCase("RMI")){
+        Controller.userInterface = userInterface;
+        if(networkConnection.equalsIgnoreCase("rmi")){
             if(userInterface.equalsIgnoreCase("GUI")){
-                view = new View("RMI", "GUI");
+                view = new View("rmi", "GUI");
             }
             else {
-                view = new View("RMI", "CLI");
+                view = new View("rmi", "CLI");
             }
             try {
                 RMINH = new RmiNetworkHandler(ip, Integer.parseInt(port), view);
@@ -117,13 +118,17 @@ public class  Controller{
             }
 
             try{
-                    SNH = new SocketNetworkHandler(InetAddress.getByName(ip), Integer.parseInt(port) , view);
+                SNH = new SocketNetworkHandler(InetAddress.getByName(ip), Integer.parseInt(port) , view);
+            }
+            catch (NumberFormatException|  IOException e){
+                if(userInterface.equalsIgnoreCase("GUI")){
+                    GUIstarter.showError("Controller"," CONNECTION WASN'T POSSIBLE ", e);
+                }else{
+                    logger.severe("CONNECTION WASN'T POSSIBLE"+e.getMessage());
                 }
-                catch (NumberFormatException|  IOException e){
-                logger.severe("Socket network handler error occurred"+e.getMessage());
-                    return false;
-                }
-             }
+                return false;
+            }
+        }
         return true;
     }
 
@@ -141,11 +146,11 @@ public class  Controller{
 
         out.println("\n<CLIENT> Do you want to play with:");
 
-        CLISelector.showListOfRequests(Arrays.asList("SOCKET","RMI"));
+        CLISelector.showListOfRequests(Arrays.asList("SOCKET","rmi"));
         String networkConnectionChoice = "";
         int choice = CLISelector.askNumber(0,1);
         if(choice == 1){
-            networkConnectionChoice = "RMI";
+            networkConnectionChoice = "rmi";
         }
         else{
             networkConnectionChoice = "SOCKET" ;
@@ -157,8 +162,8 @@ public class  Controller{
 
         String userInterface = "CLI";
 
-        if (networkConnectionChoice.equalsIgnoreCase("RMI")) {
-            out.println("<CLIENT> Starting Client with RMI connection");
+        if (networkConnectionChoice.equalsIgnoreCase("rmi")) {
+            out.println("<CLIENT> Starting Client with rmi connection");
 
             //ask for IP and PORT
             out.println("\n<CLIENT> Insert Server's IP:");
@@ -166,7 +171,7 @@ public class  Controller{
 
             port = "1099";
         } else {
-            out.println("<CLIENT> Starting Client with Socket connection");
+            out.println("<CLIENT> Starting Client with socket connection");
 
             out.println("\n<CLIENT> Insert Server IP:");
             ip = br.nextLine();
@@ -228,10 +233,10 @@ public class  Controller{
             else{
                 //creating the View for the user who holds the server
                 if(userInterface.equalsIgnoreCase("GUI")){
-                    this.V = new View("RMI", "GUI");
+                    this.V = new View("rmi", "GUI");
                 }
                 else {
-                    this.V = new View("RMI", "CLI");
+                    this.V = new View("rmi", "CLI");
                 }
                 Scanner scanner=new Scanner(System.in);
 
@@ -259,7 +264,7 @@ public class  Controller{
     */
 
     /////////////////////////////////////////////////////////////////
-    ///////////////////////    RMI    ///////////////////////////////
+    ///////////////////////    rmi    ///////////////////////////////
     /////////////////////////////////////////////////////////////////
 
     /*
@@ -280,7 +285,7 @@ public class  Controller{
 
 
         //creating the View for the user who holds the server
-        this.V = new View("RMI", "CLI");
+        this.V = new View("rmi", "CLI");
 
         //start the client for the user who holds the server and connecting it to the server
         this.RMINH=new RMINetworkHandler(this.RMIVV.getAddress(), this.RMIVV.getPort(),this.V);
@@ -289,7 +294,7 @@ public class  Controller{
 
     public void startGameWithRMIAsClient() throws IOException, NotBoundException{
         //creating the View for the user who holds the server
-        this.V = new View("RMI", "CLI");
+        this.V = new View("rmi", "CLI");
         Scanner scanner=new Scanner(System.in);
 
         //ask for IP and PORT

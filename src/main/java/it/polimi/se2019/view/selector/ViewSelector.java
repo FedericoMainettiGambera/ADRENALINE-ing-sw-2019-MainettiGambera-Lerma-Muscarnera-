@@ -81,7 +81,7 @@ public class ViewSelector implements SelectorV {
 
     @Override
     public void askTurnAction(int actionNumber, boolean canUsePowerUp, boolean canUseBot) {
-       this.getCorrectSelector().askTurnAction(actionNumber, canUsePowerUp, canUseBot);
+        this.getCorrectSelector().askTurnAction(actionNumber, canUsePowerUp, canUseBot);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class ViewSelector implements SelectorV {
 
     @Override
     public void askShootOrMove(){
-      this.getCorrectSelector().askShootOrMove();
+        this.getCorrectSelector().askShootOrMove();
     }
 
     /**@deprecated*/

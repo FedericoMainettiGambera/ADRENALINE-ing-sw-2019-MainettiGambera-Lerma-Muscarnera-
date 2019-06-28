@@ -125,10 +125,10 @@
     -fx-background-color: dark-primary-color-hover;
 }
 .radio-button:focused .radio{
-     -fx-border-color: accent-color;
-     -fx-border-width: 3px;
-     -fx-border-radius: 130px;
- }
+    -fx-border-color: accent-color;
+    -fx-border-width: 3px;
+    -fx-border-radius: 130px;
+}
 .radio-button:selected .radio{
     -fx-border-color: accent-color;
     -fx-background-color: accent-color;

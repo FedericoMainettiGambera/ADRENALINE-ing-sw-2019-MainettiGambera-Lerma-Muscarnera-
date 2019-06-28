@@ -1,6 +1,7 @@
 package it.polimi.se2019.view;
 
 import it.polimi.se2019.model.events.Event;
+import it.polimi.se2019.view.outputHandler.CLIOutputHandler;
 import it.polimi.se2019.view.selector.ViewSelector;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -228,11 +229,14 @@ public class GameSceneController implements Initializable {
         //      1) all css classes to the corresponding element (we'll manipulates images with css classes)
         //      2) initialize the canvas
         //      3) add everything that is already setted in the ViewModel (for example the PlayerList, the current State, Timers, etc...)
+        //CLIOutputHandler.showGeneralStatusOfTheGame();
     }
 
+    /**sends an Event to the server in a new Thread, using the SendToServerThread class*/
     private void sendToServer(Event event){
         (new SendToServerThread(event)).start();
     }
+    /**Thread to send an Event to the server*/
     private class SendToServerThread extends Thread{
         private Event event;
         private SendToServerThread(Event event){
@@ -244,13 +248,5 @@ public class GameSceneController implements Initializable {
         }
     }
 
-
-    public void updateStateLabel(String state){
-        this.stateLabel.setText(state);
-    }
-
-    public void updateSelectorLabel(String request){
-        this.selectorLabel.setText(request);
-    }
 
 }

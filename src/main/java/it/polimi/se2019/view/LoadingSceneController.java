@@ -1,7 +1,6 @@
 package it.polimi.se2019.view;
 
-import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
-import it.polimi.se2019.view.components.PlayersListV;
+import it.polimi.se2019.view.components.ViewModelGate;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,10 +19,6 @@ import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
 public class LoadingSceneController implements Initializable {
-
-
-    //progressionBar
-    public static double progressionBarGoal;
 
     //stackPanes
     @FXML
@@ -55,86 +50,119 @@ public class LoadingSceneController implements Initializable {
     @FXML
     private ProgressBar progressBar;
 
-    private String nickname;
+    //progressionBar
+    private double progressionBarGoal;
+
+    private static final String USER_INACTIVE = "userLabelInactive";
+    private static final String USER_ACTIVE = "userLabelActive";
+
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
-        progressionBarGoal=0;
+        progressionBarGoal=0.0;
         labelProgress.setText("");
-        (new Thread(new progressBarThread())).start();
+        (new Thread(new ProgressBarThread())).start();
     }
 
-    public void newPlayersList(ModelViewEvent MVE){
-        int numberOfConnection=((PlayersListV)MVE.getComponent()).getPlayers().size();
-        if(numberOfConnection>=1) {
+    public void newPlayersList(){
+        int numberOfConnection=ViewModelGate.getModel().getPlayers().getPlayers().size();
+        if(numberOfConnection>=1 && !stackPaneUser1.getStyleClass().contains("User1Active")) {
+            Platform.runLater(new SetUser1());
+        }
+        if(numberOfConnection>=2 && !stackPaneUser2.getStyleClass().contains("User2Active")){
+            Platform.runLater(new SetUser2());
+        }
+        if(numberOfConnection>=3 && !stackPaneUser3.getStyleClass().contains("User3Active")) {
+            Platform.runLater(new SetUser3());
+        }
+        if(numberOfConnection>=4 && !stackPaneUser4.getStyleClass().contains("User4Active")) {
+            Platform.runLater(new SetUser4());
+        }
+        if(numberOfConnection>=5 && !stackPaneUser5.getStyleClass().contains("User5Active")) {
+            Platform.runLater(new SetUser5());
+        }
+    }
+    private class SetUser1 extends Thread{
+        @Override
+        public void run(){
             stackPaneUser1.getStyleClass().add("User1Active");
-            labelUser1.setText(((PlayersListV)MVE.getComponent()).getPlayers().get(0).getNickname());
+            labelUser1.setText(ViewModelGate.getModel().getPlayers().getPlayers().get(0).getNickname());
 
-            if(labelUser1.getStyleClass().contains("userLabelInactive")){
-                labelUser1.getStyleClass().removeAll("userLabelInactive");
-                labelUser1.getStyleClass().add("userLabelActive");
+            if(labelUser1.getStyleClass().contains(USER_INACTIVE)){
+                labelUser1.getStyleClass().removeAll(USER_INACTIVE);
+                labelUser1.getStyleClass().add(USER_ACTIVE);
                 progressionBarGoal+=(1-progressionBarGoal)/5;
             }
         }
-        if(numberOfConnection>=2){
+    }
+    private class SetUser2 extends Thread{
+        @Override
+        public void run(){
             stackPaneUser2.getStyleClass().add("User2Active");
-            labelUser2.setText(((PlayersListV)MVE.getComponent()).getPlayers().get(1).getNickname());
+            labelUser2.setText(ViewModelGate.getModel().getPlayers().getPlayers().get(1).getNickname());
 
-            if(labelUser2.getStyleClass().contains("userLabelInactive")){
-                labelUser2.getStyleClass().removeAll("userLabelInactive");
-                labelUser2.getStyleClass().add("userLabelActive");
+            if(labelUser2.getStyleClass().contains(USER_INACTIVE)){
+                labelUser2.getStyleClass().removeAll(USER_INACTIVE);
+                labelUser2.getStyleClass().add(USER_ACTIVE);
                 progressionBarGoal+=(1-progressionBarGoal)/4;
             }
 
         }
-        if(numberOfConnection>=3) {
+    }
+    private class SetUser3 extends Thread{
+        @Override
+        public void run(){
             stackPaneUser3.getStyleClass().add("User3Active");
-            labelUser3.setText(((PlayersListV)MVE.getComponent()).getPlayers().get(2).getNickname());
+            labelUser3.setText(ViewModelGate.getModel().getPlayers().getPlayers().get(2).getNickname());
 
-            if(labelUser3.getStyleClass().contains("userLabelInactive")){
-                labelUser3.getStyleClass().removeAll("userLabelInactive");
-                labelUser3.getStyleClass().add("userLabelActive");
+            if(labelUser3.getStyleClass().contains(USER_INACTIVE)){
+                labelUser3.getStyleClass().removeAll(USER_INACTIVE);
+                labelUser3.getStyleClass().add(USER_ACTIVE);
                 progressionBarGoal+=(1-progressionBarGoal)/3;
-
             }
         }
-        if(numberOfConnection>=4) {
+    }
+    private class SetUser4 extends Thread{
+        @Override
+        public void run(){
             stackPaneUser4.getStyleClass().add("User4Active");
-            labelUser4.setText(((PlayersListV)MVE.getComponent()).getPlayers().get(3).getNickname());
+            labelUser4.setText(ViewModelGate.getModel().getPlayers().getPlayers().get(3).getNickname());
 
-            if(labelUser4.getStyleClass().contains("userLabelInactive")){
-                labelUser4.getStyleClass().removeAll("userLabelInactive");
-                labelUser4.getStyleClass().add("userLabelActive");
+            if(labelUser4.getStyleClass().contains(USER_INACTIVE)){
+                labelUser4.getStyleClass().removeAll(USER_INACTIVE);
+                labelUser4.getStyleClass().add(USER_ACTIVE);
                 progressionBarGoal+=(1-progressionBarGoal)/2;
 
             }
         }
-        if(numberOfConnection>=5) {
+    }
+    private class SetUser5 extends Thread{
+        @Override
+        public void run(){
             stackPaneUser5.getStyleClass().add("User5Active");
-            labelUser5.setText(((PlayersListV)MVE.getComponent()).getPlayers().get(4).getNickname());
+            labelUser5.setText(ViewModelGate.getModel().getPlayers().getPlayers().get(4).getNickname());
 
-            if(labelUser5.getStyleClass().contains("userLabelInactive")){
-                labelUser5.getStyleClass().removeAll("userLabelInactive");
-                labelUser5.getStyleClass().add("userLabelActive");
-                progressionBarGoal+=1;
-                this.progressBar.setProgress(1.0);
+            if(labelUser5.getStyleClass().contains(USER_INACTIVE)){
+                labelUser5.getStyleClass().removeAll(USER_INACTIVE);
+                labelUser5.getStyleClass().add(USER_ACTIVE);
+                progressionBarGoal=1;
+                progressBar.setProgress(1.0);
             }
         }
     }
 
 
-    private class progressBarThread implements Runnable{
-        public boolean stop;
+    private class ProgressBarThread implements Runnable{
         @Override
         public void run(){
-            stop=false;
+            boolean stop=false;
             while(!stop){
                 if(progressBar.getProgress() >= 1.0){
                     progressBar.setProgress(1.0);
                     break;
                 }
-                if(progressBar.getProgress()<=LoadingSceneController.progressionBarGoal){
+                if(progressBar.getProgress()<=progressionBarGoal){
                     progressBar.setProgress(progressBar.getProgress()+0.009);
                     try {
                         TimeUnit .MILLISECONDS.sleep(50);
@@ -159,30 +187,26 @@ public class LoadingSceneController implements Initializable {
         }
     }
 
-    public void setNickname(String nickname){
-        this.nickname = nickname;
-    }
 
-    public void changeScene(String path){
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getClassLoader().getResource(path));
-                Parent root = null;
-                try {
-                    root = fxmlLoader.load();
-                } catch (IOException e) {
-                    System.err.println(e.getMessage());
-                    return;
-                }
-                GUIstarter.stageController=fxmlLoader.getController();
-                Scene scene = new Scene(root, 1200, 900);
-                scene.setFill(Color.BLACK);
-
-                //hide old stage
-                GUIstarter.stage.setScene(scene);
+    public void changeScene(){
+        //TODO: NON RIESCO A CAPIRE PERCHE' MI PERMETTA DI CARICARE QUALUNQUE FXML TRANNE QUELLO CHE VORREI CIOE' IL GAME FXML
+        Platform.runLater(()->{
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/FXML/GAME.fxml"));
+            Parent root;
+            try {
+                root = fxmlLoader.load();
+            } catch (IOException e) {
+                GUIstarter.showError(this,"COULDN'T FIND: " +  getClass().getResource("/FXML/GAME.fxml"), e);
+                return;
             }
+            GUIstarter.setStageController(fxmlLoader.getController());
+            Scene scene = new Scene(root, 1200, 900);
+            scene.setFill(Color.BLACK);
+
+            //hide old stage
+            GUIstarter.getStage().setScene(scene);
+            GUIstarter.getStage().centerOnScreen();
         });
     }
 }

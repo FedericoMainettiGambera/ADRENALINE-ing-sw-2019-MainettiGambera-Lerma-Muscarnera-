@@ -1,4 +1,5 @@
 package it.polimi.se2019.view.outputHandler;
+
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.stateEvent.StateEvent;
 import it.polimi.se2019.view.GUIstarter;
@@ -7,22 +8,19 @@ import it.polimi.se2019.view.InitialSceneController;
 import it.polimi.se2019.view.LoadingSceneController;
 import it.polimi.se2019.view.components.OrderedCardListV;
 import it.polimi.se2019.view.components.ViewModelGate;
-import javafx.application.Platform;
-import javafx.fxml.FXML;
+import it.polimi.se2019.view.outputHandler.OutputHandlerInterface;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.MenuItem;
-import javafx.stage.Stage;
 import java.util.concurrent.TimeUnit;
 
 
-public class GUIOutputHandler implements OutputHandlerInterface{
+public class GUIOutputHandler implements OutputHandlerInterface {
 
     private GameSceneController getGameSceneController(){
-        return ((GameSceneController)GUIstarter.stageController);
+        return ((GameSceneController)GUIstarter.getStageController());
+    }
+
+    private LoadingSceneController getLoadingSceneController(){
+        return ((LoadingSceneController)GUIstarter.getStageController());
     }
 
     @Override
@@ -32,36 +30,12 @@ public class GUIOutputHandler implements OutputHandlerInterface{
 
     @Override
     public void stateChanged(StateEvent stateEvent) {
-        //ps really bad code, needed to trigger the loading scene to appear
         if(stateEvent.getState().contains("GameSetUpState")){
-            boolean done = false;
-            while(!done) {
-                if (GUIstarter.stageController.getClass().toString().contains("LoadingSceneController")) {
-                    ((LoadingSceneController)GUIstarter.stageController).changeScene("FXML/GAME.fxml");
-                    done=true;
-                } else { //wait because some times the event sent from the server is faster than the process of changing scene in javafx
-                    try {
-                        TimeUnit.MILLISECONDS.sleep(300);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        done=true;
-                    }
-                }
-            }
+            //starts the GAME.fxml
+            getLoadingSceneController().changeScene();
         }
-        //else means we are in the Game Scene and we should update the stage bar;
         else{
-            Platform.runLater(new UpdateStateBar(stateEvent));
-        }
-    }
-    private class UpdateStateBar extends Thread{
-        private StateEvent stateEvent;
-        private UpdateStateBar(StateEvent stateEvent){
-            this.stateEvent = stateEvent;
-        }
-        @Override
-        public void run(){
-            getGameSceneController().updateStateLabel(stateEvent.toString());
+            //update StateBar
         }
     }
 
@@ -89,15 +63,22 @@ public class GUIOutputHandler implements OutputHandlerInterface{
 
     @Override
     public void newPlayersList(ModelViewEvent modelViewEvent){
-        //TO change...
-        //update the player list or:
+        if (GUIstarter.getStageController().getClass().toString().contains("LoadingSceneController")) {
+            showPlayerListInLoadingScene();
+        }
+        else{
+            //TODO:
+            //    show playerlist during game..
+        }
+    }
+    private void showPlayerListInLoadingScene(){
+        //we are in the loading scene and should update it
         boolean done = false;
-        while(!done) {
-            if (GUIstarter.stageController.getClass().toString().contains("LoadingSceneController")) {
-                ((LoadingSceneController) GUIstarter.stageController).newPlayersList(modelViewEvent);
+        while (!done) {
+            if (GUIstarter.getStageController().getClass().toString().contains("LoadingSceneController")) {
+                ((LoadingSceneController) GUIstarter.getStageController()).newPlayersList();
                 done = true;
-            }
-            else{ //wait because some times the event sent from the server is faster than the process of changing scene in javafx
+            } else { //wait because some times the event sent from the server is faster than the process of changing scene in javafx
                 try {
                     TimeUnit.MILLISECONDS.sleep(300);
                 } catch (InterruptedException e) {
@@ -202,8 +183,8 @@ public class GUIOutputHandler implements OutputHandlerInterface{
 
     @Override
     public void showConnectionTimer(int currentTime, int totalTime) {
-        if(GUIstarter.stageController.getClass().toString().contains("LoadingSceneController")) {
-            ((LoadingSceneController) GUIstarter.stageController).modifyProgress(currentTime, totalTime);
+        if(GUIstarter.getStageController().getClass().toString().contains("LoadingSceneController")) {
+            ((LoadingSceneController) GUIstarter.getStageController()).modifyProgress(currentTime, totalTime);
         }
     }
 

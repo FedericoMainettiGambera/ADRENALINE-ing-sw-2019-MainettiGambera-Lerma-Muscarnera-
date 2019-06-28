@@ -1,27 +1,15 @@
 package it.polimi.se2019.view.selector;
 
-import it.polimi.se2019.model.*;
+import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPlayers;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPositions;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPowerUpCards;
-import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
-import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventGameSetUp;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventNickname;
-import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
-import it.polimi.se2019.view.GUIstarter;
-import it.polimi.se2019.view.GameSceneController;
 import it.polimi.se2019.view.components.*;
-import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
-import it.polimi.se2019.virtualView.Selector;
-import javafx.application.Platform;
 
-
-import java.io.IOException;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GUISelector implements SelectorV {
@@ -30,10 +18,6 @@ public class GUISelector implements SelectorV {
     private int actionNumber;
     private boolean canUsePowerUp;
     private boolean canUseBot;
-
-    private GameSceneController getGameSceneController(){
-        return ((GameSceneController)GUIstarter.stageController);
-    }
 
     public GUISelector(String networkConnection){
         this.networkConnection = networkConnection;
@@ -46,10 +30,16 @@ public class GUISelector implements SelectorV {
         //if(canBot) ask bot active or not
         //ask number of starting skulls
         //send ViewControllerEventGameSetUp with correct informations
-        Platform.runLater(new Thread(()->{
-            getGameSceneController().updateSelectorLabel("forcing game set up: map0, no, no, 5");
-        }));
-        ViewControllerEventGameSetUp viewControllerEventGameSetUp = new ViewControllerEventGameSetUp("normalMode", "map0", 5, false, true);
+
+        //to do this stuffs you should use a Thread that modify the GUI, but the only way to modify the GUI is from the JavaFx Application Thread
+        // so you should public static void runLater(Runnable runnable) !!! read this and try it !!
+        //Run the specified Runnable on the JavaFX Application Thread at some unspecified time in the future. This method, which may be called from any thread,
+        // will post the Runnable to an event queue and then return immediately to the caller. The Runnables are executed in the order they are posted. A runnable
+        // passed into the runLater method will be executed before any Runnable passed into a subsequent call to runLater. If this method is called after the JavaFX
+        // runtime has been shutdown, the call will be ignored: the Runnable will not be executed and no exception will be thrown.
+        //NOTE: applications should avoid flooding JavaFX with too many pending Runnables. Otherwise, the application may become unresponsive. Applications are
+        // encouraged to batch up multiple operations into fewer runLater calls. Additionally, long-running operations should be done on a background thread where
+        // possible, freeing up the JavaFX Application Thread for GUI operations.
     }
 
     @Deprecated
@@ -102,17 +92,17 @@ public class GUISelector implements SelectorV {
     }
 
     @Override
-    public void askPowerUpToDiscard( List<PowerUpCardV> toDiscard) {
+    public void askPowerUpToDiscard(List<PowerUpCardV> toDiscard) {
 
     }
 
     @Override
-    public void askWhatReaload( List<WeaponCardV> toReload) {
+    public void askWhatReaload(List<WeaponCardV> toReload) {
 
     }
 
     @Override
-    public void askSpawn( List<PowerUpCardV> powerUpCards) {
+    public void askSpawn(List<PowerUpCardV> powerUpCards) {
 
     }
 
@@ -128,12 +118,12 @@ public class GUISelector implements SelectorV {
     }
 
     @Override
-    public void askWhatWep( List<WeaponCardV> loadedCardInHand) {
+    public void askWhatWep(List<WeaponCardV> loadedCardInHand) {
 
     }
 
     @Override
-    public void askWhatEffect( List<EffectV> possibleEffects) {
+    public void askWhatEffect(List<EffectV> possibleEffects) {
 
     }
 

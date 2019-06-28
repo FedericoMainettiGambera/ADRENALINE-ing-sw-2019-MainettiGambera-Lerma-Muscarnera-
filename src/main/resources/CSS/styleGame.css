@@ -5,9 +5,30 @@
 GENERAL CLASSES
  */
 *{
+    dark-primary-color: #0e1d24;
+    dark-primary-color-hover: #11353e;
+    hyperlink-color: #17c5f1;
+    hyperlink-color-disabled: #0a6270;
+    default-primary-color: #607D8B;
+    light-primary-color: #CFD8DC;
+    text-primary-color: #FFFFFF;
+    accent-color: #ffb523;
+    accent-color-darker: #cb921d;
+    primary-text-color: #212121;
+    secondary-text-color: #757575;
+    divider-color: #BDBDBD;
+
+    default-color: #00f3ff;
+    empty-color: rgba(255, 68, 77, 0.5);
+    notempty-color: rgba(255, 181, 35, 0.5);
+    selectable-color: rgba(146, 255, 88, 0.5);
+
     -fx-border-width: 1px;
-    -fx-border-color: black;
-    -fx-background-color: rgba(68, 218, 255, 0.41);
+    -fx-border-color: #ffffff;
+    -fx-background-color: rgba(64, 38, 72, 0.58);
+    -fx-padding: 2;
+    -fx-text-fill: text-primary-color;
+
 }
 
 
@@ -23,211 +44,209 @@ SPECIFIC CLASSES
 /*------------------------------------------------------------------*/
 /*interactive section*/
 
-        /*------------------------------1*/
-        /*1-selector section*/
+/*------------------------------1*/
+/*1-selector section*/
 
-        /*------------------------------2*/
-        /*2-information section*/
+/*------------------------------2*/
+/*2-information section*/
 
 /*------------------------------------------------------------------*/
 /*game section*/
 
-        /*------------------------------1*/
-        /*1-state section*/
+/*------------------------------1*/
+/*1-state section*/
 
-        /*------------------------------2*/
-        /*2-killshot track section*/
-.emptyKillShotTrackBackground{
-
+/*------------------------------2*/
+/*2-killshot track section*/
+.emptyKillShotTrackBackground{ /*probably not used*/
+    -fx-background-color: default-color;
 }
-            /*2.1-killshot track VBox*/
+/*2.1-killshot track VBox*/
 .killShotTrackBackground{
-
+    -fx-background-color: default-color;
 }
-                /*2.1.n-killshot n-th kill background & main image*/
+/*2.1.n-killshot n-th kill background & main image*/
 .killSlotBackground{
-
+    -fx-background-color: default-color;
 }
 .emptyKillSlot{
-
+    -fx-background-color: empty-color;
 }
 .emptyKillSlotFF{
-
+    -fx-background-color: empty-color;
 }
 .killGreen{
-
+    -fx-background-color: notempty-color;
 }
 .overKillGreen{
-
+    -fx-background-color: notempty-color;
 }
 .killYellow{
-
+    -fx-background-color: notempty-color;
 }
 .overKillYellow{
-
+    -fx-background-color: notempty-color;
 }
 .killBlue{
-
+    -fx-background-color: notempty-color;
 }
 .overKillBlue{
-
+    -fx-background-color: notempty-color;
 }
 .killGray{
-
+    -fx-background-color: notempty-color;
 }
 .overKillGray{
-
+    -fx-background-color: notempty-color;
 }
 .killPurple{
-
+    -fx-background-color: notempty-color;
 }
 .overKillPurple{
-
+    -fx-background-color: notempty-color;
 }
-        /*------------------------------3*/
-        /*3-player section*/
-.emptyPlayerSectionBackground{
-
+/*------------------------------3*/
+/*3-player section*/
+.emptyPlayerSectionBackground{/*probably not used*/
+    -fx-background-color: default-color;
 }
-                /*3.1-player HBox*/
+/*3.1-player HBox*/
 .playerSectionBackground{
-
+    -fx-background-color: default-color;
 }
-                /*3.1.1-players power up cards*/
+/*3.1.1-players power up cards*/
 .powerUpCardsBackground{
-
+    -fx-background-color: default-color;
 }
-                        /*3.1.1.1-power up cards title*/
+/*3.1.1.1-power up cards title*/
 .powerUpCardsTitleBackground{
-
+    -fx-background-color: default-color;
 }
-                        /*3.1.1.2-power up cards images*/
+/*3.1.1.2-power up cards images*/
 .powerUpCardBackground{
-
+    -fx-background-color: default-color;
 }
 .powerUpCardMainImage {
-
+    -fx-background-color: notempty-color;
 }
 .emptyPowerUpCardMainImage{
-
+    -fx-background-color:  empty-color;
 }
-                /*3.1.2-player main statistics*/
+/*3.1.2-player main statistics*/
 .playerStatisticsBackground{
-
+    -fx-background-color: default-color;
 }
-                        /*3.1.2[0,0]- players marks*/
+/*3.1.2[0,0]- players marks*/
 .marksBackground{
-
+    -fx-background-color: default-color;
 }
 .markBackground{
-
+    -fx-background-color: default-color;
 }
 .markGreen{
-
+    -fx-background-color: notempty-color;
 }
 .markYellow{
-
+    -fx-background-color: notempty-color;
 }
 .markBlue{
-
+    -fx-background-color: notempty-color;
 }
 .markPurple{
-
+    -fx-background-color: notempty-color;
 }
 .markGray{
-
+    -fx-background-color: notempty-color;
 }
 .markEmpty{
-
+    -fx-background-color: notempty-color;
 }
-                        /*3.1.2[0,1]- player damages & deaths*/
+/*3.1.2[0,1]- player damages & deaths*/
 .playerDamageAndDeathsBackground{
-
+    -fx-background-color: default-color;
 }
-                                /*3.1.2[0,1].1 - player damages*/
+/*3.1.2[0,1].1 - player damages*/
 .damagesBackground{
-
+    -fx-background-color: default-color;
 }
 .damageBackground{
-
+    -fx-background-color: default-color;
 }
 .damageGreen{
-
+    -fx-background-color: notempty-color;
 }
 .damageYellow{
-
+    -fx-background-color: notempty-color;
 }
 .damageBlue{
-
+    -fx-background-color: notempty-color;
 }
 .damagePurple{
-
+    -fx-background-color: notempty-color;
 }
 .damageGray{
-
+    -fx-background-color: notempty-color;
 }
 .damageEmpty{
-
+    -fx-background-color: empty-color;
 }
-                                /*3.1.2[0,1].2 - player deaths*/
+/*3.1.2[0,1].2 - player deaths*/
 .deathsBackground{
-
+    -fx-background-color: default-color;
 }
 .deathBackground{
-
+    -fx-background-color: default-color;
 }
 .deathSkull{
-
+    -fx-background-color: notempty-color;
 }
 .deathEmpty{
-
+    -fx-background-color: empty-color;
 }
 .deathPointsStyle{
-
 }
-                        /*3.1.2[1,0]- player nickname*/
+/*3.1.2[1,0]- player nickname*/
 .nicknameBackground{
-
+    -fx-background-color: default-color;
 }
 .nicknameStyle{
-
 }
-                        /*3.1.2[1,1]- player ammo box*/
+/*3.1.2[1,1]- player ammo box*/
 .ammoBoxBackground{
-
+    -fx-background-color:default-color;
 }
 .ammoBackground{
-
+    -fx-background-color:default-color;
 }
 .emptyAmmo{
-
+    -fx-background-color: empty-color;
 }
 .ammoRed{
-
+    -fx-background-color: notempty-color;
 }
 .ammoBlue{
-
+    -fx-background-color: notempty-color;
 }
 .ammoYellow{
-
+    -fx-background-color: notempty-color;
 }
-                /*3.1.3-player weapon cards*/
+/*3.1.3-player weapon cards*/
 .weaponCardsBackground{
-
+    -fx-background-color:default-color;
 }
-                        /*3.1.3.1-weapon cards title*/
+/*3.1.3.1-weapon cards title*/
 .weaponCardsTitleBackground{
-
+    -fx-background-color:default-color;
 }
-                        /*3.1.3.2-weapon cards images*/
+/*3.1.3.2-weapon cards images*/
 .weaponCardBackground{
-
+    -fx-background-color:default-color;
 }
 .weaponCardMainImage{
-
+    -fx-background-color: notempty-color;
 }
 .emptyWeaponCardMainImage{
-
+    -fx-background-color: empty-color;
 }
-        /*------------------------------3*/
-        /*4-board section*/
+/*------------------------------3*/
+/*4-board section*/

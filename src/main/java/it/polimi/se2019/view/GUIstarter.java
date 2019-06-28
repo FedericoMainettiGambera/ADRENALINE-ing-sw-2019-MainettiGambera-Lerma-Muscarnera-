@@ -2,9 +2,12 @@ package it.polimi.se2019.view;
 
 import it.polimi.se2019.controller.Controller;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -12,16 +15,38 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 public class GUIstarter extends Application {
-    public static Controller user;
 
-    public static Stage stage;
-    public static Object stageController;
+    private static Stage stage;
+    private static Object stageController;
+
+    static Stage getStage(){
+        return stage;
+    }
+
+    static void setStage(Stage stage){
+        GUIstarter.stage = stage;
+    }
+
+    public static Object getStageController(){
+        return stageController;
+    }
+
+    static void setStageController(Object stageController){
+        GUIstarter.stageController = stageController;
+    }
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getClassLoader().getResource("FXML/INITIALSCENE1.fxml"));
-        Parent root = fxmlLoader.load();
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            if(Controller.userInterface.equalsIgnoreCase("GUI")){
+                showError(this, "COULDN'T LOAD FILE", e);
+            }
+        }
 
         Scene scene= new Scene(root, 430, 529);
         scene.setFill(Color.TRANSPARENT);
@@ -30,16 +55,59 @@ public class GUIstarter extends Application {
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.setTitle("Adrenaline LOG-IN");
 
-        stage=primaryStage;
-        stageController=fxmlLoader.getController();
+        setStage(primaryStage);
+        setStageController(fxmlLoader.getController());
 
         stage.setScene(scene);
         stage.show();
+
     }
 
     //instead of having directly a main class here, the controller launches this method.
     public static void begin(){
         launch();
+    }
+
+    public static void showError(Object callingClass, String error, Exception e){
+        //show a pop up with the given message and exception
+        if (Platform.isFxApplicationThread()) {
+            buildMessage(callingClass, error, e);
+        } else {
+            Platform.runLater(() -> buildMessage(callingClass, error, e));
+        }
+    }
+
+    private static void buildMessage(Object callingClass, String error, Exception e){
+        Stage s = new Stage();
+        VBox v = new VBox();
+        v.setStyle("-fx-background-color: #a0a0a0");
+        v.setStyle("-fx-padding: 20px");
+
+        Label l1 = new Label("MESSAGE: [ " + error + " ]");
+        l1.setStyle("-fx-padding: 10px 0");
+        l1.setStyle("-fx-font-weight: bold");
+        v.getChildren().add(l1);
+
+        if(e != null) {
+            Label l2 = new Label(e.getMessage());
+            l2.setStyle("-fx-text-fill: darkRed");
+            v.getChildren().add(l2);
+        }
+
+        Label l3 = new Label();
+        l3.setStyle("-fx-text-fill: darkRed");
+        if(callingClass.getClass().toString().contains("String")){
+            l3.setText("called from class: " + callingClass);
+        }
+        else {
+            l3.setText("called from class: " + callingClass.getClass().toString());
+        }
+        v.getChildren().add(l3);
+
+        Scene sc = new Scene(v);
+        s.setTitle("MESSAGE");
+        s.setScene(sc);
+        s.show();
     }
 
 }
