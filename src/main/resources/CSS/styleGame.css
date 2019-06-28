@@ -18,17 +18,18 @@ GENERAL CLASSES
     secondary-text-color: #757575;
     divider-color: #BDBDBD;
 
+    text-and-highlight-color: #ff00f0;
     default-color: #00f3ff;
     empty-color: rgba(255, 68, 77, 0.5);
     notempty-color: rgba(255, 181, 35, 0.5);
     selectable-color: rgba(146, 255, 88, 0.5);
 
     -fx-border-width: 1px;
-    -fx-border-color: #ffffff;
-    -fx-background-color: rgba(64, 38, 72, 0.58);
+    -fx-border-color: text-and-highlight-color;
+    -fx-text-fill: text-and-highlight-color;
+    -fx-background-color: black;
+    /*-fx-background-color: rgba(64, 38, 72, 0.58);*/
     -fx-padding: 2;
-    -fx-text-fill: text-primary-color;
-
 }
 
 
@@ -74,6 +75,9 @@ SPECIFIC CLASSES
 }
 .emptyKillSlotFF{
     -fx-background-color: empty-color;
+}
+.skull{
+    -fx-background-color: notempty-color;
 }
 .killGreen{
     -fx-background-color: notempty-color;
@@ -123,6 +127,9 @@ SPECIFIC CLASSES
     -fx-background-color: default-color;
 }
 /*3.1.1.2-power up cards images*/
+.powerUpCardsBackground{
+    -fx-background-color: default-color;
+}
 .powerUpCardBackground{
     -fx-background-color: default-color;
 }
@@ -170,6 +177,24 @@ SPECIFIC CLASSES
     -fx-background-color: default-color;
 }
 .damageBackground{
+    -fx-background-color: default-color;
+}
+.damageBackgroundFB{
+    -fx-background-color: default-color;
+}
+.damageBackgroundAG{
+    -fx-background-color: default-color;
+}
+.damageBackgroundAS{
+    -fx-background-color: default-color;
+}
+.damageBackgroundK{
+    -fx-background-color: default-color;
+}
+.damageBackgroundOK{
+    -fx-background-color: default-color;
+}
+.damageBackgroundEXTRA{
     -fx-background-color: default-color;
 }
 .damageGreen{
@@ -239,6 +264,9 @@ SPECIFIC CLASSES
     -fx-background-color:default-color;
 }
 /*3.1.3.2-weapon cards images*/
+.weaponCardsBackground{
+    -fx-background-color:default-color;
+}
 .weaponCardBackground{
     -fx-background-color:default-color;
 }

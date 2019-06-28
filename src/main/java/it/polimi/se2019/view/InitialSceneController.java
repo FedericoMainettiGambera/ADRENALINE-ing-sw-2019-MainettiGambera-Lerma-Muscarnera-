@@ -79,7 +79,7 @@ public class InitialSceneController implements Initializable {
             this.netWorkConnection = "";
         }
         else if(this.networkConnectionToggleGroup.getSelectedToggle().equals(this.rmiRadio)){
-            this.netWorkConnection = "rmi";
+            this.netWorkConnection = "RMI";
             this.portContent = "1099";
         }
         else if(this.networkConnectionToggleGroup.getSelectedToggle().equals(this.socketRadio)){
@@ -189,9 +189,9 @@ public class InitialSceneController implements Initializable {
     @FXML
     public void onCLIHyperlinkPressed(){
         //close stage:
-        GUIstarter.getStage().hide();
+        Platform.runLater(()-> GUIstarter.getStage().hide());
         //starts CLI:
-        Controller.startClientSocketOrRMIWithCLI();
+        new Thread(Controller::startClientSocketOrRMIWithCLI).start();
     }
 
     @FXML

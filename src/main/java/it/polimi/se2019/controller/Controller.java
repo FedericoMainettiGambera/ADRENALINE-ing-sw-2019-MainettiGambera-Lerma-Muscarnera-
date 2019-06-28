@@ -11,6 +11,7 @@ import it.polimi.se2019.view.components.ViewModelGate;
 import it.polimi.se2019.view.selector.CLISelector;
 import it.polimi.se2019.virtualView.RMIREDO.RmiVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.io.IOException;
 import java.io.PrintWriter;

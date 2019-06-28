@@ -169,15 +169,11 @@
                                                 </StackPane>
                                              </children>
                                           </StackPane>
-                                          <StackPane fx:id="backgroundMark2" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                          <StackPane fx:id="backgroundMark2" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <StackPane fx:id="mainImageMark2">
                                                    <children>
-                                                      <StackPane>
-                                                         <children>
-                                                            <Label text="MARK2" />
-                                                         </children>
-                                                      </StackPane>
+                                                      <Label text="MARK2" />
                                                    </children>
                                                 </StackPane>
                                              </children>
@@ -420,81 +416,81 @@
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                        </rowConstraints>
                                        <children>
-                                          <StackPane fx:id="backgroundRed1" prefHeight="150.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                                          <StackPane fx:id="ammoBackgroundRed1" prefHeight="150.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                                              <children>
-                                                <StackPane fx:id="mainImageRed1">
+                                                <StackPane fx:id="ammoMainImageRed1">
                                                    <children>
                                                       <Label text="RED" />
                                                    </children>
                                                 </StackPane>
                                              </children>
                                           </StackPane>
-                                          <StackPane fx:id="backgroundRed2" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                                          <StackPane fx:id="ammoBackgroundRed2" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                                              <children>
-                                                <StackPane fx:id="mainImageRed2">
+                                                <StackPane fx:id="ammoMainImageRed2">
                                                    <children>
                                                       <Label text="RED" />
                                                    </children>
                                                 </StackPane>
                                              </children>
                                           </StackPane>
-                                          <StackPane fx:id="backgroundRed3" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                                          <StackPane fx:id="ammoBackgroundRed3" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                                              <children>
-                                                <StackPane fx:id="mainImageRed3">
+                                                <StackPane fx:id="ammoMainImageRed3">
                                                    <children>
                                                       <Label text="RED" />
                                                    </children>
                                                 </StackPane>
                                              </children>
                                           </StackPane>
-                                          <StackPane fx:id="backgroundYellow1" prefHeight="150.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                                          <StackPane fx:id="ammoBackgroundYellow1" prefHeight="150.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                                              <children>
-                                                <StackPane fx:id="mainImageYellow1">
+                                                <StackPane fx:id="ammoMainImageYellow1">
                                                    <children>
                                                       <Label text="YELLOW" />
                                                    </children>
                                                 </StackPane>
                                              </children>
                                           </StackPane>
-                                          <StackPane fx:id="backgroundYellow2" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                                          <StackPane fx:id="ammoBackgroundYellow2" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                                              <children>
-                                                <StackPane fx:id="mainImageYellow2">
+                                                <StackPane fx:id="ammoMainImageYellow2">
                                                    <children>
                                                       <Label text="YELLOW" />
                                                    </children>
                                                 </StackPane>
                                              </children>
                                           </StackPane>
-                                          <StackPane fx:id="backgroundYellow3" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                                          <StackPane fx:id="ammoBackgroundYellow3" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                                              <children>
-                                                <StackPane fx:id="mainImageYellow3">
+                                                <StackPane fx:id="ammoMainImageYellow3">
                                                    <children>
                                                       <Label text="YELLOW" />
                                                    </children>
                                                 </StackPane>
                                              </children>
                                           </StackPane>
-                                          <StackPane fx:id="backgroundBlue1" prefHeight="150.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                                          <StackPane fx:id="ammoBackgroundBlue1" prefHeight="150.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                                              <children>
-                                                <StackPane fx:id="mainImageBlue1">
+                                                <StackPane fx:id="ammoMainImageBlue1">
                                                    <children>
                                                       <Label text="BLUE" />
                                                    </children>
                                                 </StackPane>
                                              </children>
                                           </StackPane>
-                                          <StackPane fx:id="backgroundBlue2" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                          <StackPane fx:id="ammoBackgroundBlue2" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                              <children>
-                                                <StackPane fx:id="mainImageBlue2">
+                                                <StackPane fx:id="ammoMainImageBlue2">
                                                    <children>
                                                       <Label text="BLUE" />
                                                    </children>
                                                 </StackPane>
                                              </children>
                                           </StackPane>
-                                          <StackPane fx:id="backgroundBlue3" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                          <StackPane fx:id="ammoBackgroundBlue3" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                              <children>
-                                                <StackPane fx:id="mainImageBlue3">
+                                                <StackPane fx:id="ammoMainImageBlue3">
                                                    <children>
                                                       <Label text="BLUE" />
                                                    </children>
@@ -523,7 +519,7 @@
                                                 </StackPane>
                                              </children>
                                           </StackPane>
-                                          <StackPane fx:id="weaponBackground2" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                          <StackPane fx:id="weaponCardBackground2" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <StackPane fx:id="weaponCardMainImage2">
                                                    <children>
@@ -532,7 +528,7 @@
                                                 </StackPane>
                                              </children>
                                           </StackPane>
-                                          <StackPane fx:id="weaponBackground3" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                          <StackPane fx:id="weaponCardBackground3" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <StackPane fx:id="weaponCardMainImage3">
                                                    <children>

@@ -189,7 +189,6 @@ public class LoadingSceneController implements Initializable {
 
 
     public void changeScene(){
-        //TODO: NON RIESCO A CAPIRE PERCHE' MI PERMETTA DI CARICARE QUALUNQUE FXML TRANNE QUELLO CHE VORREI CIOE' IL GAME FXML
         Platform.runLater(()->{
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/FXML/GAME.fxml"));

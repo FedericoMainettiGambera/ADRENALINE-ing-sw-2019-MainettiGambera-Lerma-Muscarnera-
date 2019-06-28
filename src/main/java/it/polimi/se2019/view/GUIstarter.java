@@ -39,27 +39,26 @@ public class GUIstarter extends Application {
     public void start(Stage primaryStage) {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getClassLoader().getResource("FXML/INITIALSCENE1.fxml"));
-        Parent root = null;
+        Parent root;
         try {
             root = fxmlLoader.load();
+            Scene scene= new Scene(root, 430, 529);
+            scene.setFill(Color.TRANSPARENT);
+
+            primaryStage.setResizable(false);
+            primaryStage.initStyle(StageStyle.TRANSPARENT);
+            primaryStage.setTitle("Adrenaline LOG-IN");
+
+            setStage(primaryStage);
+            setStageController(fxmlLoader.getController());
+
+            stage.setScene(scene);
+            stage.show();
         } catch (IOException e) {
             if(Controller.userInterface.equalsIgnoreCase("GUI")){
                 showError(this, "COULDN'T LOAD FILE", e);
             }
         }
-
-        Scene scene= new Scene(root, 430, 529);
-        scene.setFill(Color.TRANSPARENT);
-
-        primaryStage.setResizable(false);
-        primaryStage.initStyle(StageStyle.TRANSPARENT);
-        primaryStage.setTitle("Adrenaline LOG-IN");
-
-        setStage(primaryStage);
-        setStageController(fxmlLoader.getController());
-
-        stage.setScene(scene);
-        stage.show();
 
     }
 

@@ -181,24 +181,24 @@ public class GameSceneController implements Initializable {
 
     //3.1.2[1,1]- player ammo box
     @FXML private GridPane playerAmmoBox;
-    @FXML private StackPane backgroundRed1;
-    @FXML private StackPane mainImageRed1;
-    @FXML private StackPane backgroundRed2;
-    @FXML private StackPane mainImageRed2;
-    @FXML private StackPane backgroundRed3;
-    @FXML private StackPane mainImageRed3;
-    @FXML private StackPane backgroundYellow1;
-    @FXML private StackPane mainImageYellow1;
-    @FXML private StackPane backgroundYellow2;
-    @FXML private StackPane mainImageYellow2;
-    @FXML private StackPane backgroundYellow3;
-    @FXML private StackPane mainImageYellow3;
-    @FXML private StackPane backgroundBlue1;
-    @FXML private StackPane mainImageBlue1;
-    @FXML private StackPane backgroundBlue2;
-    @FXML private StackPane mainImageBlue2;
-    @FXML private StackPane backgroundBlue3;
-    @FXML private StackPane mainImageBlue3;
+    @FXML private StackPane ammoBackgroundRed1;
+    @FXML private StackPane ammoMainImageRed1;
+    @FXML private StackPane ammoBackgroundRed2;
+    @FXML private StackPane ammoMainImageRed2;
+    @FXML private StackPane ammoBackgroundRed3;
+    @FXML private StackPane ammoMainImageRed3;
+    @FXML private StackPane ammoBackgroundYellow1;
+    @FXML private StackPane ammoMainImageYellow1;
+    @FXML private StackPane ammoBackgroundYellow2;
+    @FXML private StackPane ammoMainImageYellow2;
+    @FXML private StackPane ammoBackgroundYellow3;
+    @FXML private StackPane ammoMainImageYellow3;
+    @FXML private StackPane ammoBackgroundBlue1;
+    @FXML private StackPane ammoMainImageBlue1;
+    @FXML private StackPane ammoBackgroundBlue2;
+    @FXML private StackPane ammoMainImageBlue2;
+    @FXML private StackPane ammoBackgroundBlue3;
+    @FXML private StackPane ammoMainImageBlue3;
 
     //3.1.3-player weapon cards
     @FXML
@@ -209,9 +209,9 @@ public class GameSceneController implements Initializable {
     @FXML private HBox weaponCardsBackground;
     @FXML private StackPane weaponCardBackground1;
     @FXML private StackPane weaponCardMainImage1;
-    @FXML private StackPane weaponBackground2;
+    @FXML private StackPane weaponCardBackground2;
     @FXML private StackPane weaponCardMainImage2;
-    @FXML private StackPane weaponBackground3;
+    @FXML private StackPane weaponCardBackground3;
     @FXML private StackPane weaponCardMainImage3;
 
 
@@ -225,11 +225,134 @@ public class GameSceneController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //initialize everything
+        //initialize everything:
         //      1) all css classes to the corresponding element (we'll manipulates images with css classes)
         //      2) initialize the canvas
         //      3) add everything that is already setted in the ViewModel (for example the PlayerList, the current State, Timers, etc...)
-        //CLIOutputHandler.showGeneralStatusOfTheGame();
+
+        //killshot track default css classes
+        this.killshotTrackSection.getStyleClass().add("emptyKillShotTrackBackground");
+        this.killshotTrackVBox.getStyleClass().add("killShotTrackBackground");
+        this.killBackground1.getStyleClass().add("killSlotBackground");
+        this.killMainImage1.getStyleClass().add("emptyKillSlot");
+        this.killBackground2.getStyleClass().add("killSlotBackground");
+        this.killMainImage2.getStyleClass().add("emptyKillSlot");
+        this.killBackground3.getStyleClass().add("killSlotBackground");
+        this.killMainImage3.getStyleClass().add("emptyKillSlot");
+        this.killBackground4.getStyleClass().add("killSlotBackground");
+        this.killMainImage4.getStyleClass().add("emptyKillSlot");
+        this.killBackground5.getStyleClass().add("killSlotBackground");
+        this.killMainImage5.getStyleClass().add("emptyKillSlot");
+        this.killBackground6.getStyleClass().add("killSlotBackground");
+        this.killMainImage6.getStyleClass().add("emptyKillSlot");
+        this.killBackground7.getStyleClass().add("killSlotBackground");
+        this.killMainImage7.getStyleClass().add("emptyKillSlot");
+        this.killBackground8.getStyleClass().add("killSlotBackground");
+        this.killMainImage8.getStyleClass().add("emptyKillSlotFF");
+
+        //player default css classes
+        this.playerSection.getStyleClass().add("emptyPlayerSectionBackground");
+        this.playerHBox.getStyleClass().add("playerSectionBackground");
+        //power up cards
+        this.powerUpCardsVBox.getStyleClass().add("powerUpCardsBackground");
+        this.powerUpCardsTitle.getStyleClass().add("powerUpCardsTitleBackground");
+        this.powerUpCardsBackground.getStyleClass().add("powerUpCardsBackground");
+        this.powerUpCardBackground1.getStyleClass().add("powerUpCardBackground");
+        this.powerUpCardBackground2.getStyleClass().add("powerUpCardBackground");
+        this.powerUpCardMainImage1.getStyleClass().add("emptyPowerUpCardMainImage");
+        this.powerUpCardMainImage2.getStyleClass().add("emptyPowerUpCardMainImage");
+        //statistics
+        this.playerStats.getStyleClass().add("playerStatisticsBackground");
+        //marks
+        this.playerMarks.getStyleClass().add("marksBackground");
+        this.backgroundMark1.getStyleClass().add("markBackground");
+        this.backgroundMark2.getStyleClass().add("markBackground");
+        this.backgroundMark3.getStyleClass().add("markBackground");
+        this.backgroundMark4.getStyleClass().add("markBackground");
+        this.backgroundMark5.getStyleClass().add("markBackground");
+        this.mainImageMark1.getStyleClass().add("markEmpty");
+        this.mainImageMark2.getStyleClass().add("markEmpty");
+        this.mainImageMark3.getStyleClass().add("markEmpty");
+        this.mainImageMark4.getStyleClass().add("markEmpty");
+        this.mainImageMark5.getStyleClass().add("markEmpty");
+        //damage and deaths
+        this.playerDamagesAndDeathsVBox.getStyleClass().add("playerDamageAndDeathsBackground");
+        //damage
+        this.playerDamagesHbox.getStyleClass().add("damagesBackground");
+        this.damageBackground1.getStyleClass().add("damageBackgroundFB");
+        this.damageBackground2.getStyleClass().add("damageBackground");
+        this.damageBackground3.getStyleClass().add("damageBackgroundAG");
+        this.damageBackground4.getStyleClass().add("damageBackground");
+        this.damageBackground5.getStyleClass().add("damageBackground");
+        this.damageBackground6.getStyleClass().add("damageBackgroundAS");
+        this.damageBackground7.getStyleClass().add("damageBackground");
+        this.damageBackground8.getStyleClass().add("damageBackground");
+        this.damageBackground9.getStyleClass().add("damageBackground");
+        this.damageBackground10.getStyleClass().add("damageBackground");
+        this.damageBackground11.getStyleClass().add("damageBackgroundK");
+        this.damageBackground12.getStyleClass().add("damageBackgroundOK");
+        this.damageBackground13.getStyleClass().add("damageBackgroundEXTRA");
+        this.damageMainImage1.getStyleClass().add("damageEmpty");
+        this.damageMainImage2.getStyleClass().add("damageEmpty");
+        this.damageMainImage3.getStyleClass().add("damageEmpty");
+        this.damageMainImage4.getStyleClass().add("damageEmpty");
+        this.damageMainImage5.getStyleClass().add("damageEmpty");
+        this.damageMainImage6.getStyleClass().add("damageEmpty");
+        this.damageMainImage7.getStyleClass().add("damageEmpty");
+        this.damageMainImage8.getStyleClass().add("damageEmpty");
+        this.damageMainImage9.getStyleClass().add("damageEmpty");
+        this.damageMainImage10.getStyleClass().add("damageEmpty");
+        this.damageMainImage11.getStyleClass().add("damageEmpty");
+        this.damageMainImage12.getStyleClass().add("damageEmpty");
+        this.damageMainImage13.getStyleClass().add("damageEmpty");
+        //death
+        this.playerDeathsHbox.getStyleClass().add("deathsBackground");
+        this.deathBackground1.getStyleClass().add("deathBackground");
+        this.deathBackground2.getStyleClass().add("deathBackground");
+        this.deathBackground3.getStyleClass().add("deathBackground");
+        this.deathBackground4.getStyleClass().add("deathBackground");
+        this.deathBackground5.getStyleClass().add("deathBackground");
+        this.deathBackground6.getStyleClass().add("deathBackground");
+        this.deathBackground7.getStyleClass().add("deathBackground");
+        this.deathMainImage1.getStyleClass().add("deathSkull");
+        this.deathMainImage2.getStyleClass().add("deathSkull");
+        this.deathMainImage3.getStyleClass().add("deathSkull");
+        this.deathMainImage4.getStyleClass().add("deathSkull");
+        this.deathMainImage5.getStyleClass().add("deathSkull");
+        this.deathMainImage6.getStyleClass().add("deathSkull");
+        this.deathMainImage7.getStyleClass().add("deathSkull");
+        //nickname
+        this.playerNicknameBackground.getStyleClass().add("nicknameBackground");
+        //ammo box
+        this.playerAmmoBox.getStyleClass().add("ammoBoxBackground");
+        this.ammoBackgroundBlue1.getStyleClass().add("ammoBackground");
+        this.ammoBackgroundBlue2.getStyleClass().add("ammoBackground");
+        this.ammoBackgroundBlue3.getStyleClass().add("ammoBackground");
+        this.ammoBackgroundRed1.getStyleClass().add("ammoBackground");
+        this.ammoBackgroundRed2.getStyleClass().add("ammoBackground");
+        this.ammoBackgroundRed3.getStyleClass().add("ammoBackground");
+        this.ammoBackgroundYellow1.getStyleClass().add("ammoBackground");
+        this.ammoBackgroundYellow2.getStyleClass().add("ammoBackground");
+        this.ammoBackgroundYellow3.getStyleClass().add("ammoBackground");
+        this.ammoMainImageBlue1.getStyleClass().add("emptyAmmo");
+        this.ammoMainImageBlue2.getStyleClass().add("emptyAmmo");
+        this.ammoMainImageBlue3.getStyleClass().add("emptyAmmo");
+        this.ammoMainImageRed1.getStyleClass().add("emptyAmmo");
+        this.ammoMainImageRed2.getStyleClass().add("emptyAmmo");
+        this.ammoMainImageRed3.getStyleClass().add("emptyAmmo");
+        this.ammoMainImageYellow1.getStyleClass().add("emptyAmmo");
+        this.ammoMainImageYellow2.getStyleClass().add("emptyAmmo");
+        this.ammoMainImageYellow3.getStyleClass().add("emptyAmmo");
+        //weapon cards
+        this.weaponCardsVBox.getStyleClass().add("weaponCardsBackground");
+        this.weaponCardsTitle.getStyleClass().add("weaponCardsTitleBackground");
+        this.weaponCardsBackground.getStyleClass().add("weaponCardsBackground");
+        this.weaponCardBackground1.getStyleClass().add("weaponCardBackground");
+        this.weaponCardBackground2.getStyleClass().add("weaponCardBackground");
+        this.weaponCardBackground3.getStyleClass().add("weaponCardBackground");
+        this.weaponCardMainImage1.getStyleClass().add("emptyWeaponCardMainImage");
+        this.weaponCardMainImage2.getStyleClass().add("emptyWeaponCardMainImage");
+        this.weaponCardMainImage3.getStyleClass().add("emptyWeaponCardMainImage");
     }
 
     /**sends an Event to the server in a new Thread, using the SendToServerThread class*/
