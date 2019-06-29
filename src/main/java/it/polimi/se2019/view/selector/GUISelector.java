@@ -9,6 +9,7 @@ import it.polimi.se2019.model.events.selectorEvents.SelectorEventPositions;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPowerUpCards;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventGameSetUp;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventNickname;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventTwoString;
 import it.polimi.se2019.view.GUIstarter;
 import it.polimi.se2019.view.GameSceneController;
 import it.polimi.se2019.view.components.*;
@@ -16,11 +17,10 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
 public class GUISelector implements SelectorV {
@@ -38,7 +38,33 @@ public class GUISelector implements SelectorV {
         return (GameSceneController)GUIstarter.getStageController();
     }
 
+    private void makeNodeHoverable(Node node){
+        node.setOnMouseEntered(e->{
+            ((Node)e.getSource()).setStyle("-fx-background-color: #ffb523");
+        });
+        node.setOnMouseExited(e->{
+            ((Node)e.getSource()).setStyle("-fx-background-color: #0e1d24");
+        });
+    }
 
+    private StackPane doneButton(){
+        //ELEMENTS
+        StackPane stackPane = new StackPane();
+        Button button = new Button("DONE");
+
+        makeNodeHoverable(button);
+
+        //STRUCTURE
+        stackPane.getChildren().add(button);
+
+        //PROPERTIES
+        stackPane.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(4));
+
+        return stackPane;
+    }
+
+
+    //##################################################################################################################
     @Override
     public void askGameSetUp(boolean canBot) {
         new Thread(new AskGameSetUp(canBot)).start();
@@ -47,8 +73,8 @@ public class GUISelector implements SelectorV {
         private boolean canBot;
         private String choosenMap = "map0";
         private boolean ifFinalFrenzy = false;
-        private boolean isBot;
-        private int numberOfSkulls;
+        private boolean isBot = false;
+        private int numberOfSkulls = 5;
         private AskGameSetUp(boolean canBot){
             this.canBot = canBot;
         }
@@ -63,13 +89,17 @@ public class GUISelector implements SelectorV {
                 }
             }
             //ask Map, ask FF, ask Bot, ask number of skulls
-            Node request = builRequest();
+            ScrollPane request = builRequest();
             Platform.runLater(()-> {
                 getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0);
-                Platform.runLater(()->((ScrollPane)request).setVvalue(1.0));
+                Platform.runLater(()->{
+                    //TODO:
+                    //request.setVvalue(0.0);
+                    //don't know why it doesn't works
+                });
             });
         }
-        private Node builRequest(){
+        private ScrollPane builRequest(){
             //main structure
             AnchorPane requestContainer = new AnchorPane();
             VBox scrollContent = new VBox();
@@ -79,11 +109,18 @@ public class GUISelector implements SelectorV {
             AnchorPane.setBottomAnchor(scrollContent, 0.0);
             AnchorPane.setLeftAnchor(scrollContent, 0.0);
             //result:
-            ScrollPane request = new ScrollPane(requestContainer);
+            ScrollPane request = new ScrollPane();
             request.setFitToWidth(true);
+            request.setContent(requestContainer);
 
 
             //building Nodes for the actuals requests:
+
+            //title
+            StackPane titleContainer = new StackPane();
+            Label titleLabel = new Label("GAME SET UP");
+            titleContainer.getChildren().add(titleLabel);
+            scrollContent.getChildren().add(titleContainer);
 
             //map request
             HBox mapRequest = buildMapRequest();
@@ -105,18 +142,13 @@ public class GUISelector implements SelectorV {
             scrollContent.getChildren().add(numberOfSkullsRequest);
 
             StackPane doneButton = doneButton();
+            //EVENTS
+            ((Button)doneButton.getChildren().get(0)).setOnAction(e->{
+                getGameSceneController().removeSelectorSection();
+                System.out.println("DONE");
+                getGameSceneController().sendToServer(new ViewControllerEventGameSetUp("normalMode", this.choosenMap, this.numberOfSkulls, this.ifFinalFrenzy, this.isBot));
+            });
             scrollContent.getChildren().add(doneButton);
-
-
-            //binding height property
-            //seems useless, but not sure
-            /*if(canBot){
-                requestContainer.prefHeightProperty().bind((mapRequest).prefHeightProperty().add((isFinalFrenzyRequest).prefHeightProperty()).add((numberOfSkullsRequest).prefHeightProperty()).add((isBotRequest).prefHeightProperty()));
-            }
-            else {
-                requestContainer.prefHeightProperty().bind((mapRequest).prefHeightProperty().add((isFinalFrenzyRequest).prefHeightProperty()).add((numberOfSkullsRequest).prefHeightProperty()));
-            }
-            */
 
             return request;
         }
@@ -139,9 +171,7 @@ public class GUISelector implements SelectorV {
             List<StackPane> maps = new ArrayList<>();
             for (int i = 0; i < 4; i++) {
                 StackPane mapMainImage = new StackPane();
-                mapMainImage.setStyle("-fx-background-color: rgba(146, 255, 88, 0.5)");
                 StackPane mapBackground = new StackPane(mapMainImage);
-                mapBackground.setStyle("-fx-background-color: #00f3ff");
 
                 mapMainImage.setId("map" + i);
 
@@ -150,12 +180,7 @@ public class GUISelector implements SelectorV {
                     this.choosenMap = ((Node)e.getSource()).getId();
                     System.out.println(((Node)e.getSource()).getId());
                 });
-                mapMainImage.setOnMouseEntered(e->{
-                    ((Node)e.getSource()).setStyle("-fx-background-color:  #ffb523");
-                });
-                mapMainImage.setOnMouseExited(e->{
-                    ((Node)e.getSource()).setStyle("-fx-background-color: rgba(146, 255, 88, 0.5)");
-                });
+                makeNodeHoverable(mapMainImage);
                 maps.add(mapBackground);
             }
 
@@ -201,11 +226,11 @@ public class GUISelector implements SelectorV {
 
             //EVENTS
             yes.setOnAction(e-> {
-                this.isBot = true;
+                this.ifFinalFrenzy = true;
                 System.out.println("true");
             });
             no.setOnAction(e-> {
-                this.isBot = false;
+                this.ifFinalFrenzy = false;
                 System.out.println("false");
             });
 
@@ -243,7 +268,7 @@ public class GUISelector implements SelectorV {
 
             //EVENTS
             yes.setOnAction(e-> {
-                this.ifFinalFrenzy = true;
+                this.isBot = true;
                 System.out.println("true");
             });
             no.setOnAction(e-> {
@@ -285,7 +310,6 @@ public class GUISelector implements SelectorV {
             //PROPERTIES
             radioButtons.get(0).setSelected(true);
             VBox.setVgrow(label,Priority.ALWAYS);
-            label.setStyle("-fx-border-color: blue");
             VBox.setVgrow(hbox, Priority.ALWAYS);
 
             vbox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(2));
@@ -302,39 +326,141 @@ public class GUISelector implements SelectorV {
 
             return vbox;
         }
-
-        private StackPane doneButton(){
-            //ELEMENTS
-            StackPane stackPane = new StackPane();
-            Button button = new Button("DONE");
-
-            //STRUCTURE
-            stackPane.getChildren().add(button);
-
-            //EVENTS
-            button.setOnAction(e->{
-                System.out.println("DONE");
-                getGameSceneController().sendToServer(new ViewControllerEventGameSetUp("normalMode", this.choosenMap, this.numberOfSkulls, this.ifFinalFrenzy, this.isBot));
-            });
-
-            //PROPERTIES
-            stackPane.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(4));
-
-            return stackPane;
-        }
     }
 
+
+    //##################################################################################################################
     @Deprecated
     @Override
     public void askPlayerSetUp() {
-
+        //DEPRECATED
     }
 
+
+    //##################################################################################################################
     @Override
     public void askFirstSpawnPosition(List<PowerUpCardV> powerUpCards, boolean spawnBot) {
+        new Thread(new AskFirstSpawnPosition(powerUpCards, spawnBot)).start();
+    }
+    private class AskFirstSpawnPosition extends Thread {
+        private List<PowerUpCardV> powerUpCards;
+        private boolean spawnBot;
+        private String botSpawn;
+        private String cardID;
+        public  AskFirstSpawnPosition(List<PowerUpCardV> powerUpCards, boolean spawnBot){
+            this.powerUpCards = powerUpCards;
+            this.spawnBot=spawnBot;
+
+            this.botSpawn = "red";
+            this.cardID=powerUpCards.get(0).getID();
+        }
+        @Override
+        public void run() {
+            ScrollPane request = buildRequest();
+            Platform.runLater(()-> {
+                getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0);
+            });
+        }
+        private ScrollPane buildRequest(){
+            //main structure
+            VBox scrollContent = new VBox();
+            AnchorPane requestContainer = new AnchorPane();
+            requestContainer.getChildren().add(scrollContent);
+            AnchorPane.setTopAnchor(scrollContent, 0.0);
+            AnchorPane.setRightAnchor(scrollContent, 0.0);
+            AnchorPane.setBottomAnchor(scrollContent, 0.0);
+            AnchorPane.setLeftAnchor(scrollContent, 0.0);
+            //result:
+            ScrollPane request = new ScrollPane();
+            request.setFitToWidth(true);
+            request.setContent(requestContainer);
+
+            scrollContent.setStyle("-fx-background-color: red");
+
+            //BOT REQUEST
+            if(spawnBot){
+                VBox vBox = new VBox();
+                StackPane title = new StackPane(new Label("Choose where you want to spawn the bot"));
+                StackPane red = new StackPane(new Label("red"));
+                StackPane blue = new StackPane(new Label("blue"));
+                StackPane yellow = new StackPane(new Label("yellow"));
+                vBox.getChildren().add(title);
+                vBox.getChildren().add(red);
+                vBox.getChildren().add(blue);
+                vBox.getChildren().add(yellow);
+                scrollContent.getChildren().add(vBox);
+                VBox.setVgrow(title, Priority.ALWAYS);
+                VBox.setVgrow(red, Priority.ALWAYS);
+                VBox.setVgrow(blue, Priority.ALWAYS);
+                VBox.setVgrow(yellow, Priority.ALWAYS);
+
+                vBox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
+
+                red.setOnMouseClicked(e->{
+                    this.botSpawn = "red";
+                    System.out.println("red");
+                });
+                blue.setOnMouseClicked(e->{
+                    this.botSpawn = "blue";
+                    System.out.println("blue");
+                });
+                yellow.setOnMouseClicked(e->{
+                    this.botSpawn = "yellow";
+                    System.out.println("yellow");
+                });
+            }
+
+            //QUESTION
+            StackPane stackPane = new StackPane();
+            Label question = new Label("What power up do you want to discard and spawn to?");
+            stackPane.getChildren().add(question);
+            stackPane.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(6));
+            scrollContent.getChildren().add(stackPane);
+
+            //POWER UP REQUEST
+            List<StackPane> powerUps = new ArrayList<>();
+            for (PowerUpCardV powerUpCardV: this.powerUpCards) {
+                StackPane stackPaneBackground = new StackPane();
+                StackPane stackPaneMainImage = new StackPane();
+                stackPaneMainImage.setUserData(powerUpCardV.getID());
+                stackPaneBackground.getChildren().add(stackPaneMainImage);
+
+                stackPaneMainImage.setOnMouseClicked(e->{
+                    this.cardID = (String)((StackPane)e.getSource()).getUserData();
+                    System.out.println("ID:" + this.cardID);
+                });
+                makeNodeHoverable(stackPaneMainImage);
+                powerUps.add(stackPaneBackground);
+            }
+
+            HBox hBox = new HBox();
+            for (StackPane powerUp:powerUps) {
+                hBox.getChildren().add(powerUp);
+                HBox.setHgrow(powerUp, Priority.ALWAYS);
+            }
+            hBox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
+            scrollContent.getChildren().add(hBox);
+
+            for (Node n: scrollContent.getChildren()) {
+                VBox.setVgrow(n, Priority.ALWAYS);
+            }
+
+            //DONE BUTTON
+            StackPane doneButton = doneButton();
+            ((Button)doneButton.getChildren().get(0)).setOnAction(e->{
+                ViewControllerEventTwoString viewControllerEventTwoString = new ViewControllerEventTwoString(cardID, botSpawn);
+                getGameSceneController().sendToServer(viewControllerEventTwoString);
+                System.out.println("DONE");
+            });
+            scrollContent.getChildren().add(doneButton);
+
+            return request;
+        }
 
     }
 
+
+    //##################################################################################################################
     @Override
     public void askTurnAction(int actionNumber, boolean canUsePowerUp, boolean canUseBot) {
 
@@ -343,82 +469,114 @@ public class GUISelector implements SelectorV {
         this.canUseBot = canUseBot;
     }
 
+
+    //##################################################################################################################
     @Override
     public void askBotMove(SelectorEventPositions SEPositions) {
 
     }
 
+
+    //##################################################################################################################
     @Override
     public void askRunAroundPosition(List<Position> positions) {
 
     }
 
+
+    //##################################################################################################################
     @Override
     public void askGrabStuffAction() {
 
     }
 
+
+    //##################################################################################################################
     @Override
     public void askGrabStuffMove(List<Position> positions) {
 
     }
 
+
+    //##################################################################################################################
     @Override
     public void askGrabStuffGrabWeapon(List<WeaponCardV> toPickUp) {
 
     }
 
+
+    //##################################################################################################################
     @Override
     public void askGrabStuffSwitchWeapon(List<WeaponCardV> toPickUp, List<WeaponCardV> toSwitch) {
 
     }
 
+
+    //##################################################################################################################
     @Override
     public void askPowerUpToDiscard(List<PowerUpCardV> toDiscard) {
 
     }
 
+
+    //##################################################################################################################
     @Override
     public void askWhatReaload(List<WeaponCardV> toReload) {
 
     }
 
+
+    //##################################################################################################################
     @Override
     public void askSpawn(List<PowerUpCardV> powerUpCards) {
 
     }
 
+
+    //##################################################################################################################
     @Override
     public void askShootOrMove() {
 
     }
 
+
+    //##################################################################################################################
     @Deprecated
     @Override
     public void askShootReloadMove() {
 
     }
 
+
+    //##################################################################################################################
     @Override
     public void askWhatWep(List<WeaponCardV> loadedCardInHand) {
 
     }
 
+
+    //##################################################################################################################
     @Override
     public void askWhatEffect(List<EffectV> possibleEffects) {
 
     }
 
+
+    //##################################################################################################################
     @Override
     public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
 
     }
 
+
+    //##################################################################################################################
     @Override
     public void askReconnectionNickname(ReconnectionEvent RE) {
 
     }
 
+
+    //##################################################################################################################
     private boolean nicknameIsAvailable = true;
     @Override
     public void askNickname() {
@@ -432,31 +590,43 @@ public class GUISelector implements SelectorV {
         }
     }
 
+
+    //##################################################################################################################
     @Override
     public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformormation) {
 
     }
 
+
+    //##################################################################################################################
     @Override
     public void askPowerUpToUse(SelectorEventPowerUpCards powerUpCards) {
 
     }
 
+
+    //##################################################################################################################
     @Override
     public void wantToUsePowerUpOrNot() {
 
     }
 
+
+    //##################################################################################################################
     @Override
     public void askBotShoot(SelectorEventPlayers SEPlayers) {
 
     }
 
+
+    //##################################################################################################################
     @Override
     public void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV) {
 
     }
 
+
+    //##################################################################################################################
     @Override
     public void askTagBackGranade(List<PowerUpCardV> listOfTagBackGranade) {
 

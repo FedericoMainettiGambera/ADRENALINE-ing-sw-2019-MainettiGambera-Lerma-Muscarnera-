@@ -374,7 +374,8 @@ public class GameSceneController implements Initializable {
 
     public void changeSelectorSection(Node newSection, Double top, Double right, Double bottom, Double left){
         //delete old section, if any exist
-        this.selectorSection.getChildren().removeAll();
+        this.selectorSection.getChildren().clear();
+
         //append newSection
         this.selectorSection.getChildren().add(newSection);
 
@@ -390,6 +391,20 @@ public class GameSceneController implements Initializable {
         if(left!=null) {
             AnchorPane.setLeftAnchor(newSection, left);
         }
+    }
+
+    public void removeSelectorSection(){
+        this.selectorSection.getChildren().clear();
+
+        Label label = new Label("Selector Section");
+        StackPane stackPane = new StackPane(label);
+
+        this.selectorSection.getChildren().add(stackPane);
+        AnchorPane.setTopAnchor(stackPane, 0.0);
+        AnchorPane.setRightAnchor(stackPane, 0.0);
+        AnchorPane.setBottomAnchor(stackPane, 0.0);
+        AnchorPane.setLeftAnchor(stackPane, 0.0);
+
     }
 
     public AnchorPane getSelectorSection(){
