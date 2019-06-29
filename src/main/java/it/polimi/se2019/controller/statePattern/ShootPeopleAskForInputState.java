@@ -23,17 +23,23 @@ public class ShootPeopleAskForInputState implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(ShootPeopleAskForInputState.class.getName());
+
+    /** player to ask the input to*/
     private Player playerToAsk;
 
+    /**timer that activates the count down to the afk status*/
     private Thread inputTimer;
 
+    /** the effect chosen by the user to be used*/
     private Effect chosenEffect;
 
+    /** indicates if it's action number 1 or 2*/
     private int actionNumber;
 
+    /**contains the weapon card the user decided to use*/
     private WeaponCard chosenWeaponCard;
 
-
+   /**constru*/
     public ShootPeopleAskForInputState(Effect chosenEffect, WeaponCard chosenWeaponCard, int actionNumber){
         out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
@@ -44,11 +50,7 @@ public class ShootPeopleAskForInputState implements State {
 
     private Integer inputRequestCounterF = 0;
     public boolean canIncrementRequest(){
-        if(inputRequestCounterF < this.chosenEffect.requestedInputs().size()-1 ){
-            return true;
-        }else{
-            return false;
-        }
+        return inputRequestCounterF < this.chosenEffect.requestedInputs().size() - 1;
     }
 
     @Override
@@ -79,13 +81,13 @@ public class ShootPeopleAskForInputState implements State {
 
 
     @Override
-    public void doAction(ViewControllerEvent VCE) {
+    public void doAction(ViewControllerEvent viewControllerEvent) {
         this.inputTimer.interrupt();
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> " + this.getClass() + ".doAction();");
 
-        List<Object> response = ((ViewControllerEventListOfObject)VCE).getAnswer();
+        List<Object> response = ((ViewControllerEventListOfObject)viewControllerEvent).getAnswer();
 
         Object[] inputRow = new Object[10];
 
@@ -108,7 +110,7 @@ public class ShootPeopleAskForInputState implements State {
         askMoreOrExec();
     }
 
-    public void askMoreOrExec(){
+    private void askMoreOrExec(){
         if(canIncrementRequest()) {
             inputRequestCounterF++;
             askForInput(playerToAsk);
@@ -183,7 +185,7 @@ public class ShootPeopleAskForInputState implements State {
     }
 
 
-    public boolean isToSend(EffectInfoType infoType){
+    private boolean isToSend(EffectInfoType infoType){
         if(infoType.equals(EffectInfoType.player) ||
                 infoType.equals(EffectInfoType.playerSquare)||
                 infoType.equals(EffectInfoType.targetListBySameSquareOfPlayer)||

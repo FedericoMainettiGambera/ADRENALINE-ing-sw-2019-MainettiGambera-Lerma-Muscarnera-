@@ -32,7 +32,7 @@ public class VirtualViewSelector implements Selector {
     }
 
     @Override
-    public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards, boolean spawnBot) {
+    public void askFirstSpawnPosition(List<PowerUpCard> powerUpCards, boolean spawnBot) {
 
     }
 
@@ -42,12 +42,12 @@ public class VirtualViewSelector implements Selector {
     }
 
     @Override
-    public void askRunAroundPosition(ArrayList<Position> positions) {
+    public void askRunAroundPosition(List<Position> positions) {
 
     }
 
     @Override
-    public void askBotMove(ArrayList<Position> positions) {
+    public void askBotMove(List<Position> positions) {
 
     }
 
@@ -57,32 +57,32 @@ public class VirtualViewSelector implements Selector {
     }
 
     @Override
-    public void askGrabStuffMove(ArrayList<Position> positions) {
+    public void askGrabStuffMove(List<Position> positions) {
 
     }
 
     @Override
-    public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp) {
+    public void askGrabStuffGrabWeapon(List<WeaponCard> toPickUp) {
 
     }
 
     @Override
-    public void askGrabStuffSwitchWeapon(ArrayList<WeaponCard> toPickUp, ArrayList<WeaponCard> toSwitch) {
+    public void askGrabStuffSwitchWeapon(List<WeaponCard> toPickUp, List<WeaponCard> toSwitch) {
 
     }
 
     @Override
-    public void askPowerUpToDiscard(ArrayList<PowerUpCard> toDiscard) {
+    public void askPowerUpToDiscard(List<PowerUpCard> toDiscard) {
 
     }
 
     @Override
-    public void askWhatReaload(ArrayList<WeaponCard> toReload) {
+    public void askWhatReaload(List<WeaponCard> toReload) {
 
     }
 
     @Override
-    public void askSpawn(ArrayList<PowerUpCardV> powerUpCards) {
+    public void askSpawn(List<PowerUpCardV> powerUpCards) {
 
     }
 
@@ -98,12 +98,12 @@ public class VirtualViewSelector implements Selector {
     }
 
     @Override
-    public void askWhatWep(ArrayList<WeaponCard> loadedCardInHand) {
+    public void askWhatWep(List<WeaponCard> loadedCardInHand) {
 
     }
 
     @Override
-    public void askWhatEffect(ArrayList<Effect> possibleEffects) {
+    public void askWhatEffect(List<Effect> possibleEffects) {
 
     }
 
@@ -113,7 +113,7 @@ public class VirtualViewSelector implements Selector {
     }
 
     @Override
-    public void askReconnectionNickname(ReconnectionEvent RE) {
+    public void askReconnectionNickname(ReconnectionEvent reconnectionEvent) {
 
     }
 
@@ -123,7 +123,7 @@ public class VirtualViewSelector implements Selector {
     }
 
     @Override
-    public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformation) {
+    public void askPaymentInformation(SelectorEventPaymentInformation selectorEventPaymentInformation) {
 
     }
 

@@ -17,44 +17,44 @@ public interface Selector {
     @Deprecated
     public void askPlayerSetUp();
 
-    public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards, boolean spawnBot);
+    public void askFirstSpawnPosition(List<PowerUpCard> powerUpCards, boolean spawnBot);
 
     public void askTurnAction(int actionNumber, boolean canUsePowerUp, boolean canUseBot);
 
-    public void askRunAroundPosition(ArrayList<Position> positions);
+    public void askRunAroundPosition(List<Position> positions);
 
-    public void askBotMove(ArrayList<Position> positions);
+    public void askBotMove(List<Position> positions);
 
     public void askGrabStuffAction();
 
-    public void askGrabStuffMove(ArrayList<Position> positions);
+    public void askGrabStuffMove(List<Position> positions);
 
-    public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp);
+    public void askGrabStuffGrabWeapon(List<WeaponCard> toPickUp);
 
-    public void askGrabStuffSwitchWeapon(ArrayList<WeaponCard> toPickUp, ArrayList<WeaponCard> toSwitch);
+    public void askGrabStuffSwitchWeapon(List<WeaponCard> toPickUp, List<WeaponCard> toSwitch);
 
-    public void askPowerUpToDiscard(ArrayList<PowerUpCard> toDiscard);
+    public void askPowerUpToDiscard(List<PowerUpCard> toDiscard);
 
-    public void askWhatReaload(ArrayList<WeaponCard> toReload);
+    public void askWhatReaload(List<WeaponCard> toReload);
 
-    public void askSpawn(ArrayList<PowerUpCardV> powerUpCards);
+    public void askSpawn(List<PowerUpCardV> powerUpCards);
 
     public void askShootOrMove();
 
     @Deprecated
     public void askShootReloadMove();
 
-    public void askWhatWep(ArrayList<WeaponCard> loadedCardInHand);
+    public void askWhatWep(List<WeaponCard> loadedCardInHand);
 
-    public void askWhatEffect(ArrayList<Effect> possibleEffects);
+    public void askWhatEffect(List<Effect> possibleEffects);
 
     public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs);
 
-    public void askReconnectionNickname (ReconnectionEvent RE);
+    public void askReconnectionNickname (ReconnectionEvent reconnectionEvent);
 
     public void askNickname();
 
-    public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformation);
+    public void askPaymentInformation(SelectorEventPaymentInformation selectorEventPaymentInformation);
 
     public void askPowerUpToUse(List<PowerUpCardV> powerUpCards);
 

@@ -5,18 +5,14 @@ import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.timerEvent.TimerEvent;
 import it.polimi.se2019.virtualView.RMIREDO.RmiVirtualView;
 import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
-
 import java.io.PrintWriter;
-import java.rmi.RemoteException;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class WaitForPlayerInput implements Runnable{
 
     private static PrintWriter out= new PrintWriter(System.out, true);
-    private static final Logger logger = Logger.getLogger(WaitForPlayerInput.class.getName());
 
 
     private Player playerToAsk;
@@ -25,9 +21,9 @@ public class WaitForPlayerInput implements Runnable{
 
     private String callingClass;
 
-    private SocketVirtualView SVV = ViewControllerEventHandlerContext.socketVV;
+    private SocketVirtualView socketVirtualView = ViewControllerEventHandlerContext.socketVV;
 
-    private RmiVirtualView RMIVV = ViewControllerEventHandlerContext.RMIVV;
+    private RmiVirtualView rmiVirtualView = ViewControllerEventHandlerContext.RMIVV;
 
     public WaitForPlayerInput(Player p, String callingClass){
         this.playerToAsk = p;
@@ -45,8 +41,8 @@ public class WaitForPlayerInput implements Runnable{
         int i = 1;
 
         while (i <= GameConstant.timeToInsertInputInSeconds) {
-            this.RMIVV.sendAllClient(new TimerEvent(i, GameConstant.timeToInsertInputInSeconds, "input"));
-            this.SVV.sendAllClient(new TimerEvent(i, GameConstant.timeToInsertInputInSeconds, "input"));
+            this.rmiVirtualView.sendAllClient(new TimerEvent(i, GameConstant.timeToInsertInputInSeconds, "input"));
+            this.socketVirtualView.sendAllClient(new TimerEvent(i, GameConstant.timeToInsertInputInSeconds, "input"));
             try {
                 TimeUnit.SECONDS.sleep(1);
                 out.println("                                            Thread: <SERVER-InputTimer-for-"+playerToAsk.getNickname()+"> time passed: " + i + " seconds.  ID: " + this.randomID);

@@ -4,16 +4,15 @@ import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.controller.statePattern.GameSetUpState;
 import it.polimi.se2019.model.events.timerEvent.TimerEvent;
-
-import java.rmi.RemoteException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ConnectionGameCountDown implements Runnable {
 
+
     private int numberOfConnectionAtInstantiationTime;
-    static final Logger logger=Logger.getLogger(ConnectionGameCountDown.class.getName());
+    private static final Logger logger=Logger.getLogger(ConnectionGameCountDown.class.getName());
 
     public ConnectionGameCountDown(int numberOfConnectionAtInstantiationTime){
         this.numberOfConnectionAtInstantiationTime = numberOfConnectionAtInstantiationTime;
@@ -21,14 +20,18 @@ public class ConnectionGameCountDown implements Runnable {
 
     @Override
     public void run() {
+        String string="<SERVER> STARTING GAME.";
         System.out.println("<SERVER> Reached minimum number of players connected. Starting COUNT DOWN of " +GameConstant.countdownInSecondsForConnectionQueue + " seconds.");
 
         int i = 1;
         while(i<=GameConstant.countdownInSecondsForConnectionQueue) {
 
-            ViewControllerEventHandlerContext.RMIVV.sendAllClient(new TimerEvent(i, GameConstant.countdownInSecondsForConnectionQueue, "Connection"));
-            ViewControllerEventHandlerContext.socketVV.sendAllClient(new TimerEvent(i, GameConstant.countdownInSecondsForConnectionQueue, "Connection"));
-
+            if(ViewControllerEventHandlerContext.RMIVV!=null){
+                ViewControllerEventHandlerContext.RMIVV.sendAllClient(new TimerEvent(i, GameConstant.countdownInSecondsForConnectionQueue, "Connection"));
+            }
+            if(ViewControllerEventHandlerContext.socketVV!=null) {
+                ViewControllerEventHandlerContext.socketVV.sendAllClient(new TimerEvent(i, GameConstant.countdownInSecondsForConnectionQueue, "Connection"));
+            }
             try {
                 TimeUnit.SECONDS.sleep(1);
                 System.out.println("                                            Thread: <SERVER-ConnectionCountDOwn> time passed: " + i + " seconds.");
@@ -38,7 +41,7 @@ public class ConnectionGameCountDown implements Runnable {
             }
             if(ModelGate.model.getNumberOfClientsConnected() > GameConstant.maxNumberOfPlayerPerGame-1){
                 System.out.println("<SERVER> max number of clients connected.");
-                System.out.println("<SERVER> STARTING GAME.");
+                System.out.println(string);
                 ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
                 ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayers().get(0));
                 return;
@@ -48,7 +51,7 @@ public class ConnectionGameCountDown implements Runnable {
 
         if((ModelGate.model.getNumberOfClientsConnected()) == this.numberOfConnectionAtInstantiationTime){
             System.out.println("<SERVER> COUNT DOWN has ended and the number of connection hasn't changed");
-            System.out.println("<SERVER> STARTING GAME.");
+            System.out.println(string);
             ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
             ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayers().get(0));
         }
@@ -56,7 +59,7 @@ public class ConnectionGameCountDown implements Runnable {
             System.out.println("<SERVER> COUNT DOWN has ended but the number of connection has changed");
             if(ModelGate.model.getNumberOfClientsConnected() >= GameConstant.minNumberOfPlayerPerGame){
                 System.out.println("<SERVER> There are " + ModelGate.model.getNumberOfClientsConnected() + " clients connected. The Game is Playeable.");
-                System.out.println("<SERVER> STARTING GAME.");
+                System.out.println(string);
                 ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
                 ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayers().get(0));
             }

@@ -115,8 +115,10 @@ public class OrderedCardList<T> extends Observable implements Serializable {
             setChanged();
             OrderedCardListV cards = this.buildDeckV();
             OrderedCardListV cards2 = to.buildDeckV();
-            ModelViewEvent MVE = new ModelViewEvent(cards, ModelViewEventTypes.movingCardsAround, cards2);
-            notifyObservers(MVE);
+            ModelViewEvent modelViewEvent = new ModelViewEvent(cards, ModelViewEventTypes.movingCardsAround, cards2);
+
+            notifyObservers(modelViewEvent);
+
 
             return true;
         }
@@ -141,6 +143,7 @@ public class OrderedCardList<T> extends Observable implements Serializable {
 
     /**shuffles all cards in this ordered card list*/
     public void shuffle() {
+
         Collections.shuffle(this.cards);
 
         setChanged();

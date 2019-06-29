@@ -62,7 +62,7 @@ public class GameSetUpState implements State {
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         out.println("<SERVER> Setting hasGameBegun to true.");
-        Game.hasGameBegun = true;
+        Game.setHasGameBegun(true);
 
         out.println("<SERVER> Setting Starting Player.");
         ModelGate.model.getPlayerList().setStartingPlayer(playerToAsk);

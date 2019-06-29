@@ -10,6 +10,9 @@ import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * changes the context of the game
+ */
 public class  ViewControllerEventHandlerContext implements Observer{
 
     public static State state;

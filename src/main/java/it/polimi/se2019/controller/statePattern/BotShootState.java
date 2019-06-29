@@ -7,9 +7,6 @@ import it.polimi.se2019.controller.WaitForPlayerInput;
 import it.polimi.se2019.model.Board;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.Position;
-import it.polimi.se2019.model.Square;
-import it.polimi.se2019.model.enumerations.CardinalPoint;
-import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
 import it.polimi.se2019.view.components.PlayerV;
@@ -46,15 +43,17 @@ public class BotShootState implements State{
      * */
     @Override
     public void askForInput(Player playerToAsk) {
-        this.playerToAsk = playerToAsk;
-        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+
+        setPlayerToAsk(playerToAsk);
 
         List<Player> players = playersCanBotSee();
 
         List<PlayerV> playersV = new  ArrayList<>();
+
         for (Player p: players) {
             playersV.add(p.buildPlayerV());
         }
+
         if(playersV.isEmpty()){
             out.println("<SERVER> bot can't see anybody");
             ViewControllerEventHandlerContext.setNextState(this.nextState);
@@ -73,6 +72,12 @@ public class BotShootState implements State{
         }
     }
 
+    /**@param playerToAsk we set here the player to ask */
+    public void setPlayerToAsk(Player playerToAsk){
+        this.playerToAsk = playerToAsk;
+        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+    }
+
     /**@param vce from which needed information is extrapolated
      * this doAction add damage to a player, chosen by the owner of the bot,
      *  between the ones the bot can see
@@ -82,16 +87,26 @@ public class BotShootState implements State{
 
 
         this.inputTimer.interrupt();
-        out.println("<SERVER> player has answered before the timer ended.");
 
-        out.println("<SERVER> "+ this.getClass() +".doAction();");
+        List<Player> damagedPlayer=parseVce(vce);
+
+        ViewControllerEventHandlerContext.setNextState(new TagBackGranadeState(this.nextState, damagedPlayer, ModelGate.model.getPlayerList().getPlayer("Terminator")));
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+    }
+
+    /**parse the
+     * @param vce that contains the player the bot needs to shoot
+     * if the bot has the adrenaline action unblocked, he gives them a mark too
+     * then we set the bot used and ask the damaged player if he wants to use a
+     * specific power up*/
+    public List<Player> parseVce(ViewControllerEvent vce){
 
         //parse VCE
         ViewControllerEventString vceString = (ViewControllerEventString)vce;
         Player player=ModelGate.model.getPlayerList().getPlayer(vceString.getInput());
 
 
-        player.addDamages(ModelGate.model.getPlayerList().getPlayer(botNickname),1);
+        player.addDamages(ModelGate.model.getPlayerList().getPlayer(botNickname),12);
 
         out.println("<SERVER> bot giving damage to: "+ vceString.getInput());
 
@@ -106,10 +121,8 @@ public class BotShootState implements State{
         List<Player> damagedPlayer = new ArrayList<>();
         damagedPlayer.add(player);
 
-        ViewControllerEventHandlerContext.setNextState(new TagBackGranadeState(this.nextState, damagedPlayer, ModelGate.model.getPlayerList().getPlayer("Terminator")));
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        return damagedPlayer;
     }
-
 
     /**
      * set the player AFK in case they don't send required input in a while
@@ -126,7 +139,7 @@ public class BotShootState implements State{
     /**@return a list of player who are in the same room as the bot or who are in a room adjacent
      * to the Square of the bot and divided by a door
      * */
-    private List<Player> playersCanBotSee(){
+    public List<Player> playersCanBotSee(){
 
         out.println("<SERVER> searching for the players the bot can see:");
 
@@ -135,7 +148,7 @@ public class BotShootState implements State{
         List<Player> playersBotCanShoot = Board.getCanSeePlayerFrom(botPosition);
 
         //remove the player who is using the bot
-        for (Player p: playersBotCanShoot) {
+        for (Player p: playersBotCanShoot){
             if(p.getNickname().equals(playerToAsk.getNickname())){
                 out.println("<SERVER> removing from the list of player the current playing player");
                 playersBotCanShoot.remove(p);
@@ -167,4 +180,8 @@ public class BotShootState implements State{
 
 
 }
+
+
+
+
 

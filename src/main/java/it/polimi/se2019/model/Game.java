@@ -26,25 +26,33 @@ public class Game extends Observable implements Serializable {
         this.powerUpDiscardPile = new OrderedCardList<>("powerUpDiscardPile");
     }
 
-    private static int numberOfClientsConnected = 0;
+    private static int numberOfClientsConnected=0;
 
-    public static boolean hasGameBegun = false;
+    private static boolean hasGameBegun = false;
+
+    public static boolean isHasGameBegun() {
+        return hasGameBegun;
+    }
+
+    public static void setHasGameBegun(boolean hasGameBegun) {
+        Game.hasGameBegun = hasGameBegun;
+    }
 
     public int getNumberOfClientsConnected(){
-        return this.numberOfClientsConnected;
+        return numberOfClientsConnected;
     }
 
     private boolean hasTimerBegun = false;
 
     public void setNumberOfClientsConnected(int numberOfClientsConnected){
         System.out.println("         MODELGATE: SETTING NUMBER OF CONNECTION");
-        this.numberOfClientsConnected = numberOfClientsConnected;
-        if(!hasTimerBegun) {
-            if (this.numberOfClientsConnected >= GameConstant.minNumberOfPlayerPerGame) {
+
+        Game.numberOfClientsConnected = numberOfClientsConnected;
+
+        if((!hasTimerBegun)&&(numberOfClientsConnected >= GameConstant.minNumberOfPlayerPerGame)){
                 this.hasTimerBegun = true;
-                Thread t = new Thread(new ConnectionGameCountDown(this.numberOfClientsConnected));
+                Thread t = new Thread(new ConnectionGameCountDown(numberOfClientsConnected));
                 t.start();
-            }
         }
     }
 
@@ -97,28 +105,28 @@ public class Game extends Observable implements Serializable {
     private boolean isFinalFrenzy;
 
     //reference to the VV so that it can be registered in all the model.
-    private transient VirtualView VVSOcket;
-    private transient VirtualView VVRMI;
+    private transient VirtualView virtualViewSocket;
+    private transient VirtualView virtualViewRmi;
 
-    public void setVirtualView(VirtualView VVSocket, VirtualView VVRMI){
-        this.VVSOcket = VVSocket;
-        this.VVRMI = VVRMI;
+    public void setVirtualView(VirtualView virtualViewSocket, VirtualView virtualViewRmi){
+        this.virtualViewRmi = virtualViewRmi;
+        this.virtualViewSocket = virtualViewRmi;
     }
 
     public VirtualView getSocketVirtualView(){
-        return this.VVSOcket;
+        return this.virtualViewSocket;
     }
 
     public VirtualView getRMIVirtualView(){
-        return this.VVRMI;
+        return this.virtualViewRmi;
     }
 
     public void registerVirtualView(){
-        this.addObserver(this.VVRMI);
-        this.addObserver(this.VVSOcket);
+        this.addObserver(this.virtualViewRmi);
+        this.addObserver(this.virtualViewSocket);
         System.out.println("    VirtualView added to the Game's observers");
-        this.getPlayerList().addObserver(this.VVSOcket);
-        this.getPlayerList().addObserver(this.VVRMI);
+        this.getPlayerList().addObserver(this.virtualViewSocket);
+        this.getPlayerList().addObserver(this.virtualViewRmi);
         System.out.println("    VirtualView added to the PlayerList's observers");
     }
 

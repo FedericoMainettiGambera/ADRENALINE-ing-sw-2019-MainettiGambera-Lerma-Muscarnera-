@@ -12,6 +12,7 @@ import it.polimi.se2019.controller.WaitForPlayerInput;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**this class allows the user to move somewhere else to grab*/
@@ -20,13 +21,13 @@ public class GrabStuffStateMove implements State {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(GrabStuffStateMove.class.getName());
 
-
+    /**indicates if it's action number 1 or number 2*/
     private int actionNumber;
 
-    int numberOfMovement;
-
+    /**the player to ask the input to*/
     private Player playerToAsk;
 
+    /** the thread that starts the count down to AFK status*/
     private Thread inputTimer;
 
     /**constructor,
@@ -43,28 +44,8 @@ public class GrabStuffStateMove implements State {
      * */
     @Override
     public void askForInput(Player playerToAsk){
-        this.playerToAsk = playerToAsk;
-        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
-        this.numberOfMovement = 1;
-        if((ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineGrabAction())||(ModelGate.model.hasFinalFrenzyBegun()&&(playerToAsk.getBeforeorafterStartingPlayer()<0))){
-            this.numberOfMovement = 2;
-        }
-        else if(ModelGate.model.hasFinalFrenzyBegun()&&playerToAsk.getBeforeorafterStartingPlayer()>=0){
-            this.numberOfMovement=3;
-        }
-
-        out.println("<SERVER> The player can make " + this.numberOfMovement + " number of moves");
-
-        ArrayList<Position> possiblePositions = ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(),this.numberOfMovement);
-        out.println("<SERVER> Possible positions to move before grabbing calculated:");
-        StringBuilder toPrintln = new StringBuilder();
-        for (Position possiblePosition : possiblePositions) {
-            toPrintln.append("    [").append(possiblePosition.getX()).append("][").append(possiblePosition.getY()).append("]");
-        }
-        out.println(toPrintln);
-
-
+        List<Position> possiblePositions=calculateAndPrintPossiblePosition(playerToAsk);
 
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
@@ -76,6 +57,37 @@ public class GrabStuffStateMove implements State {
         }
     }
 
+
+    /**@param playerToAsk is the player to ask the input to,
+     *                     after having calculated all the possible positions
+     * @return a List<Position> of them all*/
+    public List<Position> calculateAndPrintPossiblePosition(Player playerToAsk){
+
+        this.playerToAsk = playerToAsk;
+        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+
+        int numberOfMovement = 1;
+        if((ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineGrabAction())||(ModelGate.model.hasFinalFrenzyBegun()&&(playerToAsk.getBeforeorafterStartingPlayer()<0))){
+            numberOfMovement = 2;
+        }
+        else if(ModelGate.model.hasFinalFrenzyBegun()&&playerToAsk.getBeforeorafterStartingPlayer()>=0){
+            numberOfMovement =3;
+        }
+
+        out.println("<SERVER> The player can make " + numberOfMovement + " number of moves");
+
+        ArrayList<Position> possiblePositions = ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(), numberOfMovement);
+        out.println("<SERVER> Possible positions to move before grabbing calculated:");
+        StringBuilder toPrintln = new StringBuilder();
+        for (Position possiblePosition : possiblePositions) {
+            toPrintln.append("    [").append(possiblePosition.getX()).append("][").append(possiblePosition.getY()).append("]");
+        }
+        out.println(toPrintln);
+
+        return possiblePositions;
+    }
+
+
     /**the player is moved in the desired position
      * @param viewControllerEvent contains the user's choice
      * we extrapolate the square where to move the player from it
@@ -83,6 +95,16 @@ public class GrabStuffStateMove implements State {
     @Override
     public void doAction(ViewControllerEvent viewControllerEvent) {
         this.inputTimer.interrupt();
+
+        parsevce(viewControllerEvent);
+
+        ViewControllerEventHandlerContext.setNextState(new GrabStuffStateGrab(this.actionNumber));
+        ViewControllerEventHandlerContext.state.doAction(null);
+    }
+
+    /**parce the view controller event to get the needed information on where to set the player position
+     * @param viewControllerEvent as said */
+    public void parsevce(ViewControllerEvent viewControllerEvent){
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
@@ -96,10 +118,7 @@ public class GrabStuffStateMove implements State {
                 viewControllerEventPosition.getY()
         );
 
-        ViewControllerEventHandlerContext.setNextState(new GrabStuffStateGrab(this.actionNumber));
-        ViewControllerEventHandlerContext.state.doAction(null);
     }
-
     /**
      * set the player AFK in case they don't send required input in a while
      * */

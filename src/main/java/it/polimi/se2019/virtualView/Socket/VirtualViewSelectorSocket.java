@@ -1,23 +1,16 @@
 package it.polimi.se2019.virtualView.Socket;
 
 import it.polimi.se2019.model.*;
-import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
-import it.polimi.se2019.model.enumerations.SquareTypes;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.*;
 import it.polimi.se2019.view.components.*;
 import it.polimi.se2019.virtualView.Selector;
 import it.polimi.se2019.virtualView.VirtualViewSelector;
-
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.se2019.model.enumerations.CardinalPoint.east;
-import static it.polimi.se2019.model.enumerations.CardinalPoint.south;
 
 public class VirtualViewSelectorSocket extends VirtualViewSelector implements Selector {
 
@@ -36,6 +29,7 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
         SocketVirtualView.sendToClient(playerToAsk, new SelectorEventBoolean(SelectorEventTypes.askGameSetUp, canBot));
     }
 
+    /**@deprecated */
     @Deprecated
     @Override
     public void askPlayerSetUp() {
@@ -43,8 +37,8 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     }
 
     @Override
-    public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards, boolean spawnBot) {
-        ArrayList<PowerUpCardV> powerUpCardsV= new ArrayList<>();
+    public void askFirstSpawnPosition(List<PowerUpCard> powerUpCards, boolean spawnBot) {
+         List<PowerUpCardV> powerUpCardsV= new ArrayList<>();
         for (PowerUpCard c : powerUpCards) {
             powerUpCardsV.add(c.buildPowerUpCardV());
         }
@@ -57,12 +51,12 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     }
 
     @Override
-    public void askRunAroundPosition(ArrayList<Position> positions) {
+    public void askRunAroundPosition(List<Position> positions) {
         SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPositions(SelectorEventTypes.askRunAroundPosition, positions));
     }
 
     @Override
-    public void askBotMove(ArrayList<Position> positions) {
+    public void askBotMove(List<Position> positions) {
         SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPositions(SelectorEventTypes.askBotMove, positions));
     }
 
@@ -72,27 +66,27 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     }
 
     @Override
-    public void askGrabStuffMove(ArrayList<Position> positions) {
+    public void askGrabStuffMove(List<Position> positions) {
         SocketVirtualView.sendToClient(playerToAsk, (new SelectorEventPositions(SelectorEventTypes.askGrabStuffMove, positions)));
     }
 
     @Override
-    public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp) {
-        ArrayList<WeaponCardV> weaponCardsV= new ArrayList<>();
+    public void askGrabStuffGrabWeapon(List<WeaponCard> toPickUp) {
+        List<WeaponCardV> weaponCardsV= new ArrayList<>();
         for (WeaponCard c : toPickUp) {
             weaponCardsV.add(c.buildWeapondCardV());
         }
-        SelectorEventWeaponCards SE = new SelectorEventWeaponCards(SelectorEventTypes.askGrabStuffGrabWeapon, weaponCardsV);
-        SocketVirtualView.sendToClient(playerToAsk, SE);
+        SelectorEventWeaponCards selectorEventWeaponCards = new SelectorEventWeaponCards(SelectorEventTypes.askGrabStuffGrabWeapon, weaponCardsV);
+        SocketVirtualView.sendToClient(playerToAsk, selectorEventWeaponCards);
     }
 
     @Override
-    public void askGrabStuffSwitchWeapon(ArrayList<WeaponCard> toPickUp, ArrayList<WeaponCard> toSwitch) {
-        ArrayList<WeaponCardV> weaponCardsVtoSwitch= new ArrayList<>();
+    public void askGrabStuffSwitchWeapon(List<WeaponCard> toPickUp, List<WeaponCard> toSwitch) {
+        List<WeaponCardV> weaponCardsVtoSwitch= new ArrayList<>();
         for (WeaponCard c : toSwitch) {
             weaponCardsVtoSwitch.add(c.buildWeapondCardV());
         }
-        ArrayList<WeaponCardV> weaponCardsVtoPickUp= new ArrayList<>();
+        List<WeaponCardV> weaponCardsVtoPickUp= new ArrayList<>();
         for (WeaponCard c : toPickUp) {
             weaponCardsVtoPickUp.add(c.buildWeapondCardV());
         }
@@ -100,8 +94,8 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     }
 
     @Override
-    public void askPowerUpToDiscard(ArrayList<PowerUpCard> toDiscard) {
-        ArrayList<PowerUpCardV> powerUpCardsV= new ArrayList<>();
+    public void askPowerUpToDiscard(List<PowerUpCard> toDiscard) {
+       List<PowerUpCardV> powerUpCardsV= new ArrayList<>();
         for (PowerUpCard c : toDiscard) {
             powerUpCardsV.add(c.buildPowerUpCardV());
         }
@@ -109,8 +103,8 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     }
 
     @Override
-    public void askWhatReaload(ArrayList<WeaponCard> toReload) {
-        ArrayList<WeaponCardV> weaponCardsV= new ArrayList<>();
+    public void askWhatReaload(List<WeaponCard> toReload) {
+        List<WeaponCardV> weaponCardsV= new ArrayList<>();
         for (WeaponCard c : toReload) {
             weaponCardsV.add(c.buildWeapondCardV());
         }
@@ -118,7 +112,7 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     }
 
     @Override
-    public void askSpawn(ArrayList<PowerUpCardV> powerUpCards) {
+    public void askSpawn(List<PowerUpCardV> powerUpCards) {
 
         SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askSpawn, powerUpCards));
     }
@@ -128,6 +122,7 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
         SocketVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.askShootOrMove));
     }
 
+    /**@deprecated */
     @Deprecated
     @Override
     public void askShootReloadMove(){
@@ -135,7 +130,7 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     }
 
     @Override
-    public void askWhatWep(ArrayList<WeaponCard> loadedCardInHand) {
+    public void askWhatWep(List<WeaponCard> loadedCardInHand) {
         ArrayList<WeaponCardV> weaponCardsV= new ArrayList<>();
         for (WeaponCard c : loadedCardInHand) {
             weaponCardsV.add(c.buildWeapondCardV());
@@ -144,7 +139,7 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     }
 
     @Override
-    public void askWhatEffect(ArrayList<Effect> possibleEffects) {
+    public void askWhatEffect(List<Effect> possibleEffects) {
         ArrayList<EffectV> effectsV = new ArrayList<>();
         for (Effect e : possibleEffects) {
             effectsV.add(e.buildEffectV());
@@ -179,7 +174,7 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     }
 
     @Override
-    public void askReconnectionNickname(ReconnectionEvent RE) {
+    public void askReconnectionNickname(ReconnectionEvent reconnectionEvent) {
         //must be empty...
     }
 
@@ -189,13 +184,13 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     }
 
     @Override
-    public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformation) {
-        SocketVirtualView.sendToClient(playerToAsk, SEPaymentInformation);
+    public void askPaymentInformation(SelectorEventPaymentInformation selectorEventPaymentInformation) {
+        SocketVirtualView.sendToClient(playerToAsk, selectorEventPaymentInformation);
     }
 
     @Override
     public void askPowerUpToUse(List<PowerUpCardV> powerUpCards) {
-        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askPowerUpToUse,(ArrayList<PowerUpCardV>)powerUpCards));
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askPowerUpToUse,powerUpCards));
     }
 
     @Override
@@ -215,6 +210,6 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
 
     @Override
     public void askTagBackGranade(List<PowerUpCardV> listOfTagBackGranadesV){
-        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askTagBackGranade, (ArrayList<PowerUpCardV>)listOfTagBackGranadesV));
+        SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askTagBackGranade, listOfTagBackGranadesV));
     }
 }

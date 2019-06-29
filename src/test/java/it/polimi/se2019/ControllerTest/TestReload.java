@@ -1,0 +1,44 @@
+package it.polimi.se2019.ControllerTest;
+
+import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.statePattern.ReloadState;
+import it.polimi.se2019.model.enumerations.AmmoCubesColor;
+import org.junit.Test;
+
+import java.io.IOException;
+
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class TestReload {
+
+
+   /**we test the reload state class in the state pattern*/
+
+
+        FakeModel fakeModel=new FakeModel();
+
+        @Test
+        public void testReloadState() throws IOException {
+
+            ModelGate.model=fakeModel.create();
+            ModelGate.model.buildDecks();
+
+            ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards().add(ModelGate.model.getWeaponDeck().getFirstCard());
+            ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards().get(0).unload();
+            ModelGate.model.getCurrentPlayingPlayer().addAmmoCubes(AmmoCubesColor.red, 3);
+            ModelGate.model.getCurrentPlayingPlayer().addAmmoCubes(AmmoCubesColor.yellow, 3);
+            ModelGate.model.getCurrentPlayingPlayer().addAmmoCubes(AmmoCubesColor.blue, 3);
+
+            ReloadState reloadState=new ReloadState(false);
+
+            reloadState.setPlayerToAsk(ModelGate.model.getCurrentPlayingPlayer());
+            reloadState.placeAmmosOnEmptyNormalSquares();
+            assertEquals(1,reloadState.weaponToReload().size());
+            assertTrue(reloadState.canReload());
+
+
+        }
+
+    }
+

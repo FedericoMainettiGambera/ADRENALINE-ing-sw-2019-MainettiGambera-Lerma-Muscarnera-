@@ -10,9 +10,7 @@ import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.controller.WaitForPlayerInput;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventTwoString;
-
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,8 +26,11 @@ public class FirstSpawnState implements State {
         out.println("<SERVER> New state: " + this.getClass());
     }
 
+    /**the player to ask the input to*/
     private Player playerToAsk;
+    /**thread that starts the timer*/
     private Thread inputTimer;
+    /**name of the bot*/
     private String botNickname="Terminator" ;
 
 
@@ -45,11 +46,11 @@ public class FirstSpawnState implements State {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             if(ModelGate.model.isBotActive()&&ModelGate.model.getPlayerList().getPlayer(botNickname).getPosition()==null){
                 out.println("<SERVER> asking player to spawn himself and the bot");
-                SelectorGate.getCorrectSelectorFor(playerToAsk).askFirstSpawnPosition((ArrayList)playerToAsk.getPowerUpCardsInHand().getCards(), true);
+                SelectorGate.getCorrectSelectorFor(playerToAsk).askFirstSpawnPosition(playerToAsk.getPowerUpCardsInHand().getCards(), true);
             }
             else{
                 out.println("<SERVER> asking player to spawn himself");
-                SelectorGate.getCorrectSelectorFor(playerToAsk).askFirstSpawnPosition((ArrayList)playerToAsk.getPowerUpCardsInHand().getCards(), false);
+                SelectorGate.getCorrectSelectorFor(playerToAsk).askFirstSpawnPosition(playerToAsk.getPowerUpCardsInHand().getCards(), false);
             }
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
@@ -70,6 +71,17 @@ public class FirstSpawnState implements State {
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
+
+        spawnBot(vce);
+
+        spawnPlayer(vce);
+
+        changeState();
+    }
+
+
+    /**@param vce is parsed to know where the bot will spawn*/
+    public void spawnBot(ViewControllerEvent vce){
 
         ViewControllerEventTwoString viewControllerEventTwoString = (ViewControllerEventTwoString) vce;
 
@@ -103,13 +115,17 @@ public class FirstSpawnState implements State {
                 logger.log(Level.SEVERE, "EXCEPTION", e);
             }
         }
+    }
 
-        //set spawning position
+    /**@param vce is parsed to know which power up the player decided to discard and the consequent position where the player will be spawned */
+    public void spawnPlayer(ViewControllerEvent vce){
+        ViewControllerEventTwoString viewControllerEventTwoString = (ViewControllerEventTwoString) vce;
+
         PowerUpCard cardChosen = ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCard(viewControllerEventTwoString.getInput1());
         Position spawnPosition = null;
-        out.println("<SERVER> choosen card ID: " + cardChosen.getID());
-        out.println("<SERVER> choosen card name: " + cardChosen.getName());
-        out.println("<SERVER> choosen color: " + cardChosen.getColor());
+        out.println("<SERVER> chosen card ID: " + cardChosen.getID());
+        out.println("<SERVER> chosen card name: " + cardChosen.getName());
+        out.println("<SERVER> chosen color: " + cardChosen.getColor());
 
         try {
             spawnPosition = ModelGate.model.getBoard().getSpawnpointOfColor(cardChosen.getColor());
@@ -127,12 +143,13 @@ public class FirstSpawnState implements State {
                 ModelGate.model.getPowerUpDiscardPile(),
                 cardChosen.getID()
         );
+    }
 
-        //set next State
+    /** set following state*/
+    private void changeState(){
         ViewControllerEventHandlerContext.setNextState(new TurnState(1));
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
-
     /**
      * if player in not reachable we provide to set it AFK,
      * it will anyhow spawn randomly

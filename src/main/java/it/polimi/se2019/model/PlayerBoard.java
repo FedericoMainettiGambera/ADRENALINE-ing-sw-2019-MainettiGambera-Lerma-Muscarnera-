@@ -3,7 +3,6 @@ package it.polimi.se2019.model;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 
 import java.io.Serializable;
-import java.util.Observable;
 
 /**
  * THIS CLASS SHOULD NEVER BE DIRECTLY ACCESSED, INSTEAD USE METHODS FROM THE "Person" CLASS.
@@ -19,7 +18,7 @@ public class PlayerBoard implements Serializable {
      * The damagesTracker and marksTracker are two empty ArrayList.
      * The deathCounter is set to zero.
      * */
-    public PlayerBoard() {
+      PlayerBoard() {
         this.ammoBox = new AmmoList();
 
         this.damagesTracker = new DamagesTracker();
@@ -48,43 +47,40 @@ public class PlayerBoard implements Serializable {
 
     /*DEATH COUNTER*/
     /**increment the deathCounter by one*/
-    public void addDeath() {
+    void addDeath() {
         deathCounter++;
     }
 
     /**@return number of times the player has died
      * */
-    public int getDeathCounter() {
+     int getDeathCounter() {
         return deathCounter;
     }
 
-    public void resetDeathCounter(){
+     void resetDeathCounter(){
         this.deathCounter = 0;
     }
 
     /*AMMO BOX*/
     /**avoid this method if possible, do not access directly attributes, but use method that interact with them for you.
-     * @return
+     * @return ammoBox
      * */
     public AmmoList getAmmoBox() {
         return ammoBox;
     }
 
-    public void addAmmoList(AmmoList ammoList){
-        this.getAmmoBox().addAmmoList(ammoList);
-    }
 
     /**add ammo cubes
-     * @param color
-     * @param quantity
+     * @param color red, blue or yellow
+     * @param quantity number of ammos to add
      * */
     public void addAmmoCubes(AmmoCubesColor color, int quantity) {
         this.ammoBox.addAmmoCubesOfColor(color, quantity);
     }
     /**add ammo cubes
-     * @param ammoList
+     * @param ammoList a list of ammunitions to add
      * */
-    public void addAmmoCubes(AmmoList ammoList) {
+     public void addAmmoCubes(AmmoList ammoList) {
         for(int i = 0; i < ammoList.getAmmoCubesList().size(); i++){
             this.ammoBox.addAmmoCubesOfColor( ammoList.getAmmoCubesList().get(i).getColor(),
                                               ammoList.getAmmoCubesList().get(i).getQuantity() );
@@ -92,40 +88,28 @@ public class PlayerBoard implements Serializable {
     }
 
     /**pay ammo cubes
-     * @param quantity
-     * @param color
-     * @return */
-    public boolean payAmmoCubes(AmmoCubesColor color, int quantity){
-        if(this.ammoBox.payAmmoCubes(color, quantity)){
-            return true;
-        }
-        else {
-            return false;
-        }
+     * @return boolean value*/
+     public boolean payAmmoCubes(AmmoCubesColor color, int quantity){
+        return this.ammoBox.payAmmoCubes(color, quantity);
     }
     /**pay ammo cubes
-     * @param cost
-     * @return */
+     * @param cost a list of ammos to be paid
+     * @return boolean value */
     public boolean payAmmoCubes(AmmoList cost){
-        if(this.ammoBox.payAmmoCubes(cost)){
-            return true;
-        }
-        else{
-            return false;
-        }
+         return this.ammoBox.payAmmoCubes(cost);
     }
 
     /**checks if it is possible to pay an amount of ammo
-     * @param color
-     * @param quantity
-     * @return
+     * @param color of the ammos to be paid
+     * @param quantity of the ammo to be paid
+     * @return boolean value
      * */
     public boolean canPayAmmoCubes(AmmoCubesColor color, int quantity){
         return this.ammoBox.canPayAmmoCubes(color,quantity);
     }
     /**checks if it is possible to pay an amount of ammo
-     * @param cost
-     * @return
+     * @param cost list of the ammos to be paid
+     * @return boolean value
      * */
     public boolean canPayAmmoCubes(AmmoList cost){
         return this.ammoBox.canPayAmmoCubes(cost);
@@ -133,58 +117,58 @@ public class PlayerBoard implements Serializable {
 
     /*DAMAGES TRACKER*/
     /**avoid this method if possible, do not access directly attributes, but use method that interact with them for you.
-     * @return
+     * @return the damage tracker
      * */
     public DamagesTracker getDamagesTracker(){
         return this.damagesTracker;
     }
 
     /**return a specific slot from the DamageSlot
-     * @param slotNumber
+     * @param slotNumber the index of the slot you want access to
      * @return null if the specified slotNumber doesn't exists.
-     * @return the specified slot.
+     *the specified slot otherwise.
      * */
     public DamageSlot getDamagesSlot(int slotNumber) {
         return damagesTracker.getDamageSlot(slotNumber);
     }
 
     /**add damages
-     * @param shootingPlayer
-     * @param numberOfDamages
+     * @param shootingPlayer the player who's shooting
+     * @param numberOfDamages the damages to add
      * */
     public void addDamages (Player shootingPlayer, int numberOfDamages){
         this.damagesTracker.addDamages(shootingPlayer,numberOfDamages);
     }
 
     /**empty the damages Tracker*/
-    public void emptyDamagesTracker(){
+     public void emptyDamagesTracker(){
         this.damagesTracker.emptyList();
     }
 
     /*MARKS TRACKER*/
     /**avoid this method if possible, do not access directly attributes, but use method that interact with them for you.
-     * @return
+     * @return the marksTracker
      * */
-    public MarksTracker getMarksTracker() {
+     MarksTracker getMarksTracker() {
         return marksTracker;
     }
 
     /**add Marks
-     * @param quantity
-     * @param markingPlayer
+     * @param quantity of marks to be added
+     * @param markingPlayer the player who's giving the marks
      * */
     public void addMarksFrom(Player markingPlayer, int quantity){
         this.marksTracker.addMarksFrom(markingPlayer,quantity);
     }
 
-    /**@param markingPlayer
+    /**@param markingPlayer the player you want to know about the marks he has given
      * @return the number of marks received from the specified player*/
     public int getMarksFrom(Player markingPlayer){
         return this.marksTracker.getNumberOfMarksSlotFrom(markingPlayer);
     }
 
     /**delete all the marks received from the markingPlayer
-     * @param markingPlayer
+     * @param markingPlayer the player you want to delete the marks of
      * */
     public void deleteMarksFromPlayer(Player markingPlayer){
         this.marksTracker.deleteMarksFromPlayer(markingPlayer);
@@ -194,11 +178,5 @@ public class PlayerBoard implements Serializable {
         this.ammoBox = ammoBox;
     }
 
-    public void setDamagesTracker(DamagesTracker damagesTracker){
-        this.damagesTracker = damagesTracker;
-    }
 
-    public void setMarksTracker (MarksTracker marksTracker){
-        this.marksTracker = marksTracker;
-    }
 }

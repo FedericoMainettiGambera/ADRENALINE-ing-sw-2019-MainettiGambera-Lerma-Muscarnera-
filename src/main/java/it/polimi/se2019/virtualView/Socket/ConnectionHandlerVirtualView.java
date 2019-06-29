@@ -68,7 +68,7 @@ public class ConnectionHandlerVirtualView extends Thread {
                 logger.log(Level.SEVERE, exception, e);
             }
 
-            if(Game.hasGameBegun){
+            if(Game.isHasGameBegun()){
                 System.out.println("<SERVER-soket> Game has already begun, the connection received must be a request of Reconnection.");
                 //in a separate Thread handle the reconnection.
                 (new Reconnection(tempSocket)).start();

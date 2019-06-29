@@ -17,18 +17,23 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
+/**this class allows payment*/
 public class ChooseHowToPayState {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(ChooseHowToPayState.class.getName());
-
+   /**contains the player who needs to effectuate the payment*/
     private Player payingPlayer;
-
+    /**the amount due*/
     private AmmoList toPay;
-
+    /**amount left to be paid (for example if you don't have enough ammos and want to use a power up to reach the due amount*/
     private AmmoList leftToPay;
-
+    /**thread that starts a timer for the user answer */
     private Thread inputTimer;
 
+    private String donePaying="<SERVER> DONE PAYING";
+
+    /**@param payingPlayer player that needs to effectuate a payment
+     * @param toPay amount due*/
     public ChooseHowToPayState(Player payingPlayer, AmmoList toPay){
         out.println("<SERVER> Started a payment process for player: " + payingPlayer.getNickname());
 
@@ -41,6 +46,7 @@ public class ChooseHowToPayState {
         }
     }
 
+    /**check if you can pay using power ups*/
     public boolean canPaySomethingWithPowerUps(){
         for (AmmoCubes a: toPay.getAmmoCubesList()) {
             for (PowerUpCard p: payingPlayer.getPowerUpCardsInHand().getCards()) {
@@ -52,6 +58,7 @@ public class ChooseHowToPayState {
         return false;
     }
 
+    /**check if you can pay using your ammos, your power ups or both of them*/
     public boolean canPayInSomeWay(){
         //create an ammo list that represents the total budget of the player (AmmoBox + powerUps)
 
@@ -76,43 +83,47 @@ public class ChooseHowToPayState {
         return tempPlayer.canPayAmmoCubes(toPay);
     }
 
-    public SelectorEventPaymentInformation usablePowerUps(){
-        SelectorEventPaymentInformation SEPaymentInformation = new SelectorEventPaymentInformation(SelectorEventTypes.paymentInformation, toPay.buildAmmoListV());
+    /**tells the user which power ups he could use to pay
+     * @return  selectorEventPaymentInformation */
+     private SelectorEventPaymentInformation usablePowerUps(){
+        SelectorEventPaymentInformation selectorEventPaymentInformation = new SelectorEventPaymentInformation(SelectorEventTypes.paymentInformation, toPay.buildAmmoListV());
         for (AmmoCubes a: toPay.getAmmoCubesList()) {
             for (PowerUpCard p : payingPlayer.getPowerUpCardsInHand().getCards()) {
                 if(a.getColor() == p.getColor()){
-                    SEPaymentInformation.addPossibility(p.buildPowerUpCardV());
+                    selectorEventPaymentInformation.addPossibility(p.buildPowerUpCardV());
                 }
             }
         }
-        SEPaymentInformation.setCanPayWithoutPowerUps(payingPlayer.canPayAmmoCubes(toPay));
-        return SEPaymentInformation;
+        selectorEventPaymentInformation.setCanPayWithoutPowerUps(payingPlayer.canPayAmmoCubes(toPay));
+        return selectorEventPaymentInformation;
     }
 
-    public boolean checkPayMethods() {
+    /**make the player chose in which way he wants to pay, if he can pay in more than one way
+     * @return  boolean value which is true in case the player can pay somehow */
+    private boolean checkPayMethods() {
         if(canPayInSomeWay()) {
             out.println("<SERVER> the player can pay some way");
             if (canPaySomethingWithPowerUps()) {
                 out.println("<SERVER> player can pay with power ups");
                 //ask what he wants to pay with powerUp, start Timer
-                SelectorEventPaymentInformation SEPaymentInformation = usablePowerUps();
+                SelectorEventPaymentInformation selectorEventPaymentInformation = usablePowerUps();
                 //ask for input
                 try {
                     Player tempPlayer = SelectorGate.getCorrectSelectorFor(payingPlayer).getPlayerToAsk();
                     SelectorGate.getCorrectSelectorFor(payingPlayer).setPlayerToAsk(payingPlayer);
-                    SelectorGate.getCorrectSelectorFor(payingPlayer).askPaymentInformation(SEPaymentInformation);
+                    SelectorGate.getCorrectSelectorFor(payingPlayer).askPaymentInformation(selectorEventPaymentInformation);
                     this.inputTimer = new Thread(new WaitForPlayerInput(this.payingPlayer, this.getClass().toString()));
                     this.inputTimer.start();
                     SelectorGate.getCorrectSelectorFor(payingPlayer).setPlayerToAsk(tempPlayer); //Restore the original playerToAsk so it doesn't get in the way of the State Pattern
                 } catch (Exception e) {
-                    logger.severe("exception occured during payment:"+ Arrays.toString(e.getStackTrace()) +" "+e.getClass()+" "+e.getCause());
+                    logger.severe("exception occurred during payment:"+ Arrays.toString(e.getStackTrace()) +" "+e.getClass()+" "+e.getCause());
                 }
             }
             else {
                 out.println("<SERVER> the player can only pay using his ammoBox");
                 //pay as usual
                 payingPlayer.payAmmoCubes(toPay);
-                out.println("<SERVER> DONE PAYING");
+                out.println(donePaying);
 
                 afterPayment();
             }
@@ -123,14 +134,15 @@ public class ChooseHowToPayState {
             return false;
         }
     }
-
-    public void doPayment(ViewControllerEventPaymentInformation VCEChosenPowerUps) {
+    /** @param viewControllerEventChosenPowerUp contains the power up the player chose to pay with
+     * here it's removed from their hand*/
+    public void doPayment(ViewControllerEventPaymentInformation viewControllerEventChosenPowerUp) {
         this.inputTimer.interrupt();
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> "+ this.getClass() +".doPayment();");
 
-        for (Object o:VCEChosenPowerUps.getAnswer()) {
+        for (Object o:viewControllerEventChosenPowerUp.getAnswer()) {
             out.println("         player is paying with power up: " + ((PowerUpCardV) o).getName() + " (" + ((PowerUpCardV) o).getColor() + ")");
             for (AmmoCubes a : leftToPay.getAmmoCubesList()) {
                 if (((PowerUpCardV) o).getColor().equals( a.getColor()) ){
@@ -142,7 +154,7 @@ public class ChooseHowToPayState {
         }
         payingPlayer.payAmmoCubes(leftToPay);
 
-        out.println("<SERVER> DONE PAYING");
+        out.println(donePaying);
 
         afterPayment();
     }
@@ -160,10 +172,11 @@ public class ChooseHowToPayState {
 
         afterPayment();
 
-        out.println("<SERVER> DONE PAYING");
+        out.println(donePaying);
     }
 
-    public void afterPayment(){
+    /**once the payment is completed, a new state is set, depending on which state in first place called this one*/
+     private void afterPayment(){
         //here are the three cases where the payment is used:
 
         if(ViewControllerEventHandlerContext.state.getClass().toString().contains("GrabStuffStateGrabWeapon")){
@@ -176,8 +189,10 @@ public class ChooseHowToPayState {
             ((ShootPeopleAskForInputState)ViewControllerEventHandlerContext.state).afterPayment();
         }
     }
-
-    public static void makePayment(Player player, AmmoList cost){
+    /** effectuate the payment
+     * @param player is the player who requested the payment
+     * @param cost is the amount due*/
+     static void makePayment(Player player, AmmoList cost){
         ViewControllerEventHandlerContext.paymentProcess = new ChooseHowToPayState(player, cost);
         //make the payment process start
         if(ViewControllerEventHandlerContext.paymentProcess.checkPayMethods()) {

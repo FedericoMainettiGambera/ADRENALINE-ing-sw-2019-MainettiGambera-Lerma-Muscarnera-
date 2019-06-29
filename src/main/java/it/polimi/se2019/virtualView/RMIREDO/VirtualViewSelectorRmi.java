@@ -42,7 +42,7 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
     }
 
     @Override
-    public void askFirstSpawnPosition(ArrayList<PowerUpCard> powerUpCards, boolean spawnBot) {
+    public void askFirstSpawnPosition(List<PowerUpCard> powerUpCards, boolean spawnBot) {
         ArrayList<PowerUpCardV> powerUpCardsV= new ArrayList<>();
         for (PowerUpCard c : powerUpCards) {
             powerUpCardsV.add(c.buildPowerUpCardV());
@@ -56,12 +56,12 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
     }
 
     @Override
-    public void askRunAroundPosition(ArrayList<Position> positions) {
+    public void askRunAroundPosition(List<Position> positions) {
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEventPositions(SelectorEventTypes.askRunAroundPosition, positions));
     }
 
     @Override
-    public void askBotMove(ArrayList<Position> positions) {
+    public void askBotMove(List<Position> positions) {
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEventPositions(SelectorEventTypes.askBotMove, positions));
     }
 
@@ -71,22 +71,22 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
     }
 
     @Override
-    public void askGrabStuffMove(ArrayList<Position> positions) {
+    public void askGrabStuffMove(List<Position> positions) {
         RmiVirtualView.sendToClient(playerToAsk, (new SelectorEventPositions(SelectorEventTypes.askGrabStuffMove, positions)));
     }
 
     @Override
-    public void askGrabStuffGrabWeapon(ArrayList<WeaponCard> toPickUp) {
+    public void askGrabStuffGrabWeapon(List<WeaponCard> toPickUp) {
         ArrayList<WeaponCardV> weaponCardsV= new ArrayList<>();
         for (WeaponCard c : toPickUp) {
             weaponCardsV.add(c.buildWeapondCardV());
         }
-        SelectorEventWeaponCards SE = new SelectorEventWeaponCards(SelectorEventTypes.askGrabStuffGrabWeapon, weaponCardsV);
-        RmiVirtualView.sendToClient(playerToAsk, SE);
+        SelectorEventWeaponCards selectorEventWeaponCards = new SelectorEventWeaponCards(SelectorEventTypes.askGrabStuffGrabWeapon, weaponCardsV);
+        RmiVirtualView.sendToClient(playerToAsk, selectorEventWeaponCards);
     }
 
     @Override
-    public void askGrabStuffSwitchWeapon(ArrayList<WeaponCard> toPickUp, ArrayList<WeaponCard> toSwitch) {
+    public void askGrabStuffSwitchWeapon(List<WeaponCard> toPickUp, List<WeaponCard> toSwitch) {
         ArrayList<WeaponCardV> weaponCardsVtoSwitch= new ArrayList<>();
         for (WeaponCard c : toSwitch) {
             weaponCardsVtoSwitch.add(c.buildWeapondCardV());
@@ -99,7 +99,7 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
     }
 
     @Override
-    public void askPowerUpToDiscard(ArrayList<PowerUpCard> toDiscard) {
+    public void askPowerUpToDiscard(List<PowerUpCard> toDiscard) {
         ArrayList<PowerUpCardV> powerUpCardsV= new ArrayList<>();
         for (PowerUpCard c : toDiscard) {
             powerUpCardsV.add(c.buildPowerUpCardV());
@@ -108,8 +108,8 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
     }
 
     @Override
-    public void askWhatReaload(ArrayList<WeaponCard> toReload) {
-        ArrayList<WeaponCardV> weaponCardsV= new ArrayList<>();
+    public void askWhatReaload(List<WeaponCard> toReload) {
+         List<WeaponCardV> weaponCardsV= new ArrayList<>();
         for (WeaponCard c : toReload) {
             weaponCardsV.add(c.buildWeapondCardV());
         }
@@ -117,7 +117,7 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
     }
 
     @Override
-    public void askSpawn(ArrayList<PowerUpCardV> powerUpCards) {
+    public void askSpawn(List<PowerUpCardV> powerUpCards) {
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askSpawn, powerUpCards));
     }
 
@@ -126,6 +126,7 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.askShootOrMove));
     }
 
+    /** @deprecated */
     @Deprecated
     @Override
     public void askShootReloadMove(){
@@ -133,8 +134,8 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
     }
 
     @Override
-    public void askWhatWep(ArrayList<WeaponCard> loadedCardInHand) {
-        ArrayList<WeaponCardV> weaponCardsV= new ArrayList<>();
+    public void askWhatWep(List<WeaponCard> loadedCardInHand) {
+        List<WeaponCardV> weaponCardsV= new ArrayList<>();
         for (WeaponCard c : loadedCardInHand) {
             weaponCardsV.add(c.buildWeapondCardV());
         }
@@ -142,8 +143,8 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
     }
 
     @Override
-    public void askWhatEffect(ArrayList<Effect> possibleEffects) {
-        ArrayList<EffectV> effectsV = new ArrayList<>();
+    public void askWhatEffect(List<Effect> possibleEffects) {
+        List<EffectV> effectsV = new ArrayList<>();
         for (Effect e : possibleEffects) {
             effectsV.add(e.buildEffectV());
         }
@@ -187,8 +188,8 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
     }
 
     @Override
-    public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformation) {
-        RmiVirtualView.sendToClient(playerToAsk, SEPaymentInformation);
+    public void askPaymentInformation(SelectorEventPaymentInformation selectorEventPaymentInformation) {
+        RmiVirtualView.sendToClient(playerToAsk, selectorEventPaymentInformation);
     }
 
     @Override

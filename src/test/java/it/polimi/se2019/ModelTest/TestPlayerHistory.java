@@ -1,4 +1,4 @@
-package it.polimi.se2019.ModelTest;
+/**package it.polimi.se2019.ModelTest;
 
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.UsableInputTableRowType;
@@ -64,7 +64,7 @@ public class TestPlayerHistory {
         System.out.println(" uso " + row[0]);
         current.handleRow(current.getEffectInfo().getEffectInfoElement().get(1), row);
         System.out.println("# # #" + current.usableInputs().get(2).get(0));*/
-    }
+    /**}
     @Test
     public void testCronologia() throws Exception {
         Player p = new Player();
@@ -101,7 +101,7 @@ public class TestPlayerHistory {
         p.incrementTurnID();
         p.getPlayerHistory().addRecord(card2,effect2,row2);
         p.getPlayerHistory().addRecord(card2,effect2,row2);*/
-        p.getPlayerHistory().addRecord(card2,effect2,row1);
+      /**  p.getPlayerHistory().addRecord(card2,effect2,row1);
         p.getPlayerHistory().addRecord(card2,effect2,row2);
         p.incrementTurnID();
         p.getPlayerHistory().addRecord(card2,effect2,row1);
@@ -138,5 +138,5 @@ public class TestPlayerHistory {
                  h.show();
             }
         }*/
-    }
-}
+  //  }
+//}

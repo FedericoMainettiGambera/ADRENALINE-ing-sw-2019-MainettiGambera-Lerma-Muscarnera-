@@ -5,7 +5,6 @@ import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.SquareTypes;
 import it.polimi.se2019.view.components.SpawnPointSquareV;
-import it.polimi.se2019.virtualView.VirtualView;
 
 import java.io.Serializable;
 
@@ -17,10 +16,10 @@ import static it.polimi.se2019.model.enumerations.CardinalPoint.south;
 public class SpawnPointSquare extends Square implements Serializable {
 
     /***/
-    public SpawnPointSquare(int X, int Y, SquareSide north, SquareSide east, SquareSide south, SquareSide west, SquareTypes squareType, char color) {
-        super(X,Y,north,east,south,west,squareType, color);
+    public SpawnPointSquare(int x, int y, SquareSide north, SquareSide east, SquareSide south, SquareSide west, SquareTypes squareType, char color) {
+        super(x,y,north,east,south,west,squareType, color);
         this.color = color;
-        weaponCards = new OrderedCardList<WeaponCard>("spawnPoint-"+X+"-"+Y);
+        weaponCards = new OrderedCardList<>("spawnPoint-"+x+"-"+y);
     }
 
     /***/
@@ -30,6 +29,7 @@ public class SpawnPointSquare extends Square implements Serializable {
     private transient OrderedCardList<WeaponCard> weaponCards;
 
     /***/
+    @Override
     public char getColor() {
         return color;
     }
