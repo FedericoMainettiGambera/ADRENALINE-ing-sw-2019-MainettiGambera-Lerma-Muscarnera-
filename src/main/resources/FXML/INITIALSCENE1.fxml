@@ -147,7 +147,7 @@
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <Label layoutX="157.0" layoutY="3.0" styleClass="text" text="or" />
-                              <Hyperlink fx:id="reconnectHyperlink" layoutX="172.0" onAction="#onReconnectionPressed" text="reconnect" />
+                              <Hyperlink fx:id="readRulesHyperlink" layoutX="172.0" text=" read rules" onAction="#onReadRulesPressed"/>
                               <Label layoutX="221.0" layoutY="60.0" styleClass="text" text="Want to play with" />
                               <Hyperlink fx:id="cliHyperlink" layoutX="344.0" layoutY="57.0" onAction="#onCLIHyperlinkPressed" text="CLI" />
                               <Label layoutX="374.0" layoutY="60.0" styleClass="text" text="?" />
@@ -166,7 +166,7 @@
       </VBox>
       <ImageView fitHeight="78.0" fitWidth="173.0" layoutX="132.0" preserveRatio="true">
          <image>
-            <Image url="@../IMG/GEARGIFFINAL.gif" />
+            <Image url="@../../../../../ing-sw-2019-MainettiGambera-Lerma-Muscarnera - Copia (3)/src/main/resources/IMG/GEARGIFFINAL.gif" />
          </image>
       </ImageView>
    </children>

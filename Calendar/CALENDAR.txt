@@ -75,6 +75,8 @@
                 java -classpath C:\Users\Federico\IdeaProjects\ing-sw-2019-MainettiGambera-Lerma-Muscarnera\target\adrenalina-1.0-SNAPSHOT.jar it.polimi.se2019.controller.StartClient
 
 
+    to force revert git reset --hard <last_working_commit_id>
+                    git push --force
 
 
 PER VISUALIZZARE IL CALENDARIO:
