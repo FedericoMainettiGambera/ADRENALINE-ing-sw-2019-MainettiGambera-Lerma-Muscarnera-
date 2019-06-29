@@ -24,11 +24,10 @@ GENERAL CLASSES
     notempty-color: rgba(255, 181, 35, 0.5);
     selectable-color: rgba(146, 255, 88, 0.5);
 
+    -fx-background-color: black;
     -fx-border-width: 1px;
     -fx-border-color: text-and-highlight-color;
     -fx-text-fill: text-and-highlight-color;
-    -fx-background-color: black;
-    /*-fx-background-color: rgba(64, 38, 72, 0.58);*/
     -fx-padding: 2;
 }
 

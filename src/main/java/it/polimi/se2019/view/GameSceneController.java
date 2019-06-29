@@ -1,10 +1,11 @@
 package it.polimi.se2019.view;
 
 import it.polimi.se2019.model.events.Event;
-import it.polimi.se2019.view.outputHandler.CLIOutputHandler;
 import it.polimi.se2019.view.selector.ViewSelector;
+import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
@@ -356,7 +357,7 @@ public class GameSceneController implements Initializable {
     }
 
     /**sends an Event to the server in a new Thread, using the SendToServerThread class*/
-    private void sendToServer(Event event){
+    public void sendToServer(Event event){
         (new SendToServerThread(event)).start();
     }
     /**Thread to send an Event to the server*/
@@ -370,6 +371,31 @@ public class GameSceneController implements Initializable {
             ViewSelector.sendToServer(this.event);
         }
     }
+
+    public void changeSelectorSection(Node newSection, Double top, Double right, Double bottom, Double left){
+        //delete old section, if any exist
+        this.selectorSection.getChildren().removeAll();
+        //append newSection
+        this.selectorSection.getChildren().add(newSection);
+
+        if(top!=null) {
+            AnchorPane.setTopAnchor(newSection, top);
+        }
+        if(right!=null) {
+            AnchorPane.setRightAnchor(newSection, right);
+        }
+        if(bottom!=null) {
+            AnchorPane.setBottomAnchor(newSection, bottom);
+        }
+        if(left!=null) {
+            AnchorPane.setLeftAnchor(newSection, left);
+        }
+    }
+
+    public AnchorPane getSelectorSection(){
+        return this.selectorSection;
+    }
+
 
 
 }
