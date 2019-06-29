@@ -7,9 +7,7 @@ import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformat
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPlayers;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPositions;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPowerUpCards;
-import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventGameSetUp;
-import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventNickname;
-import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventTwoString;
+import it.polimi.se2019.model.events.viewControllerEvents.*;
 import it.polimi.se2019.view.GUIstarter;
 import it.polimi.se2019.view.GameSceneController;
 import it.polimi.se2019.view.components.*;
@@ -26,9 +24,6 @@ import java.util.concurrent.TimeUnit;
 public class GUISelector implements SelectorV {
 
     private String networkConnection;
-    private int actionNumber;
-    private boolean canUsePowerUp;
-    private boolean canUseBot;
 
     GUISelector(String networkConnection){
         this.networkConnection = networkConnection;
@@ -63,6 +58,33 @@ public class GUISelector implements SelectorV {
         return stackPane;
     }
 
+    private ScrollPane buildBasicScrollPane(){
+        ScrollPane scrollPane = new ScrollPane();
+        AnchorPane requestContainer = new AnchorPane();
+        VBox scrollContent = new VBox();
+
+        scrollPane.setContent(requestContainer);
+        requestContainer.getChildren().add(scrollContent);
+
+        AnchorPane.setTopAnchor(scrollContent, 0.0);
+        AnchorPane.setRightAnchor(scrollContent, 0.0);
+        AnchorPane.setBottomAnchor(scrollContent, 0.0);
+        AnchorPane.setLeftAnchor(scrollContent, 0.0);
+
+        scrollPane.setFitToWidth(true);
+
+        return scrollPane;
+    }
+
+    private VBox getScrollContent(ScrollPane scrollPane){
+        return (VBox)((AnchorPane)scrollPane.getContent()).getChildren().get(0);
+    }
+
+    private void fillScrollContent(List<Node> nodes, VBox scrollContent){
+        for (Node n: nodes) {
+            scrollContent.getChildren().add(n);
+        }
+    }
 
     //##################################################################################################################
     @Override
@@ -100,18 +122,8 @@ public class GUISelector implements SelectorV {
             });
         }
         private ScrollPane builRequest(){
-            //main structure
-            AnchorPane requestContainer = new AnchorPane();
-            VBox scrollContent = new VBox();
-            requestContainer.getChildren().add(scrollContent);
-            AnchorPane.setTopAnchor(scrollContent, 0.0);
-            AnchorPane.setRightAnchor(scrollContent, 0.0);
-            AnchorPane.setBottomAnchor(scrollContent, 0.0);
-            AnchorPane.setLeftAnchor(scrollContent, 0.0);
-            //result:
-            ScrollPane request = new ScrollPane();
-            request.setFitToWidth(true);
-            request.setContent(requestContainer);
+            ScrollPane request = buildBasicScrollPane();
+            VBox scrollContent = getScrollContent(request);
 
 
             //building Nodes for the actuals requests:
@@ -362,20 +374,8 @@ public class GUISelector implements SelectorV {
             });
         }
         private ScrollPane buildRequest(){
-            //main structure
-            VBox scrollContent = new VBox();
-            AnchorPane requestContainer = new AnchorPane();
-            requestContainer.getChildren().add(scrollContent);
-            AnchorPane.setTopAnchor(scrollContent, 0.0);
-            AnchorPane.setRightAnchor(scrollContent, 0.0);
-            AnchorPane.setBottomAnchor(scrollContent, 0.0);
-            AnchorPane.setLeftAnchor(scrollContent, 0.0);
-            //result:
-            ScrollPane request = new ScrollPane();
-            request.setFitToWidth(true);
-            request.setContent(requestContainer);
-
-            scrollContent.setStyle("-fx-background-color: red");
+            ScrollPane request = buildBasicScrollPane();
+            VBox scrollContent = getScrollContent(request);
 
             //BOT REQUEST
             if(spawnBot){
@@ -448,6 +448,7 @@ public class GUISelector implements SelectorV {
             //DONE BUTTON
             StackPane doneButton = doneButton();
             ((Button)doneButton.getChildren().get(0)).setOnAction(e->{
+                getGameSceneController().removeSelectorSection();
                 ViewControllerEventTwoString viewControllerEventTwoString = new ViewControllerEventTwoString(cardID, botSpawn);
                 getGameSceneController().sendToServer(viewControllerEventTwoString);
                 System.out.println("DONE");
@@ -463,10 +464,67 @@ public class GUISelector implements SelectorV {
     //##################################################################################################################
     @Override
     public void askTurnAction(int actionNumber, boolean canUsePowerUp, boolean canUseBot) {
+        new Thread(new AskTurnAction(canUsePowerUp, canUseBot)).start();
+    }
 
-        this.actionNumber = actionNumber;
-        this.canUsePowerUp = canUsePowerUp;
-        this.canUseBot = canUseBot;
+    private class AskTurnAction extends Thread{
+        private boolean canUsePowerUp;
+        private boolean canUseBot;
+        private String chosenAction;
+        private AskTurnAction(boolean canUsePowerUp, boolean canUseBot){
+            this.canUseBot = canUseBot;
+            this.canUsePowerUp = canUsePowerUp;
+        }
+        @Override
+        public void run(){
+            ScrollPane request = buildRequest();
+            Platform.runLater(()-> {
+                getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0);
+            });
+        }
+        private ScrollPane buildRequest(){
+            ScrollPane request = buildBasicScrollPane();
+            VBox scrollContent = getScrollContent(request);
+
+            //possible requests
+            List<String> requests = new ArrayList<>(Arrays.asList("run around", "grab stuff", "shoot people"));
+            if(canUseBot) {
+                requests.add("use Bot");
+            }
+            if(canUsePowerUp) {
+                requests.add("use power up");
+            }
+
+            for (String s:requests) {
+                StackPane stackPane = new StackPane();
+                Label label = new Label(s);
+
+                scrollContent.getChildren().add(stackPane);
+                stackPane.getChildren().add(label);
+
+                stackPane.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(requests.size()));
+
+                stackPane.setUserData(s);
+
+                VBox.setVgrow(stackPane, Priority.ALWAYS);
+
+                stackPane.setOnMouseClicked(e->{
+                    this.chosenAction = (String)((StackPane)e.getSource()).getUserData();
+
+                    System.out.println(this.chosenAction);
+
+                    ViewControllerEventString viewControllerEventString = new ViewControllerEventString(this.chosenAction);
+
+                    getGameSceneController().sendToServer(viewControllerEventString);
+
+                    getGameSceneController().removeSelectorSection();
+                });
+
+                makeNodeHoverable(stackPane);
+            }
+
+            return request;
+        }
     }
 
 
@@ -480,7 +538,42 @@ public class GUISelector implements SelectorV {
     //##################################################################################################################
     @Override
     public void askRunAroundPosition(List<Position> positions) {
+        new Thread(new AskRunAroundPosition(positions)).start();
+    }
+    private class AskRunAroundPosition extends Thread{
+        private List<Position> positions;
+        private AskRunAroundPosition(List<Position> positions){
+            this.positions = positions;
+        }
+        @Override
+        public void run(){
+            ScrollPane request = buildRequest();
+            Platform.runLater(()-> {
+                getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0);
+            });
+        }
+        private ScrollPane buildRequest(){
+            ScrollPane request = buildBasicScrollPane();
+            VBox scrollContent = getScrollContent(request);
 
+            StackPane stackPane = new StackPane(new Label("Choose where to move: "));
+
+            stackPane.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
+
+            //TODO
+            //per ora forzo la prima posizione
+            System.out.println("forcing position: " + this.positions.get(0).humanString());
+            positionChosed(this.positions.get(0).getX(), this.positions.get(0).getY());
+
+            getGameSceneController().removeSelectorSection();
+
+            return request;
+        }
+        private void positionChosed(int x, int y){
+            ViewControllerEventPosition viewControllerEventPosition = new ViewControllerEventPosition(x,y);
+
+            getGameSceneController().sendToServer(viewControllerEventPosition);
+        }
     }
 
 
