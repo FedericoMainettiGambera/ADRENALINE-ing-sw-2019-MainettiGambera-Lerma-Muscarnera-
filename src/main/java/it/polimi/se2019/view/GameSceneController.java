@@ -2,7 +2,6 @@ package it.polimi.se2019.view;
 
 import it.polimi.se2019.model.events.Event;
 import it.polimi.se2019.view.selector.ViewSelector;
-import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -10,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class GameSceneController implements Initializable {
@@ -61,6 +62,71 @@ public class GameSceneController implements Initializable {
     //2.1-killshot track VBox
     @FXML
     private VBox killshotTrackVBox;
+
+    public StackPane getKillBackground1() {
+        return killBackground1;
+    }
+
+    public StackPane getKillMainImage1() {
+        return killMainImage1;
+    }
+
+    public StackPane getKillBackground2() {
+        return killBackground2;
+    }
+
+    public StackPane getKillMainImage2() {
+        return killMainImage2;
+    }
+
+    public StackPane getKillBackground3() {
+        return killBackground3;
+    }
+
+    public StackPane getKillMainImage3() {
+        return killMainImage3;
+    }
+
+    public StackPane getKillBackground4() {
+        return killBackground4;
+    }
+
+    public StackPane getKillMainImage4() {
+        return killMainImage4;
+    }
+
+    public StackPane getKillBackground5() {
+        return killBackground5;
+    }
+
+    public StackPane getKillMainImage5() {
+        return killMainImage5;
+    }
+
+    public StackPane getKillBackground6() {
+        return killBackground6;
+    }
+
+    public StackPane getKillMainImage6() {
+        return killMainImage6;
+    }
+
+    public StackPane getKillBackground7() {
+        return killBackground7;
+    }
+
+    public StackPane getKillMainImage7() {
+        return killMainImage7;
+    }
+
+    public StackPane getKillBackground8() {
+        return killBackground8;
+    }
+
+    public StackPane getKillMainImage8() {
+        return killMainImage8;
+    }
+
     //2.1.n-killshot n-th kill background & main image
     //n=1
     @FXML private StackPane killBackground1;
@@ -130,8 +196,14 @@ public class GameSceneController implements Initializable {
     //3.1.2[0,1]- player damages & deaths
     @FXML private VBox playerDamagesAndDeathsVBox;
 
+    public VBox getPlayerDamagesAndDeathsVBox(){
+        return playerDamagesAndDeathsVBox;}
+
     //3.1.2[0,1].1 - player damages
     @FXML private HBox playerDamagesHbox;
+    public HBox getPlayerHBox(){
+        return  playerDamagesHbox;
+    }
     @FXML private StackPane damageBackground1;
     @FXML private StackPane damageMainImage1;
     @FXML private StackPane damageBackground2;
@@ -159,6 +231,43 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane damageBackground13;
     @FXML private StackPane damageMainImage13;
 
+    public List<StackPane> getDamagesMainImage(){
+        List<StackPane> damages=new ArrayList<>();
+        damages.add(damageMainImage1);
+        damages.add(damageMainImage2);
+        damages.add(damageMainImage3);
+        damages.add(damageMainImage4);
+        damages.add(damageMainImage5);
+        damages.add(damageMainImage6);
+        damages.add(damageMainImage7);
+        damages.add(damageMainImage8);
+        damages.add(damageMainImage9);
+        damages.add(damageMainImage10);
+        damages.add(damageMainImage11);
+        damages.add(damageMainImage12);
+        damages.add(damageMainImage13);
+
+        return damages;
+    }
+
+    public List<StackPane> getDamagesBackGroundImages(){
+        List<StackPane> damages=new ArrayList<>();
+        damages.add(damageBackground1);
+        damages.add(damageBackground2);
+        damages.add(damageBackground3);
+        damages.add(damageBackground4);
+        damages.add(damageBackground5);
+        damages.add(damageBackground6);
+        damages.add(damageBackground7);
+        damages.add(damageBackground8);
+        damages.add(damageBackground9);
+        damages.add(damageBackground10);
+        damages.add(damageBackground11);
+        damages.add(damageBackground12);
+        damages.add(damageBackground13);
+        return damages;
+
+    }
     //3.1.2[0,1].2 - player deaths
     @FXML private HBox playerDeathsHbox;
     @FXML private StackPane deathBackground1;
@@ -231,6 +340,7 @@ public class GameSceneController implements Initializable {
         //      2) initialize the canvas
         //      3) add everything that is already setted in the ViewModel (for example the PlayerList, the current State, Timers, etc...)
 
+
         //killshot track default css classes
         this.killshotTrackSection.getStyleClass().add("emptyKillShotTrackBackground");
         this.killshotTrackVBox.getStyleClass().add("killShotTrackBackground");
@@ -265,47 +375,45 @@ public class GameSceneController implements Initializable {
         //statistics
         this.playerStats.getStyleClass().add("playerStatisticsBackground");
         //marks
+        String markBackGround="markBackGround";
+        String markEmpty="markEmpty";
         this.playerMarks.getStyleClass().add("marksBackground");
-        this.backgroundMark1.getStyleClass().add("markBackground");
-        this.backgroundMark2.getStyleClass().add("markBackground");
-        this.backgroundMark3.getStyleClass().add("markBackground");
-        this.backgroundMark4.getStyleClass().add("markBackground");
-        this.backgroundMark5.getStyleClass().add("markBackground");
-        this.mainImageMark1.getStyleClass().add("markEmpty");
-        this.mainImageMark2.getStyleClass().add("markEmpty");
-        this.mainImageMark3.getStyleClass().add("markEmpty");
-        this.mainImageMark4.getStyleClass().add("markEmpty");
-        this.mainImageMark5.getStyleClass().add("markEmpty");
+        this.backgroundMark1.getStyleClass().add(markBackGround);
+        this.backgroundMark2.getStyleClass().add(markBackGround);
+        this.backgroundMark3.getStyleClass().add(markBackGround);
+        this.backgroundMark4.getStyleClass().add(markBackGround);
+        this.backgroundMark5.getStyleClass().add(markBackGround);
+        this.mainImageMark1.getStyleClass().add(markBackGround);
+        this.mainImageMark2.getStyleClass().add(markEmpty);
+        this.mainImageMark3.getStyleClass().add(markEmpty);
+        this.mainImageMark4.getStyleClass().add(markEmpty);
+        this.mainImageMark5.getStyleClass().add(markEmpty);
         //damage and deaths
         this.playerDamagesAndDeathsVBox.getStyleClass().add("playerDamageAndDeathsBackground");
         //damage
+        String damageBackGround="damageBackground";
+        String damageEmpty="damageEmpty";
+
+
         this.playerDamagesHbox.getStyleClass().add("damagesBackground");
         this.damageBackground1.getStyleClass().add("damageBackgroundFB");
-        this.damageBackground2.getStyleClass().add("damageBackground");
+        this.damageBackground2.getStyleClass().add(damageBackGround);
         this.damageBackground3.getStyleClass().add("damageBackgroundAG");
-        this.damageBackground4.getStyleClass().add("damageBackground");
-        this.damageBackground5.getStyleClass().add("damageBackground");
+        this.damageBackground4.getStyleClass().add(damageBackGround);
+        this.damageBackground5.getStyleClass().add(damageBackGround);
         this.damageBackground6.getStyleClass().add("damageBackgroundAS");
-        this.damageBackground7.getStyleClass().add("damageBackground");
-        this.damageBackground8.getStyleClass().add("damageBackground");
-        this.damageBackground9.getStyleClass().add("damageBackground");
-        this.damageBackground10.getStyleClass().add("damageBackground");
+        this.damageBackground7.getStyleClass().add(damageBackGround);
+        this.damageBackground8.getStyleClass().add(damageBackGround);
+        this.damageBackground9.getStyleClass().add(damageBackGround);
+        this.damageBackground10.getStyleClass().add(damageBackGround);
         this.damageBackground11.getStyleClass().add("damageBackgroundK");
         this.damageBackground12.getStyleClass().add("damageBackgroundOK");
         this.damageBackground13.getStyleClass().add("damageBackgroundEXTRA");
-        this.damageMainImage1.getStyleClass().add("damageEmpty");
-        this.damageMainImage2.getStyleClass().add("damageEmpty");
-        this.damageMainImage3.getStyleClass().add("damageEmpty");
-        this.damageMainImage4.getStyleClass().add("damageEmpty");
-        this.damageMainImage5.getStyleClass().add("damageEmpty");
-        this.damageMainImage6.getStyleClass().add("damageEmpty");
-        this.damageMainImage7.getStyleClass().add("damageEmpty");
-        this.damageMainImage8.getStyleClass().add("damageEmpty");
-        this.damageMainImage9.getStyleClass().add("damageEmpty");
-        this.damageMainImage10.getStyleClass().add("damageEmpty");
-        this.damageMainImage11.getStyleClass().add("damageEmpty");
-        this.damageMainImage12.getStyleClass().add("damageEmpty");
-        this.damageMainImage13.getStyleClass().add("damageEmpty");
+
+        for (StackPane p : getDamagesMainImage()){
+            p.getStyleClass().add(damageEmpty);
+        }
+
         //death
         this.playerDeathsHbox.getStyleClass().add("deathsBackground");
         this.deathBackground1.getStyleClass().add("deathBackground");
@@ -411,6 +519,9 @@ public class GameSceneController implements Initializable {
         return this.selectorSection;
     }
 
-
+    /**@return the playerSection*/
+    public AnchorPane getPlayerSection(){
+        return  this.playerSection;
+    }
 
 }

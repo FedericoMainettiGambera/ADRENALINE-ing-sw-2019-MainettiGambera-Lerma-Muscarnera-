@@ -38,10 +38,10 @@ public class DamagesTracker implements Serializable {
     }
 
     /**add Damages
-     * @param shootingPlayer
-     * @param numberOfDamages
+     * @param shootingPlayer the player who is shooting
+     * @param numberOfDamages the number of damage he's giving
      * */
-    public void addDamages(Player shootingPlayer, int numberOfDamages) throws IllegalArgumentException {
+    public void addDamages(Player shootingPlayer, int numberOfDamages){
         if(shootingPlayer == null){
             throw new IllegalArgumentException("The shooting player can't be null.");
         }
@@ -60,7 +60,7 @@ public class DamagesTracker implements Serializable {
     /**add Damages
      * @param damageSlot
      * */
-    public void addDamage(DamageSlot damageSlot)throws IllegalArgumentException {
+    public void addDamage(DamageSlot damageSlot){
         if(damageSlot == null){
             throw new IllegalArgumentException("the DamageSlot can't be null.");
         }
@@ -71,7 +71,7 @@ public class DamagesTracker implements Serializable {
         return damageSlotsList.get(damageSlotsList.size()-1);
     }
 
-    public DamageSlot getDamageSlot(int slotNumber) throws IndexOutOfBoundsException {
+    public DamageSlot getDamageSlot(int slotNumber){
         if(damageSlotsList.size()>= slotNumber) {
             return damageSlotsList.get(slotNumber);
         }

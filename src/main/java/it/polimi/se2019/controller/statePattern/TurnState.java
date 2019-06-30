@@ -14,24 +14,29 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TurnState implements State {
+
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(TurnState.class.getName());
 
+    /**action 1 or action 2*/
     private int actionNumber;
-
+    /**player to ask the input*/
     private Player playerToAsk;
-
+    /**thread for the count down*/
     private Thread inputTimer;
-
+    /**constructor
+     * @param actionNumber represents if it's action 1 or action 2*/
     public TurnState(int actionNumber){
         out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
     }
 
+    /**asks the user an input, costumed on the basis of, if the bot is active, if they already used it and if they can use a power up card
+     * @param playerToAsk represents the player the information is asked */
     @Override
     public void askForInput(Player playerToAsk) {
         this.playerToAsk = playerToAsk;
-        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        out.println("<SERVER> ("+ this.getClass() +") Asking the Player an input\"" + playerToAsk.getNickname() + "\"");
 
         //ask for input
         try {
@@ -51,11 +56,14 @@ public class TurnState implements State {
         }
     }
 
+
+    /**@param viewControllerEvent represents the action the user choose to undertake,
+     * the next state is based depending on this information*/
     @Override
     public void doAction(ViewControllerEvent viewControllerEvent) {
 
         this.inputTimer.interrupt();
-        out.println("<SERVER> player has answered before the timer ended.");
+        out.println("<SERVER> player has answered before the timer expired.");
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
@@ -91,6 +99,7 @@ public class TurnState implements State {
         }
     }
 
+    /**if the user don't answer before the timer expires, they are set AFK and their turn ends*/
     @Override
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
@@ -102,9 +111,12 @@ public class TurnState implements State {
         }
     }
 
+    /**@param playerToAsk is the player the input is asked
+     * this function verifies if the player can use any power up between the one he's holding in their hand
+     * @return a boolean value that represents the answer*/
     public static boolean canUsePowerUp(Player playerToAsk){
         for (PowerUpCard pu: playerToAsk.getPowerUpCardsInHand().getCards()) {
-            if(pu.getName().toLowerCase().equals("teleporter") || pu.getName().toLowerCase().equals("newton")){
+            if(pu.getName().equalsIgnoreCase("teleporter") || pu.getName().equalsIgnoreCase("newton")){
                 return true;
             }
         }

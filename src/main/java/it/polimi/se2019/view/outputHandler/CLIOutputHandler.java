@@ -22,6 +22,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
 
 
     private String clientMve="<CLIENT> MVE: ";
+    private String space="              ";
 
     public void updateUserInterface(String message) {
         System.out.println(message);
@@ -86,13 +87,13 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     public void movingCardsAround(OrderedCardListV from, OrderedCardListV to, ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         if(to!=null) {
-            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "cards Moved from " + from.getContext());
-            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "to " + to.getContext());
+            OutputHandlerGate.getCLIOutputHandler().updateUserInterface(space + "cards Moved from " + from.getContext());
+            OutputHandlerGate.getCLIOutputHandler().updateUserInterface(space + "to " + to.getContext());
             showOrderedCardList(from);
             showOrderedCardList(to);
         }
         else{
-            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + from.getContext() + "DECK CREATED");
+            OutputHandlerGate.getCLIOutputHandler().updateUserInterface(space + from.getContext() + "DECK CREATED");
             String tempContext = from.getContext();
             from.setContext("NEW DECK");
             showOrderedCardList(from);
@@ -104,7 +105,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     public void shufflingCards(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         OrderedCardListV cards = ((OrderedCardListV) modelViewEvent.getComponent());
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "cards shuffled: " + (cards.getContext()));
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(space + "cards shuffled: " + (cards.getContext()));
         showOrderedCardList(cards);
     }
 
@@ -113,7 +114,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
             if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
-                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has changed color to: " + (modelViewEvent.getComponent()));
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface(space + p.getNickname() +" has changed color to: " + (modelViewEvent.getComponent()));
                 break;
             }
         }
@@ -131,7 +132,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve+ modelViewEvent.getInformation());
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
             if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
-                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has changed Position to: [" + ((Position) modelViewEvent.getComponent()).getX() + "][" + ((Position) modelViewEvent.getComponent()).getY() + "]");
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface(space + p.getNickname() +" has changed Position to: [" + ((Position) modelViewEvent.getComponent()).getX() + "][" + ((Position) modelViewEvent.getComponent()).getY() + "]");
                 break;
             }
         }
@@ -143,7 +144,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
             if (p.getNickname().equals( modelViewEvent.getExtraInformation1())) {
-                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has changed score to: " +  modelViewEvent.getComponent());
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface(space + p.getNickname() +" has changed score to: " +  modelViewEvent.getComponent());
                 break;
             }
         }
@@ -154,7 +155,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
             if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
-                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has died");
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface(space + p.getNickname() +" has died");
                 showPlayerStatus(p);
                 break;
             }
@@ -166,7 +167,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
             if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
-                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has set his board to Final Frenzy");
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface(space + p.getNickname() +" has set his board to Final Frenzy");
                 showPlayerStatus(p);
                 break;
             }
@@ -178,7 +179,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
             if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
-                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +" has changed his ammo box: ");
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface(space + p.getNickname() +" has changed his ammo box: ");
                 showPlayerStatus(p);
                 break;
             }
@@ -190,7 +191,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
             if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
-                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +"'s damage tracker has changed");
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface(space + p.getNickname() +"'s damage tracker has changed");
                 showPlayerStatus(p);
                 break;
             }
@@ -203,7 +204,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve+ modelViewEvent.getInformation());
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
             if (p.getNickname().equals( modelViewEvent.getExtraInformation1())) {
-                OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + p.getNickname() +"'s marks tracker has changed");
+                OutputHandlerGate.getCLIOutputHandler().updateUserInterface(space + p.getNickname() +"'s marks tracker has changed");
                 showPlayerStatus(p);
                 break;
             }
@@ -226,7 +227,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     @Override
     public void newPlayer(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "new player added: " + ((PlayerV) modelViewEvent.getComponent()).getNickname());
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(space + "new player added: " + ((PlayerV) modelViewEvent.getComponent()).getNickname());
         showPlayerList();
     }
 
@@ -234,10 +235,10 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     public void setAFK(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve+ modelViewEvent.getInformation());
         if(ViewModelGate.getMe().equals(modelViewEvent.getExtraInformation1() )){
-            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "You've been set to AFK.");
+            OutputHandlerGate.getCLIOutputHandler().updateUserInterface(space + "You've been set to AFK.");
         }
         else {
-            OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              " + "player " + modelViewEvent.getExtraInformation1() + " AFK status: " + modelViewEvent.getComponent());
+            OutputHandlerGate.getCLIOutputHandler().updateUserInterface(space + "player " + modelViewEvent.getExtraInformation1() + " AFK status: " + modelViewEvent.getComponent());
         }
         for (PlayerV p: ViewModelGate.getModel().getPlayers().getPlayers()) {
             if(p.getNickname().equals(modelViewEvent.getExtraInformation1())){
@@ -283,8 +284,8 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     }
 
     @Override
-    public void finalScoring(ModelViewEvent MVE){
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface((String)MVE.getComponent()+" has arrived "+(String)MVE.getExtraInformation2()+" with  "+MVE.getExtraInformation1()+" points   !!!");
+    public void finalScoring(ModelViewEvent modelViewEvent){
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface(modelViewEvent.getComponent()+" has arrived "+modelViewEvent.getExtraInformation2()+" with  "+modelViewEvent.getExtraInformation1()+" points   !!!");
 
     }
 
@@ -677,9 +678,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
                                     if (nameDimension > 15) {
                                         nameDimension = 15;
                                     }
-                                    for (int l = 2; l < nameDimension + 2; l++) {
-                                        squareArray[l] = nameArray[l - 2];
-                                    }
+                                    System.arraycopy(nameArray, 0, squareArray, 2, nameDimension + 2 - 2);
                                     mapCLI[p.getX()][p.getY()].set(3 + k, new String(squareArray));
                                 }
                             }

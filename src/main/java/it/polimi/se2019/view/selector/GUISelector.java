@@ -666,7 +666,7 @@ public class GUISelector implements SelectorV {
             this.positions=positions;
         }
         @Override
-        public void run() {
+        public void run(){
 
         }
     }
