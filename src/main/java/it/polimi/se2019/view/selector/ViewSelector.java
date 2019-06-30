@@ -38,7 +38,7 @@ public class ViewSelector implements SelectorV {
     }
 
     public SelectorV getCorrectSelector(){
-        if(this.userInterface.equalsIgnoreCase("cLI")){
+        if(this.userInterface.equalsIgnoreCase("CLI")){
             return this.CLISelector;
         }
         else{
