@@ -393,7 +393,9 @@ public class GUISelector implements SelectorV {
                 VBox.setVgrow(red, Priority.ALWAYS);
                 VBox.setVgrow(blue, Priority.ALWAYS);
                 VBox.setVgrow(yellow, Priority.ALWAYS);
-
+                makeNodeHoverable(red);
+                makeNodeHoverable(blue);
+                makeNodeHoverable(yellow);
                 vBox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
 
                 red.setOnMouseClicked(e->{
@@ -646,9 +648,53 @@ public class GUISelector implements SelectorV {
     //##################################################################################################################
     @Override
     public void askGrabStuffGrabWeapon(List<WeaponCardV> toPickUp) {
-
+        new Thread(new AskGrabStuffGrabWeapon(toPickUp)).start();
     }
+    private class AskGrabStuffGrabWeapon implements Runnable{
+        private List<WeaponCardV> toPickUp;
+        private AskGrabStuffGrabWeapon(List<WeaponCardV> toPickUp){
+            this.toPickUp= toPickUp;
+        }
+        @Override
+        public void run() {
+            HBox request = buildRequest();
+            Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
+        }
+        private HBox buildRequest(){
+            //STRUCTURE
+            HBox hBox = new HBox();
 
+            //OTHERS
+            for (WeaponCardV weaponCardV: toPickUp) {
+                StackPane stackPaneBackground = new StackPane();
+                StackPane stackPaneMainImage = new StackPane();
+                stackPaneBackground.getChildren().add(stackPaneMainImage);
+
+                stackPaneMainImage.setUserData(weaponCardV.getID());
+
+                makeNodeHoverable(stackPaneMainImage);
+
+                HBox.setHgrow(stackPaneBackground, Priority.ALWAYS);
+
+                hBox.getChildren().add(stackPaneBackground);
+
+                //EVENTS
+                stackPaneMainImage.setOnMouseClicked(e->{
+                    String toPickUp = (String)((StackPane)e.getSource()).getUserData();
+                    System.out.println("ID: " + toPickUp);
+                    ViewControllerEventString viewControllerEventString = new ViewControllerEventString(toPickUp);
+                    getGameSceneController().sendToServer(viewControllerEventString);
+                    getGameSceneController().removeSelectorSection();
+                });
+
+            }
+
+            //PROPERTIES
+            hBox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
+
+            return hBox;
+        }
+    }
 
     //##################################################################################################################
     @Override
