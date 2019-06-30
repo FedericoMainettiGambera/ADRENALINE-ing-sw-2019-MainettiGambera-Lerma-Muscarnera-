@@ -593,7 +593,7 @@ public class GUISelector implements SelectorV {
     //##################################################################################################################
     @Override
     public void askGrabStuffAction() {
-
+        new Thread(new AskGrabStuffAction()).start();
     }
     private class AskGrabStuffAction implements Runnable{
         @Override
@@ -616,6 +616,8 @@ public class GUISelector implements SelectorV {
             stackPane2.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
             VBox.setVgrow(stackPane1, Priority.ALWAYS);
             VBox.setVgrow(stackPane2, Priority.ALWAYS);
+            makeNodeHoverable(stackPane1);
+            makeNodeHoverable(stackPane2);
 
             //EVENTS
             stackPane1.setOnMouseClicked(e->{
