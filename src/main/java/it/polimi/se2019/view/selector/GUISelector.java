@@ -530,10 +530,23 @@ public class GUISelector implements SelectorV {
 
     //##################################################################################################################
     @Override
-    public void askBotMove(SelectorEventPositions SEPositions) {
-
+    public void askBotMove(SelectorEventPositions selectorEventPositions) {
+        new Thread(new AskBotMove(selectorEventPositions.getPositions())).start();
     }
+    private class AskBotMove implements Runnable{
+        private List<Position> positions;
+        private AskBotMove (List<Position> positions){
+            this.positions=positions;
+        }
+        @Override
+        public void run (){
 
+        }
+        private StackPane buildRequest(){
+            //TODO
+            return new StackPane();
+        }
+    }
 
     //##################################################################################################################
     @Override
@@ -548,9 +561,7 @@ public class GUISelector implements SelectorV {
         @Override
         public void run(){
             ScrollPane request = buildRequest();
-            Platform.runLater(()-> {
-                getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0);
-            });
+            Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
         }
         private ScrollPane buildRequest(){
             ScrollPane request = buildBasicScrollPane();
@@ -560,12 +571,14 @@ public class GUISelector implements SelectorV {
 
             stackPane.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
 
+            scrollContent.getChildren().add(stackPane);
+
             //TODO
             //per ora forzo la prima posizione
             System.out.println("forcing position: " + this.positions.get(0).humanString());
             positionChosed(this.positions.get(0).getX(), this.positions.get(0).getY());
-
-            getGameSceneController().removeSelectorSection();
+            Platform.runLater(()->getGameSceneController().removeSelectorSection());
+            //quindi sostituisci queste tre righe
 
             return request;
         }
@@ -581,6 +594,43 @@ public class GUISelector implements SelectorV {
     @Override
     public void askGrabStuffAction() {
 
+    }
+    private class AskGrabStuffAction implements Runnable{
+        @Override
+        public void run() {
+            VBox request = buildRequest();
+            Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
+        }
+        private VBox buildRequest(){
+            //STRUCTURE
+            VBox request = new VBox();
+            StackPane stackPane1 = new StackPane(new Label("move to another position and grab there"));
+            StackPane stackPane2 = new StackPane(new Label("grab where you are without moving"));
+
+            request.getChildren().addAll(stackPane1,stackPane2);
+
+            //PROPERTIES
+            stackPane1.setUserData("move");
+            stackPane2.setUserData("grab");
+            stackPane1.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
+            stackPane2.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
+            VBox.setVgrow(stackPane1, Priority.ALWAYS);
+            VBox.setVgrow(stackPane2, Priority.ALWAYS);
+
+            //EVENTS
+            stackPane1.setOnMouseClicked(e->{
+                ViewControllerEventString viewControllerEventString = new ViewControllerEventString((String)((StackPane)e.getSource()).getUserData());
+                getGameSceneController().removeSelectorSection();
+                getGameSceneController().sendToServer(viewControllerEventString);
+            });
+            stackPane2.setOnMouseClicked(e->{
+                ViewControllerEventString viewControllerEventString = new ViewControllerEventString((String)((StackPane)e.getSource()).getUserData());
+                getGameSceneController().removeSelectorSection();
+                getGameSceneController().sendToServer(viewControllerEventString);
+            });
+
+            return request;
+        }
     }
 
 
@@ -651,7 +701,49 @@ public class GUISelector implements SelectorV {
     //##################################################################################################################
     @Override
     public void askWhatEffect(List<EffectV> possibleEffects) {
+        new Thread(new AskWhatEffect(possibleEffects)).start();
+    }
+    private class AskWhatEffect implements Runnable{
+        private List<EffectV> possibleEffects;
+        private AskWhatEffect(List<EffectV> possibleEffects){
+            this.possibleEffects=possibleEffects;
+        }
+        @Override
+        public void run() {
+            ScrollPane request = buildRequest();
+            Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
+        }
+        private ScrollPane buildRequest(){
+            ScrollPane request = buildBasicScrollPane();
+            VBox scrollContent = getScrollContent(request);
 
+            for (int i = 0; i<possibleEffects.size(); i++) {
+                EffectV effectV = possibleEffects.get(i);
+
+                //STRUCTURE
+                StackPane stackPane = new StackPane(new Label(effectV.getEffectName()));
+                scrollContent.getChildren().add(stackPane);
+
+                //PROPERTIES
+                stackPane.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(possibleEffects.size()));
+                VBox.setVgrow(stackPane, Priority.ALWAYS);
+                stackPane.setUserData(i);
+
+                makeNodeHoverable(stackPane);
+
+                //EVENT
+                stackPane.setOnMouseClicked(e->{
+                    Integer index = (Integer)((StackPane)e.getSource()).getUserData();
+
+                    ViewControllerEventInt viewControllerEventInt = new ViewControllerEventInt(index);
+
+                    getGameSceneController().removeSelectorSection();
+                    getGameSceneController().sendToServer(viewControllerEventInt);
+                });
+            }
+
+            return request;
+        }
     }
 
 

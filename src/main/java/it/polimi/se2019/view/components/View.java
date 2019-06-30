@@ -71,7 +71,6 @@ public class View implements Observer {
         }
         else if(arg.getClass().toString().contains("StateEvent")){
             stateEvent = (StateEvent)arg;
-
             OutputHandlerGate.getCorrectOutputHandler(this.userInterface).stateChanged(stateEvent);
         }
         else if(arg.getClass().toString().contains("TimerEvent")){
