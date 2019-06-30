@@ -2,7 +2,6 @@ package it.polimi.se2019.view;
 
 import it.polimi.se2019.model.events.Event;
 import it.polimi.se2019.view.selector.ViewSelector;
-import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -61,6 +60,71 @@ public class GameSceneController implements Initializable {
     //2.1-killshot track VBox
     @FXML
     private VBox killshotTrackVBox;
+
+    public StackPane getKillBackground1() {
+        return killBackground1;
+    }
+
+    public StackPane getKillMainImage1() {
+        return killMainImage1;
+    }
+
+    public StackPane getKillBackground2() {
+        return killBackground2;
+    }
+
+    public StackPane getKillMainImage2() {
+        return killMainImage2;
+    }
+
+    public StackPane getKillBackground3() {
+        return killBackground3;
+    }
+
+    public StackPane getKillMainImage3() {
+        return killMainImage3;
+    }
+
+    public StackPane getKillBackground4() {
+        return killBackground4;
+    }
+
+    public StackPane getKillMainImage4() {
+        return killMainImage4;
+    }
+
+    public StackPane getKillBackground5() {
+        return killBackground5;
+    }
+
+    public StackPane getKillMainImage5() {
+        return killMainImage5;
+    }
+
+    public StackPane getKillBackground6() {
+        return killBackground6;
+    }
+
+    public StackPane getKillMainImage6() {
+        return killMainImage6;
+    }
+
+    public StackPane getKillBackground7() {
+        return killBackground7;
+    }
+
+    public StackPane getKillMainImage7() {
+        return killMainImage7;
+    }
+
+    public StackPane getKillBackground8() {
+        return killBackground8;
+    }
+
+    public StackPane getKillMainImage8() {
+        return killMainImage8;
+    }
+
     //2.1.n-killshot n-th kill background & main image
     //n=1
     @FXML private StackPane killBackground1;
