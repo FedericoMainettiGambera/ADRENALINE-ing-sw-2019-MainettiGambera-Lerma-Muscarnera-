@@ -1,8 +1,6 @@
 package it.polimi.se2019.model;
 
-import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
-import it.polimi.se2019.controller.statePattern.FinalScoringState;
 import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.view.components.PlayerV;
@@ -85,7 +83,7 @@ public class PlayersList extends Observable implements Serializable {
                 numberOfPlayerNotAFK++;
             }
         }
-        return numberOfPlayerNotAFK < GameConstant.minNumberOfPlayerPerGame;
+        return numberOfPlayerNotAFK < GameConstant.MIN_NUMBER_OF_PLAYER_PER_GAME;
     }
 
     public boolean areAllAFK(){

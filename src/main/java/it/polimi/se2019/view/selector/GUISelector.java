@@ -1076,8 +1076,70 @@ public class GUISelector implements SelectorV {
     //##################################################################################################################
     //TODO
     @Override
-    public void wantToUsePowerUpOrNot() {
+    public void wantToUsePowerUpOrNot(){
+        new Thread(new AskWantToUsePowerUpOrNot()).start();
 
+    }
+
+    private class AskWantToUsePowerUpOrNot implements Runnable{
+
+
+        @Override
+        public  void run(){
+            HBox request = buildRequest();
+            Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
+        }
+
+        private HBox buildRequest(){
+
+            HBox hbox = new HBox();
+
+            StackPane left = new StackPane();
+            StackPane center = new StackPane();
+            StackPane right = new StackPane();
+
+            Label label = new Label("Want to use a Power Up? ");
+
+            RadioButton yes = new RadioButton("ACTIVE");
+            RadioButton no = new RadioButton("NON-ACTIVE");
+            ToggleGroup group = new ToggleGroup();
+
+            //STRUCTURE
+            hbox.getChildren().add(left);
+            hbox.getChildren().add(center);
+            hbox.getChildren().add(right);
+            left.getChildren().add(label);
+            center.getChildren().add(yes);
+            right.getChildren().add(no);
+
+            //PROPERTIES
+            hbox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(4));
+            yes.setToggleGroup(group);
+            no.setToggleGroup(group);
+            no.setSelected(true);
+            HBox.setHgrow(left, Priority.ALWAYS);
+            HBox.setHgrow(center, Priority.ALWAYS);
+            HBox.setHgrow(right, Priority.ALWAYS);
+
+            //EVENTS
+            yes.setOnMouseClicked(e-> {
+
+                ViewControllerEventBoolean viewControllerEventBoolean = new ViewControllerEventBoolean(true);
+                getGameSceneController().removeSelectorSection();
+                getGameSceneController().sendToServer(viewControllerEventBoolean);
+                System.out.println("user want to use power up");
+            });
+            no.setOnMouseClicked(e-> {
+                ViewControllerEventBoolean viewControllerEventBoolean = new ViewControllerEventBoolean(false);
+                getGameSceneController().removeSelectorSection();
+                getGameSceneController().sendToServer(viewControllerEventBoolean);
+                System.out.println("user doesnt want to use power up");
+
+            });
+
+            return hbox;
+
+        }
     }
 
 
@@ -1094,7 +1156,7 @@ public class GUISelector implements SelectorV {
             this.playersV = playersV;
         }
         @Override
-        public void run() {
+        public void run(){
 
         }
     }

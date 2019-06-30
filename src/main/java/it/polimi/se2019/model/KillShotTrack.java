@@ -40,13 +40,13 @@ public class KillShotTrack extends Observable implements Serializable {
 
         kills = new ArrayList<>();
 
-        if((numberOfStartingSkulls >= GameConstant.minStartingSkulls )&&(numberOfStartingSkulls<=GameConstant.maxStartingSkulls)){
+        if((numberOfStartingSkulls >= GameConstant.MIN_STARTING_SKULLS)&&(numberOfStartingSkulls<=GameConstant.MAX_STARTING_SKULLS)){
             for (int index = 0; index < numberOfStartingSkulls; index++) {
                 kills.add(new Kill());
             }
         }
         else{
-            for (int index = 0; index < GameConstant.maxStartingSkulls; index++) {
+            for (int index = 0; index < GameConstant.MAX_STARTING_SKULLS; index++) {
                 kills.add(new Kill());
             }
         }

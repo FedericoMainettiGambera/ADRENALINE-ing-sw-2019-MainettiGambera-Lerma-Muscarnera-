@@ -40,7 +40,7 @@ public class SocketVirtualView extends VirtualView{
         this.controller = controller;
 
         try{
-            serverSocket = new ServerSocket(0, GameConstant.maxNumberOfPlayerPerGame, InetAddress.getLocalHost());
+            serverSocket = new ServerSocket(0, GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME, InetAddress.getLocalHost());
             this.port = serverSocket.getLocalPort();
         }
         catch (IOException e) {

@@ -14,7 +14,7 @@ public class PlayerBoard implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
-     * Initialize the AmmoBox with "GameConstant.NumberOfStartingAmmos" ammos for each color.
+     * Initialize the AmmoBox with "GameConstant.NUMBER_OF_STARTING_AMMOS" ammos for each color.
      * The damagesTracker and marksTracker are two empty ArrayList.
      * The deathCounter is set to zero.
      * */

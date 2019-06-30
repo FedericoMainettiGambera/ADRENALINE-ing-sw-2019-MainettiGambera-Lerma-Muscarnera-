@@ -1,7 +1,6 @@
 package it.polimi.se2019.model;
 
 import java.io.Serializable;
-import java.util.Observable;
 
 /**
  * THIS CLASS SHOULD NEVER BE DIRECTLY ACCESSED, INSTEAD USE METHODS FROM THE "Person" CLASS.
@@ -43,13 +42,13 @@ public class MarkSlots implements Serializable {
         return markingPlayer;
     }
 
-    /**add a specified amount of marks, but makes sure that it never exceed GameConstant.MaxNumberOfMarkFromPlayer*/
+    /**add a specified amount of marks, but makes sure that it never exceed GameConstant.MAX_NUMBER_OF_MARK_FROM_PLAYER*/
     public void addQuantity(int quantity){
-        if(this.quantity+quantity <= GameConstant.MaxNumberOfMarkFromPlayer) {
+        if(this.quantity+quantity <= GameConstant.MAX_NUMBER_OF_MARK_FROM_PLAYER) {
             this.quantity += quantity;
         }
         else{
-            this.quantity = GameConstant.MaxNumberOfMarkFromPlayer;
+            this.quantity = GameConstant.MAX_NUMBER_OF_MARK_FROM_PLAYER;
         }
     }
 }

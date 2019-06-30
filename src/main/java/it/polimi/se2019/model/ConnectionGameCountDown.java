@@ -21,16 +21,16 @@ public class ConnectionGameCountDown implements Runnable {
     @Override
     public void run() {
         String string="<SERVER> STARTING GAME.";
-        System.out.println("<SERVER> Reached minimum number of players connected. Starting COUNT DOWN of " +GameConstant.countdownInSecondsForConnectionQueue + " seconds.");
+        System.out.println("<SERVER> Reached minimum number of players connected. Starting COUNT DOWN of " +GameConstant.COUNTDOWN_IN_SECONDS_FOR_CONNECTION_QUEUE + " seconds.");
 
         int i = 1;
-        while(i<=GameConstant.countdownInSecondsForConnectionQueue) {
+        while(i<=GameConstant.COUNTDOWN_IN_SECONDS_FOR_CONNECTION_QUEUE) {
 
             if(ViewControllerEventHandlerContext.RMIVV!=null){
-                ViewControllerEventHandlerContext.RMIVV.sendAllClient(new TimerEvent(i, GameConstant.countdownInSecondsForConnectionQueue, "Connection"));
+                ViewControllerEventHandlerContext.RMIVV.sendAllClient(new TimerEvent(i, GameConstant.COUNTDOWN_IN_SECONDS_FOR_CONNECTION_QUEUE, "Connection"));
             }
             if(ViewControllerEventHandlerContext.socketVV!=null) {
-                ViewControllerEventHandlerContext.socketVV.sendAllClient(new TimerEvent(i, GameConstant.countdownInSecondsForConnectionQueue, "Connection"));
+                ViewControllerEventHandlerContext.socketVV.sendAllClient(new TimerEvent(i, GameConstant.COUNTDOWN_IN_SECONDS_FOR_CONNECTION_QUEUE, "Connection"));
             }
             try {
                 TimeUnit.SECONDS.sleep(1);
@@ -39,7 +39,7 @@ public class ConnectionGameCountDown implements Runnable {
                 logger.log(Level.WARNING, "EXCEPTION ", e);
                 Thread.currentThread().interrupt();
             }
-            if(ModelGate.model.getNumberOfClientsConnected() > GameConstant.maxNumberOfPlayerPerGame-1){
+            if(ModelGate.model.getNumberOfClientsConnected() > GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME -1){
                 System.out.println("<SERVER> max number of clients connected.");
                 System.out.println(string);
                 ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
@@ -57,7 +57,7 @@ public class ConnectionGameCountDown implements Runnable {
         }
         else{
             System.out.println("<SERVER> COUNT DOWN has ended but the number of connection has changed");
-            if(ModelGate.model.getNumberOfClientsConnected() >= GameConstant.minNumberOfPlayerPerGame){
+            if(ModelGate.model.getNumberOfClientsConnected() >= GameConstant.MIN_NUMBER_OF_PLAYER_PER_GAME){
                 System.out.println("<SERVER> There are " + ModelGate.model.getNumberOfClientsConnected() + " clients connected. The Game is Playeable.");
                 System.out.println(string);
                 ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
