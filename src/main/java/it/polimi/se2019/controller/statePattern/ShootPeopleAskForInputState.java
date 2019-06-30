@@ -39,7 +39,10 @@ public class ShootPeopleAskForInputState implements State {
     /**contains the weapon card the user decided to use*/
     private WeaponCard chosenWeaponCard;
 
-   /**constru*/
+   /**constructor,
+    * @param actionNumber if it's first or second action
+    * @param chosenEffect which effect the player wants to use
+    *@param chosenWeaponCard  which weapon card the player wants to use*/
     public ShootPeopleAskForInputState(Effect chosenEffect, WeaponCard chosenWeaponCard, int actionNumber){
         out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
@@ -49,20 +52,22 @@ public class ShootPeopleAskForInputState implements State {
 
 
     private Integer inputRequestCounterF = 0;
+
     public boolean canIncrementRequest(){
         return inputRequestCounterF < this.chosenEffect.requestedInputs().size() - 1;
     }
 
+    /**@param playerToAsk the player the input is asked*/
     @Override
     public void askForInput(Player playerToAsk){
         this.playerToAsk = playerToAsk;
-        out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+        out.println("<SERVER> (" + this.getClass() + ") Asking the player an input \"" + playerToAsk.getNickname() + "\"");
 
         EffectInfoType inputType = this.chosenEffect.getEffectInfo().getEffectInfoElement().get(inputRequestCounterF).getEffectInfoTypelist();
 
         if(isToSend(inputType)) {
             try {
-                out.println("<SERVER> sending " + inputType + " to player with the possible options.");
+                out.println("<SERVER> sending the player a" + inputType + "with the possible options.");
 
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askEffectInputs(inputType, this.chosenEffect.usableInputs().get(inputRequestCounterF).get(0));
@@ -80,15 +85,25 @@ public class ShootPeopleAskForInputState implements State {
 
 
 
+    /**extrapolates needed data from
+     * @param viewControllerEvent that is the event asked the user
+     * then calls the function askMoreOrExec*/
     @Override
     public void doAction(ViewControllerEvent viewControllerEvent) {
         this.inputTimer.interrupt();
-        out.println("<SERVER> player has answered before the timer ended.");
 
+        parsevce(viewControllerEvent);
+        askMoreOrExec();
+    }
+
+    /**@param viewControllerEvent event this function extrapolates the data from
+     * */
+    public void parsevce(ViewControllerEvent viewControllerEvent){
+
+        out.println("<SERVER> player answered before timer expired.");
         out.println("<SERVER> " + this.getClass() + ".doAction();");
 
         List<Object> response = ((ViewControllerEventListOfObject)viewControllerEvent).getAnswer();
-
         Object[] inputRow = new Object[10];
 
         int inputRowCurrent = 0;
@@ -106,10 +121,9 @@ public class ShootPeopleAskForInputState implements State {
         }
 
         this.chosenEffect.handleRow(this.chosenEffect.getEffectInfo().getEffectInfoElement().get(inputRequestCounterF),inputRow);
-
-        askMoreOrExec();
     }
 
+    /***/
     private void askMoreOrExec(){
         if(canIncrementRequest()) {
             inputRequestCounterF++;
@@ -122,10 +136,34 @@ public class ShootPeopleAskForInputState implements State {
             // ChooseHowToPayState.makePayment(playerToAsk, this.chosenEffect.getUsageCost());
         }
     }
+
+    /**this function manages to damage the right player after the payment has been effectuated,
+     * then directs the  state pattern towards the right following state*/
     public void afterPayment(){
 
-        this.chosenWeaponCard.unload(); //TODO not sure about this, ask luca
 
+        List<Player> damagedPlayer=damagePlayer();
+
+        State nextState = null;
+
+        if(this.actionNumber == 2){
+            nextState = (new ReloadState(false));
+        }
+        else if(this.actionNumber == 1){
+            nextState = (new TurnState(2));
+        }
+
+        ViewControllerEventHandlerContext.setNextState(new TargetingScopeState(nextState, damagedPlayer));
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+
+    }
+
+
+    /**this function manages to add the damage to the right players,
+     * @return the list of the players he has damaged, if there are any */
+    public List<Player> damagePlayer(){
+
+        this.chosenWeaponCard.unload(); //TODO not sure about this, ask luca
         List<List<Player>> listListDamagedPlayer = this.chosenEffect.Exec();
 
         //transform the List<List<Player>> in List<Player>
@@ -157,22 +195,11 @@ public class ShootPeopleAskForInputState implements State {
             }
         }
 
-        State nextState = null;
-
-        if(this.actionNumber == 2){
-            nextState = (new ReloadState(false));
-        }
-        else if(this.actionNumber == 1){
-            nextState = (new TurnState(2));
-        }
-
-        ViewControllerEventHandlerContext.setNextState(new TargetingScopeState(nextState, damagedPlayer));
-
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
-
+        return damagedPlayer;
     }
 
 
+    /**set the user AFK notifying it to them and make them pass their turn*/
     @Override
     public void handleAFK(){
         this.playerToAsk.setAFKWithNotify(true);
@@ -184,8 +211,9 @@ public class ShootPeopleAskForInputState implements State {
         }
     }
 
-
-    private boolean isToSend(EffectInfoType infoType){
+/** @param infoType a string extrapolated from the effect that allows
+ * this function to acknowledges the right type of the effect chosen by the user*/
+    public boolean isToSend(EffectInfoType infoType){
         if(infoType.equals(EffectInfoType.player) ||
                 infoType.equals(EffectInfoType.playerSquare)||
                 infoType.equals(EffectInfoType.targetListBySameSquareOfPlayer)||

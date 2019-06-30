@@ -793,7 +793,7 @@ public class GUISelector implements SelectorV {
 
     //##################################################################################################################
     @Override
-    public void askSpawn(List<PowerUpCardV> powerUpCards) {
+    public void askSpawn(List<PowerUpCardV> powerUpCards){
 
     }
 
@@ -1068,7 +1068,7 @@ public class GUISelector implements SelectorV {
             this.powerUpCardsV = powerUpCardsV;
         }
         @Override
-        public void run() {
+        public void run(){
 
         }
     }
