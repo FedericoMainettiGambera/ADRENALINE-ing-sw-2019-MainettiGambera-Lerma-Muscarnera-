@@ -3,12 +3,12 @@ GRENADE LAUNCHER
 RELOAD COST
 r
 1
-
 NEW EFFECT
 EXPECTED INPUT
 singleTarget
 TO
-ALL
+1
+2
 END
 simpleSquareSelect
 TO
@@ -32,14 +32,24 @@ END
 
 NEW EFFECT
 EFFECT NAME
-Extra Granade
+BasicEffect + ExtraGranade
 USAGE COST
 r
 1
 EXPECTED INPUT
+singleTarget
+TO
+1
+2
+END
+simpleSquareSelect
+TO
+2
+4
+END
 targetListBySquare
 TO
-ALL
+3
 END
 END
 ACTIONS
@@ -49,5 +59,67 @@ PRECONDITION
 youCanSee
 SET
 1
+END
+Move
+ACTION INFO
+PRECONDITION
+distanceFromOriginalPositionIs1
+END
+Damage
+ACTION INFO
+PRECONDITION
+youCanSeeTP
+SET
+1
+END
+Action
+ACTION INFO
+PRECONDITION
+youCanSeeThatSquare
+END
+END
+
+
+
+NEW EFFECT
+EFFECT NAME
+ExtraGranade + Basic Effect
+USAGE COST
+r
+1
+EXPECTED INPUT
+targetListBySquare
+TO
+1
+END
+singleTarget
+TO
+2
+3
+END
+simpleSquareSelect
+TO
+3
+END
+END
+ACTIONS
+Damage
+ACTION INFO
+PRECONDITION
+youCanSee
+SET
+1
+END
+Damage
+ACTION INFO
+PRECONDITION
+youCanSee
+SET
+1
+END
+Move
+ACTION INFO
+PRECONDITION
+distanceFromOriginalPositionIs1
 END
 END

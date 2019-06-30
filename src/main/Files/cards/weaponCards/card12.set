@@ -12,23 +12,37 @@ NEW EFFECT
 EXPECTED INPUT
 simpleSquareSelect
 TO
-ALL
+1
+2
+3
+4
 END
 singleTarget
 TO
-ALL
+3
+4
 END
 END
 ACTIONS
+Action
+ACTION INFO
+PRECONDITION
+youCanSeeThatSquare
+END
+Action
+ACTION INFO
+PRECONDITION
+notYourSquare
+END
 Move
 ACTION INFO
 PRECONDITION
-distanceFromOriginalPositionIs1
+distanceFromOriginalPositionIs1NOPLAYER
 END
 Damage
 ACTION INFO
 PRECONDITION
-alwaysTrue
+distanceFromOriginalPositionIs1NOPLAYER
 SET
 2
 END
@@ -43,30 +57,77 @@ r
 EXPECTED INPUT
 simpleSquareSelect
 TO
-ALL
+1
+2
+3
+4
 END
 twoTargets
 TO
-ALL
+3
+4
 END
 END
 ACTIONS
 Action
 ACTION INFO
 PRECONDITION
-isBlackHole
+youCanSeeThatSquare
+END
+Action
+ACTION INFO
+PRECONDITION
+notYourSquare
 END
 Move
 ACTION INFO
 PRECONDITION
-distanceFromOriginalPositionIs1
+distanceFromOriginalPositionIs1NOPLAYER
 END
 Damage
 ACTION INFO
 PRECONDITION
-moveOtherPlayer
+distanceFromOriginalPositionIs1NOPLAYER
 SET
 1
 END
 END
+
+
+
+#NEW EFFECT
+#EFFECT NAME
+#Black Hole
+#USAGE COST
+#r
+#1
+#EXPECTED INPUT
+#simpleSquareSelect
+#TO
+#ALL
+#END
+#twoTargets
+#TO
+#ALL
+#END
+#END
+#ACTIONS
+#Action
+#ACTION INFO
+#PRECONDITION
+#isBlackHole
+#END
+#Move
+#ACTION INFO
+#PRECONDITION
+#distanceFromOriginalPositionIs1
+#END
+#Damage
+#ACTION INFO
+#PRECONDITION
+#moveOtherPlayer
+#SET
+#1
+#END
+#END
 

@@ -1,410 +1,347 @@
 package it.polimi.se2019.ModelTest;
 
 import it.polimi.se2019.model.*;
-import it.polimi.se2019.model.enumerations.UsableInputTableRowType;
-import it.polimi.se2019.virtualView.VirtualView;
+import it.polimi.se2019.model.enumerations.EffectInfoType;
+import it.polimi.se2019.view.components.EffectV;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.se2019.model.enumerations.EffectInfoType.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 public class TestEffect {
-    /*FOR MAVEN PURPOSE
+    /*
+     * Methods in Effect:
+     *       e.setOf();*
+     *       e.setName();*
+     *       e.getEffectInfo();*
+     *       e.requestedInputs();*
+     *       e.getActions();*
+     *       e.getName();*
+     *       e.handleRow(); #*
+     *       e.setFilledInputs();
+     *       e.passContext();*
+     *       e.getOf();*
+     *       e.getUsageCost();
+     *       e.Exec();*
+     *       e.usableInputs();
+     * */
+
     @Test
-    public void Cartesian() {
-        List<Object> A = new ArrayList<>();
-        for(int i = 0;i < 12;i++)
-                            A.add(i);
+    public void test1() throws Exception {
+        Effect e = new Effect();
+        WeaponCard w = new WeaponCard("1");
+        e.setOf(w);
+        assertEquals(e.getOf(), w);
+    }
 
+    @Test
+    public void testName() throws Exception {
+        Effect e = new Effect();
+        String n = "test";
+        e.setName(n);
+        assertEquals(e.getName(), n);
+    }
 
-        List<Object> deepSquareCombination = (ArrayList <Object>) WeaponCard.cartesianPower(A,1);
-        List<Object> flatSquareCombination = new ArrayList<>();
+    @Test
+    public void testGetEffectInfo() throws Exception {
+        WeaponCard w = new WeaponCard("1");
+        Effect e = w.getEffects().get(0);
+        e.setEffectInfo(e.getEffectInfo());
+        assertNotEquals(
+                e.getEffectInfo(),
+                null
+        );
+    }
 
-        if(deepSquareCombination.get(0).getClass().toString().equals("class java.util.ArrayList")) {
-            for (Object x : deepSquareCombination) {
-                flatSquareCombination.add((ArrayList<Object>) WeaponCard.arrayFlattener(x, 0));
+    @Test
+    public void testRequestedInputs() throws Exception {
+        WeaponCard w = new WeaponCard("1");
+        Effect e = w.getEffects().get(0);
+        List<EffectInfoType> inputList = e.requestedInputs();
+        for (EffectInfoType i : inputList) {
+            assertNotEquals(i, null);
+        }
+    }
+
+    @Test
+    public void testGetActions() throws Exception {
+        WeaponCard w = new WeaponCard("1");
+        Effect e = w.getEffects().get(0);
+        List<Action> a = e.getActions();
+        for (Action x : a)
+            assertNotEquals(x, null);
+    }
+
+    @Test
+    public void testHandleRow() throws Exception {
+        WeaponCard w = new WeaponCard("22");
+        Effect e = new Effect();
+        e.setOf(w);
+        e.getActions().add(new Action());
+        e.getActions().add(new Action());
+        Action currentAction = e.getActions().get(1);
+        List<Player> pl  = new ArrayList<>();
+        Player a = new Player();
+        a.setNickname("a");
+        Player b = new Player();
+        b.setNickname("b");
+        Player c = new Player();
+        c.setNickname("c");
+        Player d = new Player();
+        d.setNickname("d");
+        Player e_ = new Player();
+        e_.setNickname("d");
+
+                    pl.add(a);
+                    pl.add(b);
+                    pl.add(c);
+                    pl.add(d);
+                    pl.add(e_);
+        Board board = new Board("2",null,null);
+        PlayersList playersList = new PlayersList();
+        for(Player x: pl) {
+            playersList.addPlayer(x);
+        }
+        e.passContext(a,playersList,board);
+        a.setPositionWithoutNotify(new Position(0,0));
+        b.setPositionWithoutNotify(new Position(0,1));
+        c.setPositionWithoutNotify(new Position(2,0));
+        d.setPositionWithoutNotify(new Position(1,0));
+        e_.setPositionWithoutNotify(new Position(0,0));
+        for (EffectInfoType x : EffectInfoType.values()) {
+            EffectInfo testEffectInfo = new EffectInfo();
+            testEffectInfo.getEffectInfoElement().add(new EffectInfoElement());
+            List<Integer> de = new ArrayList<>();
+            de.add(2);
+            testEffectInfo.getEffectInfoElement().get(0).setEffectInfoTypeDestination(
+                    de
+            );
+            testEffectInfo.getEffectInfoElement().get(0).setEffectInfoTypelist(
+                    x
+            );
+            e.setEffectInfo(testEffectInfo);
+            Object[] row = new Object[10];
+            List<Player> targetList = currentAction.getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList();
+            UserSelectedActionDetails  AD = currentAction.getActionInfo().getActionDetails().getUserSelectedActionDetails();
+            ActionContext              AC = currentAction.getActionInfo().getActionContext();
+            if(x == EffectInfoType.player) {
+                //row[0] =  null;
+                e.handleRow(e.getEffectInfo().getEffectInfoElement().get(0),row);
+                assertEquals(
+                        targetList.get(0),
+                        a
+                );
             }
-        }
-        else {
-            System.out.println("Element");
-            for (Object x : deepSquareCombination)
-                flatSquareCombination.add(x);
-        }
-
-        for(Object x: flatSquareCombination) {
-            System.out.println(x);
-        }
-        //System.out.println(WeaponCard.arrayFlattener(WeaponCard.cardinalProduct(a,WeaponCard.cardinalProduct(b,c))));
-    }
-@Test
-    public void testAlpha() {
-    try {
-        WeaponCard weaponCard = new WeaponCard("22");
-        Player user = new Player();
-        Player user2 = new Player();
-        Player user3 = new Player();
-        Player user4 = new Player();
-        PlayersList playerList = new PlayersList();
-        playerList.addPlayer(user);
-        playerList.addPlayer(user2);
-        playerList.addPlayer(user3);
-        playerList.addPlayer(user4);
-
-        Board board = new Board("0",new VirtualView(), new VirtualView());
-
-        user.setNickname("Luca");
-        user2.setNickname("Aldo");
-        user3.setNickname("Bruno");
-        user4.setNickname("Carlo");
-
-        user.setPosition(0,0);
-        user2.setPosition(1,1);
-        user3.setPosition(2,2);
-        user4.setPosition(2,3);
-
-        System.out.println(weaponCard.usable(user,board,playerList).toString());
-
-    }catch(Exception e) {
-        System.out.println(e.toString());
-    }
-    }
-/*
-    @Test
-    public void testPreCondition() {
-        Action y = (Action) new Damage();
-        Effect z = new Effect();
-        z.getActions().add(y);
-        z.getActions().get(0).getActionInfo().setPreConditionMethodName("alwaysTrue");
-        assertEquals(true,z.getActions().get(0).getActionInfo().preCondition());
-    }
-    @Test
-    public void testEffectExec() {
-        Effect x = new Effect();
-        Action y = (Action) new Damage();
-        Action z = (Action) new Damage();
-        y.getActionInfo().setPreConditionMethodName("alwaysTrue");
-        z.getActionInfo().setPreConditionMethodName("alwaysTrue");
-       // y.setActionInfo(new ActionInfo());
-        Player p = new Player();
-        y.getActionInfo().getActionContext().setPlayer(p);
-        z.getActionInfo().getActionContext().setPlayer(p);
-        y.getActionInfo().getActionDetails().getFileSelectedActionDetails().setDamage(1);
-        z.getActionInfo().getActionDetails().getFileSelectedActionDetails().setDamage(1);
-
-        y.getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(p);
-        z.getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(p);
-        x.getActions().add(y);
-        x.getActions().add(z);
-        if(!x.Exec()) fail();
-
-    }
-
-    @Test
-    public void testEffectExecNotExecutable() {
-        Effect x = new Effect();
-        Action y = (Action) new Damage();
-        Action z = (Action) new Damage();
-        z.getActionInfo().setPreConditionMethodName("alwaysTrue");
-        y.getActionInfo().setPreConditionMethodName("alwaysFalse");
-
-        Player p = new Player();
-        y.getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(p);
-        x.getActions().add(y);
-        x.getActions().add(z);
-        try {
-            assertEquals(x.Exec(),false);
-        } catch(Exception e) {
-            fail();
-        }
-    }
-    @Test
-    public void testSecondConstructor() {
-        List<Action> t = new ArrayList<Action>();
-        t.add(new Damage());
-        Effect e = new Effect("test",t);
-    }
-    @Test
-    public void testGetters() {
-        Effect e = new Effect();
-        e.getActions();
-        e.getDescription();
-    }
-    @Test
-    public void testGetters2() {
-        List<Action> t = new ArrayList<Action>();
-        t.add(new Damage());
-        t.add(new Pay());
-        Effect e = new Effect("test",t);
-        e.getActions();
-        e.getDescription();
-    }
-    @Test
-    public void testSetters() {
-        Effect e = new Effect();
-        e.setActions(new ArrayList<Action>());
-        e.setDescription("test");
-
-
-    }
-    */
- /*   @Test
-    public void testUsable( ) throws Exception {
-
-            System.out.println("\t\tcarta " + 13);
-            WeaponCard w = new WeaponCard(13 + "");
-
-
-
-
-        Board board = new Board("2",new VirtualView(),new VirtualView());
-        Player user1 = new Player();
-        Player user2 = new Player();
-        Player user3 = new Player();
-        Player user4 = new Player();
-        user1.setNickname("Aldo");
-        user2.setNickname("Bruno");
-        user3.setNickname("Carlo");
-        user4.setNickname("Dario");
-        PlayersList playerList = new PlayersList();
-        playerList.getPlayers().add(user1);
-        playerList.getPlayers().add(user2);
-        playerList.getPlayers().add(user3);
-        playerList.getPlayers().add(user4);
-
-        for(Square[] y: board.getMap() )
-            for(Square x: y)
-                System.out.println(x.getCoordinates().getX() + " , " + x.getCoordinates().getY() + ": " + x.getColor());
-
-        user1.setPosition(1,2);
-        user2.setPosition(1,3);
-        user3.setPosition(1,1);                 //   same position
-        user4.setPosition(2,2);                 //
-
-            w.getEffects().get(0).passContext(user1,playerList,board);
-            int counter = 0;
-            Object[][] input = new Object[10][10];
-           /* for(EffectInfoElement el: w.getEffects().get(0).getEffectInfo().getEffectInfoElement()) {
-                System.out.println("**************** input atteso per " + el.getEffectInfoTypelist() + ">" + w.getEffects().get(0).usableInputs().get(
-
-                        w.getEffects().get(0).getEffectInfo().getEffectInfoElement().indexOf(el)
-
-                        )
+            if(x == EffectInfoType.singleTarget) {
+                row[0] =  b;
+                e.handleRow(e.getEffectInfo().getEffectInfoElement().get(0),row);
+                assertEquals(
+                        targetList.get(0),
+                        b
+                );
+            }
+            if(x == EffectInfoType.twoTargets) {
+                row[0] =  b;
+                row[1] =  c;
+                e.handleRow(e.getEffectInfo().getEffectInfoElement().get(0),row);
+                assertEquals(
+                        targetList.get(0),
+                        b
+                );
+                assertEquals(
+                        targetList.get(1),
+                        c
+                );
+            }
+            if(x == playerSquare){
+                e.handleRow(e.getEffectInfo().getEffectInfoElement().get(0),row);
+                assertEquals(
+                        AD.getChosenSquare(),
+                        board.getSquare(a.getPosition())
+                );
+            }
+            if(x == EffectInfoType.threeTargets) {
+                row[0] =  b;
+                row[1] =  c;
+                row[2] =  d;
+                e.handleRow(e.getEffectInfo().getEffectInfoElement().get(0),row);
+                assertEquals(
+                        targetList.get(0),
+                        b
+                );
+                assertEquals(
+                        targetList.get(1),
+                        c
+                );
+                assertEquals(
+                        targetList.get(2),
+                        d
+                );
+            }
+            if(x == EffectInfoType.targetListBySquare) {
+                row[0] = board.getSquare(b.getPosition());
+                e.handleRow(e.getEffectInfo().getEffectInfoElement().get(0),row);
+                for(Player t: targetList)
+                    System.out.println("@ "+  t.getNickname());
+                assertEquals(
+                        targetList.size(),
+                        1
                 );
 
-                if(counter == 0) {
-                    input[counter][0] = user2;
+            }
+            if(x == EffectInfoType.targetListByRoom) {
+                row[0] = board.getSquare(a.getPosition());
+                e.handleRow(e.getEffectInfo().getEffectInfoElement().get(0),row);
+                for(Player t: targetList)
+                assertEquals(
+                        board.getSquare(t.getPosition()).getColor(),
+                        board.getSquare(targetList.get(0).getPosition()).getColor()
+                );
+            }
+            if(x == targetListBySameSquareOfPlayer) {
+                row[0] = board.getSquare(a.getPosition());
+                e.handleRow(e.getEffectInfo().getEffectInfoElement().get(0),row);
+                for(Player t: targetList)
+                    assertEquals(
+                            board.getSquare(t.getPosition()),
+                            board.getSquare(e.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPosition())
+                    );
+            }
+            if(x == targetListBySquareOfLastTarget) {
+                e.getActions().get(0).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(b);
+                //row[0] = board.getSquare(0,0);
+                e.handleRow(e.getEffectInfo().getEffectInfoElement().get(0),row);
+                assertEquals(
+                        AD.getTarget(),
+                        e.getActions().get(0).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget()
+                        );
+            }
+            if(x == squareByLastTargetSelected) {
+                e.getActions().get(0).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(b);
+                //row[0] = board.getSquare(0,0);
+                e.handleRow(e.getEffectInfo().getEffectInfoElement().get(0),row);
+                assertEquals(
+                        AD.getChosenSquare(),
+                        board.getSquare(b.getPosition())
+                );
+            }
+            if(x == EffectInfoType.simpleSquareSelect) {
+                row[0] = board.getSquare(0,0);
+                e.handleRow(e.getEffectInfo().getEffectInfoElement().get(0),row);
+                assertEquals(board.getSquare(0,0), AD.getChosenSquare());
+            }
+            if(x == targetListBySameSquareOfPlayer) {
+                e.handleRow(e.getEffectInfo().getEffectInfoElement().get(0),row);
+                for(Player t: targetList)
+                    assertEquals(t.getPosition(), a.getPosition());
+            }
+            if(x == squareByTarget) {
+                row[0] = b;
+                e.handleRow(e.getEffectInfo().getEffectInfoElement().get(0),row);
+
+                assertEquals(AD.getChosenSquare().getCoordinates().humanString(), board.getSquare(b.getPosition()).getCoordinates().humanString());
+            }
+            if( x== targetListByDistance1) {
+                e.handleRow(e.getEffectInfo().getEffectInfoElement().get(0),row);
+                for(Player t: targetList)
+                {
+                    assertEquals(
+                            1,
+                            board.distanceFromTo(
+                                                AC.getPlayer().getPosition(),
+                                                t.getPosition()
+                                                )
+                    );
+
                 }
-                if(counter == 1) {
-                    input[counter][0] = user3;
-                    input[counter][1] = user4;
+            }
+            System.out.println("OK " + x);
+            currentAction.getActionInfo().getActionDetails().getUserSelectedActionDetails().setTargetList(new ArrayList<>());
+            currentAction.getActionInfo().getActionDetails().getUserSelectedActionDetails().setChosenSquare(null);;
+
+        }
+    }
+    @Test
+    public void testExec() {
+        Effect e = new Effect();
+        e.getActions().add(new Damage());
+        Player shooter = new Player();
+        e.passContext(shooter,null,null);
+        Player target = new Player();
+        e.getActions().get(0).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(target);
+        e.getActions().get(0).getActionInfo().getActionDetails().getFileSelectedActionDetails().getFileSettingData().add(
+                "1");
+        e.getActions().add(new Action());
+
+        assertEquals(
+                e.Exec().size(),
+                1
+        );
+    }
+    @Test
+    public void testUsableInputs() throws Exception{
+        // ogni carta deve avere almeno un input
+
+        Board board = new Board("2",null,null);
+        List<Player> pl  = new ArrayList<>();
+        PlayersList playersList = new PlayersList();
+        for(Square[] r: board.getMap())
+            for(Square c:r)
+            {
+                if(c!=null) {
+
+                    playersList.addPlayer(new Player());
+                    playersList.getPlayers().get(
+                            playersList.getPlayers().size()-1
+                    ).setPositionWithoutNotify(new Position(c.getCoordinates().getX(), c.getCoordinates().getY()));
+                    playersList.getPlayers().get(
+                            playersList.getPlayers().size()-1
+                    ).setNickname(c.getCoordinates().humanString());
+
                 }
-                System.out.println("INPUT " + input[counter][0]);
-                w.getEffects().get(0).handleRow(el,input[counter]);
-                counter++;
-              }*/
-        //w.getEffects().get(0).handleInput(input);
-
-
-            //for(Object x:  w.getEffects().get(0).usableInputs() )
-            //System.out.println("*" + x);
-            //for(Object p:  w.getEffects().get(0).usableInputs().get(2).get(0))
-            //    System.out.println("risultato = " + p.toString() + ":" + ((Player) p).getNickname());
-
-      /*      System.out.println("/---------/");
-
-            Object o[][] = new Object[10][10];
-            o[0][0] = user3;
-        System.out.println("input  " + (user1).getNickname() + "[" +  (user1).getPosition().getX() + " , " +  (user1).getPosition().getY() + "]");
-        System.out.println("input  " + ((Player) o[0][0]).getNickname() + "[" +  ((Player) o[0][0]).getPosition().getX() + " , " +  ((Player) o[0][0]).getPosition().getY() + "]");
-
-        System.out.println("********" + w.getEffects().get(0).usableInputs().get(0));
-        for(Object t: (w.getEffects().get(0).usableInputs().get(0))) {
-            for(Object z: (List<Player>)t) {
-                System.out.println("ammesso " + ((Player) z).getNickname() + "[" +  ((Player) z).getPosition().getX() + " , " +  ((Player) z).getPosition().getY() + "]");
+            }
+        for(int j = 0; j < playersList.getPlayers().size();j++)
+            System.out.println(playersList.getPlayersOnBoard().get(j).getPosition().humanString());
+        for(Square[] r: board.getMap())
+            for(Square c: r)
+        for(int i = 1; i < 21;i++) {
+            System.out.println("carta "+ i);
+            WeaponCard w = new WeaponCard(""+i);
+            playersList.getPlayersOnBoard().get(0).setPositionWithoutNotify(c.getCoordinates());
+            w.passContext(playersList.getPlayersOnBoard().get(0),
+                          playersList,
+                          board);
+            for(Effect e: w.getEffects()) {
+                System.out.println("\t " + e.getEffectName());
+                assertNotEquals(
+                      e.usableInputs().get(0).size(),
+                      0
+                );
             }
         }
-        System.out.println("***********");
-        w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(0), o[0]);
-            o[1][0] = user4;
-        System.out.println("input  " + ((Player) o[1][0]).getNickname() + "[" +  ((Player) o[1][0]).getPosition().getX() + " , " +  ((Player) o[1][0]).getPosition().getY() + "]");
-        System.out.println("********" + w.getEffects().get(0).usableInputs().get(1));
-        for(Object t: (w.getEffects().get(0).usableInputs().get(1))) {
-            for(Object z: (List<Player>)t) {
-                System.out.println("ammesso " + ((Player) z).getNickname() + "[" +  ((Player) z).getPosition().getX() + " , " +  ((Player) z).getPosition().getY() + "]");
-            }
-        }
-        System.out.println("***********");
-        w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(1), o[1]);
-            w.getEffects().get(0).Exec();
-        System.out.println("/---------/");
-        System.out.println("/---------/");
 
     }
     @Test
-    public void testUsable2() throws Exception {
-
-        for (int cardID = 1; cardID < 21; cardID++) {
-            Board board = new Board("2", new VirtualView(), new VirtualView());
-            List<Player> user = new ArrayList<>();
-            user.add(new Player());
-            user.add(new Player());
-            user.add(new Player());
-            user.add(new Player());
-            Player user1 = user.get(0);
-            Player user2 = user.get(1);
-            Player user3 = user.get(2);
-            Player user4 = user.get(3);
-
-
-            user1.setNickname("Aldo");
-            user2.setNickname("Bruno");
-            user3.setNickname("Carlo");
-            user4.setNickname("Dario");
-            PlayersList playerList = new PlayersList();
-            playerList.getPlayers().add(user1);
-            playerList.getPlayers().add(user2);
-            playerList.getPlayers().add(user3);
-            playerList.getPlayers().add(user4);
-
-            System.out.println("\t\tcarta " + cardID);
-            WeaponCard w = new WeaponCard(cardID + "");
-
-
-            user1.setPosition(1, 2);
-            user2.setPosition(1, 2);
-            user3.setPosition(1, 1);                 //   same position
-            user4.setPosition(2, 2);                 //
-
-            for (Square[] y : board.getMap())
-                for (Square x : y) {
-
-                    String name = "";
-                    for (Player t : user) {
-                        if (t.getPosition().equals(x.getCoordinates())) {
-                            name += t.getNickname() + "\t";
-                        }
-                    }
-                    System.out.println(x.getCoordinates().getX() + " , " + x.getCoordinates().getY() + ": " + x.getColor() + "\t" + name + "\t");
-
-                }
-
-            Object[] o = new Object[10];
-            o[0] = user2;
-            //w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(0),o);
-            try {
-                w.getEffects().get(0).passContext(user1, playerList, board);
-                System.out.println("######################################################");
-                System.out.println("####################" +  w.getEffects().get(0).usableInputs());
-                System.out.println("######################################################");
-            } catch (Exception e) {
-                System.out.println("no input");
-            }
-        }
-    }
-
-
-
-    @Test
-    public void testUsable3() throws Exception {
-
-        Board board = new Board("2",new VirtualView(),new VirtualView());
-        List<Player> user = new ArrayList<>();
-        user.add(new Player());user.add(new Player());user.add(new Player());user.add(new Player());
-        Player user1 = user.get(0);
-        Player user2 = user.get(1);
-        Player user3 = user.get(2);
-        Player user4 = user.get(3);
-
-
-        user1.setNickname("Aldo");
-        user2.setNickname("Bruno");
-        user3.setNickname("Carlo");
-        user4.setNickname("Dario");
-        PlayersList playerList = new PlayersList();
-        playerList.getPlayers().add(user1);
-        playerList.getPlayers().add(user2);
-        playerList.getPlayers().add(user3);
-        playerList.getPlayers().add(user4);
-
-        int cardID = 12;
-            System.out.println("\t\tcarta " + cardID);
-            WeaponCard w = new WeaponCard(cardID + "");
-
-
-
-            user1.setPosition(1, 2);
-            user2.setPosition(1, 2);
-            user3.setPosition(1, 1);                 //   same position
-            user4.setPosition(2, 2);                 //
-
-        for (Square[] y : board.getMap())
-            for (Square x : y) {
-
-                String name = "";
-                for(Player t: user) {
-                    if(t.getPosition().equals(x.getCoordinates())) {
-                        name += t.getNickname() + "\t";
-                    }
-                    }
-                System.out.println(x.getCoordinates().getX() + " , " + x.getCoordinates().getY() + ": " + x.getColor() + "\t" + name + "\t");
-
-            }
-
-            Object[] o = new Object[10];
-            o[0] = board.getSquare(2,2);
-            w.getEffects().get(0).passContext(user1,playerList,board);
-            System.out.println("#########################################################" + w.getEffects().get(0).usableInputs().get(0));
-            w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(0),o);
-            o[0] = user2;
-            System.out.println("#########################################################" + w.getEffects().get(0).usableInputs().get(1));
-            w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(1),o);
-            try {
-                w.getEffects().get(0).passContext(user1, playerList, board);
-                w.getEffects().get(0).usableInputs();
-            } catch(Exception e) {
-                System.out.println("no input");
-            }
-
+    public void testEffectV() {
+        EffectV effectV = (new Effect()).buildEffectV();
     }
     @Test
-    public void testGenericInverted() throws Exception{
-        PreConditionMethodsInverted gate = new PreConditionMethodsInverted();
-
-        Board board = new Board("2",new VirtualView(),new VirtualView());
-        List<Player> user = new ArrayList<>();
-        user.add(new Player());user.add(new Player());user.add(new Player());user.add(new Player());
-        Player user1 = user.get(0);
-        Player user2 = user.get(1);
-        Player user3 = user.get(2);
-        Player user4 = user.get(3);
-
-
-        user1.setNickname("Aldo");
-        user2.setNickname("Bruno");
-        user3.setNickname("Carlo");
-        user4.setNickname("Dario");
-        PlayersList playerList = new PlayersList();
-        playerList.getPlayers().add(user1);
-        playerList.getPlayers().add(user2);
-        playerList.getPlayers().add(user3);
-        playerList.getPlayers().add(user4);
-
-        int cardID = 12;
-        System.out.println("\t\tcarta " + cardID);
-        WeaponCard w = new WeaponCard(cardID + "");
-
-
-
-        user1.setPosition(1, 2);
-        user2.setPosition(1, 2);
-        user3.setPosition(1, 1);                 //   same position
-        user4.setPosition(2, 2);                 //
-        w.getEffects().get(0).passContext(user1,playerList,board);
-        for(Action a:w.getEffects().get(0).getActions()) {
-            gate.inverted(a.getActionInfo().getPreConditionMethodName(),a.getActionInfo().getActionContext(), UsableInputTableRowType.typePlayer,a.getActionInfo().getActionDetails(),new ActionDetails(),w.getEffects().get(0).getEffectInfo().getEffectInfoElement());
-        }
+    public void testDescription() {
+        Effect e = new Effect("",new ArrayList<>());
+        e.setDescription("test");
+        e.setActions(new ArrayList<>());
+        assertEquals(
+                e.getActions(),
+                new ArrayList<>()
+        );
+        assertEquals(
+                "test",
+                e.getDescription()
+        );
     }
-    */
-
 
 }

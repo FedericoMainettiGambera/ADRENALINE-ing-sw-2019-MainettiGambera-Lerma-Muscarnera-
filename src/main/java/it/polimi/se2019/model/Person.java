@@ -24,6 +24,7 @@ public abstract class Person extends Observable implements Serializable {
         this.board = new PlayerBoard();
         this.score=0;
         this.position=null;
+        this.temporaryPosition=null;
     }
 
     /*-*****************************************************************************************************ATTRIBUTES*/
@@ -69,6 +70,7 @@ public abstract class Person extends Observable implements Serializable {
     public void setPosition(int x, int y){
         try{
             this.position = new Position(x,y);
+            this.temporaryPosition = new Position(x,y);
             setChanged();
             notifyObservers(new ModelViewEvent(position, ModelViewEventTypes.newPosition, this.nickname));
         }
@@ -79,6 +81,7 @@ public abstract class Person extends Observable implements Serializable {
 
     public void setPosition(Position position){
         this.position = position;
+        this.temporaryPosition = position;
         setChanged();
         notifyObservers(new ModelViewEvent(position, ModelViewEventTypes.newPosition, this.nickname));
     }
@@ -101,6 +104,19 @@ public abstract class Person extends Observable implements Serializable {
         setChanged();
         notifyObservers(new ModelViewEvent(score, ModelViewEventTypes.newScore, nickname));
     }
+
+    /***/
+
+    public Position getTemporaryPosition() {
+        return temporaryPosition;
+    }
+
+    public void setTemporaryPosition(Position temporaryPosition) {
+        this.temporaryPosition = temporaryPosition;
+    }
+
+    /***/
+    private Position temporaryPosition;
 
     /***/
     public int getScore(){
