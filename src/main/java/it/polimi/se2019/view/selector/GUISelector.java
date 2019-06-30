@@ -1015,20 +1015,66 @@ public class GUISelector implements SelectorV {
 
 
     //##################################################################################################################
+    //TODO
     @Override
-    public void askPaymentInformation(SelectorEventPaymentInformation SEPaymentInformormation) {
+    public void askPaymentInformation(SelectorEventPaymentInformation selectorEventPaymentInformation) {
+        List<AmmoCubesV> amountToPay = selectorEventPaymentInformation.getAmount().getAmmoCubesList();
+        boolean canPayWithoutPowerUps = selectorEventPaymentInformation.canPayWithoutPowerUps();
+        List<PowerUpCardV> possibilities = selectorEventPaymentInformation.getPossibilities();
 
+        new Thread(new AskPaymentInformation(amountToPay, canPayWithoutPowerUps, possibilities)).start();
+    }
+    private class AskPaymentInformation implements Runnable{
+        private List<AmmoCubesV> amountToPay;
+        private boolean canPayWithoutPowerUps;
+        private List<PowerUpCardV> possibilities;
+        private AskPaymentInformation(List<AmmoCubesV> amountToPay, boolean canPayWithoutPowerUps, List<PowerUpCardV> possibilities){
+            this.amountToPay = amountToPay;
+            this.canPayWithoutPowerUps = canPayWithoutPowerUps;
+            this.possibilities = possibilities;
+        }
+        @Override
+        public void run() {
+            VBox request = buildRequest();
+            Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
+        }
+        private VBox buildRequest(){
+            VBox vBox = new VBox();
+            GridPane toPay = buildToPay();
+            HBox options= buildOptions();
+            return vBox;
+        }
+        private GridPane buildToPay(){
+            GridPane gridPane = new GridPane();
+            return gridPane;
+        }
+        private HBox buildOptions(){
+            HBox hBox = new HBox();
+            return hBox;
+        }
     }
 
 
     //##################################################################################################################
+    //TODO
     @Override
-    public void askPowerUpToUse(SelectorEventPowerUpCards powerUpCards) {
+    public void askPowerUpToUse(SelectorEventPowerUpCards selectorEventPowerUpCards) {
+        List<PowerUpCardV> powerUpCardsV = selectorEventPowerUpCards.getPowerUpCards();
+        new Thread(new AkPowerUpToUse(powerUpCardsV)).start();
+    }
+    private class AkPowerUpToUse implements Runnable{
+        private List<PowerUpCardV> powerUpCardsV;
+        private AkPowerUpToUse (List<PowerUpCardV> powerUpCardsV){
+            this.powerUpCardsV = powerUpCardsV;
+        }
+        @Override
+        public void run() {
 
+        }
     }
 
-
     //##################################################################################################################
+    //TODO
     @Override
     public void wantToUsePowerUpOrNot() {
 
@@ -1036,13 +1082,25 @@ public class GUISelector implements SelectorV {
 
 
     //##################################################################################################################
+    //TODO
     @Override
-    public void askBotShoot(SelectorEventPlayers SEPlayers) {
+    public void askBotShoot(SelectorEventPlayers selectorEventPlayers) {
+        List<PlayerV> playersV = selectorEventPlayers.getPlayerVList();
+        new Thread(new AskBotShoot(playersV)).start();
+    }
+    private class AskBotShoot implements Runnable{
+        private List<PlayerV> playersV;
+        private AskBotShoot (List<PlayerV> playersV){
+            this.playersV = playersV;
+        }
+        @Override
+        public void run() {
 
+        }
     }
 
-
     //##################################################################################################################
+    //TODO
     @Override
     public void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV) {
 
@@ -1050,6 +1108,7 @@ public class GUISelector implements SelectorV {
 
 
     //##################################################################################################################
+    //TODO
     @Override
     public void askTagBackGranade(List<PowerUpCardV> listOfTagBackGranade) {
 
