@@ -69,7 +69,7 @@ import java.util.Observable;
     public void addClientToList(RMIInterface client) throws RemoteException {
 
         //if (numberOfConnection.getNumber() + 1 < 3) {
-        if(ModelGate.model.getNumberOfClientsConnected() <= GameConstant.maxNumberOfPlayerPerGame){
+        if(ModelGate.model.getNumberOfClientsConnected() <= GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME){
             clientList.add(client);
 
             System.out.println("<SEVRVER-rmi> " + client.getName() + " is connected");
@@ -131,8 +131,8 @@ import java.util.Observable;
         System.out.println("<SERVER-rmi> current number of connection is: " + ModelGate.model.getNumberOfClientsConnected());
 
 
-        //if (numberOfConnection.getNumber() > GameConstant.maxNumberOfPlayerPerGame - 1) {
-        if (ModelGate.model.getNumberOfClientsConnected() > GameConstant.maxNumberOfPlayerPerGame - 1) {
+        //if (numberOfConnection.getNumber() > GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME - 1) {
+        if (ModelGate.model.getNumberOfClientsConnected() > GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME - 1) {
             System.out.println("<SERVER-rmi> total number of connection reached, starting the state pattern.");
             // (MOVED TO THE GAME CLASS IN THE NUMBEROFCONNECTION STUFF... setNumberOfClientsConnected()
             //ViewControllerEventHandlerContext.setNextState(new GameSetUpState());

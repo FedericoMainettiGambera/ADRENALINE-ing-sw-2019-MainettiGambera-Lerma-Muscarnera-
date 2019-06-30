@@ -1,18 +1,14 @@
 package it.polimi.se2019.virtualView.Socket;
 
 import it.polimi.se2019.controller.ModelGate;
-import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
-import it.polimi.se2019.controller.statePattern.GameSetUpState;
 import it.polimi.se2019.model.Game;
 import it.polimi.se2019.model.GameConstant;
 import it.polimi.se2019.model.Player;
-import it.polimi.se2019.model.PlayersList;
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventNickname;
-import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPlayerSetUp;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -22,9 +18,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static it.polimi.se2019.controller.ViewControllerEventHandlerContext.setNextState;
-import static it.polimi.se2019.controller.ViewControllerEventHandlerContext.state;
 
 public class ConnectionHandlerVirtualView extends Thread {
 
@@ -59,8 +52,8 @@ public class ConnectionHandlerVirtualView extends Thread {
     @Override
     public void run(){
 
-        //while(this.isServerSocketLive && numberOfConnections <= GameConstant.maxNumberOfPlayerPerGame-1){
-        while((this.isServerSocketLive && ModelGate.model.getNumberOfClientsConnected() <= GameConstant.maxNumberOfPlayerPerGame-1)){
+        //while(this.isServerSocketLive && numberOfConnections <= GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME-1){
+        while((this.isServerSocketLive && ModelGate.model.getNumberOfClientsConnected() <= GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME -1)){
             try{
                 this.tempSocket = serverSocket.accept();
             }

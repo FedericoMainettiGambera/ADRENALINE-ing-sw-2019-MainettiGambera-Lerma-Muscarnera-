@@ -383,7 +383,7 @@ public class GUISelector implements SelectorV {
         private boolean spawnBot;
         private String botSpawn;
         private String cardID;
-        public  AskFirstSpawnPosition(List<PowerUpCardV> powerUpCards, boolean spawnBot){
+        public AskFirstSpawnPosition(List<PowerUpCardV> powerUpCards, boolean spawnBot){
             this.powerUpCards = powerUpCards;
             this.spawnBot=spawnBot;
 
@@ -770,7 +770,33 @@ public class GUISelector implements SelectorV {
         }
         @Override
         public void run() {
-            do it now stupid
+            VBox request = buildRequest();
+            Platform.runLater(()->getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
+        }
+        private VBox buildRequest(){
+            HBox hBox = buildHBoxRequestOfDoubleStackPanes(toDiscard.size());
+
+            VBox vBox = buildTitleWithContent("Too many Power up cards, choose one o discard:", hBox);
+
+            //PROPERTIES
+            hBox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
+
+            //USER DATA
+            for (int i = 0; i < hBox.getChildren().size() ; i++) {
+                StackPane mainStackPane = (StackPane)hBox.getChildren().get(i);
+                makeNodeHoverable(mainStackPane);
+                mainStackPane.setUserData(i);
+                //EVENTS
+                mainStackPane.setOnMouseClicked(e->{
+                    int chosen = (Integer) ((StackPane)e.getSource()).getUserData();
+                    System.out.println(chosen);
+                    ViewControllerEventInt viewControllerEventInt = new ViewControllerEventInt(chosen);
+                    getGameSceneController().sendToServer(viewControllerEventInt);
+                    getGameSceneController().removeSelectorSection();
+                });
+            }
+
+            return vBox;
         }
     }
 
@@ -786,7 +812,6 @@ public class GUISelector implements SelectorV {
         }
         @Override
         public void run() {
-
         }
     }
 
@@ -803,17 +828,74 @@ public class GUISelector implements SelectorV {
         }
         @Override
         public void run() {
+            VBox request = buildRequest();
+            Platform.runLater(()->getGameSceneController().changeSelectorSection(request, 0.0,0.0,0.0,0.0));
+        }
+        private VBox buildRequest(){
+            HBox hBox = buildHBoxRequestOfDoubleStackPanes(powerUpCards.size());
 
+            //PROPERTIES
+            hBox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
+
+            //USER DATA
+            for (int i = 0; i < hBox.getChildren().size() ; i++) {
+                StackPane mainStackPane = (StackPane)hBox.getChildren().get(i);
+                makeNodeHoverable(mainStackPane);
+                mainStackPane.setUserData(powerUpCards.get(i).getID());
+                //EVENTS
+                mainStackPane.setOnMouseClicked(e->{
+                    String chosenId = (String) ((StackPane)e.getSource()).getUserData();
+                    ViewControllerEventString viewControllerEventString = new ViewControllerEventString(chosenId);
+                    getGameSceneController().removeSelectorSection();
+                    getGameSceneController().sendToServer(viewControllerEventString);
+                    System.out.println("ID: " + chosenId);
+                });
+            }
+
+            VBox vBox = buildTitleWithContent("choose power up to discard and spawn to:", hBox);
+
+            return vBox;
         }
     }
     //##################################################################################################################
-    //TODO
     @Override
     public void askShootOrMove() {
-        do it now stupid
+        new Thread(new AskShootOrMove()).start();
     }
+    private class AskShootOrMove implements Runnable{
+        @Override
+        public void run() {
+            VBox request = buildRequest();
+            Platform.runLater(()->getGameSceneController().changeSelectorSection(request, 0.0,0.0,0.0,0.0));
+        }
+        private VBox buildRequest(){
+            HBox hBox = new HBox();
+            StackPane stackPane1 = new StackPane(new Label("Shoot"));
+            StackPane stackPane2 = new StackPane(new Label("Move"));
 
+            stackPane1.setUserData("shoot");
+            stackPane2.setUserData("move");
 
+            makeNodeHoverable(stackPane1);
+            makeNodeHoverable(stackPane2);
+
+            hBox.getChildren().addAll(stackPane1, stackPane2);
+            HBox.setHgrow(stackPane1,Priority.ALWAYS);
+            HBox.setHgrow(stackPane2, Priority.ALWAYS);
+
+            for (Node n:hBox.getChildren()) {
+                StackPane stackPane = (StackPane)n;
+                stackPane.setOnMouseClicked(e->{
+                    ViewControllerEventString viewControllerEventString= new ViewControllerEventString((String)((StackPane)e.getSource()).getUserData());
+                    getGameSceneController().removeSelectorSection();
+                    getGameSceneController().sendToServer(viewControllerEventString);
+                });
+            }
+
+            VBox vBox= buildTitleWithContent("WHat do you want to do:", hBox);
+            return vBox;
+        }
+    }
     //##################################################################################################################
     /**
      * @deprecated old stuff, now no more used
@@ -1078,7 +1160,7 @@ public class GUISelector implements SelectorV {
             this.powerUpCardsV = powerUpCardsV;
         }
         @Override
-        public void run() {
+        public void run(){
 
         }
     }
@@ -1086,8 +1168,60 @@ public class GUISelector implements SelectorV {
     //##################################################################################################################
     //TODO
     @Override
-    public void wantToUsePowerUpOrNot() {
+    public void wantToUsePowerUpOrNot(){
+        new Thread(new AskWantToUsePowerUpOrNot()).start();
+    }
 
+    private class AskWantToUsePowerUpOrNot implements Runnable{
+        @Override
+        public  void run(){
+            HBox request = buildRequest();
+            Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
+        }
+        private HBox buildRequest(){
+
+            HBox hbox = new HBox();
+
+            StackPane left = new StackPane();
+            StackPane center = new StackPane();
+            StackPane right = new StackPane();
+
+            Label label = new Label("Want to use a Power Up? ");
+
+            Button yes = new Button("YES");
+            Button no = new Button("NO");
+
+            //STRUCTURE
+            hbox.getChildren().add(left);
+            hbox.getChildren().add(center);
+            hbox.getChildren().add(right);
+            left.getChildren().add(label);
+            center.getChildren().add(yes);
+            right.getChildren().add(no);
+
+            //PROPERTIES
+            hbox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(4));
+            HBox.setHgrow(left, Priority.ALWAYS);
+            HBox.setHgrow(center, Priority.ALWAYS);
+            HBox.setHgrow(right, Priority.ALWAYS);
+
+            //EVENTS
+            yes.setOnMouseClicked(e-> {
+                ViewControllerEventBoolean viewControllerEventBoolean = new ViewControllerEventBoolean(true);
+                getGameSceneController().removeSelectorSection();
+                getGameSceneController().sendToServer(viewControllerEventBoolean);
+                System.out.println("true");
+            });
+            no.setOnMouseClicked(e-> {
+                ViewControllerEventBoolean viewControllerEventBoolean = new ViewControllerEventBoolean(false);
+                getGameSceneController().removeSelectorSection();
+                getGameSceneController().sendToServer(viewControllerEventBoolean);
+                System.out.println("false");
+            });
+
+            return hbox;
+
+        }
     }
 
 
@@ -1104,7 +1238,7 @@ public class GUISelector implements SelectorV {
             this.playersV = playersV;
         }
         @Override
-        public void run() {
+        public void run(){
 
         }
     }
@@ -1113,14 +1247,37 @@ public class GUISelector implements SelectorV {
     //TODO
     @Override
     public void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV) {
-
+        new Thread(new AskTargetingScope(listOfTargetingScopeV, possiblePaymentsV, damagedPlayersV)).start();
     }
+    private class AskTargetingScope implements Runnable{
+        private List<PowerUpCardV> listOfTargetingScopeV;
+        private List<Object> possiblePaymentsV;
+        private List<PlayerV> damagedPlayersV;
+        private AskTargetingScope (List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV){
+            this.listOfTargetingScopeV = listOfTargetingScopeV;
+            this.possiblePaymentsV = possiblePaymentsV;
+            this.damagedPlayersV = damagedPlayersV;
+        }
+        @Override
+        public void run(){
 
+        }
+    }
 
     //##################################################################################################################
     //TODO
     @Override
     public void askTagBackGranade(List<PowerUpCardV> listOfTagBackGranade) {
+        new Thread(new AskTagBackGranade(listOfTagBackGranade)).start();
+    }
+    private class AskTagBackGranade implements Runnable{
+        private List<PowerUpCardV> listOfTagBackGranade;
+        private AskTagBackGranade (List<PowerUpCardV> listOfTagBackGranade){
+            this.listOfTagBackGranade = listOfTagBackGranade;
+        }
+        @Override
+        public void run(){
 
+        }
     }
 }

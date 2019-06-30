@@ -52,40 +52,42 @@ public class TurnState implements State {
     }
 
     @Override
-    public void doAction(ViewControllerEvent VCE) {
+    public void doAction(ViewControllerEvent viewControllerEvent) {
 
         this.inputTimer.interrupt();
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        String actionChosen = ((ViewControllerEventString)VCE).getInput();
+        String actionChosen = ((ViewControllerEventString)viewControllerEvent).getInput();
         out.println("<SERVER> Player's choice is : " + actionChosen);
 
 
         //set correct next state
-        if(actionChosen.equals("run around")){
-            ViewControllerEventHandlerContext.setNextState(new RunAroundState(this.actionNumber));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
-        }
-        else if(actionChosen.equals("grab stuff")){
-            ViewControllerEventHandlerContext.setNextState(new GrabStuffState(this.actionNumber));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
-        }
-        else if(actionChosen.equals("shoot people")){
-            ViewControllerEventHandlerContext.setNextState(new ShootPeopleState(this.actionNumber));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
-        }
-        else if(actionChosen.equals("use power up")){
-            ViewControllerEventHandlerContext.setNextState(new PowerUpState("movement", new TurnState(this.actionNumber)));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
-        }
-        else if(actionChosen.equals("use Bot")){
-            ViewControllerEventHandlerContext.setNextState(new BotMoveState(new TurnState(this.actionNumber)));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
-        }
-        else{
-            this.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        switch (actionChosen) {
+            case "run around":
+                ViewControllerEventHandlerContext.setNextState(new RunAroundState(this.actionNumber));
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                break;
+            case "grab stuff":
+                ViewControllerEventHandlerContext.setNextState(new GrabStuffState(this.actionNumber));
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                break;
+            case "shoot people":
+                ViewControllerEventHandlerContext.setNextState(new ShootPeopleState(this.actionNumber));
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                break;
+            case "use power up":
+                ViewControllerEventHandlerContext.setNextState(new PowerUpState("movement", new TurnState(this.actionNumber)));
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                break;
+            case "use Bot":
+                ViewControllerEventHandlerContext.setNextState(new BotMoveState(new TurnState(this.actionNumber)));
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                break;
+            default:
+                this.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                break;
         }
     }
 

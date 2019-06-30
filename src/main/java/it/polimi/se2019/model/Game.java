@@ -49,7 +49,7 @@ public class Game extends Observable implements Serializable {
 
         Game.numberOfClientsConnected = numberOfClientsConnected;
 
-        if((!hasTimerBegun)&&(numberOfClientsConnected >= GameConstant.minNumberOfPlayerPerGame)){
+        if((!hasTimerBegun)&&(numberOfClientsConnected >= GameConstant.MIN_NUMBER_OF_PLAYER_PER_GAME)){
                 this.hasTimerBegun = true;
                 Thread t = new Thread(new ConnectionGameCountDown(numberOfClientsConnected));
                 t.start();

@@ -83,7 +83,7 @@ public class PlayerSetUpState implements State {
         //set starting ammocubes
         System.out.println("<SERVER> setting starting ammo cubes");
         for(AmmoCubesColor color: AmmoCubesColor.values() ) {
-            ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPlayerBoard().addAmmoCubes(color, GameConstant.NumberOfStartingAmmos);
+            ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPlayerBoard().addAmmoCubes(color, GameConstant.NUMBER_OF_STARTING_AMMOS);
         }
 
         numberOfPlayersSet++;

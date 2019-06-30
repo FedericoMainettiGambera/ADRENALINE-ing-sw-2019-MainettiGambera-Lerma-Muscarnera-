@@ -39,7 +39,7 @@ public class MarksTracker implements Serializable {
 
     /**add marks.
      * This method uses the MarkSlots.addQuantity(int quantity) method that makes sure that the resulting quantity of
-     * marks is never more than GameConstant.MaxNumberOfMarkFromPlayer.
+     * marks is never more than GameConstant.MAX_NUMBER_OF_MARK_FROM_PLAYER.
      * @param markingPlayer
      * @param quantity
      * */

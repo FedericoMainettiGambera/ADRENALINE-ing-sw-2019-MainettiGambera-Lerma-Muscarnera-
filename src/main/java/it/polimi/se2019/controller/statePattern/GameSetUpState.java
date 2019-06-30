@@ -43,7 +43,7 @@ public class GameSetUpState implements State {
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
            //if there's 5 player no room for bot
-            if(ModelGate.model.getPlayerList().getPlayers().size()==GameConstant.maxNumberOfPlayerPerGame) {
+            if(ModelGate.model.getPlayerList().getPlayers().size()==GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME) {
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askGameSetUp(false);
             }
             else SelectorGate.getCorrectSelectorFor(playerToAsk).askGameSetUp(true);
@@ -169,7 +169,7 @@ public class GameSetUpState implements State {
                 //set starting ammocubes
                 out.println("<SERVER> setting starting ammo cubes");
                 for (AmmoCubesColor color : AmmoCubesColor.values()) {
-                    p.getPlayerBoard().addAmmoCubes(color, GameConstant.NumberOfStartingAmmos);
+                    p.getPlayerBoard().addAmmoCubes(color, GameConstant.NUMBER_OF_STARTING_AMMOS);
                 }
             }
         }

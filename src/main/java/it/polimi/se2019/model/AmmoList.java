@@ -44,7 +44,7 @@ public class AmmoList implements Serializable {
 
     /**add a specific amount of ammo of a specific color to the ArrayList of AmmoCubes.
      * this method uses the AmmoCubes.addQuantity(int quantity) method that makes sure that the resulting quantity
-     * is never more than GameConstant.MaxNumberOfAmmoCubes.
+     * is never more than GameConstant.MAX_NUMBER_OF_AMMO_CUBES.
      * @param quantity indicates how many ammos
      * @param color indicates the color of the ammo (blue, yellow or red)
      * */

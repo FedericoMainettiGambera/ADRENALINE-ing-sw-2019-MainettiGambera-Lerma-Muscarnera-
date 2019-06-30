@@ -40,9 +40,9 @@ public class WaitForPlayerInput implements Runnable{
 
         int i = 1;
 
-        while (i <= GameConstant.timeToInsertInputInSeconds) {
-            this.rmiVirtualView.sendAllClient(new TimerEvent(i, GameConstant.timeToInsertInputInSeconds, "input"));
-            this.socketVirtualView.sendAllClient(new TimerEvent(i, GameConstant.timeToInsertInputInSeconds, "input"));
+        while (i <= GameConstant.TIME_TO_INSERT_INPUT_IN_SECONDS) {
+            this.rmiVirtualView.sendAllClient(new TimerEvent(i, GameConstant.TIME_TO_INSERT_INPUT_IN_SECONDS, "input"));
+            this.socketVirtualView.sendAllClient(new TimerEvent(i, GameConstant.TIME_TO_INSERT_INPUT_IN_SECONDS, "input"));
             try {
                 TimeUnit.SECONDS.sleep(1);
                 out.println("                                            Thread: <SERVER-InputTimer-for-"+playerToAsk.getNickname()+"> time passed: " + i + " seconds.  ID: " + this.randomID);
@@ -53,7 +53,7 @@ public class WaitForPlayerInput implements Runnable{
             i++;
             if(playerToAsk.isAFK()){
                out.println("                                            Thread: <SERVER-InputTimer-for-"+playerToAsk.getNickname()+"> the player is AFK, so i make the timer go forward to the end.");
-                i=GameConstant.timeToInsertInputInSeconds+1;
+                i=GameConstant.TIME_TO_INSERT_INPUT_IN_SECONDS +1;
             }
         }
 

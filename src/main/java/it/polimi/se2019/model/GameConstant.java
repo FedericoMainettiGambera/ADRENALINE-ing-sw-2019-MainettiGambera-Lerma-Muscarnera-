@@ -10,80 +10,36 @@ public class GameConstant implements Serializable {
     public GameConstant() {
     }
 
-    /***/
-    public final static int maxNumberOfPlayerPerGame = 5;
+    /**maximum number of players allowed in a game*/
+    public static final int MAX_NUMBER_OF_PLAYER_PER_GAME = 5;
 
-    public final static int minNumberOfPlayerPerGame = 1;
+    /**minimum number of players necessary for a game to begin */
+    public static final int MIN_NUMBER_OF_PLAYER_PER_GAME = 1;
 
-    public final static int countdownInSecondsForConnectionQueue = 5;
+    /**total time the server will be waiting for new connections */
+    public static final int COUNTDOWN_IN_SECONDS_FOR_CONNECTION_QUEUE = 5;
 
-    public final static int timeToInsertInputInSeconds = 60;
+    /**time for the user to insert an input before they are set AFK*/
+    public static final int TIME_TO_INSERT_INPUT_IN_SECONDS = 60;
 
-    /***/
-    public final static int numberOfStartingAmmoCubesForEachColor = 1;
+    /**maximum number of skulls tha can be placed  on the kill shot track*/
+    public static final int MAX_STARTING_SKULLS = 8;
 
-    /***/
-    public final static int numberOfStartingSkullsTurretsMode = 8;
+    /**minimum number of skulls necessary for the game to begin*/
+    public static final int MIN_STARTING_SKULLS = 5;
 
-    /***/
-    public final static int maxStartingSkulls = 8;
+    /**max number of ammo cubes a player can own for each color*/
+    public static final int MAX_NUMBER_OF_AMMO_CUBES = 3;
 
-    /***/
-    public final static int minStartingSkulls = 5;
+    /**number of the the ammo for each color that a player owns as soon as they spawn*/
+    public static final int NUMBER_OF_STARTING_AMMOS = 1;
 
-    /***/
-    public final static int maxPowerUpCardsPerHand = 0;
+    /** maximum number from a single player*/
+    public static final int MAX_NUMBER_OF_MARK_FROM_PLAYER = 3;
 
-    /***/
-    public final static int MaxNumberOfAmmoCubes = 3;
 
-    /***/
-    public final static int NumberOfStartingAmmos = 1;
-
-    /***/
-    public final static int MaxNumberOfMarkFromPlayer = 3;
-
-    /***/
-    public final static int maxPowerUpOnHandIfDead = 0;
-
-    /***/
-    public final static int maxWeaponCardsOnHand = 0;
-
-    /***/
-    public final static int mapConfigurations = 0;
-
-    /***/
-    public final static int maxPlayers = 0;
-
-    /***/
-    public final static int minPlayers= 0;
-
-    /***/
-    public final static int minStartingSkullsNumber= 0;
-
-    /***/
-    public final static int maxStartingSkullsNumber= 0;
-
-    /***/
-    public final static int actionsPerTurn= 0;
-
-    /***/
-    public final static int maxAmmoPerColorAmmo= 0;
-
-    /***/
-    public final static int maxWeaponCardPerSpawnPoint= 0;
-
-    /***/
-    public final static int maxAmmoCardPerNormalSquare= 0;
-
-    /***/
-    public final static int probabilityDenominatorAmmoCardWithPowerUp = 10;
-
-    /***/
-    public final static int numberOfAmmoCards = 14;
-
-    //CLI TITLES:
-    public final static String AdrenalineTitle1 =
+    /**possible styles for the cli title*/
+    public static final String ADRENALINE_TITLE_1 =
             " _______  ______   _______  _______  _        _______  _       _________ _        _______ \n" +
             "(  ___  )(  __  \\ (  ____ )(  ____ \\( (    /|(  ___  )( \\      \\__   __/( (    /|(  ____ \\\n" +
             "| (   ) || (  \\  )| (    )|| (    \\/|  \\  ( || (   ) || (         ) (   |  \\  ( || (    \\/\n" +
@@ -93,7 +49,7 @@ public class GameConstant implements Serializable {
             "| )   ( || (__/  )| ) \\ \\__| (____/\\| )  \\  || )   ( || (____/\\___) (___| )  \\  || (____/\\\n" +
             "|/     \\|(______/ |/   \\__/(_______/|/    )_)|/     \\|(_______/\\_______/|/    )_)(_______/\n";
 
-    public final static String AdrenalineTitle2 =
+    public static final String ADRENALINE_TITLE_2 =
             "_____/\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\\\\\\\_______/\\\\\\\\\\\\\\\\\\______/\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\__/\\\\\\\\\\_____/\\\\\\_____/\\\\\\\\\\\\\\\\\\_____/\\\\\\______________/\\\\\\\\\\\\\\\\\\\\\\__/\\\\\\\\\\_____/\\\\\\__/\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_        \n" +
                     " ___/\\\\\\\\\\\\\\\\\\\\\\\\\\__\\/\\\\\\////////\\\\\\___/\\\\\\///////\\\\\\___\\/\\\\\\///////////__\\/\\\\\\\\\\\\___\\/\\\\\\___/\\\\\\\\\\\\\\\\\\\\\\\\\\__\\/\\\\\\_____________\\/////\\\\\\///__\\/\\\\\\\\\\\\___\\/\\\\\\_\\/\\\\\\///////////__       \n" +
                     "  __/\\\\\\/////////\\\\\\_\\/\\\\\\______\\//\\\\\\_\\/\\\\\\_____\\/\\\\\\___\\/\\\\\\_____________\\/\\\\\\/\\\\\\__\\/\\\\\\__/\\\\\\/////////\\\\\\_\\/\\\\\\_________________\\/\\\\\\_____\\/\\\\\\/\\\\\\__\\/\\\\\\_\\/\\\\\\_____________      \n" +
@@ -104,7 +60,7 @@ public class GameConstant implements Serializable {
                     "       _\\/\\\\\\_______\\/\\\\\\_\\/\\\\\\\\\\\\\\\\\\\\\\\\/___\\/\\\\\\______\\//\\\\\\_\\/\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_\\/\\\\\\___\\//\\\\\\\\\\_\\/\\\\\\_______\\/\\\\\\_\\/\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\__/\\\\\\\\\\\\\\\\\\\\\\_\\/\\\\\\___\\//\\\\\\\\\\_\\/\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_ \n" +
                     "        _\\///________\\///__\\////////////_____\\///________\\///__\\///////////////__\\///_____\\/////__\\///________\\///__\\///////////////__\\///////////__\\///_____\\/////__\\///////////////__";
 
-    public final static String AdrenalineTitle3 =
+    public static final String ADRENALINE_TITLE_3 =
             " █████╗ ██████╗ ██████╗ ███████╗███╗   ██╗ █████╗ ██╗     ██╗███╗   ██╗███████╗\n" +
                     "██╔══██╗██╔══██╗██╔══██╗██╔════╝████╗  ██║██╔══██╗██║     ██║████╗  ██║██╔════╝\n" +
                     "███████║██║  ██║██████╔╝█████╗  ██╔██╗ ██║███████║██║     ██║██╔██╗ ██║█████╗  \n" +
@@ -112,7 +68,7 @@ public class GameConstant implements Serializable {
                     "██║  ██║██████╔╝██║  ██║███████╗██║ ╚████║██║  ██║███████╗██║██║ ╚████║███████╗\n" +
                     "╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═══╝╚══════╝";
 
-    public final static String AdrenalineTitle4 =
+    public static final String AdrenalineTitle4 =
             " ▄▄▄      ▓█████▄  ██▀███  ▓█████  ███▄    █  ▄▄▄       ██▓     ██▓ ███▄    █ ▓█████ \n" +
                     "▒████▄    ▒██▀ ██▌▓██ ▒ ██▒▓█   ▀  ██ ▀█   █ ▒████▄    ▓██▒    ▓██▒ ██ ▀█   █ ▓█   ▀ \n" +
                     "▒██  ▀█▄  ░██   █▌▓██ ░▄█ ▒▒███   ▓██  ▀█ ██▒▒██  ▀█▄  ▒██░    ▒██▒▓██  ▀█ ██▒▒███   \n" +
@@ -122,7 +78,7 @@ public class GameConstant implements Serializable {
                     "  ▒   ▒▒ ░ ░ ▒  ▒   ░▒ ░ ▒░ ░ ░  ░░ ░░   ░ ▒░  ▒   ▒▒ ░░ ░ ▒  ░ ▒ ░░ ░░   ░ ▒░ ░ ░  ░\n" +
                     "  ░   ▒    ░ ░  ░   ░░   ░    ░      ░   ░ ░   ░   ▒     ░ ░    ▒ ░   ░   ░ ░    ░   \n" +
                     "      ░  ░   ░       ░        ░  ░         ░       ░  ░    ░  ░ ░           ░    ░  ░";
-    public final static String AdrenalineTitle7 =
+    public static final String ADRENALINE_TITLE_7 =
             "      db      `7MM\"\"\"Yb. `7MM\"\"\"Mq.  `7MM\"\"\"YMM  `7MN.   `7MF'     db      `7MMF'      `7MMF'`7MN.   `7MF'`7MM\"\"\"YMM  \n" +
                     "     ;MM:       MM    `Yb. MM   `MM.   MM    `7    MMN.    M      ;MM:       MM          MM    MMN.    M    MM    `7  \n" +
                     "    ,V^MM.      MM     `Mb MM   ,M9    MM   d      M YMb   M     ,V^MM.      MM          MM    M YMb   M    MM   d    \n" +

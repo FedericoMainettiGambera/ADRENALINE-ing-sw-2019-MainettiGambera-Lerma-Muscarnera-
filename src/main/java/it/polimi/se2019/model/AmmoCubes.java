@@ -1,10 +1,8 @@
 package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
-import it.polimi.se2019.view.components.AmmoCubesV;
 
 import java.io.Serializable;
-import java.util.Observable;
 
 /**
  * THIS CLASS SHOULD NEVER BE DIRECTLY ACCESSED, INSTEAD USE METHODS FROM THE "Person" CLASS.
@@ -49,16 +47,16 @@ public class AmmoCubes implements Serializable {
         return this.color;
     }
 
-    /**add the specified amount of ammos, if the total quantity exceed the "GameConstant.MaxNumberOfAmmoCubes"
+    /**add the specified amount of ammos, if the total quantity exceed the "GameConstant.MAX_NUMBER_OF_AMMO_CUBES"
      * this method will cut it to the max amount possible.
      * @param quantity
      * */
     public void addQuantity(int quantity){
-        if(this.quantity+quantity <= GameConstant.MaxNumberOfAmmoCubes){
+        if(this.quantity+quantity <= GameConstant.MAX_NUMBER_OF_AMMO_CUBES){
             this.quantity += quantity;
         }
         else{
-            this.quantity = GameConstant.MaxNumberOfAmmoCubes;
+            this.quantity = GameConstant.MAX_NUMBER_OF_AMMO_CUBES;
         }
     }
 
