@@ -759,7 +759,6 @@ public class GUISelector implements SelectorV {
 
 
     //##################################################################################################################
-    //TODO
     @Override
     public void askPowerUpToDiscard(List<PowerUpCardV> toDiscard) {
         new Thread(new AskPowerUpToDiscard(toDiscard)).start();
@@ -771,7 +770,7 @@ public class GUISelector implements SelectorV {
         }
         @Override
         public void run() {
-
+            do it now stupid
         }
     }
 
@@ -792,16 +791,26 @@ public class GUISelector implements SelectorV {
     }
 
     //##################################################################################################################
+    //TODO
     @Override
     public void askSpawn(List<PowerUpCardV> powerUpCards) {
-
+        new Thread(new AskSpawn(powerUpCards)).start();
     }
+    private class AskSpawn implements Runnable{
+        private List<PowerUpCardV> powerUpCards;
+        private AskSpawn (List<PowerUpCardV> powerUpCards){
+            this.powerUpCards = powerUpCards;
+        }
+        @Override
+        public void run() {
 
-
+        }
+    }
     //##################################################################################################################
+    //TODO
     @Override
     public void askShootOrMove() {
-
+        do it now stupid
     }
 
 
@@ -915,7 +924,7 @@ public class GUISelector implements SelectorV {
         }
         @Override
         public void run() {
-
+            do it now stupid
         }
     }
 
@@ -1039,6 +1048,7 @@ public class GUISelector implements SelectorV {
             Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
         }
         private VBox buildRequest(){
+            do it now stupid
             VBox vBox = new VBox();
             GridPane toPay = buildToPay();
             HBox options= buildOptions();
