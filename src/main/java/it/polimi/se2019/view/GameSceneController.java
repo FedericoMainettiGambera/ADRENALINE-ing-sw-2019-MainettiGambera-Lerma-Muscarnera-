@@ -411,6 +411,9 @@ public class GameSceneController implements Initializable {
         return this.selectorSection;
     }
 
-
+    /**@return the playerSection*/
+    public AnchorPane getPlayerSection(){
+        return  this.playerSection;
+    }
 
 }

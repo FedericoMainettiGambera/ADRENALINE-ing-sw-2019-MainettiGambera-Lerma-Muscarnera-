@@ -23,22 +23,28 @@ public class ReloadState implements State{
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(ReloadState.class.getName());
 
+    /**indicates if this state was called  from shoot people state*/
     private boolean calledFromShootPeople;
-
+    /**it's the player the input is asked */
     private Player playerToAsk;
-
+    /**the timer for the count down*/
     private Thread inputTimer;
-
+    /**action 1 or 2*/
     private int actionNumber;
 
+    /**bot nickname*/
     private String botName = "Terminator";
 
+    /**@param calledFromShootPeople indicates if this state was called  from shoot people state
+     * constructor 1*/
     public ReloadState(boolean calledFromShootPeople){
         this.calledFromShootPeople = calledFromShootPeople;
         System.out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = 0;
     }
-
+    /**@param calledFromShootPeople indicates if this state was called  from shoot people state
+     * @param actionNumber if it's action number 1 or 2
+     * constructor 2*/
     public ReloadState(boolean calledFromShootPeople, int actionNumber){
         this.calledFromShootPeople = calledFromShootPeople;
         out.println("<SERVER> New state: " + this.getClass());
@@ -54,6 +60,8 @@ public class ReloadState implements State{
     }
 
 
+    /** @param playerToAsk the player to ask input to
+     * this function manages to ask the player the right input*/
     @Override
     public void askForInput(Player playerToAsk){
 
@@ -195,6 +203,9 @@ public class ReloadState implements State{
 
     }
 
+    /**@param viewControllerEvent contains the information needed about the user
+     * wanting to reload or not
+     * this function performs reloading or change state*/
     @Override
     public void doAction(ViewControllerEvent viewControllerEvent){
         this.inputTimer.interrupt();
@@ -235,6 +246,7 @@ public class ReloadState implements State{
         }
     }
 
+    /** this function handles the after payment situation*/
     void afterPayment(){
         if(calledFromShootPeople){
             ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
@@ -260,6 +272,7 @@ public class ReloadState implements State{
         }
     }
 
+    /**@return boolean information about the effective possibility of reloading*/
     public boolean canReload(){
 
         for (WeaponCard weaponCard : ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards()){

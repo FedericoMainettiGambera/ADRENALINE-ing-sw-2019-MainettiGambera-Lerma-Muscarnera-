@@ -1,14 +1,12 @@
 package it.polimi.se2019.controller.statePattern;
 
 
-import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.controller.WaitForPlayerInput;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.PowerUpCard;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
-import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventTwoString;
 import it.polimi.se2019.view.components.PowerUpCardV;
 
@@ -20,7 +18,6 @@ import java.util.logging.Logger;
 public class PowerUpState implements State {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(TurnState.class.getName());
-
     private String powerUpToUse;
     private State nextState;
     private Player playerToAsk;
@@ -60,17 +57,17 @@ public class PowerUpState implements State {
     }
 
     @Override
-    public void doAction(ViewControllerEvent VCE) {
+    public void doAction(ViewControllerEvent viewControllerEvent) {
         this.inputTimer.interrupt();
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        ViewControllerEventTwoString VCETwoString = (ViewControllerEventTwoString)VCE;
+        ViewControllerEventTwoString viewControllerEventTwoString = (ViewControllerEventTwoString)viewControllerEvent;
 
         PowerUpCard chosenPowerUp = null;
         for (PowerUpCard p : playerToAsk.getPowerUpCardsInHand().getCards()) {
-            if(p.getName().equals(VCETwoString.getInput1()) && (p.getColor()+"").equals(VCETwoString.getInput2())){
+            if(p.getName().equals(viewControllerEventTwoString.getInput1()) && (p.getColor()+"").equals(viewControllerEventTwoString.getInput2())){
                 chosenPowerUp = p;
                 break;
             }
@@ -100,7 +97,7 @@ public class PowerUpState implements State {
         List<PowerUpCard> cards = new ArrayList<>();
         if(this.powerUpToUse.equals("movement")){ //for Teleporter and newton
             for (PowerUpCard pu: playerToAsk.getPowerUpCardsInHand().getCards()) {
-                if (pu.getName().toLowerCase().equals("teleporter") || pu.getName().toLowerCase().equals("newton")) {
+                if (pu.getName().equalsIgnoreCase("teleporter") || pu.getName().equalsIgnoreCase("newton")) {
                     cards.add(pu);
                 }
             }
@@ -108,7 +105,7 @@ public class PowerUpState implements State {
         }
         else{ //if(this.powerUpToUse.equals("damage")){ //for all power Up that are not Teleporter or newton
             for (PowerUpCard pu: playerToAsk.getPowerUpCardsInHand().getCards()) {
-                if (!pu.getName().toLowerCase().equals("teleporter") && !pu.getName().toLowerCase().equals("newton")) {
+                if (!pu.getName().equalsIgnoreCase("teleporter") && !pu.getName().equalsIgnoreCase("newton")) {
                     cards.add(pu);
                 }
             }

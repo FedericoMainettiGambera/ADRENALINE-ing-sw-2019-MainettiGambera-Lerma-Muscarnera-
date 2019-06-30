@@ -9,18 +9,19 @@ import it.polimi.se2019.view.LoadingSceneController;
 import it.polimi.se2019.view.components.OrderedCardListV;
 import it.polimi.se2019.view.components.ViewModelGate;
 import it.polimi.se2019.view.outputHandler.OutputHandlerInterface;
+import javafx.scene.layout.AnchorPane;
 
 import java.util.concurrent.TimeUnit;
 
 
 public class GUIOutputHandler implements OutputHandlerInterface {
 
-    private GameSceneController getGameSceneController(){
-        return ((GameSceneController)GUIstarter.getStageController());
+    private GameSceneController getGameSceneController() {
+        return ((GameSceneController) GUIstarter.getStageController());
     }
 
-    private LoadingSceneController getLoadingSceneController(){
-        return ((LoadingSceneController)GUIstarter.getStageController());
+    private LoadingSceneController getLoadingSceneController() {
+        return ((LoadingSceneController) GUIstarter.getStageController());
     }
 
     @Override
@@ -30,15 +31,13 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     @Override
     public void stateChanged(StateEvent stateEvent) {
-        if(stateEvent.getState().contains("GameSetUpState")){
+        if (stateEvent.getState().contains("GameSetUpState")) {
             //starts the GAME.fxml
             getLoadingSceneController().changeScene();
-        }
-        else{
+        } else {
             //update StateBar
         }
     }
-
 
 
     @Override
@@ -48,10 +47,9 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     @Override
     public void finalFrenzyBegun(ModelViewEvent modelViewEvent) {
-        if(ViewModelGate.getModel().isHasFinalFrenzyBegun()) {
+        if (ViewModelGate.getModel().isHasFinalFrenzyBegun()) {
             //show final frenzy has begun
-        }
-        else{
+        } else {
             //show final frenzy hasn't begun
         }
     }
@@ -62,16 +60,16 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     }
 
     @Override
-    public void newPlayersList(ModelViewEvent modelViewEvent){
+    public void newPlayersList(ModelViewEvent modelViewEvent) {
         if (GUIstarter.getStageController().getClass().toString().contains("LoadingSceneController")) {
             showPlayerListInLoadingScene();
-        }
-        else{
+        } else {
             //TODO:
             //    show playerlist during game..
         }
     }
-    private void showPlayerListInLoadingScene(){
+
+    private void showPlayerListInLoadingScene() {
         //we are in the loading scene and should update it
         boolean done = false;
         while (!done) {
@@ -183,7 +181,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     @Override
     public void showConnectionTimer(int currentTime, int totalTime) {
-        if(GUIstarter.getStageController().getClass().toString().contains("LoadingSceneController")) {
+        if (GUIstarter.getStageController().getClass().toString().contains("LoadingSceneController")) {
             ((LoadingSceneController) GUIstarter.getStageController()).modifyProgress(currentTime, totalTime);
         }
     }
@@ -209,5 +207,11 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     public void finalScoring(ModelViewEvent modelViewEvent) {
         //final scene
     }
-}
 
+
+    public void updatePlayer() {
+
+        AnchorPane playerSection = getGameSceneController().getPlayerSection();
+
+    }
+}

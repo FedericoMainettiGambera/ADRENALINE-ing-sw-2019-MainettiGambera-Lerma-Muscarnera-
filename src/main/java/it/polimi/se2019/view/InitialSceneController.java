@@ -19,6 +19,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class InitialSceneController implements Initializable {
+
     @FXML private Label titleLabel;
 
     @FXML private TextField nicknameTextField;

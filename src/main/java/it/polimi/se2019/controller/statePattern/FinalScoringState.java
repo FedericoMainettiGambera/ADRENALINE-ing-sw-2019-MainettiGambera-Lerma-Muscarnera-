@@ -9,16 +9,17 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.logging.Logger;
 
 /**this state is meant to score the kill shot track  and provide a final ranking. It is, obviously, only called once, at the end of the game*/
 public class FinalScoringState implements State {
+
     private static PrintWriter out = new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(FinalScoringState.class.getName());
+    /**a list of players with their points in decreasing order*/
     private ArrayList<PlayerPoint> graduatory;
 
-
+    /**constructor*/
     public FinalScoringState() {
         out.println("<SERVER> New state: " + this.getClass());
         graduatory=new ArrayList<>();
