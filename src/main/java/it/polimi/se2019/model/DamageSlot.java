@@ -13,9 +13,9 @@ public class DamageSlot implements Serializable {
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
      * sets the shooting player.
-     * @param shootingPlayer
+     * @param shootingPlayer as already said
      * */
-    public DamageSlot(Player shootingPlayer) {
+     DamageSlot(Player shootingPlayer) {
         this.shootingPlayer = shootingPlayer;
     }
 
@@ -27,7 +27,7 @@ public class DamageSlot implements Serializable {
     /*-********************************************************************************************************METHODS*/
     /*Do not to use this methods directly. Instead use methods from the "Person" class.*/
 
-    /**@return
+    /**@return the shooting player
      * */
     public Player getShootingPlayer() {
         return shootingPlayer;
