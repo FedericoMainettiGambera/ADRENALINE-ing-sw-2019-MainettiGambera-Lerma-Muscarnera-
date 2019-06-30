@@ -4,7 +4,7 @@ import it.polimi.se2019.model.*;
 import org.junit.Test;
 
 public class TestAction {
-    /*FOR MAVEN PURPOSE
+
     @Test
     public void testAction() {
         Action a = new Damage();
@@ -32,13 +32,8 @@ public class TestAction {
     }
     @Test
     public void testExec() {
-        Action A = new Teleport();
-        Player Me = new Player();
-        A.getActionInfo().getActionContext().setPlayer(Me);
-        Position newPosition = new Position(5,5);
-        A.getActionInfo().getActionDetails().getUserSelectedActionDetails().setNewPosition(newPosition);
-        A.Exec();
+
 
     }
-    */
+
 }

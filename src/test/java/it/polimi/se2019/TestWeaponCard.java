@@ -2,6 +2,7 @@ package it.polimi.se2019;
 
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.CardinalPoint;
+import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.SquareTypes;
 import it.polimi.se2019.virtualView.VirtualView;
@@ -9,6 +10,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static it.polimi.se2019.model.enumerations.UsableInputTableRowType.typePlayer;
+import static it.polimi.se2019.model.enumerations.UsableInputTableRowType.typeSquare;
 
 //TODO
 public class TestWeaponCard {
@@ -201,27 +205,71 @@ public class TestWeaponCard {
         playerList.getPlayers().add(user4);
         playerList.getPlayers().add(user5);
 
-        user1.setPosition(0, 1);
-        user2.setPosition(0, 1);
-        user3.setPosition(0 , 2);                 //   same position
-        user4.setPosition(0, 0);
+        user1.setPosition(0, 0);
+        user2.setPosition(1, 0);
+        user3.setPosition(0 , 1);                 //   same position
+        user4.setPosition(2, 0);
         user5.setPosition(2, 0);
-        WeaponCard w = new WeaponCard(12+"");
-        w.passContext(user1,playerList,board);
+        ActionContext fakeContext = new ActionContext();
+        fakeContext.setPlayer(user1);
+        fakeContext.setPlayerList(playerList);
+        fakeContext.setBoard(board);
+
+        PreConditionMethodsInverted PIGATE = new PreConditionMethodsInverted();
+        List<Object> A = PIGATE.youCanSeeThatSquare(
+                fakeContext,
+                typeSquare,
+                new ActionDetails(),
+                null,
+                null,
+                null
+        );
+        List<Object> B = PIGATE.notYourSquare(
+                fakeContext,
+                typeSquare,
+                new ActionDetails(),
+                null,
+                null,
+                null
+        );
+        List<Object> C = PIGATE.distanceFromOriginalPositionIs1NOPLAYER(
+                fakeContext,
+                typeSquare,
+                new ActionDetails(),
+                null,null,null
+        );
+        List<Object> inputs =  new ArrayList<>();
+        List<EffectInfoType> inputSlots = new ArrayList<>();
+        inputSlots.add(EffectInfoType.targetListBySquare);
+        inputSlots.add(EffectInfoType.targetListBySquare);
         Object[] row = new Object[10];
-        row[0] = w.getEffects().get(0).usableInputs().get(0).get(0).get(1);
-        w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(0),row);
+        row[0] = board.getSquare(1,0);
+        inputs.add(row);
 
-        showMap(user1,playerList,board,w.getEffects().get(0).usableInputs().get(0).get(0));
+        List<Object> D = PIGATE.sameCardinalDirectionOfTargets(
+                fakeContext,
+                typePlayer,
+                new ActionDetails(),
+                inputs,inputSlots,null
+        );
+        List<Object> E = PIGATE.sameCardinalDirectionOfTargets(
+                fakeContext,
+                typePlayer,
+                new ActionDetails(),
+                new ArrayList<>(),new ArrayList<>(),null
+        );
+        List<Object> ret =
+                Effect.intersect(
+                                    A,
+                                    Effect.intersect(
+                                                        C,
+                                                        B
+                                                    )
 
-        showMap(user1,playerList,board,w.getEffects().get(0).usableInputs().get(1).get(0));
+                                    );
+        showMap(user1,playerList,board,E);
+        showMap(user1,playerList,board,D);
 
-        System.out.println("hai inserito" + ((Square)row[0]).getCoordinates().humanString());
-        w.getEffects().get(0).handleRow(w.getEffects().get(0).getEffectInfo().getEffectInfoElement().get(1),row);
-
-
-        w.getEffects().get(0).Exec();
-              System.out.println("^^^^^ CARTA ");
         }
 
 

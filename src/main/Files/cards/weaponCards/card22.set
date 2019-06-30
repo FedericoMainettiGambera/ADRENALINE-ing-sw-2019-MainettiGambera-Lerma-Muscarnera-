@@ -3,6 +3,33 @@ XXX
 RELOAD COST
 y
 1
+NEW EFFECT
+EFFECT NAME
+yyy
+EXPECTED INPUT
+singleTarget
+TO
+ALL
+END
+singleTarget
+TO
+ALL
+END
+END
+ACTIONS
+Action
+ACTION INFO
+PRECONDITION
+sameCardinalDirectionOfTargets
+END
+Action
+ACTION INFO
+PRECONDITION
+distanceOfTargetFromPlayerSquareIs1
+END
+END
+
+
 
 NEW EFFECT
 EFFECT NAME
