@@ -110,7 +110,7 @@ public class Game extends Observable implements Serializable {
 
     public void setVirtualView(VirtualView virtualViewSocket, VirtualView virtualViewRmi){
         this.virtualViewRmi = virtualViewRmi;
-        this.virtualViewSocket = virtualViewRmi;
+        this.virtualViewSocket = virtualViewSocket;
     }
 
     public VirtualView getSocketVirtualView(){
