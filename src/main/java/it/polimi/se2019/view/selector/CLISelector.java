@@ -1049,7 +1049,7 @@ public class CLISelector implements SelectorV {
     }
 
 
-    /**starts a dedicated thread that manage to ask the user the nickname he wants to use and
+    /**starts a dedicated thread that manages to ask the user the nickname they want to use and
      * to check whether the said nickname is available or not*/
     private boolean nicknameIsAvailable = true;
     @Override
