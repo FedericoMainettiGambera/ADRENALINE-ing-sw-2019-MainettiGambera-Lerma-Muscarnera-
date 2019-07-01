@@ -424,35 +424,18 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane boardBackGround;
     @FXML private GridPane board; //  (4 x 3)
 
-    //TODO not sure they arae really use full...
-    //first column
-    @FXML private StackPane squareBackground00; //0,0
-    @FXML private StackPane squareMainImage00;
-    @FXML private StackPane squareBackground10; //1,0
-    @FXML private StackPane squareMainImage10;
-    @FXML private StackPane squareBackground20; //2,0
-    @FXML private StackPane squareMainImage20;
-    //second column
-    @FXML private StackPane squareBackground01; //0,1
-    @FXML private StackPane squareMainImage01;
-    @FXML private StackPane squareBackground11; //1,1
-    @FXML private StackPane squareMainImage11;
-    @FXML private StackPane squareBackground21; //2,1
-    @FXML private StackPane squareMainImage21;
-    //third column
-    @FXML private StackPane squareBackground02; //0,2
-    @FXML private StackPane squareMainImage02;
-    @FXML private StackPane squareBackground12; //1,2
-    @FXML private StackPane squareMainImage12;
-    @FXML private StackPane squareBackground22; //2,2
-    @FXML private StackPane squareMainImage22;
-    //fourth column
-    @FXML private StackPane squareBackground03; //0,3
-    @FXML private StackPane squareMainImage03;
-    @FXML private StackPane squareBackground13; //1,3
-    @FXML private StackPane squareMainImage13;
-    @FXML private StackPane squareBackground23; //2,3
-    @FXML private StackPane squareMainImage23;
+    @FXML private StackPane squareBackground00;
+    @FXML private StackPane squareBackground01;
+    @FXML private StackPane squareBackground02;
+    @FXML private StackPane squareBackground03;
+    @FXML private StackPane squareBackground10;
+    @FXML private StackPane squareBackground11;
+    @FXML private StackPane squareBackground12;
+    @FXML private StackPane squareBackground13;
+    @FXML private StackPane squareBackground20;
+    @FXML private StackPane squareBackground21;
+    @FXML private StackPane squareBackground22;
+    @FXML private StackPane squareBackground23;
 
     public StackPane[][] getBackgroundsMap(){
         StackPane[][] backgroundMap = new StackPane[3][4];
@@ -470,6 +453,19 @@ public class GameSceneController implements Initializable {
         backgroundMap[2][3] = this.squareBackground23;
         return backgroundMap;
     }
+
+    @FXML private StackPane getSquareMainImage00;
+    @FXML private StackPane getSquareMainImage01;
+    @FXML private StackPane getSquareMainImage02;
+    @FXML private StackPane getSquareMainImage03;
+    @FXML private StackPane getSquareMainImage10;
+    @FXML private StackPane getSquareMainImage11;
+    @FXML private StackPane getSquareMainImage12;
+    @FXML private StackPane getSquareMainImage13;
+    @FXML private StackPane getSquareMainImage20;
+    @FXML private StackPane getSquareMainImage21;
+    @FXML private StackPane getSquareMainImage22;
+    @FXML private StackPane getSquareMainImage23;
 
     public StackPane[][] getMainImagesmap(){
         StackPane[][] mainImageMap = new StackPane[3][4];

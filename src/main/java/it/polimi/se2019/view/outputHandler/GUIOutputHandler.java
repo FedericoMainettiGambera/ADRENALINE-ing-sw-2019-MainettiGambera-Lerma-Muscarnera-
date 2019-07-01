@@ -1,5 +1,6 @@
 package it.polimi.se2019.view.outputHandler;
 
+import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.PlayersColors;
@@ -728,7 +729,24 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     /*TODO*/
     private void updateMap()   {
         System.out.println("UPDATE MAP"); //MOMENTANEO
+        new Thread(new UpdateMap()).start();
     }
+    private class UpdateMap implements Runnable{
+        @Override
+        public void run() {
+            if (ViewModelGate.getModel() != null && ViewModelGate.getModel().getBoard() != null && ViewModelGate.getModel().getBoard().getMap() != null) {
+                SquareV[][] map = ViewModelGate.getModel().getBoard().getMap();
+                StackPane[][] backgroundMap = getGameSceneController().getBackgroundsMap();
+                StackPane[][] mainImages = getGameSceneController().getMainImagesmap();
+                for (int i = 0; i < map.length; i++) { //map.length == 3
+                    for (int j = 0; j < map[0].length; j++) { // map[0].lenght == 4
+
+                    }
+                }
+            }
+        }
+    }
+
     private void updateStateBar() {
         System.out.println("UPDATE STATE BAR"); //MOMENTANEO
     }
