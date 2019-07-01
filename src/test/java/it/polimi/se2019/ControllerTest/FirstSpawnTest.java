@@ -1,6 +1,7 @@
 package it.polimi.se2019.ControllerTest;
 
 import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.statePattern.FinalScoringState;
 import it.polimi.se2019.controller.statePattern.FirstSpawnState;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.PowerUpCard;
@@ -32,9 +33,14 @@ public class FirstSpawnTest{
         ViewControllerEventTwoString viewControllerEventTwoString=new ViewControllerEventTwoString("1", "red");
 
         FirstSpawnState firstSpawnState=new FirstSpawnState();
+        java.lang.reflect.Method spawnBot= FirstSpawnState.class.getDeclaredMethod("spawnBot", ViewControllerEvent.class);
+        spawnBot.setAccessible(true);
+        java.lang.reflect.Method spawnPlayer=FirstSpawnState.class.getDeclaredMethod("spawnPlayer", ViewControllerEvent.class);
+        spawnPlayer.setAccessible(true);
 
-        firstSpawnState.spawnBot(viewControllerEventTwoString);
-        firstSpawnState.spawnPlayer(viewControllerEventTwoString);
+
+        spawnBot.invoke(firstSpawnState,viewControllerEventTwoString);
+        spawnPlayer.invoke(firstSpawnState,viewControllerEventTwoString);
 
         assertEquals(0,ModelGate.model.getCurrentPlayingPlayer().getPosition().getX());
         assertEquals(2,ModelGate.model.getCurrentPlayingPlayer().getPosition().getY());

@@ -10,9 +10,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
-import static com.sun.tools.classfile.AccessFlags.Kind.Method;
 import static junit.framework.TestCase.assertEquals;
 
 

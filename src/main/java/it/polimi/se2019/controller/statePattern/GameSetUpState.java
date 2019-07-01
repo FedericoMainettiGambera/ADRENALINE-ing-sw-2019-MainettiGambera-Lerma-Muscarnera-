@@ -22,11 +22,12 @@ public class GameSetUpState implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(GameSetUpState.class.getName());
-
+    /**player to be asked the game set up */
     private Player playerToAsk;
-
+   /**count down till AFK status*/
     private Thread inputTimer;
 
+    /**constructor*/
     public GameSetUpState(){
         out.println("<SERVER> New state: " + this.getClass());
     }
@@ -56,7 +57,8 @@ public class GameSetUpState implements State {
         }
     }
 
-    public void gameHasBegun(Player playerToAsk){
+    /**@param playerToAsk the player to ask the input to*/
+    private void gameHasBegun(Player playerToAsk){
 
         this.playerToAsk = playerToAsk;
 
@@ -98,7 +100,7 @@ public class GameSetUpState implements State {
     /**set up the game extrapolating the information needed from
      * @param viewControllerEvent, which contains the options chosen by the starting player*/
 
-    public void gameSetUp(ViewControllerEvent viewControllerEvent){
+    private void gameSetUp(ViewControllerEvent viewControllerEvent){
 
         out.println("<SERVER> player has answered before the timer ended.");
 
@@ -145,7 +147,7 @@ public class GameSetUpState implements State {
 
 
     /**set players ready to play*/
-    public void preparePlayers(){
+    private void preparePlayers(){
 
         for (Player p :ModelGate.model.getPlayerList().getPlayers()) {
 
@@ -180,7 +182,7 @@ public class GameSetUpState implements State {
     }
 
     /**create Decks, shuffle them and place the cards on the Board*/
-    public void createDecks(){
+    private void createDecks(){
 
         //registering VV as Observer of the Decks
         if((ModelGate.model.getSocketVirtualView()!=null)){
