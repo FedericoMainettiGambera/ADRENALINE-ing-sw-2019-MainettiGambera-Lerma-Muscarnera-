@@ -59,6 +59,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     /**********************************/
 
     private void updateKillShotTrack() {
+        System.out.println("UPDATE KILLSHOT TRACK");
         (new Thread(new UpdateKillShotTrack())).start();
     }
     private class UpdateKillShotTrack implements Runnable{
@@ -171,6 +172,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         }
     }
     private void updatePlayer()    {
+        System.out.println("UPDATE PLAYER");
         updatePowerUpCards();
         updateWeaponCards();
         updatePlayerBoard();
@@ -178,6 +180,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     /** */
     private void updatePowerUpCards(){  // luca
+        System.out.println("UPDATE POWER UP CARDS");
         (new Thread(new UpdatePowerUpCards())).start();
     }
     private class UpdatePowerUpCards implements  Runnable {
@@ -221,6 +224,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     }
     /** */
     private void updateWeaponCards() {
+        System.out.println("UPDATE WEAPON CARDS");
         (new Thread(new UpdateWeaponCards())).start();
     }
     private class UpdateWeaponCards implements Runnable {
