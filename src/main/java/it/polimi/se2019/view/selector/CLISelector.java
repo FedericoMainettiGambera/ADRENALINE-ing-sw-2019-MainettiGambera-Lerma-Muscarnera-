@@ -965,7 +965,8 @@ public class CLISelector implements SelectorV {
                 int chosen = askNumber(0,possibleInputs.size()-1);
 
                 answer.add(possibleInputs.get(chosen));
-                possibleInputs.remove(possibleInputs.get(chosen));
+
+                possibleInputs.remove(chosen);
             }
             ViewControllerEventListOfObject viewControllerEventListOfObject = new ViewControllerEventListOfObject(answer);
 
