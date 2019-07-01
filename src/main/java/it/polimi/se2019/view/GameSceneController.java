@@ -342,6 +342,9 @@ public class GameSceneController implements Initializable {
         return playerNickname;
     }
 
+    public StackPane getNicknameBackGround(){
+        return playerNicknameBackground;
+    }
     //3.1.2[1,1]- player ammo box
     /**a grid pane containing the ammunitions of the player*/
     @FXML private GridPane playerAmmoBox;

@@ -1,5 +1,6 @@
 package it.polimi.se2019.view.outputHandler;
 
+import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
@@ -322,6 +323,12 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         private void addDamages(DamageSlotV damageSlot, int i){
 
             PlayersColors color = damageSlot.getShootingPlayerColor();
+            for (PlayerV player: ViewModelGate.getModel().getPlayers().getPlayers()){
+                if(player.getNickname().equals(damageSlot.getShootingPlayerNickname())) {
+                    getGameSceneController().getDamagesMainImage().get(i).setUserData(player);
+                }
+            }
+
 
             switch (color) {
                 case blue:
@@ -419,6 +426,12 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         private void setMarks(int i, MarkSlotV markSlot){
             PlayersColors color = ViewModelGate.getModel().getPlayers().getPlayer(markSlot.getMarkingPlayer()).getColor();
             ((Label)(getGameSceneController().getMarkMainImage().get(i).getChildren().get(0))).setText(Integer.toString(markSlot.getQuantity()));
+
+            for (PlayerV player: ViewModelGate.getModel().getPlayers().getPlayers()){
+                if(player.getNickname().equals(markSlot.getMarkingPlayer())) {
+                    getGameSceneController().getDamagesMainImage().get(i).setUserData(player);
+                }
+            }
 
             switch (color) {
                 case blue:
@@ -543,11 +556,28 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
                 for (PlayerV player: ViewModelGate.getModel().getPlayers().getPlayers()){
 
-                    if(player.getNickname().equals(ViewModelGate.getMe())) {
+                    if(player.getNickname().equals(ViewModelGate.getMe())){
 
                         removePrevious();
                         getGameSceneController().getNicknameLabel().setText(player.getNickname());
                         getGameSceneController().getNicknameLabel().getStyleClass().add("nicknameStyle");
+                        PlayersColors color=player.getColor();
+                        switch (color){
+                            case yellow:getGameSceneController().getNicknameBackGround().getStyleClass().add("nicknameBackgroundYellow");
+                            break;
+                            case blue: getGameSceneController().getNicknameBackGround().getStyleClass().add("nicknameBackgroundBlue");
+                            break;
+                            case green:getGameSceneController().getNicknameBackGround().getStyleClass().add("nicknameBackgroundGreen");
+                            break;
+                            case gray:getGameSceneController().getNicknameBackGround().getStyleClass().add("nicknameBackgroundGray");
+                            break;
+                            case purple:getGameSceneController().getNicknameBackGround().getStyleClass().add("nicknameBackgroundPurple");
+                            break;
+                            default:getGameSceneController().getNicknameBackGround().getStyleClass().add("nicknameBackground");
+
+                        }
+
+
 
                     }
                 }
@@ -558,6 +588,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         private void removePrevious(){
 
             getGameSceneController().getNicknameLabel().getStyleClass().remove("nicknameStyle");
+            getGameSceneController().getNicknameBackGround().getStyleClass().remove("nicknameBackground");
 
         }
     }
