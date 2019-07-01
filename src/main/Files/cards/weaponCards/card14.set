@@ -31,6 +31,7 @@ END
 END
 
 NEW EFFECT
+moveDuringEffect
 EFFECT NAME
 BasicEffect + ExtraGranade
 USAGE COST
@@ -120,6 +121,6 @@ END
 Move
 ACTION INFO
 PRECONDITION
-distanceFromOriginalPositionIs1
+distanceFromOriginalPositionIs1TP
 END
 END

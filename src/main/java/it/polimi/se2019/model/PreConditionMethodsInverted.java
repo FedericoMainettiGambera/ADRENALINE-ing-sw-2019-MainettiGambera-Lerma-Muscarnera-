@@ -459,6 +459,127 @@ public class PreConditionMethodsInverted {
     }
 
 
+    public List<Object> distanceFromOriginalPositionIs1TP (ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
+
+        List<Object> retVal = new ArrayList<>();
+        try {
+            if (type.equals(typeSquare)) {
+
+                if (actionDetails.getUserSelectedActionDetails().getTargetList().size() > 0) {
+                    System.out.println("// target list not empty");
+                    System.out.println("// pos: " + actionDetails.getUserSelectedActionDetails().getTarget().getTemporaryPosition().humanString());
+                    // Position chosenSquarePosition = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
+                    for (Square[] R : actionContext.getBoard().getMap()) {
+                        for (Square C : R) {
+                            if (C != null) {
+                                System.out.println("> POSIZIONE  " + C.getCoordinates().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                                        C.getCoordinates(),
+                                        actionDetails.getUserSelectedActionDetails().getTarget().getTemporaryPosition()
+                                ));
+                                if (actionContext.getBoard().distanceFromTo(
+                                        C.getCoordinates(),
+                                        actionDetails.getUserSelectedActionDetails().getTarget().getTemporaryPosition()
+                                ) == (1 + 0)) {
+                                    // la distanza è 1
+                                    // controllo che ci sia un player li sopra
+                                    /*for (Player P : actionContext.getPlayerList().getPlayersOnBoard()) {
+                                        System.out.println("testo " + P.getNickname() + " : " + P.getPosition().humanString());
+                                        if (P.getPosition().equals(C.getCoordinates())) {
+                                            System.out.println("la posizione è uguale");
+                                            if (!retVal.contains(C)) {
+                                                System.out.println("inserisco");
+                                                retVal.add(C);
+                                            }
+                                        }
+                                    }*/
+                                    if (!retVal.contains(C)) {
+                                        System.out.println("inserisco");
+                                        retVal.add(C);
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                } else {
+
+                    System.out.println("  // target list empty");
+                    for (Square[] R : actionContext.getBoard().getMap()) {
+                        for (Square C : R) {
+                            if (C != null)
+                            {
+
+                                for (Player P : actionContext.getPlayerList().getPlayersOnBoard()) {
+                                    /*if(!P.equals(actionContext.getPlayer()))*/ {              // il player non ci interessa
+                                        System.out.println("> POSIZIONE  " + P.getTemporaryPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                                                P.getTemporaryPosition(),
+                                                C.getCoordinates()
+                                        ));
+                                        if (actionContext.getBoard().distanceFromTo(
+                                                C.getCoordinates(),
+                                                P.getTemporaryPosition()) == (1 + 0)) {
+                                            if (!retVal.contains(C)) {
+                                                retVal.add(C);
+                                                System.out.println("aggiungo");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+            }
+            if (type.equals(typePlayer)) {
+                if (actionDetails.getUserSelectedActionDetails().getChosenSquare() != null) {
+                    System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
+                    System.out.println("// square selezionato");
+                    System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
+                    for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
+                        System.out.println("> POSIZIONE  " + C.getTemporaryPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                                C.getTemporaryPosition(),
+                                actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates()
+                        ));
+                        if (actionContext.getBoard().distanceFromTo(
+                                C.getTemporaryPosition(),
+                                actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates()
+                        ) == (1 + 0)) {
+                            // la distanza è 1
+                            retVal.add(C);
+                        }
+
+
+                    }
+
+                } else {
+                    System.out.println(";// square non ancora selezionato");
+                    for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
+                        for (Square[] R : actionContext.getBoard().getMap()) {
+                            for (Square T : R) {
+                                if(T != null)
+                                    if (actionContext.getBoard().distanceFromTo(
+                                            T.getCoordinates(),
+                                            C.getTemporaryPosition()) == (1 + 0)) {
+                                        if (!retVal.contains(C))
+                                            retVal.add(C);
+                                    }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }catch (Exception e) {
+            System.out.println("---- "+ e);
+
+        }
+        System.out.println("123 " + retVal);
+        return retVal;
+    }
+
+
     public List<Object> distanceFromOriginalPositionIs1 (ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
 
         List<Object> retVal = new ArrayList<>();

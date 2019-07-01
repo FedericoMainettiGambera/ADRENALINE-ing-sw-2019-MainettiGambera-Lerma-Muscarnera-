@@ -27,7 +27,7 @@ END
 
 NEW EFFECT
 EFFECT NAME
-Shadow Step
+Shadow Step + Basic Effect
 EXPECTED INPUT
 player
 TO
@@ -51,26 +51,7 @@ distanceFromOriginalPositionIs1
 END
 END
 
-NEW EFFECT
-EFFECT NAME
-Slice and Dice
-USAGE COST
-y
-1
-EXPECTED INPUT
-singleTarget
-TO
-ALL
-END
-END
-ACTIONS
-Damage
-ACTION INFO
-PRECONDITION
-notPreviousTarget
-SET
-1
-END
-END
+
+
 // TODO : SLICE AND DICE NON SI CAPISCE NE IN INGLESE NE IN ITALIANO
 
