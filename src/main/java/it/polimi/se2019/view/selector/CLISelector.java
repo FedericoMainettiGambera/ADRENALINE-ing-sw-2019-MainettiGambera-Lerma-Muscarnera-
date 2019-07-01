@@ -924,9 +924,10 @@ public class CLISelector implements SelectorV {
 
             List<Object> answer = new ArrayList<>();
 
-            ArrayList<String> requestsString = new ArrayList<>();
-
             for (int j = 0; j < request ; j++) {
+                
+                ArrayList<String> requestsString = new ArrayList<>();
+
                 if(possibleInputs.isEmpty()){
                     break;
                 }
@@ -965,7 +966,8 @@ public class CLISelector implements SelectorV {
                 int chosen = askNumber(0,possibleInputs.size()-1);
 
                 answer.add(possibleInputs.get(chosen));
-                possibleInputs.remove(possibleInputs.get(chosen));
+
+                possibleInputs.remove(chosen);
             }
             ViewControllerEventListOfObject viewControllerEventListOfObject = new ViewControllerEventListOfObject(answer);
 

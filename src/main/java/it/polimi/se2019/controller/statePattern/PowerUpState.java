@@ -98,7 +98,9 @@ public class PowerUpState implements State {
         if(this.powerUpToUse.equals("movement")){ //for Teleporter and newton
             for (PowerUpCard pu: playerToAsk.getPowerUpCardsInHand().getCards()) {
                 if (pu.getName().equalsIgnoreCase("teleporter") || pu.getName().equalsIgnoreCase("newton")) {
-                    cards.add(pu);
+                    if (pu.isUsable()) {
+                        cards.add(pu);
+                    }
                 }
             }
             return cards;
@@ -106,7 +108,9 @@ public class PowerUpState implements State {
         else{ //if(this.powerUpToUse.equals("damage")){ //for all power Up that are not Teleporter or newton
             for (PowerUpCard pu: playerToAsk.getPowerUpCardsInHand().getCards()) {
                 if (!pu.getName().equalsIgnoreCase("teleporter") && !pu.getName().equalsIgnoreCase("newton")) {
-                    cards.add(pu);
+                    if (pu.isUsable()) {
+                        cards.add(pu);
+                    }
                 }
             }
             return cards;

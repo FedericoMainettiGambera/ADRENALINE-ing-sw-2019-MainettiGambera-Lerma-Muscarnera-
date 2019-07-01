@@ -7,8 +7,28 @@ RELOAD COST
 y
 1
 
+NEW EFFECT
+EFFECT NAME
+Basic Effect
+EXPECTED INPUT
+singleTarget
+TO
+ALL
+END
+END
+ACTIONS
+Damage
+ACTION INFO
+PRECONDITION
+targetOnYourSquare
+SET
+3
+END
+END
 
 NEW EFFECT
+EFFECT NAME
+Basic Effect + Move Target
 EXPECTED INPUT
 singleTarget
 TO

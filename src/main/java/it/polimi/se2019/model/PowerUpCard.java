@@ -6,6 +6,7 @@ import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.view.components.PowerUpCardV;
 
 import java.io.*;
+import java.util.List;
 
 import static it.polimi.se2019.model.enumerations.AmmoCubesColor.yellow;
 
@@ -25,6 +26,23 @@ public class PowerUpCard extends Card implements Serializable {
         this.specialEffect = null;
     }
 
+    public boolean isUsable() {
+        boolean retVal = true;
+        Effect e = this.getSpecialEffect();
+
+            for(Object p: e.usableInputs()) {
+                for(Object possible: (List<Object>) p ) {
+                    if (!(((List<Object>) possible).size() > 0)) {
+                        retVal = false;
+                    }
+                }
+            }
+
+
+        return retVal;
+
+
+    }
 
 
     public PowerUpCard(String ID,int nID) throws FileNotFoundException, IOException,InstantiationException, Exception  {
