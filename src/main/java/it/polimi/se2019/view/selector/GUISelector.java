@@ -136,8 +136,7 @@ public class GUISelector implements SelectorV {
             Platform.runLater(()-> {
                 getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0);
                 Platform.runLater(()->{
-                    //request.setVvalue(0.0);
-                    //don't know why it doesn't works
+                    //request.setVvalue(0.0); don't know why it doesn't works
                 });
             });
         }

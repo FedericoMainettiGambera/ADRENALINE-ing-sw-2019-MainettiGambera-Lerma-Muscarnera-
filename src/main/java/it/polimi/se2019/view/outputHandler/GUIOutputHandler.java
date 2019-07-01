@@ -59,6 +59,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     /**********************************/
 
     private void updateKillShotTrack() {
+        System.out.println("UPDATE KILLSHOT TRACK");
         (new Thread(new UpdateKillShotTrack())).start();
     }
     private class UpdateKillShotTrack implements Runnable{
@@ -171,6 +172,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         }
     }
     private void updatePlayer()    {
+        System.out.println("UPDATE PLAYER");
         updatePowerUpCards();
         updateWeaponCards();
         updatePlayerBoard();
@@ -178,6 +180,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     /** */
     private void updatePowerUpCards(){  // luca
+        System.out.println("UPDATE POWER UP CARDS");
         (new Thread(new UpdatePowerUpCards())).start();
     }
     private class UpdatePowerUpCards implements  Runnable {
@@ -221,6 +224,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     }
     /** */
     private void updateWeaponCards() {
+        System.out.println("UPDATE WEAPON CARDS");
         (new Thread(new UpdateWeaponCards())).start();
     }
     private class UpdateWeaponCards implements Runnable {
@@ -729,6 +733,24 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         System.out.println("UPDATE STATE BAR"); //MOMENTANEO
     }
 
+    /**update the progress indicator to match the timer count down for the player*/
+    private void updateProgressIndicator(int currentTime, int totalTime){
+        new Thread(new UpdateProgressIndicator(currentTime, totalTime)).start();
+    }
+    private class UpdateProgressIndicator implements Runnable{
+        private int currentTime;
+        private int totalTime;
+        private UpdateProgressIndicator(int currentTime, int totalTime){
+            this.currentTime = currentTime;
+            this.totalTime = totalTime;
+        }
+        @Override
+        public void run() {
+            if(GUIstarter.getStageController().getClass().toString().contains("GameSceneController")) {
+                getGameSceneController().getProgressIndicator().setProgress((double) this.currentTime / (double) this.totalTime);
+            }
+        }
+    }
 
     private GameSceneController getGameSceneController() {
         return ((GameSceneController) GUIstarter.getStageController());
@@ -778,12 +800,21 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     @Override
     public void newPlayersList(ModelViewEvent modelViewEvent) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(300);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return;
+        }
         if (GUIstarter.getStageController().getClass().toString().contains("LoadingSceneController")) {
             showPlayerListInLoadingScene(); // TODO
         }
         else{
             //TODO:
             //    show playerlist during game..
+            updatePlayer();
+            updateMap();
+            updateKillShotTrack();
         }
     }
     private void showPlayerListInLoadingScene(){
@@ -817,18 +848,20 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         updateKillShotTrack();
         //update playerList
         // TODO
+        updatePlayer();
     }
 
     @Override
     public void movingCardsAround(OrderedCardListV from, OrderedCardListV to, ModelViewEvent modelViewEvent) {
         // TODO LASCIATELO ALLA FINE LUCA
         //update changed cards
+        updatePlayer();
     }
 
     @Override
     public void shufflingCards(ModelViewEvent modelViewEvent) {
         // TODO LASCIATELO ALLA FINE LUCA
-        //probably empty
+        updatePlayer();
     }
 
     @Override
@@ -853,6 +886,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     public void newScore(ModelViewEvent modelViewEvent) {
         //update players
         // probably empty
+        updatePlayer();
     }
 
     @Override
@@ -912,7 +946,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     @Override
     public void showInputTimer(int currentTime, int totalTime) {
         //update state section
-        updateStateBar();
+        updateProgressIndicator(currentTime, totalTime);
     }
 
     @Override

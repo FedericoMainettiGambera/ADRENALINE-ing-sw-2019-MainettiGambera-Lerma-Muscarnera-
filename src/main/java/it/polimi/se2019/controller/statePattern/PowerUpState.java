@@ -1,6 +1,7 @@
 package it.polimi.se2019.controller.statePattern;
 
 
+import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.controller.WaitForPlayerInput;
@@ -98,6 +99,7 @@ public class PowerUpState implements State {
         if(this.powerUpToUse.equals("movement")){ //for Teleporter and newton
             for (PowerUpCard pu: playerToAsk.getPowerUpCardsInHand().getCards()) {
                 if (pu.getName().equalsIgnoreCase("teleporter") || pu.getName().equalsIgnoreCase("newton")) {
+                    pu.getSpecialEffect().passContext(playerToAsk, ModelGate.model.getPlayerList(), ModelGate.model.getBoard());
                     if (pu.isUsable()) {
                         cards.add(pu);
                     }
@@ -108,6 +110,7 @@ public class PowerUpState implements State {
         else{ //if(this.powerUpToUse.equals("damage")){ //for all power Up that are not Teleporter or newton
             for (PowerUpCard pu: playerToAsk.getPowerUpCardsInHand().getCards()) {
                 if (!pu.getName().equalsIgnoreCase("teleporter") && !pu.getName().equalsIgnoreCase("newton")) {
+                    pu.getSpecialEffect().passContext(playerToAsk, ModelGate.model.getPlayerList(), ModelGate.model.getBoard());
                     if (pu.isUsable()) {
                         cards.add(pu);
                     }

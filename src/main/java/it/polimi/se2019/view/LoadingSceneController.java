@@ -63,9 +63,13 @@ public class LoadingSceneController implements Initializable {
         progressionBarGoal=0.0;
         labelProgress.setText("");
         (new Thread(new ProgressBarThread())).start();
+        newPlayersList();
     }
 
     public void newPlayersList(){
+        if(ViewModelGate.getModel()==null || ViewModelGate.getModel().getPlayers() == null || ViewModelGate.getModel().getPlayers().getPlayers() == null){
+            return;
+        }
         int numberOfConnection=ViewModelGate.getModel().getPlayers().getPlayers().size();
         if(numberOfConnection>=1 && !stackPaneUser1.getStyleClass().contains("User1Active")) {
             Platform.runLater(new SetUser1());
@@ -196,7 +200,7 @@ public class LoadingSceneController implements Initializable {
             try {
                 root = fxmlLoader.load();
             } catch (IOException e) {
-                GUIstarter.showError(this,"COULDN'T FIND: " +  getClass().getResource("/FXML/GAME2.fxml"), e);
+                GUIstarter.showError(this,"COULDN'T LOAD: " +  getClass().getResource("/FXML/GAME2.fxml"), e);
                 return;
             }
             GUIstarter.setStageController(fxmlLoader.getController());
