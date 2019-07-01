@@ -608,7 +608,7 @@ public class GameSceneController implements Initializable {
         double totalWidth = this.boardSection.getWidth();
         double totalHeight = this.boardSection.getHeight();
 
-        System.out.println("width: " + totalWidth + ", height: " + totalHeight);
+        //System.out.println("width: " + totalWidth + ", height: " + totalHeight);
 
         double topSpacing;
         double rightSpacing;
@@ -616,7 +616,7 @@ public class GameSceneController implements Initializable {
         double leftSpacing;
 
         if(totalWidth < (totalHeight)*((double)4/(double)3)){ //full width, calculate height
-            System.out.println("FULL WIDTH because:    totalWidth = " + totalWidth +"   <   (totalHeight*((double)4/(double)3)) = " + (totalHeight*((double)4/(double)3)));
+            //System.out.println("FULL WIDTH because:    totalWidth = " + totalWidth +"   <   (totalHeight*((double)4/(double)3)) = " + (totalHeight*((double)4/(double)3)));
             rightSpacing = 0.0;
             leftSpacing = 0.0;
 
@@ -626,7 +626,7 @@ public class GameSceneController implements Initializable {
             bottomSpacing = topSpacing;
         }
         else{ //full height, calculate width
-            System.out.println("FULL HEIGHT because:    totalWidth = " + totalWidth +"   >=   (totalHeight = " + totalHeight + ")*((double)4/(double)3)) = " + (totalHeight*((double)4/(double)3)));
+            //System.out.println("FULL HEIGHT because:    totalWidth = " + totalWidth +"   >=   (totalHeight = " + totalHeight + ")*((double)4/(double)3)) = " + (totalHeight*((double)4/(double)3)));
             topSpacing = 0.0;
             bottomSpacing = 0.0;
 
@@ -636,12 +636,12 @@ public class GameSceneController implements Initializable {
             leftSpacing = rightSpacing;
         }
 
-        System.out.println(
-                "top: " + topSpacing + "\n" +
-                "right: " + rightSpacing + "\n" +
-                "bottom: " + bottomSpacing + "\n" +
-                "left: " + leftSpacing
-        );
+        //System.out.println(
+        //        "top: " + topSpacing + "\n" +
+        //        "right: " + rightSpacing + "\n" +
+        //        "bottom: " + bottomSpacing + "\n" +
+        //        "left: " + leftSpacing
+        //);
 
         AnchorPane.setTopAnchor(this.boardBackGround, topSpacing);
         AnchorPane.setRightAnchor(this.boardBackGround,rightSpacing);
