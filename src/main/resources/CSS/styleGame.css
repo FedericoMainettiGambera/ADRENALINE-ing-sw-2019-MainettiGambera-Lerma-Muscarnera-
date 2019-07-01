@@ -264,6 +264,26 @@ SPECIFIC CLASSES
 .nicknameBackground{
     -fx-background-color: default-color;
 }
+
+.nicknameBackgroundGray{
+ -fx-background-color: gray;
+}
+
+.nicknameBackgroundYellow{
+-fx-background-color: yellow;}
+
+.nicknameBackgroundGreen{
+ -fx-background-color: green;
+ }
+
+.nicknameBackgroundPurple{
+ -fx-background-color: purple;
+}
+
+.nicknameBackgroundBlue{
+ -fx-background-color: blue;
+ }
+
 .nicknameStyle{
 }
 /*3.1.2[1,1]- player ammo box*/

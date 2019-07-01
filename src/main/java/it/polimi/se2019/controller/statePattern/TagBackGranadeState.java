@@ -53,6 +53,7 @@ public class TagBackGranadeState implements State{
     public void askForInput(Player nullPlayer) {
         //player to ask is null
         out.println("<SERVER> ("+ this.getClass() +") Asking the Player an input");
+
         if(!this.damagedPlayers.isEmpty()){
             setCurrentPlayer();
             //update the listOfTagbackGrenades
@@ -67,7 +68,7 @@ public class TagBackGranadeState implements State{
                 List<PowerUpCardV> listOfTagBackGranadesV=printAndTransformTagBack();
 
                 //check if he can see the shooting player
-                if(canSee(currentPlayer, shootingPlayer)) {
+                if(canSee(currentPlayer, shootingPlayer)){
                     try {
                         SelectorGate.getCorrectSelectorFor(currentPlayer).setPlayerToAsk(currentPlayer);
                         //ask him what TagBackgranade want to use or if he wants to "skip" the tagbackgranade state
@@ -85,7 +86,7 @@ public class TagBackGranadeState implements State{
             }
         }
         else{
-            out.println("<SERVER> ended asking to use Tagback granades to damaged players");
+            out.println("<SERVER> ended asking to use Tagback granedes to damaged players");
             passToNextState();
         }
     }
