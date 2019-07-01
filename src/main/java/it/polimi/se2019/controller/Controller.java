@@ -31,52 +31,64 @@ public class  Controller{
     private static final Logger logger= Logger.getLogger(Controller.class.getName());
     private static PrintWriter out= new PrintWriter(System.out, true);
 
+    /**the class for rmi that manages connections from the client side*/
     private static RmiNetworkHandler rmiNetworkHandler;
 
+    /**@return  rmiNetworkHandler*/
     public static RmiNetworkHandler getRmiNetworkHandler() {
         return rmiNetworkHandler;
     }
 
+    /**@param rmiNetworkHandler, above mentioned*/
     private static void setRmiNetworkHandler(RmiNetworkHandler rmiNetworkHandler) {
         Controller.rmiNetworkHandler = rmiNetworkHandler;
     }
 
+    /**indicates what kind of connection the user is using*/
     private static String networkConnection;
 
+    /**@return networkConnection, above mentioned*/
     public static String getNetworkConnection() {
         return networkConnection;
     }
 
+    /**@param networkConnection, above mentioned*/
     private static void setNetworkConnection(String networkConnection) {
         Controller.networkConnection = networkConnection;
     }
 
+    /**indicates what kind of user interface the client decided to use, GUI or CLI */
     private static String userInterface;
-
+    /**@return  GUI or CLI */
     public static String getUserInterface() {
         return userInterface;
     }
 
+    /**indicates the user's ip address */
     private static String ip;
 
+    /**@param ip address */
     private static void setIp(String ip) {
         Controller.ip = ip;
     }
-
+    /**@return  ip address */
     public static String getIp() {
         return ip;
     }
 
+    /**indicate the port of the client on which the connection is opened*/
     private static String port;
-
+    /**@return the port of the client on which the connection is opened*/
     public static String getPort() {
         return port;
     }
 
+    /**@param port of the client on which the connection is opened*/
     public static void setPort(String port) {
         Controller.port = port;
     }
 
+    /**function that starts the server with the possibility to connect to it either with rmi or socket underlying network*/
     static void startServerWithRMIAndSocket(){
 
         //initialize model
@@ -111,20 +123,28 @@ public class  Controller{
         ModelGate.model.registerVirtualView();
     }
 
+    /** start the game with the GUI interface, once opened it the user will be given the possibility to switch to CLI mode*/
      static void startClientSocketOrRMIWithGUI(){
         GUIstarter.begin();
     }
 
+    /**possibility to generate random choices*/
     private static boolean randomGame = false;
 
+    /**@return randomGame*/
     public static boolean isRandomGame() {
         return randomGame;
     }
-
+    /**@param randomGame above mentioned*/
     public static void setRandomGame(boolean randomGame) {
         Controller.randomGame = randomGame;
     }
-
+    /**creates the right view according to the user's will,
+     * @param ip needed to initialize both socket and rmi networkhandler
+     * @param networkConnection  needed to create the view and initialize the right NetworkHandler
+     * @param port needed to initialize the socket network handler
+     * @param userInterface needed to create the view and initialize both of the networkhandler
+     * @return boolean value that indicates if the connection attempt was successful*/
     public static boolean connect(String networkConnection, String userInterface, String ip, String port){
 
         setNetworkConnection(networkConnection);
@@ -160,6 +180,9 @@ public class  Controller{
 
 
 
+    /**allows the first interaction with the server in CLI,
+     * sending asked information in order to
+     * create a client*/
     public static void startClientSocketOrRMIWithCLI() {
         Scanner br = new Scanner(System.in);
 
