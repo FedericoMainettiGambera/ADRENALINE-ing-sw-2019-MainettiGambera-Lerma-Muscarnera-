@@ -94,6 +94,7 @@ public class WeaponCard extends Card implements Serializable {
                     this.setName(line);
                     ///*@*/ System.out.println("il nome e'"+ line);
                 }
+
                 if (line.equals("RELOAD COST")) {
                     String A = reader.readLine();    // colore
                     String B = reader.readLine();    // quantità
@@ -116,6 +117,9 @@ public class WeaponCard extends Card implements Serializable {
                 if (line.equals("EFFECT NAME")) {
                     line = reader.readLine();
                     effects.get(effects.size() - 1).setEffectName(line);
+                }
+                if(line.equals("MoveDuringEffect")) {
+                    effects.get(effects.size() - 1).setMoveDuringEffect(true);
                 }
 
                 if (line.equals("USAGE COST")) {

@@ -13,6 +13,16 @@ import static it.polimi.se2019.model.enumerations.EffectInfoType.*;
 
 /***/
 public class Effect implements Serializable {
+    public boolean isMoveDuringEffect() {
+        return MoveDuringEffect;
+    }
+
+    public void setMoveDuringEffect(boolean moveDuringEffect) {
+        MoveDuringEffect = moveDuringEffect;
+    }
+
+    private boolean MoveDuringEffect;
+
     public String getName() {
         return name;
     }
@@ -395,8 +405,8 @@ public class Effect implements Serializable {
                     if (back.equals(UsableInputTableRowType.typeSquare)) {
 
                         for (Object o : retVal.get(frontCounter).get(0)) {
-                            int X = ((Player) o).getPosition().getX();
-                            int Y = ((Player) o).getPosition().getY();
+                            int X = ((Player) o).getTemporaryPosition().getX();
+                            int Y = ((Player) o).getTemporaryPosition().getY();
 
                             o = this.getActions().get(0).getActionInfo().getActionContext().getBoard().getSquare(X, Y);
 
@@ -417,8 +427,15 @@ public class Effect implements Serializable {
                         System.out.println("front : square, back : player");
                         List<Object> newRow = new ArrayList<>();
                         for (Object o : retVal.get(frontCounter).get(0)) {
-                            int X = ((Player) o).getPosition().getX();
-                            int Y = ((Player) o).getPosition().getY();
+                            int X;
+                            int Y;
+                            if (this.MoveDuringEffect) {
+                                X = ((Player) o).getTemporaryPosition().getX();
+                                Y = ((Player) o).getTemporaryPosition().getY(); // TODO if it gives problems remove "Temporary"
+                            } else {
+                                X = ((Player) o).getTemporaryPosition().getX();
+                                Y = ((Player) o).getTemporaryPosition().getY(); // TODO if it gives problems remove "Temporary"
+                            }
                             Position pos = new Position(X, Y);
                             if (!newRow.contains(this.getActions().get(0).getActionInfo().getActionContext().getBoard().getSquare(X, Y)))
                                 newRow.add(this.getActions().get(0).getActionInfo().getActionContext().getBoard().getSquare(X, Y));
@@ -624,6 +641,7 @@ public class Effect implements Serializable {
 
     public Effect() {
         this.setName("Basic Effect");       // default name
+        this.setMoveDuringEffect(false);
         this.usageCost = new AmmoList();    // default cost ( zero )
         this.filledInputs = new ArrayList<>();
         this.actions = new ArrayList<Action>();
@@ -818,17 +836,7 @@ public class Effect implements Serializable {
                 // singleTarget select
 
                 if(e.getEffectInfoTypelist().toString().equals(singleTarget.toString())) {
-                    if(this.getActions().get(position).getClass().equals(Move.class)) {
-                        if( this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().getChosenSquare() != null )
-                        {
-                            // selezionato sia player che posizione
-                            Player target = (Player) (input[0]);
-                            target.setTemporaryPosition(
-                                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().getChosenSquare().getCoordinates()
-                            );
-                            System.out.println(target.getNickname() + " transitoriamente  in " + target.getTemporaryPosition().humanString());
-                        }
-                    }
+
                     System.out.println("-" + i);
                     this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setTarget(
                             (Player)(input[0])
@@ -890,9 +898,16 @@ public class Effect implements Serializable {
                     System.out.println("len " + this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard().size());
 
                     for(Player x: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
-
-                        if(x.getPosition().getY() == A.getCoordinates().getY())
-                            if(x.getPosition().getX() == A.getCoordinates().getX()) {
+                        int a,b;
+                        if(isMoveDuringEffect()) {
+                            a = x.getTemporaryPosition().getY();
+                            b = x.getTemporaryPosition().getY();
+                        } else {
+                            a = x.getPosition().getX();
+                            b = x.getPosition().getY();
+                        }
+                        if(a  == A.getCoordinates().getY())
+                            if(b == A.getCoordinates().getX()) {
 
                                 // ret.addPlayer(x);
                                 System.out.println("nome");
@@ -945,18 +960,6 @@ public class Effect implements Serializable {
                 }
                 // simpleSquareSelect
                 if(e.getEffectInfoTypelist().toString().equals(simpleSquareSelect.toString())) {
-                    if(this.getActions().get(position).getClass().equals(Move.class)) {
-                        if( this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList().size() != 0 )
-                        {
-                            // selezionato sia player che posizione
-                            Square square = (Square) (input[0]);
-                            Player target =  this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget();
-                            this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTarget().setTemporaryPosition(
-                                    square.getCoordinates()
-                            );
-                            System.out.println(target.getNickname() + " transitoriamente  in " + target.getTemporaryPosition().humanString());
-                        }
-                    }
                     this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().setChosenSquare((Square)input[0]);
                     for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
                         a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(input,"Square"));
@@ -1028,6 +1031,24 @@ public class Effect implements Serializable {
                     for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/
                         a.getActionInfo().getActionContext().getActionContextFilteredInputs().add(new ActionContextFilteredInput(adaptor,"Target"));
                 }
+                /** temporary position */
+
+                if(this.getActions().get(position).getClass().equals(Move.class)) {
+                    if( this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList().size() != 0 )
+                    {
+                        if(this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().getChosenSquare() != null) {
+
+                            for(Player t: this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList()) {
+                                t.setTemporaryPosition(
+                                        this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().getChosenSquare().getCoordinates()
+                                );
+                                System.out.println("sposto transitoriamente" + t.getNickname() + " da " + t.getPosition().humanString() + " a " + t.getTemporaryPosition().humanString());
+
+                            }
+
+                        }
+                    }
+                }
             }
             if(!(i == 0))
                 j++;
@@ -1043,6 +1064,7 @@ public class Effect implements Serializable {
 
     }
     public List<List<Player>> Exec() {
+
         List<List<Player>> retVal = new ArrayList<>();
 
         System.out.println("######## EXEC INIZIATA ###########");

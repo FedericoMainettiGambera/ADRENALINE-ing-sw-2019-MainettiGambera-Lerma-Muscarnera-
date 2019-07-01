@@ -178,7 +178,7 @@ public class Game extends Observable implements Serializable {
         int fileCount = Objects.requireNonNull(directory.list()).length;
         for(int i = 1; i< fileCount+1; i++) {
             try {
-                int id = /*1 + i %*/ 22;
+                int id = /*1 + i %*/ 19;
                 WeaponCard card= new WeaponCard("" + id);
                 card.reload();
                 tempWeaponDeck.addCard(card);
@@ -205,7 +205,8 @@ public class Game extends Observable implements Serializable {
                 for (int i = 1; i <= fileCount; i++) {
                     System.out.println("<SERVER> building powerUp cards ID: " + i);
                     try {
-                        PowerUpCard card = new PowerUpCard("" + i,idCounter);
+                        int id = i;
+                        PowerUpCard card = new PowerUpCard("" + id,idCounter);
                         card.setColor(color);
                         tempPowerUpDeck.addCard(card);
                         idCounter++;
