@@ -425,7 +425,6 @@ public class GameSceneController implements Initializable {
     @FXML private GridPane board; //  (4 x 3)
 
     //TODO not sure they arae really use full...
-    /*
     //first column
     @FXML private StackPane squareBackground00; //0,0
     @FXML private StackPane squareMainImage00;
@@ -454,7 +453,29 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane squareMainImage13;
     @FXML private StackPane squareBackground23; //2,3
     @FXML private StackPane squareMainImage23;
-    */
+
+    public StackPane[][] getBackgroundsMap(){
+        StackPane[][] backgroundMap = new StackPane[3][4];
+        backgroundMap[0][0] = this.squareBackground00;
+        backgroundMap[0][1] = this.squareBackground01;
+        backgroundMap[0][2] = this.squareBackground02;
+        backgroundMap[0][3] = this.squareBackground03;
+        backgroundMap[1][0] = this.squareBackground10;
+        backgroundMap[1][1] = this.squareBackground11;
+        backgroundMap[1][2] = this.squareBackground12;
+        backgroundMap[1][3] = this.squareBackground13;
+        backgroundMap[2][0] = this.squareBackground20;
+        backgroundMap[2][1] = this.squareBackground21;
+        backgroundMap[2][2] = this.squareBackground22;
+        backgroundMap[2][3] = this.squareBackground23;
+        return backgroundMap;
+    }
+
+    public StackPane[][] getMainImagesmap(){
+        StackPane[][] mainImageMap = new StackPane[3][4];
+        return mainImageMap;
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
