@@ -9,8 +9,8 @@ import it.polimi.se2019.view.GameSceneController;
 import it.polimi.se2019.view.LoadingSceneController;
 import it.polimi.se2019.view.components.*;
 import javafx.application.Platform;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -303,9 +303,11 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                 emptyDamages(i);
             }
             else {
-                for (DamageSlotV damageSlot : player.getDamageTracker().getDamageSlotsList()){
-                    addDamages(damageSlot,i);
-                    i++;
+                for(DamageSlotV damageSlot : player.getDamageTracker().getDamageSlotsList()){
+                    if(i<getGameSceneController().getDamagesMainImage().size()){
+                        addDamages(damageSlot, i);
+                        i++;
+                    }
                 }
                 if(i<getGameSceneController().getDamagesMainImage().size()){
                     emptyDamages(i);
@@ -316,7 +318,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
         /**set the damage image with the right css style class after having removed the previous one
          * @param i is to get the corresponding stack pane
-         * @param damageSlot is the markSlotV whose style is meant to be replaced*/
+         * @param damageSlot is the damageSlotV whose style is meant to be replaced*/
         private void addDamages(DamageSlotV damageSlot, int i){
 
             PlayersColors color = damageSlot.getShootingPlayerColor();
@@ -416,12 +418,15 @@ public class GUIOutputHandler implements OutputHandlerInterface {
          * @param markSlot is the markSlotV whose style is meant to be replaced*/
         private void setMarks(int i, MarkSlotV markSlot){
             PlayersColors color = ViewModelGate.getModel().getPlayers().getPlayer(markSlot.getMarkingPlayer()).getColor();
+            ((Label)(getGameSceneController().getMarkMainImage().get(i).getChildren().get(0))).setText(Integer.toString(markSlot.getQuantity()));
 
             switch (color) {
-                case blue:removePrevious(getGameSceneController().getMarkMainImage().get(i));
-                    (getGameSceneController().getMarkMainImage().get(i).getStyleClass()).add("markBlue");
-                    break;
-                case purple:removePrevious(getGameSceneController().getMarkMainImage().get(i));
+                case blue:
+                        removePrevious(getGameSceneController().getMarkMainImage().get(i));
+                       (getGameSceneController().getMarkMainImage().get(i).getStyleClass()).add("markBlue");
+                   break;
+                case
+                        purple:removePrevious(getGameSceneController().getMarkMainImage().get(i));
                     (getGameSceneController().getMarkMainImage().get(i).getStyleClass()).add("markPurple");
                     break;
                 case gray:removePrevious(getGameSceneController().getMarkMainImage().get(i));
@@ -605,7 +610,6 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                 default:
                     for (AmmoCubesColor colors : AmmoCubesColor.values()){
                         for (StackPane ammo : getGameSceneController().getAmmosMainImage(colors)){
-
                             removePrevious(ammo);
                             ammo.getStyleClass().add("emptyAmmo");
                         }
@@ -625,30 +629,38 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             for(AmmoCubesV ammo : player.getAmmoBox().getAmmoCubesList()){
                 AmmoCubesColor color = ammo.getColor();
                 switch (color){
-                    case blue:removePrevious(getGameSceneController().getAmmosMainImage(color).get(b));
-                        (getGameSceneController().getAmmosMainImage(color).get(b).getStyleClass()).add("ammoBlue");
-                        b++;
+                    case blue:
+                        while(b<ammo.getQuantity()){
+                            removePrevious(getGameSceneController().getAmmosMainImage(color).get(b));
+                            (getGameSceneController().getAmmosMainImage(color).get(b).getStyleClass()).add("ammoBlue");
+                            b++;
+                        }
                         break;
                     case red:
-                        removePrevious(getGameSceneController().getAmmosMainImage(color).get(r));
-                        (getGameSceneController().getAmmosMainImage(color).get(r).getStyleClass()).add("ammoRed");
-                        r++;
+                        while(r<ammo.getQuantity()) {
+                            removePrevious(getGameSceneController().getAmmosMainImage(color).get(r));
+                            (getGameSceneController().getAmmosMainImage(color).get(r).getStyleClass()).add("ammoRed");
+                            r++;
+                        }
                         break;
-                    case yellow:removePrevious(getGameSceneController().getAmmosMainImage(color).get(y));
-                        (getGameSceneController().getAmmosMainImage(color).get(y).getStyleClass()).add("ammoYellow");
-                        y++;
+                    case yellow:
+                        while(y<ammo.getQuantity()) {
+                            removePrevious(getGameSceneController().getAmmosMainImage(color).get(y));
+                            (getGameSceneController().getAmmosMainImage(color).get(y).getStyleClass()).add("ammoYellow");
+                            y++;
+                        }
                         break;
                     default:
                         break;
                 }
             }
-            if(b<getGameSceneController().getAmmosMainImage(AmmoCubesColor.blue).size()){
+            if(b<getGameSceneController().getAmmosMainImage(AmmoCubesColor.blue).size()-1){
                 emptyAmmos(b, "blue");
             }
-            if(r<getGameSceneController().getAmmosMainImage(AmmoCubesColor.red).size()){
+            if(r<getGameSceneController().getAmmosMainImage(AmmoCubesColor.red).size()-1){
                 emptyAmmos(r, "red");
             }
-            if(y<getGameSceneController().getAmmosMainImage(AmmoCubesColor.yellow).size()){
+            if(y<getGameSceneController().getAmmosMainImage(AmmoCubesColor.yellow).size()-1){
                 emptyAmmos(y, "yellow");
             }
 

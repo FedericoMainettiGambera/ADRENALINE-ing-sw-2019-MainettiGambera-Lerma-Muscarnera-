@@ -65,7 +65,7 @@ public class ShootPeopleAskForInputState implements State {
 
         EffectInfoType inputType = this.chosenEffect.getEffectInfo().getEffectInfoElement().get(inputRequestCounterF).getEffectInfoTypelist();
 
-        if(isToSend(inputType)) {
+        if(isToSend(inputType)){
             try {
                 out.println("<SERVER> sending the player a" + inputType + "with the possible options.");
 

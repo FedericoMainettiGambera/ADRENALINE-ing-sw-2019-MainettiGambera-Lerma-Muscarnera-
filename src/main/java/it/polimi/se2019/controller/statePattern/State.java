@@ -3,73 +3,13 @@ package it.polimi.se2019.controller.statePattern;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 
+/**state interface, offers three methods*/
 public interface State {
-    public void askForInput(Player playerToAsk);
 
-    public void doAction(ViewControllerEvent VCE);
-
-    public void handleAFK();
+    /**@param playerToAsk the player to be asked the input*/
+     void askForInput(Player playerToAsk);
+     /**@param viewControllerEvent the event with information from the user as response to the askForInput*/
+     void doAction(ViewControllerEvent viewControllerEvent);
+     /**method implemented to set player AFKs under given circumstances*/
+     void handleAFK();
 }
-
-/* The state pattern can access the model using:
- * ModelGame.model.whateverYouNeed()
- * */
-
-/* The state pattern can set the next State like this:
- * ViewControllerEventHandlerContext.setNextState(new nextState());
- * */
-
-/* TEMPLATE :
-package ...
-
-import it.polimi.se2019.controller.ModelGate;
-import it.polimi.se2019.controller.SelectorGate;
-import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
-import it.polimi.se2019.controller.WaitForPlayerInput;
-import it.polimi.se2019.model.Player;
-import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
-
-import java.io.PrintWriter;
-import java.util.logging.Logger;
-
-public class classState implements State{
-    private static PrintWriter out= new PrintWriter(System.out, true);
-    private static final Logger logger = Logger.getLogger(TurnState.class.getName());
-
-    private Player playerToAsk;
-
-    private Thread inputTimer;
-
-    public classState(){
-        out.println("<SERVER> New state: " + this.getClass());
-    }
-
-    @Override
-    public void askForInput(Player playerToAsk) {
-        this.playerToAsk = playerToAsk;
-        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
-
-        //ask for input + start timer
-    }
-
-    @Override
-    public void doAction(ViewControllerEvent VCE) {
-        this.inputTimer.interrupt();
-        out.println("<SERVER> player has answered before the timer ended.");
-
-        out.println("<SERVER> "+ this.getClass() +".doAction();");
-
-        //parse VCE
-
-        //DO STUFF
-    }
-
-    @Override
-    public void handleAFK() {
-        this.playerToAsk.setAFKWithNotify(true);
-        out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
-
-        //handle case timer ends before player answers
-    }
-}
-*/

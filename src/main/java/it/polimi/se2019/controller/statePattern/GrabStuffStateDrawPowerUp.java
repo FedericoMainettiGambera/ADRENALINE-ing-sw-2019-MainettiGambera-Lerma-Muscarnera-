@@ -32,13 +32,8 @@ public class GrabStuffStateDrawPowerUp implements State {
      * less than two*/
     @Override
     public void doAction(ViewControllerEvent viewControllerEvent) {
-        out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        out.println("<SERVER> The ammo card makes the player draw a power up");
-        ModelGate.model.getPowerUpDeck().moveCardTo(
-                ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand(),
-                ModelGate.model.getPowerUpDeck().getFirstCard().getID()
-        );
+        makeThePlayerDraw();
 
         //set next state
         State state = null;
@@ -57,11 +52,23 @@ public class GrabStuffStateDrawPowerUp implements State {
         ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
     }
 
+    /**this function make the player draw a power up*/
+    public void makeThePlayerDraw(){
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
+        out.println("<SERVER> The ammo card makes the player draw a power up");
+        ModelGate.model.getPowerUpDeck().moveCardTo(
+                ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand(),
+                ModelGate.model.getPowerUpDeck().getFirstCard().getID()
+        );
+
+    }
+
     /**
      * theorically sets the player AFK in case they don't send required input in a while
      * here we have no input so we'll find out in the next state
      * */
     @Override
     public void handleAFK() {
+       //empty for now
     }
 }
