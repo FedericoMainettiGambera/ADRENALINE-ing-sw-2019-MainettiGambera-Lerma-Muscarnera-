@@ -33,21 +33,11 @@ public class  Controller{
 
     private static RmiNetworkHandler rmiNetworkHandler;
 
-    private static SocketNetworkHandler socketNetworkHandler;
-
-    public static SocketNetworkHandler getSocketNetworkHandler() {
-        return socketNetworkHandler;
-    }
-
-    private static void setSocketNetworkHandler(SocketNetworkHandler socketNetworkHandler) {
-        Controller.socketNetworkHandler = socketNetworkHandler;
-    }
-
     public static RmiNetworkHandler getRmiNetworkHandler() {
         return rmiNetworkHandler;
     }
 
-    public static void setRmiNetworkHandler(RmiNetworkHandler rmiNetworkHandler) {
+    private static void setRmiNetworkHandler(RmiNetworkHandler rmiNetworkHandler) {
         Controller.rmiNetworkHandler = rmiNetworkHandler;
     }
 
@@ -141,14 +131,9 @@ public class  Controller{
         Controller.setIp(ip);
         Controller.setPort(port);
         Controller.userInterface = userInterface;
-        View view;
+        View view=new View(networkConnection, userInterface);
+
         if(networkConnection.equalsIgnoreCase("rmi")){
-            if(userInterface.equalsIgnoreCase("GUI")){
-                view = new View("rmi", "GUI");
-            }
-            else {
-                view = new View("rmi", "CLI");
-            }
             try {
                  setRmiNetworkHandler(new RmiNetworkHandler(ip, Integer.parseInt(port), view));
             } catch (IOException e) {
@@ -157,15 +142,9 @@ public class  Controller{
             }
         }
         else {
-            if(userInterface.equalsIgnoreCase("GUI")){
-                view = new View("SOCKET", "GUI");
-            }
-            else {
-                view = new View("SOCKET", "CLI");
-            }
 
             try{
-                setSocketNetworkHandler(new SocketNetworkHandler(InetAddress.getByName(ip), Integer.parseInt(port), view));
+                new SocketNetworkHandler(InetAddress.getByName(ip), Integer.parseInt(port), view);
             }
             catch (NumberFormatException|  IOException e){
                 if(userInterface.equalsIgnoreCase("GUI")){
