@@ -20,6 +20,16 @@ public class PlayersListV implements Serializable {
         return players;
     }
 
+    public PlayerV getPlayer(String nickame){
+        for (PlayerV player:players){
+
+            if(player.getNickname().equals(nickame)){
+                return player;
+            }
+        }
+    return null;
+    }
+
     public String getCurrentPlayingPlayer() {
         return currentPlayingPlayer;
     }
