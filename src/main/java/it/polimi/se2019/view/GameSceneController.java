@@ -3,14 +3,15 @@ package it.polimi.se2019.view;
 import it.polimi.se2019.controller.Controller;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.events.Event;
+import it.polimi.se2019.view.outputHandler.GUIOutputHandler;
 import it.polimi.se2019.view.selector.ViewSelector;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.*;
+import javafx.scene.text.TextFlow;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -27,45 +28,46 @@ public class GameSceneController implements Initializable {
 
     //------------------------------------------------------------------
     //interactive section
-    @FXML
-    private VBox interactiveSection;
+    @FXML private VBox interactiveSection;
 
 
     //------------------------------1
     //1-selector section
-    @FXML
-    private AnchorPane selectorSection;
+    @FXML private AnchorPane selectorSection;
     @FXML private Label selectorLabel;
     //create at run time... TODO.
 
     //------------------------------2
     //2-information section
-    @FXML
-    private AnchorPane informationSection;
+    @FXML private AnchorPane informationSection;
     //create at run time... TODO.
 
 
     //------------------------------------------------------------------
     //game section
-    @FXML
-    private AnchorPane gameSection;
+    @FXML private AnchorPane gameSection;
 
 
     //------------------------------1
     //1-state section
-    @FXML
-    private AnchorPane stateSection;
-    @FXML private Label stateLabel;
-    //... TODO.
+    @FXML private AnchorPane stateSection;
+    @FXML private Label connection;
+    @FXML private Label ip;
+    @FXML private Label port;
+    @FXML private Label stateTitle;
+    @FXML private TextFlow stateDescription;
+
+    @FXML private ProgressIndicator progressIndicator;
+    public ProgressIndicator getProgressIndicator(){
+        return this.progressIndicator;
+    }
 
 
     //------------------------------2
     //2-killshot track section
-    @FXML
-    private AnchorPane killshotTrackSection;
+    @FXML private AnchorPane killshotTrackSection;
     //2.1-killshot track VBox
-    @FXML
-    private VBox killshotTrackVBox;
+    @FXML private VBox killshotTrackVBox;
 
     public StackPane getKillBackground1() {
         return killBackground1;
@@ -161,16 +163,13 @@ public class GameSceneController implements Initializable {
 
     //------------------------------3
     //3-player section
-    @FXML
-    private AnchorPane playerSection;
+    @FXML private AnchorPane playerSection;
 
     //3.1-player HBox
-    @FXML
-    private HBox playerHBox;
+    @FXML private HBox playerHBox;
 
     //3.1.1-players power up cards
-    @FXML
-    private VBox powerUpCardsVBox;
+    @FXML private VBox powerUpCardsVBox;
     //3.1.1.1-power up cards title
     @FXML private StackPane powerUpCardsTitle;
     //3.1.1.2-power up cards images
@@ -188,8 +187,7 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane powerUpCardMainImage2;
 
     //3.1.2-player main statistics
-    @FXML
-    private GridPane playerStats;
+    @FXML private GridPane playerStats;
 
     //3.1.2[0,0]- players marks
     /**each one of this stack pane contain a markImage, for each slot, 4 in total, there is a mark main image stack pane and
@@ -203,8 +201,6 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane mainImageMark3;
     @FXML private StackPane backgroundMark4;
     @FXML private StackPane mainImageMark4;
-    @FXML private StackPane backgroundMark5;
-    @FXML private StackPane mainImageMark5;
 
     /**@return marksMainImage*/
     public List<StackPane> getMarkMainImage(){
@@ -400,8 +396,7 @@ public class GameSceneController implements Initializable {
     }
 
     //3.1.3-player weapon cards
-    @FXML
-    private VBox weaponCardsVBox;
+    @FXML private VBox weaponCardsVBox;
     //3.1.3.1-weapon cards title
     @FXML private StackPane weaponCardsTitle;
     //3.1.3.2-weapon cards images
@@ -430,6 +425,7 @@ public class GameSceneController implements Initializable {
     @FXML private GridPane board; //  (4 x 3)
 
     //TODO not sure they arae really use full...
+    /*
     //first column
     @FXML private StackPane squareBackground00; //0,0
     @FXML private StackPane squareMainImage00;
@@ -458,7 +454,7 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane squareMainImage13;
     @FXML private StackPane squareBackground23; //2,3
     @FXML private StackPane squareMainImage23;
-
+    */
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -474,6 +470,8 @@ public class GameSceneController implements Initializable {
         //making board auto-resize
         makeBoardAutoResizing();
 
+        //initialize progress indicator for the timer
+        this.progressIndicator.setProgress(0.0);
 
         //killshot track default css classes
         this.killshotTrackSection.getStyleClass().add("emptyKillShotTrackBackground");
@@ -516,12 +514,10 @@ public class GameSceneController implements Initializable {
         this.backgroundMark2.getStyleClass().add(markBackGround);
         this.backgroundMark3.getStyleClass().add(markBackGround);
         this.backgroundMark4.getStyleClass().add(markBackGround);
-        this.backgroundMark5.getStyleClass().add(markBackGround);
         this.mainImageMark1.getStyleClass().add(markBackGround);
         this.mainImageMark2.getStyleClass().add(markEmpty);
         this.mainImageMark3.getStyleClass().add(markEmpty);
         this.mainImageMark4.getStyleClass().add(markEmpty);
-        this.mainImageMark5.getStyleClass().add(markEmpty);
         //damage and deaths
         this.playerDamagesAndDeathsVBox.getStyleClass().add("playerDamageAndDeathsBackground");
         //damage
