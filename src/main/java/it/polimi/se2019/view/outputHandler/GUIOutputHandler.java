@@ -737,14 +737,38 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             if (ViewModelGate.getModel() != null && ViewModelGate.getModel().getBoard() != null && ViewModelGate.getModel().getBoard().getMap() != null) {
                 SquareV[][] map = ViewModelGate.getModel().getBoard().getMap();
                 StackPane[][] backgroundMap = getGameSceneController().getBackgroundsMap();
-                StackPane[][] mainImages = getGameSceneController().getMainImagesmap();
+                StackPane[][] mainImagesMap = getGameSceneController().getMainImagesmap();
                 for (int i = 0; i < map.length; i++) { //map.length == 3
                     for (int j = 0; j < map[0].length; j++) { // map[0].lenght == 4
-
+                        SquareV currentSquareV = map[i][j];
+                        StackPane currentBackGroundSquare = backgroundMap[i][j];
+                        StackPane currentMainImageSquare = mainImagesMap[i][j];
+                        if(currentSquareV==null){
+                            //empty square
+                            showEmptySquare(currentBackGroundSquare, currentMainImageSquare);
+                        }
+                        else if(currentSquareV.getClass().toString().contains("NormalSquare")){
+                            //normal square
+                            showNormalSquare(currentBackGroundSquare, currentMainImageSquare);
+                        }
+                        else{
+                            //spawn point square
+                            showSpawnPoint(currentBackGroundSquare, currentMainImageSquare);
+                        }
                     }
                 }
             }
         }
+        private void showEmptySquare(StackPane background, StackPane mainImage){
+
+        }
+        private void showNormalSquare(StackPane background, StackPane mainImage){
+
+        }
+        private void showSpawnPoint(StackPane background, StackPane mainImage){
+            
+        }
+
     }
 
     private void updateStateBar() {
