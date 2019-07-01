@@ -1,6 +1,5 @@
 package it.polimi.se2019.view.outputHandler;
 
-import it.polimi.se2019.model.AmmoCubes;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
@@ -12,57 +11,257 @@ import it.polimi.se2019.view.components.*;
 import javafx.application.Platform;
 import javafx.scene.layout.StackPane;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
 public class GUIOutputHandler implements OutputHandlerInterface {
-    private void updateKillShotTrack() {
-        // prendi le informazioni da view.modelGate
-        /*
-         * viewModelGate.getModel()
-         *                           entri nel model letteralmente
-         * viewModelGate.getMe()
-         *                           stringa che rappresenta il nick name del player corrente
-         * */
-        // dopo che hai fatto l'accesso alla struttura dati devi aggiornare la grafica
-        /*
-         * getGameSceneController()
-         *                           ti ritorna il controller con cui puoi modificare la grafica
-         *                           ES.
-         *                           getGameSceneController().getKillBackground1().getStyleClass()
-         *
-         *                           ritorna il puntatore alle classi css dell oggetto KillBackground1
-         *  */
+    // prendi le informazioni da view.modelGate
+    /*
+     * viewModelGate.getModel()
+     *                           entri nel model letteralmente
+     * viewModelGate.getMe()
+     *                           stringa che rappresenta il nick name del player corrente
+     * */
+    // dopo che hai fatto l'accesso alla struttura dati devi aggiornare la grafica
+    /*
+     * getGameSceneController()
+     *                           ti ritorna il controller con cui puoi modificare la grafica
+     *                           ES.
+     *                           getGameSceneController().getKillBackground1().getStyleClass()
+     *
+     *                           ritorna il puntatore alle classi css dell oggetto KillBackground1
+     *  */
 
-        /*
-         * creo la lista di kills
-         * per ogni kill %n% nella lista di kills
-         *       aggiorna la css class in gekKillMainImage %n%
-         * */
-        // tutte le update devono lavorare tramite thread
-        // creo una classe con lo stesso nome del metodo
-        // es.
-        //
-        // private void update%xxx% () {
-        //      Platform.runLater( () -> {
-        //      controllo con viewModelGate
-        //      getGameSceneController().metodidicambiamentodellascena1(...)
-        //      getGameSceneController().metodidicambiamentodellascena2(...)
-        //      ...
-        //      getGameSceneController().metodidicambiamentodellascenan(...)
-        //      })
-        // }
-        // }
-    }                               // luca
+    /*
+     * creo la lista di kills
+     * per ogni kill %n% nella lista di kills
+     *       aggiorna la css class in gekKillMainImage %n%
+     * */
+    // tutte le update devono lavorare tramite thread
+    // creo una classe con lo stesso nome del metodo
+    // es.
+    //
+    // private void update%xxx% () {
+    //      Platform.runLater( () -> {
+    //      controllo con viewModelGate
+    //      getGameSceneController().metodidicambiamentodellascena1(...)
+    //      getGameSceneController().metodidicambiamentodellascena2(...)
+    //      ...
+    //      getGameSceneController().metodidicambiamentodellascenan(...)
+    //      })
+    // }
+    // }
+    /**********************************/
+    /**** Update of kill shot track  **/            /*  LUCA  */
+    /**********************************/
+
+    private void updateKillShotTrack() {
+        (new Thread(new UpdateKillShotTrack())).start();
+    }
+    private class UpdateKillShotTrack implements Runnable{
+        @Override
+        /** */
+        public void run() {
+            Platform.runLater(
+                    this::runner
+            );
+        }
+        /** Private methods         */
+        /**         Specific        */
+        private String colorToString(PlayersColors color) {
+            String stringColor = "";
+            switch (color)
+            {
+                case blue:
+                    stringColor = "Blue";
+                    break;
+                case green:
+                    stringColor = "Green";
+                    break;
+                case yellow:
+                    stringColor = "Yellow";
+                    break;
+                case gray:
+                    stringColor = "Gray";
+                    break;
+                case purple:
+                    stringColor = "Purple";
+                    break;
+            }
+            return stringColor;
+        }
+        private void setSkull(StackPane target)
+        {
+            target.getStyleClass().add("skull");
+        }
+        private void setKill(StackPane target,PlayersColors color)
+        {
+
+            target.getStyleClass().add("kill" + colorToString(color));
+        }
+        private void setOverKill(StackPane target, PlayersColors color)
+        {
+
+            target.getStyleClass().add("overKill" + colorToString(color));
+        }
+        /**         General         */
+        private void removePrevious(StackPane target) {      // removePrevious(%1%,%2%,...,%n%)
+            target.getStyleClass().remove("skull");
+
+            target.getStyleClass().remove("killGreen");
+            target.getStyleClass().remove("killPurple");
+            target.getStyleClass().remove("killYellow");
+            target.getStyleClass().remove("killGray");
+            target.getStyleClass().remove("killBlue");
+
+            target.getStyleClass().remove("overKillGreen");
+            target.getStyleClass().remove("overKillPurple");
+            target.getStyleClass().remove("overKillYellow");
+            target.getStyleClass().remove("overKillGray");
+            target.getStyleClass().remove("overKillBlue");
+        }
+
+        private void runner() {
+            /* load lists */
+                List<KillsV> kills = ViewModelGate.getModel().getKillshotTrack().getKillsV();
+                List<StackPane> killSlots = new ArrayList<>();
+            /* check if killShotTrack is initalized */
+            if ( kills != null) {
+                /* fill stackPane list */
+                                    killSlots.add(getGameSceneController().getKillMainImage1());
+                                    killSlots.add(getGameSceneController().getKillMainImage2());
+                                    killSlots.add(getGameSceneController().getKillMainImage3());
+                                    killSlots.add(getGameSceneController().getKillMainImage4());
+                                    killSlots.add(getGameSceneController().getKillMainImage5());
+                                    killSlots.add(getGameSceneController().getKillMainImage6());
+                                    killSlots.add(getGameSceneController().getKillMainImage7());
+                                    killSlots.add(getGameSceneController().getKillMainImage8());
+                /* for every killsV    */
+                                    for(int k = 0;k < kills.size();k++) {
+                                        KillsV    currentKill       = kills.get(k);
+                                        StackPane currentKillSlot   = killSlots.get(k);
+                                            if(currentKill.isSkull()) {
+                                                    // la current kill è uno skull
+
+                                                       removePrevious(currentKillSlot);
+
+                                                       setSkull(currentKillSlot) ;
+
+                                            } else {
+                                                   if(!currentKill.isOverKill()) {
+                                                   //   la current kill è un kill
+                                                       removePrevious(currentKillSlot);
+                                                       PlayersColors color =  ViewModelGate.getModel().getPlayers().getPlayer(currentKill.getKillingPlayer()).getColor();
+                                                       setKill(currentKillSlot,color);
+                                                                                 }  else  {
+                                                   //   la current kill è una overkill
+                                                       removePrevious(currentKillSlot);
+                                                       PlayersColors color =  ViewModelGate.getModel().getPlayers().getPlayer(currentKill.getKillingPlayer()).getColor();
+                                                       setOverKill(currentKillSlot, color);
+                                                                                          }
+
+                                                   }
+
+                                    }
+
+                                }
+        }
+    }
     private void updatePlayer()    {
         updatePowerUpCards();
         updateWeaponCards();
         updatePlayerBoard();
     }                                   // ...
-    private void updatePowerUpCards(){
 
-    }                                // luca
-    private void updateWeaponCards() {}                                 // luca
+    /** */
+    private void updatePowerUpCards(){  // luca
+        (new Thread(new UpdatePowerUpCards())).start();
+    }
+    private class UpdatePowerUpCards implements  Runnable {
+        @Override
+        public void run() {
+            Platform.runLater(this::runner);
+        }
+        /***/
+        private void removePrevious(StackPane target) {
+            int numberOfCards = 4;
+            for(int i = 1; i < numberOfCards ; i++) {
+                target.getStyleClass().remove("powerUpCard" + i);
+            }
+        }
+        /***/
+        private void runner() {
+            PlayerV me = ViewModelGate.getModel().getPlayers().getPlayer(
+                    ViewModelGate.getMe()
+            );
+
+            OrderedCardListV<PowerUpCardV> powerUpCards = me.getPowerUpCardInHand();
+            if(powerUpCards != null)
+            {
+                // verified weaponCards is not null
+                // initialize stackPaneList
+
+                List<StackPane> powerStackPanes = new ArrayList<>();
+
+                powerStackPanes.add(getGameSceneController().getPowerUpCardMainImage1());
+                powerStackPanes.add(getGameSceneController().getPowerUpCardMainImage2());
+
+                for(int p = 0; p < powerUpCards.getCards().size();p++) {
+                    PowerUpCardV currentW = powerUpCards.getCards().get(p);
+                    StackPane   currentStackPane = powerStackPanes.get(p);
+                    removePrevious(currentStackPane);
+                    currentStackPane.getStyleClass().add("powerUpCard" + currentW.getID());
+                }
+
+            }
+        }
+    }
+    /** */
+    private void updateWeaponCards() {
+        (new Thread(new UpdateWeaponCards())).start();
+    }
+    private class UpdateWeaponCards implements Runnable {
+        @Override
+        public void run() {
+            Platform.runLater(this::runner);
+        }
+        /***/
+        private void removePrevious(StackPane target) {
+            int numberOfCards = 21;
+            for(int i = 1; i < numberOfCards ; i++) {
+                target.getStyleClass().remove("weaponCard" + i);
+            }
+        }
+        /***/
+        private void runner() {
+            PlayerV me = ViewModelGate.getModel().getPlayers().getPlayer(
+                    ViewModelGate.getMe()
+            );
+
+            OrderedCardListV<WeaponCardV> weaponCards = me.getWeaponCardInHand();
+            if(weaponCards != null)
+            {
+                // verified weaponCards is not null
+                // initialize stackPaneList
+
+                List<StackPane> weaponStackPanes = new ArrayList<>();
+
+                weaponStackPanes.add(getGameSceneController().getWeaponCardMainImage1());
+                weaponStackPanes.add(getGameSceneController().getWeaponCardMainImage2());
+                weaponStackPanes.add(getGameSceneController().getWeaponCardMainImage3());
+
+                for(int w = 0; w < weaponCards.getCards().size();w++) {
+                    WeaponCardV currentW = weaponCards.getCards().get(w);
+                    StackPane   currentStackPane = weaponStackPanes.get(w);
+                    removePrevious(currentStackPane);
+                    currentStackPane.getStyleClass().add("weaponCard" + currentW.getID());
+                }
+
+            }
+        }
+    }
     private void updatePlayerBoard() {
         updateDamage();
         updateMarks();
@@ -417,7 +616,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     /*TODO*/
     private void updateMap()   {}
     private void updateStateBar() {}
-
+    /* end TODO*/
     private GameSceneController getGameSceneController() {
         return ((GameSceneController) GUIstarter.getStageController());
     }

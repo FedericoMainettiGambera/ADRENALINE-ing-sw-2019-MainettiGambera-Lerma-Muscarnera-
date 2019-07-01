@@ -306,5 +306,82 @@ SPECIFIC CLASSES
 .emptyWeaponCardMainImage{
     -fx-background-color: empty-color;
 }
+/*example class for weaponCard */
+.weaponCard1{
+    -fx-background-color: rgba(255,0,0,1);
+}
+.weaponCard2{
+    -fx-background-color: rgba(255,20,0,1);
+}
+.weaponCard3{
+    -fx-background-color: rgba(255,40,0,1);
+}
+.weaponCard4{
+    -fx-background-color: rgba(255,60,0,1);
+}
+.weaponCard5{
+     -fx-background-color: rgba(255,80,0,1);
+ }
+.weaponCard6{
+     -fx-background-color: rgba(255,100,0,1);
+ }
+.weaponCard7{
+     -fx-background-color: rgba(255,120,0,1);
+ }
+.weaponCard8{
+     -fx-background-color: rgba(255,140,0,1);
+ }
+.weaponCard9{
+    -fx-background-color: rgba(255,160,0,1);
+}
+.weaponCard10{
+    -fx-background-color: rgba(255,180,0,1);
+}
+.weaponCard11{
+    -fx-background-color: rgba(255,200,0,1);
+}
+.weaponCard12{
+    -fx-background-color: rgba(255,220,0,1);
+}
+.weaponCard13{
+     -fx-background-color: rgba(255,240,0,1);
+ }
+.weaponCard14{
+     -fx-background-color: rgba(255,240,20,1);
+ }
+.weaponCard15{
+     -fx-background-color: rgba(255,240,40,1);
+ }
+.weaponCard16{
+     -fx-background-color: rgba(255,240,60,1);
+ }
+.weaponCard17{
+    -fx-background-color: rgba(255,240,80,1);
+}
+.weaponCard18{
+    -fx-background-color: rgba(255,240,100,1);
+}
+.weaponCard19{
+    -fx-background-color: rgba(255,240,120,1);
+}
+.weaponCard20{
+    -fx-background-color: rgba(255,240,140,1);
+}
+.weaponCard21{
+     -fx-background-color: rgba(255,240,160,1);
+ }
+ /*example class for powerUp */
+.powerUpCard1{
+    -fx-background-color: rgba(0,240,100,1);
+}
+.powerUpCard2{
+    -fx-background-color: rgba(0,240,120,1);
+}
+.powerUpCard3{
+    -fx-background-color: rgba(0,240,140,1);
+}
+.powerUpCard4{
+     -fx-background-color: rgba(0,240,160,1);
+ }
 /*------------------------------3*/
 /*4-board section*/
