@@ -110,34 +110,34 @@ SPECIFIC CLASSES
     -fx-background-color: notempty-color;
 }
 .killGreen{
-    -fx-background-color: notempty-color;
+    -fx-background-color: green;
 }
 .overKillGreen{
-    -fx-background-color: notempty-color;
+    -fx-background-color: green;
 }
 .killYellow{
-    -fx-background-color: notempty-color;
+    -fx-background-color: yellow;
 }
 .overKillYellow{
-    -fx-background-color: notempty-color;
+    -fx-background-color: yellow;
 }
 .killBlue{
-    -fx-background-color: notempty-color;
+    -fx-background-color: blue;
 }
 .overKillBlue{
-    -fx-background-color: notempty-color;
+    -fx-background-color: blue;
 }
 .killGray{
-    -fx-background-color: notempty-color;
+    -fx-background-color: gray;
 }
 .overKillGray{
-    -fx-background-color: notempty-color;
+    -fx-background-color: gray;
 }
 .killPurple{
-    -fx-background-color: notempty-color;
+    -fx-background-color: purple;
 }
 .overKillPurple{
-    -fx-background-color: notempty-color;
+    -fx-background-color: purple;
 }
 /*------------------------------3*/
 /*3-player section*/
@@ -181,19 +181,19 @@ SPECIFIC CLASSES
     -fx-background-color: default-color;
 }
 .markGreen{
-    -fx-background-color: notempty-color;
+    -fx-background-color: green;
 }
 .markYellow{
-    -fx-background-color: notempty-color;
+    -fx-background-color: yellow;
 }
 .markBlue{
-    -fx-background-color: notempty-color;
+    -fx-background-color: blue;
 }
 .markPurple{
-    -fx-background-color: notempty-color;
+    -fx-background-color: purple;
 }
 .markGray{
-    -fx-background-color: notempty-color;
+    -fx-background-color: gray;
 }
 .markEmpty{
     -fx-background-color: notempty-color;
@@ -228,19 +228,19 @@ SPECIFIC CLASSES
     -fx-background-color: default-color;
 }
 .damageGreen{
-    -fx-background-color: notempty-color;
+    -fx-background-color: green;
 }
 .damageYellow{
-    -fx-background-color: notempty-color;
+    -fx-background-color: yellow;
 }
 .damageBlue{
-    -fx-background-color: notempty-color;
+    -fx-background-color: blue;
 }
 .damagePurple{
-    -fx-background-color: notempty-color;
+    -fx-background-color: purple;
 }
 .damageGray{
-    -fx-background-color: notempty-color;
+    -fx-background-color: gray;
 }
 .damageEmpty{
     -fx-background-color: empty-color;
@@ -277,13 +277,13 @@ SPECIFIC CLASSES
     -fx-background-color: empty-color;
 }
 .ammoRed{
-    -fx-background-color: notempty-color;
+    -fx-background-color: red;
 }
 .ammoBlue{
-    -fx-background-color: notempty-color;
+    -fx-background-color: blue;
 }
 .ammoYellow{
-    -fx-background-color: notempty-color;
+    -fx-background-color: yellow;
 }
 /*3.1.3-player weapon cards*/
 .weaponCardsBackground{
