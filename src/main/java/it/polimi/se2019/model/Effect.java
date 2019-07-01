@@ -429,12 +429,12 @@ public class Effect implements Serializable {
                         for (Object o : retVal.get(frontCounter).get(0)) {
                             int X;
                             int Y;
-                            if (this.MoveDuringEffect) {
+                            if (this.isMoveDuringEffect()) {
                                 X = ((Player) o).getTemporaryPosition().getX();
                                 Y = ((Player) o).getTemporaryPosition().getY(); // TODO if it gives problems remove "Temporary"
                             } else {
-                                X = ((Player) o).getTemporaryPosition().getX();
-                                Y = ((Player) o).getTemporaryPosition().getY(); // TODO if it gives problems remove "Temporary"
+                                X = ((Player) o).getPosition().getX();
+                                Y = ((Player) o).getPosition().getY(); // TODO if it gives problems remove "Temporary"
                             }
                             Position pos = new Position(X, Y);
                             if (!newRow.contains(this.getActions().get(0).getActionInfo().getActionContext().getBoard().getSquare(X, Y)))
