@@ -924,9 +924,10 @@ public class CLISelector implements SelectorV {
 
             List<Object> answer = new ArrayList<>();
 
-            ArrayList<String> requestsString = new ArrayList<>();
-
             for (int j = 0; j < request ; j++) {
+                
+                ArrayList<String> requestsString = new ArrayList<>();
+
                 if(possibleInputs.isEmpty()){
                     break;
                 }
