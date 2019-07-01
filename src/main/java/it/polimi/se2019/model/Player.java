@@ -4,6 +4,7 @@ import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.controller.statePattern.FinalScoringState;
 import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
+import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.view.components.PlayerV;
 import it.polimi.se2019.virtualView.RMIREDO.RmiInterface;
@@ -73,6 +74,12 @@ public class Player extends Person implements Serializable {
     private boolean isLastPlayingPlayer=false;
     /**indicates if the player is AFK or not*/
     private boolean isAFK;
+    /**each player is represented from a color*/
+    private PlayersColors color;
+
+
+
+
 
     /**tells you if the player is AFK or not
      * @return isAFK*/

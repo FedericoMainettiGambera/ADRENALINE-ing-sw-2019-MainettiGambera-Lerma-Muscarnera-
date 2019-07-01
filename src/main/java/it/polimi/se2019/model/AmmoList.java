@@ -64,9 +64,9 @@ public class AmmoList implements Serializable {
     }
 
     /**checks if an amount of ammos can be payed with the current this.ammoCubesList status
-     * @param color
-     * @param quantity
-     * @return
+     * @param color of the ammo
+     * @param quantity of ammos
+     * @return boolean value that indicates if the player can pay or not
      * */
     public boolean canPayAmmoCubes(AmmoCubesColor color, int quantity){
         for(int i = 0; i < this.ammoCubesList.size(); i++){

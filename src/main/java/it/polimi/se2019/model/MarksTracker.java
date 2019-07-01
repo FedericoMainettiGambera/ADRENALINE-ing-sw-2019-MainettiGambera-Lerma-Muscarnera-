@@ -6,7 +6,6 @@ import it.polimi.se2019.view.components.MarksTrackerV;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
 /**
  * THIS CLASS SHOULD NEVER BE DIRECTLY ACCESSED, INSTEAD USE METHODS FROM THE "Person" CLASS.
@@ -19,7 +18,7 @@ public class MarksTracker implements Serializable {
     /**Constructor:
      * initialize the markSlotsList with a new Arraylist of MarkSlots.
      * */
-    public MarksTracker() {
+     MarksTracker() {
         markSlotsList = new ArrayList<>();
     }
 
@@ -31,7 +30,7 @@ public class MarksTracker implements Serializable {
     /*Do not to use this methods directly. Instead use methods from the "Person" class.*/
 
     /**avoid this method if possible, do not access directly attributes, but use method that interact with them for you.
-     * @return
+     * @return markSlotsList
      * */
     public List<MarkSlots> getMarkSlotsList() {
         return markSlotsList;
@@ -40,40 +39,40 @@ public class MarksTracker implements Serializable {
     /**add marks.
      * This method uses the MarkSlots.addQuantity(int quantity) method that makes sure that the resulting quantity of
      * marks is never more than GameConstant.MAX_NUMBER_OF_MARK_FROM_PLAYER.
-     * @param markingPlayer
-     * @param quantity
+     * @param markingPlayer the player who's giving the marks
+     * @param quantity the quantity of marks to be given
      * */
-    public void addMarksFrom(Player markingPlayer, int quantity) throws IllegalArgumentException {
+    public void addMarksFrom(Player markingPlayer, int quantity){
         if(quantity < 0)
             throw new IllegalArgumentException();
         if(markingPlayer == null)
             throw new IllegalArgumentException();
-        for(int i = 0; i<markSlotsList.size(); i++) {
-            if(markSlotsList.get(i).getMarkingPlayer() == markingPlayer){
-                markSlotsList.get(i).addQuantity(quantity);
+        for (MarkSlots markSlots : markSlotsList) {
+            if (markSlots.getMarkingPlayer() == markingPlayer) {
+                markSlots.addQuantity(quantity);
                 return;
             }
         }
         markSlotsList.add(new MarkSlots(markingPlayer, quantity));
-        return;
+
     }
 
-    /**@param markingPlayer
+    /**@param markingPlayer the specific player
      * @return number of marks received from a specific player
      * */
-    public int getNumberOfMarksSlotFrom(Player markingPlayer) {
-        for(int i = 0; i<markSlotsList.size(); i++){
-            if(markSlotsList.get(i).getMarkingPlayer() == markingPlayer){
-                return markSlotsList.get(i).getQuantity();
+     int getNumberOfMarksSlotFrom(Player markingPlayer) {
+        for (MarkSlots markSlots : markSlotsList) {
+            if (markSlots.getMarkingPlayer() == markingPlayer) {
+                return markSlots.getQuantity();
             }
         }
         return 0;
     }
 
     /**deletes all marks received from a specific player
-     * @param markingPlayer
+     * @param markingPlayer the player whose marks are about to be deleted
      * */
-    public void deleteMarksFromPlayer(Player markingPlayer){
+     void deleteMarksFromPlayer(Player markingPlayer){
         for(int i = 0; i<markSlotsList.size(); i++) {
             if(markSlotsList.get(i).getMarkingPlayer() == markingPlayer){
                 markSlotsList.remove(i);
@@ -82,7 +81,8 @@ public class MarksTracker implements Serializable {
         }
     }
 
-    public MarksTrackerV buildMarksTrackerV(){
+    /**builds the equivalent structure for view purposes*/
+     MarksTrackerV buildMarksTrackerV(){
         MarksTrackerV marksTrackerV = new MarksTrackerV();
         List<MarkSlotV> listOfMarksSlotV = new ArrayList<>();
         MarkSlotV tempMark;

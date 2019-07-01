@@ -1,5 +1,8 @@
 package it.polimi.se2019.view;
 
+import it.polimi.se2019.model.AmmoCubes;
+import it.polimi.se2019.model.AmmoList;
+import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.events.Event;
 import it.polimi.se2019.view.selector.ViewSelector;
 import javafx.fxml.FXML;
@@ -181,6 +184,8 @@ public class GameSceneController implements Initializable {
     private GridPane playerStats;
 
     //3.1.2[0,0]- players marks
+    /**each one of this stack pane contain a markImage, for each slot, 4 in total, there is a mark main image stack pane and
+     * a mark background image, both of them are update at runtime, according to the development of the game*/
     @FXML private HBox playerMarks;
     @FXML private StackPane backgroundMark1;
     @FXML private StackPane mainImageMark1;
@@ -193,6 +198,21 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane backgroundMark5;
     @FXML private StackPane mainImageMark5;
 
+    /**@return marksMainImage*/
+    public List<StackPane> getMarkMainImage(){
+
+        List<StackPane> marksMainImage=new ArrayList<>();
+
+        marksMainImage.add(mainImageMark1);
+        marksMainImage.add(mainImageMark2);
+        marksMainImage.add(mainImageMark3);
+        marksMainImage.add(mainImageMark4);
+
+        return  marksMainImage;
+
+
+    }
+
     //3.1.2[0,1]- player damages & deaths
     @FXML private VBox playerDamagesAndDeathsVBox;
 
@@ -204,6 +224,9 @@ public class GameSceneController implements Initializable {
     public HBox getPlayerHBox(){
         return  playerDamagesHbox;
     }
+
+    /**each one of this stack pane contain a damageImage, for each slot, 13 in total, there is a damage main image stack pane and
+     * a damage background image, both of them are update at runtime, according to the development of the game*/
     @FXML private StackPane damageBackground1;
     @FXML private StackPane damageMainImage1;
     @FXML private StackPane damageBackground2;
@@ -231,6 +254,7 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane damageBackground13;
     @FXML private StackPane damageMainImage13;
 
+    /**@return damages, a list of the stack panes that contain the damage image*/
     public List<StackPane> getDamagesMainImage(){
         List<StackPane> damages=new ArrayList<>();
         damages.add(damageMainImage1);
@@ -270,6 +294,8 @@ public class GameSceneController implements Initializable {
     }
     //3.1.2[0,1].2 - player deaths
     @FXML private HBox playerDeathsHbox;
+    /**each one of this stack pane contain a deathImage, for each slot, 7 in total, there is a death main image stack pane and
+     * a death background image, both of them are update at runtime, according to the development of the game*/
     @FXML private StackPane deathBackground1;
     @FXML private StackPane deathMainImage1;
     @FXML private StackPane deathBackground2;
@@ -285,12 +311,36 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane deathBackground7;
     @FXML private StackPane deathMainImage7;
 
+    /**@return deathList, a list of all of the deathImages*/
+    public List<StackPane> getDeathMainImage(){
+        List<StackPane> deathList=new ArrayList<>();
+
+        deathList.add(deathMainImage1);
+        deathList.add(deathMainImage2);
+        deathList.add(deathMainImage3);
+        deathList.add(deathMainImage4);
+        deathList.add(deathMainImage5);
+        deathList.add(deathMainImage6);
+        deathList.add(deathMainImage7);
+
+        return deathList;
+    }
+
     //3.1.2[1,0]- player nickname
+    /**this attribute contains a StackPane in which the label containing the player's Nickname will be framed*/
     @FXML private StackPane playerNicknameBackground;
+    /** a label containing the player's nickname*/
     @FXML private Label playerNickname;
 
+    public Label getNicknameLabel(){
+        return playerNickname;
+    }
+
     //3.1.2[1,1]- player ammo box
+    /**a grid pane containing the ammunitions of the player*/
     @FXML private GridPane playerAmmoBox;
+    /**each one of this stack pane contains a image representing a ammo, for each ammo there is a background image
+     * and a main image*/
     @FXML private StackPane ammoBackgroundRed1;
     @FXML private StackPane ammoMainImageRed1;
     @FXML private StackPane ammoBackgroundRed2;
@@ -309,6 +359,34 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane ammoMainImageBlue2;
     @FXML private StackPane ammoBackgroundBlue3;
     @FXML private StackPane ammoMainImageBlue3;
+
+    /**@return ammos, a list of stack panes of the
+     * @param color asked color*/
+    public List<StackPane> getAmmosMainImage(AmmoCubesColor color){
+        List<StackPane> ammos=new ArrayList<>();
+
+            switch(color) {
+                case blue:
+                ammos.add(ammoMainImageBlue1);
+                ammos.add(ammoMainImageBlue1);
+                ammos.add(ammoMainImageBlue1);
+                break;
+                case red:
+                ammos.add(ammoMainImageRed1);
+                ammos.add(ammoMainImageRed2);
+                ammos.add(ammoMainImageRed3);
+                break;
+                case yellow:
+                ammos.add(ammoMainImageYellow1);
+                ammos.add(ammoMainImageYellow2);
+                ammos.add(ammoMainImageYellow3);
+                break;
+                default:
+                    break;
+
+            }
+        return ammos;
+    }
 
     //3.1.3-player weapon cards
     @FXML

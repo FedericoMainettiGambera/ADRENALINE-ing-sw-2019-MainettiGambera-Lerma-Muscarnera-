@@ -12,10 +12,10 @@ public class MarkSlots implements Serializable {
     /*-****************************************************************************************************CONSTRUCTOR*/
     /**Constructor:
      * sets player and quantity
-     * @param quantity
-     * @param player
+     * @param quantity the quantity of marks to add
+     * @param player the player who's giving the marks
      * */
-    public MarkSlots(Player player, int quantity){
+     MarkSlots(Player player, int quantity){
         this.quantity=quantity;
         this.markingPlayer = player;
     }
@@ -30,20 +30,20 @@ public class MarkSlots implements Serializable {
     /*-********************************************************************************************************METHODS*/
     /*Do not to use this methods directly. Instead use methods from the "Person" class.*/
 
-    /**@return
+    /**@return quantity
      * */
     public int getQuantity() {
         return quantity;
     }
 
-    /**@return
+    /**@return markingPlayer
      * */
-    public Player getMarkingPlayer() {
+     Player getMarkingPlayer() {
         return markingPlayer;
     }
 
     /**add a specified amount of marks, but makes sure that it never exceed GameConstant.MAX_NUMBER_OF_MARK_FROM_PLAYER*/
-    public void addQuantity(int quantity){
+     void addQuantity(int quantity){
         if(this.quantity+quantity <= GameConstant.MAX_NUMBER_OF_MARK_FROM_PLAYER) {
             this.quantity += quantity;
         }
