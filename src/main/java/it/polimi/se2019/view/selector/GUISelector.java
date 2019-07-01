@@ -1197,6 +1197,7 @@ public class GUISelector implements SelectorV {
 
             VBox options= buildOptions();
             request.getChildren().add(options);
+            VBox.setVgrow(options, Priority.ALWAYS);
 
             return request;
         }
@@ -1344,6 +1345,9 @@ public class GUISelector implements SelectorV {
             left.getChildren().add(label);
             center.getChildren().add(yes);
             right.getChildren().add(no);
+
+            makeNodeHoverable(center);
+            makeNodeHoverable(right);
 
             //PROPERTIES
             hbox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(4));
