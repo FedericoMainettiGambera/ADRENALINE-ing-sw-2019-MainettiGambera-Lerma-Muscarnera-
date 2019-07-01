@@ -5,6 +5,7 @@ import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
+import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.enumerations.SquareTypes;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventGameSetUp;
@@ -69,7 +70,9 @@ public class GameSetUpState implements State {
         ModelGate.model.getPlayerList().setStartingPlayer(playerToAsk);
         ModelGate.model.getPlayerList().setCurrentPlayingPlayer(ModelGate.model.getPlayerList().getStartingPlayer());
 
-
+        for (int i = 0; i < ModelGate.model.getPlayerList().getPlayers().size(); i++) {
+            ModelGate.model.getPlayerList().getPlayers().get(i).setColor(PlayersColors.valueOf(i));
+        }
     }
 
     /**
