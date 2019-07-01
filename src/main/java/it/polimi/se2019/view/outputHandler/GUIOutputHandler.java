@@ -788,6 +788,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         if (stateEvent.getState().contains("GameSetUpState")) {
             //starts the GAME.fxml
             getLoadingSceneController().changeScene();
+
         } else {
             //update StateBar
             updateStateBar();

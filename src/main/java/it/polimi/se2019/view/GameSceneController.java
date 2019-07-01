@@ -482,7 +482,7 @@ public class GameSceneController implements Initializable {
 
         //TODO
         //  faccio in modo che le selezioni reindirizzate alla CLI siano automatiche..
-        Controller.randomGame = true;
+        Controller.setRandomGame(true);
 
         //making board auto-resize
         makeBoardAutoResizing();

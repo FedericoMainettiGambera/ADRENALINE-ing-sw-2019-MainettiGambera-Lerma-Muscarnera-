@@ -16,8 +16,7 @@ public class GameCostantTest{
         assertEquals(3, GameConstant.MAX_NUMBER_OF_MARK_FROM_PLAYER);
         assertEquals(5, GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME);
         assertEquals(1, GameConstant.MIN_NUMBER_OF_PLAYER_PER_GAME);
-        assertEquals(60, GameConstant.TIME_TO_INSERT_INPUT_IN_SECONDS);
-        assertEquals(5, GameConstant.COUNTDOWN_IN_SECONDS_FOR_CONNECTION_QUEUE);
+
 
 
 

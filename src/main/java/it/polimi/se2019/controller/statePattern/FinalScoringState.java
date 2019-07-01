@@ -81,7 +81,7 @@ public class FinalScoringState implements State {
 
 /**gives deserved points based on number of killshots
  * @param punti  needed because if nobody died, nobody deserves the points for max number of killshots*/
-    public   void setPoints( int punti ) {
+    private   void setPoints( int punti ) {
 
         int score = punti;
 
@@ -96,7 +96,7 @@ public class FinalScoringState implements State {
                 }
 
                 if (score == 0) {
-                    score = 0;
+                    score=0;
                 } else if (score > 2) {
                     score = score - 2;
                 } else score = 1;
@@ -107,13 +107,11 @@ public class FinalScoringState implements State {
 
     /**send results to all clients
      * @param classifica obviously needed to know the rankings to send*/
-    public void sendResults(ArrayList<PlayerPoint> classifica){
-
-        ArrayList<PlayerPoint> graduatory=classifica;
+    private void sendResults(ArrayList<PlayerPoint> classifica){
 
         int i = 1;
         out.println("Final Classification is :");
-        for (PlayerPoint p : graduatory) {
+        for (PlayerPoint p : classifica) {
             p.player.setScore(p.quantity);
             out.println("<SERVER> " + i + ":" + p.player.getNickname() + " with " + p.quantity + " points ");
             ModelGate.model.notifyClients(new ModelViewEvent(p.player.getNickname(), ModelViewEventTypes.finalScoring, p.quantity, " " +i));
@@ -137,7 +135,7 @@ public class FinalScoringState implements State {
      *
      * @param player we do it for every player
      */
-    public void scoreTokens(Player player) {
+    private void scoreTokens(Player player) {
 
         //list of points (es 8,6,4,2,1,1)
         ArrayList<Integer> pointsList = player.getPointsList();
@@ -165,7 +163,6 @@ public class FinalScoringState implements State {
             this.player = player;
             this.quantity = 0;
             this.numberOfSkullTaken = 0;
-            int overkill = 0;
         }
     }
 
@@ -173,7 +170,7 @@ public class FinalScoringState implements State {
     /**
      * this function analyze the killshot track in order to get a final score for each player and a graduatory
      */
-    public void getGraduatory(){
+    private void getGraduatory(){
 
         int k=0;
 
@@ -216,7 +213,7 @@ public class FinalScoringState implements State {
      * linear complexity of this one for list of under 20 elements is satisfying
      * )
      * */
-    public void bubbleSort(){
+    private void bubbleSort(){
 
         if (!graduatory.isEmpty()){
 

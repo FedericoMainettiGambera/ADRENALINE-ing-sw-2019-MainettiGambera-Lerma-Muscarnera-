@@ -81,7 +81,7 @@ public class FirstSpawnState implements State {
 
 
     /**@param vce is parsed to know where the bot will spawn*/
-    public void spawnBot(ViewControllerEvent vce){
+    private void spawnBot(ViewControllerEvent vce){
 
         ViewControllerEventTwoString viewControllerEventTwoString = (ViewControllerEventTwoString) vce;
 
@@ -118,7 +118,7 @@ public class FirstSpawnState implements State {
     }
 
     /**@param vce is parsed to know which power up the player decided to discard and the consequent position where the player will be spawned */
-    public void spawnPlayer(ViewControllerEvent vce){
+    private void spawnPlayer(ViewControllerEvent vce){
         ViewControllerEventTwoString viewControllerEventTwoString = (ViewControllerEventTwoString) vce;
 
         PowerUpCard cardChosen = ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCard(viewControllerEventTwoString.getInput1());

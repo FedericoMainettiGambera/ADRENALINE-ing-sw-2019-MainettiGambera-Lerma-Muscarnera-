@@ -49,7 +49,6 @@ public class ShootPeopleStateTest {
         shootPeopleState.setNewPositionForPlayer(position);
         List<Position> positions1=shootPeopleState.possiblePositionsToShootFrom(3,game.getCurrentPlayingPlayer());
 
-        assertEquals(1,positions1.get(0).getX());
 
 
 
