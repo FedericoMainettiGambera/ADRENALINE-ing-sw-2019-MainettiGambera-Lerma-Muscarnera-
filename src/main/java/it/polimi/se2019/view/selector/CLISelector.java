@@ -1139,10 +1139,10 @@ public class CLISelector implements SelectorV {
 
                 request = new ArrayList<>();
 
-                if(selectorEventPaymentInformation.getPossibilities().isEmpty()){
+                if(selectorEventPaymentInformation.getPossibilities().isEmpty()){ //gli rimane solo la possibilità di pagare con la ammo box
                     break;
                 }
-                if(amountToPay.isEmpty()){
+                if(amountToPay.isEmpty()){ //ha finito di pagare
                     break;
                 }
             }
@@ -1248,7 +1248,6 @@ public class CLISelector implements SelectorV {
     /** starts a dedicated thread that manages to ask the user whom he wants the bot to shoot */
     @Override
     public void askBotShoot(SelectorEventPlayers selectorEventPlayers){
-
         AskBotShoot abs=new AskBotShoot(selectorEventPlayers.getPlayerVList());
         abs.start();
     }
@@ -1259,7 +1258,7 @@ public class CLISelector implements SelectorV {
         private List<Object> possiblePaymentsV;
         private List<PlayerV> damagedPlayersV;
 
-        public AskTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV){
+        private AskTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV){
             this.listOfTargetingScopeV =listOfTargetingScopeV;
             this.possiblePaymentsV = possiblePaymentsV;
             this.damagedPlayersV = damagedPlayersV;
