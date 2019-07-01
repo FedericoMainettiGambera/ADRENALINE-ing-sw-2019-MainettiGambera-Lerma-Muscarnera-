@@ -193,6 +193,11 @@
                                                       <StackPane prefHeight="150.0" />
                                                    </children>
                                                 </StackPane>
+                                                <StackPane prefHeight="150.0" GridPane.columnIndex="3">
+                                                   <children>
+                                                      <StackPane prefHeight="150.0" />
+                                                   </children>
+                                                </StackPane>
                                                 <StackPane prefHeight="150.0" GridPane.rowIndex="1">
                                                    <children>
                                                       <StackPane prefHeight="150.0" />
@@ -208,6 +213,11 @@
                                                       <StackPane prefHeight="150.0" />
                                                    </children>
                                                 </StackPane>
+                                                <StackPane prefHeight="150.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                                   <children>
+                                                      <StackPane prefHeight="150.0" />
+                                                   </children>
+                                                </StackPane>
                                                 <StackPane prefHeight="150.0" GridPane.rowIndex="2">
                                                    <children>
                                                       <StackPane prefHeight="150.0" />
@@ -219,16 +229,6 @@
                                                    </children>
                                                 </StackPane>
                                                 <StackPane prefHeight="150.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                                                   <children>
-                                                      <StackPane prefHeight="150.0" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane prefHeight="150.0" GridPane.columnIndex="3">
-                                                   <children>
-                                                      <StackPane prefHeight="150.0" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane prefHeight="150.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                                                    <children>
                                                       <StackPane prefHeight="150.0" />
                                                    </children>
