@@ -1054,7 +1054,7 @@ public class GUISelector implements SelectorV {
                     answer.add(this.networkConnection);
                     ReconnectionEvent reconnectEvent = new ReconnectionEvent(answer);
                     if(networkConnection.equalsIgnoreCase("RMI")){
-                        reconnectEvent.setClient(Controller.RMINH);
+                        reconnectEvent.setClient(Controller.getRmiNetworkHandler());
                     }
                     getGameSceneController().sendToServer(reconnectEvent);
                 });

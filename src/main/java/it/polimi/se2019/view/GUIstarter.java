@@ -55,7 +55,7 @@ public class GUIstarter extends Application {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            if(Controller.userInterface.equalsIgnoreCase("GUI")){
+            if(Controller.getUserInterface().equalsIgnoreCase("GUI")){
                 showError(this, "COULDN'T LOAD FILE", e);
             }
         }

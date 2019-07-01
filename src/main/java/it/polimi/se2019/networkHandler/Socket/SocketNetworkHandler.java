@@ -33,7 +33,7 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
         this.port = port;
         this.inetAddress = inetAddress;
 
-        if(Controller.userInterface.equalsIgnoreCase("CLI")) {
+        if(Controller.getUserInterface().equalsIgnoreCase("CLI")) {
             logger.info("<CLIENT>New Client with IP: " + InetAddress.getLocalHost().getHostAddress());
 
             logger.info("<CLIENT>Trying to connect to: " + this.inetAddress.getHostAddress() + ":" + this.port);
@@ -41,7 +41,7 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
 
         this.socket = new Socket(this.inetAddress, this.port);
 
-        if(Controller.userInterface.equalsIgnoreCase("CLI")) {
+        if(Controller.getUserInterface().equalsIgnoreCase("CLI")) {
             logger.info("<CLIENT>Connected to: " + this.inetAddress.getHostAddress() + ":" + this.port);
         }
 

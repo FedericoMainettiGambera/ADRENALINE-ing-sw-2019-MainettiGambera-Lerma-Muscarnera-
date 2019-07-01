@@ -121,7 +121,7 @@ public class CLISelector implements SelectorV {
 
 
     public static int askNumber(int rangeInit, int rangeEnd){
-        if(Controller.randomGame){
+        if(Controller.isRandomGame()){
             try {
                 TimeUnit.MILLISECONDS.sleep(300);   // time to respond TODO CHANGED FROM 300
             } catch (InterruptedException e) {
@@ -1028,7 +1028,7 @@ public class CLISelector implements SelectorV {
         answer.add(this.networkConnection);
         ReconnectionEvent reconnectEvent = new ReconnectionEvent(answer);
         if(networkConnection.equalsIgnoreCase("RMI")){
-            reconnectEvent.setClient(Controller.RMINH);
+            reconnectEvent.setClient(Controller.getRmiNetworkHandler());
         }
         ViewSelector.sendToServer(reconnectEvent);
     }
