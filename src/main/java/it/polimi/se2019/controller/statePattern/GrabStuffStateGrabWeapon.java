@@ -28,7 +28,7 @@ public class GrabStuffStateGrabWeapon implements  State {
     private Thread inputTimer;
 
     /**constructor
-     * @param actionNumber distimguish between 1st and 2nd action*/
+     * @param actionNumber distinguish between 1st and 2nd action*/
     public GrabStuffStateGrabWeapon(int actionNumber){
         out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;

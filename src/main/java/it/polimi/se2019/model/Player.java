@@ -38,6 +38,7 @@ public class Player extends Person implements Serializable {
         this.hand = new PlayerHand();
         this.isAFK = false;
         this.isBot=false;
+
     }
 
     /*-*****************************************************************************************************ATTRIBUTES*/
@@ -53,7 +54,7 @@ public class Player extends Person implements Serializable {
     }
 
     /***/
-    public transient PlayerHistory playerHistory;
+     transient PlayerHistory playerHistory;
 
     /**represents the IP of the player*/
     private String ip;
@@ -78,9 +79,6 @@ public class Player extends Person implements Serializable {
     private PlayersColors color;
 
 
-
-
-
     /**tells you if the player is AFK or not
      * @return isAFK*/
     public boolean isAFK() {
@@ -91,11 +89,11 @@ public class Player extends Person implements Serializable {
 
     private int turnID = 0;
 
-    public int getTurnID() {
+     int getTurnID() {
         return turnID;
     }
 
-    public void incrementTurnID(){
+     void incrementTurnID(){
         this.turnID++;
     }
     /**set the player AFK and communicates it to them
@@ -150,7 +148,7 @@ public class Player extends Person implements Serializable {
 
     /**set the new number of connection
      * @param lostConnection boolean*/
-    public void regulateNumberOfConnection(boolean lostConnection){
+     void regulateNumberOfConnection(boolean lostConnection){
         if(lostConnection){
             ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected()-1);
         }

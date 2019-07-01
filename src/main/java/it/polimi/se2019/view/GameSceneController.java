@@ -1,8 +1,6 @@
 package it.polimi.se2019.view;
 
 import it.polimi.se2019.controller.Controller;
-import it.polimi.se2019.model.AmmoCubes;
-import it.polimi.se2019.model.AmmoList;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.events.Event;
 import it.polimi.se2019.view.selector.ViewSelector;
@@ -180,6 +178,13 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane powerUpCardBackground1;
     @FXML private StackPane powerUpCardMainImage1;
     @FXML private StackPane powerUpCardBackground2;
+
+    public StackPane getPowerUpCardMainImage2() {
+        return powerUpCardMainImage2;
+    }
+    public StackPane getPowerUpCardMainImage1() {
+        return powerUpCardMainImage1;
+    }
     @FXML private StackPane powerUpCardMainImage2;
 
     //3.1.2-player main statistics
@@ -405,6 +410,15 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane weaponCardBackground3;
     @FXML private StackPane weaponCardMainImage3;
 
+    public StackPane getWeaponCardMainImage1() {
+        return weaponCardMainImage1;
+    }
+    public StackPane getWeaponCardMainImage2() {
+        return weaponCardMainImage2;
+    }
+    public StackPane getWeaponCardMainImage3() {
+        return weaponCardMainImage3;
+    }
 
     //------------------------------4
     //4-board section
