@@ -6,6 +6,8 @@ import it.polimi.se2019.model.AmmoList;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.events.Event;
 import it.polimi.se2019.view.selector.ViewSelector;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -406,10 +408,39 @@ public class GameSceneController implements Initializable {
 
     //------------------------------4
     //4-board section
-    @FXML
-    private AnchorPane boardSection;
-    //canvas... TODO.
+    @FXML private AnchorPane boardSection;
+    @FXML private StackPane boardBackGround;
+    @FXML private GridPane board; //  (4 x 3)
 
+    //TODO not sure they arae really use full...
+    //first column
+    @FXML private StackPane squareBackground00; //0,0
+    @FXML private StackPane squareMainImage00;
+    @FXML private StackPane squareBackground10; //1,0
+    @FXML private StackPane squareMainImage10;
+    @FXML private StackPane squareBackground20; //2,0
+    @FXML private StackPane squareMainImage20;
+    //second column
+    @FXML private StackPane squareBackground01; //0,1
+    @FXML private StackPane squareMainImage01;
+    @FXML private StackPane squareBackground11; //1,1
+    @FXML private StackPane squareMainImage11;
+    @FXML private StackPane squareBackground21; //2,1
+    @FXML private StackPane squareMainImage21;
+    //third column
+    @FXML private StackPane squareBackground02; //0,2
+    @FXML private StackPane squareMainImage02;
+    @FXML private StackPane squareBackground12; //1,2
+    @FXML private StackPane squareMainImage12;
+    @FXML private StackPane squareBackground22; //2,2
+    @FXML private StackPane squareMainImage22;
+    //fourth column
+    @FXML private StackPane squareBackground03; //0,3
+    @FXML private StackPane squareMainImage03;
+    @FXML private StackPane squareBackground13; //1,3
+    @FXML private StackPane squareMainImage13;
+    @FXML private StackPane squareBackground23; //2,3
+    @FXML private StackPane squareMainImage23;
 
 
     @Override
@@ -422,6 +453,9 @@ public class GameSceneController implements Initializable {
         //TODO
         //  faccio in modo che le selezioni reindirizzate alla CLI siano automatiche..
         Controller.randomGame = true;
+
+        //making board auto-resize
+        makeBoardAutoResizing();
 
 
         //killshot track default css classes
@@ -545,6 +579,60 @@ public class GameSceneController implements Initializable {
         this.weaponCardMainImage1.getStyleClass().add("emptyWeaponCardMainImage");
         this.weaponCardMainImage2.getStyleClass().add("emptyWeaponCardMainImage");
         this.weaponCardMainImage3.getStyleClass().add("emptyWeaponCardMainImage");
+    }
+
+    private void makeBoardAutoResizing(){
+        //this.boardBakcground resize based on this.boardSection
+        this.boardSection.heightProperty().addListener((observable, oldvalue, newvalue) ->
+                resizeBoard()
+        );
+        this.boardSection.widthProperty().addListener((observable, oldvalue, newvalue) ->
+                resizeBoard()
+        );
+    }
+    private void resizeBoard(){
+        double totalWidth = this.boardSection.getWidth();
+        double totalHeight = this.boardSection.getHeight();
+
+        System.out.println("width: " + totalWidth + ", height: " + totalHeight);
+
+        double topSpacing;
+        double rightSpacing;
+        double bottomSpacing;
+        double leftSpacing;
+
+        if(totalWidth < (totalHeight)*((double)4/(double)3)){ //full width, calculate height
+            System.out.println("FULL WIDTH because:    totalWidth = " + totalWidth +"   <   (totalHeight*((double)4/(double)3)) = " + (totalHeight*((double)4/(double)3)));
+            rightSpacing = 0.0;
+            leftSpacing = 0.0;
+
+            double heightOfTheBoard = totalWidth*((double)3/(double)4);
+
+            topSpacing = ((totalHeight-heightOfTheBoard)/(double)2);
+            bottomSpacing = topSpacing;
+        }
+        else{ //full height, calculate width
+            System.out.println("FULL HEIGHT because:    totalWidth = " + totalWidth +"   >=   (totalHeight = " + totalHeight + ")*((double)4/(double)3)) = " + (totalHeight*((double)4/(double)3)));
+            topSpacing = 0.0;
+            bottomSpacing = 0.0;
+
+            double widthOfTheBoard = totalHeight*((double)4/(double)3);
+
+            rightSpacing = ((totalWidth-widthOfTheBoard)/(double)2);
+            leftSpacing = rightSpacing;
+        }
+
+        System.out.println(
+                "top: " + topSpacing + "\n" +
+                "right: " + rightSpacing + "\n" +
+                "bottom: " + bottomSpacing + "\n" +
+                "left: " + leftSpacing
+        );
+
+        AnchorPane.setTopAnchor(this.boardBackGround, topSpacing);
+        AnchorPane.setRightAnchor(this.boardBackGround,rightSpacing);
+        AnchorPane.setBottomAnchor(this.boardBackGround,bottomSpacing);
+        AnchorPane.setLeftAnchor(this.boardBackGround,leftSpacing);
     }
 
     /**sends an Event to the server in a new Thread, using the SendToServerThread class*/

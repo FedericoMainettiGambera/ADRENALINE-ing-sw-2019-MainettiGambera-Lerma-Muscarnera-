@@ -191,12 +191,12 @@ public class LoadingSceneController implements Initializable {
     public void changeScene(){
         Platform.runLater(()->{
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/FXML/GAME.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("/FXML/GAME2.fxml"));
             Parent root;
             try {
                 root = fxmlLoader.load();
             } catch (IOException e) {
-                GUIstarter.showError(this,"COULDN'T FIND: " +  getClass().getResource("/FXML/GAME.fxml"), e);
+                GUIstarter.showError(this,"COULDN'T FIND: " +  getClass().getResource("/FXML/GAME2.fxml"), e);
                 return;
             }
             GUIstarter.setStageController(fxmlLoader.getController());

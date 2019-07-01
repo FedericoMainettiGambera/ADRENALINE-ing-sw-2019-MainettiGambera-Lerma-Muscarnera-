@@ -69,10 +69,6 @@ public class GameSetUpState implements State {
         out.println("<SERVER> Setting Starting Player.");
         ModelGate.model.getPlayerList().setStartingPlayer(playerToAsk);
         ModelGate.model.getPlayerList().setCurrentPlayingPlayer(ModelGate.model.getPlayerList().getStartingPlayer());
-
-        for (int i = 0; i < ModelGate.model.getPlayerList().getPlayers().size(); i++) {
-            ModelGate.model.getPlayerList().getPlayers().get(i).setColor(PlayersColors.valueOf(i));
-        }
     }
 
     /**
@@ -138,6 +134,11 @@ public class GameSetUpState implements State {
         }
         else {
             ModelGate.model.setBotActive(false);
+        }
+
+        out.println("<SERVER> giving players colors");
+        for (int i = 0; i < ModelGate.model.getPlayerList().getPlayers().size(); i++) {
+            ModelGate.model.getPlayerList().getPlayers().get(i).setColor(PlayersColors.valueOf(i));
         }
     }
 
