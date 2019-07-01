@@ -263,6 +263,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         }
     }
     private void updatePlayerBoard() {
+        System.out.println("UPDATE PLAYER BOARD"); //MOMENTANEO
         updateDamage();
         updateMarks();
         updateDeaths();
@@ -274,7 +275,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
    /**update the damage track of the player*/
     private void updateDamage(){
-
+        System.out.println("UPDATE DAMAGES"); //MOMENTANEO
         (new Thread(new UpdateDamage())).start();
     }
     /**this class implements a thread launched in updateDamage function in order to modify the damage board of the player*/
@@ -362,6 +363,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     /**update the marks track of the client*/
     private void updateMarks(){
+        System.out.println("UPDATE MARKS"); //MOMENTANEO
         (new Thread(new UpdateMarks())).start();
     }
 
@@ -446,8 +448,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     /**updates the death track of the player*/
     private void updateDeaths(){
-
-
+        System.out.println("UPDATE DEATHS"); //MOMENTANEO
         (new Thread(new UpdateDeaths())).start();
     }
 
@@ -490,6 +491,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     }
     /**update the player's nickname*/
     private void updateNickname(){
+        System.out.println("UPDATE NICKNAME"); //MOMENTANEO
         (new Thread(new UpdateNickname())).start();
     }
 
@@ -528,6 +530,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         }
     }
     private void updateAmmobox(){
+        System.out.println("UPDATE AMMO BOX"); //MOMENTANEO
         (new Thread(new UpdateAmmobox())).start();
     }
 
@@ -614,9 +617,14 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     }
 
     /*TODO*/
-    private void updateMap()   {}
-    private void updateStateBar() {}
-    /* end TODO*/
+    private void updateMap()   {
+        System.out.println("UPDATE MAP"); //MOMENTANEO
+    }
+    private void updateStateBar() {
+        System.out.println("UPDATE STATE BAR"); //MOMENTANEO
+    }
+
+
     private GameSceneController getGameSceneController() {
         return ((GameSceneController) GUIstarter.getStageController());
     }
