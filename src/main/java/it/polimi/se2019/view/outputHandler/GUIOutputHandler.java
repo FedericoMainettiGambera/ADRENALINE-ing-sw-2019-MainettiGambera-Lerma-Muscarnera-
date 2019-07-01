@@ -262,6 +262,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             }
         }
     }
+
     private void updatePlayerBoard() {
         System.out.println("UPDATE PLAYER BOARD"); //MOMENTANEO
         updateDamage();
@@ -289,7 +290,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         public void run(){
             Platform.runLater(()->{
                 for (PlayerV player: ViewModelGate.getModel().getPlayers().getPlayers()){
-                    if(player.getNickname().equals(ViewModelGate.getMe())) {
+                    if(player.getNickname().equals(ViewModelGate.getMe())){
                       updateDamage(player);
                     }
                 }
@@ -299,16 +300,23 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         private void updateDamage(PlayerV player){
             int i = 0;
             if(player.getDamageTracker() == null || player.getDamageTracker().getDamageSlotsList().isEmpty()){
-                emptyDamages();
+                emptyDamages(i);
             }
             else {
-                for (DamageSlotV damageSlot : player.getDamageTracker().getDamageSlotsList()) {
+                for (DamageSlotV damageSlot : player.getDamageTracker().getDamageSlotsList()){
                     addDamages(damageSlot,i);
                     i++;
+                }
+                if(i<getGameSceneController().getDamagesMainImage().size()){
+                    emptyDamages(i);
                 }
             }
         }
 
+
+        /**set the damage image with the right css style class after having removed the previous one
+         * @param i is to get the corresponding stack pane
+         * @param damageSlot is the markSlotV whose style is meant to be replaced*/
         private void addDamages(DamageSlotV damageSlot, int i){
 
             PlayersColors color = damageSlot.getShootingPlayerColor();
@@ -339,11 +347,14 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                     (getGameSceneController().getDamagesMainImage().get(i).getStyleClass()).add("damageEmpty");
             }
         }
-        private void emptyDamages(){
 
-            for (StackPane damage: getGameSceneController().getDamagesMainImage()){
-                removePrevious(damage);
-                damage.getStyleClass().add("damageEmpty");
+        /**applies the "damageEmpty" style sheet to all of the damage images*/
+        private void emptyDamages(int i){
+
+            for (int j = i; j < getGameSceneController().getDamagesMainImage().size(); j++){
+                removePrevious(getGameSceneController().getDamagesMainImage().get(j));
+                getGameSceneController().getDamagesMainImage().get(j).getStyleClass().add("damageEmpty");
+
             }
         }
         /**@param damage from whose previous style class is removed*/
@@ -379,26 +390,30 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         @Override
         public void run(){
 
-            Platform.runLater(()->{
-
-                for (PlayerV player: ViewModelGate.getModel().getPlayers().getPlayers()){
-
-                    if(player.getNickname().equals(ViewModelGate.getMe())) {
-
-                        int i = 0;
-                        if(player.getMarksTracker().getMarkSlotsList().isEmpty()||player.getMarksTracker()==null){
-                            emptyMarks();
-                        }
-
-                        for (MarkSlotV markSlot : player.getMarksTracker().getMarkSlotsList()) {
-                            setMarks(i, markSlot);
-                            i++;
-                        }
-                    }
-                }
-            });
+            Platform.runLater(this::run2);
         }
 
+        /**update marks*/
+        private void updateMarks(PlayerV player){
+
+            int i = 0;
+            if(player.getMarksTracker().getMarkSlotsList().isEmpty()||player.getMarksTracker()==null){
+                emptyMarks(0);
+            }
+
+            else {
+                for (MarkSlotV markSlot : player.getMarksTracker().getMarkSlotsList()) {
+                    setMarks(i, markSlot);
+                    i++;
+                }
+                if(i<getGameSceneController().getMarkMainImage().size()){
+                    emptyMarks(i);
+                }
+            }
+        }
+        /**set the markslot with the right css style class after having removed the previous one
+         * @param i is to get the corresponding stack pane
+         * @param markSlot is the markSlotV whose style is meant to be replaced*/
         private void setMarks(int i, MarkSlotV markSlot){
             PlayersColors color = ViewModelGate.getModel().getPlayers().getPlayer(markSlot.getMarkingPlayer()).getColor();
 
@@ -420,17 +435,19 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                     break;
                 default:removePrevious(getGameSceneController().getMarkMainImage().get(i));
                     (getGameSceneController().getMarkMainImage().get(i).getStyleClass()).add("markEmpty");
+                    break;
             }
 
         }
-        public void emptyMarks(){
 
-            for (StackPane mark: getGameSceneController().getMarkMainImage()) {
+        /**applies the "markEmpty" css style class to all of the marks*/
+        private void emptyMarks(int i) {
 
-                removePrevious(mark);
-                mark.getStyleClass().add("markEmpty");
+            for (int j = i; j < getGameSceneController().getMarkMainImage().size(); j++) {
+                removePrevious(getGameSceneController().getMarkMainImage().get(j));
+                getGameSceneController().getMarkMainImage().get(j).getStyleClass().add("markEmpty");
+
             }
-
         }
 
         /**@param  mark from which previous style class is removed*/
@@ -444,7 +461,17 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             mark.getStyleClass().remove("markEmpty");
 
         }
+
+    private void run2() {
+        for (PlayerV player : ViewModelGate.getModel().getPlayers().getPlayers()) {
+
+            if (player.getNickname().equals(ViewModelGate.getMe())) {
+
+                updateMarks(player);
+            }
+        }
     }
+}
 
     /**updates the death track of the player*/
     private void updateDeaths(){
@@ -458,7 +485,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     private class UpdateDeaths implements Runnable{
 
         /**the said thread launched look for the right player and
-         * updates their death traker, it extrapolate which one to update by using the function "player.getNumberOfDeath()",
+         * updates their death tracker, it extrapolate which one to update by using the function "player.getNumberOfDeath()",
          * removes the previous css style class
          * and applies the right new one*/
         @Override
@@ -529,6 +556,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
         }
     }
+    /**update the ammo boxe*/
     private void updateAmmobox(){
         System.out.println("UPDATE AMMO BOX"); //MOMENTANEO
         (new Thread(new UpdateAmmobox())).start();
@@ -551,14 +579,39 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         }
 
         /**empty all the ammolists*/
-        private void emptyAmmos(){
-            for (AmmoCubesColor color: AmmoCubesColor.values()){
-                for (StackPane ammo: getGameSceneController().getAmmosMainImage(color)){
+        private void emptyAmmos(int i, String color){
 
-                    removePrevious(ammo);
-                    ammo.getStyleClass().add("emptyAmmo");
-
+            switch (color){
+                case "blue":
+                    for (int j = i; j < getGameSceneController().getAmmosMainImage(AmmoCubesColor.blue).size(); j++){
+                    removePrevious(getGameSceneController().getDamagesMainImage().get(j));
+                    getGameSceneController().getAmmosMainImage(AmmoCubesColor.blue).get(j).getStyleClass().add("ammoEmpty");
+                    }
+                    break;
+                case"red":
+                    for(int j = i; j < getGameSceneController().getAmmosMainImage(AmmoCubesColor.red).size(); j++){
+                    removePrevious(getGameSceneController().getDamagesMainImage().get(j));
+                    getGameSceneController().getAmmosMainImage(AmmoCubesColor.red).get(j).getStyleClass().add("ammoEmpty");
                 }
+                    break;
+                case"yellow":
+                    for(int j = i; j < getGameSceneController().getAmmosMainImage(AmmoCubesColor.yellow).size(); j++) {
+                        removePrevious(getGameSceneController().getDamagesMainImage().get(j));
+                        getGameSceneController().getAmmosMainImage(AmmoCubesColor.yellow).get(j).getStyleClass().add("ammoEmpty");
+                    }
+                    break;
+
+
+                default:
+                    for (AmmoCubesColor colors : AmmoCubesColor.values()){
+                        for (StackPane ammo : getGameSceneController().getAmmosMainImage(colors)){
+
+                            removePrevious(ammo);
+                            ammo.getStyleClass().add("emptyAmmo");
+                        }
+                    }
+                    break;
+
             }
         }
 
@@ -589,6 +642,15 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                         break;
                 }
             }
+            if(b<getGameSceneController().getAmmosMainImage(AmmoCubesColor.blue).size()){
+                emptyAmmos(b, "blue");
+            }
+            if(r<getGameSceneController().getAmmosMainImage(AmmoCubesColor.red).size()){
+                emptyAmmos(r, "red");
+            }
+            if(y<getGameSceneController().getAmmosMainImage(AmmoCubesColor.yellow).size()){
+                emptyAmmos(y, "yellow");
+            }
 
         }
 
@@ -608,9 +670,9 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             for (PlayerV player : ViewModelGate.getModel().getPlayers().getPlayers()) {
                 if (player.getNickname().equals(ViewModelGate.getMe())) {
                     if (player.getAmmoBox().getAmmoCubesList().isEmpty()||player.getAmmoBox()==null) {
-                        emptyAmmos();
+                        emptyAmmos(0, "all");
                     }
-                    addAmmos(player);
+                  else{  addAmmos(player); }
                 }
             }
         }
