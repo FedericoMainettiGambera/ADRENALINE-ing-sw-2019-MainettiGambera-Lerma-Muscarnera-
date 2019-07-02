@@ -1,10 +1,5 @@
 package it.polimi.se2019.view.outputHandler;
 
-import it.polimi.se2019.controller.ModelGate;
-import it.polimi.se2019.model.NormalSquare;
-import it.polimi.se2019.model.Player;
-import it.polimi.se2019.model.SpawnPointSquare;
-
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.Event;
