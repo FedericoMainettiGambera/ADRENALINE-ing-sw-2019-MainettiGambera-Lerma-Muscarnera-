@@ -31,7 +31,7 @@ public class GUISelector implements SelectorV {
 
     private String networkConnection;
 
-    private String mapHoverableCssClass = "weirdPadding";
+    private String hoverableCssClass = "weirdPadding";
 
     GUISelector(String networkConnection){
         this.networkConnection = networkConnection;
@@ -528,12 +528,12 @@ public class GUISelector implements SelectorV {
     private void makeSquaresHoverableAndSendPositionEvent(List<Position> positions){
         StackPane[][] backgroundMap = getGameSceneController().getBackgroundsMap();
         for (Position pos : positions) {
-            backgroundMap[pos.getX()][pos.getY()].getStyleClass().add(mapHoverableCssClass);
+            backgroundMap[pos.getX()][pos.getY()].getStyleClass().add(hoverableCssClass);
             backgroundMap[pos.getX()][pos.getY()].setOnMouseClicked(e->{
                 ViewControllerEventPosition viewControllerEventPosition = new ViewControllerEventPosition(pos.getX(), pos.getY());
                 getGameSceneController().sendToServer(viewControllerEventPosition);
                 for (Position position : positions) {
-                    backgroundMap[position.getX()][position.getY()].getStyleClass().remove(mapHoverableCssClass);
+                    backgroundMap[position.getX()][position.getY()].getStyleClass().remove(hoverableCssClass);
                 }
                 getGameSceneController().removeSelectorSection();
             });
@@ -657,10 +657,7 @@ public class GUISelector implements SelectorV {
     //##################################################################################################################
     @Override
     public void askGrabStuffSwitchWeapon(List<WeaponCardV> toPickUp, List<WeaponCardV> toSwitch) {
-        CLISelector cliSelector= new CLISelector(networkConnection);
-        cliSelector.askGrabStuffSwitchWeapon(toPickUp, toSwitch);
-        //TODO
-        //new Thread(new AskGrabStuffSwitchWeapon(toPickUp, toSwitch)).start();
+        new Thread(new AskGrabStuffSwitchWeapon(toPickUp, toSwitch)).start();
     }
     private class AskGrabStuffSwitchWeapon implements Runnable{
         private List<WeaponCardV> toPickUp;
@@ -670,10 +667,13 @@ public class GUISelector implements SelectorV {
         private AskGrabStuffSwitchWeapon(List<WeaponCardV> toPickUp, List<WeaponCardV> toSwitch){
             this.toPickUp = toPickUp;
             this.toSwitch = toSwitch;
+            toPickUpID = toPickUp.get(0).getID();
+            toSwitchID = toSwitch.get(0).getID();
         }
         @Override
         public void run() {
             VBox request = buildRequest();
+            Platform.runLater(this::makeWeaponHoverable);
             Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
         }
         private VBox buildRequest(){
@@ -686,17 +686,45 @@ public class GUISelector implements SelectorV {
 
             //USER DATA
             for (int i = 0; i < hBox.getChildren().size() ; i++) {
-                StackPane mainStackPane = (StackPane)hBox.getChildren().get(i);
+                StackPane mainStackPane = (StackPane)((StackPane)hBox.getChildren().get(i)).getChildren().get(0);
                 makeNodeHoverable(mainStackPane);
                 mainStackPane.setUserData(toPickUp.get(i).getID());
-                //EVENTS
-                mainStackPane.setOnMouseClicked(e->{
-                    this.toPickUpID = (String)((StackPane)e.getSource()).getUserData();
-                    getGameSceneController().removeSelectorSection();
-                });
+                //EVENTSc
+                mainStackPane.setOnMouseClicked(e-> this.toPickUpID = (String)((StackPane)e.getSource()).getUserData());
             }
 
+            //done button
+            StackPane doneButton = new StackPane(new Label("DONE"));
+            makeNodeHoverable(doneButton);
+            doneButton.setOnMouseClicked(e->{
+                ViewControllerEventTwoString viewControllerEventTwoString = new ViewControllerEventTwoString(toPickUpID, toSwitchID);
+                getGameSceneController().removeSelectorSection();
+                unmakeWeaponHoverable();
+                getGameSceneController().sendToServer(viewControllerEventTwoString);
+            });
+            vBox.getChildren().add(doneButton);
+
             return vBox;
+        }
+        private void makeWeaponHoverable(){
+            for (StackPane weaponCardStackPane: getGameSceneController().getWeaponCardsMainImage()) {
+                for (WeaponCardV weaponCardV:toSwitch) {
+                    if(((WeaponCardV)weaponCardStackPane.getUserData()).getID().equals(weaponCardV.getID())){
+                        weaponCardStackPane.getStyleClass().add(hoverableCssClass);
+                        weaponCardStackPane.setOnMouseClicked(e-> this.toSwitchID = weaponCardV.getID());
+                    }
+                }
+            }
+        }
+
+        private void unmakeWeaponHoverable(){
+            for (StackPane weaponCardStackPane: getGameSceneController().getWeaponCardsMainImage()) {
+                for (WeaponCardV weaponCardV:toSwitch) {
+                    if(((WeaponCardV)weaponCardStackPane.getUserData()).getID().equals(weaponCardV.getID())){
+                        weaponCardStackPane.getStyleClass().remove(hoverableCssClass);
+                    }
+                }
+            }
         }
     }
 
@@ -745,10 +773,7 @@ public class GUISelector implements SelectorV {
     //##################################################################################################################
     @Override
     public void askWhatReaload(List<WeaponCardV> toReload) {
-        CLISelector cliSelector= new CLISelector(networkConnection);
-        cliSelector.askWhatReaload(toReload);
-        //TODO
-        //new Thread(new AskWhatReaload(toReload)).start();
+        new Thread(new AskWhatReaload(toReload)).start();
     }
     private class AskWhatReaload implements Runnable{
         private List<WeaponCardV> toReload;
@@ -757,6 +782,44 @@ public class GUISelector implements SelectorV {
         }
         @Override
         public void run() {
+            VBox request = buildRequest();
+            Platform.runLater(this::makeWeaponsHoverable);
+            Platform.runLater(()->getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
+        }
+        private VBox buildRequest(){
+            VBox request = new VBox();
+            StackPane stackPane = new StackPane(new Label("choose what weapon to reload from your hand"));
+            request.getChildren().add(stackPane);
+
+            StackPane skip = new StackPane(new Label("don't reload"));
+            request.getChildren().add(skip);
+
+            VBox.setVgrow(skip, Priority.ALWAYS);
+            VBox.setVgrow(stackPane, Priority.ALWAYS);
+
+            makeNodeHoverable(skip);
+
+            skip.setOnMouseClicked(e->{
+                String choice = "SKIP";
+                getGameSceneController().sendToServer(new ViewControllerEventString(choice));
+                getGameSceneController().removeSelectorSection();
+            });
+
+            return request;
+        }
+        private void makeWeaponsHoverable(){
+            for (StackPane weaponCardStackPane: getGameSceneController().getWeaponCardsMainImage()) {
+                for (WeaponCardV weaponCardV:toReload) {
+                    if(((WeaponCardV)weaponCardStackPane.getUserData()).getID().equals(weaponCardV.getID())){
+                        weaponCardStackPane.getStyleClass().add(hoverableCssClass);
+                        weaponCardStackPane.setOnMouseClicked(e-> {
+                            String chosenId = weaponCardV.getID();
+                            getGameSceneController().sendToServer(new ViewControllerEventString(chosenId));
+                            getGameSceneController().removeSelectorSection();
+                        });
+                    }
+                }
+            }
         }
     }
 
@@ -848,12 +911,7 @@ public class GUISelector implements SelectorV {
 
     //##################################################################################################################
     @Override
-    public void askWhatWep(List<WeaponCardV> loadedCardInHand) {
-        CLISelector cliSelector= new CLISelector(networkConnection);
-        cliSelector.askWhatWep(loadedCardInHand);
-        //TODO
-        //new Thread(new AskWhatWep(loadedCardInHand)).start();
-    }
+    public void askWhatWep(List<WeaponCardV> loadedCardInHand) {new Thread(new AskWhatWep(loadedCardInHand)).start(); }
     private class AskWhatWep implements Runnable{
         private List<WeaponCardV> loadedCardInHand;
         private AskWhatWep (List<WeaponCardV> loadedCardInHand){
@@ -861,8 +919,29 @@ public class GUISelector implements SelectorV {
         }
         @Override
         public void run() {
-
+            Platform.runLater(this::makeWeaponHoverable);
+            VBox request = buildRequest();
+            Platform.runLater(()->getGameSceneController().changeSelectorSection(request, 0.0,0.0,0.0,0.0));
         }
+        private void makeWeaponHoverable(){
+            for (StackPane weaponCardStackPane: getGameSceneController().getWeaponCardsMainImage()) {
+                for (int i = 0; i < loadedCardInHand.size(); i++) {
+                    WeaponCardV weaponCardV = loadedCardInHand.get(i);
+                    if(((WeaponCardV)weaponCardStackPane.getUserData()).getID().equals(weaponCardV.getID())){
+                        weaponCardStackPane.getStyleClass().add(hoverableCssClass);
+                        String chosen = i+"";
+                        weaponCardStackPane.setOnMouseClicked(e-> {
+                            getGameSceneController().sendToServer(new ViewControllerEventString(chosen));
+                            getGameSceneController().removeSelectorSection();
+                        });
+                    }
+                }
+            }
+        }
+        private VBox buildRequest(){
+            return new VBox(new StackPane(new Label("chose what weapon to reload from your hand")));
+        }
+
     }
 
     //##################################################################################################################
@@ -916,9 +995,8 @@ public class GUISelector implements SelectorV {
     //##################################################################################################################
     @Override
     public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
-        CLISelector cliSelector= new CLISelector(networkConnection);
+        CLISelector cliSelector = new CLISelector(this.networkConnection);
         cliSelector.askEffectInputs(inputType, possibleInputs);
-        //TODO
         //new Thread(new AskEffectInputs(inputType, possibleInputs)).start();
     }
     private class AskEffectInputs implements Runnable{
@@ -930,7 +1008,7 @@ public class GUISelector implements SelectorV {
         }
         @Override
         public void run() {
-
+            //TODO
         }
     }
 
@@ -1125,7 +1203,6 @@ public class GUISelector implements SelectorV {
             for (AmmoCubesV ammo:this.amountToPay) {
                 HBox hBox = buildHBoxRequestOfDoubleStackPanes(3);
                 for (int i = 0; i<ammo.getQuantity(); i++) {
-                    //StackPane stackPaneBackground = (StackPane)hBox.getChildren().get(i);
                     //set styles
                     StackPane stackPaneMainImage = (StackPane)((StackPane) hBox.getChildren().get(i)).getChildren().get(0);
                     if(ammo.getColor().equals(AmmoCubesColor.red)){
@@ -1166,20 +1243,7 @@ public class GUISelector implements SelectorV {
                     answer.add(((StackPane)e.getSource()).getUserData());
                     //subtract one unit of the color of the power up chosen from the total cost to pay
                     //also deletes the power up cards from the possibilities
-                    for (AmmoCubesV ammo: amountToPay) {
-                        if(ammo.getColor().equals(colorOfTheChosenPowerUp)){
-                            ammo.setQuantity(ammo.getQuantity()-1);
-                            if(ammo.getQuantity()<=0){
-                                //remove the color from the amount to pay
-                                amountToPay.remove(ammo);
-
-                                //delete All the power up card with the same color as the one of the power up chosen from the possibilities
-                                possibilities.removeIf(element -> element.getColor().equals(colorOfTheChosenPowerUp));
-
-                            }
-                            break;
-                        }
-                    }
+                    adjustAmountToPayAndPossibilities(colorOfTheChosenPowerUp);
 
                     //check stuff to do next:
                     //      if don't have possibilities, end
@@ -1215,17 +1279,30 @@ public class GUISelector implements SelectorV {
                 getGameSceneController().sendToServer(viewControllerEventPaymentInformation);
             });
         }
+        private void adjustAmountToPayAndPossibilities(AmmoCubesColor colorOfTheChosenPowerUp){
+            for (AmmoCubesV ammo: amountToPay) {
+                if(ammo.getColor().equals(colorOfTheChosenPowerUp)){
+                    ammo.setQuantity(ammo.getQuantity()-1);
+                    if(ammo.getQuantity()<=0){
+                        //remove the color from the amount to pay
+                        amountToPay.remove(ammo);
+
+                        //delete All the power up card with the same color as the one of the power up chosen from the possibilities
+                        possibilities.removeIf(element -> element.getColor().equals(colorOfTheChosenPowerUp));
+
+                    }
+                    break;
+                }
+            }
+        }
     }
 
 
     //##################################################################################################################
     @Override
     public void askPowerUpToUse(SelectorEventPowerUpCards selectorEventPowerUpCards) {
-        CLISelector cliSelector= new CLISelector(networkConnection);
-        cliSelector.askPowerUpToUse(selectorEventPowerUpCards);
-        //TODO
-        //List<PowerUpCardV> powerUpCardsV = selectorEventPowerUpCards.getPowerUpCards();
-        //new Thread(new AkPowerUpToUse(powerUpCardsV)).start();
+        List<PowerUpCardV> powerUpCardsV = selectorEventPowerUpCards.getPowerUpCards();
+        new Thread(new AkPowerUpToUse(powerUpCardsV)).start();
     }
     private class AkPowerUpToUse implements Runnable{
         private List<PowerUpCardV> powerUpCardsV;
@@ -1234,7 +1311,28 @@ public class GUISelector implements SelectorV {
         }
         @Override
         public void run(){
-
+            VBox request = buildRequest();
+            Platform.runLater(this::makePowerUpHoverable);
+            Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
+        }
+        private VBox buildRequest(){
+            return new VBox(new StackPane(new Label("choose the power up to use from your hand")));
+        }
+        private void makePowerUpHoverable(){
+            List<StackPane> powerUpCardsMainImages = getGameSceneController().getListOfPowerUpCardsMainImage();
+            for (StackPane stackPanePowerUp: powerUpCardsMainImages) {
+                for (PowerUpCardV powerUpCardV : powerUpCardsV) {
+                    if (((PowerUpCardV) stackPanePowerUp.getUserData()).getID().equals(powerUpCardV.getID())) {
+                        stackPanePowerUp.getStyleClass().add(hoverableCssClass);
+                        stackPanePowerUp.setOnMouseClicked(e -> {
+                            String answer1 = ((PowerUpCardV) stackPanePowerUp.getUserData()).getName();
+                            String answer2 = ((PowerUpCardV) stackPanePowerUp.getUserData()).getColor() + "";
+                            getGameSceneController().sendToServer(new ViewControllerEventTwoString(answer1, answer2));
+                            getGameSceneController().removeSelectorSection();
+                        });
+                    }
+                }
+            }
         }
     }
 

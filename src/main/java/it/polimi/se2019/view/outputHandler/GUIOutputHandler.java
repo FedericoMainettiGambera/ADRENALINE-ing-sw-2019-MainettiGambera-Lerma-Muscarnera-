@@ -220,10 +220,11 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                 powerStackPanes.add(getGameSceneController().getPowerUpCardMainImage2());
 
                 for(int p = 0; p < powerUpCards.getCards().size();p++) {
-                    PowerUpCardV currentW = powerUpCards.getCards().get(p);
+                    PowerUpCardV currentP = powerUpCards.getCards().get(p);
                     StackPane   currentStackPane = powerStackPanes.get(p);
+                    currentStackPane.setUserData(currentP);
                     removePrevious(currentStackPane);
-                    currentStackPane.getStyleClass().add("powerUpCard" + currentW.getID()); //TODO luca le classi che hai messo nel css vanno solo da 1 a 4
+                    currentStackPane.getStyleClass().add("powerUpCard" + currentP.getID()); //TODO luca le classi che hai messo nel css vanno solo da 1 a 4
                 }
 
             }
@@ -267,6 +268,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                 for(int w = 0; w < weaponCards.getCards().size();w++) {
                     WeaponCardV currentW = weaponCards.getCards().get(w);
                     StackPane   currentStackPane = weaponStackPanes.get(w);
+                    currentStackPane.setUserData(currentW);
                     removePrevious(currentStackPane);
                     currentStackPane.getStyleClass().add("weaponCard" + currentW.getID());
                 }
