@@ -187,7 +187,7 @@ public class  Controller{
         Scanner br = new Scanner(System.in);
 
         out.println("\n\n");
-        out.println(GameConstant.AdrenalineTitle4);
+        out.println(GameConstant.ADRENALINE_TITLE_7);
         out.println("\n\n\n");
         out.println("\nWhat's your Nickname?");
 

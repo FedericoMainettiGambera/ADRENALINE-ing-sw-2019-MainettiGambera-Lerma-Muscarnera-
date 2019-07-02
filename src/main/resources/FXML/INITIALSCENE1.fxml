@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onEnterPressed" prefHeight="529.0" prefWidth="420.0" styleClass="transparent" stylesheets="@../CSS/styleInitialScene1.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.InitialSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onEnterPressed" prefHeight="529.0" prefWidth="420.0" styleClass="transparent" stylesheets="@../CSS/styleInitialScene1.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.InitialSceneController">
    <children>
       <VBox prefHeight="561.0" prefWidth="413.0" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -147,7 +147,7 @@
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <Label layoutX="157.0" layoutY="3.0" styleClass="text" text="or" />
-                              <Hyperlink fx:id="readRulesHyperlink" layoutX="172.0" text=" read rules" onAction="#onReadRulesPressed"/>
+                              <Hyperlink fx:id="readRulesHyperlink" layoutX="172.0" onAction="#onReadRulesPressed" text=" read rules" />
                               <Label layoutX="221.0" layoutY="60.0" styleClass="text" text="Want to play with" />
                               <Hyperlink fx:id="cliHyperlink" layoutX="344.0" layoutY="57.0" onAction="#onCLIHyperlinkPressed" text="CLI" />
                               <Label layoutX="374.0" layoutY="60.0" styleClass="text" text="?" />
@@ -166,7 +166,7 @@
       </VBox>
       <ImageView fitHeight="78.0" fitWidth="173.0" layoutX="132.0" preserveRatio="true">
          <image>
-            <Image url="@../../../../../ing-sw-2019-MainettiGambera-Lerma-Muscarnera - Copia (3)/src/main/resources/IMG/GEARGIFFINAL.gif" />
+            <Image url="@../IMG/GEARGIFFINAL.gif" />
          </image>
       </ImageView>
    </children>

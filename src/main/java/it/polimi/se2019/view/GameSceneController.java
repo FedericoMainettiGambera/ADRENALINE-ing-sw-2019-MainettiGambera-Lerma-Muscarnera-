@@ -535,6 +535,12 @@ public class GameSceneController implements Initializable {
         //making board auto-resize
         makeBoardAutoResizing();
 
+        //making selector section and info section resizable
+        this.interactiveSection.heightProperty().addListener((observable, oldvalue, newvalue) ->{
+            this.selectorSection.setPrefHeight(this.informationSection.getHeight()/(double)2);
+            this.informationSection.setPrefHeight(this.informationSection.getHeight()/(double)2);
+        });
+
         //initialize progress indicator for the timer
         this.progressIndicator.setProgress(0.0);
 

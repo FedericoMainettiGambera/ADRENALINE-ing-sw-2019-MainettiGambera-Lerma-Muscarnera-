@@ -79,173 +79,175 @@
                               </HBox>
                            </children>
                         </AnchorPane>
-                        <HBox>
-                           <children>
-                              <AnchorPane fx:id="killshotTrackSection" HBox.hgrow="SOMETIMES">
-                                 <children>
-                                    <VBox fx:id="killshotTrackVBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <children>
-                                          <StackPane fx:id="killBackground1" >
-                                             <children>
-                                                <StackPane fx:id="killMainImage1" >
-                                                   <children>
-                                                      <Label text="kill" />
-                                                   </children>
-                                                </StackPane>
-                                             </children>
-                                          </StackPane>
-                                          <StackPane fx:id="killBackground2" >
-                                             <children>
-                                                <StackPane fx:id="killMainImage2">
-                                                   <children>
-                                                      <Label text="kill" />
-                                                   </children>
-                                                </StackPane>
-                                             </children>
-                                          </StackPane>
-                                          <StackPane fx:id="killBackground3" >
-                                             <children>
-                                                <StackPane fx:id="killMainImage3" >
-                                                   <children>
-                                                      <Label text="kill" />
-                                                   </children>
-                                                </StackPane>
-                                             </children>
-                                          </StackPane>
-                                          <StackPane fx:id="killBackground4">
-                                             <children>
-                                                <StackPane fx:id="killMainImage4">
-                                                   <children>
-                                                      <Label text="kill" />
-                                                   </children>
-                                                </StackPane>
-                                             </children>
-                                          </StackPane>
-                                          <StackPane fx:id="killBackground5">
-                                             <children>
-                                                <StackPane fx:id="killMainImage5">
-                                                   <children>
-                                                      <Label text="kill" />
-                                                   </children>
-                                                </StackPane>
-                                             </children>
-                                          </StackPane>
-                                          <StackPane fx:id="killBackground6">
-                                             <children>
-                                                <StackPane fx:id="killMainImage6">
-                                                   <children>
-                                                      <Label text="kill" />
-                                                   </children>
-                                                </StackPane>
-                                             </children>
-                                          </StackPane>
-                                          <StackPane fx:id="killBackground7">
-                                             <children>
-                                                <StackPane fx:id="killMainImage7">
-                                                   <children>
-                                                      <Label text="kill" />
-                                                   </children>
-                                                </StackPane>
-                                             </children>
-                                          </StackPane>
-                                          <StackPane fx:id="killBackground8">
-                                             <children>
-                                                <StackPane fx:id="killMainImage8">
-                                                   <children>
-                                                      <Label text="kill" />
-                                                   </children>
-                                                </StackPane>
-                                             </children>
-                                          </StackPane>
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </AnchorPane>
-                              <AnchorPane fx:id="boardSection" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <StackPane fx:id="boardBackGround" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <children>
-                                          <GridPane fx:id="board">
-                                            <columnConstraints>
-                                              <ColumnConstraints hgrow="SOMETIMES"/>
-                                              <ColumnConstraints hgrow="SOMETIMES"/>
-                                                <ColumnConstraints hgrow="SOMETIMES"/>
-                                                <ColumnConstraints hgrow="SOMETIMES"/>
-                                            </columnConstraints>
-                                            <rowConstraints>
-                                              <RowConstraints vgrow="SOMETIMES" />
-                                              <RowConstraints vgrow="SOMETIMES" />
-                                              <RowConstraints vgrow="SOMETIMES" />
-                                            </rowConstraints>
-                                             <children>
-                                                <StackPane fx:id="squareBackground00">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage00"/>
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground01" GridPane.columnIndex="1">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage01" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground02" GridPane.columnIndex="2">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage02" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground03" GridPane.columnIndex="3">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage03" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground10" GridPane.rowIndex="1">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage10" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground11" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage11" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground12" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage12" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground13" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage13" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground20"  GridPane.rowIndex="2">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage20" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground21" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage21" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground22" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage22" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground23" GridPane.columnIndex="3" GridPane.rowIndex="2">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage23" />
-                                                   </children>
-                                                </StackPane>
-                                             </children>
-                                          </GridPane>
-                                       </children>
-                                    </StackPane>
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </HBox>
+                        <AnchorPane>
+                           <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <children>
+                                 <AnchorPane fx:id="killshotTrackSection" HBox.hgrow="SOMETIMES">
+                                    <children>
+                                       <VBox fx:id="killshotTrackVBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <children>
+                                             <StackPane fx:id="killBackground1" VBox.vgrow="ALWAYS">
+                                                <children>
+                                                   <StackPane fx:id="killMainImage1" >
+                                                      <children>
+                                                         <Label text="kill" />
+                                                      </children>
+                                                   </StackPane>
+                                                </children>
+                                             </StackPane>
+                                             <StackPane fx:id="killBackground2" VBox.vgrow="ALWAYS" >
+                                                <children>
+                                                   <StackPane fx:id="killMainImage2">
+                                                      <children>
+                                                         <Label text="kill" />
+                                                      </children>
+                                                   </StackPane>
+                                                </children>
+                                             </StackPane>
+                                             <StackPane fx:id="killBackground3" VBox.vgrow="ALWAYS" >
+                                                <children>
+                                                   <StackPane fx:id="killMainImage3" >
+                                                      <children>
+                                                         <Label text="kill" />
+                                                      </children>
+                                                   </StackPane>
+                                                </children>
+                                             </StackPane>
+                                             <StackPane fx:id="killBackground4" VBox.vgrow="ALWAYS">
+                                                <children>
+                                                   <StackPane fx:id="killMainImage4">
+                                                      <children>
+                                                         <Label text="kill" />
+                                                      </children>
+                                                   </StackPane>
+                                                </children>
+                                             </StackPane>
+                                             <StackPane fx:id="killBackground5" VBox.vgrow="ALWAYS">
+                                                <children>
+                                                   <StackPane fx:id="killMainImage5">
+                                                      <children>
+                                                         <Label text="kill" />
+                                                      </children>
+                                                   </StackPane>
+                                                </children>
+                                             </StackPane>
+                                             <StackPane fx:id="killBackground6" VBox.vgrow="ALWAYS">
+                                                <children>
+                                                   <StackPane fx:id="killMainImage6">
+                                                      <children>
+                                                         <Label text="kill" />
+                                                      </children>
+                                                   </StackPane>
+                                                </children>
+                                             </StackPane>
+                                             <StackPane fx:id="killBackground7" VBox.vgrow="ALWAYS">
+                                                <children>
+                                                   <StackPane fx:id="killMainImage7">
+                                                      <children>
+                                                         <Label text="kill" />
+                                                      </children>
+                                                   </StackPane>
+                                                </children>
+                                             </StackPane>
+                                             <StackPane fx:id="killBackground8" VBox.vgrow="ALWAYS">
+                                                <children>
+                                                   <StackPane fx:id="killMainImage8">
+                                                      <children>
+                                                         <Label text="kill" />
+                                                      </children>
+                                                   </StackPane>
+                                                </children>
+                                             </StackPane>
+                                          </children>
+                                       </VBox>
+                                    </children>
+                                 </AnchorPane>
+                                 <AnchorPane fx:id="boardSection" HBox.hgrow="ALWAYS">
+                                    <children>
+                                       <StackPane fx:id="boardBackGround" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <children>
+                                             <GridPane fx:id="board">
+                                               <columnConstraints>
+                                                 <ColumnConstraints percentWidth="25.0" hgrow="ALWAYS"/>
+                                                 <ColumnConstraints percentWidth="25.0" hgrow="ALWAYS"/>
+                                                   <ColumnConstraints percentWidth="25.0"  hgrow="ALWAYS"/>
+                                                   <ColumnConstraints percentWidth="25.0" hgrow="ALWAYS"/>
+                                               </columnConstraints>
+                                               <rowConstraints>
+                                                 <RowConstraints percentHeight="33.333333" vgrow="ALWAYS" />
+                                                 <RowConstraints percentHeight="33.333333" vgrow="ALWAYS" />
+                                                 <RowConstraints percentHeight="33.333333" vgrow="ALWAYS" />
+                                               </rowConstraints>
+                                                <children>
+                                                   <StackPane fx:id="squareBackground00">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage00"/>
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground01" GridPane.columnIndex="1">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage01" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground02" GridPane.columnIndex="2">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage02" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground03" GridPane.columnIndex="3">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage03" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground10" GridPane.rowIndex="1">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage10" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground11" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage11" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground12" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage12" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground13" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage13" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground20"  GridPane.rowIndex="2">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage20" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground21" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage21" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground22" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage22" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground23" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage23" />
+                                                      </children>
+                                                   </StackPane>
+                                                </children>
+                                             </GridPane>
+                                          </children>
+                                       </StackPane>
+                                    </children>
+                                 </AnchorPane>
+                              </children>
+                           </HBox>
+                        </AnchorPane>
                         <AnchorPane fx:id="playerSection">
                            <children>
                               <HBox fx:id="playerHBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

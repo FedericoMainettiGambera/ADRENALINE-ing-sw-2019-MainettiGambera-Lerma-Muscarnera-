@@ -702,7 +702,7 @@ public class GUISelector implements SelectorV {
             hBox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
 
             for (int i = 0; i < hBox.getChildren().size() ; i++) {
-                StackPane mainStackPane = (StackPane)hBox.getChildren().get(i);
+                StackPane mainStackPane = (StackPane)((StackPane)hBox.getChildren().get(i)).getChildren().get(0);
                 makeNodeHoverable(mainStackPane);
                 mainStackPane.setUserData(toPickUp.get(i).getID());
                 //EVENTS
