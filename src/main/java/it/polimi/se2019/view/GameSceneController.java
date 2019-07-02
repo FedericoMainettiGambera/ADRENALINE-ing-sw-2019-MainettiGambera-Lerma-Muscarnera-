@@ -17,6 +17,7 @@ import javafx.scene.text.TextFlow;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -215,6 +216,14 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane powerUpCardBackground1;
     @FXML private StackPane powerUpCardMainImage1;
     @FXML private StackPane powerUpCardBackground2;
+    @FXML private StackPane powerUpCardMainImage2;
+
+    public List<StackPane> getListOfPowerUpCardsMainImage(){
+        return new ArrayList<>(Arrays.asList(powerUpCardMainImage1, powerUpCardMainImage2));
+    }
+    public List<StackPane> getListOfPowerUpCardsBackground(){
+        return new ArrayList<>(Arrays.asList(powerUpCardBackground1, powerUpCardBackground2));
+    }
 
     public StackPane getPowerUpCardMainImage2() {
         return powerUpCardMainImage2;
@@ -222,7 +231,6 @@ public class GameSceneController implements Initializable {
     public StackPane getPowerUpCardMainImage1() {
         return powerUpCardMainImage1;
     }
-    @FXML private StackPane powerUpCardMainImage2;
 
     //3.1.2-player main statistics
     @FXML private GridPane playerStats;
@@ -445,6 +453,13 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane weaponCardMainImage2;
     @FXML private StackPane weaponCardBackground3;
     @FXML private StackPane weaponCardMainImage3;
+
+    public List<StackPane> getWeaponCardsMainImage(){
+        return new ArrayList<>(Arrays.asList(weaponCardMainImage1, weaponCardMainImage2, weaponCardMainImage3));
+    }
+    public List<StackPane> getWeaponCardsBackground(){
+        return new ArrayList<>(Arrays.asList(weaponCardBackground1, weaponCardBackground2, weaponCardBackground3));
+    }
 
     public StackPane getWeaponCardMainImage1() {
         return weaponCardMainImage1;
