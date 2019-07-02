@@ -21,7 +21,8 @@ import java.util.logging.Logger;
 public class ChooseHowToPayState {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(ChooseHowToPayState.class.getName());
-   /**contains the player who needs to effectuate the payment*/
+
+    /**contains the player who needs to effectuate the payment*/
     private Player payingPlayer;
     /**the amount due*/
     private AmmoList toPay;

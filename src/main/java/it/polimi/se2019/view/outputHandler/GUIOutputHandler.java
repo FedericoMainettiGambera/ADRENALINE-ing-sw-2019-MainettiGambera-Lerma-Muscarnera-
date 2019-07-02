@@ -63,9 +63,6 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     // }
     // }
     /**********************************/
-    /**** Update of kill shot track  **/            /*  LUCA  */
-    /**********************************/
-
     private void updateKillShotTrack() {
         System.out.println("UPDATE KILLSHOT TRACK");
         (new Thread(new UpdateKillShotTrack())).start();
@@ -78,7 +75,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                     this::runner
             );
         }
-        /** Private methods         */
+
         /**         Specific        */
         private String colorToString(PlayersColors color) {
             String stringColor = "";
@@ -125,7 +122,6 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             target.getStyleClass().remove("killYellow");
             target.getStyleClass().remove("killGray");
             target.getStyleClass().remove("killBlue");
-
             target.getStyleClass().remove("overKillGreen");
             target.getStyleClass().remove("overKillPurple");
             target.getStyleClass().remove("overKillYellow");
@@ -199,7 +195,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         /***/
         private void removePrevious(StackPane target) {
             int numberOfCards = 4;
-            for(int i = 1; i < numberOfCards ; i++) {
+            for(int i = 1; i <= numberOfCards ; i++) {
                 target.getStyleClass().remove("powerUpCard" + i);
             }
         }
