@@ -14,8 +14,6 @@ import it.polimi.se2019.view.GUIstarter;
 import it.polimi.se2019.view.GameSceneController;
 import it.polimi.se2019.view.components.*;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
