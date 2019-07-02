@@ -302,7 +302,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         }
     }
 
-    public static void showConnectionInfo(){
+    private static void showConnectionInfo(){
         if(Controller.getNetworkConnection() != null && Controller.getIp() != null && Controller.getPort() != null){
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("\n<<<<<<<<<<<< CONNECTION INFO >>>>>>>>>>>>");
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("  CONNECTION TYPE: " + Controller.getNetworkConnection());

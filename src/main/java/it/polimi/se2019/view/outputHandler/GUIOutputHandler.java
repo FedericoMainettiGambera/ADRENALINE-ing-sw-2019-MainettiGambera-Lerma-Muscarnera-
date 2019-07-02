@@ -4,8 +4,10 @@ import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.model.NormalSquare;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.SpawnPointSquare;
+
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.PlayersColors;
+import it.polimi.se2019.model.events.Event;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.stateEvent.StateEvent;
 import it.polimi.se2019.view.GUIstarter;
@@ -18,6 +20,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -364,16 +369,17 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                     break;
                 default:
                     removePrevious(getGameSceneController().getDamagesMainImage().get(i));
-                    (getGameSceneController().getDamagesMainImage().get(i).getStyleClass()).add("damageEmpty");
+                    (getGameSceneController().getDamagesMainImage().get(i).getStyleClass()).add(damageEmpty);
             }
         }
 
+        private String damageEmpty="damageEmpty";
         /**applies the "damageEmpty" style sheet to all of the damage images*/
         private void emptyDamages(int i){
 
             for (int j = i; j < getGameSceneController().getDamagesMainImage().size(); j++){
                 removePrevious(getGameSceneController().getDamagesMainImage().get(j));
-                getGameSceneController().getDamagesMainImage().get(j).getStyleClass().add("damageEmpty");
+                getGameSceneController().getDamagesMainImage().get(j).getStyleClass().add(damageEmpty);
 
             }
         }
@@ -385,7 +391,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             damage.getStyleClass().remove("damageYellow");
             damage.getStyleClass().remove("damageGreen");
             damage.getStyleClass().remove("damageGray");
-            damage.getStyleClass().remove("damageEmpty");
+            damage.getStyleClass().remove(damageEmpty);
 
 
         }
@@ -463,18 +469,19 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                     (getGameSceneController().getMarkMainImage().get(i).getStyleClass()).add("markYellow");
                     break;
                 default:removePrevious(getGameSceneController().getMarkMainImage().get(i));
-                    (getGameSceneController().getMarkMainImage().get(i).getStyleClass()).add("markEmpty");
+                    (getGameSceneController().getMarkMainImage().get(i).getStyleClass()).add(markEmpty);
                     break;
             }
 
         }
 
+        private String markEmpty="markEmpty";
         /**applies the "markEmpty" css style class to all of the marks*/
         private void emptyMarks(int i) {
 
             for (int j = i; j < getGameSceneController().getMarkMainImage().size(); j++) {
                 removePrevious(getGameSceneController().getMarkMainImage().get(j));
-                getGameSceneController().getMarkMainImage().get(j).getStyleClass().add("markEmpty");
+                getGameSceneController().getMarkMainImage().get(j).getStyleClass().add(markEmpty);
 
             }
         }
@@ -487,7 +494,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             mark.getStyleClass().remove("markYellow");
             mark.getStyleClass().remove("markGreen");
             mark.getStyleClass().remove("markGray");
-            mark.getStyleClass().remove("markEmpty");
+            mark.getStyleClass().remove(markEmpty);
 
         }
 
@@ -625,6 +632,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             Platform.runLater(this::run2);
         }
 
+        private String ammoEmpty="ammoEmpty";
         /**empty all the ammolists*/
         private void emptyAmmos(int i, String color){
 
@@ -632,19 +640,19 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                 case "blue":
                     for (int j = i; j < getGameSceneController().getAmmosMainImage(AmmoCubesColor.blue).size(); j++){
                     removePrevious(getGameSceneController().getDamagesMainImage().get(j));
-                    getGameSceneController().getAmmosMainImage(AmmoCubesColor.blue).get(j).getStyleClass().add("ammoEmpty");
+                    getGameSceneController().getAmmosMainImage(AmmoCubesColor.blue).get(j).getStyleClass().add(ammoEmpty);
                     }
                     break;
                 case"red":
                     for(int j = i; j < getGameSceneController().getAmmosMainImage(AmmoCubesColor.red).size(); j++){
                     removePrevious(getGameSceneController().getDamagesMainImage().get(j));
-                    getGameSceneController().getAmmosMainImage(AmmoCubesColor.red).get(j).getStyleClass().add("ammoEmpty");
+                    getGameSceneController().getAmmosMainImage(AmmoCubesColor.red).get(j).getStyleClass().add(ammoEmpty);
                 }
                     break;
                 case"yellow":
                     for(int j = i; j < getGameSceneController().getAmmosMainImage(AmmoCubesColor.yellow).size(); j++) {
                         removePrevious(getGameSceneController().getDamagesMainImage().get(j));
-                        getGameSceneController().getAmmosMainImage(AmmoCubesColor.yellow).get(j).getStyleClass().add("ammoEmpty");
+                        getGameSceneController().getAmmosMainImage(AmmoCubesColor.yellow).get(j).getStyleClass().add(ammoEmpty);
                     }
                     break;
 
@@ -653,7 +661,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                     for (AmmoCubesColor colors : AmmoCubesColor.values()){
                         for (StackPane ammo : getGameSceneController().getAmmosMainImage(colors)){
                             removePrevious(ammo);
-                            ammo.getStyleClass().add("emptyAmmo");
+                            ammo.getStyleClass().add(ammoEmpty);
                         }
                     }
                     break;
@@ -841,8 +849,126 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     }
 
-    private void updateStateBar() {
+    private void updateStateBar(Event stateEvent) {
         System.out.println("UPDATE STATE BAR"); //MOMENTANEO
+
+
+        (new Thread(new UpdateStateBar((StateEvent) stateEvent))).start();
+    }
+
+    private class UpdateStateBar implements Runnable{
+
+        StateEvent stateEvent;
+         UpdateStateBar(StateEvent stateEvent){
+            this.stateEvent=stateEvent;
+        }
+
+        @Override
+        public void run(){
+            Platform.runLater(()->{
+
+                String title;
+                String description;
+
+               switch(stateEvent.getState()){
+                   case"BotMoveState": title="BOT IS MOVING";
+                   description="is moving the bot";
+                   break;
+                   case"BotShootState": title="BOT IS ABOUT TO SHOOT";
+                   description="is choosing whom the bot may be about to blow the head off";
+                   break;
+                   case"ChooseHowToPayState": title="PAYMENT DETAILS ARE BEING DISCUSSED";
+                   description="is choosing how to purchase";
+                   break;
+                   case"FFSetUpState":title="FINAL FRENZY PREPARATION";
+                   description="we are working for you fun!(and bloody revenge)";
+                   break;
+                   case"FinalScoringState":title="CALCULATING YOUR FINAL SCORE";
+                   description="Can you figure out who is going to win?";
+                   break;
+                   case"FirstSpawnState":title="SPAWNING FOR THE FIRST TIME";
+                   description="is spawning for his first time! " +
+                           "Let's show some warmth all of you!";
+                   break;
+                   case"GrabStuffState":title="CHOOSING WHERE TO GRAB";
+                   description="is choosing where to grab! Should you stay or should you go?";
+                   break;
+                   case"GrabStuffStateDrawAndDiscardPowerUp":title="DISCARDING A POWER UP";
+                   description="is discarding a power up card";
+                   break;
+                   case"GrabStuffStateDrawPowerUp":title="DRAWING A POWER UP";
+                   description="is drawing a power up!";
+                   break;
+                   case "GrabStuffStateGrab":title="GRABBING SOMETHING";
+                       description="is grabbing something! I wonder what it will be...";
+                   break;
+                   case"GrabStuffStateGrabWeapon":title="GRABBING A WEAPON";
+                       description="is grabbing a weapon! Watch out you all!!!";
+                   break;
+                   case"GrabStuffStateMove":title="MOVING BEFORE GRABBING";
+                       description="decided to move!";
+                   break;
+                   case"PowerUpAskForInputState":title="POWER UP DETAILS ARE BEING DISCUSSED";
+                       description="is deciding how to use his hidden powers...";
+                   break;
+                   case"PowerUpState":title="CLEARING IDEAS ON POWER UPS";
+                       description="is deciding what of his multiple abilities as a wizard is going to use against you";
+                   break;
+                   case"ReloadState":title="RELOADING YOUR WEAPONS";
+                       description="is reloading his weapons! Beware! ";
+                   break;
+                   case"RunAroundState":title="RUN AROUND!";
+                       description="decided to go for a walk";
+                   break;
+                   case"ScoreKillsState":title="SCORING THE DEAD";
+                       description="Working for your rank to update";
+                       break;
+                   case"ShootPeopleAskForInputState":title="SHOOTING DETAILS ARE BEING DISCUSSED";
+                       description="is deciding what to do with his weapons";
+                       break;
+                   case"ShootPeopleChooseEffectState":title="WEAPON MODES ARE BEING DEFINED";
+                       description="is deciding how to make you suffer";
+                       break;
+                   case"ShootPeopleChooseWepState":title="WEAPON TO USE IS BEING CHOSEN";
+                       description="is deciding what will make your brain blow out";
+                       break;
+                   case"ShootPeopleState":title="SHOOTING PEOPLE";
+                       description="is shooting";
+                       break;
+                   case"SpawnState":title="SPAWNING PLAYER";
+                       description="is rising againg from the dead";
+
+                       break;
+                   case"TagBackGranadeState":title="TAGBACK GRENADE IN ACTION";
+                       description="is using tagbackgrenade";
+
+                       break;
+                   case"TargetingScopeState": title="TARGETING SCOPE IN ACTION";
+                       description="is using targetingscope";
+
+                       break;
+                   case"TurnState":title="TURN STATE";
+                       description="is thinking! What will he do?";
+                       break;
+                   case"WantToPlayPowerUpState":title="ASKING PLAYER FOR POWER UP TO BE USED";
+                       description="is deciding whether to use a power up or not";
+                       break;
+                       default:title="Unpredictable switch of the game";
+                       description="whoop i fell";
+                           break;
+               }
+               Text player;
+               Text descr=new Text(description);
+
+                (getGameSceneController().getStateTitle()).setText(title);
+               if(ViewModelGate.getMe().equals(ViewModelGate.getModel().getPlayers().getCurrentPlayingPlayer()))
+               {player=new Text("you");}
+               else player=new Text(ViewModelGate.getModel().getPlayers().getCurrentPlayingPlayer());
+                getGameSceneController().setStateDescription(new TextFlow(player, descr));
+            });
+
+
+        }
     }
 
     /**update the progress indicator to match the timer count down for the player*/
@@ -885,7 +1011,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
         } else {
             //update StateBar
-            updateStateBar();
+            updateStateBar(stateEvent);
         }
     }
 
@@ -894,7 +1020,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     @Override
     public void setFinalFrenzy(ModelViewEvent modelViewEvent) {
         // shot ViewModelGate.getModel().isFinalFrenzy()
-        updateStateBar();
+        updateStateBar(modelViewEvent);
     }
 
     @Override
@@ -1036,13 +1162,13 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     @Override
     public void setCurrentPlayingPlayer(ModelViewEvent modelViewEvent) {
         //update statebar
-        updateStateBar();
+        updateStateBar(modelViewEvent);
     }
 
     @Override
     public void setStartingPlayer(ModelViewEvent modelViewEvent) {
         //update statebar
-        updateStateBar();
+        updateStateBar(modelViewEvent);
     }
 
     @Override

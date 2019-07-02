@@ -50,12 +50,48 @@ public class GameSceneController implements Initializable {
 
     //------------------------------1
     //1-state section
+    /***/
     @FXML private AnchorPane stateSection;
+    /**a label that reports the chosen connection method*/
     @FXML private Label connection;
+    /**@return connection*/
+    public Label getConnection() {
+        return connection;
+    }
+
+    /**a label that reports ip address info*/
     @FXML private Label ip;
+    /**@return ip*/
+    public Label getIp() {
+        return ip;
+    }
+
+    /**a label that reports connection port info*/
     @FXML private Label port;
+
+    /**@return port*/
+    public Label getPort() {
+        return port;
+    }
+
+    /**a label that indicates in which state the game is in real time*/
     @FXML private Label stateTitle;
+    /**@return stateTitle*/
+    public Label getStateTitle() {
+        return stateTitle;
+    }
+
+    /**a textflow that describes what is happening in the game in real time*/
     @FXML private TextFlow stateDescription;
+
+    /**@return stateDescription*/
+    public TextFlow getStateDescription() {
+        return stateDescription;
+    }
+
+    public void setStateDescription(TextFlow stateDescription) {
+        this.stateDescription = stateDescription;
+    }
 
     @FXML private ProgressIndicator progressIndicator;
     public ProgressIndicator getProgressIndicator(){
