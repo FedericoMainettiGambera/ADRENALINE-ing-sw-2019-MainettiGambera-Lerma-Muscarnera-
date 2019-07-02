@@ -780,9 +780,11 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                 AmmoCardV ammoCard = square.getAmmoCards().getCards().get(0);
                 if(ammoCard!=null){
                     StackPane ammoImage = new StackPane(new Label(ammoCard.getID())); //don't use a label, but set the image
+                    ammoImage.setUserData(ammoCard);
                     squareContent.getChildren().add(ammoImage);
-                    VBox.setVgrow(squareContent, Priority.ALWAYS);
+                    VBox.setVgrow(ammoImage, Priority.ALWAYS);
                 }
+
                 HBox playersHBox = buildPlayers(playersToShow);
                 if(!playersHBox.getChildren().isEmpty()){
                     squareContent.getChildren().add(playersHBox);
@@ -801,12 +803,14 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                     HBox weaponsHBox = new HBox();
                     for (WeaponCardV w:weaponCardVS) {
                         StackPane weaponImage = new StackPane(new Label(w.getName())); //don't use a label, but set the image
+                        weaponImage.setUserData(w);
                         weaponsHBox.getChildren().add(weaponImage);
                         HBox.setHgrow(weaponImage,Priority.ALWAYS);
                     }
                     squareContent.getChildren().add(weaponsHBox);
-                    VBox.setVgrow(squareContent, Priority.ALWAYS);
+                    VBox.setVgrow(weaponsHBox, Priority.ALWAYS);
                 }
+
                 HBox playersHBox = buildPlayers(playersToShow);
                 if(!playersHBox.getChildren().isEmpty()){
                     squareContent.getChildren().add(playersHBox);
@@ -828,6 +832,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             HBox hBox = new HBox();
             for (PlayerV p: playersToShow) {
                 StackPane player = new StackPane(new Label(p.getNickname())); //don't use a label, but set the image
+                player.setUserData(p);
                 hBox.getChildren().add(player);
                 HBox.setHgrow(player, Priority.ALWAYS);
             }
@@ -963,12 +968,14 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         // TODO LASCIATELO ALLA FINE LUCA
         //update changed cards
         updatePlayer();
+        updateMap();
     }
 
     @Override
     public void shufflingCards(ModelViewEvent modelViewEvent) {
         // TODO LASCIATELO ALLA FINE LUCA
         updatePlayer();
+        updateMap();
     }
 
     @Override
