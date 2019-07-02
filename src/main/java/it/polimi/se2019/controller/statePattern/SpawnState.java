@@ -70,7 +70,7 @@ public class SpawnState implements State {
         }
 
         ViewControllerEventHandlerContext.setNextState(new ScoreKillsState(this.deadPlayers));
-        ViewControllerEventHandlerContext.state.doAction(null);
+        ViewControllerEventHandlerContext.getState().doAction(null);
 
     }
 

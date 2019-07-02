@@ -18,7 +18,7 @@ public class TestFFSetUpState{
     public void TestFFSetUpState() throws IOException{
 
         game=fakeModel.create();
-        ModelGate.model=game;
+        ModelGate.setModel(game);
 
        game.getPlayerList().setStartingPlayer( game.getPlayerList().getPlayer("Alex"));
 

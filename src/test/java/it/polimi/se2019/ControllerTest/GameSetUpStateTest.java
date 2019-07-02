@@ -16,12 +16,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class GameSetUpStateTest{
 
-        private FakeModel fakeModel = new FakeModel();
 
         @Test
         public void testGameSetUpState() throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
-            Game game = fakeModel.create();
+            Game game = FakeModel.getFakeModel();
             ModelGate.setModel(game);
 
            ViewControllerEventGameSetUp viewControllerEventGameSetUp= new ViewControllerEventGameSetUp("normalMode", "map0", 5,false,false);

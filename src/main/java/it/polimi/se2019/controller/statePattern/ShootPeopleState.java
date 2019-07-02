@@ -39,7 +39,7 @@ public class ShootPeopleState implements State {
     private void changeState(State state, Player player){
 
         ViewControllerEventHandlerContext.setNextState(state);
-        ViewControllerEventHandlerContext.state.askForInput(player);
+        ViewControllerEventHandlerContext.getState().askForInput(player);
 
     }
 
@@ -155,9 +155,9 @@ public class ShootPeopleState implements State {
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 

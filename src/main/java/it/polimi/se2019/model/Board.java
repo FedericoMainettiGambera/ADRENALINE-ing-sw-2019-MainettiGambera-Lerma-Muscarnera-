@@ -5,21 +5,17 @@ import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.SquareTypes;
-import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.view.components.BoardV;
 import it.polimi.se2019.view.components.NormalSquareV;
 import it.polimi.se2019.view.components.SpawnPointSquareV;
 import it.polimi.se2019.view.components.SquareV;
 import it.polimi.se2019.virtualView.VirtualView;
-import javafx.geometry.Pos;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,16 +29,17 @@ import static it.polimi.se2019.model.enumerations.CardinalPoint.*;
 public class Board{
 
     private final static Logger logger=Logger.getLogger(Board.class.getName());
-    public VirtualView VVRMI;
-    public VirtualView VVSocket;
+    private VirtualView vvrmi;
+
+    private VirtualView vvsocket;
 
     /** constructor
      * @param chosenMap indicates the one map chosen between the 4 available
-     * @param VVRMI it keeps a connection with the RMI system
-     * @param VVSocket it keeps a connection with the Socket System */
-    public Board(String chosenMap, VirtualView VVSocket, VirtualView VVRMI) throws IOException{
-        this.VVSocket = VVSocket;
-        this.VVRMI = VVRMI;
+     * @param vvrmi it keeps a connection with the RMI system
+     * @param vvsocket it keeps a connection with the Socket System */
+    public Board(String chosenMap, VirtualView vvsocket, VirtualView vvrmi) throws IOException{
+        this.vvsocket = vvsocket;
+        this.vvrmi = vvrmi;
         this.board = buildMap(chosenMap);
         this.chosenMap=chosenMap;
     }
@@ -76,7 +73,7 @@ public class Board{
      * function used in controller to get the SpawnSquare where players want to spawn
      * @param color of the spawn point the player want to spawn in
      * */
-    public Position getSpawnpointOfColor(AmmoCubesColor color)throws Exception{
+    public Position getSpawnpointOfColor(AmmoCubesColor color){
         int g=0;
 
 
@@ -106,23 +103,23 @@ public class Board{
             }
         }
 
-        throw new Exception("Square not found.");
+        throw new IllegalStateException("Square not found.");
     }
 
     /**@param pos indicates the position you want to know the room of
      * @return room , a list of Squares which the said room is composed of
      * */
-    public List<Square> getRoomFromPosition(Position pos){
+     List<Square> getRoomFromPosition(Position pos){
         List<Square> room = new ArrayList<>();
         Square originalPos = this.getSquare(pos);
         char roomColor=originalPos.getColor();
-        for (int i = 0; i < this.board.length; i++) {
-            for (int j = 0; j < this.board[0].length; j++) {
-                if(this.board[i][j]!=null && this.board[i][j].getColor() == roomColor){
-                    room.add(this.board[i][j]);
-                }
-            }
-        }
+         for (Square[] squares : this.board) {
+             for (int j = 0; j < this.board[0].length; j++) {
+                 if (squares[j] != null && squares[j].getColor() == roomColor) {
+                     room.add(squares[j]);
+                 }
+             }
+         }
         return room;
     }
 
@@ -257,9 +254,9 @@ public class Board{
                     if (type2 == 'N') {
                         type = SquareTypes.normal;
                         NormalSquare NS = new NormalSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color);
-                        if(this.VVRMI!=null && this.VVSocket!=null) {
-                            NS.getAmmoCards().addObserver(this.VVRMI);
-                            NS.getAmmoCards().addObserver(this.VVSocket);
+                        if(this.vvrmi !=null && this.vvsocket !=null) {
+                            NS.getAmmoCards().addObserver(this.vvrmi);
+                            NS.getAmmoCards().addObserver(this.vvsocket);
                         }
                         map[i][j] = NS;
 
@@ -269,9 +266,9 @@ public class Board{
 
                         type = SquareTypes.spawnPoint;
                         SpawnPointSquare SPS = new SpawnPointSquare(i, j, sides[0], sides[1], sides[2], sides[3], type, color);
-                        if(this.VVRMI!=null && this.VVSocket!=null) {
-                            SPS.getWeaponCards().addObserver(this.VVRMI);
-                            SPS.getWeaponCards().addObserver(this.VVSocket);
+                        if(this.vvrmi !=null && this.vvsocket !=null) {
+                            SPS.getWeaponCards().addObserver(this.vvrmi);
+                            SPS.getWeaponCards().addObserver(this.vvsocket);
                         }
                         map[i][j] = SPS;
                         spawnPointslist[s]=map[i][j];

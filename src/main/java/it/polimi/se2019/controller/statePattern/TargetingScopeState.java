@@ -15,6 +15,7 @@ import it.polimi.se2019.view.components.PowerUpCardV;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TargetingScopeState implements State{
@@ -31,7 +32,7 @@ public class TargetingScopeState implements State{
     private List<PowerUpCard> listOfTargetingScope;
     private List<Object> possiblePayments;
 
-    public TargetingScopeState(State nextState, List<Player> damagedPlayers){
+     TargetingScopeState(State nextState, List<Player> damagedPlayers){
         out.println("<SERVER> New state: " + this.getClass());
         this.nextState = nextState;
         this.damagedPlayers = damagedPlayers;
@@ -52,7 +53,65 @@ public class TargetingScopeState implements State{
             this.listOfTargetingScope = new ArrayList<>();
         }
 
-        //out.println everything
+        printStuff();
+
+        if(!listOfTargetingScope.isEmpty() &&//checks if he has at least one targeting scope to use
+                (!damagedPlayers.isEmpty()) &&//checks if the damagedPlayer list is not empty
+                (!possiblePayments.isEmpty())){//checks if he can pay the targeting scope in some way
+            out.println("<SERVER> player can use targeting scope");
+            //build the V version of the lists
+            List<PowerUpCardV> listOfTargetingScopeV = buildThePowerUpVList();
+
+            List<Object> possiblePaymentsV = buildListOfPossiblePayments();
+
+            List<PlayerV> damagedPlayersV = new ArrayList<>();
+            for (Player p : damagedPlayers) {
+                damagedPlayersV.add(p.buildPlayerV());
+            }
+
+            //asks what targeting scope he wants to use + possibility to not use it
+            //asks how he wants to pay
+            //asks who he wants to hit with the plus damage
+            try {
+                SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
+                SelectorGate.getCorrectSelectorFor(playerToAsk).askTargetingScope(listOfTargetingScopeV, possiblePaymentsV, damagedPlayersV);
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+                this.inputTimer.start();
+            } catch (Exception e) {
+               logger.log(Level.SEVERE, "EXCEPTION", e);
+            }
+        }
+        else{
+            //the player can't play targeting scope, so jump to the tagback granade
+            out.println("<SERVER> player can't use targeting scope.");
+            passToTagBackGranadeState();
+        }
+    }
+
+    private List<Object> buildListOfPossiblePayments(){
+        List<Object> possiblePaymentsV = new ArrayList<>();
+
+        for (Object o:possiblePayments) {
+            if(o.getClass().toString().contains("AmmoCube")){
+                possiblePaymentsV.add(((AmmoCubes)o).getColor());
+            }
+            else{
+                possiblePaymentsV.add(((PowerUpCard)o).buildPowerUpCardV());
+            }
+        }
+       return possiblePaymentsV;
+    }
+    private  List<PowerUpCardV> buildThePowerUpVList(){
+
+        List<PowerUpCardV> listOfTargetingScopeV = new ArrayList<>();
+        for (PowerUpCard p : listOfTargetingScope) {
+            listOfTargetingScopeV.add(p.buildPowerUpCardV());
+        }
+
+        return  listOfTargetingScopeV;
+    }
+
+    private void printStuff(){
         out.println("<SERVER> Possible Targeting Scope to use:");
         for (PowerUpCard p: listOfTargetingScope) {
             out.println("         " + p.getName() + "    COLOR: " + p.getColor() + "    ID: " + p.getID());
@@ -70,58 +129,17 @@ public class TargetingScopeState implements State{
         for (Player p : damagedPlayers) {
             out.println("         " + p.getNickname());
         }
-
-        if(!listOfTargetingScope.isEmpty() &&//checks if he has at least one targeting scope to use
-                (!damagedPlayers.isEmpty()) &&//checks if the damagedPlayer list is not empty
-                (!possiblePayments.isEmpty())){//checks if he can pay the targeting scope in some way
-            out.println("<SERVER> player can use targeting scope");
-            //build the V version of the lists
-            List<PowerUpCardV> listOfTargetingScopeV = new ArrayList<>();
-            for (PowerUpCard p : listOfTargetingScope) {
-                listOfTargetingScopeV.add(p.buildPowerUpCardV());
-            }
-            List<Object> possiblePaymentsV = new ArrayList<>();
-            for (Object o:possiblePayments) {
-                if(o.getClass().toString().contains("AmmoCube")){
-                    possiblePaymentsV.add(((AmmoCubes)o).getColor());
-                }
-                else{
-                    possiblePaymentsV.add(((PowerUpCard)o).buildPowerUpCardV());
-                }
-            }
-            List<PlayerV> damagedPlayersV = new ArrayList<>();
-            for (Player p : damagedPlayers) {
-                damagedPlayersV.add(p.buildPlayerV());
-            }
-
-            //asks what targeting scope he wants to use + possibility to not use it
-            //asks how he wants to pay
-            //asks who he wants to hit with the plus damage
-            try {
-                SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-                SelectorGate.getCorrectSelectorFor(playerToAsk).askTargetingScope(listOfTargetingScopeV, possiblePaymentsV, damagedPlayersV);
-                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
-                this.inputTimer.start();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        else{
-            //the player can't play targeting scope, so jump to the tagback granade
-            out.println("<SERVER> player can't use targeting scope.");
-            passToTagBackGranadeState();
-        }
     }
 
     @Override
-    public void doAction(ViewControllerEvent VCE) {
+    public void doAction(ViewControllerEvent viewControllerEvent) {
         this.inputTimer.interrupt();
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        ViewControllerEventListOfObject VCEListOfObject = (ViewControllerEventListOfObject)VCE;
-        List<Object> listOfObject = VCEListOfObject.getAnswer();
+        ViewControllerEventListOfObject viewControllerEventListOfObject = (ViewControllerEventListOfObject)viewControllerEvent;
+        List<Object> listOfObject = viewControllerEventListOfObject.getAnswer();
         //the answer is structured like so:
         //      .get(0) represents the number of the chosen targeting scope in the this.listOfTargetingScope to use
         //              or if he doesn't want to use any the number will be bigger than the this.listOfTargetingScope size's
@@ -163,7 +181,7 @@ public class TargetingScopeState implements State{
         passToTagBackGranadeState();
     }
 
-    public List<PowerUpCard> getListOfTargetingScope(){
+    private List<PowerUpCard> getListOfTargetingScope(){
         List<PowerUpCard> listOfTargetingScope = new ArrayList<>();
 
         for (PowerUpCard powerUpCard:this.playerToAsk.getPowerUpCardsInHand().getCards()) {
@@ -174,7 +192,7 @@ public class TargetingScopeState implements State{
         return listOfTargetingScope;
     }
 
-    public List<Object> possiblePayments(){
+    private List<Object> possiblePayments(){
         //returns a list of ammoCubes and PowerUps that represents the possible ways the payment can be done.
         List<Object> possiblePayments = new ArrayList<>();
         //checks for all the possible colors he can pay with the ammo cubes
@@ -194,9 +212,9 @@ public class TargetingScopeState implements State{
         return possiblePayments;
     }
 
-    public void passToTagBackGranadeState(){
+    private void passToTagBackGranadeState(){
         ViewControllerEventHandlerContext.setNextState(new TagBackGranadeState(this.nextState, this.damagedPlayers, this.playerToAsk));
-        ViewControllerEventHandlerContext.state.askForInput(null);
+        ViewControllerEventHandlerContext.getState().askForInput(null);
     }
 
     @Override

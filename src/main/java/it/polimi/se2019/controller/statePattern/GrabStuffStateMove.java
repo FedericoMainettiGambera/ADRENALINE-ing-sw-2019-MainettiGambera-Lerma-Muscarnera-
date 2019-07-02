@@ -99,7 +99,7 @@ public class GrabStuffStateMove implements State {
         parsevce(viewControllerEvent);
 
         ViewControllerEventHandlerContext.setNextState(new GrabStuffStateGrab(this.actionNumber));
-        ViewControllerEventHandlerContext.state.doAction(null);
+        ViewControllerEventHandlerContext.getState().doAction(null);
     }
 
     /**parce the view controller event to get the needed information on where to set the player position
@@ -127,9 +127,9 @@ public class GrabStuffStateMove implements State {
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 }

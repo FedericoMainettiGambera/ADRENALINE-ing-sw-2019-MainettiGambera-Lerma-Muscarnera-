@@ -104,7 +104,7 @@ public class  Controller{
         //Starting the Server socket
          SocketVirtualView socketVirtualView = new SocketVirtualView(viewControllerEventHandlerContext);
         socketVirtualView.startServer();
-        ViewControllerEventHandlerContext.socketVV = socketVirtualView;
+        ViewControllerEventHandlerContext.setSocketVV(socketVirtualView);
 
 
         //-----------------NEW-----------------//
@@ -115,11 +115,11 @@ public class  Controller{
         } catch (RemoteException e) {
             logger.log(Level.SEVERE, " EXCEPTION ", e);
         }
-        ViewControllerEventHandlerContext.RMIVV= rmiVirtualView;
+        ViewControllerEventHandlerContext.setRmiVirtualView(rmiVirtualView);
 
         //Registering the VirtualView as an observer of the model so it can receive the MVEs
         out.println("<SERVER> Registering the VirtualViews (rmi and socket) as observers of the Model");
-        ModelGate.getModel().setVirtualView(ViewControllerEventHandlerContext.socketVV, ViewControllerEventHandlerContext.RMIVV);
+        ModelGate.getModel().setVirtualView(ViewControllerEventHandlerContext.getSocketVV(), ViewControllerEventHandlerContext.getRmiVirtualView());
         ModelGate.getModel().registerVirtualView();
     }
 

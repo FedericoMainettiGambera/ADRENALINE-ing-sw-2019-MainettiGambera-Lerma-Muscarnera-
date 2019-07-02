@@ -27,7 +27,15 @@ public class RmiNetworkHandler extends UnicastRemoteObject implements RmiInterfa
 
     private View view;
 
-    public static RmiInterface server;
+    private static RmiInterface server;
+
+    public static RmiInterface getServer() {
+        return server;
+    }
+
+    public static void setServer(RmiInterface server) {
+        RmiNetworkHandler.server = server;
+    }
 
     public RmiNetworkHandler(String ip, int port, View view) throws IOException {
         this.view = view;
@@ -44,7 +52,7 @@ public class RmiNetworkHandler extends UnicastRemoteObject implements RmiInterfa
 
         try {
 
-            this.server=(RmiInterface)reg.lookup("http://AdrenalineServer:1099");
+            server=(RmiInterface)reg.lookup("http://AdrenalineServer:1099");
 
 
         } catch (NotBoundException e) {
@@ -77,7 +85,7 @@ public class RmiNetworkHandler extends UnicastRemoteObject implements RmiInterfa
         sendToServer(viewControllerEvent);
     }
 
-    public static void sendToServer(Object o){
+    private static void sendToServer(Object o){
         //send to server
         try {
             RmiNetworkHandler.server.send(o);

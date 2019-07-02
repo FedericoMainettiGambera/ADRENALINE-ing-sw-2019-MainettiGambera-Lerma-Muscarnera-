@@ -82,7 +82,7 @@ public class ShootPeopleChooseWepState implements State {
                 nextState = (new TurnState(2));
             }
             ViewControllerEventHandlerContext.setNextState(nextState);
-            ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+            ViewControllerEventHandlerContext.getState().askForInput(playerToAsk);
         }
     }
 
@@ -101,7 +101,7 @@ public class ShootPeopleChooseWepState implements State {
 
         //next state
         ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseEffectState(playerToAsk.getWeaponCardsInHand().getCard(this.loadedCardInHand.get(viewControllerEventInt.getInput()).getID()), this.actionNumber));
-        ViewControllerEventHandlerContext.state.askForInput(this.playerToAsk);
+        ViewControllerEventHandlerContext.getState().askForInput(this.playerToAsk);
 
     }
 
@@ -110,9 +110,9 @@ public class ShootPeopleChooseWepState implements State {
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 }

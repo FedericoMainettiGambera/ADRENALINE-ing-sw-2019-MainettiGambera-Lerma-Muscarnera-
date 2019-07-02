@@ -75,7 +75,7 @@ public class PowerUpState implements State {
         }
 
         ViewControllerEventHandlerContext.setNextState(new PowerUpAskForInputState(this.nextState, chosenPowerUp));
-        ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+        ViewControllerEventHandlerContext.getState().askForInput(playerToAsk);
     }
 
 
@@ -88,9 +88,9 @@ public class PowerUpState implements State {
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 

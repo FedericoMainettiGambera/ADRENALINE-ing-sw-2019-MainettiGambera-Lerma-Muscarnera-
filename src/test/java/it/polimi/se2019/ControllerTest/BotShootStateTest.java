@@ -13,12 +13,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BotShootStateTest {
 
-    private FakeModel fakeModel = new FakeModel();
 
     @Test
     public void TestBotShootState() throws IOException {
 
-        ModelGate.setModel( fakeModel.create());
+        ModelGate.setModel( FakeModel.getFakeModel());
 
         ModelGate.getModel().getPlayerList().addPlayer(new Player(true));
         ModelGate.getModel().getPlayerList().getPlayer("Alex").setPosition(0,0);

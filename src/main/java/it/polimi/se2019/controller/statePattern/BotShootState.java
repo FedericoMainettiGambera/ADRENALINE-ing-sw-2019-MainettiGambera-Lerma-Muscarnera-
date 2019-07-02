@@ -57,7 +57,7 @@ public class BotShootState implements State{
         if(playersV.isEmpty()){
             out.println("<SERVER> bot can't see anybody");
             ViewControllerEventHandlerContext.setNextState(this.nextState);
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
+            ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
         //ask for input
         else {
@@ -91,7 +91,7 @@ public class BotShootState implements State{
         List<Player> damagedPlayer=parseVce(vce);
 
         ViewControllerEventHandlerContext.setNextState(new TagBackGranadeState(this.nextState, damagedPlayer, ModelGate.getModel().getPlayerList().getPlayer("Terminator")));
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
+        ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
     }
 
     /**parse the

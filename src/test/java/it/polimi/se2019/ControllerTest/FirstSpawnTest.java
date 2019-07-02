@@ -23,7 +23,7 @@ public class FirstSpawnTest{
     @Test
     public void firstSpawnTest() throws Exception {
 
-        ModelGate.setModel((new FakeModel()).create());
+        ModelGate.setModel((FakeModel.getFakeModel()));
 
         PowerUpCard powerUpCard=new PowerUpCard("1",1);
         powerUpCard.setColor(AmmoCubesColor.blue);

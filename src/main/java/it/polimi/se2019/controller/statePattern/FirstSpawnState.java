@@ -148,7 +148,7 @@ public class FirstSpawnState implements State {
     /** set following state*/
     private void changeState(){
         ViewControllerEventHandlerContext.setNextState(new TurnState(1));
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
+        ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
     }
     /**
      * if player in not reachable we provide to set it AFK,
@@ -178,9 +178,9 @@ public class FirstSpawnState implements State {
                 playerToAsk.getPowerUpCardsInHand().getFirstCard().getID()
         );
 
-        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 }

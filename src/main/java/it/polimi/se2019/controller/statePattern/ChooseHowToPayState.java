@@ -179,23 +179,23 @@ public class ChooseHowToPayState {
      private void afterPayment(){
         //here are the three cases where the payment is used:
 
-        if(ViewControllerEventHandlerContext.state.getClass().toString().contains("GrabStuffStateGrabWeapon")){
-            ((GrabStuffStateGrabWeapon)ViewControllerEventHandlerContext.state).afterPayment();
+        if(ViewControllerEventHandlerContext.getState().getClass().toString().contains("GrabStuffStateGrabWeapon")){
+            ((GrabStuffStateGrabWeapon)ViewControllerEventHandlerContext.getState()).afterPayment();
         }
-        else if(ViewControllerEventHandlerContext.state.getClass().toString().contains("ReloadState")){
-            ((ReloadState)ViewControllerEventHandlerContext.state).afterPayment();
+        else if(ViewControllerEventHandlerContext.getState().getClass().toString().contains("ReloadState")){
+            ((ReloadState)ViewControllerEventHandlerContext.getState()).afterPayment();
         }
-        else if(ViewControllerEventHandlerContext.state.getClass().toString().contains("ShootPeople")){
-            ((ShootPeopleAskForInputState)ViewControllerEventHandlerContext.state).afterPayment();
+        else if(ViewControllerEventHandlerContext.getState().getClass().toString().contains("ShootPeople")){
+            ((ShootPeopleAskForInputState)ViewControllerEventHandlerContext.getState()).afterPayment();
         }
     }
     /** effectuate the payment
      * @param player is the player who requested the payment
      * @param cost is the amount due*/
      static void makePayment(Player player, AmmoList cost){
-        ViewControllerEventHandlerContext.paymentProcess = new ChooseHowToPayState(player, cost);
+        ViewControllerEventHandlerContext.setPaymentProcess(new ChooseHowToPayState(player, cost));
         //make the payment process start
-        if(ViewControllerEventHandlerContext.paymentProcess.checkPayMethods()) {
+        if(ViewControllerEventHandlerContext.getPaymentProcess().checkPayMethods()) {
             out.println("<SERVER> waiting for the payment to complete");
         }
         else{

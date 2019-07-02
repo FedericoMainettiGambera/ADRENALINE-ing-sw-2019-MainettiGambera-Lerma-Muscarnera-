@@ -71,7 +71,7 @@ public class ScoreKillsState implements State {
             out.println("<SERVER> Spawning player: " + this.deadPlayers.get(0).getNickname());
 
             ViewControllerEventHandlerContext.setNextState(new SpawnState(this.deadPlayers));
-            ViewControllerEventHandlerContext.state.askForInput(null);
+            ViewControllerEventHandlerContext.getState().askForInput(null);
         }
 
     }
@@ -164,12 +164,12 @@ public class ScoreKillsState implements State {
         //Game is ended and FinalFrenzy isn't active --> FinalScoringState
         else if (ModelGate.getModel().getKillshotTrack().areSkullsOver() && (!ModelGate.getModel().isFinalFrenzy())) {
             ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
         //Game is ended and FinalFrenzy is active --> FFSetUpState
         else if (ModelGate.getModel().getKillshotTrack().areSkullsOver() && (ModelGate.getModel().isFinalFrenzy())) {
             ViewControllerEventHandlerContext.setNextState(new FFSetUpState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 
@@ -183,7 +183,7 @@ public void gameOverOrNot(){
     if (ModelGate.getModel().getCurrentPlayingPlayer().getLastPlayingPlayer()){
 
         ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
-        ViewControllerEventHandlerContext.state.doAction(null);
+        ViewControllerEventHandlerContext.getState().doAction(null);
     }
     else {
         //if the game aint ended then let's go on playing! we spawned already all dead players, so you can either not have played yet
@@ -192,13 +192,13 @@ public void gameOverOrNot(){
         if (ModelGate.getModel().getCurrentPlayingPlayer().getPosition() == null) {
 
             ViewControllerEventHandlerContext.setNextState(new FirstSpawnState());
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
+            ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
         //or just being waiting for ur turn
         else{
 
             ViewControllerEventHandlerContext.setNextState(new TurnState(1));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
+            ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
     }
 

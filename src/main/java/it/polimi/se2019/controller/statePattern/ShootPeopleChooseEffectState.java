@@ -72,7 +72,7 @@ public class ShootPeopleChooseEffectState implements State{
         out.println("<SERVER> Paying for the effect cost");
 
         ViewControllerEventHandlerContext.setNextState(new ShootPeopleAskForInputState(this.chosenEffect, this.choosenWeaponCard, this.actionNumber));
-        ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+        ViewControllerEventHandlerContext.getState().askForInput(playerToAsk);
     }
 
     @Override
@@ -80,9 +80,9 @@ public class ShootPeopleChooseEffectState implements State{
         this.playerToAsk.setAFKWithNotify(true);
         System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 }

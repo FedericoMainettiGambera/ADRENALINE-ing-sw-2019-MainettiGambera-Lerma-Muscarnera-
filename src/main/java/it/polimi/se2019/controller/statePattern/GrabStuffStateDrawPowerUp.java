@@ -49,7 +49,7 @@ public class GrabStuffStateDrawPowerUp implements State {
             state = new ReloadState(false);
         }
         ViewControllerEventHandlerContext.setNextState(state);
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
+        ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
     }
 
     /**this function make the player draw a power up*/

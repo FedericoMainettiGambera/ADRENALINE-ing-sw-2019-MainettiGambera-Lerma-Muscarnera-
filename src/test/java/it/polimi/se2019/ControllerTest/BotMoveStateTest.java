@@ -15,12 +15,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BotMoveStateTest {
 
-    private FakeModel fakeModel = new FakeModel();
-
     @Test
     public void TestBotMoveStateTest() throws IOException {
 
-        ModelGate.setModel(fakeModel.create()) ;
+        ModelGate.setModel(FakeModel.getFakeModel()) ;
         ModelGate.getModel().getPlayerList().addPlayer(new Player(true));
         ModelGate.getModel().getPlayerList().getPlayer("Terminator").setPosition(0,1);
 

@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Assertions;
 import java.io.IOException;
 
 import static it.polimi.se2019.controller.ModelGate.getModel;
-import static it.polimi.se2019.controller.ModelGate.model;
 
 public class GrabStuffStateGrabTest{
 

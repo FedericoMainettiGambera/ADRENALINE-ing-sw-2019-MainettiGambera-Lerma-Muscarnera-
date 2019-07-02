@@ -175,7 +175,7 @@ public class TagBackGranadeState implements State{
     /**pass to the following  state*/
     private void passToNextState(){
         ViewControllerEventHandlerContext.setNextState(this.nextState);
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
+        ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
     }
 
     public void setListOfTagBackGranade(Player player){

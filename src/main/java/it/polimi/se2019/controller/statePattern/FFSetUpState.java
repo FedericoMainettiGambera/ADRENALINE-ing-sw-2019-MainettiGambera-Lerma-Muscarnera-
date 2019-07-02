@@ -43,7 +43,7 @@ public class FFSetUpState implements State {
         ModelGate.getModel().getPlayerList().setNextPlayingPlayer();
 
         ViewControllerEventHandlerContext.setNextState(new TurnState(1));
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
+        ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
 
     }
 

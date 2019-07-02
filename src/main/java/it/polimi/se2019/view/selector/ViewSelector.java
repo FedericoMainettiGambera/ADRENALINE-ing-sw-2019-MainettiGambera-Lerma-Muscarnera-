@@ -56,7 +56,7 @@ public class ViewSelector implements SelectorV {
         }
         else{
             try {
-                RmiNetworkHandler.server.send(o);
+                RmiNetworkHandler.getServer().send(o);
             } catch (RemoteException e) {
                 OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
             }

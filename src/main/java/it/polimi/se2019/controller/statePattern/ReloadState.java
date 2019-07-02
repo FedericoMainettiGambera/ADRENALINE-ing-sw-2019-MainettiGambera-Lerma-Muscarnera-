@@ -130,7 +130,7 @@ public class ReloadState implements State{
     private void exceptionalChangeState(){
 
         ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
+        ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
         t.start();
     }
@@ -150,7 +150,7 @@ public class ReloadState implements State{
     private void changeState(State state){
 
         ViewControllerEventHandlerContext.setNextState(state);
-        ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+        ViewControllerEventHandlerContext.getState().askForInput(playerToAsk);
 
     }
 
@@ -230,7 +230,7 @@ public class ReloadState implements State{
             out.println("<SERVER> Player decided not to reload.");
             if(calledFromShootPeople){
                 ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
+                ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
             }
             else {
                 if(ModelGate.getModel().isBotActive() && !ModelGate.getModel().getPlayerList().getPlayer(botName).isBotUsed()){
@@ -250,11 +250,11 @@ public class ReloadState implements State{
     void afterPayment(){
         if(calledFromShootPeople){
             ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
+            ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
         else {
             ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
+            ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
     }
 
@@ -266,9 +266,9 @@ public class ReloadState implements State{
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 

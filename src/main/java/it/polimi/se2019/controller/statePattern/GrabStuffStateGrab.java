@@ -48,7 +48,7 @@ public class GrabStuffStateGrab implements State {
                 == SquareTypes.spawnPoint) {
             out.println("<SERVER> Player is in a SpawnPointSquare");
             ViewControllerEventHandlerContext.setNextState(new GrabStuffStateGrabWeapon(this.actionNumber));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
+            ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
         //the player is in a normal square
         else if (ModelGate.getModel().getBoard().getSquare(ModelGate.getModel().getCurrentPlayingPlayer().getPosition()).getSquareType()
@@ -76,7 +76,7 @@ public class GrabStuffStateGrab implements State {
                     } else if (actionNumber == 2) {
                         ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
                     }
-                    ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
+                    ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
                 }
             }
 
@@ -94,7 +94,7 @@ public class GrabStuffStateGrab implements State {
 
                 }
 
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
+                ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
             }
         }
     }
@@ -107,12 +107,12 @@ public class GrabStuffStateGrab implements State {
 
         if(ModelGate.getModel().getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().size() >=2){
             ViewControllerEventHandlerContext.setNextState(new GrabStuffStateDrawAndDiscardPowerUp(this.actionNumber));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
+            ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
         //grab a power up and the player's hand is not full
         else {
             ViewControllerEventHandlerContext.setNextState(new GrabStuffStateDrawPowerUp(this.actionNumber));
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
 
         }
 

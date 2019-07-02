@@ -12,7 +12,7 @@ public class GrabStuffAndDrawPowerUp{
     @Test
     public void grabStuffAndDrawPowerUp() throws IOException {
 
-        ModelGate.setModel((new FakeModel()).create());
+        ModelGate.setModel(FakeModel.getFakeModel());
         Game game=ModelGate.getModel();
         game.buildDecks();
 
