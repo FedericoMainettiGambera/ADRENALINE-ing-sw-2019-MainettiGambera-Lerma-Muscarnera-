@@ -228,7 +228,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                     PowerUpCardV currentW = powerUpCards.getCards().get(p);
                     StackPane   currentStackPane = powerStackPanes.get(p);
                     removePrevious(currentStackPane);
-                    currentStackPane.getStyleClass().add("powerUpCard" + currentW.getID());
+                    currentStackPane.getStyleClass().add("powerUpCard" + currentW.getID()); //TODO luca le classi che hai messo nel css vanno solo da 1 a 4
                 }
 
             }
