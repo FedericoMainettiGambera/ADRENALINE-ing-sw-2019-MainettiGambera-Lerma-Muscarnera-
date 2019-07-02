@@ -20,10 +20,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -868,139 +869,166 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
         @Override
         public void run(){
-            Platform.runLater(()->{
+            Platform.runLater(()-> {
 
                 String title;
                 String description;
 
-                switch(stateEvent.getState()){
-                   case"BotMoveState":
-                       title="BOT IS MOVING";
-                       description="is moving the bot";
-                       break;
-                   case"BotShootState":
-                       title="BOT IS ABOUT TO SHOOT";
-                       description="is choosing whom the bot may be about to blow the head off";
-                       break;
-                   case"ChooseHowToPayState":
-                       title="PAYMENT DETAILS ARE BEING DISCUSSED";
-                       description="is choosing how to purchase";
-                       break;
-                   case"FFSetUpState":
-                       title="FINAL FRENZY PREPARATION";
-                       description="we are working for you fun!(and bloody revenge)";
-                       break;
-                   case"FinalScoringState":
-                       title="CALCULATING YOUR FINAL SCORE";
-                       description="Can you figure out who is going to win?";
-                       break;
-                   case"FirstSpawnState":
-                       title="SPAWNING FOR THE FIRST TIME";
-                       description="is spawning for his first time!\n" +
-                               "Let's show some warmth all of you!";
-                       break;
-                   case"GrabStuffState":
-                       title="CHOOSING WHERE TO GRAB";
-                       description="is choosing where to grab! Should you stay or should you go?";
-                       break;
-                   case"GrabStuffStateDrawAndDiscardPowerUp":
-                       title="DISCARDING A POWER UP";
-                       description="is discarding a power up card";
-                       break;
-                   case"GrabStuffStateDrawPowerUp":
-                       title="DRAWING A POWER UP";
-                       description="is drawing a power up!";
-                       break;
-                   case "GrabStuffStateGrab":
-                       title="GRABBING SOMETHING";
-                       description="is grabbing something! I wonder what it will be...";
+                switch (stateEvent.getState()) {
+                    case "BotMoveState":
+                        title = "BOT IS MOVING";
+                        description = " \n  moving the bot";
                         break;
-                   case"GrabStuffStateGrabWeapon":
-                       title="GRABBING A WEAPON";
-                       description="is grabbing a weapon! Watch out you all!!!";
-                       break;
-                   case"GrabStuffStateMove":
-                       title="MOVING BEFORE GRABBING";
-                       description="decided to move!";
-                       break;
-                   case"PowerUpAskForInputState":
-                       title="POWER UP DETAILS ARE BEING DISCUSSED";
-                       description="is deciding how to use his hidden powers...";
-                       break;
-                   case"PowerUpState":
-                       title="CLEARING IDEAS ON POWER UPS";
-                       description="is deciding what of his multiple abilities as a wizard is going to use against you";
-                       break;
-                   case"ReloadState":
-                       title="RELOADING YOUR WEAPONS";
-                       description="is reloading his weapons! Beware! ";
-                       break;
-                   case"RunAroundState":
-                       title="RUN AROUND!";
-                       description="decided to go for a walk";
-                       break;
-                   case"ScoreKillsState":
-                       title="SCORING THE DEAD";
-                       description="Working for your rank to update";
-                       break;
-                   case"ShootPeopleAskForInputState":
-                       title="SHOOTING DETAILS ARE BEING DISCUSSED";
-                       description="is deciding what to do with his weapons";
-                       break;
-                   case"ShootPeopleChooseEffectState":
-                       title="WEAPON MODES ARE BEING DEFINED";
-                       description="is deciding how to make you suffer";
-                       break;
-                   case"ShootPeopleChooseWepState":
-                       title="WEAPON TO USE IS BEING CHOSEN";
-                       description="is deciding what will make your brain blow out";
-                       break;
-                   case"ShootPeopleState":
-                       title="SHOOTING PEOPLE";
-                       description="is shooting";
-                       break;
-                   case"SpawnState":
-                       title="SPAWNING PLAYER";
-                       description="is rising againg from the dead";
-                       break;
-                   case"TagBackGranadeState":
-                       title="TAGBACK GRENADE IN ACTION";
-                       description="is using tagbackgrenade";
-                       break;
-                   case"TargetingScopeState":
-                       title="TARGETING SCOPE IN ACTION";
-                       description="is using targetingscope";
-                       break;
-                   case"TurnState":
-                       title="TURN STATE";
-                       description="is thinking! What will he do?";
-                       break;
-                   case"WantToPlayPowerUpState":
-                       title="ASKING PLAYER FOR POWER UP TO BE USED";
-                       description="is deciding whether to use a power up or not";
-                       break;
-                   default:
-                       title="Unpredictable switch of the game";
-                       description="whoop i fell";
-                       break;
+                    case "BotShootState":
+                        title = "BOT IS ABOUT TO SHOOT";
+                        description = " \nchoosing whom the bot may be about to blow the head off";
+                        break;
+                    case "ChooseHowToPayState":
+                        title = "PAYMENT DETAILS ARE BEING DISCUSSED";
+                        description = " \n choosing how to purchase";
+                        break;
+                    case "FFSetUpState":
+                        title = "FINAL FRENZY PREPARATION";
+                        description = " \nare waiting! We are working for you fun!(and bloody revenge)";
+                        break;
+                    case "FinalScoringState":
+                        title = "CALCULATING YOUR FINAL SCORE";
+                        description = "  \n waiting for the final results! \n" +
+                                "Can you figure out who is going to win?";
+                        break;
+                    case "FirstSpawnState":
+                        title = "SPAWNING FOR THE FIRST TIME";
+                        description = " \n spawning for the first time!\n" +
+                                "Let's show some warmth all of you!";
+                        break;
+                    case "GrabStuffState":
+                        title = "CHOOSING WHERE TO GRAB";
+                        description = "  choosing where to grab! ";
+                        break;
+                    case "GrabStuffStateDrawAndDiscardPowerUp":
+                        title = "DISCARDING A POWER UP";
+                        description = " \n " +
+                                "discarding a power up card";
+                        break;
+                    case "GrabStuffStateDrawPowerUp":
+                        title = "DRAWING A POWER UP";
+                        description = "\n  " +
+                                "drawing a power up!";
+                        break;
+                    case "GrabStuffStateGrab":
+                        title = "GRABBING SOMETHING";
+                        description = " \n  " +
+                                "grabbing something! I wonder what it will be...";
+                        break;
+                    case "GrabStuffStateGrabWeapon":
+                        title = "GRABBING A WEAPON";
+                        description = " \n " +
+                                "grabbing a weapon! Watch out you all!!!";
+                        break;
+                    case "GrabStuffStateMove":
+                        title = "MOVING BEFORE GRABBING";
+                        description = " \n  " +
+                                " moving somewhere!";
+                        break;
+                    case "PowerUpAskForInputState":
+                        title = "POWER UP DETAILS ARE BEING DISCUSSED";
+                        description = " \n " +
+                                "deciding how to reveal the hidden powers of cards...";
+                        break;
+                    case "PowerUpState":
+                        title = "CLEARING IDEAS ON POWER UPS";
+                        description = "\n  " +
+                                " deciding what spell to use ";
+                        break;
+                    case "ReloadState":
+                        title = "RELOADING YOUR WEAPONS";
+                        description = "  \n " +
+                                "\n" +
+                                "reloading those shiny murderers! Beware! ";
+                        break;
+                    case "RunAroundState":
+                        title = "RUN AROUND!";
+                        description = " \n" +
+                                "\n" +
+                                " going for a walk";
+                        break;
+                    case "ScoreKillsState":
+                        title = "SCORING THE DEAD";
+                        description = " \n waiting!" +
+                                "Working for your rank to update";
+                        break;
+                    case "ShootPeopleAskForInputState":
+                        title = "SHOOTING DETAILS ARE BEING DISCUSSED";
+                        description = " \n " +
+                                "deciding what to do with those golden weapons";
+                        break;
+                    case "ShootPeopleChooseEffectState":
+                        title = "WEAPON MODES ARE BEING DEFINED";
+                        description = "  \n  " +
+                                "deciding how to make someone suffer";
+                        break;
+                    case "ShootPeopleChooseWepState":
+                        title = "WEAPON TO USE IS BEING CHOSEN";
+                        description = " \n  " +
+                                "deciding what will make someone's brain blow out";
+                        break;
+                    case "ShootPeopleState":
+                        title = "SHOOTING PEOPLE";
+                        description = " \n  " +
+                                "shooting";
+                        break;
+                    case "SpawnState":
+                        title = "SPAWNING PLAYER";
+                        description = " \n  " +
+                                "rising again from the dead";
+                        break;
+                    case "TagBackGranadeState":
+                        title = "TAGBACK GRENADE IN ACTION";
+                        description = " \n " +
+                                " using tagbackgrenade";
+                        break;
+                    case "TargetingScopeState":
+                        title = "TARGETING SCOPE IN ACTION";
+                        description = " \n  " +
+                                " using targetingscope";
+                        break;
+                    case "TurnState":
+                        title = "TURN STATE";
+                        description = " \n " +
+                                " thinking! " +
+                                "What will he do?";
+                        break;
+                    case "WantToPlayPowerUpState":
+                        title = "ASKING PLAYER FOR POWER UP TO BE USED";
+                        description = "\n " +
+                                "deciding whether to use a power up or not";
+                        break;
+                    default:
+                        title = "Unpredictable switch of the game";
+                        description = "whoop i fell";
+                        break;
                 }
                 Text player;
-                Text descr=new Text(description);
+                Text descr = new Text(description);
 
                 (getGameSceneController().getStateTitle()).setText(title);
 
-                if(ViewModelGate.getMe().equals(ViewModelGate.getModel().getPlayers().getCurrentPlayingPlayer())) {
-                   player=new Text("you");
+                if (ViewModelGate.getMe().equals(ViewModelGate.getModel().getPlayers().getCurrentPlayingPlayer())) {
+                    player = new Text("you are  ");
+                } else {
+                    player = new Text(ViewModelGate.getModel().getPlayers().getCurrentPlayingPlayer()+"  is ");
                 }
-                else{
-                   player=new Text(ViewModelGate.getModel().getPlayers().getCurrentPlayingPlayer());
-                }
-                //TODO ludo penso che questa cosa non vada bene (da fede) : getGameSceneController().setStateDescription(new TextFlow(player, descr));
-                // forse questa va meglio:
-                // getGameSceneController().getStateDescription().getChildren().addAll(player,descr);
-                // ma comunque devi prima occuparti di cancellare il contenuto che ha già
-            });
+                player.setFill(Color.rgb(255,158,30));
+                player.setFont((Font.font("Courier")));
+                descr.setFill(Color.rgb(255,158,30));
+                descr.setFont((Font.font("Courier")));
 
+                getGameSceneController().getStateDescription().getChildren().clear();
+                getGameSceneController().getStateDescription().getChildren().addAll(player, descr);
+                getGameSceneController().getStateDescription().setTextAlignment(TextAlignment.CENTER);
+
+
+             });
         }
     }
 
