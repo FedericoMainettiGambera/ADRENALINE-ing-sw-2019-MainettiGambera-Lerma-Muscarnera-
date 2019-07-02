@@ -43,14 +43,14 @@ public class RmiClientListenerVirtualView extends Observable implements Runnable
         System.out.println("<SERVER-socket> received the Reconnection event for player: " + nickname);
 
         //reset previous connection
-        ModelGate.model.getPlayerList().getPlayer(nickname).setOos(null);
+        ModelGate.getModel().getPlayerList().getPlayer(nickname).setOos(null);
 
-        ModelGate.model.getPlayerList().getPlayer(nickname).setRmiInterface(null);
+        ModelGate.getModel().getPlayerList().getPlayer(nickname).setRmiInterface(null);
 
-        ModelGate.model.getPlayerList().getPlayer(nickname).setRmiInterface(reconnectionEvent.getClient());
+        ModelGate.getModel().getPlayerList().getPlayer(nickname).setRmiInterface(reconnectionEvent.getClient());
 
         //set afk false and update the Model to the reconnected Client
-        RmiVirtualView.sendToClientEvenAFK(ModelGate.model.getPlayerList().getPlayer(nickname),(new ModelViewEvent(ModelGate.model.buildGameV(), ModelViewEventTypes.resetGame)));
-        ModelGate.model.getPlayerList().getPlayer(nickname).setAFKWIthoutNotify(false);
+        RmiVirtualView.sendToClientEvenAFK(ModelGate.getModel().getPlayerList().getPlayer(nickname),(new ModelViewEvent(ModelGate.getModel().buildGameV(), ModelViewEventTypes.resetGame)));
+        ModelGate.getModel().getPlayerList().getPlayer(nickname).setAFKWIthoutNotify(false);
     }
 }

@@ -46,7 +46,7 @@ public class PlayerListTest {
 
         assertEquals(B,playersList.getCurrentPlayingPlayer());
 
-        ModelGate.model.setPlayerList(playersList);
+        ModelGate.getModel().setPlayerList(playersList);
 
         //AFK and nextPlaying player
         B.setAFKWIthoutNotify(true);

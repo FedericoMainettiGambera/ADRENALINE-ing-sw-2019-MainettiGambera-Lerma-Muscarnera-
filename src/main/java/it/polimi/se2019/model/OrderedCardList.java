@@ -88,11 +88,11 @@ public class OrderedCardList<T> extends Observable implements Serializable {
     public void checkDeckEnded(){
         //reshuffles back powerup and ammo from the respective discards pile
         if(this.cards.size() == 0 && this.context.contains("powerUpDeck")){
-            ModelGate.model.getPowerUpDiscardPile().moveAllCardsTo(this);
+            ModelGate.getModel().getPowerUpDiscardPile().moveAllCardsTo(this);
             this.shuffle();
         }
-        else if(this.cards.size() == 0 && this.context.contains("ammoDeck")){
-            ModelGate.model.getAmmoDiscardPile().moveAllCardsTo(this);
+        else if(this.cards.isEmpty()&& this.context.contains("ammoDeck")){
+            ModelGate.getModel().getAmmoDiscardPile().moveAllCardsTo(this);
             this.shuffle();
         }
     }

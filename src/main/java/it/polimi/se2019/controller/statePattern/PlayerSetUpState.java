@@ -26,7 +26,7 @@ public class PlayerSetUpState implements State {
     public PlayerSetUpState(){
 
         System.out.println("<SERVER> New state: " + this.getClass());
-        this.numberOfPlayer = ModelGate.model.getPlayerList().getNumberOfPlayers();
+        this.numberOfPlayer = ModelGate.getModel().getPlayerList().getNumberOfPlayers();
         this.numberOfPlayersSet = 0;
     }
 
@@ -36,10 +36,10 @@ public class PlayerSetUpState implements State {
         System.out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         System.out.println("<SERVER> Adding Observers to the Player weapons and power ups");
-        playerToAsk.getWeaponCardsInHand().addObserver(ModelGate.model.getSocketVirtualView());
-        playerToAsk.getWeaponCardsInHand().addObserver(ModelGate.model.getRMIVirtualView());
-        playerToAsk.getPowerUpCardsInHand().addObserver(ModelGate.model.getSocketVirtualView());
-        playerToAsk.getWeaponCardsInHand().addObserver(ModelGate.model.getRMIVirtualView());
+        playerToAsk.getWeaponCardsInHand().addObserver(ModelGate.getModel().getSocketVirtualView());
+        playerToAsk.getWeaponCardsInHand().addObserver(ModelGate.getModel().getRMIVirtualView());
+        playerToAsk.getPowerUpCardsInHand().addObserver(ModelGate.getModel().getSocketVirtualView());
+        playerToAsk.getWeaponCardsInHand().addObserver(ModelGate.getModel().getRMIVirtualView());
 
         //ask to "playerToAsk" inputs
         try {
@@ -64,43 +64,43 @@ public class PlayerSetUpState implements State {
 
         //set nickname and color
         System.out.println("<SERVER> Setting Nickname: " + VCEPlayerSetUp.getNickname());
-        ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setNickname(VCEPlayerSetUp.getNickname());
+        ModelGate.getModel().getPlayerList().getCurrentPlayingPlayer().setNickname(VCEPlayerSetUp.getNickname());
 
         System.out.println("<SERVER> Setting Color: " + VCEPlayerSetUp.getColor());
-        ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setColor(VCEPlayerSetUp.getColor());
+        ModelGate.getModel().getPlayerList().getCurrentPlayingPlayer().setColor(VCEPlayerSetUp.getColor());
 
         //draw two power up cards
         System.out.println("<SERVER> draw two power up cards.");
         for(int i = 0; i < 2; i++){
-            PlayersList pl = ModelGate.model.getPlayerList();
-            Player p = ModelGate.model.getCurrentPlayingPlayer();
-            ModelGate.model.getPowerUpDeck().moveCardTo(
-                    ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPowerUpCardsInHand(),
-                    ModelGate.model.getPowerUpDeck().getFirstCard().getID()
+            PlayersList pl = ModelGate.getModel().getPlayerList();
+            Player p = ModelGate.getModel().getCurrentPlayingPlayer();
+            ModelGate.getModel().getPowerUpDeck().moveCardTo(
+                    ModelGate.getModel().getPlayerList().getCurrentPlayingPlayer().getPowerUpCardsInHand(),
+                    ModelGate.getModel().getPowerUpDeck().getFirstCard().getID()
             );
         }
 
         //set starting ammocubes
         System.out.println("<SERVER> setting starting ammo cubes");
         for(AmmoCubesColor color: AmmoCubesColor.values() ) {
-            ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getPlayerBoard().addAmmoCubes(color, GameConstant.NUMBER_OF_STARTING_AMMOS);
+            ModelGate.getModel().getPlayerList().getCurrentPlayingPlayer().getPlayerBoard().addAmmoCubes(color, GameConstant.NUMBER_OF_STARTING_AMMOS);
         }
 
         numberOfPlayersSet++;
         System.out.println("<SERVER> number of player ready to play: " + numberOfPlayersSet + " of " + numberOfPlayer);
 
-        if(numberOfPlayersSet < numberOfPlayer && !ModelGate.model.getPlayerList().isSomeoneAFK()) {
-            ModelGate.model.getPlayerList().setNextPlayingPlayer();
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        if(numberOfPlayersSet < numberOfPlayer && !ModelGate.getModel().getPlayerList().isSomeoneAFK()) {
+            ModelGate.getModel().getPlayerList().setNextPlayingPlayer();
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
         else{
             //set Current Playing player
-            ModelGate.model.getPlayerList().setCurrentPlayingPlayer(ModelGate.model.getPlayerList().getStartingPlayer());
-            System.out.println("<SERVER> All players are ready (AFK players will have default nicknames). Game begins with " + ModelGate.model.getCurrentPlayingPlayer().getNickname());
+            ModelGate.getModel().getPlayerList().setCurrentPlayingPlayer(ModelGate.getModel().getPlayerList().getStartingPlayer());
+            System.out.println("<SERVER> All players are ready (AFK players will have default nicknames). Game begins with " + ModelGate.getModel().getCurrentPlayingPlayer().getNickname());
 
             //set next State
             ViewControllerEventHandlerContext.setNextState(new FirstSpawnState());
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
     }
 
@@ -109,14 +109,14 @@ public class PlayerSetUpState implements State {
         this.playerToAsk.setAFKWithNotify(true);
         System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         System.out.println("<SERVER> setting Username and color to default");
-        ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setNickname("defaultUser" + ModelGate.model.getPlayerList().getCurrentPlayingPlayer().getNickname());
+        ModelGate.getModel().getPlayerList().getCurrentPlayingPlayer().setNickname("defaultUser" + ModelGate.getModel().getPlayerList().getCurrentPlayingPlayer().getNickname());
         //TODO default is purple but still need to make the thing were nobody has the same color
-        ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setColor(PlayersColors.purple);
+        ModelGate.getModel().getPlayerList().getCurrentPlayingPlayer().setColor(PlayersColors.purple);
         //pass turn
-        ModelGate.model.getPlayerList().setNextPlayingPlayer();
+        ModelGate.getModel().getPlayerList().setNextPlayingPlayer();
         if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new TurnState(1));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
     }
 }

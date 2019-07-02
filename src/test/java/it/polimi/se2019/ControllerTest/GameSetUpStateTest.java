@@ -22,7 +22,7 @@ public class GameSetUpStateTest{
         public void testGameSetUpState() throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
             Game game = fakeModel.create();
-            ModelGate.model = game;
+            ModelGate.setModel(game);
 
            ViewControllerEventGameSetUp viewControllerEventGameSetUp= new ViewControllerEventGameSetUp("normalMode", "map0", 5,false,false);
 
@@ -43,10 +43,10 @@ public class GameSetUpStateTest{
             createDecks.invoke(state);
             preparePlayers.invoke(state);
 
-            assertEquals(5, ModelGate.model.getKillshotTrack().getNumberOfRemainingSkulls());
-            assertEquals('B',ModelGate.model.getBoard().getSquare(0,0).getColor());
-            assertFalse(ModelGate.model.isFinalFrenzy());
-            assertFalse(ModelGate.model.isBotActive());
+            assertEquals(5, ModelGate.getModel().getKillshotTrack().getNumberOfRemainingSkulls());
+            assertEquals('B',ModelGate.getModel().getBoard().getSquare(0,0).getColor());
+            assertFalse(ModelGate.getModel().isFinalFrenzy());
+            assertFalse(ModelGate.getModel().isBotActive());
 
 
 

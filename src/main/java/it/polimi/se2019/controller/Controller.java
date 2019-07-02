@@ -93,10 +93,10 @@ public class  Controller{
 
         //initialize model
         out.println("<SERVER> Creating the Game.");
-        ModelGate.model = new Game();
+        ModelGate.setModel(new Game());
         out.println("<SERVER> Creating a PlayerList.");
         PlayersList pl = new PlayersList();
-        ModelGate.model.setPlayerList(pl);
+        ModelGate.getModel().setPlayerList(pl);
 
         //Setting the state pattern
          ViewControllerEventHandlerContext viewControllerEventHandlerContext = new ViewControllerEventHandlerContext();
@@ -119,8 +119,8 @@ public class  Controller{
 
         //Registering the VirtualView as an observer of the model so it can receive the MVEs
         out.println("<SERVER> Registering the VirtualViews (rmi and socket) as observers of the Model");
-        ModelGate.model.setVirtualView(ViewControllerEventHandlerContext.socketVV, ViewControllerEventHandlerContext.RMIVV);
-        ModelGate.model.registerVirtualView();
+        ModelGate.getModel().setVirtualView(ViewControllerEventHandlerContext.socketVV, ViewControllerEventHandlerContext.RMIVV);
+        ModelGate.getModel().registerVirtualView();
     }
 
     /** start the game with the GUI interface, once opened it the user will be given the possibility to switch to CLI mode*/

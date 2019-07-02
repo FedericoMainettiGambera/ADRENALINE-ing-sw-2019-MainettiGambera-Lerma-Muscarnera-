@@ -53,7 +53,7 @@ public class ConnectionHandlerVirtualView extends Thread {
     public void run(){
 
         //while(this.isServerSocketLive && numberOfConnections <= GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME-1){
-        while((this.isServerSocketLive && ModelGate.model.getNumberOfClientsConnected() <= GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME -1)){
+        while((this.isServerSocketLive && ModelGate.getModel().getNumberOfClientsConnected() <= GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME -1)){
             try{
                 this.tempSocket = serverSocket.accept();
             }
@@ -85,9 +85,9 @@ public class ConnectionHandlerVirtualView extends Thread {
 
         @Override
         public void run() {
-            if(ModelGate.model.getPlayerList().isSomeoneAFK()){
+            if(ModelGate.getModel().getPlayerList().isSomeoneAFK()){
                 ArrayList<String> listOfAFKnames = new ArrayList<>();
-                for (Player p: ModelGate.model.getPlayerList().getPlayers()) {
+                for (Player p: ModelGate.getModel().getPlayerList().getPlayers()) {
                     if(p.isAFK()&&!p.isBot()){
                         listOfAFKnames.add(p.getNickname());
                     }
@@ -166,7 +166,7 @@ public class ConnectionHandlerVirtualView extends Thread {
 
                 //set nickname
                 if(viewControllerEventNickname!=null) {
-                    if (ModelGate.model.getPlayerList().getPlayer(viewControllerEventNickname.getNickname()) != null || viewControllerEventNickname.getNickname().equals("Terminator")) {
+                    if (ModelGate.getModel().getPlayerList().getPlayer(viewControllerEventNickname.getNickname()) != null || viewControllerEventNickname.getNickname().equals("Terminator")) {
                         correctNicknameFound = false;
                     } else {
                         p.setNickname(viewControllerEventNickname.getNickname());
@@ -178,10 +178,10 @@ public class ConnectionHandlerVirtualView extends Thread {
                         t.start();
 
                         System.out.println("<SERVER-socket> Adding Player (" + p.getNickname() + ") to the PlayerList.");
-                        ModelGate.model.getPlayerList().addPlayer(p);
+                        ModelGate.getModel().getPlayerList().addPlayer(p);
 
-                        ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected() + 1);
-                        System.out.println("<SERVER-socket> Number of Connections: " + ModelGate.model.getNumberOfClientsConnected());
+                        ModelGate.getModel().setNumberOfClientsConnected(ModelGate.getModel().getNumberOfClientsConnected() + 1);
+                        System.out.println("<SERVER-socket> Number of Connections: " + ModelGate.getModel().getNumberOfClientsConnected());
 
                         correctNicknameFound = true;
                     }

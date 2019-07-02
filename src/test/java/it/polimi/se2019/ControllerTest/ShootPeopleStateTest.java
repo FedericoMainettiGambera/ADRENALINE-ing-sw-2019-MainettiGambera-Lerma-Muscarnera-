@@ -25,8 +25,8 @@ public class ShootPeopleStateTest {
     @Test
     public void shootPeopleStateTest() throws IOException {
 
-        ModelGate.model=(new FakeModel()).create();
-        Game game=ModelGate.model;
+        ModelGate.setModel(new FakeModel().create());
+        Game game=ModelGate.getModel();
 
 
         game.getCurrentPlayingPlayer().setPosition(0,0);

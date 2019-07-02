@@ -57,7 +57,7 @@ public class BotShootState implements State{
         if(playersV.isEmpty()){
             out.println("<SERVER> bot can't see anybody");
             ViewControllerEventHandlerContext.setNextState(this.nextState);
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
         //ask for input
         else {
@@ -90,8 +90,8 @@ public class BotShootState implements State{
 
         List<Player> damagedPlayer=parseVce(vce);
 
-        ViewControllerEventHandlerContext.setNextState(new TagBackGranadeState(this.nextState, damagedPlayer, ModelGate.model.getPlayerList().getPlayer("Terminator")));
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        ViewControllerEventHandlerContext.setNextState(new TagBackGranadeState(this.nextState, damagedPlayer, ModelGate.getModel().getPlayerList().getPlayer("Terminator")));
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
     }
 
     /**parse the
@@ -103,20 +103,20 @@ public class BotShootState implements State{
 
         //parse VCE
         ViewControllerEventString vceString = (ViewControllerEventString)vce;
-        Player player=ModelGate.model.getPlayerList().getPlayer(vceString.getInput());
+        Player player=ModelGate.getModel().getPlayerList().getPlayer(vceString.getInput());
 
 
-        player.addDamages(ModelGate.model.getPlayerList().getPlayer(botNickname),12);
+        player.addDamages(ModelGate.getModel().getPlayerList().getPlayer(botNickname),12);
 
         out.println("<SERVER> bot giving damage to: "+ vceString.getInput());
 
-        if(ModelGate.model.getPlayerList().getPlayer(botNickname).hasAdrenalineShootAction()){
-            player.addMarksFrom(ModelGate.model.getPlayerList().getPlayer(botNickname),1);
+        if(ModelGate.getModel().getPlayerList().getPlayer(botNickname).hasAdrenalineShootAction()){
+            player.addMarksFrom(ModelGate.getModel().getPlayerList().getPlayer(botNickname),1);
             out.println("<SERVER> bot giving mark to: "+ vceString.getInput());
         }
 
         out.println("<SERVER> setting bot used...");
-        ModelGate.model.getPlayerList().getPlayer(botNickname).setBotUsed(true);
+        ModelGate.getModel().getPlayerList().getPlayer(botNickname).setBotUsed(true);
 
         List<Player> damagedPlayer = new ArrayList<>();
         damagedPlayer.add(player);
@@ -143,7 +143,7 @@ public class BotShootState implements State{
 
         out.println("<SERVER> searching for the players the bot can see:");
 
-        Position botPosition=ModelGate.model.getPlayerList().getPlayer(botNickname).getPosition();
+        Position botPosition=ModelGate.getModel().getPlayerList().getPlayer(botNickname).getPosition();
 
         List<Player> playersBotCanShoot = Board.getCanSeePlayerFrom(botPosition);
 

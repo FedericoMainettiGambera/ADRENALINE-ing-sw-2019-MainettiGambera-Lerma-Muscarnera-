@@ -48,8 +48,8 @@ public class RmiVirtualView extends VirtualView implements RmiInterface{
     }
 
     public void sendAllClient(Object o){
-        if(ModelGate.model.getPlayerList()!=null && ModelGate.model.getPlayerList().getPlayers()!=null){
-            for (Player p : ModelGate.model.getPlayerList().getPlayers()) {
+        if(ModelGate.getModel().getPlayerList()!=null && ModelGate.getModel().getPlayerList().getPlayers()!=null){
+            for (Player p : ModelGate.getModel().getPlayerList().getPlayers()) {
                 this.sendToClient(p,o);
             }
         }

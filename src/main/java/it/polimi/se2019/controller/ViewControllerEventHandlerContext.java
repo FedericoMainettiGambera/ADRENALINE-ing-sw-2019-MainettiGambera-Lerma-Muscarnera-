@@ -26,7 +26,7 @@ public class  ViewControllerEventHandlerContext implements Observer{
         state = nextState;
         String[] stringSplittedState= nextState.getClass().toString().split("\\.");
         String stateString = stringSplittedState[stringSplittedState.length-1];
-        ModelGate.model.setCurrentState(stateString);
+        ModelGate.getModel().setCurrentState(stateString);
     }
 
     @Override

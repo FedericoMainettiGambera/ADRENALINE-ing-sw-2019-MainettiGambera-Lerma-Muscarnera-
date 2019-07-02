@@ -45,7 +45,7 @@ public class GameSetUpState implements State {
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
            //if there's 5 player no room for bot
-            if(ModelGate.model.getPlayerList().getPlayers().size()==GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME) {
+            if(ModelGate.getModel().getPlayerList().getPlayers().size()==GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME) {
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askGameSetUp(false);
             }
             else SelectorGate.getCorrectSelectorFor(playerToAsk).askGameSetUp(true);
@@ -69,8 +69,8 @@ public class GameSetUpState implements State {
         Game.setHasGameBegun(true);
 
         out.println("<SERVER> Setting Starting Player.");
-        ModelGate.model.getPlayerList().setStartingPlayer(playerToAsk);
-        ModelGate.model.getPlayerList().setCurrentPlayingPlayer(ModelGate.model.getPlayerList().getStartingPlayer());
+        ModelGate.getModel().getPlayerList().setStartingPlayer(playerToAsk);
+        ModelGate.getModel().getPlayerList().setCurrentPlayingPlayer(ModelGate.getModel().getPlayerList().getStartingPlayer());
     }
 
     /**
@@ -94,7 +94,7 @@ public class GameSetUpState implements State {
 
         //setting next State
         ViewControllerEventHandlerContext.setNextState(new FirstSpawnState());
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
     }
 
     /**set up the game extrapolating the information needed from
@@ -112,35 +112,35 @@ public class GameSetUpState implements State {
 
         try {
             out.println("<SERVER> Creating Map: " + viewControllerEventGameSetUp.getMapChoice());
-            ModelGate.model.setBoard(new Board(viewControllerEventGameSetUp.getMapChoice(), ModelGate.model.getSocketVirtualView(), ModelGate.model.getRMIVirtualView()));
+            ModelGate.getModel().setBoard(new Board(viewControllerEventGameSetUp.getMapChoice(), ModelGate.getModel().getSocketVirtualView(), ModelGate.getModel().getRMIVirtualView()));
         }
         catch (IOException|NullPointerException e){
             logger.severe("Creating map went wrong"+e.getCause()+ Arrays.toString(e.getStackTrace()));
 
         }
 
-        out.println("<SERVER> MAP: \n" + ModelGate.model.getBoard().toString());
+        out.println("<SERVER> MAP: \n" + ModelGate.getModel().getBoard().toString());
 
         out.println("<SERVER> Creating Killshot Track with " +
                 viewControllerEventGameSetUp.getNumberOfStartingSkulls() +
                 " number of starting skulls.");
-        ModelGate.model.setKillshotTrack(new KillShotTrack(viewControllerEventGameSetUp.getNumberOfStartingSkulls(), ModelGate.model.getSocketVirtualView(), ModelGate.model.getRMIVirtualView()));
+        ModelGate.getModel().setKillshotTrack(new KillShotTrack(viewControllerEventGameSetUp.getNumberOfStartingSkulls(), ModelGate.getModel().getSocketVirtualView(), ModelGate.getModel().getRMIVirtualView()));
 
         out.println("<SERVER> Setting Final Frenzy: " + viewControllerEventGameSetUp.isFinalFrezy());
-        ModelGate.model.setFinalFrenzy(viewControllerEventGameSetUp.isFinalFrezy());
+        ModelGate.getModel().setFinalFrenzy(viewControllerEventGameSetUp.isFinalFrezy());
 
         out.println("<SERVER> Setting a Bot: "+ viewControllerEventGameSetUp.isBotActive());
         if(viewControllerEventGameSetUp.isBotActive()) {
-            ModelGate.model.getPlayerList().addPlayer(new Player(true));
-            ModelGate.model.setBotActive(true);
+            ModelGate.getModel().getPlayerList().addPlayer(new Player(true));
+            ModelGate.getModel().setBotActive(true);
         }
         else {
-            ModelGate.model.setBotActive(false);
+            ModelGate.getModel().setBotActive(false);
         }
 
         out.println("<SERVER> giving players colors");
-        for (int i = 0; i < ModelGate.model.getPlayerList().getPlayers().size(); i++) {
-            ModelGate.model.getPlayerList().getPlayers().get(i).setColor(PlayersColors.valueOf(i));
+        for (int i = 0; i < ModelGate.getModel().getPlayerList().getPlayers().size(); i++) {
+            ModelGate.getModel().getPlayerList().getPlayers().get(i).setColor(PlayersColors.valueOf(i));
         }
     }
 
@@ -149,26 +149,26 @@ public class GameSetUpState implements State {
     /**set players ready to play*/
     private void preparePlayers(){
 
-        for (Player p :ModelGate.model.getPlayerList().getPlayers()) {
+        for (Player p :ModelGate.getModel().getPlayerList().getPlayers()) {
 
             if (!p.isBot()){
 
                 out.println("<SERVER> Adding Observers to the Player weapons and power ups");
-             if((ModelGate.model.getSocketVirtualView()!=null)) {
-                    p.getWeaponCardsInHand().addObserver(ModelGate.model.getSocketVirtualView());
-                    p.getPowerUpCardsInHand().addObserver(ModelGate.model.getSocketVirtualView());
+             if((ModelGate.getModel().getSocketVirtualView()!=null)) {
+                    p.getWeaponCardsInHand().addObserver(ModelGate.getModel().getSocketVirtualView());
+                    p.getPowerUpCardsInHand().addObserver(ModelGate.getModel().getSocketVirtualView());
                 }
-                if(ModelGate.model.getRMIVirtualView()!=null){
-                    p.getWeaponCardsInHand().addObserver(ModelGate.model.getRMIVirtualView());
-                    p.getWeaponCardsInHand().addObserver(ModelGate.model.getRMIVirtualView());
+                if(ModelGate.getModel().getRMIVirtualView()!=null){
+                    p.getWeaponCardsInHand().addObserver(ModelGate.getModel().getRMIVirtualView());
+                    p.getWeaponCardsInHand().addObserver(ModelGate.getModel().getRMIVirtualView());
                 }
 
                 //draw two power up cards
                 out.println("<SERVER> draw two power up cards.");
                 for (int i = 0; i < 2; i++) {
-                    ModelGate.model.getPowerUpDeck().moveCardTo(
+                    ModelGate.getModel().getPowerUpDeck().moveCardTo(
                             p.getPowerUpCardsInHand(),
-                            ModelGate.model.getPowerUpDeck().getFirstCard().getID()
+                            ModelGate.getModel().getPowerUpDeck().getFirstCard().getID()
                     );
                 }
 
@@ -185,41 +185,41 @@ public class GameSetUpState implements State {
     private void createDecks(){
 
         //registering VV as Observer of the Decks
-        if((ModelGate.model.getSocketVirtualView()!=null)){
-            ModelGate.model.getWeaponDeck().addObserver(ModelGate.model.getSocketVirtualView());
-            ModelGate.model.getPowerUpDeck().addObserver(ModelGate.model.getSocketVirtualView());
-            ModelGate.model.getAmmoDeck().addObserver(ModelGate.model.getSocketVirtualView());
+        if((ModelGate.getModel().getSocketVirtualView()!=null)){
+            ModelGate.getModel().getWeaponDeck().addObserver(ModelGate.getModel().getSocketVirtualView());
+            ModelGate.getModel().getPowerUpDeck().addObserver(ModelGate.getModel().getSocketVirtualView());
+            ModelGate.getModel().getAmmoDeck().addObserver(ModelGate.getModel().getSocketVirtualView());
         }
 
-        if(ModelGate.model.getRMIVirtualView()!=null){
-            ModelGate.model.getWeaponDeck().addObserver(ModelGate.model.getRMIVirtualView());
-            ModelGate.model.getPowerUpDeck().addObserver(ModelGate.model.getRMIVirtualView());
-            ModelGate.model.getAmmoDeck().addObserver(ModelGate.model.getRMIVirtualView());
+        if(ModelGate.getModel().getRMIVirtualView()!=null){
+            ModelGate.getModel().getWeaponDeck().addObserver(ModelGate.getModel().getRMIVirtualView());
+            ModelGate.getModel().getPowerUpDeck().addObserver(ModelGate.getModel().getRMIVirtualView());
+            ModelGate.getModel().getAmmoDeck().addObserver(ModelGate.getModel().getRMIVirtualView());
         }
 
 
         out.println("<SERVER> Building decks.");
 
-        ModelGate.model.buildDecks();
+        ModelGate.getModel().buildDecks();
 
         //shuffles cards
         out.println("<SERVER> Shuffling decks");
-        ModelGate.model.getPowerUpDeck().shuffle();
-        ModelGate.model.getAmmoDeck().shuffle();
-        ModelGate.model.getWeaponDeck().shuffle();
+        ModelGate.getModel().getPowerUpDeck().shuffle();
+        ModelGate.getModel().getAmmoDeck().shuffle();
+        ModelGate.getModel().getWeaponDeck().shuffle();
 
         //place cards on the board
-        for(int i =0; i<ModelGate.model.getBoard().getMap().length;i++){
+        for(int i =0; i<ModelGate.getModel().getBoard().getMap().length;i++){
 
-            for(int j=0; j<ModelGate.model.getBoard().getMap()[0].length; j++){
+            for(int j=0; j<ModelGate.getModel().getBoard().getMap()[0].length; j++){
 
-                Square timeSquare=ModelGate.model.getBoard().getSquare(i,j);//lol cuz its a temporary square
+                Square timeSquare=ModelGate.getModel().getBoard().getSquare(i,j);//lol cuz its a temporary square
 
                 if( (timeSquare!=null) && (timeSquare.getSquareType() == SquareTypes.normal) ){
                     OrderedCardList<AmmoCard> ammoCards=((NormalSquare)timeSquare).getAmmoCards();
-                    ModelGate.model.getAmmoDeck().moveCardTo(
+                    ModelGate.getModel().getAmmoDeck().moveCardTo(
                             ammoCards,
-                            ModelGate.model.getAmmoDeck().getFirstCard().getID()
+                            ModelGate.getModel().getAmmoDeck().getFirstCard().getID()
                     );
                     out.println("<SERVER> Placed Ammo card on square [" + i + "][" + j + "]");
                 }
@@ -227,9 +227,9 @@ public class GameSetUpState implements State {
 
                     OrderedCardList<WeaponCard> weaponCards=((SpawnPointSquare)timeSquare).getWeaponCards();
                     for(int t=0; t<3; t++){
-                        ModelGate.model.getWeaponDeck().moveCardTo(
+                        ModelGate.getModel().getWeaponDeck().moveCardTo(
                                 weaponCards,
-                                ModelGate.model.getWeaponDeck().getFirstCard().getID()
+                                ModelGate.getModel().getWeaponDeck().getFirstCard().getID()
                         );
                     }
                     out.println("<SERVER> Placed Weapon cards on square [" + i + "][" + j + "]");
@@ -249,10 +249,10 @@ public class GameSetUpState implements State {
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
-        ModelGate.model.getPlayerList().setNextPlayingPlayer();
+        ModelGate.getModel().getPlayerList().setNextPlayingPlayer();
         if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
     }
 }

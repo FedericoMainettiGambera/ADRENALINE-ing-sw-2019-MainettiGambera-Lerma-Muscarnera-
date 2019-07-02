@@ -410,14 +410,14 @@ public class Board{
         List<Position> positionsList=new ArrayList<>();
         List<Player> players=new ArrayList<>();
 
-        System.out.println("<SERVER-model> checking players in room: " + ModelGate.model.getBoard().getSquare(pos).getColor());
+        System.out.println("<SERVER-model> checking players in room: " + ModelGate.getModel().getBoard().getSquare(pos).getColor());
 
-        List<Square> squareList= ModelGate.model.getBoard().getRoomFromPosition(pos);
+        List<Square> squareList= ModelGate.getModel().getBoard().getRoomFromPosition(pos);
         for (Square square : squareList){
             positionsList.add(square.getCoordinates());
         }
 
-        for (Player p: ModelGate.model.getPlayerList().getPlayersOnBoard()){
+        for (Player p: ModelGate.getModel().getPlayerList().getPlayersOnBoard()){
             for (Position position: positionsList){
                 if(p.getPosition().equalPositions(position)){
                     players.add(p);
@@ -434,15 +434,14 @@ public class Board{
     }
 
     public static List<Player> getCanSeePlayerFrom(Position pos){
-        List<Player> players=new ArrayList<>();
 
         System.out.println("<SERVER> searching for the players that can be seen from position " +pos.humanString());
 
         //takes all players in the bot's room
         System.out.println("         checking current position room");
-        players.addAll(getPlayersInRoom(pos));
+        List<Player> players = new ArrayList<>(getPlayersInRoom(pos));
 
-        Square botSquare=ModelGate.model.getBoard().getSquare(pos);
+        Square botSquare=ModelGate.getModel().getBoard().getSquare(pos);
 
         //takes all players in the adjacent rooms:
         System.out.println("         checking north room");

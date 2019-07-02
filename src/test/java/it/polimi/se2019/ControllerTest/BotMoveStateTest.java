@@ -20,20 +20,20 @@ public class BotMoveStateTest {
     @Test
     public void TestBotMoveStateTest() throws IOException {
 
-        ModelGate.model = fakeModel.create();
-        ModelGate.model.getPlayerList().addPlayer(new Player(true));
-        ModelGate.model.getPlayerList().getPlayer("Terminator").setPosition(0,1);
+        ModelGate.setModel(fakeModel.create()) ;
+        ModelGate.getModel().getPlayerList().addPlayer(new Player(true));
+        ModelGate.getModel().getPlayerList().getPlayer("Terminator").setPosition(0,1);
 
         BotMoveState state=new BotMoveState(new FFSetUpState());
 
         ViewControllerEventPosition viewControllerEventPosition=new ViewControllerEventPosition(0,0);
 
         state.parseVce(viewControllerEventPosition);
-        state.calculatePossiblePositions(ModelGate.model.getCurrentPlayingPlayer());
+        state.calculatePossiblePositions(ModelGate.getModel().getCurrentPlayingPlayer());
         Position pos=new Position(0,0);
 
-        assertEquals(pos.getX(), ModelGate.model.getPlayerList().getPlayer("Terminator").getPosition().getX());
-        assertEquals(pos.getY(), ModelGate.model.getPlayerList().getPlayer("Terminator").getPosition().getY());
+        assertEquals(pos.getX(), ModelGate.getModel().getPlayerList().getPlayer("Terminator").getPosition().getX());
+        assertEquals(pos.getY(), ModelGate.getModel().getPlayerList().getPlayer("Terminator").getPosition().getY());
 
 
 

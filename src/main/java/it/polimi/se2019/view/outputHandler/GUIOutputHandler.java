@@ -1,5 +1,6 @@
 package it.polimi.se2019.view.outputHandler;
 
+import it.polimi.se2019.controller.Controller;
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.model.NormalSquare;
 import it.polimi.se2019.model.Player;
@@ -288,6 +289,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         updateDeaths();
         updateNickname();
         updateAmmobox();
+
     }
 
 
@@ -1289,4 +1291,8 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     }
 
 
-}
+   }
+
+
+
+
