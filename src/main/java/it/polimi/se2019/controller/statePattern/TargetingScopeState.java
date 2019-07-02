@@ -140,7 +140,7 @@ public class TargetingScopeState implements State{
                 out.println("<SERVER> chosen paying method is with an ammoCube of color " + ((AmmoCubes)chosenPayingmethod).getColor() + " from the ammo box");
             }
             else{ // pay discarding a power up
-                playerToAsk.getPowerUpCardsInHand().moveCardTo(ModelGate.model.getPowerUpDiscardPile(), ((PowerUpCard)chosenPayingmethod).getID());
+                playerToAsk.getPowerUpCardsInHand().moveCardTo(ModelGate.getModel().getPowerUpDiscardPile(), ((PowerUpCard)chosenPayingmethod).getID());
                 out.println("<SERVER> chosen paying methos is by discarding power up: " + ((PowerUpCard)chosenPayingmethod).getName() + "   COLOR: " + ((PowerUpCard)chosenPayingmethod).getColor() + "   ID: " +((PowerUpCard)chosenPayingmethod).getID());
             }
 
@@ -152,7 +152,7 @@ public class TargetingScopeState implements State{
 
             //discard the chosenTargetingScope power up
             out.println("<SERVER> discarding the used targeting scope");
-            this.playerToAsk.getPowerUpCardsInHand().moveCardTo(ModelGate.model.getPowerUpDiscardPile(), chosenTargetingScope.getID());
+            this.playerToAsk.getPowerUpCardsInHand().moveCardTo(ModelGate.getModel().getPowerUpDiscardPile(), chosenTargetingScope.getID());
         }
         else { //means "NO", the player doesn't want to use the targeting scope
             out.println("<SERVER> the player doesn't want to use the Targeting Scope power up");

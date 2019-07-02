@@ -39,32 +39,32 @@ public class ConnectionGameCountDown implements Runnable {
                 logger.log(Level.WARNING, "EXCEPTION ", e);
                 Thread.currentThread().interrupt();
             }
-            if(ModelGate.model.getNumberOfClientsConnected() > GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME -1){
+            if(ModelGate.getModel().getNumberOfClientsConnected() > GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME -1){
                 System.out.println("<SERVER> max number of clients connected.");
                 System.out.println(string);
                 ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayers().get(0));
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getPlayerList().getPlayers().get(0));
                 return;
             }
             i++;
         }
 
-        if((ModelGate.model.getNumberOfClientsConnected()) == this.numberOfConnectionAtInstantiationTime){
+        if((ModelGate.getModel().getNumberOfClientsConnected()) == this.numberOfConnectionAtInstantiationTime){
             System.out.println("<SERVER> COUNT DOWN has ended and the number of connection hasn't changed");
             System.out.println(string);
             ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayers().get(0));
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getPlayerList().getPlayers().get(0));
         }
         else{
             System.out.println("<SERVER> COUNT DOWN has ended but the number of connection has changed");
-            if(ModelGate.model.getNumberOfClientsConnected() >= GameConstant.MIN_NUMBER_OF_PLAYER_PER_GAME){
-                System.out.println("<SERVER> There are " + ModelGate.model.getNumberOfClientsConnected() + " clients connected. The Game is Playeable.");
+            if(ModelGate.getModel().getNumberOfClientsConnected() >= GameConstant.MIN_NUMBER_OF_PLAYER_PER_GAME){
+                System.out.println("<SERVER> There are " + ModelGate.getModel().getNumberOfClientsConnected() + " clients connected. The Game is Playeable.");
                 System.out.println(string);
                 ViewControllerEventHandlerContext.setNextState(new GameSetUpState());
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getPlayerList().getPlayers().get(0));
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getPlayerList().getPlayers().get(0));
             }
             else{
-                System.out.println("<SERVER> There are " + ModelGate.model.getNumberOfClientsConnected() + " clients connected.");
+                System.out.println("<SERVER> There are " + ModelGate.getModel().getNumberOfClientsConnected() + " clients connected.");
                 System.out.println("<SERVER> NOT ENOUGHT CLIENTS.");
 
             }

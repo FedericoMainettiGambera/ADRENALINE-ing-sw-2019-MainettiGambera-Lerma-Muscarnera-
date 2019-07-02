@@ -67,9 +67,9 @@ public class ReloadState implements State{
 
         setPlayerToAsk(playerToAsk);
 
-        if((ModelGate.model.hasFinalFrenzyBegun()&&!calledFromShootPeople)){
+        if((ModelGate.getModel().hasFinalFrenzyBegun()&&!calledFromShootPeople)){
 
-            if(ModelGate.model.isBotActive() && !ModelGate.model.getPlayerList().getPlayer(botName).isBotUsed()){
+            if(ModelGate.getModel().isBotActive() && !ModelGate.getModel().getPlayerList().getPlayer(botName).isBotUsed()){
 
                 changeState(new BotMoveState(new WantToPlayPowerUpState()));
             }
@@ -102,7 +102,7 @@ public class ReloadState implements State{
      * you are forced to use your bot*/
     private void notCalledFromShootPeople(){
 
-        if(ModelGate.model.isBotActive() && !ModelGate.model.getPlayerList().getPlayer(botName).isBotUsed()){
+        if(ModelGate.getModel().isBotActive() && !ModelGate.getModel().getPlayerList().getPlayer(botName).isBotUsed()){
             changeState(new BotMoveState(new WantToPlayPowerUpState()));
         }
 
@@ -130,7 +130,7 @@ public class ReloadState implements State{
     private void exceptionalChangeState(){
 
         ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
         t.start();
     }
@@ -184,16 +184,16 @@ public class ReloadState implements State{
         out.println("<SERVER> The player can't reload");
 
         out.println("<SERVER> Placing Ammo cards on all empty NormalSquares");
-        for (int i = 0; i < ModelGate.model.getBoard().getMap().length; i++) {
-            for (int j = 0; j < ModelGate.model.getBoard().getMap()[0].length; j++) {
-                if((ModelGate.model.getBoard().getMap()[i][j]!=null)
+        for (int i = 0; i < ModelGate.getModel().getBoard().getMap().length; i++) {
+            for (int j = 0; j < ModelGate.getModel().getBoard().getMap()[0].length; j++) {
+                if((ModelGate.getModel().getBoard().getMap()[i][j]!=null)
                         &&
-                        (ModelGate.model.getBoard().getMap()[i][j].getSquareType() == SquareTypes.normal)
+                        (ModelGate.getModel().getBoard().getMap()[i][j].getSquareType() == SquareTypes.normal)
                         &&
-                        ((NormalSquare)ModelGate.model.getBoard().getMap()[i][j]).getAmmoCards().getCards().isEmpty()){
-                    ModelGate.model.getAmmoDeck().moveCardTo(
-                            ((NormalSquare)ModelGate.model.getBoard().getMap()[i][j]).getAmmoCards(),
-                            ModelGate.model.getAmmoDeck().getFirstCard().getID()
+                        ((NormalSquare)ModelGate.getModel().getBoard().getMap()[i][j]).getAmmoCards().getCards().isEmpty()){
+                    ModelGate.getModel().getAmmoDeck().moveCardTo(
+                            ((NormalSquare)ModelGate.getModel().getBoard().getMap()[i][j]).getAmmoCards(),
+                            ModelGate.getModel().getAmmoDeck().getFirstCard().getID()
                     );
                     out.println("<SERVER> Added Ammo card to square [" + i + "][" + j + "]");
 
@@ -219,21 +219,21 @@ public class ReloadState implements State{
             out.println("<SERVER> Reloading and paying reload cost for weapon card: " + viewControllerEventString.getInput());
 
             //reload the card
-            ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCard(viewControllerEventString.getInput()).reload();
+            ModelGate.getModel().getCurrentPlayingPlayer().getWeaponCardsInHand().getCard(viewControllerEventString.getInput()).reload();
 
             //payment
-            AmmoList cost=ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCard(viewControllerEventString.getInput()).getReloadCost();
-            ChooseHowToPayState.makePayment(ModelGate.model.getCurrentPlayingPlayer(), cost);
+            AmmoList cost=ModelGate.getModel().getCurrentPlayingPlayer().getWeaponCardsInHand().getCard(viewControllerEventString.getInput()).getReloadCost();
+            ChooseHowToPayState.makePayment(ModelGate.getModel().getCurrentPlayingPlayer(), cost);
 
         }
         else{
             out.println("<SERVER> Player decided not to reload.");
             if(calledFromShootPeople){
                 ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
             }
             else {
-                if(ModelGate.model.isBotActive() && !ModelGate.model.getPlayerList().getPlayer(botName).isBotUsed()){
+                if(ModelGate.getModel().isBotActive() && !ModelGate.getModel().getPlayerList().getPlayer(botName).isBotUsed()){
 
                     changeState(new BotMoveState(new WantToPlayPowerUpState()));
 
@@ -250,11 +250,11 @@ public class ReloadState implements State{
     void afterPayment(){
         if(calledFromShootPeople){
             ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
         else {
             ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
     }
 
@@ -275,8 +275,8 @@ public class ReloadState implements State{
     /**@return boolean information about the effective possibility of reloading*/
     public boolean canReload(){
 
-        for (WeaponCard weaponCard : ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards()){
-            if(!weaponCard.isLoaded() && (new ChooseHowToPayState(ModelGate.model.getCurrentPlayingPlayer(),weaponCard.getReloadCost())).canPayInSomeWay()){
+        for (WeaponCard weaponCard : ModelGate.getModel().getCurrentPlayingPlayer().getWeaponCardsInHand().getCards()){
+            if(!weaponCard.isLoaded() && (new ChooseHowToPayState(ModelGate.getModel().getCurrentPlayingPlayer(),weaponCard.getReloadCost())).canPayInSomeWay()){
                 return true;
             }
         }

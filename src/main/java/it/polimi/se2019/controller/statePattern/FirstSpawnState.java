@@ -44,7 +44,7 @@ public class FirstSpawnState implements State {
         //ask to "playerToAsk" what power up he want to discard to spawn on its correspondent SpawnPointColor
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-            if(ModelGate.model.isBotActive()&&ModelGate.model.getPlayerList().getPlayer(botNickname).getPosition()==null){
+            if(ModelGate.getModel().isBotActive()&&ModelGate.getModel().getPlayerList().getPlayer(botNickname).getPosition()==null){
                 out.println("<SERVER> asking player to spawn himself and the bot");
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askFirstSpawnPosition(playerToAsk.getPowerUpCardsInHand().getCards(), true);
             }
@@ -85,7 +85,7 @@ public class FirstSpawnState implements State {
 
         ViewControllerEventTwoString viewControllerEventTwoString = (ViewControllerEventTwoString) vce;
 
-        if(ModelGate.model.isBotActive() && ModelGate.model.getPlayerList().getPlayer(botNickname).getPosition()==null){
+        if(ModelGate.getModel().isBotActive() && ModelGate.getModel().getPlayerList().getPlayer(botNickname).getPosition()==null){
             String spawnPointColorForBot = viewControllerEventTwoString.getInput2();
             AmmoCubesColor spawnForBot =  AmmoCubesColor.red;
             switch (spawnPointColorForBot) {
@@ -109,8 +109,8 @@ public class FirstSpawnState implements State {
             }
             out.println("<SERVER> the bot will spawn in the SpawnPoint of color: " + spawnPointColorForBot);
             try {
-                Position spawnPointPositionForBot = ModelGate.model.getBoard().getSpawnpointOfColor(spawnForBot);
-                ModelGate.model.getPlayerList().getPlayer(botNickname).setPosition(spawnPointPositionForBot);
+                Position spawnPointPositionForBot = ModelGate.getModel().getBoard().getSpawnpointOfColor(spawnForBot);
+                ModelGate.getModel().getPlayerList().getPlayer(botNickname).setPosition(spawnPointPositionForBot);
             } catch (Exception e) {
                 logger.log(Level.SEVERE, "EXCEPTION", e);
             }
@@ -121,26 +121,26 @@ public class FirstSpawnState implements State {
     private void spawnPlayer(ViewControllerEvent vce){
         ViewControllerEventTwoString viewControllerEventTwoString = (ViewControllerEventTwoString) vce;
 
-        PowerUpCard cardChosen = ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCard(viewControllerEventTwoString.getInput1());
+        PowerUpCard cardChosen = ModelGate.getModel().getCurrentPlayingPlayer().getPowerUpCardsInHand().getCard(viewControllerEventTwoString.getInput1());
         Position spawnPosition = null;
         out.println("<SERVER> chosen card ID: " + cardChosen.getID());
         out.println("<SERVER> chosen card name: " + cardChosen.getName());
         out.println("<SERVER> chosen color: " + cardChosen.getColor());
 
         try {
-            spawnPosition = ModelGate.model.getBoard().getSpawnpointOfColor(cardChosen.getColor());
+            spawnPosition = ModelGate.getModel().getBoard().getSpawnpointOfColor(cardChosen.getColor());
         } catch (Exception e) {
             logger.severe("Exception occurred:"+e.getCause()+e.getClass()+ Arrays.toString(e.getStackTrace()));
         }
         assert spawnPosition!=null;
-        ModelGate.model.getCurrentPlayingPlayer().setPosition(spawnPosition);
+        ModelGate.getModel().getCurrentPlayingPlayer().setPosition(spawnPosition);
         out.println("<SERVER> Spawning in the SpawnPoint of color " + cardChosen.getColor() + ", in coordinates X:(" +spawnPosition.getX() + "), Y:(" + spawnPosition.getY() + ").");
 
 
         //discard the power up card
         out.println("<SERVER> Discarding the chosen power up");
-        ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
-                ModelGate.model.getPowerUpDiscardPile(),
+        ModelGate.getModel().getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
+                ModelGate.getModel().getPowerUpDiscardPile(),
                 cardChosen.getID()
         );
     }
@@ -148,7 +148,7 @@ public class FirstSpawnState implements State {
     /** set following state*/
     private void changeState(){
         ViewControllerEventHandlerContext.setNextState(new TurnState(1));
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
     }
     /**
      * if player in not reachable we provide to set it AFK,
@@ -162,19 +162,19 @@ public class FirstSpawnState implements State {
         out.println("<SERVER> randomly spawning player.");
         Position spawnPosition = null;
         try {
-            spawnPosition = ModelGate.model.getBoard().getSpawnpointOfColor(playerToAsk.getPowerUpCardsInHand().getFirstCard().getColor());
+            spawnPosition = ModelGate.getModel().getBoard().getSpawnpointOfColor(playerToAsk.getPowerUpCardsInHand().getFirstCard().getColor());
         } catch (Exception e) {
             logger.severe("Exception occurred:"+" "+ " "+ Arrays.toString(e.getStackTrace())+e.getClass()+e.getCause());
         }
         assert spawnPosition!=null;
-        ModelGate.model.getCurrentPlayingPlayer().setPosition(spawnPosition);
+        ModelGate.getModel().getCurrentPlayingPlayer().setPosition(spawnPosition);
         out.println("<SERVER> Spawning in SpawnPoint of color " + playerToAsk.getPowerUpCardsInHand().getFirstCard().getColor() + ", in coordinates X:(" +spawnPosition.getX() + "), Y:(" + spawnPosition.getY() + ").");
 
 
         //discard the power up card
         out.println("<SERVER> Discarding the randomly chosen power up");
-        ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
-                ModelGate.model.getPowerUpDiscardPile(),
+        ModelGate.getModel().getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
+                ModelGate.getModel().getPowerUpDiscardPile(),
                 playerToAsk.getPowerUpCardsInHand().getFirstCard().getID()
         );
 

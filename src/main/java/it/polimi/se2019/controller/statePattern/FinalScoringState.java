@@ -51,11 +51,11 @@ public class FinalScoringState implements State {
 
 
         /*when the game ends, we score any player that still got tokens on his damage track*/
-        for (Player player : ModelGate.model.getPlayerList().getPlayers()) {
+        for (Player player : ModelGate.getModel().getPlayerList().getPlayers()) {
             scoreTokens(player);
         }
 
-        if (ModelGate.model.getKillshotTrack().returnKills().get(0).getKillingPlayer() == null){
+        if (ModelGate.getModel().getKillshotTrack().returnKills().get(0).getKillingPlayer() == null){
             score = 0;
         } else score = 8;
 
@@ -88,7 +88,7 @@ public class FinalScoringState implements State {
         if (graduatory != null){
             for (PlayerPoint playerPoint : graduatory){
 
-                for (Player p : ModelGate.model.getPlayerList().getPlayers()) {
+                for (Player p : ModelGate.getModel().getPlayerList().getPlayers()) {
 
                     if (playerPoint.player.getNickname().equals(p.getNickname())){
                         playerPoint.quantity = p.getScore() + score + playerPoint.overkill;
@@ -114,7 +114,7 @@ public class FinalScoringState implements State {
         for (PlayerPoint p : classifica) {
             p.player.setScore(p.quantity);
             out.println("<SERVER> " + i + ":" + p.player.getNickname() + " with " + p.quantity + " points ");
-            ModelGate.model.notifyClients(new ModelViewEvent(p.player.getNickname(), ModelViewEventTypes.finalScoring, p.quantity, " " +i));
+            ModelGate.getModel().notifyClients(new ModelViewEvent(p.player.getNickname(), ModelViewEventTypes.finalScoring, p.quantity, " " +i));
             i++;
         }
 
@@ -177,12 +177,12 @@ public class FinalScoringState implements State {
         //takes the killshot track, check which name there's on the first kill and look for it through the whole killshot track,
         //removing each occurance and scoring the points in "quantity", saving the last occurance of it for tiebreaks, do it again till the list is empty.
 
-        for (Player p : ModelGate.model.getPlayerList().getPlayers()){
+        for (Player p : ModelGate.getModel().getPlayerList().getPlayers()){
 
             graduatory.add(new PlayerPoint(p));
 
 
-            for (Kill kill : ModelGate.model.getKillshotTrack().returnKills()) {
+            for (Kill kill : ModelGate.getModel().getKillshotTrack().returnKills()) {
 
                 if ((!kill.isSkull()) && p.getNickname().equals(kill.getKillingPlayer().getNickname())) {
 

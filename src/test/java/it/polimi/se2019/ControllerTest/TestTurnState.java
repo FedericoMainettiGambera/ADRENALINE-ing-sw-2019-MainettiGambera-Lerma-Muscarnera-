@@ -12,8 +12,8 @@ public class TestTurnState{
 
     @Test
     public void testTurnState() throws IOException {
-        ModelGate.model=(new FakeModel()).create();
-        Game game=ModelGate.model;
+        ModelGate.setModel((new FakeModel()).create());
+        Game game=ModelGate.getModel();
 
         TurnState state=new TurnState(1);
 

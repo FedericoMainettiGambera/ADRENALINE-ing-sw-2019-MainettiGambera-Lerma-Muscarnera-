@@ -14,8 +14,8 @@ public class TestHowToPay {
 
     @Test
     public void chooseHowToPay() throws IOException {
-        ModelGate.model=(new FakeModel()).create();
-        Game game=ModelGate.model;
+        ModelGate.setModel(new FakeModel().create());
+        Game game=ModelGate.getModel();
         AmmoList ammoList=new AmmoList();
         ammoList.addAmmoCubesOfColor(AmmoCubesColor.blue, 3);
         game.getCurrentPlayingPlayer().addAmmoCubes(AmmoCubesColor.blue, 3);

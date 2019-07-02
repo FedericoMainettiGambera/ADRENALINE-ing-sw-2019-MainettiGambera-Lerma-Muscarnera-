@@ -12,8 +12,8 @@ public class GrabStuffAndDrawPowerUp{
     @Test
     public void grabStuffAndDrawPowerUp() throws IOException {
 
-        ModelGate.model=(new FakeModel()).create();
-        Game game=ModelGate.model;
+        ModelGate.setModel((new FakeModel()).create());
+        Game game=ModelGate.getModel();
         game.buildDecks();
 
         GrabStuffStateDrawPowerUp state=new  GrabStuffStateDrawPowerUp(2);

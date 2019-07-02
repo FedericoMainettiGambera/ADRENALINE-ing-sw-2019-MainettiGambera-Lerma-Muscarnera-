@@ -22,8 +22,8 @@ public class ShootPeopleAskForInputTest{
     @Test
     public void shootPeopleAskForInput() throws IOException {
 
-        ModelGate.model=(new FakeModel()).create();
-        Game game=ModelGate.model;
+        ModelGate.setModel(new FakeModel().create());
+        Game game=ModelGate.getModel();
         game.buildDecks();
 
         WeaponCard weaponCard=game.getWeaponDeck().getFirstCard();

@@ -64,14 +64,14 @@ public class BotMoveState implements State {
 
 
         out.println("<SERVER> setting bot used...");
-        ModelGate.model.getPlayerList().getPlayer(botNickname).setBotUsed(true);
+        ModelGate.getModel().getPlayerList().getPlayer(botNickname).setBotUsed(true);
 
         this.playerToAsk = playerToAsk;
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //calculate possible positions
-        Position botposition = ModelGate.model.getPlayerList().getPlayer(botNickname).getPosition();
-        this.possiblePositions = ModelGate.model.getBoard().possiblePositions(botposition,1);
+        Position botposition = ModelGate.getModel().getPlayerList().getPlayer(botNickname).getPosition();
+        this.possiblePositions = ModelGate.getModel().getBoard().possiblePositions(botposition,1);
         out.println("<SERVER> Possible positions to move Bot calculated:");
         StringBuilder toPrintln = new StringBuilder();
         for (Position possiblePosition : possiblePositions) {
@@ -93,7 +93,7 @@ public class BotMoveState implements State {
 
         //change state in botShootState passing him the next state
         ViewControllerEventHandlerContext.setNextState(new BotShootState(this.nextState));
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        ViewControllerEventHandlerContext.state.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
     }
 
     /**@param vce, event that we need to extrapolate information from */
@@ -105,7 +105,7 @@ public class BotMoveState implements State {
 
         //parse VCE
         ViewControllerEventPosition vcePosition = (ViewControllerEventPosition)vce;
-        ModelGate.model.getPlayerList().getPlayer(botNickname).setPosition(vcePosition.getX(), vcePosition.getY());
+        ModelGate.getModel().getPlayerList().getPlayer(botNickname).setPosition(vcePosition.getX(), vcePosition.getY());
         out.println("<SERVER> Bot's new position is: [" + vcePosition.getX() + "][" + vcePosition.getY() + "]");
 
 

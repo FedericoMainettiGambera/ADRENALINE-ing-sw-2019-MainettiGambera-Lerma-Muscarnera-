@@ -67,16 +67,16 @@ public class GrabStuffStateMove implements State {
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         int numberOfMovement = 1;
-        if((ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineGrabAction())||(ModelGate.model.hasFinalFrenzyBegun()&&(playerToAsk.getBeforeorafterStartingPlayer()<0))){
+        if((ModelGate.getModel().getCurrentPlayingPlayer().hasAdrenalineGrabAction())||(ModelGate.getModel().hasFinalFrenzyBegun()&&(playerToAsk.getBeforeorafterStartingPlayer()<0))){
             numberOfMovement = 2;
         }
-        else if(ModelGate.model.hasFinalFrenzyBegun()&&playerToAsk.getBeforeorafterStartingPlayer()>=0){
+        else if(ModelGate.getModel().hasFinalFrenzyBegun()&&playerToAsk.getBeforeorafterStartingPlayer()>=0){
             numberOfMovement =3;
         }
 
         out.println("<SERVER> The player can make " + numberOfMovement + " number of moves");
 
-        ArrayList<Position> possiblePositions = ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(), numberOfMovement);
+        ArrayList<Position> possiblePositions = ModelGate.getModel().getBoard().possiblePositions(playerToAsk.getPosition(), numberOfMovement);
         out.println("<SERVER> Possible positions to move before grabbing calculated:");
         StringBuilder toPrintln = new StringBuilder();
         for (Position possiblePosition : possiblePositions) {
@@ -113,7 +113,7 @@ public class GrabStuffStateMove implements State {
 
         //set new position for the player
         out.println("<SERVER> moving player to position: [" +viewControllerEventPosition.getX()+ "][" +viewControllerEventPosition.getY() + "]");
-        ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setPosition(
+        ModelGate.getModel().getPlayerList().getCurrentPlayingPlayer().setPosition(
                 viewControllerEventPosition.getX(),
                 viewControllerEventPosition.getY()
         );

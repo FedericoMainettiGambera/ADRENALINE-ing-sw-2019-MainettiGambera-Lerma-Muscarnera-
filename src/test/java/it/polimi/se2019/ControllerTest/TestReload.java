@@ -21,18 +21,18 @@ public class TestReload {
         @Test
         public void testReloadState() throws IOException {
 
-            ModelGate.model=fakeModel.create();
-            ModelGate.model.buildDecks();
+            ModelGate.setModel(fakeModel.create());
+            ModelGate.getModel().buildDecks();
 
-            ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards().add(ModelGate.model.getWeaponDeck().getFirstCard());
-            ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards().get(0).unload();
-            ModelGate.model.getCurrentPlayingPlayer().addAmmoCubes(AmmoCubesColor.red, 3);
-            ModelGate.model.getCurrentPlayingPlayer().addAmmoCubes(AmmoCubesColor.yellow, 3);
-            ModelGate.model.getCurrentPlayingPlayer().addAmmoCubes(AmmoCubesColor.blue, 3);
+            ModelGate.getModel().getCurrentPlayingPlayer().getWeaponCardsInHand().getCards().add(ModelGate.getModel().getWeaponDeck().getFirstCard());
+            ModelGate.getModel().getCurrentPlayingPlayer().getWeaponCardsInHand().getCards().get(0).unload();
+            ModelGate.getModel().getCurrentPlayingPlayer().addAmmoCubes(AmmoCubesColor.red, 3);
+            ModelGate.getModel().getCurrentPlayingPlayer().addAmmoCubes(AmmoCubesColor.yellow, 3);
+            ModelGate.getModel().getCurrentPlayingPlayer().addAmmoCubes(AmmoCubesColor.blue, 3);
 
             ReloadState reloadState=new ReloadState(false);
 
-            reloadState.setPlayerToAsk(ModelGate.model.getCurrentPlayingPlayer());
+            reloadState.setPlayerToAsk(ModelGate.getModel().getCurrentPlayingPlayer());
             reloadState.placeAmmosOnEmptyNormalSquares();
             assertEquals(1,reloadState.weaponToReload().size());
             assertTrue(reloadState.canReload());

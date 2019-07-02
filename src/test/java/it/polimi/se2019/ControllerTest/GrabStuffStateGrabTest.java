@@ -1,5 +1,6 @@
 package it.polimi.se2019.ControllerTest;
 
+import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.statePattern.GrabStuffStateGrab;
 import it.polimi.se2019.model.AmmoCard;
 import it.polimi.se2019.model.NormalSquare;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 
 import java.io.IOException;
 
+import static it.polimi.se2019.controller.ModelGate.getModel;
 import static it.polimi.se2019.controller.ModelGate.model;
 
 public class GrabStuffStateGrabTest{
@@ -17,15 +19,16 @@ public class GrabStuffStateGrabTest{
     @Test
     public void testGrabStuffStateGrab() throws IOException {
 
-        model = fakeModel.create();
-        model.buildDecks();
+        ModelGate.setModel(fakeModel.create()) ;
+        ModelGate.getModel().buildDecks();
 
-        model.getPlayerList().getCurrentPlayingPlayer().setPosition(0,0);
+        ModelGate.getModel().getPlayerList().getCurrentPlayingPlayer().setPosition(0,0);
 
 
         AmmoCard ammo=new AmmoCard("0");
 
-        ((NormalSquare) model.getBoard().getSquare(0,0)).getAmmoCards().addCard(ammo);
+        ((NormalSquare) getModel().getBoard().getSquare(0,0)).getAmmoCards().addCard(ammo);
+
 
 
 
@@ -33,9 +36,9 @@ public class GrabStuffStateGrabTest{
 
         state.grabAmmo();
 
-        state.askForInput(model.getCurrentPlayingPlayer());
+        state.askForInput(getModel().getCurrentPlayingPlayer());
 
-        Assertions.assertTrue(model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().isEmpty());
+        Assertions.assertTrue(getModel().getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().isEmpty());
 
 
     }

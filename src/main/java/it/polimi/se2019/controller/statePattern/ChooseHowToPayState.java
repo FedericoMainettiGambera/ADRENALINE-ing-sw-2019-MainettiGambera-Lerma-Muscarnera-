@@ -150,7 +150,7 @@ public class ChooseHowToPayState {
                     break;
                 }
             }
-            payingPlayer.getPowerUpCardsInHand().moveCardTo(ModelGate.model.getPowerUpDiscardPile(), ((PowerUpCardV) o).getID());
+            payingPlayer.getPowerUpCardsInHand().moveCardTo(ModelGate.getModel().getPowerUpDiscardPile(), ((PowerUpCardV) o).getID());
         }
         payingPlayer.payAmmoCubes(leftToPay);
 

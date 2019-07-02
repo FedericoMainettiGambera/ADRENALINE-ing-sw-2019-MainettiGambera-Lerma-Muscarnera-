@@ -25,11 +25,11 @@ public class TestTagBackGrenade{
     public void testTagBack(){
 
         try {
-            ModelGate.model=(new FakeModel()).create();
+            ModelGate.setModel((new FakeModel()).create());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Game game=ModelGate.model;
+        Game game=ModelGate.getModel();
 
         game.getCurrentPlayingPlayer().setPosition(0,0);
         game.getPlayerList().getPlayer("B").setPosition(0,0);

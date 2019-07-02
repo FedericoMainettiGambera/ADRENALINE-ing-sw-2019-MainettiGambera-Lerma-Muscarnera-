@@ -106,7 +106,7 @@ public class SpawnState implements State {
         PowerUpCard cardChosen = playerToSpawn.getPowerUpCardsInHand().getCard(viewControllerEventString.getInput());
 
         try {
-            Position spawnPosition = ModelGate.model.getBoard().getSpawnpointOfColor(cardChosen.getColor());
+            Position spawnPosition = ModelGate.getModel().getBoard().getSpawnpointOfColor(cardChosen.getColor());
             out.println("<SERVER> Spawning player in position [" + spawnPosition.getX() + "][" + spawnPosition.getY() +"]");
             playerToSpawn.setPosition(spawnPosition);
         } catch (Exception e) {
@@ -119,7 +119,7 @@ public class SpawnState implements State {
         out.println("<SERVER>Discarding the chosen power up: " + cardChosen.getID());
 
         playerToSpawn.getPowerUpCardsInHand().moveCardTo(
-                ModelGate.model.getPowerUpDiscardPile(),
+                ModelGate.getModel().getPowerUpDiscardPile(),
                 viewControllerEventString.getInput()
         );
 
@@ -137,9 +137,9 @@ public class SpawnState implements State {
 
             out.println("<SERVER> Making " + playerToSpawn.getNickname() + " draw a power up");
             //draw a power up
-            ModelGate.model.getPowerUpDeck().moveCardTo(
+            ModelGate.getModel().getPowerUpDeck().moveCardTo(
                     playerToSpawn.getPowerUpCardsInHand(),
-                    ModelGate.model.getPowerUpDeck().getFirstCard().getID()
+                    ModelGate.getModel().getPowerUpDeck().getFirstCard().getID()
             );
         }
 

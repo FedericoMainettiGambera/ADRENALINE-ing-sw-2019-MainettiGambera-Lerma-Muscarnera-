@@ -23,13 +23,13 @@ public class FirstSpawnTest{
     @Test
     public void firstSpawnTest() throws Exception {
 
-        ModelGate.model=(new FakeModel()).create();
+        ModelGate.setModel((new FakeModel()).create());
 
         PowerUpCard powerUpCard=new PowerUpCard("1",1);
         powerUpCard.setColor(AmmoCubesColor.blue);
 
-        ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().addCard(powerUpCard);
-        ModelGate.model.getPlayerList().addPlayer(new Player(true));
+        ModelGate.getModel().getCurrentPlayingPlayer().getPowerUpCardsInHand().addCard(powerUpCard);
+        ModelGate.getModel().getPlayerList().addPlayer(new Player(true));
         ViewControllerEventTwoString viewControllerEventTwoString=new ViewControllerEventTwoString("1", "red");
 
         FirstSpawnState firstSpawnState=new FirstSpawnState();
@@ -42,10 +42,10 @@ public class FirstSpawnTest{
         spawnBot.invoke(firstSpawnState,viewControllerEventTwoString);
         spawnPlayer.invoke(firstSpawnState,viewControllerEventTwoString);
 
-        assertEquals(0,ModelGate.model.getCurrentPlayingPlayer().getPosition().getX());
-        assertEquals(2,ModelGate.model.getCurrentPlayingPlayer().getPosition().getY());
+        assertEquals(0,ModelGate.getModel().getCurrentPlayingPlayer().getPosition().getX());
+        assertEquals(2,ModelGate.getModel().getCurrentPlayingPlayer().getPosition().getY());
 
-        assertNotNull(ModelGate.model.getPlayerList().getPlayer("Terminator").getPosition());
+        assertNotNull(ModelGate.getModel().getPlayerList().getPlayer("Terminator").getPosition());
 
 
     }

@@ -14,8 +14,8 @@ public class GrabStuffMoveTest{
 
     @Test
     public void testGrabStuffMoveState() throws IOException {
-        ModelGate.model=(new FakeModel()).create();
-        Game game=ModelGate.model;
+        ModelGate.setModel((new FakeModel()).create());
+        Game game=ModelGate.getModel();
 
         GrabStuffStateMove state=new GrabStuffStateMove(1);
 
