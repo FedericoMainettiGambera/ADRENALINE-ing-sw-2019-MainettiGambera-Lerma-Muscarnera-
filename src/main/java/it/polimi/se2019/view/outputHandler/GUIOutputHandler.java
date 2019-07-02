@@ -853,11 +853,11 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     /**launches a UpdateStateBar thread
      * @param stateEvent needed to know in which state the game is in a given moment */
-    private void updateStateBar(Event stateEvent) {
+    private void updateStateBar(StateEvent stateEvent) {
         System.out.println("UPDATE STATE BAR"); //MOMENTANEO
 
 
-        (new Thread(new UpdateStateBar((StateEvent) stateEvent))).start();
+        (new Thread(new UpdateStateBar((stateEvent)))).start();
     }
     /**implements a thread dedicated to update a section of the that informs clients what is going on*/
     private class UpdateStateBar implements Runnable{

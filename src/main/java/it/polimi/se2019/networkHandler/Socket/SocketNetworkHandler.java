@@ -17,49 +17,51 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
 
     private static Socket socket;
 
-    private int port;
+     private static ObjectOutputStream oos;
 
-    private InetAddress inetAddress;
-
-    public static ObjectOutputStream oos;
+    public static ObjectOutputStream getOos() {
+        return oos;
+    }
 
     private static ObjectInputStream ois;
 
-    public View view;
+
 
     public SocketNetworkHandler(InetAddress inetAddress, int port, View view) throws IOException {
-        this.view = view;
-
-        this.port = port;
-        this.inetAddress = inetAddress;
 
         if(Controller.getUserInterface().equalsIgnoreCase("CLI")) {
             logger.info("<CLIENT>New Client with IP: " + InetAddress.getLocalHost().getHostAddress());
 
-            logger.info("<CLIENT>Trying to connect to: " + this.inetAddress.getHostAddress() + ":" + this.port);
+            logger.info("<CLIENT>Trying to connect to: " + inetAddress.getHostAddress() + ":" + port);
         }
 
-        this.socket = new Socket(this.inetAddress, this.port);
+        updateStreamsAndSocket(inetAddress, port);
 
         if(Controller.getUserInterface().equalsIgnoreCase("CLI")) {
-            logger.info("<CLIENT>Connected to: " + this.inetAddress.getHostAddress() + ":" + this.port);
+            logger.info("<CLIENT>Connected to: " + inetAddress.getHostAddress() + ":" + port);
         }
 
-        this.oos = new ObjectOutputStream(this.socket.getOutputStream());
 
-
-        this.ois = new ObjectInputStream(this.socket.getInputStream());
 
         ServerListenerNetworkHandler sl = new ServerListenerNetworkHandler(socket, ois, view);
         new Thread(sl).start();
     }
 
 
+   private static void  updateStreamsAndSocket(InetAddress inetAddress, int port) throws IOException {
+
+        socket = new Socket(inetAddress, port);
+        oos = new ObjectOutputStream(socket.getOutputStream());
+        ois = new ObjectInputStream(socket.getInputStream());
+
+
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         ViewControllerEvent viewControllerEvent = (ViewControllerEvent) arg;
         try {
-            this.oos.writeObject(viewControllerEvent);
+            oos.writeObject(viewControllerEvent);
         } catch (IOException e) {
             OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
         }
