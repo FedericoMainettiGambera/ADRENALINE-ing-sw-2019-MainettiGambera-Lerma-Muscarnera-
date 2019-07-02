@@ -505,6 +505,18 @@ public class GameSceneController implements Initializable {
 
     public StackPane[][] getMainImagesmap(){
         StackPane[][] mainImageMap = new StackPane[3][4];
+        mainImageMap[0][0] = this.getSquareMainImage00;
+        mainImageMap[0][1] = this.getSquareMainImage01;
+        mainImageMap[0][2] = this.getSquareMainImage02;
+        mainImageMap[0][3] = this.getSquareMainImage03;
+        mainImageMap[1][0] = this.getSquareMainImage10;
+        mainImageMap[1][1] = this.getSquareMainImage11;
+        mainImageMap[1][2] = this.getSquareMainImage12;
+        mainImageMap[1][3] = this.getSquareMainImage13;
+        mainImageMap[2][0] = this.getSquareMainImage20;
+        mainImageMap[2][1] = this.getSquareMainImage21;
+        mainImageMap[2][2] = this.getSquareMainImage22;
+        mainImageMap[2][3] = this.getSquareMainImage23;
         return mainImageMap;
     }
 

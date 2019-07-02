@@ -1,6 +1,10 @@
 package it.polimi.se2019.view.outputHandler;
 
-import it.polimi.se2019.controller.statePattern.State;
+import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.model.NormalSquare;
+import it.polimi.se2019.model.Player;
+import it.polimi.se2019.model.SpawnPointSquare;
+
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.Event;
@@ -12,7 +16,11 @@ import it.polimi.se2019.view.LoadingSceneController;
 import it.polimi.se2019.view.components.*;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -743,14 +751,102 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             if (ViewModelGate.getModel() != null && ViewModelGate.getModel().getBoard() != null && ViewModelGate.getModel().getBoard().getMap() != null) {
                 SquareV[][] map = ViewModelGate.getModel().getBoard().getMap();
                 StackPane[][] backgroundMap = getGameSceneController().getBackgroundsMap();
-                StackPane[][] mainImages = getGameSceneController().getMainImagesmap();
+                StackPane[][] mainImagesMap = getGameSceneController().getMainImagesmap();
                 for (int i = 0; i < map.length; i++) { //map.length == 3
                     for (int j = 0; j < map[0].length; j++) { // map[0].lenght == 4
-
+                        SquareV currentSquareV = map[i][j];
+                        StackPane currentBackGroundSquare = backgroundMap[i][j];
+                        StackPane currentMainImageSquare = mainImagesMap[i][j];
+                        if(currentSquareV==null){
+                            //empty square
+                            showEmptySquare(currentBackGroundSquare, currentMainImageSquare);
+                        }
+                        else if(currentSquareV.getClass().toString().contains("NormalSquare")){
+                            //normal square
+                            showNormalSquare((NormalSquareV) currentSquareV, currentBackGroundSquare, currentMainImageSquare);
+                        }
+                        else{
+                            //spawn point square
+                            showSpawnPoint((SpawnPointSquareV) currentSquareV, currentBackGroundSquare, currentMainImageSquare);
+                        }
                     }
                 }
             }
         }
+        private void showEmptySquare(StackPane background, StackPane mainImage){
+            Platform.runLater(()->{
+                //nothing (?) TODO
+                mainImage.getChildren().removeAll(mainImage.getChildren());
+            });
+        }
+        private void showNormalSquare(NormalSquareV square, StackPane background, StackPane mainImage){
+            List<PlayerV> playersToShow = getPlayers(square.getX(), square.getY());
+            Platform.runLater(()->{
+                VBox squareContent = new VBox();
+                mainImage.getChildren().add(squareContent);
+
+                AmmoCardV ammoCard = square.getAmmoCards().getCards().get(0);
+                if(ammoCard!=null){
+                    StackPane ammoImage = new StackPane(new Label(ammoCard.getID())); //don't use a label, but set the image
+                    ammoImage.setUserData(ammoCard);
+                    squareContent.getChildren().add(ammoImage);
+                    VBox.setVgrow(ammoImage, Priority.ALWAYS);
+                }
+
+                HBox playersHBox = buildPlayers(playersToShow);
+                if(!playersHBox.getChildren().isEmpty()){
+                    squareContent.getChildren().add(playersHBox);
+                    VBox.setVgrow(playersHBox, Priority.ALWAYS);
+                }
+            });
+        }
+        private void showSpawnPoint(SpawnPointSquareV square,StackPane background, StackPane mainImage){
+            List<PlayerV> playersToShow = getPlayers(square.getX(), square.getY());
+            Platform.runLater(()->{
+                VBox squareContent = new VBox();
+                mainImage.getChildren().add(squareContent);
+
+                List<WeaponCardV> weaponCardVS = square.getWeaponCards().getCards();
+                if(!weaponCardVS.isEmpty()){
+                    HBox weaponsHBox = new HBox();
+                    for (WeaponCardV w:weaponCardVS) {
+                        StackPane weaponImage = new StackPane(new Label(w.getName())); //don't use a label, but set the image
+                        weaponImage.setUserData(w);
+                        weaponsHBox.getChildren().add(weaponImage);
+                        HBox.setHgrow(weaponImage,Priority.ALWAYS);
+                    }
+                    squareContent.getChildren().add(weaponsHBox);
+                    VBox.setVgrow(weaponsHBox, Priority.ALWAYS);
+                }
+
+                HBox playersHBox = buildPlayers(playersToShow);
+                if(!playersHBox.getChildren().isEmpty()){
+                    squareContent.getChildren().add(playersHBox);
+                    VBox.setVgrow(playersHBox, Priority.ALWAYS);
+                }
+            });
+        }
+        private List<PlayerV> getPlayers(int x, int y){
+            List<PlayerV> players =new ArrayList<>();
+            for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
+                if(p.getX() == x && p.getY() == y){
+                    players.add(p);
+                }
+            }
+            return players;
+        }
+
+        private HBox buildPlayers(List<PlayerV> playersToShow){
+            HBox hBox = new HBox();
+            for (PlayerV p: playersToShow) {
+                StackPane player = new StackPane(new Label(p.getNickname())); //don't use a label, but set the image
+                player.setUserData(p);
+                hBox.getChildren().add(player);
+                HBox.setHgrow(player, Priority.ALWAYS);
+            }
+            return hBox;
+        }
+
     }
 
     private void updateStateBar(Event stateEvent) {
@@ -998,12 +1094,14 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         // TODO LASCIATELO ALLA FINE LUCA
         //update changed cards
         updatePlayer();
+        updateMap();
     }
 
     @Override
     public void shufflingCards(ModelViewEvent modelViewEvent) {
         // TODO LASCIATELO ALLA FINE LUCA
         updatePlayer();
+        updateMap();
     }
 
     @Override

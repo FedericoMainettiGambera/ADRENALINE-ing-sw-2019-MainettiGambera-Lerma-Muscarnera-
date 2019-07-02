@@ -178,64 +178,64 @@
                                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
                                              <children>
-                                                <StackPane prefHeight="150.0">
+                                                <StackPane fx:id="squareBackground00" prefHeight="150.0">
                                                    <children>
-                                                      <StackPane prefHeight="150.0" />
+                                                      <StackPane fx:id="getSquareMainImage00" prefHeight="150.0" />
                                                    </children>
                                                 </StackPane>
-                                                <StackPane prefHeight="150.0" GridPane.columnIndex="1">
+                                                <StackPane fx:id="squareBackground01" prefHeight="150.0" GridPane.columnIndex="1">
                                                    <children>
-                                                      <StackPane prefHeight="150.0" />
+                                                      <StackPane fx:id="getSquareMainImage01"  prefHeight="150.0" />
                                                    </children>
                                                 </StackPane>
-                                                <StackPane prefHeight="150.0" GridPane.columnIndex="2">
+                                                <StackPane fx:id="squareBackground02" prefHeight="150.0" GridPane.columnIndex="2">
                                                    <children>
-                                                      <StackPane prefHeight="150.0" />
+                                                      <StackPane fx:id="getSquareMainImage02"  prefHeight="150.0" />
                                                    </children>
                                                 </StackPane>
-                                                <StackPane prefHeight="150.0" GridPane.columnIndex="3">
+                                                <StackPane fx:id="squareBackground03" prefHeight="150.0" GridPane.columnIndex="3">
                                                    <children>
-                                                      <StackPane prefHeight="150.0" />
+                                                      <StackPane fx:id="getSquareMainImage03"  prefHeight="150.0" />
                                                    </children>
                                                 </StackPane>
-                                                <StackPane prefHeight="150.0" GridPane.rowIndex="1">
+                                                <StackPane fx:id="squareBackground10" prefHeight="150.0" GridPane.rowIndex="1">
                                                    <children>
-                                                      <StackPane prefHeight="150.0" />
+                                                      <StackPane fx:id="getSquareMainImage10"  prefHeight="150.0" />
                                                    </children>
                                                 </StackPane>
-                                                <StackPane prefHeight="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                <StackPane fx:id="squareBackground11" prefHeight="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                                    <children>
-                                                      <StackPane prefHeight="150.0" />
+                                                      <StackPane fx:id="getSquareMainImage11"  prefHeight="150.0" />
                                                    </children>
                                                 </StackPane>
-                                                <StackPane prefHeight="150.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                                <StackPane fx:id="squareBackground12" prefHeight="150.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                                    <children>
-                                                      <StackPane prefHeight="150.0" />
+                                                      <StackPane fx:id="getSquareMainImage12"  prefHeight="150.0" />
                                                    </children>
                                                 </StackPane>
-                                                <StackPane prefHeight="150.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                                <StackPane fx:id="squareBackground13" prefHeight="150.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                                                    <children>
-                                                      <StackPane prefHeight="150.0" />
+                                                      <StackPane fx:id="getSquareMainImage13"  prefHeight="150.0" />
                                                    </children>
                                                 </StackPane>
-                                                <StackPane prefHeight="150.0" GridPane.rowIndex="2">
+                                                <StackPane fx:id="squareBackground20" prefHeight="150.0" GridPane.rowIndex="2">
                                                    <children>
-                                                      <StackPane prefHeight="150.0" />
+                                                      <StackPane fx:id="getSquareMainImage20"  prefHeight="150.0" />
                                                    </children>
                                                 </StackPane>
-                                                <StackPane prefHeight="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                                <StackPane fx:id="squareBackground21" prefHeight="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                                    <children>
-                                                      <StackPane prefHeight="150.0" />
+                                                      <StackPane fx:id="getSquareMainImage21"  prefHeight="150.0" />
                                                    </children>
                                                 </StackPane>
-                                                <StackPane prefHeight="150.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                                <StackPane fx:id="squareBackground22" prefHeight="150.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                                    <children>
-                                                      <StackPane prefHeight="150.0" />
+                                                      <StackPane fx:id="getSquareMainImage22"  prefHeight="150.0" />
                                                    </children>
                                                 </StackPane>
-                                                <StackPane prefHeight="150.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                                                <StackPane fx:id="squareBackground23" prefHeight="150.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
                                                    <children>
-                                                      <StackPane prefHeight="150.0" />
+                                                      <StackPane fx:id="getSquareMainImage23"  prefHeight="150.0" />
                                                    </children>
                                                 </StackPane>
                                              </children>
