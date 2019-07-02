@@ -863,7 +863,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                }
                Text player;
                Text descr=new Text(description);
-               
+
                 (getGameSceneController().getStateTitle()).setText(title);
                if(ViewModelGate.getMe().equals(ViewModelGate.getModel().getPlayers().getCurrentPlayingPlayer()))
                {player=new Text("you");}
