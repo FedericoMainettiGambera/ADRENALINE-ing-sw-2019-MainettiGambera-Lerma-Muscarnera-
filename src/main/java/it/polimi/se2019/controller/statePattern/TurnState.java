@@ -117,7 +117,10 @@ public class TurnState implements State {
     public static boolean canUsePowerUp(Player playerToAsk){
         for (PowerUpCard pu: playerToAsk.getPowerUpCardsInHand().getCards()) {
             if(pu.getName().equalsIgnoreCase("teleporter") || pu.getName().equalsIgnoreCase("newton")){
-                return true;
+                pu.getSpecialEffect().passContext(playerToAsk,ModelGate.model.getPlayerList(),ModelGate.model.getBoard());
+                if(pu.isUsable()) {
+                    return true;
+                }
             }
         }
         return false;

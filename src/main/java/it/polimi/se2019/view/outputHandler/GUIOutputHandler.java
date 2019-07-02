@@ -785,7 +785,10 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                 VBox squareContent = new VBox();
                 mainImage.getChildren().add(squareContent);
 
-                AmmoCardV ammoCard = square.getAmmoCards().getCards().get(0);
+                AmmoCardV ammoCard = null;
+                if(!square.getAmmoCards().getCards().isEmpty()) {
+                    ammoCard = square.getAmmoCards().getCards().get(0);
+                }
                 if(ammoCard!=null){
                     StackPane ammoImage = new StackPane(new Label(ammoCard.getID())); //don't use a label, but set the image
                     ammoImage.setUserData(ammoCard);
@@ -953,7 +956,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                    case"WantToPlayPowerUpState":title="ASKING PLAYER FOR POWER UP TO BE USED";
                        description="is deciding whether to use a power up or not";
                        break;
-                       default:title="Unpredictable switch of the game";
+                   default:title="Unpredictable switch of the game";
                        description="whoop i fell";
                            break;
                }
@@ -1020,7 +1023,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     @Override
     public void setFinalFrenzy(ModelViewEvent modelViewEvent) {
         // shot ViewModelGate.getModel().isFinalFrenzy()
-        updateStateBar(modelViewEvent);
+        //updateStateBar(modelViewEvent);
     }
 
     @Override
@@ -1162,13 +1165,13 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     @Override
     public void setCurrentPlayingPlayer(ModelViewEvent modelViewEvent) {
         //update statebar
-        updateStateBar(modelViewEvent);
+        //updateStateBar(modelViewEvent);
     }
 
     @Override
     public void setStartingPlayer(ModelViewEvent modelViewEvent) {
         //update statebar
-        updateStateBar(modelViewEvent);
+        //updateStateBar(modelViewEvent);
     }
 
     @Override
