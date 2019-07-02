@@ -5,11 +5,13 @@ import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.events.Event;
 import it.polimi.se2019.view.outputHandler.GUIOutputHandler;
 import it.polimi.se2019.view.selector.ViewSelector;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextFlow;
 
@@ -753,6 +755,14 @@ public class GameSceneController implements Initializable {
         }
         if(left!=null) {
             AnchorPane.setLeftAnchor(newSection, left);
+        }
+
+        if(newSection.getClass().toString().contains("ScrollPane")){
+            ((AnchorPane)((ScrollPane)newSection).getContent()).heightProperty().addListener(observable -> {
+                ((ScrollPane)newSection).setVvalue(0D);
+                System.out.println("setVvalue");
+                //TODO why this doesn't work? can't find a solution
+            });
         }
     }
 

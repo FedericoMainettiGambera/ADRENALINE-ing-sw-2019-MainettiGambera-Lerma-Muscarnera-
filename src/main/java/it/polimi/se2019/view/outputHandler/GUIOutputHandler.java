@@ -996,8 +996,9 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                    player=new Text(ViewModelGate.getModel().getPlayers().getCurrentPlayingPlayer());
                 }
                 //TODO ludo penso che questa cosa non vada bene (da fede) : getGameSceneController().setStateDescription(new TextFlow(player, descr));
-                //te la cambio con questa:
-                getGameSceneController().getStateDescription().getChildren().addAll(player,descr);
+                // forse questa va meglio:
+                // getGameSceneController().getStateDescription().getChildren().addAll(player,descr);
+                // ma comunque devi prima occuparti di cancellare il contenuto che ha già
             });
 
         }

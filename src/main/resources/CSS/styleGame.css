@@ -33,6 +33,12 @@ GENERAL CLASSES
     -fx-text-fill: accent-color;
 }
 
+.weirdPadding{
+    -fx-padding: 4px;
+}
+.weirdPadding:hover{
+    -fx-padding: 10px;
+}
 
 /*radiobutton*/
 .radio-button{
