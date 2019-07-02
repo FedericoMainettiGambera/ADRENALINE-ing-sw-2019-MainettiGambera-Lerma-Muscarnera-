@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static it.polimi.se2019.model.Game.setNumberOfClientsConnected;
+
 /**this class handles the connection received by the server, it sorts them out depending on whether they are new connection
  * or reconnection */
 public class RmiConnectionHandlerVirtualView implements Runnable{
@@ -121,12 +123,12 @@ public class RmiConnectionHandlerVirtualView implements Runnable{
             if (ModelGate.getModel().getPlayerList().getPlayer(viewControllerEventNickname.getNickname()) != null || viewControllerEventNickname.getNickname().equals("Terminator")) {
                 correctNicknameFound = false;
             } else {
-                RmiVirtualView.newPlayer.setNickname(viewControllerEventNickname.getNickname());
+                RmiVirtualView.getNewPlayer().setNickname(viewControllerEventNickname.getNickname());
 
-                System.out.println("<SERVER-socket> Adding Player (" + RmiVirtualView.newPlayer.getNickname() + ") to the PlayerList.");
-                ModelGate.getModel().getPlayerList().addPlayer(RmiVirtualView.newPlayer);
+                System.out.println("<SERVER-socket> Adding Player (" + RmiVirtualView.getNewPlayer().getNickname() + ") to the PlayerList.");
+                ModelGate.getModel().getPlayerList().addPlayer(RmiVirtualView.getNewPlayer());
 
-                ModelGate.getModel().setNumberOfClientsConnected(ModelGate.getModel().getNumberOfClientsConnected() + 1);
+                setNumberOfClientsConnected(ModelGate.getModel().getNumberOfClientsConnected() + 1);
                 System.out.println("<SERVER-socket> Number of Connections: " + ModelGate.getModel().getNumberOfClientsConnected());
 
                 correctNicknameFound = true;
