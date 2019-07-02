@@ -853,20 +853,23 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     }
 
+    /**launches a UpdateStateBar thread
+     * @param stateEvent needed to know in which state the game is in a given moment */
     private void updateStateBar(Event stateEvent) {
         System.out.println("UPDATE STATE BAR"); //MOMENTANEO
 
 
         (new Thread(new UpdateStateBar((StateEvent) stateEvent))).start();
     }
-
+    /**implements a thread dedicated to update a section of the that informs clients what is going on*/
     private class UpdateStateBar implements Runnable{
-
+        /**save the above mentioned event to pass it to the thread, which will extrapolate the information needed*/
         StateEvent stateEvent;
          UpdateStateBar(StateEvent stateEvent){
             this.stateEvent=stateEvent;
         }
 
+        /**depending on which state the game is happen to be, a different StateTitle will be set with a different description*/
         @Override
         public void run(){
             Platform.runLater(()-> {
@@ -1008,6 +1011,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                         description = "whoop i fell";
                         break;
                 }
+
                 Text player;
                 Text descr = new Text(description);
 
@@ -1032,10 +1036,13 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         }
     }
 
-    /**update the progress indicator to match the timer count down for the player*/
+   /**launch a UpdateProgressIndicator thread
+    * @param currentTime the time that has passed till a given moment
+    * @param totalTime the total time of the count down */
     private void updateProgressIndicator(int currentTime, int totalTime){
         new Thread(new UpdateProgressIndicator(currentTime, totalTime)).start();
     }
+    /**implements a thread that updates the progress indicator to match the timer count down for the player*/
     private class UpdateProgressIndicator implements Runnable{
         private int currentTime;
         private int totalTime;
