@@ -91,7 +91,6 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                             if (killV.isSkull()) {
                                 removePrevious(getGameSceneController().getKills().get(i));
                                 getGameSceneController().getKills().get(i).getStyleClass().add("skull");
-                                System.out.println("killshot"+killV.isSkull()+"");
                             } else {
                                 getGameSceneController().getKills().get(i).setUserData(ViewModelGate.getModel().getPlayers().getPlayer(killV.getKillingPlayer()));
                                 removePrevious(getGameSceneController().getKills().get(i));
