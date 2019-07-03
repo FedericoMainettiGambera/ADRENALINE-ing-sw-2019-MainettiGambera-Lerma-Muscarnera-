@@ -868,51 +868,50 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             }
         }
 
-        /*TODO*/
-        private void updateMap() {
-            System.out.println("UPDATE MAP"); //MOMENTANEO
-            new Thread(new UpdateMap()).start();
-        }
 
-        private class UpdateMap implements Runnable {
-            @Override
-            public void run() {
-                if (ViewModelGate.getModel() != null && ViewModelGate.getModel().getBoard() != null && ViewModelGate.getModel().getBoard().getMap() != null) {
-                    SquareV[][] map = ViewModelGate.getModel().getBoard().getMap();
-                    StackPane[][] backgroundMap = getGameSceneController().getBackgroundsMap();
-                    StackPane[][] mainImagesMap = getGameSceneController().getMainImagesmap();
-                    for (int i = 0; i < map.length; i++) { //map.length == 3
-                        for (int j = 0; j < map[0].length; j++) { // map[0].lenght == 4
-                            SquareV currentSquareV = map[i][j];
-                            StackPane currentBackGroundSquare = backgroundMap[i][j];
-                            StackPane currentMainImageSquare = mainImagesMap[i][j];
-                            if (currentSquareV == null) {
-                                //empty square
-                                showEmptySquare(currentBackGroundSquare, currentMainImageSquare);
-                            } else if (currentSquareV.getClass().toString().contains("NormalSquare")) {
-                                //normal square
-                                showNormalSquare((NormalSquareV) currentSquareV, currentBackGroundSquare, currentMainImageSquare);
-                            } else {
-                                //spawn point square
-                                showSpawnPoint((SpawnPointSquareV) currentSquareV, currentBackGroundSquare, currentMainImageSquare);
-                            }
+    private void updateMap()   {
+        System.out.println("UPDATE MAP"); //MOMENTANEO
+        new Thread(new UpdateMap()).start();
+    }
+    private class UpdateMap implements Runnable{
+        @Override
+        public void run() {
+            if (ViewModelGate.getModel() != null && ViewModelGate.getModel().getBoard() != null && ViewModelGate.getModel().getBoard().getMap() != null) {
+                SquareV[][] map = ViewModelGate.getModel().getBoard().getMap();
+                StackPane[][] backgroundMap = getGameSceneController().getBackgroundsMap();
+                StackPane[][] mainImagesMap = getGameSceneController().getMainImagesmap();
+                for (int i = 0; i < map.length; i++) { //map.length == 3
+                    for (int j = 0; j < map[0].length; j++) { // map[0].lenght == 4
+                        SquareV currentSquareV = map[i][j];
+                        StackPane currentBackGroundSquare = backgroundMap[i][j];
+                        StackPane currentMainImageSquare = mainImagesMap[i][j];
+                        if(currentSquareV==null){
+                            //empty square
+                            showEmptySquare(currentBackGroundSquare, currentMainImageSquare);
+                        }
+                        else if(currentSquareV.getClass().toString().contains("NormalSquare")){
+                            //normal square
+                            showNormalSquare((NormalSquareV) currentSquareV, currentBackGroundSquare, currentMainImageSquare);
+                        }
+                        else{
+                            //spawn point square
+                            showSpawnPoint((SpawnPointSquareV) currentSquareV, currentBackGroundSquare, currentMainImageSquare);
                         }
                     }
                 }
             }
-
-            private void showEmptySquare(StackPane background, StackPane mainImage) {
-                Platform.runLater(() -> {
-                    //nothing (?) TODO
-                    mainImage.getChildren().removeAll(mainImage.getChildren());
-                });
-            }
-
-            private void showNormalSquare(NormalSquareV square, StackPane background, StackPane mainImage) {
-                List<PlayerV> playersToShow = getPlayers(square.getX(), square.getY());
-                Platform.runLater(() -> {
-                    VBox squareContent = new VBox();
-                    mainImage.getChildren().add(squareContent);
+        }
+        private void showEmptySquare(StackPane background, StackPane mainImage){
+            Platform.runLater(()->{
+                //nothing (?) TODO
+                mainImage.getChildren().removeAll(mainImage.getChildren());
+            });
+        }
+        private void showNormalSquare(NormalSquareV square, StackPane background, StackPane mainImage){
+            List<PlayerV> playersToShow = getPlayers(square.getX(), square.getY());
+            Platform.runLater(()->{
+                VBox squareContent = new VBox();
+                mainImage.getChildren().add(squareContent);
 
                     AmmoCardV ammoCard = null;
                     if (!square.getAmmoCards().getCards().isEmpty()) {
@@ -970,16 +969,18 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                 return players;
             }
 
-            private HBox buildPlayers(List<PlayerV> playersToShow) {
-                HBox hBox = new HBox();
-                for (PlayerV p : playersToShow) {
-                    StackPane player = new StackPane(new Label(p.getNickname())); //don't use a label, but set the image
-                    player.setUserData(p);
-                    hBox.getChildren().add(player);
-                    HBox.setHgrow(player, Priority.ALWAYS);
-                }
-                return hBox;
+        private HBox buildPlayers(List<PlayerV> playersToShow){
+            HBox hBox = new HBox();
+            hBox.setUserData("players");
+            for (PlayerV p: playersToShow) {
+                StackPane player = new StackPane(new Label(p.getNickname())); //don't use a label, but set the image
+
+                player.setUserData(p);
+                hBox.getChildren().add(player);
+                HBox.setHgrow(player, Priority.ALWAYS);
             }
+            return hBox;
+        }
 
         }
 

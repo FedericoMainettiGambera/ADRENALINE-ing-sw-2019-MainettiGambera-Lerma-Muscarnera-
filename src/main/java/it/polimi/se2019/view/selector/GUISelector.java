@@ -73,6 +73,26 @@ public class GUISelector implements SelectorV {
         return vBox;
     }
 
+    private StackPane getPlayerStackPane(PlayerV player){
+        StackPane squareStackPane = getGameSceneController().getMainImagesmap()[player.getX()][player.getY()];
+
+        //get the last child in the squareStackPane that is always an HBox of players
+        HBox playersHbox = (HBox)squareStackPane.getChildren().get(squareStackPane.getChildren().size()-1);
+
+        //finds the correct stackPane inside the hbox of players
+        for (Node n: playersHbox.getChildren() ) {
+            if(((PlayerV)n.getUserData()).getNickname().equals(player.getNickname())){
+                return (StackPane)n;
+            }
+        }
+        try {
+            throw new IllegalArgumentException("Player not found in the square");
+        } catch (Exception e) {
+            GUIstarter.showError(this, "couldn't find the player in the square", e);
+            return new StackPane(new Label("wrong player"));
+        }
+    }
+
     //##################################################################################################################
     @Override
     public void askGameSetUp(boolean canBot) {
@@ -528,12 +548,13 @@ public class GUISelector implements SelectorV {
     private void makeSquaresHoverableAndSendPositionEvent(List<Position> positions){
         StackPane[][] backgroundMap = getGameSceneController().getBackgroundsMap();
         for (Position pos : positions) {
-            backgroundMap[pos.getX()][pos.getY()].getStyleClass().add(hoverableCssClass);
+
+            Platform.runLater(()->backgroundMap[pos.getX()][pos.getY()].getStyleClass().add(hoverableCssClass));
             backgroundMap[pos.getX()][pos.getY()].setOnMouseClicked(e->{
                 ViewControllerEventPosition viewControllerEventPosition = new ViewControllerEventPosition(pos.getX(), pos.getY());
                 getGameSceneController().sendToServer(viewControllerEventPosition);
                 for (Position position : positions) {
-                    backgroundMap[position.getX()][position.getY()].getStyleClass().remove(hoverableCssClass);
+                    Platform.runLater(()->backgroundMap[position.getX()][position.getY()].getStyleClass().remove(hoverableCssClass));
                 }
                 getGameSceneController().removeSelectorSection();
             });
@@ -710,7 +731,7 @@ public class GUISelector implements SelectorV {
             for (StackPane weaponCardStackPane: getGameSceneController().getWeaponCardsMainImage()) {
                 for (WeaponCardV weaponCardV:toSwitch) {
                     if(((WeaponCardV)weaponCardStackPane.getUserData()).getID().equals(weaponCardV.getID())){
-                        weaponCardStackPane.getStyleClass().add(hoverableCssClass);
+                        Platform.runLater(()->weaponCardStackPane.getStyleClass().add(hoverableCssClass));
                         weaponCardStackPane.setOnMouseClicked(e-> this.toSwitchID = weaponCardV.getID());
                     }
                 }
@@ -721,7 +742,7 @@ public class GUISelector implements SelectorV {
             for (StackPane weaponCardStackPane: getGameSceneController().getWeaponCardsMainImage()) {
                 for (WeaponCardV weaponCardV:toSwitch) {
                     if(((WeaponCardV)weaponCardStackPane.getUserData()).getID().equals(weaponCardV.getID())){
-                        weaponCardStackPane.getStyleClass().remove(hoverableCssClass);
+                        Platform.runLater(()->weaponCardStackPane.getStyleClass().remove(hoverableCssClass));
                     }
                 }
             }
@@ -811,7 +832,7 @@ public class GUISelector implements SelectorV {
             for (StackPane weaponCardStackPane: getGameSceneController().getWeaponCardsMainImage()) {
                 for (WeaponCardV weaponCardV:toReload) {
                     if(((WeaponCardV)weaponCardStackPane.getUserData()).getID().equals(weaponCardV.getID())){
-                        weaponCardStackPane.getStyleClass().add(hoverableCssClass);
+                        Platform.runLater(()->weaponCardStackPane.getStyleClass().add(hoverableCssClass));
                         weaponCardStackPane.setOnMouseClicked(e-> {
                             String chosenId = weaponCardV.getID();
                             getGameSceneController().sendToServer(new ViewControllerEventString(chosenId));
@@ -927,19 +948,21 @@ public class GUISelector implements SelectorV {
             for (StackPane weaponCardStackPane: getGameSceneController().getWeaponCardsMainImage()) {
                 for (int i = 0; i < loadedCardInHand.size(); i++) {
                     WeaponCardV weaponCardV = loadedCardInHand.get(i);
-                    if(((WeaponCardV)weaponCardStackPane.getUserData()).getID().equals(weaponCardV.getID())){
-                        weaponCardStackPane.getStyleClass().add(hoverableCssClass);
-                        String chosen = i+"";
-                        weaponCardStackPane.setOnMouseClicked(e-> {
+                    if(weaponCardStackPane.getUserData() != null
+                            && ((WeaponCardV) weaponCardStackPane.getUserData()).getID().equals(weaponCardV.getID())) {
+                        Platform.runLater(() -> weaponCardStackPane.getStyleClass().add(hoverableCssClass));
+                        String chosen = i + "";
+                        weaponCardStackPane.setOnMouseClicked(e -> {
                             getGameSceneController().sendToServer(new ViewControllerEventString(chosen));
                             getGameSceneController().removeSelectorSection();
                         });
+
                     }
                 }
             }
         }
         private VBox buildRequest(){
-            return new VBox(new StackPane(new Label("chose what weapon to reload from your hand")));
+            return new VBox(new StackPane(new Label("chose what weapon to use from your hand")));
         }
 
     }
@@ -995,20 +1018,235 @@ public class GUISelector implements SelectorV {
     //##################################################################################################################
     @Override
     public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
-        CLISelector cliSelector = new CLISelector(this.networkConnection);
-        cliSelector.askEffectInputs(inputType, possibleInputs);
-        //new Thread(new AskEffectInputs(inputType, possibleInputs)).start();
+        new Thread(new AskEffectInputs(inputType, possibleInputs)).start();
     }
     private class AskEffectInputs implements Runnable{
         private EffectInfoType inputType;
         private List<Object> possibleInputs;
+        private int numberOfRequests;
+        private List<Object> answer;
         private AskEffectInputs (EffectInfoType inputType, List<Object> possibleInputs){
             this.inputType = inputType;
             this.possibleInputs = possibleInputs;
         }
         @Override
         public void run() {
-            //TODO
+            VBox request = buildRequest();
+            Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
+        }
+
+        private VBox buildRequest(){
+            VBox request = new VBox();
+
+            StackPane inputTypeStackPane = buildInputTypeTitle();
+
+            request.getChildren().add(inputTypeStackPane);
+            VBox.setVgrow(inputTypeStackPane, Priority.ALWAYS);
+
+            this.numberOfRequests = howManyRequest();
+
+            this.answer = new ArrayList<>();
+
+            if(possibleInputs.get(0).getClass().toString().contains("PlayerV")) {
+                buildPossiblePlayers();
+            }
+            else{
+                buildPossibleSquares();
+            }
+
+            return request;
+        }
+
+        private StackPane buildInputTypeTitle(){
+            Label inputTypeLabel;
+            switch (inputType){
+                case targetListByLastTargetSelectedSquare:
+                    inputTypeLabel = new Label("targetListByLastTargetSelectedSquare");
+                    break;
+                case singleTargetBySameSquareOfPlayer:
+                    inputTypeLabel = new Label("singleTargetBySameSquareOfPlayer");
+                    break;
+                case singleTargetByCardinalDirection:
+                    inputTypeLabel = new Label("singleTargetByCardinalDirection");
+                    break;
+                case twoTargetsByCardinalDirection:
+                    inputTypeLabel = new Label("twoTargetsByCardinalDirection");
+                    break;
+                case targetListByCardinalDirection:
+                    inputTypeLabel = new Label("targetListByCardinalDirection");
+                    break;
+                case targetBySameSquareOfPlayer:
+                    inputTypeLabel = new Label("targetBySameSquareOfPlayer");
+                    break;
+                case squareOfLastTargetSelected:
+                    inputTypeLabel = new Label("squareOfLastTargetSelected");
+                    break;
+                case multipleSquareSelect:
+                    inputTypeLabel = new Label("multipleSquareSelect");
+                    break;
+                case multipleTargets:
+                    inputTypeLabel = new Label("multipleTargets");
+                    break;
+                case singleRoom:
+                    inputTypeLabel = new Label("singleRoom");
+                    break;
+                case targetListBySquareOfLastTarget:
+                    inputTypeLabel = new Label("targetListBySquareOfLastTarget");
+                    break;
+                case targetListBySameSquareOfPlayer:
+                    inputTypeLabel = new Label("targetListBySameSquareOfPlayer");
+                    break;
+                case squareByLastTargetSelected:
+                    inputTypeLabel = new Label("squareByLastTargetSelected");
+                    break;
+                case targetListByDistance1:
+                    inputTypeLabel = new Label("targetListByDistance1");
+                    break;
+                case singleTargetBySquare:
+                    inputTypeLabel = new Label("singleTargetBySquare");
+                    break;
+                case targetListBySquare:
+                    inputTypeLabel = new Label("targetListBySquare");
+                    break;
+                case simpleSquareSelect:
+                    inputTypeLabel = new Label("simpleSquareSelect");
+                    break;
+                case targetListByRoom:
+                    inputTypeLabel = new Label("targetListByRoom");
+                    break;
+                case squareByTarget:
+                    inputTypeLabel = new Label("squareByTarget");
+                    break;
+                case threeTargets:
+                    inputTypeLabel = new Label("threeTargets");
+                    break;
+                case singleTarget:
+                    inputTypeLabel = new Label("singleTarget");
+                    break;
+                case playerSquare:
+                    inputTypeLabel = new Label("playerSquare");
+                    break;
+                case twoTargets:
+                    inputTypeLabel = new Label("twoTargets");
+                    break;
+                case player:
+                    inputTypeLabel = new Label("player");
+                    break;
+                case none:
+                    inputTypeLabel = new Label("none");
+                    break;
+                default:
+                    inputTypeLabel = new Label("unspecified inputType");
+                    GUIstarter.showError(this, "can't find inputType: " + inputType, null);
+                    break;
+            }
+            return new StackPane(inputTypeLabel);
+        }
+
+        private void buildPossiblePlayers(){
+            //todo: not sure is necessary, but if the function doesn't work use it
+            // for sureness we update the map so we surely have the correct players in the correct positions
+            // GUIOutputHandler.updateMap();
+
+            for (Object o: possibleInputs) {
+                PlayerV player = (PlayerV)o;
+
+                Platform.runLater(()->getPlayerStackPane(player).getStyleClass().add(hoverableCssClass));
+
+                getPlayerStackPane(player).setOnMouseClicked(e->{
+                    //add the selected square to the answer list
+                    answer.add(o);
+                    //remove the selected square from the possible squares (usefull for next request)
+                    possibleInputs.remove(o);
+                    //remove hoverable css class from the selected square
+                    Platform.runLater(()->getPlayerStackPane(player).getStyleClass().remove(hoverableCssClass));
+
+                    checkNextRequest();
+                });
+            }
+        }
+
+
+        private void buildPossibleSquares(){
+            StackPane[][] backgroundMap = getGameSceneController().getBackgroundsMap();
+            for (Object o: possibleInputs) {
+                SquareV square = (SquareV)o;
+
+                Platform.runLater(()->backgroundMap[square.getX()][square.getY()].getStyleClass().add(hoverableCssClass));
+
+                backgroundMap[square.getX()][square.getY()].setOnMouseClicked(e->{
+                    //add the selected square to the answer list
+                    answer.add(o);
+                    //remove the selected square from the possible squares (usefull for next request)
+                    possibleInputs.remove(o);
+                    //remove hoverable css class from the selected square
+                    Platform.runLater(()->backgroundMap[square.getX()][square.getY()].getStyleClass().remove(hoverableCssClass));
+
+                    checkNextRequest();
+                });
+            }
+        }
+
+        private void checkNextRequest(){
+            if(numberOfRequests == 1){ //no more request to do
+                sendToServerAndResetSelection();
+            }
+            else{
+                if(possibleInputs.isEmpty()){ //could make another choice, but there are no more possible inputs
+                    sendToServerAndResetSelection();
+                }
+                else { //can make another choice and there are more possible inputs
+                    this.numberOfRequests--;
+                    //can do another choice
+                    VBox request = new VBox();
+                    StackPane title = buildInputTypeTitle();
+                    VBox.setVgrow(title, Priority.ALWAYS);
+
+                    StackPane doneButton = new StackPane(new Label("DONE"));
+                    makeNodeHoverable(doneButton);
+                    VBox.setVgrow(doneButton, Priority.ALWAYS);
+                    doneButton.setOnMouseClicked(event -> sendToServerAndResetSelection());
+
+                    request.getChildren().addAll(title, doneButton);
+                    getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0);
+                }
+            }
+        }
+
+        private void sendToServerAndResetSelection(){
+            //sent to server
+            ViewControllerEventListOfObject viewControllerEventListOfObject = new ViewControllerEventListOfObject(answer);
+            getGameSceneController().sendToServer(viewControllerEventListOfObject);
+
+            //reset SelectorSection
+            getGameSceneController().removeSelectorSection();
+
+            //reset all hoverable elements in the map
+            if(possibleInputs.get(0).getClass().toString().contains("PlayerV")){
+                for (Object o:possibleInputs) {
+                    PlayerV playerV = (PlayerV)o;
+                    Platform.runLater(()->getPlayerStackPane(playerV).getStyleClass().remove(hoverableCssClass));
+                }
+            }
+            else{
+                StackPane[][] backgroundMap = getGameSceneController().getBackgroundsMap();
+                for (Object o:possibleInputs) {
+                    SquareV square = (SquareV)o;
+                    Platform.runLater(()->backgroundMap[square.getX()][square.getY()].getStyleClass().remove(hoverableCssClass));
+                }
+            }
+        }
+
+        private int howManyRequest(){
+            if(this.inputType.equals(EffectInfoType.twoTargets)){
+                return 2;
+            }
+            else if(this.inputType.equals(EffectInfoType.threeTargets)){
+                return 3;
+            }
+            else {
+                return 1;
+            }
         }
     }
 
@@ -1323,7 +1561,7 @@ public class GUISelector implements SelectorV {
             for (StackPane stackPanePowerUp: powerUpCardsMainImages) {
                 for (PowerUpCardV powerUpCardV : powerUpCardsV) {
                     if (((PowerUpCardV) stackPanePowerUp.getUserData()).getID().equals(powerUpCardV.getID())) {
-                        stackPanePowerUp.getStyleClass().add(hoverableCssClass);
+                        Platform.runLater(()->stackPanePowerUp.getStyleClass().add(hoverableCssClass));
                         stackPanePowerUp.setOnMouseClicked(e -> {
                             String answer1 = ((PowerUpCardV) stackPanePowerUp.getUserData()).getName();
                             String answer2 = ((PowerUpCardV) stackPanePowerUp.getUserData()).getColor() + "";
@@ -1385,11 +1623,8 @@ public class GUISelector implements SelectorV {
     //##################################################################################################################
     @Override
     public void askBotShoot(SelectorEventPlayers selectorEventPlayers) {
-        CLISelector cliSelector= new CLISelector(networkConnection);
-        cliSelector.askBotShoot(selectorEventPlayers);
-        //TODO
-        //List<PlayerV> playersV = selectorEventPlayers.getPlayerVList();
-        //new Thread(new AskBotShoot(playersV)).start();
+        List<PlayerV> playersV = selectorEventPlayers.getPlayerVList();
+        new Thread(new AskBotShoot(playersV)).start();
     }
     private class AskBotShoot implements Runnable{
         private List<PlayerV> playersV;
@@ -1397,8 +1632,33 @@ public class GUISelector implements SelectorV {
             this.playersV = playersV;
         }
         @Override
-        public void run(){
+        public void run() {
+            VBox request = buildRequest();
+            Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
+        }
 
+        private VBox buildRequest() {
+            VBox request = new VBox();
+            StackPane stackPane = new StackPane(new Label("choose who you want to shoot in the map"));
+            VBox.setVgrow(stackPane,Priority.ALWAYS);
+
+            highlightPlayers();
+
+            return request;
+        }
+
+        private void highlightPlayers(){
+            for (PlayerV player: playersV) {
+                Platform.runLater(()->getPlayerStackPane(player).getStyleClass().add(hoverableCssClass));
+
+                getPlayerStackPane(player).setOnMouseClicked(e->{
+                    getGameSceneController().removeSelectorSection();
+                    getGameSceneController().sendToServer(new ViewControllerEventString(player.getNickname()));
+                    for (PlayerV p: playersV) {
+                        Platform.runLater(()->getPlayerStackPane(p).getStyleClass().remove(hoverableCssClass));
+                    }
+                });
+            }
         }
     }
 

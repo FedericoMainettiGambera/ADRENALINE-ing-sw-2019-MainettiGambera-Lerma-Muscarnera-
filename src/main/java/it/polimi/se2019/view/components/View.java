@@ -116,7 +116,7 @@ public class View implements Observer {
 
 
             case newKillshotTrack:
-                ViewModelGate.getModel().setKillshotTrack(new KillShotTrackV());
+                ViewModelGate.getModel().setKillshotTrack((KillShotTrackV)modelViewEvent.getExtraInformation1());
                 ViewModelGate.getModel().getKillshotTrack().setNumberOfStartingSkulls((int)modelViewEvent.getComponent());
 
                 OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newKillshotTrack(modelViewEvent);
@@ -417,7 +417,7 @@ public class View implements Observer {
         else if(orderedCardListV.getContext().contains("powerUpDiscardPile")){
             ViewModelGate.getModel().setPowerUpDiscardPile(orderedCardListV);
         }
-        else if(orderedCardListV.getContext().contains("PowerUpInHand")){
+        else if(orderedCardListV.getContext().contains("powerUpInHand")){
             String nickname = orderedCardListV.getContext().split(":")[0];
             for (PlayerV p: ViewModelGate.getModel().getPlayers().getPlayers()) {
                 if(p.getNickname().equals(nickname)){
@@ -426,7 +426,7 @@ public class View implements Observer {
                 }
             }
         }
-        else if(orderedCardListV.getContext().contains("WeaponInHand")){
+        else if(orderedCardListV.getContext().contains("weaponInHand")){
             String nickname = orderedCardListV.getContext().split(":")[0];
             for (PlayerV p: ViewModelGate.getModel().getPlayers().getPlayers()) {
                 if(p.getNickname().equals(nickname)){
@@ -438,7 +438,6 @@ public class View implements Observer {
         else if(orderedCardListV.getContext().contains("normalSquare")){
             String x = orderedCardListV.getContext().split("-")[1];
             String y = orderedCardListV.getContext().split("-")[2];
-
             ((NormalSquareV)ViewModelGate.getModel().getBoard().getMap()[Integer.parseInt(x)][Integer.parseInt(y)]).setAmmoCards(orderedCardListV);
         }
         else if(orderedCardListV.getContext().contains("spawnPoint")){

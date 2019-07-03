@@ -20,9 +20,9 @@ GENERAL CLASSES
 
     text-and-highlight-color: #ff00f0;
     default-color: #00f3ff;
-    empty-color: rgba(255, 68, 77, 0.5);
-    notempty-color: rgba(255, 181, 35, 0.5);
-    selectable-color: rgba(146, 255, 88, 0.5);
+    empty-color: rgb(255, 255, 255);
+    notempty-color: rgb(255, 181, 35);
+    selectable-color: rgb(146, 255, 88);
 
     -fx-background-color: dark-primary-color;
     -fx-border-width: 1px;
@@ -176,76 +176,76 @@ SPECIFIC CLASSES
     -fx-background-color:  empty-color;
 }
 .powerUpCard1{
-     -fx-background-color: rgb(180,255,90,1);
+     -fx-background-color: rgb(180,255,90);
 }
 .powerUpCard2{
-     -fx-background-color: rgb(180,255,90,1);
+     -fx-background-color: rgb(180,255,90);
 }
  .powerUpCard3{
-     -fx-background-color: rgb(90,90,180,1);
+     -fx-background-color: rgb(90,90,180);
 }
 .powerUpCard4{
-      -fx-background-color: rgb(0,180,255,1);
+      -fx-background-color: rgb(0,180,255);
 }
 .powerUpCard5{
-       -fx-background-color: rgb(255,1,32,1);
+       -fx-background-color: rgb(255,1,32);
 }
 .powerUpCard6{
-       -fx-background-color: rgb(180,32,12,1);
+       -fx-background-color: rgb(180,32,12);
 }
 .powerUpCard7{
-       -fx-background-color: rgb(0,10,20,1);
+       -fx-background-color: rgb(0,10,20);
 }
 .powerUpCard8{
-        -fx-background-color: rgb(10,20,30,1);
+        -fx-background-color: rgb(10,20,30);
 }
 .powerUpCard9{
-     -fx-background-color: rgb(20,30,40,1);
+     -fx-background-color: rgb(20,30,40);
  }
  .powerUpCard10{
-     -fx-background-color: rgb(30,40,50,1);
+     -fx-background-color: rgb(30,40,50);
 }
 .powerUpCard11{
-     -fx-background-color: rgb(60,70,80,1);
+     -fx-background-color: rgb(60,70,80);
  }
 .powerUpCard12{
-      -fx-background-color: rgb(90,100,110,1);
+      -fx-background-color: rgb(90,100,110);
 }
 .powerUpCard13{
-     -fx-background-color: rgb(100,110,120,1);
+     -fx-background-color: rgb(100,110,120);
 }
 .powerUpCard14{
-     -fx-background-color: rgb(3,43,98,1);
+     -fx-background-color: rgb(3,43,98);
 }
  .powerUpCard15{
-     -fx-background-color: rgb(190,90,180,1);
+     -fx-background-color: rgb(190,90,180);
 }
 .powerUpCard16{
-      -fx-background-color: rgb(0,180,255,1);
+      -fx-background-color: rgb(0,180,255);
 }
 .powerUpCard17{
-       -fx-background-color: rgb(255,0,0,1);
+       -fx-background-color: rgb(255,0,0);
 }
 .powerUpCard18{
-       -fx-background-color: rgb(180,55,0,1);
+       -fx-background-color: rgb(180,55,0);
 }
 .powerUpCard19{
-       -fx-background-color: rgb(0,90,18,1);
+       -fx-background-color: rgb(0,90,18);
 }
 .powerUpCard20{
-        -fx-background-color: rgb(0,10,255,1);
+        -fx-background-color: rgb(0,10,255);
 }
 .powerUpCard21{
-     -fx-background-color: rgb(25,1,2,1);
+     -fx-background-color: rgb(25,1,2);
  }
  .powerUpCard22{
-     -fx-background-color: rgb(80,255,90,1);
+     -fx-background-color: rgb(80,255,90);
 }
 .powerUpCard23{
-     -fx-background-color: rgb(9,90,180,1);
+     -fx-background-color: rgb(9,90,180);
  }
 .powerUpCard24{
-      -fx-background-color: rgb(92,23,90,1);
+      -fx-background-color: rgb(92,23,90);
 }
 /*3.1.2-player main statistics*/
 .playerStatisticsBackground{
