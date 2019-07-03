@@ -1,6 +1,5 @@
 package it.polimi.se2019.ControllerTest;
 
-import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.statePattern.PowerUpAskForInputState;
 import it.polimi.se2019.model.Game;
 import it.polimi.se2019.model.PowerUpCard;
@@ -13,7 +12,7 @@ public class TestPowerUpAskForInputState {
     public void testBase() throws Exception {
 
         Game game = fakeModel.create();
-        ModelGate.model=game;
+        //ModelGate.model=game;
 
         game.buildDecks();
         PowerUpCard p = game.getPowerUpDeck().getCard("10");
