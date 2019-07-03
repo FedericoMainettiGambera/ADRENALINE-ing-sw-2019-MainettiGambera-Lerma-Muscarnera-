@@ -12,6 +12,7 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventPos
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -32,7 +33,7 @@ public class BotMoveState implements State {
     private State nextState;
 
     /**a list of possible position the bot can be moved*/
-    private ArrayList<Position> possiblePositions = new ArrayList<>();
+    private List<Position> possiblePositions = new ArrayList<>();
 
     /**the name of the bot*/
     private String botNickname="Terminator";

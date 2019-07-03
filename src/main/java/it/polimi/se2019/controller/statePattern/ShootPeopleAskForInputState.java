@@ -139,7 +139,7 @@ public class ShootPeopleAskForInputState implements State {
 
     /**this function manages to damage the right player after the payment has been effectuated,
      * then directs the  state pattern towards the right following state*/
-    private void afterPayment(){
+    void afterPayment(){
 
 
         List<Player> damagedPlayer=damagePlayer();

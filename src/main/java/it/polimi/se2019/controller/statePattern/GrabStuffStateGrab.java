@@ -48,7 +48,7 @@ public class GrabStuffStateGrab implements State {
 
 
         //the player is in a spawnpoint
-        if (ModelGate.getModel().getBoard().getSquare(ModelGate.getModel().getCurrentPlayingPlayer().getPosition()).getSquareType()
+        if(ModelGate.getModel().getBoard().getSquare(ModelGate.getModel().getCurrentPlayingPlayer().getPosition()).getSquareType()
                 == SquareTypes.spawnPoint) {
             out.println("<SERVER> Player is in a SpawnPointSquare");
             state=new GrabStuffStateGrabWeapon(this.actionNumber);

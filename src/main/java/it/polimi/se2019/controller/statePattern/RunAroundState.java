@@ -12,6 +12,7 @@ import it.polimi.se2019.controller.WaitForPlayerInput;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -51,7 +52,7 @@ public class RunAroundState implements State{
         if(ModelGate.getModel().hasFinalFrenzyBegun()&&playerToAsk.getBeforeorafterStartingPlayer()<0){numberOfMoves=4;}
         else{numberOfMoves=3;}
 
-        ArrayList<Position> possiblePositions = ModelGate.getModel().getBoard().possiblePositions(playerToAsk.getPosition(), numberOfMoves);
+        List<Position> possiblePositions = ModelGate.getModel().getBoard().possiblePositions(playerToAsk.getPosition(), numberOfMoves);
         out.println("<SERVER> Possible positions to move calculated:");
         StringBuilder toPrintln = new StringBuilder();
         for (Position possiblePosition : possiblePositions) {

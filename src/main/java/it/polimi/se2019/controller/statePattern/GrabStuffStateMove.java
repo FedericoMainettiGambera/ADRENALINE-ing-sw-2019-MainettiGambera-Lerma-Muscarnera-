@@ -76,7 +76,7 @@ public class GrabStuffStateMove implements State {
 
         out.println("<SERVER> The player can make " + numberOfMovement + " number of moves");
 
-        ArrayList<Position> possiblePositions = ModelGate.getModel().getBoard().possiblePositions(playerToAsk.getPosition(), numberOfMovement);
+        List<Position> possiblePositions = ModelGate.getModel().getBoard().possiblePositions(playerToAsk.getPosition(), numberOfMovement);
         out.println("<SERVER> Possible positions to move before grabbing calculated:");
         StringBuilder toPrintln = new StringBuilder();
         for (Position possiblePosition : possiblePositions) {

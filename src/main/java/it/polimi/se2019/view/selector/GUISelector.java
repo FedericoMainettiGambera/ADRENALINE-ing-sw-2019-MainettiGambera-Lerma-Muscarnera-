@@ -27,7 +27,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -36,6 +35,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+//TODO muovere tutte le send to server dopo le modifiche delle componenti grafiche
 public class GUISelector implements SelectorV {
 
     private String networkConnection;
@@ -1795,7 +1795,7 @@ public class GUISelector implements SelectorV {
 
                     background.getChildren().add(mark);
 
-                    mark.getStyleClass().add(setImage(ViewModelGate.getModel().getPlayers().getPlayer(markSlotV.getMarkingPlayer()).getColor()));
+                    mark.getStyleClass().add(setMarkImage(ViewModelGate.getModel().getPlayers().getPlayer(markSlotV.getMarkingPlayer()).getColor()));
 
                     Label quantity= new Label();
                     quantity.setText(""+ markSlotV.getQuantity());
@@ -1820,7 +1820,7 @@ public class GUISelector implements SelectorV {
 
                         background.getChildren().add(damage);
 
-                        damage.getStyleClass().add(setImage(ViewModelGate.getModel().getPlayers().getPlayer(damageSlotV.getShootingPlayerNickname()).getColor()));
+                        damage.getStyleClass().add(setDamageImage(ViewModelGate.getModel().getPlayers().getPlayer(damageSlotV.getShootingPlayerNickname()).getColor()));
 
                         damageTracker.getChildren().add(background);
                         HBox.setHgrow(damage, Priority.ALWAYS);
@@ -1848,21 +1848,35 @@ public class GUISelector implements SelectorV {
         }
 
 
-        private String setImage(PlayersColors color){
+        private String setMarkImage(PlayersColors color){
             String style;
 
             switch (color){
-                case yellow: style="playerYellow";break;
-                case blue:style="playerBlue";break;
-                case green:style="playerGreen";break;
-                case gray:style="playerGray";break;
-                case purple:style="playerPurple";break;
-                default:style="emptyPlayer";
+                case yellow: style="markYellow";break;
+                case blue:style="markBlue";break;
+                case green:style="markGreen";break;
+                case gray:style="markGray";break;
+                case purple:style="markPurple";break;
+                default:style="markPlayer";
                     break;
             }
             return style;
         }
 
+        private String setDamageImage(PlayersColors color){
+            String style;
+
+            switch (color){
+                case yellow: style="damageYellow";break;
+                case blue:style="damageBlue";break;
+                case green:style="damageGreen";break;
+                case gray:style="damageGray";break;
+                case purple:style="damagePurple";break;
+                default:style="damagePlayer";
+                    break;
+            }
+            return style;
+        }
         private Color setColor(PlayerV playerV) {
             Color color;
 
