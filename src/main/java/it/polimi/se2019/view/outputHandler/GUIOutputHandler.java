@@ -1410,8 +1410,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     @Override
     public void newPlayer(ModelViewEvent modelViewEvent) {
-        //update players
-        updatePlayer();
+        //empty.. ?
     }
 
     @Override
