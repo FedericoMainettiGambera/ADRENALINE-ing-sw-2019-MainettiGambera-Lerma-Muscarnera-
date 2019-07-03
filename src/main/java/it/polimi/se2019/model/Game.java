@@ -226,7 +226,13 @@ public class Game extends Observable implements Serializable {
         for(int i = 1; i<= count;i++) {
             System.out.println("<SERVER> building Ammo cards ID: " +i);
             try {
-                tempAmmoDeck.addCard(new AmmoCard(i+ ""));
+                AmmoCard tempAmmoCard = new AmmoCard(i+ "");
+                tempAmmoDeck.addCard(tempAmmoCard);
+                System.out.println("         ammo has:");
+                System.out.println("         powerUp: " + tempAmmoCard.isPowerUp());
+                for (AmmoCubes a:tempAmmoCard.getAmmunitions().getAmmoCubesList()) {
+                    System.out.println("         " + a.getColor() + ": " + a.getQuantity());
+                }
             }
             catch(Exception e) {
                 logger.log(Level.SEVERE, "EXCEPTION", e);
