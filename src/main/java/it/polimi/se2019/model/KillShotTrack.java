@@ -119,7 +119,7 @@ public class KillShotTrack extends Observable implements Serializable {
      * tracks down just as much information as needed for view to show
      @return killShotTrackV
      * */
-    public KillShotTrackV buildKillshotTrackV(){
+     KillShotTrackV buildKillshotTrackV(){
         KillShotTrackV killShotTrackV = new KillShotTrackV();
         List<KillsV> listOfKillsV = new ArrayList<>();
         KillsV tempKill;

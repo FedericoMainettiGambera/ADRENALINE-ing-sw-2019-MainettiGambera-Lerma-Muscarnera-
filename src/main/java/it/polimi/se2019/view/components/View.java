@@ -419,7 +419,6 @@ public class View implements Observer {
         }
         else if(orderedCardListV.getContext().contains("powerUpInHand")){
             String nickname = orderedCardListV.getContext().split(":")[0];
-            System.out.println("giving cards to " + nickname);
             for (PlayerV p: ViewModelGate.getModel().getPlayers().getPlayers()) {
                 if(p.getNickname().equals(nickname)){
                     p.setPowerUpCardInHand(orderedCardListV);
@@ -429,7 +428,6 @@ public class View implements Observer {
         }
         else if(orderedCardListV.getContext().contains("weaponInHand")){
             String nickname = orderedCardListV.getContext().split(":")[0];
-            System.out.println("giving cards to " + nickname);
             for (PlayerV p: ViewModelGate.getModel().getPlayers().getPlayers()) {
                 if(p.getNickname().equals(nickname)){
                     p.setWeaponCardInHand(orderedCardListV);

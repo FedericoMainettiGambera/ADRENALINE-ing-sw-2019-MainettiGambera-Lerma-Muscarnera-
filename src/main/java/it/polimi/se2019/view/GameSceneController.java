@@ -109,73 +109,29 @@ public class GameSceneController implements Initializable {
     //2.1-killshot track VBox
     @FXML private VBox killshotTrackVBox;
 
-    public StackPane getKillBackground1() {
-        return killBackground1;
-    }
+    /**@return a list of StackPanes */
+    public List<StackPane> getKills(){
 
-    public StackPane getKillMainImage1() {
-        return killMainImage1;
-    }
+        List<StackPane> kills=new ArrayList<>();
 
-    public StackPane getKillBackground2() {
-        return killBackground2;
-    }
+        kills.add(killMainImage1);
+        kills.add(killMainImage2);
+        kills.add(killMainImage3);
+        kills.add(killMainImage4);
+        kills.add(killMainImage5);
+        kills.add(killMainImage6);
+        kills.add(killMainImage7);
+        kills.add(killMainImage8);
 
-    public StackPane getKillMainImage2() {
-        return killMainImage2;
-    }
+        return kills;
 
-    public StackPane getKillBackground3() {
-        return killBackground3;
-    }
-
-    public StackPane getKillMainImage3() {
-        return killMainImage3;
-    }
-
-    public StackPane getKillBackground4() {
-        return killBackground4;
-    }
-
-    public StackPane getKillMainImage4() {
-        return killMainImage4;
-    }
-
-    public StackPane getKillBackground5() {
-        return killBackground5;
-    }
-
-    public StackPane getKillMainImage5() {
-        return killMainImage5;
-    }
-
-    public StackPane getKillBackground6() {
-        return killBackground6;
-    }
-
-    public StackPane getKillMainImage6() {
-        return killMainImage6;
-    }
-
-    public StackPane getKillBackground7() {
-        return killBackground7;
-    }
-
-    public StackPane getKillMainImage7() {
-        return killMainImage7;
-    }
-
-    public StackPane getKillBackground8() {
-        return killBackground8;
-    }
-
-    public StackPane getKillMainImage8() {
-        return killMainImage8;
     }
 
     //2.1.n-killshot n-th kill background & main image
     //n=1
+
     @FXML private StackPane killBackground1;
+    /**this stackpane contains a image representing a skull, a kill or an overkill, there may be five to eight */
     @FXML private StackPane killMainImage1;
     //n=2
     @FXML private StackPane killBackground2;
@@ -214,23 +170,24 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane powerUpCardsTitle;
     //3.1.1.2-power up cards images
     @FXML private HBox powerUpCardsBackground;
+   /**StackPanes that contain a image representing one of the various Power Up Cards and their backgrounds*/
     @FXML private StackPane powerUpCardBackground1;
     @FXML private StackPane powerUpCardMainImage1;
     @FXML private StackPane powerUpCardBackground2;
     @FXML private StackPane powerUpCardMainImage2;
 
+    /**@return a list of Stack Panes containingPowerUpCardMainImages*/
     public List<StackPane> getListOfPowerUpCardsMainImage(){
-        return new ArrayList<>(Arrays.asList(powerUpCardMainImage1, powerUpCardMainImage2));
+
+        List<StackPane> powerups= new ArrayList<>();
+
+        powerups.add(powerUpCardMainImage1);
+        powerups.add(powerUpCardMainImage2);
+
+        return powerups;
     }
     public List<StackPane> getListOfPowerUpCardsBackground(){
         return new ArrayList<>(Arrays.asList(powerUpCardBackground1, powerUpCardBackground2));
-    }
-
-    public StackPane getPowerUpCardMainImage2() {
-        return powerUpCardMainImage2;
-    }
-    public StackPane getPowerUpCardMainImage1() {
-        return powerUpCardMainImage1;
     }
 
     //3.1.2-player main statistics
@@ -448,6 +405,8 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane weaponCardsTitle;
     //3.1.3.2-weapon cards images
     @FXML private HBox weaponCardsBackground;
+    /**each of those stack panes may represents one of the various weapon card and their background
+     * they represent the one the player is holding*/
     @FXML private StackPane weaponCardBackground1;
     @FXML private StackPane weaponCardMainImage1;
     @FXML private StackPane weaponCardBackground2;
@@ -455,22 +414,21 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane weaponCardBackground3;
     @FXML private StackPane weaponCardMainImage3;
 
+    /**@return a list of stack panes containing a main image for a weapon card*/
     public List<StackPane> getWeaponCardsMainImage(){
-        return new ArrayList<>(Arrays.asList(weaponCardMainImage1, weaponCardMainImage2, weaponCardMainImage3));
+
+        List<StackPane> weapons=new ArrayList<>();
+
+        weapons.add(weaponCardMainImage1);
+        weapons.add(weaponCardMainImage2);
+        weapons.add(weaponCardMainImage3);
+
+        return weapons;
     }
     public List<StackPane> getWeaponCardsBackground(){
         return new ArrayList<>(Arrays.asList(weaponCardBackground1, weaponCardBackground2, weaponCardBackground3));
     }
 
-    public StackPane getWeaponCardMainImage1() {
-        return weaponCardMainImage1;
-    }
-    public StackPane getWeaponCardMainImage2() {
-        return weaponCardMainImage2;
-    }
-    public StackPane getWeaponCardMainImage3() {
-        return weaponCardMainImage3;
-    }
 
     //------------------------------4
     //4-board section
@@ -566,15 +524,15 @@ public class GameSceneController implements Initializable {
         String killSlotBackground="killSlotBackground";
         String emptyKillSlot="emptyKillSlot";
 
-        getConnection().setText(Controller.getNetworkConnection());
+        getConnection().setText("CONNECTION: "+Controller.getNetworkConnection());
         getConnection().setTextFill(Color.rgb(255, 127, 36));
         getConnection().setFont(Font.font("Courier"));
 
-        getIp().setText(Controller.getIp());
+        getIp().setText("IP: "+Controller.getIp());
         getIp().setTextFill(Color.rgb(255, 127, 36));
         getIp().setFont(Font.font("Courier"));
 
-        getPort().setText(Controller.getPort());
+        getPort().setText("PORT: "+Controller.getPort());
         getPort().setTextFill(Color.rgb(255, 127, 36));
         getPort().setFont(Font.font("Courier"));
 
