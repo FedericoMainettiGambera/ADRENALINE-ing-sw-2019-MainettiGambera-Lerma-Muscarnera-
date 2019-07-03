@@ -29,24 +29,25 @@ public class Game extends Observable implements Serializable {
         this.powerUpDiscardPile = new OrderedCardList<>("powerUpDiscardPile");
     }
 
+    /**the number of clients connected at a given time*/
     private static int numberOfClientsConnected=0;
-
+    /**indicates if the game has begun*/
     private static boolean hasGameBegun = false;
-
+    /**@return hasGameBegun */
     public static boolean isHasGameBegun() {
         return hasGameBegun;
     }
-
+    /**@param hasGameBegun boolean value */
     public static void setHasGameBegun(boolean hasGameBegun) {
         Game.hasGameBegun = hasGameBegun;
     }
-
+    /**@return  numberOfClientsConnected */
     public int getNumberOfClientsConnected(){
         return numberOfClientsConnected;
     }
-
+    /**indicates if the timer has begun*/
     private static boolean hasTimerBegun = false;
-
+/**@param numberOfClientsConnected, set the numberOfClientConnected attirbute*/
     public static void setNumberOfClientsConnected(int numberOfClientsConnected){
         System.out.println("         MODELGATE: SETTING NUMBER OF CONNECTION");
 
@@ -61,9 +62,10 @@ public class Game extends Observable implements Serializable {
 
     /** game has a reference to the killshottrack */
     private KillShotTrack killshotTrack;
-
+    /**game has a reference to the current state*/
     private String currentState;
 
+    /**@param currentState, set the currentState attribute */
     public void setCurrentState(String currentState){
         this.currentState = currentState;
         setChanged();
@@ -77,53 +79,55 @@ public class Game extends Observable implements Serializable {
     /** need to know if bot is active or not*/
     private boolean isBotActive;
 
+    /** @return boolean value that indicates if the bot is active*/
     public boolean isBotActive() {
         return isBotActive;
     }
-
+    /**@param isBotActive, set the isBotActive attribute*/
     public void setBotActive(boolean isBotActive){
         this.isBotActive = isBotActive;
     }
 
-    /***/
+    /**reference to the power up deck list*/
     private OrderedCardList<PowerUpCard> powerUpDeck;
 
-    /***/
+    /**reference to the weapon card deck list*/
     private OrderedCardList<WeaponCard> weaponDeck;
 
-    /***/
+    /**reference to the ammo cards deck list*/
     private OrderedCardList<AmmoCard> ammoDeck;
 
-    /***/
+    /**reference to the power up discard pile list*/
     private OrderedCardList<PowerUpCard> powerUpDiscardPile;
 
-    /***/
+    /**reference to the ammo discard pile list*/
     private OrderedCardList<AmmoCard> ammoDiscardPile;
-
+    /**indicates if the final frenzy has begun*/
     private boolean hasFinalFrenzyBegun;
 
-    /***/
+    /**reference to the board*/
     private Board board;
-
+    /**indicates if there is the final frenzy mode*/
     private boolean isFinalFrenzy;
 
-    //reference to the VV so that it can be registered in all the model.
+    /**reference to the VVsocket so that it can be registered in all the model.*/
     private transient VirtualView virtualViewSocket;
+    /**reference to the VVrmi so that it can be registered in all the model.*/
     private transient VirtualView virtualViewRmi;
-
+    /**it  registers in all the model.*/
     public void setVirtualView(VirtualView virtualViewSocket, VirtualView virtualViewRmi){
         this.virtualViewRmi = virtualViewRmi;
         this.virtualViewSocket = virtualViewSocket;
     }
-
+    /** @return virtualViewSocket*/
     public VirtualView getSocketVirtualView(){
         return this.virtualViewSocket;
     }
-
+    /** @return virtualViewRmi */
     public VirtualView getRMIVirtualView(){
         return this.virtualViewRmi;
     }
-
+    /**register the clients as observers of the game to be notified of the changes of it*/
     public void registerVirtualView(){
         this.addObserver(this.virtualViewRmi);
         this.addObserver(this.virtualViewSocket);
@@ -132,21 +136,21 @@ public class Game extends Observable implements Serializable {
         this.getPlayerList().addObserver(this.virtualViewRmi);
         System.out.println("    VirtualView added to the PlayerList's observers");
     }
-
+    /** @return reference to the current playin player*/
     public Player getCurrentPlayingPlayer(){
         return this.getPlayerList().getCurrentPlayingPlayer();
     }
-
+    /** @param isFinalFrenzy  boolean value that indicates if there is final frenzy*/
     public void setFinalFrenzy(boolean isFinalFrenzy){
         this.isFinalFrenzy = isFinalFrenzy;
         setChanged();
         notifyObservers(new ModelViewEvent(this.isFinalFrenzy, ModelViewEventTypes.setFinalFrenzy));
     }
-
+    /** @return boolean value that indicates if final frenzy is active*/
     public boolean isFinalFrenzy(){
         return this.isFinalFrenzy;
     }
-
+    /** @return boolean value that indicates if final frenzy has begun*/
     public boolean hasFinalFrenzyBegun(){
         return this.hasFinalFrenzyBegun;
     }
@@ -157,22 +161,23 @@ public class Game extends Observable implements Serializable {
         notifyObservers(new ModelViewEvent(this.hasFinalFrenzyBegun, ModelViewEventTypes.finalFrenzyBegun));
     }
 
-    /***/
+    /**@return a reference to the killshot track*/
     public KillShotTrack getKillshotTrack() {
         return killshotTrack;
     }
-
+   /**@param killshotTrack set a reference to the killshot track*/
     public void setKillshotTrack(KillShotTrack killshotTrack) {
         this.killshotTrack = killshotTrack;
         setChanged();
         notifyObservers(new ModelViewEvent(this.killshotTrack.getNumberOfRemainingSkulls(), ModelViewEventTypes.newKillshotTrack, this.killshotTrack.buildKillshotTrackV()));
     }
 
-    /***/
+    /**@return players*/
     public PlayersList getPlayerList() {
         return players;
     }
 
+    /**Build all of the decks to be used*/
     public void buildDecks() {
 
         //builds weapon cards
@@ -259,54 +264,58 @@ public class Game extends Observable implements Serializable {
 
     }
 
+    /**@param players to set a reference to the playerList*/
     public void setPlayerList(PlayersList players) {
         this.players = players;
         setChanged();
         notifyObservers(new ModelViewEvent(this.players.buildPlayersListV(), ModelViewEventTypes.newPlayersList));
     }
 
-
+/**@param MVE to notify all observers of the new event*/
     public void notifyClients(ModelViewEvent MVE){
         setChanged();
         notifyObservers(MVE);
     }
 
-    /***/
+    /**@return powerUpDeck*/
     public OrderedCardList<PowerUpCard> getPowerUpDeck() {
         return powerUpDeck;
     }
 
-    /***/
+    /**@return ammoDeck*/
     public OrderedCardList<AmmoCard> getAmmoDeck() {
         return ammoDeck;
     }
 
-    /***/
+    /**@return weaponDeck*/
     public OrderedCardList<WeaponCard> getWeaponDeck() {
         return weaponDeck;
     }
 
-    /***/
+    /**@return board*/
     public  Board getBoard() {
         return this.board;
     }
 
+    /**@param board ,set a reference to the board*/
     public void setBoard(Board board) {
         this.board = board;
         setChanged();
         notifyObservers(new ModelViewEvent(this.board.buildBoardV(), ModelViewEventTypes.newBoard));
     }
 
-    /***/
+    /**@return ammoDiscardPile*/
     public OrderedCardList<AmmoCard> getAmmoDiscardPile() {
         return ammoDiscardPile;
     }
 
-    /***/
+    /**@return powerUpDiscardPile*/
     public OrderedCardList<PowerUpCard> getPowerUpDiscardPile() {
         return powerUpDiscardPile;
     }
 
+    /**build an equivalent structure for the view purpose
+     * @return GameV reference */
     public GameV buildGameV(){
         GameV gameV = new GameV();
         if(this.players!=null) {

@@ -35,7 +35,27 @@ public class GrabStuffStateDrawPowerUp implements State {
 
         makeThePlayerDraw();
 
-        //set next state
+        ViewControllerEventHandlerContext.setNextState(setNextState());
+        ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
+    }
+
+    /**this function make the player draw a power up*/
+    private void makeThePlayerDraw(){
+        out.println("<SERVER> "+ this.getClass() +".doAction();");
+        out.println("<SERVER> The ammo card makes the player draw a power up");
+        ModelGate.getModel().getPowerUpDeck().moveCardTo(
+                ModelGate.getModel().getCurrentPlayingPlayer().getPowerUpCardsInHand(),
+                ModelGate.getModel().getPowerUpDeck().getFirstCard().getID()
+        );
+
+    }
+
+
+    /**set the following state
+     * @return state, the state next to follow
+     * */
+    private State  setNextState(){
+
         State state = null;
         if(this.actionNumber == 1){
             if (ModelGate.getModel().hasFinalFrenzyBegun() && ModelGate.getModel().getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0)
@@ -47,19 +67,8 @@ public class GrabStuffStateDrawPowerUp implements State {
         if(this.actionNumber == 2){
             state = new ReloadState(false);
         }
-        ViewControllerEventHandlerContext.setNextState(state);
-        ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
-    }
 
-    /**this function make the player draw a power up*/
-    public void makeThePlayerDraw(){
-        out.println("<SERVER> "+ this.getClass() +".doAction();");
-        out.println("<SERVER> The ammo card makes the player draw a power up");
-        ModelGate.getModel().getPowerUpDeck().moveCardTo(
-                ModelGate.getModel().getCurrentPlayingPlayer().getPowerUpCardsInHand(),
-                ModelGate.getModel().getPowerUpDeck().getFirstCard().getID()
-        );
-
+        return state;
     }
 
     /**

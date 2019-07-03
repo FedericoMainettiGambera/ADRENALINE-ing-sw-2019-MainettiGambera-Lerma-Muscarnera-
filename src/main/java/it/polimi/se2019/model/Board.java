@@ -29,8 +29,9 @@ import static it.polimi.se2019.model.enumerations.CardinalPoint.*;
 public class Board{
 
     private final static Logger logger=Logger.getLogger(Board.class.getName());
+    /**a reference to the virtual view of rmi*/
     private VirtualView vvrmi;
-
+    /**a reference to the virtual view of socket*/
     private VirtualView vvsocket;
 
     /** constructor
@@ -127,24 +128,23 @@ public class Board{
      * @param to final position
      * @return int value that indicates the distance between the said positions
      * */
-    public int distanceFromTo(Position from, Position to) throws Exception {
-        boolean found = false;
+    public int distanceFromTo(Position from, Position to){
         int distanceN = 0;
 
         //checks if the position exists on the board
         if(from.getY()>=this.board[0].length || from.getX()>=this.board.length || to.getY()>=this.board[0].length || to.getX()>=this.board.length){
-            throw new Exception("the desired positions are outside the map dimensions");
+            throw new IllegalStateException("the desired positions are outside the map dimensions");
         }
         if(from.getY()<0 || from.getX()<0 || to.getY()<0 || to.getX()<0){
-            throw new Exception("cannot search for distance of negative positions.");
+            throw new IllegalStateException("cannot search for distance of negative positions.");
         }
         if(this.board[from.getX()][from.getY()] == null || this.board[to.getX()][to.getY()]==null){
-            throw new Exception("the selected square doesn't exist in the map.");
+            throw new IllegalStateException("the selected square doesn't exist in the map.");
         }
 
         ArrayList<Position> positionsAtDistanceN = new ArrayList<>();
         ArrayList<Position> toAddInNextIteration = new ArrayList<>();
-        ArrayList<Position> tempPosition;
+        List<Position> tempPosition;
 
         //checks if from and to are the same position.
         positionsAtDistanceN.add(from);
@@ -165,10 +165,10 @@ public class Board{
                 p=positionsAtDistanceN.get(i);
 
                 tempPosition= possiblePositions(p,1);
-                for (int j = 0; j < tempPosition.size(); j++) {
-                    tempP = tempPosition.get(j);
+                for (Position position : tempPosition) {
+                    tempP = position;
 
-                    if(!contains(positionsAtDistanceN,tempP)){
+                    if (!contains(positionsAtDistanceN, tempP)) {
                         toAddInNextIteration.add(tempP);
                     }
                 }
@@ -303,7 +303,7 @@ public class Board{
  * @param numberOfMoves  number of moves
  * @return an arraylist of possible positions where to move
  * */
-    public ArrayList<Position> possiblePositions(Position startingPosition, int numberOfMoves){
+    public List<Position> possiblePositions(Position startingPosition, int numberOfMoves){
         ArrayList<Position> possiblePositions = new ArrayList<>();
         possiblePositions.add(startingPosition);
         ArrayList<Position> possiblePositionsToAddInNextCycle = new ArrayList<>();
@@ -403,7 +403,7 @@ public class Board{
     /**@return a list of player in the same room as the position
      * @param pos given
      * */
-    public static List<Player> getPlayersInRoom(Position pos){
+     private static List<Player> getPlayersInRoom(Position pos){
         List<Position> positionsList=new ArrayList<>();
         List<Player> players=new ArrayList<>();
 

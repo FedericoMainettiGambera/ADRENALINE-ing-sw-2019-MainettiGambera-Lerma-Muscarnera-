@@ -19,21 +19,27 @@ import java.util.logging.Logger;
 public class PowerUpState implements State {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(TurnState.class.getName());
+    /**the name of the power up to be used*/
     private String powerUpToUse;
+    /**the next state to be set*/
     private State nextState;
+    /** the player to be asked the input*/
     private Player playerToAsk;
-
+    /**count down till AFK status*/
     private Thread inputTimer;
 
-    public PowerUpState( String powerUpToUse, State state){
+    /**@param state initialize  nextState
+     * @param powerUpToUse initialize powerUptoUse
+     * constructor*/
+     public PowerUpState( String powerUpToUse, State state){
         out.println("<SERVER> New state: " + this.getClass());
         this.powerUpToUse = powerUpToUse;
         this.nextState=state;
     }
 
-    @Override
-    public void askForInput(Player playerToAsk) {
-        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+    /**@param playerToAsk set the playerToAsk attribute
+     * @return a list of his power up cards in hand converted to the view version*/
+    private List<PowerUpCardV> setPlayerToAskAndGetHisCards(Player playerToAsk) {
         this.playerToAsk = playerToAsk;
 
         List<PowerUpCard> powerUpCards = findPowerUp();
@@ -41,7 +47,18 @@ public class PowerUpState implements State {
 
         for (PowerUpCard p : powerUpCards) {
             powerUpCardsV.add(p.buildPowerUpCardV());
-        }
+    }
+        return powerUpCardsV;
+    }
+    /**@param playerToAsk player to be asked the input,
+     * calls the setPlayerToAskAndGetHisCards, then ask the player
+     *                    which of his power up cards in hand he wants to use
+     * */
+    @Override
+    public void askForInput(Player playerToAsk) {
+        out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
+
+        List<PowerUpCardV> powerUpCardsV=setPlayerToAskAndGetHisCards(playerToAsk);
         //ask for input
         try {
             out.println("<SERVER> possible power ups the user can use: ");
@@ -57,11 +74,26 @@ public class PowerUpState implements State {
         }
     }
 
+    /**parse the
+     * @param viewControllerEvent to know which power up the player decided to use,
+     * then set the next state*/
     @Override
     public void doAction(ViewControllerEvent viewControllerEvent) {
         this.inputTimer.interrupt();
-        out.println("<SERVER> player has answered before the timer ended.");
 
+        PowerUpCard chosenPowerUp = parsevce(viewControllerEvent);
+
+        ViewControllerEventHandlerContext.setNextState(new PowerUpAskForInputState(this.nextState, chosenPowerUp));
+        ViewControllerEventHandlerContext.getState().askForInput(playerToAsk);
+    }
+
+
+    /**parse the event to send the next state the right parameters
+     * @param viewControllerEvent the event we need to extract data from
+     * @return chosenPowerUp, powerUp chosen by the user to be used*/
+    private PowerUpCard parsevce(ViewControllerEvent viewControllerEvent){
+
+        out.println("<SERVER> player has answered before the timer ended.");
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventTwoString viewControllerEventTwoString = (ViewControllerEventTwoString)viewControllerEvent;
@@ -74,11 +106,8 @@ public class PowerUpState implements State {
             }
         }
 
-        ViewControllerEventHandlerContext.setNextState(new PowerUpAskForInputState(this.nextState, chosenPowerUp));
-        ViewControllerEventHandlerContext.getState().askForInput(playerToAsk);
+return chosenPowerUp;
     }
-
-
 
     /**
      * set the player AFK in case they don't send required input in a while
@@ -94,7 +123,9 @@ public class PowerUpState implements State {
         }
     }
 
-    public List<PowerUpCard> findPowerUp(){
+    /**this function understand if the power up card is of type movement of or damage and set their context consequentially
+     * also add them to the usable cards if they result to be so*/
+    private List<PowerUpCard> findPowerUp(){
         List<PowerUpCard> cards = new ArrayList<>();
         if(this.powerUpToUse.equals("movement")){ //for Teleporter and newton
             for (PowerUpCard pu: playerToAsk.getPowerUpCardsInHand().getCards()) {
@@ -107,7 +138,7 @@ public class PowerUpState implements State {
             }
             return cards;
         }
-        else{ //if(this.powerUpToUse.equals("damage")){ //for all power Up that are not Teleporter or newton
+        else{
             for (PowerUpCard pu: playerToAsk.getPowerUpCardsInHand().getCards()) {
                 if (!pu.getName().equalsIgnoreCase("teleporter") && !pu.getName().equalsIgnoreCase("newton")) {
                     pu.getSpecialEffect().passContext(playerToAsk, ModelGate.getModel().getPlayerList(), ModelGate.getModel().getBoard());

@@ -14,9 +14,10 @@ import java.util.List;
 public class ScoreKillsState implements State {
     private static PrintWriter out= new PrintWriter(System.out, true);
 
-    //list used to respawn dead players in SpawnState
+    /**list used to respawn dead players in SpawnState*/
     private List<Player> deadPlayers;
 
+    /**constructor*/
     public ScoreKillsState(){
         this.deadPlayers = new ArrayList<>();
         out.println("<SERVER> New state: " + this.getClass());
@@ -76,6 +77,7 @@ public class ScoreKillsState implements State {
 
     }
 
+    /**sets the bot usable for the next player*/
     public void setBotUsable(){
 
         out.println("<SERVER> setting bot usable for next player...");
@@ -83,6 +85,7 @@ public class ScoreKillsState implements State {
 
     }
 
+    /**creates a list of the players who died in the previous turn*/
     public void createDeadPlayersList(){
 
         out.println("<SERVER> Searching for dead players and creating the deadPlayers list");
@@ -107,7 +110,7 @@ public class ScoreKillsState implements State {
      * with this method we ooze a ranking of the players who damaged them the most
      * and assign the right score
      * */
-    public void scoreKill(Player deadPlayer){
+    private void scoreKill(Player deadPlayer){
         out.println("<SERVER> Scoring dead players.");
 
         //first blood
@@ -151,7 +154,7 @@ public class ScoreKillsState implements State {
 
     /** When we get here, we have spawned all of the dead players, if there were any, now we face a series of distinguished cases where
      * the game can happen to be and we have to sort them out*/
-    public void carrefour(){
+    private void carrefour(){
 
         out.println("<SERVER> Ended scoring and spawning players.");
 
@@ -178,7 +181,7 @@ public class ScoreKillsState implements State {
     /** in case the game is ended, next state must be final scoring state, but in the case the game isn't ended,
      * either that the game has entered the final frenzy phase or not, next playing player need to play it's turn! if they
      * haven't played yet, they will need to spawn for the first time*/
-public void gameOverOrNot(){
+private void gameOverOrNot(){
     //we are in final frenzy and this was the last playin player-> Final Scoring state
     if (ModelGate.getModel().getCurrentPlayingPlayer().getLastPlayingPlayer()){
 

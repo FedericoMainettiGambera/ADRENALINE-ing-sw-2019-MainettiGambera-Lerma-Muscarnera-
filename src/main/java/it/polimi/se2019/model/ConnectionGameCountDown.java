@@ -10,14 +10,19 @@ import java.util.logging.Logger;
 
 public class ConnectionGameCountDown implements Runnable {
 
-
+   /**the number of connection when the game is instanced*/
     private int numberOfConnectionAtInstantiationTime;
+    /**a logger for this class*/
     private static final Logger logger=Logger.getLogger(ConnectionGameCountDown.class.getName());
 
-    public ConnectionGameCountDown(int numberOfConnectionAtInstantiationTime){
+    /**@param numberOfConnectionAtInstantiationTime, initialize numberOfConnectionAtInstantiationTime attribute*/
+     ConnectionGameCountDown(int numberOfConnectionAtInstantiationTime){
         this.numberOfConnectionAtInstantiationTime = numberOfConnectionAtInstantiationTime;
     }
 
+    /**this thread sends all the clients connected so far the count down till the game to begin,
+     * it will begin, although, only if a minimum number of clients is reached,
+     * the count down will stop ealier if the maximum number of player is reached */
     @Override
     public void run() {
         String string="<SERVER> STARTING GAME.";

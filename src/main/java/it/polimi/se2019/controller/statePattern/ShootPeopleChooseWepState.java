@@ -20,12 +20,14 @@ public class ShootPeopleChooseWepState implements State {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(ShootPeopleChooseWepState.class.getName());
 
+    /**the player to be asked an input*/
     private Player playerToAsk;
-
+    /**count down till AFK status*/
     private Thread inputTimer;
 
+    /**a list of the loaded weapon cards the player holds in hand*/
     private ArrayList<WeaponCard> loadedCardInHand;
-
+    /**if it's 1st or 2nd action*/
     private int actionNumber;
 
     /**@param actionNumber needed to set the following state*/
@@ -34,6 +36,9 @@ public class ShootPeopleChooseWepState implements State {
         this.actionNumber = actionNumber;
     }
 
+    /**@param playerToAsk the player to be asked the input
+     * the player is asked which of his loaded weapon they want to use
+     * */
     @Override
     public void askForInput(Player playerToAsk){
         this.playerToAsk = playerToAsk;
@@ -85,6 +90,9 @@ public class ShootPeopleChooseWepState implements State {
         }
     }
 
+    /**@param viewControllerEvent contains the chosen weapon, passed
+     * to the next state,ShootPeopleChooseEffectState, in order to let the player
+     * choose which effect he want to use*/
     @Override
     public void doAction(ViewControllerEvent viewControllerEvent){
         while(this.inputTimer.isAlive()){

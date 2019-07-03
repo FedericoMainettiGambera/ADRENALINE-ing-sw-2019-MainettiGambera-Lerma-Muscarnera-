@@ -28,9 +28,9 @@ public class TestPowerUpAskForInputState {
        // bubbleSort.setAccessible(true);
         /* [/   elenco dei metodi privati   ] */
 
-        state.askForInput(
-                game.getPlayerList().getPlayer("Alex")
-        );
+//        state.askForInput(
+    //            game.getPlayerList().getPlayer("Alex")
+   //     );
 
       //  game.getPlayerList().getPlayer("C").addDamages( game.getPlayerList().getPlayer("Alex"), 8);
 

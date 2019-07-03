@@ -3,7 +3,6 @@ package it.polimi.se2019.controller.statePattern;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.controller.WaitForPlayerInput;
-import it.polimi.se2019.model.AmmoList;
 import it.polimi.se2019.model.Effect;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.WeaponCard;
@@ -12,32 +11,39 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventInt
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
+/**give the user the possibility to choose the effect of the weapon he chose that he wants to use*/
 public class ShootPeopleChooseEffectState implements State{
 
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(ShootPeopleChooseEffectState.class.getName());
+    /**the player to be asked an input*/
     private Player playerToAsk;
-
+    /**count down till AFK status*/
     private Thread inputTimer;
 
+    /**player choice of weapon to use*/
     private WeaponCard choosenWeaponCard;
 
+    /**the possible effect to be used in a given context*/
     private ArrayList<Effect> possibleEffects;
 
-    private Effect chosenEffect;
-
+    /**if it's 1st or 2nd action*/
     private int actionNumber;
 
-    ShootPeopleChooseEffectState(WeaponCard choosenWeaponCard, int actionNumber){
+    /**constructor,
+     * @param choosenWeaponCard  sets attribute choosenWeaponCard
+     * @param actionNumber sets attribute actionNumber*/
+     ShootPeopleChooseEffectState(WeaponCard choosenWeaponCard, int actionNumber){
         out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
         this.choosenWeaponCard = choosenWeaponCard;
         this.possibleEffects = new ArrayList<>();
     }
 
+    /**@param playerToAsk the player to be asked the input
+     * in this case the player has to choose between a list of effects*/
     @Override
     public void askForInput(Player playerToAsk){
         this.playerToAsk = playerToAsk;
@@ -56,22 +62,25 @@ public class ShootPeopleChooseEffectState implements State{
         }
     }
 
+    /**@param VCE the event to be parsed, containing the chosen effect
+     * then the next state is set, it will be ShootPeopleAskForInputState
+     * */
     @Override
-    public void doAction(ViewControllerEvent viewControllerEvent){
+    public void doAction(ViewControllerEvent VCE){
         this.inputTimer.interrupt();
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        ViewControllerEventInt viewControllerEventInt = (ViewControllerEventInt)viewControllerEvent;
+        ViewControllerEventInt VCEInt = (ViewControllerEventInt)VCE;
 
-        this.chosenEffect = this.possibleEffects.get(viewControllerEventInt.getInput());
+        Effect chosenEffect = this.possibleEffects.get(VCEInt.getInput());
 
-        out.println("<SERVER> Player has chosen effect: " + this.chosenEffect.getEffectName());
+        out.println("<SERVER> Player has chosen effect: " + chosenEffect.getEffectName());
 
         out.println("<SERVER> Paying for the effect cost");
 
-        ViewControllerEventHandlerContext.setNextState(new ShootPeopleAskForInputState(this.chosenEffect, this.choosenWeaponCard, this.actionNumber));
+        ViewControllerEventHandlerContext.setNextState(new ShootPeopleAskForInputState(chosenEffect, this.choosenWeaponCard, this.actionNumber));
         ViewControllerEventHandlerContext.getState().askForInput(playerToAsk);
     }
 

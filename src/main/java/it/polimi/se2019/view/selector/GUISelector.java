@@ -1,9 +1,10 @@
 package it.polimi.se2019.view.selector;
 
 import it.polimi.se2019.controller.Controller;
-import it.polimi.se2019.model.Position;
+import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.EffectInfoType;
+import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPaymentInformation;
 import it.polimi.se2019.model.events.selectorEvents.SelectorEventPlayers;
@@ -24,6 +25,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -32,6 +35,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+//TODO muovere tutte le send to server dopo le modifiche delle componenti grafiche
 public class GUISelector implements SelectorV {
 
     private String networkConnection;
@@ -1738,4 +1742,342 @@ public class GUISelector implements SelectorV {
 
         }
     }
-}
+
+
+
+
+
+    void showPlayer(PlayerV playerV){
+        (new Thread(new ShowPlayer(playerV))).start();
+    }
+
+    private class ShowPlayer implements Runnable {
+        PlayerV playerV;
+
+         ShowPlayer(PlayerV playerV) {
+            this.playerV = playerV;
+        }
+
+        @Override
+        public void run() {
+
+            Platform.runLater(() -> {
+
+                VBox mainFrame = new VBox();
+
+
+                Color color=setColor(playerV);
+
+
+                VBox avatar= new VBox();
+
+                Label name = new Label();
+                name.setText(playerV.getNickname());
+                name.setTextFill(color);
+                name.setFont(Font.font("Courier"));
+
+                avatar.getChildren().add(name);
+                VBox.setVgrow(name,Priority.ALWAYS);
+
+                StackPane image=new StackPane();
+                avatar.getChildren().add(image);
+                VBox.setVgrow(image,Priority.ALWAYS);
+
+                mainFrame.getChildren().add(avatar);
+                VBox.setVgrow(avatar, Priority.ALWAYS);
+
+                HBox markstracker=new HBox();
+                for (MarkSlotV markSlotV: playerV.getMarksTracker().getMarkSlotsList()) {
+
+                    StackPane background=new StackPane();
+
+                    StackPane mark=new StackPane();
+
+                    background.getChildren().add(mark);
+
+                    mark.getStyleClass().add(setMarkImage(ViewModelGate.getModel().getPlayers().getPlayer(markSlotV.getMarkingPlayer()).getColor()));
+
+                    Label quantity= new Label();
+                    quantity.setText(""+ markSlotV.getQuantity());
+                    mark.getChildren().add(quantity);
+
+
+
+                    markstracker.getChildren().add(background);
+                    HBox.setHgrow(mark, Priority.ALWAYS);
+                }
+
+                mainFrame.getChildren().add(markstracker);
+                VBox.setVgrow(markstracker, Priority.ALWAYS);
+
+
+                HBox damageTracker=new HBox();
+                for (DamageSlotV damageSlotV: playerV.getDamageTracker().getDamageSlotsList()) {
+
+                        StackPane background=new StackPane();
+
+                        StackPane damage=new StackPane();
+
+                        background.getChildren().add(damage);
+
+                        damage.getStyleClass().add(setDamageImage(ViewModelGate.getModel().getPlayers().getPlayer(damageSlotV.getShootingPlayerNickname()).getColor()));
+
+                        damageTracker.getChildren().add(background);
+                        HBox.setHgrow(damage, Priority.ALWAYS);
+                }
+
+                mainFrame.getChildren().add(damageTracker);
+                VBox.setVgrow(markstracker, Priority.ALWAYS);
+
+
+
+                Label deaths=new Label();
+                deaths.setText("THE PLAYER DIED A NUMBER OF TIME EQUALS TO \n :  "+playerV.getNumberOfDeaths());
+                deaths.setTextFill(color);
+                deaths.setFont(Font.font("Courier"));
+
+                mainFrame.getChildren().add(deaths);
+
+                getGameSceneController().getInformationSection().getChildren().clear();
+                getGameSceneController().getInformationSection().getChildren().add(mainFrame);
+
+
+            });
+
+
+        }
+
+
+        private String setMarkImage(PlayersColors color){
+            String style;
+
+            switch (color){
+                case yellow: style="markYellow";break;
+                case blue:style="markBlue";break;
+                case green:style="markGreen";break;
+                case gray:style="markGray";break;
+                case purple:style="markPurple";break;
+                default:style="markPlayer";
+                    break;
+            }
+            return style;
+        }
+
+        private String setDamageImage(PlayersColors color){
+            String style;
+
+            switch (color){
+                case yellow: style="damageYellow";break;
+                case blue:style="damageBlue";break;
+                case green:style="damageGreen";break;
+                case gray:style="damageGray";break;
+                case purple:style="damagePurple";break;
+                default:style="damagePlayer";
+                    break;
+            }
+            return style;
+        }
+        private Color setColor(PlayerV playerV) {
+            Color color;
+
+            switch (playerV.getColor()){
+                case yellow: color=Color.rgb(255,166,0);break;
+                case blue:color=Color.rgb(0,0,255);break;
+                case green:color=Color.rgb(0,255,0);break;
+                case gray:color=Color.rgb(39,39,44);break;
+                case purple:color=Color.rgb(153,0,118);break;
+                default:color=Color.rgb(0,0,0);
+                    break;
+            }
+            return color;
+        }
+    }
+
+    void showWeaponCard(WeaponCard weaponCard){
+
+        ( new Thread(new ShowWeaponCard(weaponCard))).start();
+    }
+
+
+    private class ShowWeaponCard implements Runnable{
+        WeaponCard weaponCard;
+
+        ShowWeaponCard(WeaponCard weaponCard){
+            this.weaponCard=weaponCard;
+        }
+
+        @Override
+        public void run(){
+            Platform.runLater(()->{
+
+                VBox vBox=new VBox();
+
+                StackPane card=new StackPane();
+                VBox.setVgrow(card,Priority.ALWAYS);
+
+
+
+                card.getStyleClass().add("weaponCard"+weaponCard.getID());
+
+                getGameSceneController().getInformationSection().getChildren().clear();
+                getGameSceneController().getInformationSection().getChildren().add(vBox);
+
+            });
+
+        }
+
+    }
+
+
+    void showPowerUpCard(PowerUpCard powerUpCard){
+
+        ( new Thread(new ShowPowerUpCard(powerUpCard))).start();
+    }
+
+
+    private class ShowPowerUpCard implements Runnable{
+       PowerUpCard powerUpCard;
+
+        ShowPowerUpCard(PowerUpCard powerUpCard){
+            this.powerUpCard=powerUpCard;
+        }
+
+        @Override
+        public void run(){
+            Platform.runLater(()->{
+
+                VBox vBox=new VBox();
+
+                StackPane card=new StackPane();
+                VBox.setVgrow(card,Priority.ALWAYS);
+
+
+
+                card.getStyleClass().add("powerUpCard"+powerUpCard.getID());
+
+
+                getGameSceneController().getInformationSection().getChildren().clear();
+                getGameSceneController().getInformationSection().getChildren().add(vBox);
+
+            });
+
+        }
+
+    }
+    void showSquare(SquareV squareV){
+        (new Thread(new ShowSquare(squareV))).start();
+    }
+
+
+    private class ShowSquare implements Runnable{
+        SquareV squareV;
+        ShowSquare(SquareV squareV){
+            this.squareV=squareV;
+        }
+
+        @Override
+        public void run(){
+           Platform.runLater(()->{
+
+               VBox mainFrame=new VBox();
+               HBox cards=new HBox();
+               HBox players=new HBox();
+
+               mainFrame.getChildren().addAll(cards, players);
+               VBox.setVgrow(cards, Priority.ALWAYS);
+               VBox.setVgrow(players, Priority.ALWAYS);
+
+
+               if(squareV.getClass().toString().contains("Normal")) {
+
+                   List<AmmoCardV> listOfAmmos = ((NormalSquareV) squareV).getAmmoCards().getCards();
+
+                   for (AmmoCardV ammo : listOfAmmos) {
+
+                       StackPane card = new StackPane();
+
+                       card.getStyleClass().add("ammoCard" + ammo.getID());
+                       cards.getChildren().add(card);
+
+                       HBox.setHgrow(card, Priority.ALWAYS);
+                   }
+               }
+               else{
+
+                   List<WeaponCardV> listOfWeapons=((SpawnPointSquareV)squareV).getWeaponCards().getCards();
+
+                   for (WeaponCardV weaponCardV : listOfWeapons){
+
+                       StackPane card = new StackPane();
+
+                       card.getStyleClass().add("weaponCard" + weaponCardV.getID());
+                       cards.getChildren().add(card);
+
+                       HBox.setHgrow(card, Priority.ALWAYS);
+                   }
+
+               }
+
+
+               List<PlayerV> playerVS=getPlayers(squareV.getX(), squareV.getY());
+
+               for (PlayerV playerV : playerVS){
+
+                   PlayersColors color=playerV.getColor();
+
+                   StackPane image = new StackPane();
+                   Label name=new Label();
+
+                   name.setText(playerV.getNickname());
+                   name.setFont(Font.font("Courier"));
+
+                   image.getStyleClass().add(setImage(color));
+
+                   VBox player= new VBox();
+                   player.getChildren().addAll(image, name);
+
+                   VBox.setVgrow(name, Priority.ALWAYS);
+                   VBox.setVgrow(image, Priority.ALWAYS);
+
+
+
+                   players.getChildren().add(player);
+
+
+
+                   HBox.setHgrow(player, Priority.ALWAYS);
+               }
+
+
+           });
+
+        }
+
+        private String setImage(PlayersColors color){
+            String style;
+
+            switch (color){
+                case yellow: style="playerYellow";break;
+                case blue:style="playerBlue";break;
+                case green:style="playerGreen";break;
+                case gray:style="playerGray";break;
+                case purple:style="playerPurple";break;
+                default:style="emptyPlayer";
+                    break;
+            }
+            return style;
+        }
+
+        }
+
+        private List<PlayerV> getPlayers(int x, int y) {
+            List<PlayerV> players = new ArrayList<>();
+            for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
+                if (p.getY() != null && p.getX() != null && p.getX() == x && p.getY() == y) {
+                    players.add(p);
+                }
+            }
+            return players;
+        }
+
+    }

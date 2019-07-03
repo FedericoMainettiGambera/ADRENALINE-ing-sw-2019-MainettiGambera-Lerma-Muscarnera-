@@ -22,10 +22,13 @@ public class SpawnState implements State {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(SpawnState.class.getName());
 
+    /**player to be spawned*/
     private Player playerToSpawn;
 
+    /**list of players who died the previous turn */
     private List<Player> deadPlayers;
 
+    /**count down till AFK*/
     private Thread inputTimer;
 
 
@@ -34,6 +37,9 @@ public class SpawnState implements State {
         this.deadPlayers = deadPlayers;
     }
 
+    /**@param nullPlayer player to be asked input isn't passed,
+     * but are extrapolate from the list of dead players
+     * they will be asked which power up card they want to discard*/
     @Override
     public void askForInput(Player nullPlayer) {
         //player to ask is null !
@@ -58,6 +64,8 @@ public class SpawnState implements State {
         }
     }
 
+    /**after having made the players spawn, the next state is set
+     * @param viewControllerEvent is passed to handleVce function*/
     @Override
     public void doAction(ViewControllerEvent viewControllerEvent) {
         this.inputTimer.interrupt();
@@ -82,7 +90,8 @@ public class SpawnState implements State {
         this.doAction(new ViewControllerEventString(playerToSpawn.getPowerUpCardsInHand().getCards().get(0).getID()));
     }
 
-    public void printDied(){
+    /**print "someonediedi"*/
+    private void printDied(){
 
         String string="---------------------------------------------------------------------------------------------------------";
 
@@ -93,6 +102,8 @@ public class SpawnState implements State {
         out.println(string);
     }
 
+    /**@param viewControllerEvent is parsed, depending on which power up the player discarded,
+     * they will spawn on the board*/
     public void handleVce(ViewControllerEvent viewControllerEvent){
 
         out.println("<SERVER> player has answered before the timer ended.");
@@ -125,6 +136,7 @@ public class SpawnState implements State {
 
     }
 
+    /**the dead player is make draw a power up in order to spawn*/
     public void deadDrawPowerUp(){
 
         printDied();

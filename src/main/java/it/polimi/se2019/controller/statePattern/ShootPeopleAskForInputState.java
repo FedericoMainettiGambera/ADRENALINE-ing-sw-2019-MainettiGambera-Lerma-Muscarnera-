@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+/**this state implements functions to ask the user a specific input for a given effect*/
 public class ShootPeopleAskForInputState implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);
@@ -53,7 +53,7 @@ public class ShootPeopleAskForInputState implements State {
 
     private Integer inputRequestCounterF = 0;
 
-    public boolean canIncrementRequest(){
+    private boolean canIncrementRequest(){
         return inputRequestCounterF < this.chosenEffect.requestedInputs().size() - 1;
     }
 
@@ -98,7 +98,7 @@ public class ShootPeopleAskForInputState implements State {
 
     /**@param viewControllerEvent event this function extrapolates the data from
      * */
-    public void parsevce(ViewControllerEvent viewControllerEvent){
+    private void parsevce(ViewControllerEvent viewControllerEvent){
 
         out.println("<SERVER> player answered before timer expired.");
         out.println("<SERVER> " + this.getClass() + ".doAction();");
@@ -137,7 +137,7 @@ public class ShootPeopleAskForInputState implements State {
 
     /**this function manages to damage the right player after the payment has been effectuated,
      * then directs the  state pattern towards the right following state*/
-    public void afterPayment(){
+    void afterPayment(){
 
 
         List<Player> damagedPlayer=damagePlayer();
@@ -159,7 +159,7 @@ public class ShootPeopleAskForInputState implements State {
 
     /**this function manages to add the damage to the right players,
      * @return the list of the players he has damaged, if there are any */
-    public List<Player> damagePlayer(){
+    private List<Player> damagePlayer(){
 
         this.chosenWeaponCard.unload();
         List<List<Player>> listListDamagedPlayer = this.chosenEffect.Exec();

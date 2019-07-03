@@ -9,7 +9,6 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventInt
 import it.polimi.se2019.controller.WaitForPlayerInput;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
@@ -20,12 +19,16 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(GrabStuffStateDrawAndDiscardPowerUp.class.getName());
 
+    /**if it's action number 1 or number 2*/
     private int actionNumber;
 
+    /**countdown till AFK status*/
     private Thread inputTimer;
-
+    /**the player to be asked the input*/
     private Player playerToAsk;
 
+    /**constructor
+     * @param actionNumber initialize attribute actionNumber*/
     public GrabStuffStateDrawAndDiscardPowerUp(int actionNumber){
         out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
@@ -34,7 +37,8 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
     /**if the user gets lucky, the card he decided to grab give them the possibility to draw a power up,
      * lucky but not lucky enough! If they want to draw it, they will have to discard one they already have in their hand,
      * indeed it is only possible to hold in hand 2 power up at the same time
-     * @param playerToAsk holds the current playing player*/
+     * @param playerToAsk holds the current playing player
+     * */
     @Override
     public void askForInput(Player playerToAsk) {
 
@@ -52,7 +56,7 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
     }
 
     /**@param playerToAsk, make the player to ask draw a new power up*/
-    public void drawANewPowerUp(Player playerToAsk){
+    private void drawANewPowerUp(Player playerToAsk){
 
         this.playerToAsk = playerToAsk;
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
@@ -100,10 +104,9 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
     }
 
     /**@param viewControllerEvent, this function extrapolates from the event the power up the player wants to discard*/
-    public void discardPowerUp(ViewControllerEvent viewControllerEvent){
+    private void discardPowerUp(ViewControllerEvent viewControllerEvent){
 
         out.println("<SERVER> player has answered before the timer ended.");
-
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventInt viewControllerEventInt = (ViewControllerEventInt)viewControllerEvent;

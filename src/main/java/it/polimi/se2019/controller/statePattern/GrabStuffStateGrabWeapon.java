@@ -21,14 +21,17 @@ public class GrabStuffStateGrabWeapon implements  State {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(GrabStuffStateGrabWeapon.class.getName());
 
+    /**distinguish between 1st and 2nd action*/
     private int actionNumber;
 
+    /**the player to be asked the input*/
     private Player playerToAsk;
 
+    /**countdown till AFK status*/
     private Thread inputTimer;
 
     /**constructor
-     * @param actionNumber distinguish between 1st and 2nd action*/
+     * @param actionNumber initialize actionNumber*/
     public GrabStuffStateGrabWeapon(int actionNumber){
         out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
@@ -36,7 +39,7 @@ public class GrabStuffStateGrabWeapon implements  State {
 
 
 
-    public void printList(List<WeaponCard> weaponCard){
+    private void printList(List<WeaponCard> weaponCard){
 
         StringBuilder toPrintln = new StringBuilder();
         for (WeaponCard weaponCard1 : weaponCard) {
@@ -164,7 +167,7 @@ public class GrabStuffStateGrabWeapon implements  State {
      * 1 the function may need a two string event, in case the user needed to pick up and discard a weapon card
      * 2 the function may need a one string event, in case the user just needed to pick up one
      * @return toDraw, which is needed to the calling function in order to effectuate the payment*/
-    public WeaponCard switchCardsOrJustPickUpOne(ViewControllerEvent viewControllerEvent) {
+    private WeaponCard switchCardsOrJustPickUpOne(ViewControllerEvent viewControllerEvent) {
 
         out.println("<SERVER> player has answered before the timer ended.");
         out.println("<SERVER> " + this.getClass() + ".doAction();");
@@ -220,7 +223,7 @@ public class GrabStuffStateGrabWeapon implements  State {
     }
 
     /** called by choose how to pay method, this function will handle to direct the game toward the right next state*/
-    public void afterPayment(){
+     void afterPayment(){
         //set next state
         if(this.actionNumber == 1){
             if (ModelGate.getModel().hasFinalFrenzyBegun() && ModelGate.getModel().getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0) {

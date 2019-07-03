@@ -22,6 +22,7 @@ public class GameSetUpState implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(GameSetUpState.class.getName());
+
     /**player to be asked the game set up */
     private Player playerToAsk;
    /**count down till AFK status*/

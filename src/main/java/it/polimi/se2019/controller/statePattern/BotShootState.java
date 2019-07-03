@@ -21,17 +21,25 @@ import java.util.logging.Logger;
  * this class makes possible for the bot to shoot
  * */
 public class BotShootState implements State{
+
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(TurnState.class.getName());
 
+    /**the player to be asked the input*/
     private Player playerToAsk;
 
+    /**count down till afk status*/
     private Thread inputTimer;
 
+    /**following state to be set*/
     private State nextState;
 
+    /**name of the bot*/
     private String botNickname="Terminator";
 
+    /**constructor,
+     * @param nextState contains data to initialize nextState attribute
+     * */
     public BotShootState(State nextState){
         out.println("<SERVER> New state: " + this.getClass());
         this.nextState = nextState;
@@ -45,9 +53,7 @@ public class BotShootState implements State{
     public void askForInput(Player playerToAsk) {
 
         setPlayerToAsk(playerToAsk);
-
         List<Player> players = playersCanBotSee();
-
         List<PlayerV> playersV = new  ArrayList<>();
 
         for (Player p: players) {
@@ -73,7 +79,7 @@ public class BotShootState implements State{
     }
 
     /**@param playerToAsk we set here the player to ask */
-    public void setPlayerToAsk(Player playerToAsk){
+    private void setPlayerToAsk(Player playerToAsk){
         this.playerToAsk = playerToAsk;
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
     }
@@ -98,8 +104,9 @@ public class BotShootState implements State{
      * @param vce that contains the player the bot needs to shoot
      * if the bot has the adrenaline action unblocked, he gives them a mark too
      * then we set the bot used and ask the damaged player if he wants to use a
-     * specific power up*/
-    public List<Player> parseVce(ViewControllerEvent vce){
+     * specific power up
+     * */
+    private List<Player> parseVce(ViewControllerEvent vce){
 
         //parse VCE
         ViewControllerEventString vceString = (ViewControllerEventString)vce;
@@ -139,10 +146,11 @@ public class BotShootState implements State{
     }
 
 
-    /**@return a list of player who are in the same room as the bot or who are in a room adjacent
+    /**
+     * @return a list of player who are in the same room as the bot or who are in a room adjacent
      * to the Square of the bot and divided by a door
      * */
-    public List<Player> playersCanBotSee(){
+    private List<Player> playersCanBotSee(){
 
         out.println("<SERVER> searching for the players the bot can see:");
 
