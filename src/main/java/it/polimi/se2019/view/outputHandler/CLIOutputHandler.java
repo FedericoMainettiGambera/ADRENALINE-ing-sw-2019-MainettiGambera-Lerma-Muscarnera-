@@ -110,7 +110,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     }
 
     @Override
-    public void newColor(ModelViewEvent modelViewEvent) { //TODO change output
+    public void newColor(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
             if (p.getNickname().equals(modelViewEvent.getExtraInformation1())) {
@@ -311,7 +311,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         }
     }
 
-    public static void showGameInfo(){ //TODO bot, gameMode, gameConstants
+    public static void showGameInfo(){
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("\n<<<<<<<<<<<< GAME INFO >>>>>>>>>>>>");
 
         if(ViewModelGate.getMe()!=null){
@@ -343,7 +343,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         }
     }
 
-    public static void showKillshotTrack(){ //TODO
+    public static void showKillshotTrack(){
         //remember the killShot track works from the end to the start ( the first dead player is the last in the list)
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("\n<<<<<<<<<<<< KILLSHOT TRACK >>>>>>>>>>>> ");
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("You are playing with " + ViewModelGate.getModel().getKillshotTrack().getNumberOfStartingSkulls() +" number of staring skulls");
