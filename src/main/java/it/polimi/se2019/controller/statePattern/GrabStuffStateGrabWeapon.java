@@ -155,7 +155,6 @@ public class GrabStuffStateGrabWeapon implements  State {
 
 
             WeaponCard toDraw=switchCardsOrJustPickUpOne(viewControllerEvent);
-
             out.println("<SERVER> Paying the pick up cost");
             ChooseHowToPayState.makePayment(ModelGate.getModel().getCurrentPlayingPlayer(), toDraw.getPickUpCost());
         }
