@@ -3,6 +3,7 @@ package it.polimi.se2019.ControllerTest;
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.statePattern.FinalScoringState;
 import it.polimi.se2019.controller.statePattern.PowerUpAskForInputState;
+import it.polimi.se2019.controller.statePattern.PowerUpState;
 import it.polimi.se2019.model.Board;
 import it.polimi.se2019.model.Game;
 import it.polimi.se2019.model.Player;
@@ -35,6 +36,7 @@ public class PowerUpAskForInputStateTest{
         Game game=FakeModel.getFakeModel();
         ModelGate.setModel(game);
         game.buildDecks();
+
         PowerUpCard powerUpCard=game.getPowerUpDeck().getCard("1");
 
 
@@ -48,6 +50,15 @@ public class PowerUpAskForInputStateTest{
         squares.add(squareV);
         squares.add(squareV1);
 
+        game.getCurrentPlayingPlayer().getPowerUpCardsInHand().addCard(game.getPowerUpDeck().getCard("1"));
+        game.getCurrentPlayingPlayer().getPowerUpCardsInHand().addCard(game.getPowerUpDeck().getCard("2"));
+
+        PowerUpState powerUpState=new PowerUpState("movement",new FinalScoringState());
+
+        java.lang.reflect.Method findPowerUp= PowerUpState.class.getDeclaredMethod("setPlayerToAskAndGetHisCards", Player.class);
+        findPowerUp.setAccessible(true);
+
+        findPowerUp.invoke(powerUpState, game.getCurrentPlayingPlayer());
 
 
         game.setBoard(new Board("map0", null, null));
