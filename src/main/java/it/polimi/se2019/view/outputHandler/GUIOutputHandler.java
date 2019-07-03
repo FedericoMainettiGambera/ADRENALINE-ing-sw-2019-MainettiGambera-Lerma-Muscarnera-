@@ -739,7 +739,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         }
     }
 
-    /*TODO*/
+
     private void updateMap()   {
         System.out.println("UPDATE MAP"); //MOMENTANEO
         new Thread(new UpdateMap()).start();
@@ -840,8 +840,10 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
         private HBox buildPlayers(List<PlayerV> playersToShow){
             HBox hBox = new HBox();
+            hBox.setUserData("players");
             for (PlayerV p: playersToShow) {
                 StackPane player = new StackPane(new Label(p.getNickname())); //don't use a label, but set the image
+
                 player.setUserData(p);
                 hBox.getChildren().add(player);
                 HBox.setHgrow(player, Priority.ALWAYS);

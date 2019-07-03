@@ -20,9 +20,9 @@ GENERAL CLASSES
 
     text-and-highlight-color: #ff00f0;
     default-color: #00f3ff;
-    empty-color: rgba(255, 68, 77, 0.5);
-    notempty-color: rgba(255, 181, 35, 0.5);
-    selectable-color: rgba(146, 255, 88, 0.5);
+    empty-color: rgb(255, 68, 77);
+    notempty-color: rgb(255, 181, 35);
+    selectable-color: rgb(146, 255, 88);
 
     -fx-background-color: dark-primary-color;
     -fx-border-width: 1px;
