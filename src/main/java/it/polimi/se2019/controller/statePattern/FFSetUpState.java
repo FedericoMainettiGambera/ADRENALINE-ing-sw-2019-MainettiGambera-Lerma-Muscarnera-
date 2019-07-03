@@ -16,7 +16,9 @@ public class FFSetUpState implements State {
 
 
 
+    /**constructor*/
     public FFSetUpState(){
+
         out.println("<SERVER> New state: " + this.getClass());
     }
 
@@ -24,15 +26,10 @@ public class FFSetUpState implements State {
     public void askForInput(Player playerToAsk) {
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
     }
-    /**Final Frenzy has been triggered,
-     * we need to get ready for it:
-     * 1
-     * makes the players boards that has no damages in FinalFrenzy mode,
-     * 2
-     * we also need to set a dedicated attributed - BeforeorafterStartingPlayer -  in order to understand whether a player will play before of after the starting player, this fact
-     * will make all the difference: the action one can unblock are determined by that attribute!
-     *
-     * @param vce null, we don't need any input
+    /**Final Frenzy has been triggered
+     * calls prepareForFF function
+     * then set the following state
+     * @param vce null, no need for any input
      * */
     @Override
     public void doAction(ViewControllerEvent vce) {
@@ -47,7 +44,15 @@ public class FFSetUpState implements State {
 
     }
 
-    public void prepareForFF(){
+    /**Final Frenzy has been triggered,
+     * we need to get ready for it:
+     * 1
+     * makes the players boards that has no damages in FinalFrenzy mode,
+     * 2
+     * we also need to set a dedicated attributed - BeforeorafterStartingPlayer -  in order to understand whether a player will play before of after the starting player, this fact
+     * will make all the difference: the action one can unblock are determined by that attribute!
+     */
+    private void prepareForFF(){
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 

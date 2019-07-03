@@ -22,16 +22,24 @@ public class BotMoveState implements State {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(TurnState.class.getName());
 
+    /**the player to ask the input to*/
     private Player playerToAsk;
 
+    /**the timer for the count down to AFK status*/
     private Thread inputTimer;
 
+    /**the following state to be set*/
     private State nextState;
 
+    /**a list of possible position the bot can be moved*/
     private ArrayList<Position> possiblePositions = new ArrayList<>();
 
+    /**the name of the bot*/
     private String botNickname="Terminator";
 
+    /**constructor
+     * @param nextState contains the data to initialize nextState attribute
+     * */
     public BotMoveState(State nextState){
         out.println("<SERVER> New state: " + this.getClass());
         this.nextState = nextState;
@@ -59,8 +67,9 @@ public class BotMoveState implements State {
         }
     }
 
-    /**calculates the possible position where the bot can be moved*/
-    public void calculatePossiblePositions(Player playerToAsk){
+    /**calculates the possible position where the bot can be moved
+     * @param playerToAsk is set here*/
+    private void calculatePossiblePositions(Player playerToAsk){
 
 
         out.println("<SERVER> setting bot used...");
@@ -97,7 +106,7 @@ public class BotMoveState implements State {
     }
 
     /**@param vce, event that we need to extrapolate information from */
-    public void parseVce(ViewControllerEvent vce){
+    private void parseVce(ViewControllerEvent vce){
 
         out.println("<SERVER> player has answered before the timer ended.");
 

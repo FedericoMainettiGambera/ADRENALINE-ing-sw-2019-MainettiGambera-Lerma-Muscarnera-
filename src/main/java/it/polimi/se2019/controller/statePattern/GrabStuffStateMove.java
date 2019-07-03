@@ -61,7 +61,7 @@ public class GrabStuffStateMove implements State {
     /**@param playerToAsk is the player to ask the input to,
      *                     after having calculated all the possible positions
      * @return a List<Position> of them all*/
-    public List<Position> calculateAndPrintPossiblePosition(Player playerToAsk){
+    private List<Position> calculateAndPrintPossiblePosition(Player playerToAsk){
 
         this.playerToAsk = playerToAsk;
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
@@ -104,7 +104,7 @@ public class GrabStuffStateMove implements State {
 
     /**parce the view controller event to get the needed information on where to set the player position
      * @param viewControllerEvent as said */
-    public void parsevce(ViewControllerEvent viewControllerEvent){
+    private void parsevce(ViewControllerEvent viewControllerEvent){
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");

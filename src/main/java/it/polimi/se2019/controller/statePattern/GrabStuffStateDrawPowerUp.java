@@ -35,25 +35,12 @@ public class GrabStuffStateDrawPowerUp implements State {
 
         makeThePlayerDraw();
 
-        //set next state
-        State state = null;
-        if(this.actionNumber == 1){
-            if (ModelGate.getModel().hasFinalFrenzyBegun() && ModelGate.getModel().getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0)
-                {
-                    state = new ReloadState(false);//TODO check reload state cuz its the last turn and you dont really need to reload
-                }
-              else  state = new TurnState(2);
-        }
-        if(this.actionNumber == 2){
-            //TODO not sure
-            state = new ReloadState(false);
-        }
-        ViewControllerEventHandlerContext.setNextState(state);
+        ViewControllerEventHandlerContext.setNextState(setNextState());
         ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
     }
 
     /**this function make the player draw a power up*/
-    public void makeThePlayerDraw(){
+    private void makeThePlayerDraw(){
         out.println("<SERVER> "+ this.getClass() +".doAction();");
         out.println("<SERVER> The ammo card makes the player draw a power up");
         ModelGate.getModel().getPowerUpDeck().moveCardTo(
@@ -61,6 +48,28 @@ public class GrabStuffStateDrawPowerUp implements State {
                 ModelGate.getModel().getPowerUpDeck().getFirstCard().getID()
         );
 
+    }
+
+
+    /**set the following state
+     * @return state, the state next to follow
+     * */
+    private State  setNextState(){
+
+        State state = null;
+        if(this.actionNumber == 1){
+            if (ModelGate.getModel().hasFinalFrenzyBegun() && ModelGate.getModel().getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0)
+            {
+                state = new ReloadState(false);//TODO check reload state cuz its the last turn and you dont really need to reload
+            }
+            else  state = new TurnState(2);
+        }
+        if(this.actionNumber == 2){
+            //TODO not sure
+            state = new ReloadState(false);
+        }
+
+        return state;
     }
 
     /**

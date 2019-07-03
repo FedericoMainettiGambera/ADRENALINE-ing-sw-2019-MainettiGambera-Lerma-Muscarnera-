@@ -18,12 +18,18 @@ public class GrabStuffState implements State {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(GrabStuffState.class.getName());
 
+    /**if it's action number 1 of action number 2*/
     private int actionNumber;
 
+    /**the player to be asked the input*/
     private Player playerToAsk;
 
+    /**count down till AFK status*/
     private Thread inputTimer;
 
+    /**constructor
+     * @param actionNumber initialize actionNumber attribute
+     * */
     public GrabStuffState(int actionNumber){
         out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
@@ -71,10 +77,9 @@ public class GrabStuffState implements State {
     }
 
     /**@param viewControllerEvent, this function extrapolate the needed info from the event*/
-    public String readInput(ViewControllerEvent viewControllerEvent){
+    private String readInput(ViewControllerEvent viewControllerEvent){
 
         out.println("<SERVER> player has answered before the timer ended.");
-
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
         ViewControllerEventString viewControllerEventString = (ViewControllerEventString)viewControllerEvent;

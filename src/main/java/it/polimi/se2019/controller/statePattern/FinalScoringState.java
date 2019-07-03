@@ -16,6 +16,7 @@ public class FinalScoringState implements State {
 
     private static PrintWriter out = new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(FinalScoringState.class.getName());
+
     /**a list of players with their points in decreasing order*/
     private ArrayList<PlayerPoint> graduatory;
 
@@ -27,6 +28,7 @@ public class FinalScoringState implements State {
 
     /**
      * no input required
+     * @param playerToAsk is null
      */
     @Override
     public void askForInput(Player playerToAsk) {

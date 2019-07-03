@@ -23,24 +23,35 @@ public class PowerUpAskForInputState implements State {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(TurnState.class.getName());
 
+    /**next state to be set*/
     private State nextState;
+    /**the power up chosen by the user to be used*/
     private PowerUpCard chosenPowerUp;
+    /**the player to be asked for input*/
     private Player playerToAsk;
-
+    /**count down till AFK status*/
     private Thread inputTimer;
-
-    public PowerUpAskForInputState(State nextState, PowerUpCard chosenPowerUp){
+   /***/
+    private Integer inputRequestCounterF;
+    /**constructor
+     * @param nextState to initialize nextState attribute
+     * @param chosenPowerUp to initialize chosenPowerUp attribute*/
+     public PowerUpAskForInputState(State nextState, PowerUpCard chosenPowerUp){
         out.println("<SERVER> New state: " + this.getClass());
 
         this.nextState = nextState;
         this.chosenPowerUp = chosenPowerUp;
+        this.inputRequestCounterF = 0;
     }
 
-    private Integer inputRequestCounterF = 0;
-    public boolean canIncrementRequest(){
+
+
+    private boolean canIncrementRequest(){
         return inputRequestCounterF < this.chosenPowerUp.getSpecialEffect().requestedInputs().size() - 1;
     }
 
+    /**@param playerToAsk to initialize playerToAsk attribute
+     * */
     @Override
     public void askForInput(Player playerToAsk) {
         this.playerToAsk = playerToAsk;
@@ -71,7 +82,7 @@ public class PowerUpAskForInputState implements State {
         }
     }
 
-    public void askMoreOrExec(){
+    private void askMoreOrExec(){
         if(canIncrementRequest()) {
             inputRequestCounterF++;
             askForInput(playerToAsk);
@@ -89,7 +100,7 @@ public class PowerUpAskForInputState implements State {
         }
     }
 
-    public boolean isToSend(EffectInfoType infoType) {
+    private boolean isToSend(EffectInfoType infoType) {
         return (! ( infoType.equals(EffectInfoType.player) ||
                 infoType.equals(EffectInfoType.playerSquare) ||
                 infoType.equals(EffectInfoType.targetListBySameSquareOfPlayer) ||
@@ -102,15 +113,22 @@ public class PowerUpAskForInputState implements State {
         );
     }
 
+    /**@param viewControllerEvent to be passed to parseInput function*/
     @Override
     public void doAction(ViewControllerEvent viewControllerEvent) {
         this.inputTimer.interrupt();
-        out.println("<SERVER> player has answered before the timer ended.");
 
+        parseInput(viewControllerEvent);
+        askMoreOrExec();
+
+    }
+
+
+    private void parseInput(ViewControllerEvent viewControllerEvent){
+        out.println("<SERVER> player has answered before the timer ended.");
         out.println("<SERVER> " + this.getClass() + ".doAction();");
 
         List<Object> response = ((ViewControllerEventListOfObject)viewControllerEvent).getAnswer();
-
         Object[] inputRow = new Object[10];
 
         int inputRowCurrent = 0;
@@ -123,12 +141,10 @@ public class PowerUpAskForInputState implements State {
             }
             inputRowCurrent++;
         }
-
         this.chosenPowerUp.getSpecialEffect().handleRow(this.chosenPowerUp.getSpecialEffect().getEffectInfo().getEffectInfoElement().get(inputRequestCounterF),inputRow);
 
-        askMoreOrExec();
-    }
 
+    }
     /**
      * set the player AFK in case they don't send required input in a while
      * */

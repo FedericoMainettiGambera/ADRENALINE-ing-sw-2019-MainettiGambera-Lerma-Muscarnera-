@@ -19,13 +19,16 @@ import java.util.logging.Logger;
 public class PowerUpState implements State {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(TurnState.class.getName());
+    /**the name of the power up to be used*/
     private String powerUpToUse;
+    /**the next state to be set*/
     private State nextState;
+    /** the player to be asked the input*/
     private Player playerToAsk;
-
+    /**count down till AFK status*/
     private Thread inputTimer;
 
-    public PowerUpState( String powerUpToUse, State state){
+     PowerUpState( String powerUpToUse, State state){
         out.println("<SERVER> New state: " + this.getClass());
         this.powerUpToUse = powerUpToUse;
         this.nextState=state;
