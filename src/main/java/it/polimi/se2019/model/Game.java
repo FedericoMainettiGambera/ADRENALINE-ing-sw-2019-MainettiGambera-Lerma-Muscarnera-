@@ -211,6 +211,9 @@ public class Game extends Observable implements Serializable {
                         PowerUpCard card = new PowerUpCard("" + i,idCounter);
                         card.setColor(color);
                         tempPowerUpDeck.addCard(card);
+                        // to delete next line
+                        System.out.println(card.getID() + " = " + card.getName() + " , " + card.getColor());
+
                         idCounter++;
                     } catch (Exception e) {
                         logger.log(Level.SEVERE, "EXCEPTION", e);
