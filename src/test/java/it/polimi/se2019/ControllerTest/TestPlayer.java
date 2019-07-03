@@ -16,9 +16,9 @@ public class TestPlayer {
     @Test
     public void testPlayer() throws IOException {
 
-        ModelGate.model=(new FakeModel()).create();
+        ModelGate.setModel((new FakeModel()).create());
 
-        ViewControllerEventHandlerContext.RMIVV=null;
+        ViewControllerEventHandlerContext.setRmiVirtualView(null);
 
 
         Player player = new Player();

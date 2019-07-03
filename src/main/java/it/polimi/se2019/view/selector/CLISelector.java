@@ -974,7 +974,7 @@ public class CLISelector implements SelectorV {
             ViewSelector.sendToServer(viewControllerEventListOfObject);
         }
 
-        public int howManyRequest(){
+        private int howManyRequest(){
             if(this.infoType.equals(EffectInfoType.twoTargets)){
                 return 2;
             }

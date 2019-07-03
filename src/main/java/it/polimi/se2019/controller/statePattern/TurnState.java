@@ -41,13 +41,13 @@ public class TurnState implements State {
         //ask for input
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-            out.println("<SERVER> Can Use Power Up: " + canUsePowerUp(ModelGate.model.getCurrentPlayingPlayer()));
-            if(ModelGate.model.isBotActive()) {
-                out.println("<SERVER> Can Use Bot: " + ModelGate.model.getPlayerList().getPlayer("Terminator").isBotUsed());
-                SelectorGate.getCorrectSelectorFor(playerToAsk).askTurnAction(this.actionNumber, canUsePowerUp(ModelGate.model.getCurrentPlayingPlayer()), !ModelGate.model.getPlayerList().getPlayer("Terminator").isBotUsed());
+            out.println("<SERVER> Can Use Power Up: " + canUsePowerUp(ModelGate.getModel().getCurrentPlayingPlayer()));
+            if(ModelGate.getModel().isBotActive()) {
+                out.println("<SERVER> Can Use Bot: " + ModelGate.getModel().getPlayerList().getPlayer("Terminator").isBotUsed());
+                SelectorGate.getCorrectSelectorFor(playerToAsk).askTurnAction(this.actionNumber, canUsePowerUp(ModelGate.getModel().getCurrentPlayingPlayer()), !ModelGate.getModel().getPlayerList().getPlayer("Terminator").isBotUsed());
             }
             else{
-                SelectorGate.getCorrectSelectorFor(playerToAsk).askTurnAction(this.actionNumber, canUsePowerUp(ModelGate.model.getCurrentPlayingPlayer()), false);
+                SelectorGate.getCorrectSelectorFor(playerToAsk).askTurnAction(this.actionNumber, canUsePowerUp(ModelGate.getModel().getCurrentPlayingPlayer()), false);
             }
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
@@ -75,26 +75,26 @@ public class TurnState implements State {
         switch (actionChosen) {
             case "run around":
                 ViewControllerEventHandlerContext.setNextState(new RunAroundState(this.actionNumber));
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
                 break;
             case "grab stuff":
                 ViewControllerEventHandlerContext.setNextState(new GrabStuffState(this.actionNumber));
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
                 break;
             case "shoot people":
                 ViewControllerEventHandlerContext.setNextState(new ShootPeopleState(this.actionNumber));
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
                 break;
             case "use power up":
                 ViewControllerEventHandlerContext.setNextState(new PowerUpState("movement", new TurnState(this.actionNumber)));
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
                 break;
             case "use Bot":
                 ViewControllerEventHandlerContext.setNextState(new BotMoveState(new TurnState(this.actionNumber)));
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
                 break;
             default:
-                this.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                this.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
                 break;
         }
     }
@@ -105,9 +105,9 @@ public class TurnState implements State {
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 
@@ -117,7 +117,10 @@ public class TurnState implements State {
     public static boolean canUsePowerUp(Player playerToAsk){
         for (PowerUpCard pu: playerToAsk.getPowerUpCardsInHand().getCards()) {
             if(pu.getName().equalsIgnoreCase("teleporter") || pu.getName().equalsIgnoreCase("newton")){
-                return true;
+                pu.getSpecialEffect().passContext(playerToAsk,ModelGate.getModel().getPlayerList(),ModelGate.getModel().getBoard());
+                if(pu.isUsable()) {
+                    return true;
+                }
             }
         }
         return false;

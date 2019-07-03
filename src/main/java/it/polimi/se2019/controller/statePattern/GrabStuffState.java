@@ -59,14 +59,14 @@ public class GrabStuffState implements State {
 
         if(choice.equals("move")){
             ViewControllerEventHandlerContext.setNextState(new GrabStuffStateMove(this.actionNumber));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
         else if(choice.equals("grab")){
             ViewControllerEventHandlerContext.setNextState(new GrabStuffStateGrab(this.actionNumber));
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
         else{
-            this.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            this.askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
     }
 
@@ -93,9 +93,9 @@ public class GrabStuffState implements State {
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 }

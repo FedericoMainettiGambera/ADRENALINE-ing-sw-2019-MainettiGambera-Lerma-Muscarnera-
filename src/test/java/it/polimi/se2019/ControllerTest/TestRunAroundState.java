@@ -22,7 +22,7 @@ public class TestRunAroundState{
     public void testRunAroundState(){
         try {
             game=fakeModel.create();
-            ModelGate.model=game;
+            ModelGate.setModel(game);
 
 
         } catch (IOException e) {
@@ -40,8 +40,8 @@ public class TestRunAroundState{
         state.handleVce(vce);
 
 
-        assertEquals(ModelGate.model.getPlayerList().getPlayer("Alex").getPosition().getX(), vce.getX());
-        assertEquals(ModelGate.model.getPlayerList().getPlayer("Alex").getPosition().getY(),vce.getY() );
+        assertEquals(ModelGate.getModel().getPlayerList().getPlayer("Alex").getPosition().getX(), vce.getX());
+        assertEquals(ModelGate.getModel().getPlayerList().getPlayer("Alex").getPosition().getY(),vce.getY() );
 
 
 

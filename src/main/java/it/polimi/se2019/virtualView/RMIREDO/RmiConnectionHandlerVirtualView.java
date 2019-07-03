@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static it.polimi.se2019.model.Game.setNumberOfClientsConnected;
+
 /**this class handles the connection received by the server, it sorts them out depending on whether they are new connection
  * or reconnection */
 public class RmiConnectionHandlerVirtualView implements Runnable{
@@ -56,9 +58,9 @@ public class RmiConnectionHandlerVirtualView implements Runnable{
 
         @Override
         public void run() {
-            if(ModelGate.model.getPlayerList().isSomeoneAFK()){
+            if(ModelGate.getModel().getPlayerList().isSomeoneAFK()){
                 ArrayList<String> listOfAFKnames = new ArrayList<>();
-                for (Player p: ModelGate.model.getPlayerList().getPlayers()) {
+                for (Player p: ModelGate.getModel().getPlayerList().getPlayers()) {
                     if(p.isAFK()&&!p.isBot()){
                         listOfAFKnames.add(p.getNickname());
                     }
@@ -118,16 +120,16 @@ public class RmiConnectionHandlerVirtualView implements Runnable{
         boolean correctNicknameFound = false;
         //set nickname
         if(viewControllerEventNickname!=null) {
-            if (ModelGate.model.getPlayerList().getPlayer(viewControllerEventNickname.getNickname()) != null || viewControllerEventNickname.getNickname().equals("Terminator")) {
+            if (ModelGate.getModel().getPlayerList().getPlayer(viewControllerEventNickname.getNickname()) != null || viewControllerEventNickname.getNickname().equals("Terminator")) {
                 correctNicknameFound = false;
             } else {
-                RmiVirtualView.newPlayer.setNickname(viewControllerEventNickname.getNickname());
+                RmiVirtualView.getNewPlayer().setNickname(viewControllerEventNickname.getNickname());
 
-                System.out.println("<SERVER-socket> Adding Player (" + RmiVirtualView.newPlayer.getNickname() + ") to the PlayerList.");
-                ModelGate.model.getPlayerList().addPlayer(RmiVirtualView.newPlayer);
+                System.out.println("<SERVER-socket> Adding Player (" + RmiVirtualView.getNewPlayer().getNickname() + ") to the PlayerList.");
+                ModelGate.getModel().getPlayerList().addPlayer(RmiVirtualView.getNewPlayer());
 
-                ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected() + 1);
-                System.out.println("<SERVER-socket> Number of Connections: " + ModelGate.model.getNumberOfClientsConnected());
+                setNumberOfClientsConnected(ModelGate.getModel().getNumberOfClientsConnected() + 1);
+                System.out.println("<SERVER-socket> Number of Connections: " + ModelGate.getModel().getNumberOfClientsConnected());
 
                 correctNicknameFound = true;
             }

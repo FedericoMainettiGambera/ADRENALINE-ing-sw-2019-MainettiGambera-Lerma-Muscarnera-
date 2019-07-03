@@ -13,10 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /** takes track of the entire state of the game*/
 public class Game extends Observable implements Serializable {
 
+    private static Logger logger=Logger.getLogger(Game.class.getName());
     /** when instanced, build up all the deck needed*/
     public Game() {
         this.powerUpDeck = new OrderedCardList<>("powerUpDeck");
@@ -42,15 +45,15 @@ public class Game extends Observable implements Serializable {
         return numberOfClientsConnected;
     }
 
-    private boolean hasTimerBegun = false;
+    private static boolean hasTimerBegun = false;
 
-    public void setNumberOfClientsConnected(int numberOfClientsConnected){
+    public static void setNumberOfClientsConnected(int numberOfClientsConnected){
         System.out.println("         MODELGATE: SETTING NUMBER OF CONNECTION");
 
         Game.numberOfClientsConnected = numberOfClientsConnected;
 
         if((!hasTimerBegun)&&(numberOfClientsConnected >= GameConstant.MIN_NUMBER_OF_PLAYER_PER_GAME)){
-                this.hasTimerBegun = true;
+                hasTimerBegun = true;
                 Thread t = new Thread(new ConnectionGameCountDown(numberOfClientsConnected));
                 t.start();
         }
@@ -162,7 +165,7 @@ public class Game extends Observable implements Serializable {
     public void setKillshotTrack(KillShotTrack killshotTrack) {
         this.killshotTrack = killshotTrack;
         setChanged();
-        notifyObservers(new ModelViewEvent(this.killshotTrack.getNumberOfRemainingSkulls(), ModelViewEventTypes.newKillshotTrack));
+        notifyObservers(new ModelViewEvent(this.killshotTrack.getNumberOfRemainingSkulls(), ModelViewEventTypes.newKillshotTrack, this.killshotTrack.buildKillshotTrackV()));
     }
 
     /***/
@@ -178,14 +181,14 @@ public class Game extends Observable implements Serializable {
         int fileCount = Objects.requireNonNull(directory.list()).length;
         for(int i = 1; i< fileCount+1; i++) {
             try {
-                int id = /*1 + i %*/ 19;
+                int id = /*1 + i %*/ i;
                 WeaponCard card= new WeaponCard("" + id);
                 card.reload();
                 tempWeaponDeck.addCard(card);
                 System.out.println("<SERVER> building weapon cards ID: " + id);
             }
             catch(Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, "EXCEPTION", e);
                 return;
             }
         }
@@ -205,13 +208,12 @@ public class Game extends Observable implements Serializable {
                 for (int i = 1; i <= fileCount; i++) {
                     System.out.println("<SERVER> building powerUp cards ID: " + i);
                     try {
-                        int id = i;
-                        PowerUpCard card = new PowerUpCard("" + id,idCounter);
+                        PowerUpCard card = new PowerUpCard("" + i,idCounter);
                         card.setColor(color);
                         tempPowerUpDeck.addCard(card);
                         idCounter++;
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        logger.log(Level.SEVERE, "EXCEPTION", e);
                         return;
                     }
                 }
@@ -227,7 +229,7 @@ public class Game extends Observable implements Serializable {
                 tempAmmoDeck.addCard(new AmmoCard(i+ ""));
             }
             catch(Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, "EXCEPTION", e);
                 return;
             }
         }

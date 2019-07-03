@@ -44,7 +44,7 @@ public class ScoreKillsState implements State {
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        if(ModelGate.model.isBotActive()){
+        if(ModelGate.getModel().isBotActive()){
            setBotUsable();
         }
 
@@ -62,7 +62,7 @@ public class ScoreKillsState implements State {
         //we still need to spawn all dead players
         else {
             //If a player dies during FF --> make player board FF
-            if (ModelGate.model.hasFinalFrenzyBegun()) {
+            if (ModelGate.getModel().hasFinalFrenzyBegun()) {
                 for (Player player : deadPlayers) {
                     player.makePlayerBoardFinalFrenzy();
                 }
@@ -71,7 +71,7 @@ public class ScoreKillsState implements State {
             out.println("<SERVER> Spawning player: " + this.deadPlayers.get(0).getNickname());
 
             ViewControllerEventHandlerContext.setNextState(new SpawnState(this.deadPlayers));
-            ViewControllerEventHandlerContext.state.askForInput(null);
+            ViewControllerEventHandlerContext.getState().askForInput(null);
         }
 
     }
@@ -79,7 +79,7 @@ public class ScoreKillsState implements State {
     public void setBotUsable(){
 
         out.println("<SERVER> setting bot usable for next player...");
-        ModelGate.model.getPlayerList().getPlayer("Terminator").setBotUsed(false);
+        ModelGate.getModel().getPlayerList().getPlayer("Terminator").setBotUsed(false);
 
     }
 
@@ -87,11 +87,11 @@ public class ScoreKillsState implements State {
 
         out.println("<SERVER> Searching for dead players and creating the deadPlayers list");
 
-        for (int i = 0; i < ModelGate.model.getPlayerList().getNumberOfPlayers(); i++) {
-            if(ModelGate.model.getPlayerList().getPlayers().get(i).isDead()&&!ModelGate.model.getPlayerList().getPlayers().get(i).isBot()) {
-                out.println("<SERVER> Scoring player: " + ModelGate.model.getPlayerList().getPlayers().get(i).getNickname());
-                this.scoreKill(ModelGate.model.getPlayerList().getPlayers().get(i));
-                this.deadPlayers.add(ModelGate.model.getPlayerList().getPlayers().get(i));
+        for (int i = 0; i < ModelGate.getModel().getPlayerList().getNumberOfPlayers(); i++) {
+            if(ModelGate.getModel().getPlayerList().getPlayers().get(i).isDead()&&!ModelGate.getModel().getPlayerList().getPlayers().get(i).isBot()) {
+                out.println("<SERVER> Scoring player: " + ModelGate.getModel().getPlayerList().getPlayers().get(i).getNickname());
+                this.scoreKill(ModelGate.getModel().getPlayerList().getPlayers().get(i));
+                this.deadPlayers.add(ModelGate.getModel().getPlayerList().getPlayers().get(i));
             }
         }
     }
@@ -111,7 +111,7 @@ public class ScoreKillsState implements State {
         out.println("<SERVER> Scoring dead players.");
 
         //first blood
-        if(!ModelGate.model.hasFinalFrenzyBegun()){
+        if(!ModelGate.getModel().hasFinalFrenzyBegun()){
             out.println("<SERVER> First blood goes to " + deadPlayer.getPlayerBoard().getDamagesSlot(0).getShootingPlayer().getNickname());
             Player firstBlood = deadPlayer.getPlayerBoard().getDamagesSlot(0).getShootingPlayer();
             firstBlood.addPoints(1);
@@ -128,8 +128,8 @@ public class ScoreKillsState implements State {
         }
 
         //add skull to the killshotTrack
-        if(!ModelGate.model.hasFinalFrenzyBegun()) {
-            ModelGate.model.getKillshotTrack().deathOfPlayer(deadPlayer.getLastDamageSlot().getShootingPlayer(), deadPlayer.isOverkilled());
+        if(!ModelGate.getModel().hasFinalFrenzyBegun()) {
+            ModelGate.getModel().getKillshotTrack().deathOfPlayer(deadPlayer.getLastDamageSlot().getShootingPlayer(), deadPlayer.isOverkilled());
         }
 
         //the overkilling player receive a mark from the overkilled player
@@ -138,7 +138,7 @@ public class ScoreKillsState implements State {
         }
 
         //adding skull to the dead player
-        if(!ModelGate.model.hasFinalFrenzyBegun()) {
+        if(!ModelGate.getModel().hasFinalFrenzyBegun()) {
             deadPlayer.addDeath();
         }
 
@@ -157,19 +157,19 @@ public class ScoreKillsState implements State {
 
 
         //Game is not ended --> TurnState or FirstSpawnState
-        if ((!ModelGate.model.getKillshotTrack().areSkullsOver()) || ModelGate.model.hasFinalFrenzyBegun()) {
+        if ((!ModelGate.getModel().getKillshotTrack().areSkullsOver()) || ModelGate.getModel().hasFinalFrenzyBegun()) {
 
             gameOverOrNot();
         }
         //Game is ended and FinalFrenzy isn't active --> FinalScoringState
-        else if (ModelGate.model.getKillshotTrack().areSkullsOver() && (!ModelGate.model.isFinalFrenzy())) {
+        else if (ModelGate.getModel().getKillshotTrack().areSkullsOver() && (!ModelGate.getModel().isFinalFrenzy())) {
             ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
         //Game is ended and FinalFrenzy is active --> FFSetUpState
-        else if (ModelGate.model.getKillshotTrack().areSkullsOver() && (ModelGate.model.isFinalFrenzy())) {
+        else if (ModelGate.getModel().getKillshotTrack().areSkullsOver() && (ModelGate.getModel().isFinalFrenzy())) {
             ViewControllerEventHandlerContext.setNextState(new FFSetUpState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 
@@ -180,25 +180,25 @@ public class ScoreKillsState implements State {
      * haven't played yet, they will need to spawn for the first time*/
 public void gameOverOrNot(){
     //we are in final frenzy and this was the last playin player-> Final Scoring state
-    if (ModelGate.model.getCurrentPlayingPlayer().getLastPlayingPlayer()){
+    if (ModelGate.getModel().getCurrentPlayingPlayer().getLastPlayingPlayer()){
 
         ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
-        ViewControllerEventHandlerContext.state.doAction(null);
+        ViewControllerEventHandlerContext.getState().doAction(null);
     }
     else {
         //if the game aint ended then let's go on playing! we spawned already all dead players, so you can either not have played yet
-        ModelGate.model.getPlayerList().setNextPlayingPlayer();
+        ModelGate.getModel().getPlayerList().setNextPlayingPlayer();
 
-        if (ModelGate.model.getCurrentPlayingPlayer().getPosition() == null) {
+        if (ModelGate.getModel().getCurrentPlayingPlayer().getPosition() == null) {
 
             ViewControllerEventHandlerContext.setNextState(new FirstSpawnState());
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
         //or just being waiting for ur turn
         else{
 
             ViewControllerEventHandlerContext.setNextState(new TurnState(1));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
     }
 

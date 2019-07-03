@@ -39,7 +39,7 @@ public class ShootPeopleState implements State {
     private void changeState(State state, Player player){
 
         ViewControllerEventHandlerContext.setNextState(state);
-        ViewControllerEventHandlerContext.state.askForInput(player);
+        ViewControllerEventHandlerContext.getState().askForInput(player);
 
     }
 
@@ -49,7 +49,7 @@ public class ShootPeopleState implements State {
         this.playerToAsk = playerToAsk;
         out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
         //final frenzy hasn't begun and no adrenaline action available
-        if(!ModelGate.model.hasFinalFrenzyBegun()&&!ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineShootAction()){
+        if(!ModelGate.getModel().hasFinalFrenzyBegun()&&!ModelGate.getModel().getCurrentPlayingPlayer().hasAdrenalineShootAction()){
              if(canShoot(playerToAsk)){
 
                 changeState(new ShootPeopleChooseWepState(this.actionNumber), playerToAsk);
@@ -62,12 +62,12 @@ public class ShootPeopleState implements State {
              }
         }
        //FF aint begun & adrenaline action available
-        else if(!ModelGate.model.hasFinalFrenzyBegun()&&ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineShootAction()){
+        else if(!ModelGate.getModel().hasFinalFrenzyBegun()&&ModelGate.getModel().getCurrentPlayingPlayer().hasAdrenalineShootAction()){
 
             noFFbutAdrenalineAction();
         }
         //FF began
-        else if(ModelGate.model.hasFinalFrenzyBegun()){
+        else if(ModelGate.getModel().hasFinalFrenzyBegun()){
             int numberOfMoves = 1;
             if (playerToAsk.getBeforeorafterStartingPlayer() >= 0) {
                 numberOfMoves = 2;
@@ -122,11 +122,11 @@ public class ShootPeopleState implements State {
 
         setNewPositionForPlayer(viewControllerEvent);
 
-        if(!ModelGate.model.hasFinalFrenzyBegun()&&ModelGate.model.getCurrentPlayingPlayer().hasAdrenalineShootAction()){
-          changeState(new ShootPeopleChooseWepState(this.actionNumber),ModelGate.model.getCurrentPlayingPlayer() );
+        if(!ModelGate.getModel().hasFinalFrenzyBegun()&&ModelGate.getModel().getCurrentPlayingPlayer().hasAdrenalineShootAction()){
+          changeState(new ShootPeopleChooseWepState(this.actionNumber),ModelGate.getModel().getCurrentPlayingPlayer() );
         }
-        else if(ModelGate.model.hasFinalFrenzyBegun()){
-            changeState(new ReloadState(true, this.actionNumber), ModelGate.model.getCurrentPlayingPlayer());
+        else if(ModelGate.getModel().hasFinalFrenzyBegun()){
+            changeState(new ReloadState(true, this.actionNumber), ModelGate.getModel().getCurrentPlayingPlayer());
         }
 
     }
@@ -143,7 +143,7 @@ public class ShootPeopleState implements State {
 
         //set new position for the player
         out.println("<SERVER> Setting player position to: [" +viewControllerEventPosition.getX()+ "][" +viewControllerEventPosition.getY() + "]");
-        ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setPosition(
+        ModelGate.getModel().getPlayerList().getCurrentPlayingPlayer().setPosition(
                 viewControllerEventPosition.getX(),
                 viewControllerEventPosition.getY()
         );}
@@ -155,9 +155,9 @@ public class ShootPeopleState implements State {
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 
@@ -166,7 +166,7 @@ public class ShootPeopleState implements State {
      * @return  a list of position he will be able to shoot from */
     public List<Position> possiblePositionsToShootFrom(int numberOfMoves, Player player){
         //all possible positions where the player can move
-        List<Position> possiblePositions = ModelGate.model.getBoard().possiblePositions(player.getPosition(), numberOfMoves);
+        List<Position> possiblePositions = ModelGate.getModel().getBoard().possiblePositions(player.getPosition(), numberOfMoves);
 
         //filtering all the possible position: keeping only the ones from where the player can shoot
         Iterator<Position> possiblePositionsIterator = possiblePositions.iterator();
@@ -245,7 +245,7 @@ public class ShootPeopleState implements State {
     private boolean canShoot(Player player){
         //passing context to the weapons
         for (WeaponCard wp:player.getWeaponCardsInHand().getCards()) {
-            wp.passContext(player, ModelGate.model.getPlayerList(), ModelGate.model.getBoard());
+            wp.passContext(player, ModelGate.getModel().getPlayerList(), ModelGate.getModel().getBoard());
         }
 
         //all possible usable cards

@@ -19,7 +19,7 @@ public class TestSpawnState{
     public void testSpawnState() throws IOException {
 
       Game game = fakeModel.create();
-       ModelGate.model= game;
+       ModelGate.setModel(game);
 
        PowerUpCard powerUpCard= new PowerUpCard();
        powerUpCard.setName("1");

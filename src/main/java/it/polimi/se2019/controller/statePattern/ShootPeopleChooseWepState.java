@@ -39,10 +39,10 @@ public class ShootPeopleChooseWepState implements State {
         this.playerToAsk = playerToAsk;
         out.println("<SERVER> (" + this.getClass() + ") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
-        for (WeaponCard wp:ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards()) {
-            wp.passContext(ModelGate.model.getCurrentPlayingPlayer(), ModelGate.model.getPlayerList(), ModelGate.model.getBoard());
+        for (WeaponCard wp:ModelGate.getModel().getCurrentPlayingPlayer().getWeaponCardsInHand().getCards()) {
+            wp.passContext(ModelGate.getModel().getCurrentPlayingPlayer(), ModelGate.getModel().getPlayerList(), ModelGate.getModel().getBoard());
         }
-        OrderedCardList<WeaponCard> possibleCards = ModelGate.model.getCurrentPlayingPlayer().getHand().usableWeapons();
+        OrderedCardList<WeaponCard> possibleCards = ModelGate.getModel().getCurrentPlayingPlayer().getHand().usableWeapons();
 
         possibleCards.getCards().removeIf(element -> !element.isLoaded());
 
@@ -82,7 +82,7 @@ public class ShootPeopleChooseWepState implements State {
                 nextState = (new TurnState(2));
             }
             ViewControllerEventHandlerContext.setNextState(nextState);
-            ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+            ViewControllerEventHandlerContext.getState().askForInput(playerToAsk);
         }
     }
 
@@ -101,7 +101,7 @@ public class ShootPeopleChooseWepState implements State {
 
         //next state
         ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseEffectState(playerToAsk.getWeaponCardsInHand().getCard(this.loadedCardInHand.get(viewControllerEventInt.getInput()).getID()), this.actionNumber));
-        ViewControllerEventHandlerContext.state.askForInput(this.playerToAsk);
+        ViewControllerEventHandlerContext.getState().askForInput(this.playerToAsk);
 
     }
 
@@ -110,9 +110,9 @@ public class ShootPeopleChooseWepState implements State {
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 }

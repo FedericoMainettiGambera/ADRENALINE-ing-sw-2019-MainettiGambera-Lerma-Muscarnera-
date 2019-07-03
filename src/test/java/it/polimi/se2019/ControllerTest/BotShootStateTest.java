@@ -13,34 +13,33 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BotShootStateTest {
 
-    private FakeModel fakeModel = new FakeModel();
 
     @Test
     public void TestBotShootState() throws IOException {
 
-        ModelGate.model = fakeModel.create();
+        ModelGate.setModel( FakeModel.getFakeModel());
 
-        ModelGate.model.getPlayerList().addPlayer(new Player(true));
-        ModelGate.model.getPlayerList().getPlayer("Alex").setPosition(0,0);
-        ModelGate.model.getPlayerList().getPlayer("Terminator").setPosition(0, 1);
+        ModelGate.getModel().getPlayerList().addPlayer(new Player(true));
+        ModelGate.getModel().getPlayerList().getPlayer("Alex").setPosition(0,0);
+        ModelGate.getModel().getPlayerList().getPlayer("Terminator").setPosition(0, 1);
 
         BotShootState state=new BotShootState(new FinalScoringState());
         ViewControllerEventString viewControllerEvent=new ViewControllerEventString("Alex");
 
-        state.setPlayerToAsk(ModelGate.model.getCurrentPlayingPlayer());
+        state.setPlayerToAsk(ModelGate.getModel().getCurrentPlayingPlayer());
         state.playersCanBotSee();
         state.parseVce(viewControllerEvent);
 
-        assertEquals("Terminator", ModelGate.model.getCurrentPlayingPlayer().getDamageSlot(0).getShootingPlayer().getNickname());
+        assertEquals("Terminator", ModelGate.getModel().getCurrentPlayingPlayer().getDamageSlot(0).getShootingPlayer().getNickname());
 
-        ModelGate.model.getPlayerList().getPlayer("Terminator").addDamages(ModelGate.model.getCurrentPlayingPlayer(), 10);
+        ModelGate.getModel().getPlayerList().getPlayer("Terminator").addDamages(ModelGate.getModel().getCurrentPlayingPlayer(), 10);
 
-        state.setPlayerToAsk(ModelGate.model.getCurrentPlayingPlayer());
+        state.setPlayerToAsk(ModelGate.getModel().getCurrentPlayingPlayer());
         state.playersCanBotSee();
         state.parseVce(viewControllerEvent);
 
-        assertEquals(1, ModelGate.model.getCurrentPlayingPlayer().getMarksFrom(ModelGate.model.getPlayerList().getPlayer("Terminator")));
-        assertTrue(ModelGate.model.getPlayerList().getPlayer("Terminator").isBotUsed());
+        assertEquals(1, ModelGate.getModel().getCurrentPlayingPlayer().getMarksFrom(ModelGate.getModel().getPlayerList().getPlayer("Terminator")));
+        assertTrue(ModelGate.getModel().getPlayerList().getPlayer("Terminator").isBotUsed());
     }
 
 }

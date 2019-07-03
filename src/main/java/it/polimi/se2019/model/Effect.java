@@ -8,6 +8,8 @@ import it.polimi.se2019.view.components.EffectV;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static it.polimi.se2019.model.enumerations.EffectInfoType.*;
 
@@ -42,6 +44,8 @@ public class Effect implements Serializable {
     }
 
     private AmmoList usageCost;
+
+    private static Logger logger= Logger.getLogger(Effect.class.getName());
 
 
     public WeaponCard getOf() {
@@ -387,7 +391,7 @@ public class Effect implements Serializable {
             System.out.println("--");
         } catch (Exception exception) {
             System.out.println("eccezione! " + exception);
-            exception.printStackTrace();
+            logger.log(Level.SEVERE, "EXCEPTION", exception);
         }
         return (List<Object>) invertedPreConditionOutput;
     }

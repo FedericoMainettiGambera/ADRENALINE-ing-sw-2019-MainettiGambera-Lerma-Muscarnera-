@@ -49,14 +49,14 @@ public class ViewSelector implements SelectorV {
     public static void sendToServer(Object o){
         if(networkConnection.equals("SOCKET")){
             try {
-                SocketNetworkHandler.oos.writeObject(o);
+                SocketNetworkHandler.getOos().writeObject(o);
             } catch (IOException e) {
                 OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
             }
         }
         else{
             try {
-                RmiNetworkHandler.server.send(o);
+                RmiNetworkHandler.getServer().send(o);
             } catch (RemoteException e) {
                 OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
             }

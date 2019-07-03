@@ -38,7 +38,7 @@ public class GrabStuffStateDrawPowerUp implements State {
         //set next state
         State state = null;
         if(this.actionNumber == 1){
-            if (ModelGate.model.hasFinalFrenzyBegun() && ModelGate.model.getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0)
+            if (ModelGate.getModel().hasFinalFrenzyBegun() && ModelGate.getModel().getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0)
                 {
                     state = new ReloadState(false);//TODO check reload state cuz its the last turn and you dont really need to reload
                 }
@@ -49,16 +49,16 @@ public class GrabStuffStateDrawPowerUp implements State {
             state = new ReloadState(false);
         }
         ViewControllerEventHandlerContext.setNextState(state);
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
     }
 
     /**this function make the player draw a power up*/
     public void makeThePlayerDraw(){
         out.println("<SERVER> "+ this.getClass() +".doAction();");
         out.println("<SERVER> The ammo card makes the player draw a power up");
-        ModelGate.model.getPowerUpDeck().moveCardTo(
-                ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand(),
-                ModelGate.model.getPowerUpDeck().getFirstCard().getID()
+        ModelGate.getModel().getPowerUpDeck().moveCardTo(
+                ModelGate.getModel().getCurrentPlayingPlayer().getPowerUpCardsInHand(),
+                ModelGate.getModel().getPowerUpDeck().getFirstCard().getID()
         );
 
     }

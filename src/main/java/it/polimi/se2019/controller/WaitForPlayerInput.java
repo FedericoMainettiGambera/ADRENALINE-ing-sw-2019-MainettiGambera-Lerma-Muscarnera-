@@ -21,9 +21,9 @@ public class WaitForPlayerInput implements Runnable{
 
     private String callingClass;
 
-    private SocketVirtualView socketVirtualView = ViewControllerEventHandlerContext.socketVV;
+    private SocketVirtualView socketVirtualView = ViewControllerEventHandlerContext.getSocketVV();
 
-    private RmiVirtualView rmiVirtualView = ViewControllerEventHandlerContext.RMIVV;
+    private RmiVirtualView rmiVirtualView = ViewControllerEventHandlerContext.getRmiVirtualView();
 
     public WaitForPlayerInput(Player p, String callingClass){
         this.playerToAsk = p;
@@ -59,13 +59,13 @@ public class WaitForPlayerInput implements Runnable{
 
         out.println("                                            Thread: <SERVER-InputTimer> " + playerToAsk.getNickname() + "is AFK.");
         out.println("                                                                        from class: " + this.callingClass);
-        out.println("                                                                        VCEHC at the moment is: " + ViewControllerEventHandlerContext.state.getClass());
+        out.println("                                                                        VCEHC at the moment is: " + ViewControllerEventHandlerContext.getState().getClass());
 
         if(this.callingClass.getClass().toString().contains("ChooseHowToPayState")){
-            ViewControllerEventHandlerContext.paymentProcess.handleAFK();
+            ViewControllerEventHandlerContext.getPaymentProcess().handleAFK();
         }
         else {
-            ViewControllerEventHandlerContext.state.handleAFK();
+            ViewControllerEventHandlerContext.getState().handleAFK();
         }
     }
 }

@@ -3,18 +3,25 @@ package it.polimi.se2019.view;
 import it.polimi.se2019.controller.Controller;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.events.Event;
+import it.polimi.se2019.view.components.ViewModelGate;
 import it.polimi.se2019.view.outputHandler.GUIOutputHandler;
 import it.polimi.se2019.view.selector.ViewSelector;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -50,12 +57,45 @@ public class GameSceneController implements Initializable {
 
     //------------------------------1
     //1-state section
+    /***/
     @FXML private AnchorPane stateSection;
+    /**a label that reports the chosen connection method*/
     @FXML private Label connection;
+    /**@return connection*/
+    public Label getConnection() {
+        return connection;
+    }
+
+    /**a label that reports ip address info*/
     @FXML private Label ip;
+    /**@return ip*/
+    public Label getIp() {
+        return ip;
+    }
+
+    /**a label that reports connection port info*/
     @FXML private Label port;
+
+    /**@return port*/
+    public Label getPort() {
+        return port;
+    }
+
+    /**a label that indicates in which state the game is in real time*/
     @FXML private Label stateTitle;
+    /**@return stateTitle*/
+    public Label getStateTitle() {
+        return stateTitle;
+    }
+
+    /**a textflow that describes what is happening in the game in real time*/
     @FXML private TextFlow stateDescription;
+
+    /**@return stateDescription*/
+    public TextFlow getStateDescription() {
+        return stateDescription;
+    }
+
 
     @FXML private ProgressIndicator progressIndicator;
     public ProgressIndicator getProgressIndicator(){
@@ -69,73 +109,29 @@ public class GameSceneController implements Initializable {
     //2.1-killshot track VBox
     @FXML private VBox killshotTrackVBox;
 
-    public StackPane getKillBackground1() {
-        return killBackground1;
-    }
+    /**@return a list of StackPanes */
+    public List<StackPane> getKills(){
 
-    public StackPane getKillMainImage1() {
-        return killMainImage1;
-    }
+        List<StackPane> kills=new ArrayList<>();
 
-    public StackPane getKillBackground2() {
-        return killBackground2;
-    }
+        kills.add(killMainImage1);
+        kills.add(killMainImage2);
+        kills.add(killMainImage3);
+        kills.add(killMainImage4);
+        kills.add(killMainImage5);
+        kills.add(killMainImage6);
+        kills.add(killMainImage7);
+        kills.add(killMainImage8);
 
-    public StackPane getKillMainImage2() {
-        return killMainImage2;
-    }
+        return kills;
 
-    public StackPane getKillBackground3() {
-        return killBackground3;
-    }
-
-    public StackPane getKillMainImage3() {
-        return killMainImage3;
-    }
-
-    public StackPane getKillBackground4() {
-        return killBackground4;
-    }
-
-    public StackPane getKillMainImage4() {
-        return killMainImage4;
-    }
-
-    public StackPane getKillBackground5() {
-        return killBackground5;
-    }
-
-    public StackPane getKillMainImage5() {
-        return killMainImage5;
-    }
-
-    public StackPane getKillBackground6() {
-        return killBackground6;
-    }
-
-    public StackPane getKillMainImage6() {
-        return killMainImage6;
-    }
-
-    public StackPane getKillBackground7() {
-        return killBackground7;
-    }
-
-    public StackPane getKillMainImage7() {
-        return killMainImage7;
-    }
-
-    public StackPane getKillBackground8() {
-        return killBackground8;
-    }
-
-    public StackPane getKillMainImage8() {
-        return killMainImage8;
     }
 
     //2.1.n-killshot n-th kill background & main image
     //n=1
+
     @FXML private StackPane killBackground1;
+    /**this stackpane contains a image representing a skull, a kill or an overkill, there may be five to eight */
     @FXML private StackPane killMainImage1;
     //n=2
     @FXML private StackPane killBackground2;
@@ -174,23 +170,31 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane powerUpCardsTitle;
     //3.1.1.2-power up cards images
     @FXML private HBox powerUpCardsBackground;
+   /**StackPanes that contain a image representing one of the various Power Up Cards and their backgrounds*/
     @FXML private StackPane powerUpCardBackground1;
     @FXML private StackPane powerUpCardMainImage1;
     @FXML private StackPane powerUpCardBackground2;
-
-    public StackPane getPowerUpCardMainImage2() {
-        return powerUpCardMainImage2;
-    }
-    public StackPane getPowerUpCardMainImage1() {
-        return powerUpCardMainImage1;
-    }
     @FXML private StackPane powerUpCardMainImage2;
+
+    /**@return a list of Stack Panes containingPowerUpCardMainImages*/
+    public List<StackPane> getListOfPowerUpCardsMainImage(){
+
+        List<StackPane> powerups= new ArrayList<>();
+
+        powerups.add(powerUpCardMainImage1);
+        powerups.add(powerUpCardMainImage2);
+
+        return powerups;
+    }
+    public List<StackPane> getListOfPowerUpCardsBackground(){
+        return new ArrayList<>(Arrays.asList(powerUpCardBackground1, powerUpCardBackground2));
+    }
 
     //3.1.2-player main statistics
     @FXML private GridPane playerStats;
 
     //3.1.2[0,0]- players marks
-    /**each one of this stack pane contain a markImage, for each slot, 4 in total, there is a mark main image stack pane and
+    /**each one of this stack pane contains a markImage, for each slot, 4 in total, there is a mark main image stack pane and
      * a mark background image, both of them are update at runtime, according to the development of the game*/
     @FXML private HBox playerMarks;
     @FXML private StackPane backgroundMark1;
@@ -401,6 +405,8 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane weaponCardsTitle;
     //3.1.3.2-weapon cards images
     @FXML private HBox weaponCardsBackground;
+    /**each of those stack panes may represents one of the various weapon card and their background
+     * they represent the one the player is holding*/
     @FXML private StackPane weaponCardBackground1;
     @FXML private StackPane weaponCardMainImage1;
     @FXML private StackPane weaponCardBackground2;
@@ -408,15 +414,21 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane weaponCardBackground3;
     @FXML private StackPane weaponCardMainImage3;
 
-    public StackPane getWeaponCardMainImage1() {
-        return weaponCardMainImage1;
+    /**@return a list of stack panes containing a main image for a weapon card*/
+    public List<StackPane> getWeaponCardsMainImage(){
+
+        List<StackPane> weapons=new ArrayList<>();
+
+        weapons.add(weaponCardMainImage1);
+        weapons.add(weaponCardMainImage2);
+        weapons.add(weaponCardMainImage3);
+
+        return weapons;
     }
-    public StackPane getWeaponCardMainImage2() {
-        return weaponCardMainImage2;
+    public List<StackPane> getWeaponCardsBackground(){
+        return new ArrayList<>(Arrays.asList(weaponCardBackground1, weaponCardBackground2, weaponCardBackground3));
     }
-    public StackPane getWeaponCardMainImage3() {
-        return weaponCardMainImage3;
-    }
+
 
     //------------------------------4
     //4-board section
@@ -469,12 +481,24 @@ public class GameSceneController implements Initializable {
 
     public StackPane[][] getMainImagesmap(){
         StackPane[][] mainImageMap = new StackPane[3][4];
+        mainImageMap[0][0] = this.getSquareMainImage00;
+        mainImageMap[0][1] = this.getSquareMainImage01;
+        mainImageMap[0][2] = this.getSquareMainImage02;
+        mainImageMap[0][3] = this.getSquareMainImage03;
+        mainImageMap[1][0] = this.getSquareMainImage10;
+        mainImageMap[1][1] = this.getSquareMainImage11;
+        mainImageMap[1][2] = this.getSquareMainImage12;
+        mainImageMap[1][3] = this.getSquareMainImage13;
+        mainImageMap[2][0] = this.getSquareMainImage20;
+        mainImageMap[2][1] = this.getSquareMainImage21;
+        mainImageMap[2][2] = this.getSquareMainImage22;
+        mainImageMap[2][3] = this.getSquareMainImage23;
         return mainImageMap;
     }
 
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources){
         //initialize everything:
         //      1) all css classes to the corresponding element (we'll manipulates images with css classes)
         //      2) initialize the canvas
@@ -487,27 +511,72 @@ public class GameSceneController implements Initializable {
         //making board auto-resize
         makeBoardAutoResizing();
 
+
+        //making selector section and info section resizable
+        this.interactiveSection.heightProperty().addListener((observable, oldvalue, newvalue) ->{
+            this.selectorSection.setPrefHeight(this.informationSection.getHeight()/(double)2);
+            this.informationSection.setPrefHeight(this.informationSection.getHeight()/(double)2);
+        });
+
         //initialize progress indicator for the timer
         this.progressIndicator.setProgress(0.0);
+
+        String killSlotBackground="killSlotBackground";
+        String emptyKillSlot="emptyKillSlot";
+
+        getConnection().setText("CONNECTION: "+Controller.getNetworkConnection());
+        getConnection().setTextFill(Color.rgb(255, 127, 36));
+        getConnection().setFont(Font.font("Courier"));
+
+        getIp().setText("IP: "+Controller.getIp());
+        getIp().setTextFill(Color.rgb(255, 127, 36));
+        getIp().setFont(Font.font("Courier"));
+
+        getPort().setText("PORT: "+Controller.getPort());
+        getPort().setTextFill(Color.rgb(255, 127, 36));
+        getPort().setFont(Font.font("Courier"));
+
+        getStateTitle().setText("SETTING UP THE GAME");
+        getStateTitle().setTextFill(Color.rgb(255, 127, 36));
+        getStateTitle().setFont(Font.font("Courier"));
+
+        Text player;
+        Text descr=new Text(" \n setting up the Game!");
+
+        descr.setFill(Color.rgb(255, 127, 36));
+        descr.setFont(Font.font("Courier"));
+
+
+        if (ViewModelGate.getMe().equals(ViewModelGate.getModel().getPlayers().getStartingPlayer())) {
+            player = new Text("you are  ");
+        } else {
+            player = new Text(ViewModelGate.getModel().getPlayers().getStartingPlayer()+"  is ");
+        }
+
+        player.setFill(Color.rgb(255, 127, 36));
+        player.setFont(Font.font("Courier"));
+
+        getStateDescription().getChildren().clear();
+        getStateDescription().getChildren().addAll(player,descr);
 
         //killshot track default css classes
         this.killshotTrackSection.getStyleClass().add("emptyKillShotTrackBackground");
         this.killshotTrackVBox.getStyleClass().add("killShotTrackBackground");
-        this.killBackground1.getStyleClass().add("killSlotBackground");
-        this.killMainImage1.getStyleClass().add("emptyKillSlot");
-        this.killBackground2.getStyleClass().add("killSlotBackground");
-        this.killMainImage2.getStyleClass().add("emptyKillSlot");
-        this.killBackground3.getStyleClass().add("killSlotBackground");
-        this.killMainImage3.getStyleClass().add("emptyKillSlot");
-        this.killBackground4.getStyleClass().add("killSlotBackground");
-        this.killMainImage4.getStyleClass().add("emptyKillSlot");
-        this.killBackground5.getStyleClass().add("killSlotBackground");
-        this.killMainImage5.getStyleClass().add("emptyKillSlot");
-        this.killBackground6.getStyleClass().add("killSlotBackground");
-        this.killMainImage6.getStyleClass().add("emptyKillSlot");
-        this.killBackground7.getStyleClass().add("killSlotBackground");
-        this.killMainImage7.getStyleClass().add("emptyKillSlot");
-        this.killBackground8.getStyleClass().add("killSlotBackground");
+        this.killBackground1.getStyleClass().add(killSlotBackground);
+        this.killMainImage1.getStyleClass().add(emptyKillSlot);
+        this.killBackground2.getStyleClass().add(killSlotBackground);
+        this.killMainImage2.getStyleClass().add(emptyKillSlot);
+        this.killBackground3.getStyleClass().add(killSlotBackground);
+        this.killMainImage3.getStyleClass().add(emptyKillSlot);
+        this.killBackground4.getStyleClass().add(killSlotBackground);
+        this.killMainImage4.getStyleClass().add(emptyKillSlot);
+        this.killBackground5.getStyleClass().add(killSlotBackground);
+        this.killMainImage5.getStyleClass().add(emptyKillSlot);
+        this.killBackground6.getStyleClass().add(killSlotBackground);
+        this.killMainImage6.getStyleClass().add(emptyKillSlot);
+        this.killBackground7.getStyleClass().add(killSlotBackground);
+        this.killMainImage7.getStyleClass().add(emptyKillSlot);
+        this.killBackground8.getStyleClass().add(killSlotBackground);
         this.killMainImage8.getStyleClass().add("emptyKillSlotFF");
 
         //player default css classes
@@ -561,54 +630,60 @@ public class GameSceneController implements Initializable {
             p.getStyleClass().add(damageEmpty);
         }
 
+        String deathBackground="deathBackground";
+        String deathSkull="deathSkull";
         //death
         this.playerDeathsHbox.getStyleClass().add("deathsBackground");
-        this.deathBackground1.getStyleClass().add("deathBackground");
-        this.deathBackground2.getStyleClass().add("deathBackground");
-        this.deathBackground3.getStyleClass().add("deathBackground");
-        this.deathBackground4.getStyleClass().add("deathBackground");
-        this.deathBackground5.getStyleClass().add("deathBackground");
-        this.deathBackground6.getStyleClass().add("deathBackground");
-        this.deathBackground7.getStyleClass().add("deathBackground");
-        this.deathMainImage1.getStyleClass().add("deathSkull");
-        this.deathMainImage2.getStyleClass().add("deathSkull");
-        this.deathMainImage3.getStyleClass().add("deathSkull");
-        this.deathMainImage4.getStyleClass().add("deathSkull");
-        this.deathMainImage5.getStyleClass().add("deathSkull");
-        this.deathMainImage6.getStyleClass().add("deathSkull");
-        this.deathMainImage7.getStyleClass().add("deathSkull");
+        this.deathBackground1.getStyleClass().add(deathBackground);
+        this.deathBackground2.getStyleClass().add(deathBackground);
+        this.deathBackground3.getStyleClass().add(deathBackground);
+        this.deathBackground4.getStyleClass().add(deathBackground);
+        this.deathBackground5.getStyleClass().add(deathBackground);
+        this.deathBackground6.getStyleClass().add(deathBackground);
+        this.deathBackground7.getStyleClass().add(deathBackground);
+        this.deathMainImage1.getStyleClass().add(deathSkull);
+        this.deathMainImage2.getStyleClass().add(deathSkull);
+        this.deathMainImage3.getStyleClass().add(deathSkull);
+        this.deathMainImage4.getStyleClass().add(deathSkull);
+        this.deathMainImage5.getStyleClass().add(deathSkull);
+        this.deathMainImage6.getStyleClass().add(deathSkull);
+        this.deathMainImage7.getStyleClass().add(deathSkull);
         //nickname
         this.playerNicknameBackground.getStyleClass().add("nicknameBackground");
+        String ammoBackground="ammoBackground";
+        String emptyAmmo="emptyAmmo";
         //ammo box
         this.playerAmmoBox.getStyleClass().add("ammoBoxBackground");
-        this.ammoBackgroundBlue1.getStyleClass().add("ammoBackground");
-        this.ammoBackgroundBlue2.getStyleClass().add("ammoBackground");
-        this.ammoBackgroundBlue3.getStyleClass().add("ammoBackground");
-        this.ammoBackgroundRed1.getStyleClass().add("ammoBackground");
-        this.ammoBackgroundRed2.getStyleClass().add("ammoBackground");
-        this.ammoBackgroundRed3.getStyleClass().add("ammoBackground");
-        this.ammoBackgroundYellow1.getStyleClass().add("ammoBackground");
-        this.ammoBackgroundYellow2.getStyleClass().add("ammoBackground");
-        this.ammoBackgroundYellow3.getStyleClass().add("ammoBackground");
-        this.ammoMainImageBlue1.getStyleClass().add("emptyAmmo");
-        this.ammoMainImageBlue2.getStyleClass().add("emptyAmmo");
-        this.ammoMainImageBlue3.getStyleClass().add("emptyAmmo");
-        this.ammoMainImageRed1.getStyleClass().add("emptyAmmo");
-        this.ammoMainImageRed2.getStyleClass().add("emptyAmmo");
-        this.ammoMainImageRed3.getStyleClass().add("emptyAmmo");
-        this.ammoMainImageYellow1.getStyleClass().add("emptyAmmo");
-        this.ammoMainImageYellow2.getStyleClass().add("emptyAmmo");
-        this.ammoMainImageYellow3.getStyleClass().add("emptyAmmo");
+        this.ammoBackgroundBlue1.getStyleClass().add(ammoBackground);
+        this.ammoBackgroundBlue2.getStyleClass().add(ammoBackground);
+        this.ammoBackgroundBlue3.getStyleClass().add(ammoBackground);
+        this.ammoBackgroundRed1.getStyleClass().add(ammoBackground);
+        this.ammoBackgroundRed2.getStyleClass().add(ammoBackground);
+        this.ammoBackgroundRed3.getStyleClass().add(ammoBackground);
+        this.ammoBackgroundYellow1.getStyleClass().add(ammoBackground);
+        this.ammoBackgroundYellow2.getStyleClass().add(ammoBackground);
+        this.ammoBackgroundYellow3.getStyleClass().add(ammoBackground);
+        this.ammoMainImageBlue1.getStyleClass().add(emptyAmmo);
+        this.ammoMainImageBlue2.getStyleClass().add(emptyAmmo);
+        this.ammoMainImageBlue3.getStyleClass().add(emptyAmmo);
+        this.ammoMainImageRed1.getStyleClass().add(emptyAmmo);
+        this.ammoMainImageRed2.getStyleClass().add(emptyAmmo);
+        this.ammoMainImageRed3.getStyleClass().add(emptyAmmo);
+        this.ammoMainImageYellow1.getStyleClass().add(emptyAmmo);
+        this.ammoMainImageYellow2.getStyleClass().add(emptyAmmo);
+        this.ammoMainImageYellow3.getStyleClass().add(emptyAmmo);
+        String weaponCardBackground="weaponCardBackground";
+        String emptyWeaponCardMainImage="emptyWeaponCardMainImage";
         //weapon cards
         this.weaponCardsVBox.getStyleClass().add("weaponCardsBackground");
         this.weaponCardsTitle.getStyleClass().add("weaponCardsTitleBackground");
         this.weaponCardsBackground.getStyleClass().add("weaponCardsBackground");
-        this.weaponCardBackground1.getStyleClass().add("weaponCardBackground");
-        this.weaponCardBackground2.getStyleClass().add("weaponCardBackground");
-        this.weaponCardBackground3.getStyleClass().add("weaponCardBackground");
-        this.weaponCardMainImage1.getStyleClass().add("emptyWeaponCardMainImage");
-        this.weaponCardMainImage2.getStyleClass().add("emptyWeaponCardMainImage");
-        this.weaponCardMainImage3.getStyleClass().add("emptyWeaponCardMainImage");
+        this.weaponCardBackground1.getStyleClass().add(weaponCardBackground);
+        this.weaponCardBackground2.getStyleClass().add(weaponCardBackground);
+        this.weaponCardBackground3.getStyleClass().add(weaponCardBackground);
+        this.weaponCardMainImage1.getStyleClass().add(emptyWeaponCardMainImage);
+        this.weaponCardMainImage2.getStyleClass().add(emptyWeaponCardMainImage);
+        this.weaponCardMainImage3.getStyleClass().add(emptyWeaponCardMainImage);
     }
 
     private void makeBoardAutoResizing(){
@@ -699,6 +774,14 @@ public class GameSceneController implements Initializable {
         }
         if(left!=null) {
             AnchorPane.setLeftAnchor(newSection, left);
+        }
+
+        if(newSection.getClass().toString().contains("ScrollPane")){
+            ((AnchorPane)((ScrollPane)newSection).getContent()).heightProperty().addListener(observable -> {
+                ((ScrollPane)newSection).setVvalue(0D);
+                System.out.println("setVvalue");
+                //TODO why this doesn't work? can't find a solution
+            });
         }
     }
 

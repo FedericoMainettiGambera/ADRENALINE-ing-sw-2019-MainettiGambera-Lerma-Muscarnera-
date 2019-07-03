@@ -54,7 +54,7 @@ public class WantToPlayPowerUpState  implements State{
             //if the player can't use a power up, keep the game continue with ScoreKillsState (that is the state after ReloadState)
             out.println("<SERVER> player can't play a power up");
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 
@@ -73,12 +73,12 @@ public class WantToPlayPowerUpState  implements State{
         if(viewControllerEventBoolean.getInput()){
             //if he wants to use a power up, send player to state powerUpState (after which should restart this state (to play more than 1 powerup)
             ViewControllerEventHandlerContext.setNextState(new PowerUpState("movement", this)); //i'm already sure he can play at least 1 power up (cheked in the askForInput)
-            ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+            ViewControllerEventHandlerContext.getState().askForInput(playerToAsk);
         }
         else{
             //else send player to the ScoreKillsState
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
 
     }
@@ -91,9 +91,9 @@ public class WantToPlayPowerUpState  implements State{
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 }

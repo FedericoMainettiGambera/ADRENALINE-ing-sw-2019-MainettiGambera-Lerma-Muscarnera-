@@ -45,7 +45,7 @@ public class PowerUpAskForInputState implements State {
     public void askForInput(Player playerToAsk) {
         this.playerToAsk = playerToAsk;
 
-        this.chosenPowerUp.getSpecialEffect().passContext(playerToAsk, ModelGate.model.getPlayerList(), ModelGate.model.getBoard());
+        this.chosenPowerUp.getSpecialEffect().passContext(playerToAsk, ModelGate.getModel().getPlayerList(), ModelGate.getModel().getBoard());
 
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
@@ -82,10 +82,10 @@ public class PowerUpAskForInputState implements State {
             this.chosenPowerUp.getSpecialEffect().Exec();
 
             out.println("<SERVER> discarding the used power up");
-            playerToAsk.getPowerUpCardsInHand().moveCardTo(ModelGate.model.getPowerUpDiscardPile(), this.chosenPowerUp.getID());
+            playerToAsk.getPowerUpCardsInHand().moveCardTo(ModelGate.getModel().getPowerUpDiscardPile(), this.chosenPowerUp.getID());
 
             ViewControllerEventHandlerContext.setNextState(this.nextState);
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
     }
 
@@ -116,10 +116,10 @@ public class PowerUpAskForInputState implements State {
         int inputRowCurrent = 0;
         for(Object o: response) {
             if(o.getClass().toString().contains("PlayerV")){
-                inputRow[inputRowCurrent] = ModelGate.model.getPlayerList().getPlayer(((PlayerV)o).getNickname());
+                inputRow[inputRowCurrent] = ModelGate.getModel().getPlayerList().getPlayer(((PlayerV)o).getNickname());
             }
             else{
-                inputRow[inputRowCurrent] = ModelGate.model.getBoard().getMap()[((SquareV)o).getX()][((SquareV)o).getY()];
+                inputRow[inputRowCurrent] = ModelGate.getModel().getBoard().getMap()[((SquareV)o).getX()][((SquareV)o).getY()];
             }
             inputRowCurrent++;
         }
@@ -137,9 +137,9 @@ public class PowerUpAskForInputState implements State {
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 }

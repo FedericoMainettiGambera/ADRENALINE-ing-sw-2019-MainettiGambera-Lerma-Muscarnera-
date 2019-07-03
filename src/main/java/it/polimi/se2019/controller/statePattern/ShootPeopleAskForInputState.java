@@ -109,10 +109,10 @@ public class ShootPeopleAskForInputState implements State {
         int inputRowCurrent = 0;
         for(Object o: response) {
             if(o.getClass().toString().contains("PlayerV")){
-                inputRow[inputRowCurrent] = ModelGate.model.getPlayerList().getPlayer(((PlayerV)o).getNickname());
+                inputRow[inputRowCurrent] = ModelGate.getModel().getPlayerList().getPlayer(((PlayerV)o).getNickname());
             }
             else{
-                inputRow[inputRowCurrent] = ModelGate.model.getBoard().getMap()[((SquareV)o).getX()][((SquareV)o).getY()];
+                inputRow[inputRowCurrent] = ModelGate.getModel().getBoard().getMap()[((SquareV)o).getX()][((SquareV)o).getY()];
             }
             // <L>
             System.out.println("<SERVER> content of input: " + inputRow[inputRowCurrent]);
@@ -154,7 +154,7 @@ public class ShootPeopleAskForInputState implements State {
         }
 
         ViewControllerEventHandlerContext.setNextState(new TargetingScopeState(nextState, damagedPlayer));
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
 
     }
 
@@ -205,9 +205,9 @@ public class ShootPeopleAskForInputState implements State {
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 

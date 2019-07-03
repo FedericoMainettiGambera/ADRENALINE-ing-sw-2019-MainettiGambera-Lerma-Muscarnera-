@@ -29,7 +29,7 @@ public class OptionsController extends Application implements Initializable {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader=new FXMLLoader();
-        Parent root=fxmlLoader.load(getClass().getClassLoader().getResource("Senza Nome.fxml"));
+        Parent root=fxmlLoader.load(getClass().getClassLoader().getResource("FXML/GAME2.fxml"));
         Scene scene =new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();

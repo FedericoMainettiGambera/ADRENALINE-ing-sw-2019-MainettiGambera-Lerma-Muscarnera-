@@ -120,10 +120,10 @@ public class Player extends Person implements Serializable {
         if(!this.isAFK) {
             notifyObservers(modelViewEvent);
         }
-        if(ModelGate.model.getPlayerList().isMinimumPlayerNotAFK()){
+        if(ModelGate.getModel().getPlayerList().isMinimumPlayerNotAFK()){
             System.out.println("<SERVER> too many AFK players. Game is Corrupted. From method Player.setAFKWithNotify(...)");
             ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 
@@ -139,10 +139,10 @@ public class Player extends Person implements Serializable {
         if(!this.isAFK) {
             notifyObservers(modelViewEvent);
         }
-        if(ModelGate.model.getPlayerList().isMinimumPlayerNotAFK()){
+        if(ModelGate.getModel().getPlayerList().isMinimumPlayerNotAFK()){
             System.out.println("<SERVER> too many AFK players. Game is Corrupted. From method Player.setAFKWithoutNotify(...)");
             ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 
@@ -150,10 +150,10 @@ public class Player extends Person implements Serializable {
      * @param lostConnection boolean*/
      void regulateNumberOfConnection(boolean lostConnection){
         if(lostConnection){
-            ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected()-1);
+            ModelGate.getModel().setNumberOfClientsConnected(ModelGate.getModel().getNumberOfClientsConnected()-1);
         }
         else{
-            ModelGate.model.setNumberOfClientsConnected(ModelGate.model.getNumberOfClientsConnected()+1);
+            ModelGate.getModel().setNumberOfClientsConnected(ModelGate.getModel().getNumberOfClientsConnected()+1);
         }
     }
 
@@ -213,8 +213,8 @@ public class Player extends Person implements Serializable {
     ///socket
     public void setOos(ObjectOutputStream oos){
         this.oos = oos;
-        this.addObserver(ViewControllerEventHandlerContext.RMIVV);
-        this.addObserver((ViewControllerEventHandlerContext.socketVV));
+        this.addObserver(ViewControllerEventHandlerContext.getRmiVirtualView());
+        this.addObserver((ViewControllerEventHandlerContext.getSocketVV()));
     }
     /**getter for the player oos
      * @return oos */

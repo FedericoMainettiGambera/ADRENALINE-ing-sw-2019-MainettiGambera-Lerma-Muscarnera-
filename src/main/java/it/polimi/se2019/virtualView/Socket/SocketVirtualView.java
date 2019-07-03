@@ -23,12 +23,6 @@ public class SocketVirtualView extends VirtualView{
 
     private ServerSocket serverSocket;
 
-    public int port;
-
-    public List<ObjectOutputStream> oos;
-
-    private ConnectionHandlerVirtualView connectionHandler;
-
     private ViewControllerEventHandlerContext controller;
 
     /**constructor,
@@ -41,20 +35,20 @@ public class SocketVirtualView extends VirtualView{
 
         try{
             serverSocket = new ServerSocket(0, GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME, InetAddress.getLocalHost());
-            this.port = serverSocket.getLocalPort();
+
         }
         catch (IOException e) {
           logger.log(Level.SEVERE, "EXCEPTION", e);
         }
 
-        this.oos = null;
+
     }
 
     /**makes the server start
      * */
     public void startServer(){
-        this.connectionHandler = new ConnectionHandlerVirtualView(this.serverSocket, this.controller);
-        this.connectionHandler.start();
+        ConnectionHandlerVirtualView connectionHandler = new ConnectionHandlerVirtualView(this.serverSocket, this.controller);
+        connectionHandler.start();
         System.out.println("<SERVER-socket> FOR SOCKETS CLIENTS. Running Server on: " + this.serverSocket.getInetAddress().getHostAddress() + ":" + this.serverSocket.getLocalPort());
     }
 
@@ -67,8 +61,8 @@ public class SocketVirtualView extends VirtualView{
     }
 
     public void sendAllClient(Object o) {
-        if(ModelGate.model.getPlayerList()!=null && ModelGate.model.getPlayerList().getPlayers()!=null){
-            for (Player p : ModelGate.model.getPlayerList().getPlayers()) {
+        if(ModelGate.getModel().getPlayerList()!=null && ModelGate.getModel().getPlayerList().getPlayers()!=null){
+            for (Player p : ModelGate.getModel().getPlayerList().getPlayers()) {
                 sendToClient(p,o);
             }
         }

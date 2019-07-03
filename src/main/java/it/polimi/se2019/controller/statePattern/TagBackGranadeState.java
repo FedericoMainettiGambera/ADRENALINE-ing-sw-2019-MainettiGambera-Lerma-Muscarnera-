@@ -156,7 +156,7 @@ public class TagBackGranadeState implements State{
 
             //discard the tagBackGranade
             out.println("<SERVER> discarding th echone tag back granade");
-            this.currentPlayer.getPowerUpCardsInHand().moveCardTo(ModelGate.model.getPowerUpDiscardPile(), chosenTagBackGranade.getID());
+            this.currentPlayer.getPowerUpCardsInHand().moveCardTo(ModelGate.getModel().getPowerUpDiscardPile(), chosenTagBackGranade.getID());
         }
         else{//the player doesn't want to use the tag back granade
             out.println("<SERVER> player doesn't want to use tagBackGranade");
@@ -175,7 +175,7 @@ public class TagBackGranadeState implements State{
     /**pass to the following  state*/
     private void passToNextState(){
         ViewControllerEventHandlerContext.setNextState(this.nextState);
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
     }
 
     public void setListOfTagBackGranade(Player player){

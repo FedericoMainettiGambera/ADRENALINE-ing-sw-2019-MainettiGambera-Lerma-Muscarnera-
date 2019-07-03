@@ -17,7 +17,7 @@ public class TestGrabStuffAndDiscardPowerUp{
         public void testGrabStaffAndDiscardPowerUp() throws IOException {
 
             Game game = fakeModel.create();
-            ModelGate.model = game;
+            ModelGate.setModel(game);
 
             game.buildDecks();
 

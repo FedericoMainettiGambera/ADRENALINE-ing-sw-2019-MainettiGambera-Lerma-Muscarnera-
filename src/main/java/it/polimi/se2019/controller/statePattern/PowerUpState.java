@@ -75,7 +75,7 @@ public class PowerUpState implements State {
         }
 
         ViewControllerEventHandlerContext.setNextState(new PowerUpAskForInputState(this.nextState, chosenPowerUp));
-        ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+        ViewControllerEventHandlerContext.getState().askForInput(playerToAsk);
     }
 
 
@@ -88,9 +88,9 @@ public class PowerUpState implements State {
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 
@@ -99,7 +99,7 @@ public class PowerUpState implements State {
         if(this.powerUpToUse.equals("movement")){ //for Teleporter and newton
             for (PowerUpCard pu: playerToAsk.getPowerUpCardsInHand().getCards()) {
                 if (pu.getName().equalsIgnoreCase("teleporter") || pu.getName().equalsIgnoreCase("newton")) {
-                    pu.getSpecialEffect().passContext(playerToAsk, ModelGate.model.getPlayerList(), ModelGate.model.getBoard());
+                    pu.getSpecialEffect().passContext(playerToAsk, ModelGate.getModel().getPlayerList(), ModelGate.getModel().getBoard());
                     if (pu.isUsable()) {
                         cards.add(pu);
                     }
@@ -110,7 +110,7 @@ public class PowerUpState implements State {
         else{ //if(this.powerUpToUse.equals("damage")){ //for all power Up that are not Teleporter or newton
             for (PowerUpCard pu: playerToAsk.getPowerUpCardsInHand().getCards()) {
                 if (!pu.getName().equalsIgnoreCase("teleporter") && !pu.getName().equalsIgnoreCase("newton")) {
-                    pu.getSpecialEffect().passContext(playerToAsk, ModelGate.model.getPlayerList(), ModelGate.model.getBoard());
+                    pu.getSpecialEffect().passContext(playerToAsk, ModelGate.getModel().getPlayerList(), ModelGate.getModel().getBoard());
                     if (pu.isUsable()) {
                         cards.add(pu);
                     }

@@ -20,9 +20,9 @@ GENERAL CLASSES
 
     text-and-highlight-color: #ff00f0;
     default-color: #00f3ff;
-    empty-color: rgba(255, 68, 77, 0.5);
-    notempty-color: rgba(255, 181, 35, 0.5);
-    selectable-color: rgba(146, 255, 88, 0.5);
+    empty-color: rgb(255, 255, 255);
+    notempty-color: rgb(255, 181, 35);
+    selectable-color: rgb(146, 255, 88);
 
     -fx-background-color: dark-primary-color;
     -fx-border-width: 1px;
@@ -33,6 +33,12 @@ GENERAL CLASSES
     -fx-text-fill: accent-color;
 }
 
+.weirdPadding{
+    -fx-padding: 4px;
+}
+.weirdPadding:hover{
+    -fx-padding: 10px;
+}
 
 /*radiobutton*/
 .radio-button{
@@ -168,6 +174,78 @@ SPECIFIC CLASSES
 }
 .emptyPowerUpCardMainImage{
     -fx-background-color:  empty-color;
+}
+.powerUpCard1{
+     -fx-background-color: rgb(180,255,90);
+}
+.powerUpCard2{
+     -fx-background-color: rgb(180,255,90);
+}
+ .powerUpCard3{
+     -fx-background-color: rgb(90,90,180);
+}
+.powerUpCard4{
+      -fx-background-color: rgb(0,180,255);
+}
+.powerUpCard5{
+       -fx-background-color: rgb(255,1,32);
+}
+.powerUpCard6{
+       -fx-background-color: rgb(180,32,12);
+}
+.powerUpCard7{
+       -fx-background-color: rgb(0,10,20);
+}
+.powerUpCard8{
+        -fx-background-color: rgb(10,20,30);
+}
+.powerUpCard9{
+     -fx-background-color: rgb(20,30,40);
+ }
+ .powerUpCard10{
+     -fx-background-color: rgb(30,40,50);
+}
+.powerUpCard11{
+     -fx-background-color: rgb(60,70,80);
+ }
+.powerUpCard12{
+      -fx-background-color: rgb(90,100,110);
+}
+.powerUpCard13{
+     -fx-background-color: rgb(100,110,120);
+}
+.powerUpCard14{
+     -fx-background-color: rgb(3,43,98);
+}
+ .powerUpCard15{
+     -fx-background-color: rgb(190,90,180);
+}
+.powerUpCard16{
+      -fx-background-color: rgb(0,180,255);
+}
+.powerUpCard17{
+       -fx-background-color: rgb(255,0,0);
+}
+.powerUpCard18{
+       -fx-background-color: rgb(180,55,0);
+}
+.powerUpCard19{
+       -fx-background-color: rgb(0,90,18);
+}
+.powerUpCard20{
+        -fx-background-color: rgb(0,10,255);
+}
+.powerUpCard21{
+     -fx-background-color: rgb(25,1,2);
+ }
+ .powerUpCard22{
+     -fx-background-color: rgb(80,255,90);
+}
+.powerUpCard23{
+     -fx-background-color: rgb(9,90,180);
+ }
+.powerUpCard24{
+      -fx-background-color: rgb(92,23,90);
 }
 /*3.1.2-player main statistics*/
 .playerStatisticsBackground{
@@ -328,80 +406,69 @@ SPECIFIC CLASSES
 }
 /*example class for weaponCard */
 .weaponCard1{
-    -fx-background-color: rgba(255,0,0,1);
+    -fx-background-color: rgb(0,100,200,1);
 }
 .weaponCard2{
-    -fx-background-color: rgba(255,20,0,1);
+    -fx-background-color: rgb(10,110,190,1);
 }
 .weaponCard3{
-    -fx-background-color: rgba(255,40,0,1);
+    -fx-background-color: rgb(20,120,180,1);
 }
 .weaponCard4{
-    -fx-background-color: rgba(255,60,0,1);
+    -fx-background-color: rgb(30,130,170,1);
 }
 .weaponCard5{
-     -fx-background-color: rgba(255,80,0,1);
+     -fx-background-color: rgb(40,140,160,1);
  }
 .weaponCard6{
-     -fx-background-color: rgba(255,100,0,1);
+     -fx-background-color: rgb(50,150,150,1);
  }
 .weaponCard7{
-     -fx-background-color: rgba(255,120,0,1);
+     -fx-background-color: rgb(60,160,140,1);
  }
 .weaponCard8{
-     -fx-background-color: rgba(255,140,0,1);
+     -fx-background-color: rgb(70,170,130,1);
  }
 .weaponCard9{
-    -fx-background-color: rgba(255,160,0,1);
+    -fx-background-color: rgb(80,180,120,1);
 }
 .weaponCard10{
-    -fx-background-color: rgba(255,180,0,1);
+    -fx-background-color: rgb(90,190,110,1);
 }
 .weaponCard11{
-    -fx-background-color: rgba(255,200,0,1);
+    -fx-background-color: rgb(100,200,100,1);
 }
 .weaponCard12{
-    -fx-background-color: rgba(255,220,0,1);
+    -fx-background-color: rgb(110,10,90,1);
 }
 .weaponCard13{
-     -fx-background-color: rgba(255,240,0,1);
+     -fx-background-color: rgb(120,20,80,1);
  }
 .weaponCard14{
-     -fx-background-color: rgba(255,240,20,1);
+     -fx-background-color: rgb(130,30,70,1);
  }
 .weaponCard15{
-     -fx-background-color: rgba(255,240,40,1);
+     -fx-background-color: rgb(140,40,60,1);
  }
 .weaponCard16{
-     -fx-background-color: rgba(255,240,60,1);
+     -fx-background-color: rgb(150,50,50,1);
  }
 .weaponCard17{
-    -fx-background-color: rgba(255,240,80,1);
+    -fx-background-color: rgb(160,60,40,1);
 }
 .weaponCard18{
-    -fx-background-color: rgba(255,240,100,1);
+    -fx-background-color: rgb(170,70,30,1);
 }
 .weaponCard19{
-    -fx-background-color: rgba(255,240,120,1);
+    -fx-background-color: rgb(180,80,20,1);
 }
 .weaponCard20{
-    -fx-background-color: rgba(255,240,140,1);
+    -fx-background-color: rgb(190,90,10,1);
 }
 .weaponCard21{
-     -fx-background-color: rgba(255,240,160,1);
+     -fx-background-color: rgb(200,100,0,1);
  }
  /*example class for powerUp */
-.powerUpCard1{
-    -fx-background-color: rgba(0,240,100,1);
-}
-.powerUpCard2{
-    -fx-background-color: rgba(0,240,120,1);
-}
-.powerUpCard3{
-    -fx-background-color: rgba(0,240,140,1);
-}
-.powerUpCard4{
-     -fx-background-color: rgba(0,240,160,1);
- }
+
 /*------------------------------3*/
 /*4-board section*/

@@ -16,13 +16,12 @@ import static junit.framework.TestCase.assertEquals;
 
 public class FinalScoringStateTest {
 
-    private FakeModel fakeModel = new FakeModel();
 
     @Test
     public void TestFinalScoringState() throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
-    Game game = fakeModel.create();
-    ModelGate.model=game;
+    Game game = FakeModel.getFakeModel();
+    ModelGate.setModel(game);
 
     game.setKillshotTrack(new KillShotTrack(5,null,null));
     game.getKillshotTrack().deathOfPlayer(game.getCurrentPlayingPlayer(), true);

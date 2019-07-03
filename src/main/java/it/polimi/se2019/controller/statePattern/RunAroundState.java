@@ -44,10 +44,10 @@ public class RunAroundState implements State{
 
         int numberOfMoves;
 
-        if(ModelGate.model.hasFinalFrenzyBegun()&&playerToAsk.getBeforeorafterStartingPlayer()<0){numberOfMoves=4;}
+        if(ModelGate.getModel().hasFinalFrenzyBegun()&&playerToAsk.getBeforeorafterStartingPlayer()<0){numberOfMoves=4;}
         else{numberOfMoves=3;}
 
-        ArrayList<Position> possiblePositions = ModelGate.model.getBoard().possiblePositions(playerToAsk.getPosition(), numberOfMoves);
+        ArrayList<Position> possiblePositions = ModelGate.getModel().getBoard().possiblePositions(playerToAsk.getPosition(), numberOfMoves);
         out.println("<SERVER> Possible positions to move calculated:");
         StringBuilder toPrintln = new StringBuilder();
         for (Position possiblePosition : possiblePositions) {
@@ -83,7 +83,7 @@ public class RunAroundState implements State{
         else if(this.actionNumber == 2){ //second action of the turn
             ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
         }
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
     }
 
     /**
@@ -94,9 +94,9 @@ public class RunAroundState implements State{
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 
@@ -112,7 +112,7 @@ public class RunAroundState implements State{
         //set new position for the player
         Position newPosition=new Position(viewControllerEventPosition.getX(), viewControllerEventPosition.getY());
         out.println("<SERVER> Setting player position to: [" +newPosition.getX()+ "][" +newPosition.getY() + "]");
-        ModelGate.model.getPlayerList().getCurrentPlayingPlayer().setPosition(newPosition);
+        ModelGate.getModel().getPlayerList().getCurrentPlayingPlayer().setPosition(newPosition);
 
     }
 

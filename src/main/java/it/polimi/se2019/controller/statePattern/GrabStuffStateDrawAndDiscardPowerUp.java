@@ -58,10 +58,10 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + playerToAsk.getNickname() + "\"");
 
         //draw a new power up
-        out.println("<Server> The player draws a power up: " + ModelGate.model.getPowerUpDeck().getFirstCard().getID());
-        ModelGate.model.getPowerUpDeck().moveCardTo(
+        out.println("<Server> The player draws a power up: " + ModelGate.getModel().getPowerUpDeck().getFirstCard().getID());
+        ModelGate.getModel().getPowerUpDeck().moveCardTo(
                 playerToAsk.getPowerUpCardsInHand(),
-                ModelGate.model.getPowerUpDeck().getFirstCard().getID()
+                ModelGate.getModel().getPowerUpDeck().getFirstCard().getID()
         );
 
     }
@@ -84,18 +84,18 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
         if(this.actionNumber == 1){
 
            //if you are in final frenzy mode and you are or come after the starting player
-            if (ModelGate.model.hasFinalFrenzyBegun() && ModelGate.model.getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0) {
+            if (ModelGate.getModel().hasFinalFrenzyBegun() && ModelGate.getModel().getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0) {
                 ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
             }
            else{
                 ViewControllerEventHandlerContext.setNextState(new TurnState(2));
-                ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+                ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
             }
         }
         if(this.actionNumber == 2) {
             ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
-            ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+            ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
         }
     }
 
@@ -109,10 +109,10 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
         ViewControllerEventInt viewControllerEventInt = (ViewControllerEventInt)viewControllerEvent;
 
         //discard power up
-        out.println("<SERVER> The player discards power up: " + ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().get(viewControllerEventInt.getInput()).getID());
-        ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
-                ModelGate.model.getPowerUpDiscardPile(),
-                ModelGate.model.getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().get(viewControllerEventInt.getInput()).getID()
+        out.println("<SERVER> The player discards power up: " + ModelGate.getModel().getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().get(viewControllerEventInt.getInput()).getID());
+        ModelGate.getModel().getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
+                ModelGate.getModel().getPowerUpDiscardPile(),
+                ModelGate.getModel().getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards().get(viewControllerEventInt.getInput()).getID()
         );
 
     }
@@ -125,9 +125,9 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 }

@@ -66,7 +66,7 @@ public class GrabStuffStateGrabWeapon implements  State {
             logger.log(Level.SEVERE,"EXCEPTION", e);
         }
 
-        SpawnPointSquare playerSquare = ((SpawnPointSquare)(ModelGate.model.getBoard().getSquare(playerToAsk.getPosition().getX(), playerToAsk.getPosition().getY())));
+        SpawnPointSquare playerSquare = ((SpawnPointSquare)(ModelGate.getModel().getBoard().getSquare(playerToAsk.getPosition().getX(), playerToAsk.getPosition().getY())));
         List<WeaponCard> toPickUp = playerSquare.getWeaponCards().getCards();
 
         out.println("<Server> Cards from the Spawn point:");
@@ -82,7 +82,7 @@ public class GrabStuffStateGrabWeapon implements  State {
         out.println("<Server> Possible cards to pick up from the spawn Point:");
         printList(toPickUp);
 
-        if(ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards().size() >= 3){
+        if(ModelGate.getModel().getCurrentPlayingPlayer().getWeaponCardsInHand().getCards().size() >= 3){
 
             discardWep(toPickUp);
         }
@@ -142,7 +142,7 @@ public class GrabStuffStateGrabWeapon implements  State {
      * @param state indicates which*/
     private void changeState(State state){
         ViewControllerEventHandlerContext.setNextState(state);
-        ViewControllerEventHandlerContext.state.askForInput(playerToAsk);
+        ViewControllerEventHandlerContext.getState().askForInput(playerToAsk);
     }
 
     /**@param viewControllerEvent contains the input from the current playing player
@@ -155,9 +155,8 @@ public class GrabStuffStateGrabWeapon implements  State {
 
 
             WeaponCard toDraw=switchCardsOrJustPickUpOne(viewControllerEvent);
-
             out.println("<SERVER> Paying the pick up cost");
-            ChooseHowToPayState.makePayment(ModelGate.model.getCurrentPlayingPlayer(), toDraw.getPickUpCost());
+            ChooseHowToPayState.makePayment(ModelGate.getModel().getCurrentPlayingPlayer(), toDraw.getPickUpCost());
         }
 
 
@@ -170,11 +169,11 @@ public class GrabStuffStateGrabWeapon implements  State {
         out.println("<SERVER> player has answered before the timer ended.");
         out.println("<SERVER> " + this.getClass() + ".doAction();");
 
-        Position playerPosition = ModelGate.model.getCurrentPlayingPlayer().getPosition();
-        OrderedCardList<WeaponCard> playerWeapons = ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand();
-        OrderedCardList<WeaponCard> squareWeapons = ((SpawnPointSquare) ModelGate.model.getBoard().getSquare(playerPosition)).getWeaponCards();
+        Position playerPosition = ModelGate.getModel().getCurrentPlayingPlayer().getPosition();
+        OrderedCardList<WeaponCard> playerWeapons = ModelGate.getModel().getCurrentPlayingPlayer().getWeaponCardsInHand();
+        OrderedCardList<WeaponCard> squareWeapons = ((SpawnPointSquare) ModelGate.getModel().getBoard().getSquare(playerPosition)).getWeaponCards();
 
-        if (ModelGate.model.getCurrentPlayingPlayer().getWeaponCardsInHand().getCards().size() >= 3) {
+        if (ModelGate.getModel().getCurrentPlayingPlayer().getWeaponCardsInHand().getCards().size() >= 3) {
 
             ViewControllerEventTwoString viewControllerEventTwoString = (ViewControllerEventTwoString) viewControllerEvent;
             WeaponCard toDiscard = playerWeapons.getCard(viewControllerEventTwoString.getInput2());
@@ -210,9 +209,9 @@ public class GrabStuffStateGrabWeapon implements  State {
             squareWeapons.moveCardTo(playerWeapons, toDraw.getID());
 
             //replacing new card
-            if (!ModelGate.model.getWeaponDeck().getCards().isEmpty()) {
-                out.println("<SERVER> Replacing picked up card in the spawn point with card: " + ModelGate.model.getWeaponDeck().getFirstCard().getID());
-                ModelGate.model.getWeaponDeck().moveCardTo(squareWeapons, ModelGate.model.getWeaponDeck().getFirstCard().getID());
+            if (!ModelGate.getModel().getWeaponDeck().getCards().isEmpty()) {
+                out.println("<SERVER> Replacing picked up card in the spawn point with card: " + ModelGate.getModel().getWeaponDeck().getFirstCard().getID());
+                ModelGate.getModel().getWeaponDeck().moveCardTo(squareWeapons, ModelGate.getModel().getWeaponDeck().getFirstCard().getID());
             } else {
                 out.println("<SERVER> The weapon deck is empty, so the space left in the SpawnPoint from the picked up card is not replaced.");
             }
@@ -224,7 +223,7 @@ public class GrabStuffStateGrabWeapon implements  State {
     public void afterPayment(){
         //set next state
         if(this.actionNumber == 1){
-            if (ModelGate.model.hasFinalFrenzyBegun() && ModelGate.model.getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0) {
+            if (ModelGate.getModel().hasFinalFrenzyBegun() && ModelGate.getModel().getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0) {
                 ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
             }
             else ViewControllerEventHandlerContext.setNextState(new TurnState(2));
@@ -232,7 +231,7 @@ public class GrabStuffStateGrabWeapon implements  State {
         else if(this.actionNumber == 2){
             ViewControllerEventHandlerContext.setNextState(new ReloadState(false));
         }
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
 
     }
 
@@ -244,9 +243,9 @@ public class GrabStuffStateGrabWeapon implements  State {
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
-        if(!ViewControllerEventHandlerContext.state.getClass().toString().contains("FinalScoringState")) {
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
-            ViewControllerEventHandlerContext.state.doAction(null);
+            ViewControllerEventHandlerContext.getState().doAction(null);
         }
     }
 }

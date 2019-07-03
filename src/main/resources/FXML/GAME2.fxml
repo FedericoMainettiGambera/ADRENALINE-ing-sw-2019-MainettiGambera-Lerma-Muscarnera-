@@ -12,21 +12,21 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.TextFlow?>
 
-<HBox fx:id="root" prefHeight="772.0" prefWidth="1322.0" stylesheets="@../CSS/styleGame.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.GameSceneController">
+<HBox fx:id="root" prefHeight="770" prefWidth="1300" stylesheets="@../CSS/styleGame.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.GameSceneController">
    <children>
-      <SplitPane dividerPositions="0.7553444180522565" prefHeight="160.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+      <SplitPane dividerPositions="0.7" HBox.hgrow="ALWAYS">
         <items>
-            <AnchorPane fx:id="gameSection" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="641.0">
+            <AnchorPane fx:id="gameSection" >
                <children>
-                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <AnchorPane fx:id="stateSection" VBox.vgrow="SOMETIMES">
+                  <SplitPane dividerPositions="0.1, 0.7" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <items>
+                        <AnchorPane fx:id="stateSection">
                            <children>
-                              <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <StackPane prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                    <StackPane HBox.hgrow="ALWAYS">
                                        <children>
-                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                          <VBox>
                                              <children>
                                                 <StackPane VBox.vgrow="NEVER">
                                                    <children>
@@ -52,7 +52,7 @@
                                           </VBox>
                                        </children>
                                     </StackPane>
-                                    <StackPane layoutX="11.0" layoutY="11.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                    <StackPane HBox.hgrow="ALWAYS">
                                        <children>
                                           <VBox>
                                              <children>
@@ -61,16 +61,16 @@
                                                       <Label fx:id="stateTitle" text="current state name goes here" />
                                                    </children>
                                                 </StackPane>
-                                                <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                                <AnchorPane VBox.vgrow="ALWAYS">
                                                    <children>
-                                                      <TextFlow fx:id="stateDescription" layoutX="-16.0" layoutY="-86.0" prefHeight="200.0" prefWidth="200.0" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                      <TextFlow fx:id="stateDescription" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                    </children>
                                                 </AnchorPane>
                                              </children>
                                           </VBox>
                                        </children>
                                     </StackPane>
-                                    <StackPane layoutX="501.0" layoutY="11.0" prefHeight="150.0">
+                                    <StackPane>
                                        <children>
                                           <ProgressIndicator fx:id="progressIndicator" progress="0.57" />
                                        </children>
@@ -79,187 +79,189 @@
                               </HBox>
                            </children>
                         </AnchorPane>
-                        <HBox maxHeight="500.0" VBox.vgrow="ALWAYS">
+                        <AnchorPane>
+                           <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <children>
+                                 <AnchorPane fx:id="killshotTrackSection" HBox.hgrow="SOMETIMES">
+                                    <children>
+                                       <VBox fx:id="killshotTrackVBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <children>
+                                             <StackPane fx:id="killBackground1" VBox.vgrow="ALWAYS">
+                                                <children>
+                                                   <StackPane fx:id="killMainImage1" >
+                                                      <children>
+                                                         <Label text="kill" />
+                                                      </children>
+                                                   </StackPane>
+                                                </children>
+                                             </StackPane>
+                                             <StackPane fx:id="killBackground2" VBox.vgrow="ALWAYS" >
+                                                <children>
+                                                   <StackPane fx:id="killMainImage2">
+                                                      <children>
+                                                         <Label text="kill" />
+                                                      </children>
+                                                   </StackPane>
+                                                </children>
+                                             </StackPane>
+                                             <StackPane fx:id="killBackground3" VBox.vgrow="ALWAYS" >
+                                                <children>
+                                                   <StackPane fx:id="killMainImage3" >
+                                                      <children>
+                                                         <Label text="kill" />
+                                                      </children>
+                                                   </StackPane>
+                                                </children>
+                                             </StackPane>
+                                             <StackPane fx:id="killBackground4" VBox.vgrow="ALWAYS">
+                                                <children>
+                                                   <StackPane fx:id="killMainImage4">
+                                                      <children>
+                                                         <Label text="kill" />
+                                                      </children>
+                                                   </StackPane>
+                                                </children>
+                                             </StackPane>
+                                             <StackPane fx:id="killBackground5" VBox.vgrow="ALWAYS">
+                                                <children>
+                                                   <StackPane fx:id="killMainImage5">
+                                                      <children>
+                                                         <Label text="kill" />
+                                                      </children>
+                                                   </StackPane>
+                                                </children>
+                                             </StackPane>
+                                             <StackPane fx:id="killBackground6" VBox.vgrow="ALWAYS">
+                                                <children>
+                                                   <StackPane fx:id="killMainImage6">
+                                                      <children>
+                                                         <Label text="kill" />
+                                                      </children>
+                                                   </StackPane>
+                                                </children>
+                                             </StackPane>
+                                             <StackPane fx:id="killBackground7" VBox.vgrow="ALWAYS">
+                                                <children>
+                                                   <StackPane fx:id="killMainImage7">
+                                                      <children>
+                                                         <Label text="kill" />
+                                                      </children>
+                                                   </StackPane>
+                                                </children>
+                                             </StackPane>
+                                             <StackPane fx:id="killBackground8" VBox.vgrow="ALWAYS">
+                                                <children>
+                                                   <StackPane fx:id="killMainImage8">
+                                                      <children>
+                                                         <Label text="kill" />
+                                                      </children>
+                                                   </StackPane>
+                                                </children>
+                                             </StackPane>
+                                          </children>
+                                       </VBox>
+                                    </children>
+                                 </AnchorPane>
+                                 <AnchorPane fx:id="boardSection" HBox.hgrow="ALWAYS">
+                                    <children>
+                                       <StackPane fx:id="boardBackGround" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <children>
+                                             <GridPane fx:id="board">
+                                               <columnConstraints>
+                                                 <ColumnConstraints percentWidth="25.0" hgrow="ALWAYS"/>
+                                                 <ColumnConstraints percentWidth="25.0" hgrow="ALWAYS"/>
+                                                   <ColumnConstraints percentWidth="25.0"  hgrow="ALWAYS"/>
+                                                   <ColumnConstraints percentWidth="25.0" hgrow="ALWAYS"/>
+                                               </columnConstraints>
+                                               <rowConstraints>
+                                                 <RowConstraints percentHeight="33.333333" vgrow="ALWAYS" />
+                                                 <RowConstraints percentHeight="33.333333" vgrow="ALWAYS" />
+                                                 <RowConstraints percentHeight="33.333333" vgrow="ALWAYS" />
+                                               </rowConstraints>
+                                                <children>
+                                                   <StackPane fx:id="squareBackground00">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage00"/>
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground01" GridPane.columnIndex="1">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage01" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground02" GridPane.columnIndex="2">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage02" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground03" GridPane.columnIndex="3">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage03" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground10" GridPane.rowIndex="1">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage10" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground11" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage11" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground12" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage12" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground13" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage13" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground20"  GridPane.rowIndex="2">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage20" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground21" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage21" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground22" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage22" />
+                                                      </children>
+                                                   </StackPane>
+                                                   <StackPane fx:id="squareBackground23" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                                                      <children>
+                                                         <StackPane fx:id="getSquareMainImage23" />
+                                                      </children>
+                                                   </StackPane>
+                                                </children>
+                                             </GridPane>
+                                          </children>
+                                       </StackPane>
+                                    </children>
+                                 </AnchorPane>
+                              </children>
+                           </HBox>
+                        </AnchorPane>
+                        <AnchorPane fx:id="playerSection">
                            <children>
-                              <AnchorPane fx:id="killshotTrackSection" prefHeight="421.0" HBox.hgrow="SOMETIMES">
+                              <HBox fx:id="playerHBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <VBox fx:id="killshotTrackVBox" prefHeight="159.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <VBox fx:id="powerUpCardsVBox" minWidth="200" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <StackPane fx:id="killBackground1" prefHeight="150.0">
-                                             <children>
-                                                <StackPane fx:id="killMainImage1" prefHeight="150.0">
-                                                   <children>
-                                                      <Label text="kill" />
-                                                   </children>
-                                                </StackPane>
-                                             </children>
-                                          </StackPane>
-                                          <StackPane fx:id="killBackground2" layoutX="10.0" layoutY="10.0" prefHeight="150.0">
-                                             <children>
-                                                <StackPane fx:id="killMainImage2" prefHeight="150.0">
-                                                   <children>
-                                                      <Label text="kill" />
-                                                   </children>
-                                                </StackPane>
-                                             </children>
-                                          </StackPane>
-                                          <StackPane fx:id="killBackground3" layoutX="10.0" layoutY="160.0" prefHeight="150.0">
-                                             <children>
-                                                <StackPane fx:id="killMainImage3" prefHeight="150.0">
-                                                   <children>
-                                                      <Label text="kill" />
-                                                   </children>
-                                                </StackPane>
-                                             </children>
-                                          </StackPane>
-                                          <StackPane fx:id="killBackground4" layoutX="10.0" layoutY="310.0" prefHeight="150.0">
-                                             <children>
-                                                <StackPane fx:id="killMainImage4" prefHeight="150.0">
-                                                   <children>
-                                                      <Label text="kill" />
-                                                   </children>
-                                                </StackPane>
-                                             </children>
-                                          </StackPane>
-                                          <StackPane fx:id="killBackground5" layoutX="10.0" layoutY="460.0" prefHeight="150.0">
-                                             <children>
-                                                <StackPane fx:id="killMainImage5" prefHeight="150.0">
-                                                   <children>
-                                                      <Label text="kill" />
-                                                   </children>
-                                                </StackPane>
-                                             </children>
-                                          </StackPane>
-                                          <StackPane fx:id="killBackground6" layoutX="10.0" layoutY="554.0" prefHeight="150.0">
-                                             <children>
-                                                <StackPane fx:id="killMainImage6" prefHeight="150.0">
-                                                   <children>
-                                                      <Label text="kill" />
-                                                   </children>
-                                                </StackPane>
-                                             </children>
-                                          </StackPane>
-                                          <StackPane fx:id="killBackground7" layoutX="10.0" layoutY="576.0" prefHeight="150.0">
-                                             <children>
-                                                <StackPane fx:id="killMainImage7" prefHeight="150.0">
-                                                   <children>
-                                                      <Label text="kill" />
-                                                   </children>
-                                                </StackPane>
-                                             </children>
-                                          </StackPane>
-                                          <StackPane fx:id="killBackground8" layoutX="10.0" layoutY="592.0" prefHeight="150.0">
-                                             <children>
-                                                <StackPane fx:id="killMainImage8" prefHeight="150.0">
-                                                   <children>
-                                                      <Label text="kill" />
-                                                   </children>
-                                                </StackPane>
-                                             </children>
-                                          </StackPane>
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </AnchorPane>
-                              <AnchorPane fx:id="boardSection" prefHeight="200.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <StackPane fx:id="boardBackGround" layoutX="292.0" layoutY="2.0" prefHeight="436.0" prefWidth="653.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <children>
-                                          <GridPane fx:id="board">
-                                            <columnConstraints>
-                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                            </columnConstraints>
-                                            <rowConstraints>
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                            </rowConstraints>
-                                             <children>
-                                                <StackPane fx:id="squareBackground00" prefHeight="150.0">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage00" prefHeight="150.0" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground01" prefHeight="150.0" GridPane.columnIndex="1">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage01"  prefHeight="150.0" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground02" prefHeight="150.0" GridPane.columnIndex="2">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage02"  prefHeight="150.0" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground03" prefHeight="150.0" GridPane.columnIndex="3">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage03"  prefHeight="150.0" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground10" prefHeight="150.0" GridPane.rowIndex="1">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage10"  prefHeight="150.0" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground11" prefHeight="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage11"  prefHeight="150.0" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground12" prefHeight="150.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage12"  prefHeight="150.0" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground13" prefHeight="150.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage13"  prefHeight="150.0" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground20" prefHeight="150.0" GridPane.rowIndex="2">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage20"  prefHeight="150.0" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground21" prefHeight="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage21"  prefHeight="150.0" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground22" prefHeight="150.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage22"  prefHeight="150.0" />
-                                                   </children>
-                                                </StackPane>
-                                                <StackPane fx:id="squareBackground23" prefHeight="150.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
-                                                   <children>
-                                                      <StackPane fx:id="getSquareMainImage23"  prefHeight="150.0" />
-                                                   </children>
-                                                </StackPane>
-                                             </children>
-                                          </GridPane>
-                                       </children>
-                                    </StackPane>
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </HBox>
-                        <AnchorPane fx:id="playerSection" minHeight="250.0" VBox.vgrow="SOMETIMES">
-                           <children>
-                              <HBox fx:id="playerHBox" minHeight="-Infinity" prefHeight="151.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <VBox fx:id="powerUpCardsVBox" minWidth="200.0" prefHeight="200.0" HBox.hgrow="ALWAYS">
-                                       <children>
-                                          <StackPane fx:id="powerUpCardsTitle" prefHeight="23.0" prefWidth="244.0">
+                                          <StackPane fx:id="powerUpCardsTitle"  >
                                              <children>
                                                 <Label text="powerUpCards" />
                                              </children>
                                           </StackPane>
-                                          <HBox fx:id="powerUpCardsBackground" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                          <HBox fx:id="powerUpCardsBackground"  VBox.vgrow="ALWAYS">
                                              <children>
-                                                <StackPane fx:id="powerUpCardBackground1" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                                <StackPane fx:id="powerUpCardBackground1"  HBox.hgrow="ALWAYS">
                                                    <children>
                                                       <StackPane fx:id="powerUpCardMainImage1">
                                                          <children>
@@ -268,7 +270,7 @@
                                                       </StackPane>
                                                    </children>
                                                 </StackPane>
-                                                <StackPane fx:id="powerUpCardBackground2" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                                <StackPane fx:id="powerUpCardBackground2" HBox.hgrow="ALWAYS">
                                                    <children>
                                                       <StackPane fx:id="powerUpCardMainImage2">
                                                          <children>
@@ -281,21 +283,21 @@
                                           </HBox>
                                        </children>
                                     </VBox>
-                                    <StackPane maxWidth="600.0" HBox.hgrow="ALWAYS">
+                                    <StackPane HBox.hgrow="ALWAYS">
                                        <children>
                                           <GridPane fx:id="playerStats">
                                              <columnConstraints>
-                                                <ColumnConstraints hgrow="ALWAYS" percentWidth="80.0" />
+                                                <ColumnConstraints hgrow="ALWAYS" percentWidth="60.0" />
                                                 <ColumnConstraints hgrow="ALWAYS" />
                                              </columnConstraints>
                                              <rowConstraints>
-                                                <RowConstraints maxHeight="335.0" minHeight="10.0" percentHeight="33.0" prefHeight="53.0" vgrow="ALWAYS" />
-                                                <RowConstraints maxHeight="402.0" minHeight="10.0" prefHeight="197.0" vgrow="ALWAYS" />
+                                                <RowConstraints percentHeight="33.0" vgrow="ALWAYS" />
+                                                <RowConstraints vgrow="ALWAYS" />
                                              </rowConstraints>
                                              <children>
-                                                <HBox fx:id="playerMarks" prefHeight="100.0" GridPane.vgrow="ALWAYS">
+                                                <HBox fx:id="playerMarks" GridPane.vgrow="ALWAYS">
                                                    <children>
-                                                      <StackPane fx:id="backgroundMark1" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                      <StackPane fx:id="backgroundMark1" HBox.hgrow="ALWAYS">
                                                          <children>
                                                             <StackPane fx:id="mainImageMark1">
                                                                <children>
@@ -304,7 +306,7 @@
                                                             </StackPane>
                                                          </children>
                                                       </StackPane>
-                                                      <StackPane fx:id="backgroundMark2" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                      <StackPane fx:id="backgroundMark2" HBox.hgrow="ALWAYS">
                                                          <children>
                                                             <StackPane fx:id="mainImageMark2">
                                                                <children>
@@ -313,7 +315,7 @@
                                                             </StackPane>
                                                          </children>
                                                       </StackPane>
-                                                      <StackPane fx:id="backgroundMark3" layoutX="153.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                      <StackPane fx:id="backgroundMark3" HBox.hgrow="ALWAYS">
                                                          <children>
                                                             <StackPane fx:id="mainImageMark3">
                                                                <children>
@@ -322,7 +324,7 @@
                                                             </StackPane>
                                                          </children>
                                                       </StackPane>
-                                                      <StackPane fx:id="backgroundMark4" layoutX="200.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                      <StackPane fx:id="backgroundMark4" HBox.hgrow="ALWAYS">
                                                          <children>
                                                             <StackPane fx:id="mainImageMark4">
                                                                <children>
@@ -333,11 +335,11 @@
                                                       </StackPane>
                                                    </children>
                                                 </HBox>
-                                                <VBox fx:id="playerDamagesAndDeathsVBox" prefHeight="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                                                <VBox fx:id="playerDamagesAndDeathsVBox" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                                                    <children>
-                                                      <HBox fx:id="playerDamagesHbox" prefHeight="100.0" VBox.vgrow="ALWAYS">
+                                                      <HBox fx:id="playerDamagesHbox" VBox.vgrow="ALWAYS">
                                                          <children>
-                                                            <StackPane fx:id="damageBackground1" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="damageBackground1" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="damageMainImage1">
                                                                      <children>
@@ -346,7 +348,7 @@
                                                                   </StackPane>
                                                                </children>
                                                             </StackPane>
-                                                            <StackPane fx:id="damageBackground2" layoutX="10.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="damageBackground2" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="damageMainImage2">
                                                                      <children>
@@ -355,7 +357,7 @@
                                                                   </StackPane>
                                                                </children>
                                                             </StackPane>
-                                                            <StackPane fx:id="damageBackground3" layoutX="210.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="damageBackground3" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="damageMainImage3">
                                                                      <children>
@@ -364,7 +366,7 @@
                                                                   </StackPane>
                                                                </children>
                                                             </StackPane>
-                                                            <StackPane fx:id="damageBackground4" layoutX="278.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="damageBackground4" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="damageMainImage4">
                                                                      <children>
@@ -373,7 +375,7 @@
                                                                   </StackPane>
                                                                </children>
                                                             </StackPane>
-                                                            <StackPane fx:id="damageBackground5" layoutX="311.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="damageBackground5" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="damageMainImage5">
                                                                      <children>
@@ -382,7 +384,7 @@
                                                                   </StackPane>
                                                                </children>
                                                             </StackPane>
-                                                            <StackPane fx:id="damageBackground6" layoutX="331.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="damageBackground6" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="damageMainImage6">
                                                                      <children>
@@ -391,7 +393,7 @@
                                                                   </StackPane>
                                                                </children>
                                                             </StackPane>
-                                                            <StackPane fx:id="damageBackground7" layoutX="345.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="damageBackground7" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="damageMainImage7">
                                                                      <children>
@@ -400,7 +402,7 @@
                                                                   </StackPane>
                                                                </children>
                                                             </StackPane>
-                                                            <StackPane fx:id="damageBackground8" layoutX="354.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="damageBackground8" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="damageMainImage8">
                                                                      <children>
@@ -409,7 +411,7 @@
                                                                   </StackPane>
                                                                </children>
                                                             </StackPane>
-                                                            <StackPane fx:id="damageBackground9" layoutX="361.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="damageBackground9" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="damageMainImage9">
                                                                      <children>
@@ -418,7 +420,7 @@
                                                                   </StackPane>
                                                                </children>
                                                             </StackPane>
-                                                            <StackPane fx:id="damageBackground10" layoutX="367.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="damageBackground10" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="damageMainImage10">
                                                                      <children>
@@ -427,7 +429,7 @@
                                                                   </StackPane>
                                                                </children>
                                                             </StackPane>
-                                                            <StackPane fx:id="damageBackground11" layoutX="371.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="damageBackground11" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="damageMainImage11">
                                                                      <children>
@@ -436,7 +438,7 @@
                                                                   </StackPane>
                                                                </children>
                                                             </StackPane>
-                                                            <StackPane fx:id="damageBackground12" layoutX="375.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="damageBackground12" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="damageMainImage12">
                                                                      <children>
@@ -445,7 +447,7 @@
                                                                   </StackPane>
                                                                </children>
                                                             </StackPane>
-                                                            <StackPane fx:id="damageBackground13" layoutX="375.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="damageBackground13" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="damageMainImage13">
                                                                      <children>
@@ -456,9 +458,9 @@
                                                             </StackPane>
                                                          </children>
                                                       </HBox>
-                                                      <HBox fx:id="playerDeathsHbox" prefHeight="100.0" VBox.vgrow="ALWAYS">
+                                                      <HBox fx:id="playerDeathsHbox" VBox.vgrow="ALWAYS">
                                                          <children>
-                                                            <StackPane fx:id="deathBackground1" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="deathBackground1" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="deathMainImage1">
                                                                      <children>
@@ -467,7 +469,7 @@
                                                                   </StackPane>
                                                                </children>
                                                             </StackPane>
-                                                            <StackPane fx:id="deathBackground2" layoutX="10.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="deathBackground2" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="deathMainImage2">
                                                                      <children>
@@ -476,7 +478,7 @@
                                                                   </StackPane>
                                                                </children>
                                                             </StackPane>
-                                                            <StackPane fx:id="deathBackground3" layoutX="210.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="deathBackground3" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="deathMainImage3">
                                                                      <children>
@@ -485,7 +487,7 @@
                                                                   </StackPane>
                                                                </children>
                                                             </StackPane>
-                                                            <StackPane fx:id="deathBackground4" layoutX="278.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="deathBackground4" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="deathMainImage4">
                                                                      <children>
@@ -494,7 +496,7 @@
                                                                   </StackPane>
                                                                </children>
                                                             </StackPane>
-                                                            <StackPane fx:id="deathBackground5" layoutX="311.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="deathBackground5" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="deathMainImage5">
                                                                      <children>
@@ -503,7 +505,7 @@
                                                                   </StackPane>
                                                                </children>
                                                             </StackPane>
-                                                            <StackPane fx:id="deathBackground6" layoutX="331.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="deathBackground6" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="deathMainImage6">
                                                                      <children>
@@ -512,7 +514,7 @@
                                                                   </StackPane>
                                                                </children>
                                                             </StackPane>
-                                                            <StackPane fx:id="deathBackground7" layoutX="342.0" layoutY="10.0" prefHeight="150.0" HBox.hgrow="ALWAYS">
+                                                            <StackPane fx:id="deathBackground7" HBox.hgrow="ALWAYS">
                                                                <children>
                                                                   <StackPane fx:id="deathMainImage7">
                                                                      <children>
@@ -525,24 +527,24 @@
                                                       </HBox>
                                                    </children>
                                                 </VBox>
-                                                <StackPane fx:id="playerNicknameBackground" prefHeight="106.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                                                <StackPane fx:id="playerNicknameBackground" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                                                    <children>
                                                       <Label fx:id="playerNickname" text="nickname" />
                                                    </children>
                                                 </StackPane>
                                                 <GridPane fx:id="playerAmmoBox" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                                                    <columnConstraints>
-                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                      <ColumnConstraints hgrow="SOMETIMES" />
+                                                      <ColumnConstraints hgrow="SOMETIMES" />
+                                                      <ColumnConstraints hgrow="SOMETIMES" />
                                                    </columnConstraints>
                                                    <rowConstraints>
-                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints vgrow="SOMETIMES" />
+                                                      <RowConstraints vgrow="SOMETIMES" />
+                                                      <RowConstraints vgrow="SOMETIMES" />
                                                    </rowConstraints>
                                                    <children>
-                                                      <StackPane fx:id="ammoBackgroundRed1" prefHeight="150.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                                                      <StackPane fx:id="ammoBackgroundRed1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                                                          <children>
                                                             <StackPane fx:id="ammoMainImageRed1">
                                                                <children>
@@ -551,7 +553,7 @@
                                                             </StackPane>
                                                          </children>
                                                       </StackPane>
-                                                      <StackPane fx:id="ammoBackgroundRed2" prefHeight="150.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                                                      <StackPane fx:id="ammoBackgroundRed2" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                                                          <children>
                                                             <StackPane fx:id="ammoMainImageRed2">
                                                                <children>
@@ -560,7 +562,7 @@
                                                             </StackPane>
                                                          </children>
                                                       </StackPane>
-                                                      <StackPane fx:id="ammoBackgroundRed3" prefHeight="150.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                                                      <StackPane fx:id="ammoBackgroundRed3" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                                                          <children>
                                                             <StackPane fx:id="ammoMainImageRed3">
                                                                <children>
@@ -569,7 +571,7 @@
                                                             </StackPane>
                                                          </children>
                                                       </StackPane>
-                                                      <StackPane fx:id="ammoBackgroundYellow1" prefHeight="150.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                                                      <StackPane fx:id="ammoBackgroundYellow1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                                                          <children>
                                                             <StackPane fx:id="ammoMainImageYellow1">
                                                                <children>
@@ -578,7 +580,7 @@
                                                             </StackPane>
                                                          </children>
                                                       </StackPane>
-                                                      <StackPane fx:id="ammoBackgroundYellow2" prefHeight="150.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                                                      <StackPane fx:id="ammoBackgroundYellow2" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                                                          <children>
                                                             <StackPane fx:id="ammoMainImageYellow2">
                                                                <children>
@@ -587,7 +589,7 @@
                                                             </StackPane>
                                                          </children>
                                                       </StackPane>
-                                                      <StackPane fx:id="ammoBackgroundYellow3" prefHeight="150.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                                                      <StackPane fx:id="ammoBackgroundYellow3" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                                                          <children>
                                                             <StackPane fx:id="ammoMainImageYellow3">
                                                                <children>
@@ -596,7 +598,7 @@
                                                             </StackPane>
                                                          </children>
                                                       </StackPane>
-                                                      <StackPane fx:id="ammoBackgroundBlue1" prefHeight="150.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                                                      <StackPane fx:id="ammoBackgroundBlue1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                                                          <children>
                                                             <StackPane fx:id="ammoMainImageBlue1">
                                                                <children>
@@ -605,7 +607,7 @@
                                                             </StackPane>
                                                          </children>
                                                       </StackPane>
-                                                      <StackPane fx:id="ammoBackgroundBlue2" prefHeight="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                                      <StackPane fx:id="ammoBackgroundBlue2" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                                          <children>
                                                             <StackPane fx:id="ammoMainImageBlue2">
                                                                <children>
@@ -614,7 +616,7 @@
                                                             </StackPane>
                                                          </children>
                                                       </StackPane>
-                                                      <StackPane fx:id="ammoBackgroundBlue3" prefHeight="150.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                                      <StackPane fx:id="ammoBackgroundBlue3" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                                          <children>
                                                             <StackPane fx:id="ammoMainImageBlue3">
                                                                <children>
@@ -629,16 +631,16 @@
                                           </GridPane>
                                        </children>
                                     </StackPane>
-                                    <VBox fx:id="weaponCardsVBox" layoutX="10.0" layoutY="10.0" minWidth="300.0" prefHeight="200.0" HBox.hgrow="ALWAYS">
+                                    <VBox fx:id="weaponCardsVBox" layoutX="10.0" layoutY="10.0" minWidth="300.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <StackPane fx:id="weaponCardsTitle" prefHeight="24.0" prefWidth="244.0">
+                                          <StackPane fx:id="weaponCardsTitle">
                                              <children>
                                                 <Label text="weaponCards" />
                                              </children>
                                           </StackPane>
-                                          <HBox fx:id="weaponCardsBackground" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                          <HBox fx:id="weaponCardsBackground" VBox.vgrow="ALWAYS">
                                              <children>
-                                                <StackPane fx:id="weaponCardBackground1" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                                <StackPane fx:id="weaponCardBackground1" HBox.hgrow="ALWAYS">
                                                    <children>
                                                       <StackPane fx:id="weaponCardMainImage1">
                                                          <children>
@@ -647,7 +649,7 @@
                                                       </StackPane>
                                                    </children>
                                                 </StackPane>
-                                                <StackPane fx:id="weaponCardBackground2" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                                <StackPane fx:id="weaponCardBackground2" HBox.hgrow="ALWAYS">
                                                    <children>
                                                       <StackPane fx:id="weaponCardMainImage2">
                                                          <children>
@@ -656,7 +658,7 @@
                                                       </StackPane>
                                                    </children>
                                                 </StackPane>
-                                                <StackPane fx:id="weaponCardBackground3" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                                <StackPane fx:id="weaponCardBackground3" layoutX="10.0" layoutY="10.0" HBox.hgrow="ALWAYS">
                                                    <children>
                                                       <StackPane fx:id="weaponCardMainImage3">
                                                          <children>
@@ -673,24 +675,24 @@
                               </HBox>
                            </children>
                         </AnchorPane>
-                     </children>
-                  </VBox>
+                     </items>
+                  </SplitPane>
                </children>
             </AnchorPane>
             <VBox fx:id="interactiveSection" minWidth="300.0">
                <children>
-                  <AnchorPane fx:id="selectorSection" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                  <AnchorPane fx:id="selectorSection" VBox.vgrow="ALWAYS">
                      <children>
-                        <StackPane prefHeight="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <Label fx:id="selectorLabel" text="selecto zone" />
                            </children>
                         </StackPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="informationSection" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                  <AnchorPane fx:id="informationSection" VBox.vgrow="ALWAYS">
                      <children>
-                        <StackPane prefHeight="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <Label text="information zone" />
                            </children>

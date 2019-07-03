@@ -27,9 +27,11 @@ public class RmiVirtualView extends VirtualView implements RmiInterface{
 
     private ViewControllerEventHandlerContext controller;
 
-    public static Player newPlayer;
+    private static Player newPlayer;
 
-    private String name="http://AdrenalineServer:1099";
+    public static Player getNewPlayer() {
+        return newPlayer;
+    }
 
     public RmiVirtualView(ViewControllerEventHandlerContext controller){
         this.controller = controller;
@@ -38,9 +40,10 @@ public class RmiVirtualView extends VirtualView implements RmiInterface{
     /** start the rmi server*/
     public void startRMI() throws RemoteException {
 
-        RmiInterface RMIS = new RmiVirtualView(controller);
-        RmiInterface stub = (RmiInterface) UnicastRemoteObject.exportObject(RMIS, 1099);
+        RmiInterface rmiInterface = new RmiVirtualView(controller);
+        RmiInterface stub = (RmiInterface) UnicastRemoteObject.exportObject(rmiInterface, 1099);
         Registry reg = LocateRegistry.createRegistry(1099);
+        String name = "http://AdrenalineServer:1099";
         reg.rebind(name, stub);
 
         out.println("<SERVER>: RMI SERVER running at the adress "+ name);
@@ -48,14 +51,14 @@ public class RmiVirtualView extends VirtualView implements RmiInterface{
     }
 
     public void sendAllClient(Object o){
-        if(ModelGate.model.getPlayerList()!=null && ModelGate.model.getPlayerList().getPlayers()!=null){
-            for (Player p : ModelGate.model.getPlayerList().getPlayers()) {
-                this.sendToClient(p,o);
+        if(ModelGate.getModel().getPlayerList()!=null && ModelGate.getModel().getPlayerList().getPlayers()!=null){
+            for (Player p : ModelGate.getModel().getPlayerList().getPlayers()) {
+                sendToClient(p,o);
             }
         }
     }
 
-    public static void sendToClient(Player playerToSend, Object o){
+     static void sendToClient(Player playerToSend, Object o){
 
 
             if((!playerToSend.isBot())&&(!playerToSend.isAFK())&&((playerToSend.getRmiInterface()!=null))){
@@ -67,7 +70,7 @@ public class RmiVirtualView extends VirtualView implements RmiInterface{
             }
     }
 
-    public static void sendToClientEvenAFK(Player playerToSend, Object o) {
+     static void sendToClientEvenAFK(Player playerToSend, Object o) {
 
         try {
             playerToSend.getRmiInterface().send(o);
@@ -84,7 +87,7 @@ public class RmiVirtualView extends VirtualView implements RmiInterface{
         sendAllClient(arg);
     }
 
-    public static void setNewPlayer(Player p){
+     static void setNewPlayer(Player p){
         newPlayer = p;
     }
 
@@ -97,7 +100,7 @@ public class RmiVirtualView extends VirtualView implements RmiInterface{
             if(!validNickname){
                 //restart the Connection process
 
-                (new Thread(new RmiConnectionHandlerVirtualView(RmiVirtualView.newPlayer.getRmiInterface()))).start();
+                (new Thread(new RmiConnectionHandlerVirtualView(RmiVirtualView.getNewPlayer().getRmiInterface()))).start();
 
             }
         }

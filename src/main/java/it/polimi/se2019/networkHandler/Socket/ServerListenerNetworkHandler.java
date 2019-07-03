@@ -21,19 +21,13 @@ public class ServerListenerNetworkHandler extends Observable implements Runnable
 
     private Socket socket;
 
-    public boolean isSocketLive;
-
     private ObjectInputStream ois;
 
-    private View view;
+    ServerListenerNetworkHandler(Socket socket, ObjectInputStream ois, View view){
 
-    public ServerListenerNetworkHandler(Socket socket, ObjectInputStream ois, View view){
         this.socket = socket;
-        this.isSocketLive = true;
         this.ois = ois;
-        this.view = view;
-
-        this.addObserver(this.view);
+        this.addObserver(view);
     }
 
 

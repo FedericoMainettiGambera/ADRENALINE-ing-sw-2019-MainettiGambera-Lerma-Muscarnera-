@@ -40,10 +40,10 @@ public class FFSetUpState implements State {
         prepareForFF();
 
         //pass the turn
-        ModelGate.model.getPlayerList().setNextPlayingPlayer();
+        ModelGate.getModel().getPlayerList().setNextPlayingPlayer();
 
         ViewControllerEventHandlerContext.setNextState(new TurnState(1));
-        ViewControllerEventHandlerContext.state.askForInput(ModelGate.model.getCurrentPlayingPlayer());
+        ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
 
     }
 
@@ -51,22 +51,22 @@ public class FFSetUpState implements State {
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        ModelGate.model.triggerFinalFrenzy(true);
+        ModelGate.getModel().triggerFinalFrenzy(true);
 
         List<Player> listOfPlayers = new ArrayList<>(); //list of players ordered from the current playing player
-        listOfPlayers.add(ModelGate.model.getCurrentPlayingPlayer()); //add the current playing player
+        listOfPlayers.add(ModelGate.getModel().getCurrentPlayingPlayer()); //add the current playing player
         //search index of the current playing player
         int currentPlayingPlayerIndex = 0;
-        while (!ModelGate.model.getPlayerList().getPlayers().get(currentPlayingPlayerIndex).getNickname().equals(ModelGate.model.getCurrentPlayingPlayer().getNickname())){
+        while (!ModelGate.getModel().getPlayerList().getPlayers().get(currentPlayingPlayerIndex).getNickname().equals(ModelGate.getModel().getCurrentPlayingPlayer().getNickname())){
             currentPlayingPlayerIndex++;
         }
         //adding all player after the current playing player
-        for (int i = currentPlayingPlayerIndex; i < ModelGate.model.getPlayerList().getPlayers().size(); i++) {
-            listOfPlayers.add(ModelGate.model.getPlayerList().getPlayers().get(i));
+        for (int i = currentPlayingPlayerIndex; i < ModelGate.getModel().getPlayerList().getPlayers().size(); i++) {
+            listOfPlayers.add(ModelGate.getModel().getPlayerList().getPlayers().get(i));
         }
         //adding all player before current playing player
         for (int i = 0; i < currentPlayingPlayerIndex ; i++) {
-            listOfPlayers.add(ModelGate.model.getPlayerList().getPlayers().get(i));
+            listOfPlayers.add(ModelGate.getModel().getPlayerList().getPlayers().get(i));
         }
         //delete the bot
         for (Player p: listOfPlayers) {
@@ -77,14 +77,14 @@ public class FFSetUpState implements State {
         }
 
         //set last playing player in FF
-        ModelGate.model.getCurrentPlayingPlayer().setLastPlayingPlayer();
+        ModelGate.getModel().getCurrentPlayingPlayer().setLastPlayingPlayer();
 
         int position=-1;
         for(Player player : listOfPlayers) {
             if (player.getBoard().getDamagesTracker().isEmpty()){
                 player.makePlayerBoardFinalFrenzy();
             }
-            if (ModelGate.model.getPlayerList().getStartingPlayer().getNickname().equals(player.getNickname())) {
+            if (ModelGate.getModel().getPlayerList().getStartingPlayer().getNickname().equals(player.getNickname())) {
                 player.setBeforeorafterStartingPlayer(0);
                 position = 1;
             } else if (position < 0) {

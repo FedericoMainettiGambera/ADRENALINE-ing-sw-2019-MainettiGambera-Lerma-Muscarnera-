@@ -14,14 +14,13 @@ import it.polimi.se2019.view.GUIstarter;
 import it.polimi.se2019.view.GameSceneController;
 import it.polimi.se2019.view.components.*;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +30,8 @@ import java.util.concurrent.TimeUnit;
 public class GUISelector implements SelectorV {
 
     private String networkConnection;
+
+    private String hoverableCssClass = "weirdPadding";
 
     GUISelector(String networkConnection){
         this.networkConnection = networkConnection;
@@ -43,40 +44,6 @@ public class GUISelector implements SelectorV {
     private void makeNodeHoverable(Node node){
         node.setOnMouseEntered(e-> ((Node)e.getSource()).setStyle("-fx-background-color: #ffb523"));
         node.setOnMouseExited(e-> ((Node)e.getSource()).setStyle("-fx-background-color: #0e1d24"));
-    }
-
-    private StackPane doneButton(){
-        //ELEMENTS
-        StackPane stackPane = new StackPane();
-        Button button = new Button("DONE");
-
-        makeNodeHoverable(button);
-
-        //STRUCTURE
-        stackPane.getChildren().add(button);
-
-        //PROPERTIES
-        stackPane.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(4));
-
-        return stackPane;
-    }
-
-    private ScrollPane buildBasicScrollPane(){
-        ScrollPane scrollPane = new ScrollPane();
-        AnchorPane requestContainer = new AnchorPane();
-        VBox scrollContent = new VBox();
-
-        scrollPane.setContent(requestContainer);
-        requestContainer.getChildren().add(scrollContent);
-
-        AnchorPane.setTopAnchor(scrollContent, 0.0);
-        AnchorPane.setRightAnchor(scrollContent, 0.0);
-        AnchorPane.setBottomAnchor(scrollContent, 0.0);
-        AnchorPane.setLeftAnchor(scrollContent, 0.0);
-
-        scrollPane.setFitToWidth(true);
-
-        return scrollPane;
     }
 
     private VBox getScrollContent(ScrollPane scrollPane){
@@ -104,6 +71,26 @@ public class GUISelector implements SelectorV {
         vBox.getChildren().addAll(stackPane,content);
 
         return vBox;
+    }
+
+    private StackPane getPlayerStackPane(PlayerV player){
+        StackPane squareStackPane = getGameSceneController().getMainImagesmap()[player.getX()][player.getY()];
+
+        //get the last child in the squareStackPane that is always an HBox of players
+        HBox playersHbox = (HBox)squareStackPane.getChildren().get(squareStackPane.getChildren().size()-1);
+
+        //finds the correct stackPane inside the hbox of players
+        for (Node n: playersHbox.getChildren() ) {
+            if(((PlayerV)n.getUserData()).getNickname().equals(player.getNickname())){
+                return (StackPane)n;
+            }
+        }
+        try {
+            throw new IllegalArgumentException("Player not found in the square");
+        } catch (Exception e) {
+            GUIstarter.showError(this, "couldn't find the player in the square", e);
+            return new StackPane(new Label("wrong player"));
+        }
     }
 
     //##################################################################################################################
@@ -140,6 +127,23 @@ public class GUISelector implements SelectorV {
                 });
             });
         }
+        private ScrollPane buildBasicScrollPane(){
+            ScrollPane scrollPane = new ScrollPane();
+            AnchorPane requestContainer = new AnchorPane();
+            VBox scrollContent = new VBox();
+
+            scrollPane.setContent(requestContainer);
+            requestContainer.getChildren().add(scrollContent);
+
+            AnchorPane.setTopAnchor(scrollContent, 0.0);
+            AnchorPane.setRightAnchor(scrollContent, 0.0);
+            AnchorPane.setBottomAnchor(scrollContent, 0.0);
+            AnchorPane.setLeftAnchor(scrollContent, 0.0);
+
+            scrollPane.setFitToWidth(true);
+
+            return scrollPane;
+        }
         private ScrollPane builRequest(){
             ScrollPane request = buildBasicScrollPane();
             VBox scrollContent = getScrollContent(request);
@@ -162,7 +166,7 @@ public class GUISelector implements SelectorV {
             scrollContent.getChildren().add(isFinalFrenzyRequest);
 
             //is Bot
-            HBox isBotRequest = null;
+            HBox isBotRequest;
             if(canBot) {
                 isBotRequest = isBotRequest();
                 scrollContent.getChildren().add(isBotRequest);
@@ -172,13 +176,14 @@ public class GUISelector implements SelectorV {
             VBox numberOfSkullsRequest = numberOfSkullsRequest();
             scrollContent.getChildren().add(numberOfSkullsRequest);
 
-            StackPane doneButton = doneButton();
+            StackPane doneButton = new StackPane(new Label("DONE"));
+            makeNodeHoverable(doneButton);
             //EVENTS
-            ((Button)doneButton.getChildren().get(0)).setOnAction(e->{
+            doneButton.setOnMouseClicked(e->{
                 getGameSceneController().removeSelectorSection();
-                System.out.println("DONE");
                 getGameSceneController().sendToServer(new ViewControllerEventGameSetUp("normalMode", this.choosenMap, this.numberOfSkulls, this.ifFinalFrenzy, this.isBot));
             });
+            doneButton.setPrefHeight(getGameSceneController().getSelectorSection().getHeight()/6);
             scrollContent.getChildren().add(doneButton);
 
             return request;
@@ -207,10 +212,7 @@ public class GUISelector implements SelectorV {
                 mapMainImage.setId("map" + i);
 
                 //EVENTS
-                mapMainImage.setOnMouseClicked(e -> {
-                    this.choosenMap = ((Node)e.getSource()).getId();
-                    System.out.println(((Node)e.getSource()).getId());
-                });
+                mapMainImage.setOnMouseClicked(e -> this.choosenMap = ((Node)e.getSource()).getId());
                 makeNodeHoverable(mapMainImage);
                 maps.add(mapBackground);
             }
@@ -258,14 +260,8 @@ public class GUISelector implements SelectorV {
             HBox.setHgrow(right, Priority.ALWAYS);
 
             //EVENTS
-            yes.setOnAction(e-> {
-                this.ifFinalFrenzy = true;
-                System.out.println("true");
-            });
-            no.setOnAction(e-> {
-                this.ifFinalFrenzy = false;
-                System.out.println("false");
-            });
+            yes.setOnAction(e-> this.ifFinalFrenzy = true);
+            no.setOnAction(e-> this.ifFinalFrenzy = false);
 
             return hbox;
         }
@@ -300,14 +296,8 @@ public class GUISelector implements SelectorV {
             hbox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(4));
 
             //EVENTS
-            yes.setOnAction(e-> {
-                this.isBot = true;
-                System.out.println("true");
-            });
-            no.setOnAction(e-> {
-                this.ifFinalFrenzy = false;
-                System.out.println("false");
-            });
+            yes.setOnAction(e-> this.isBot = true);
+            no.setOnAction(e-> this.ifFinalFrenzy = false);
 
             return hbox;
         }
@@ -351,10 +341,7 @@ public class GUISelector implements SelectorV {
             for (int i = 0; i < radioButtons.size(); i++) {
                 int value = i+5;
                 radioButtons.get(i).setUserData(value);
-                radioButtons.get(i).setOnAction(e->{
-                    this.numberOfSkulls = (Integer)((RadioButton)e.getSource()).getUserData();
-                    System.out.println(this.numberOfSkulls);
-                });
+                radioButtons.get(i).setOnAction(e-> this.numberOfSkulls = (Integer)((RadioButton)e.getSource()).getUserData());
             }
 
             return vbox;
@@ -384,7 +371,7 @@ public class GUISelector implements SelectorV {
         private boolean spawnBot;
         private String botSpawn;
         private String cardID;
-        public AskFirstSpawnPosition(List<PowerUpCardV> powerUpCards, boolean spawnBot){
+        private AskFirstSpawnPosition(List<PowerUpCardV> powerUpCards, boolean spawnBot){
             this.powerUpCards = powerUpCards;
             this.spawnBot=spawnBot;
 
@@ -393,58 +380,43 @@ public class GUISelector implements SelectorV {
         }
         @Override
         public void run() {
-            ScrollPane request = buildRequest();
+            VBox request = buildRequest();
             Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
         }
-        private ScrollPane buildRequest(){
-            ScrollPane request = buildBasicScrollPane();
-            VBox scrollContent = getScrollContent(request);
+        private VBox buildRequest(){
+            VBox request = new VBox();
+            request.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
 
             //BOT REQUEST
             if(spawnBot){
-                VBox vBox = new VBox();
                 StackPane title = new StackPane(new Label("Choose where you want to spawn the bot"));
                 StackPane red = new StackPane(new Label("red"));
                 StackPane blue = new StackPane(new Label("blue"));
                 StackPane yellow = new StackPane(new Label("yellow"));
 
-                scrollContent.getChildren().add(vBox);
+                request.getChildren().addAll(title, red, blue, yellow);
+
+
+                makeNodeHoverable(red);
+                makeNodeHoverable(blue);
+                makeNodeHoverable(yellow);
+
+                red.setOnMouseClicked(e-> this.botSpawn = "red");
+                blue.setOnMouseClicked(e-> this.botSpawn = "blue");
+                yellow.setOnMouseClicked(e-> this.botSpawn = "yellow");
 
                 VBox.setVgrow(title, Priority.ALWAYS);
                 VBox.setVgrow(red, Priority.ALWAYS);
                 VBox.setVgrow(blue, Priority.ALWAYS);
                 VBox.setVgrow(yellow, Priority.ALWAYS);
-
-                vBox.getChildren().add(title);
-                vBox.getChildren().add(red);
-                vBox.getChildren().add(blue);
-                vBox.getChildren().add(yellow);
-
-                makeNodeHoverable(red);
-                makeNodeHoverable(blue);
-                makeNodeHoverable(yellow);
-                vBox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
-
-                red.setOnMouseClicked(e->{
-                    this.botSpawn = "red";
-                    System.out.println("red");
-                });
-                blue.setOnMouseClicked(e->{
-                    this.botSpawn = "blue";
-                    System.out.println("blue");
-                });
-                yellow.setOnMouseClicked(e->{
-                    this.botSpawn = "yellow";
-                    System.out.println("yellow");
-                });
             }
 
             //QUESTION
             StackPane stackPane = new StackPane();
             Label question = new Label("What power up do you want to discard and spawn to?");
             stackPane.getChildren().add(question);
-            stackPane.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(6));
-            scrollContent.getChildren().add(stackPane);
+
+            request.getChildren().add(stackPane);
 
             //POWER UP REQUEST
             List<StackPane> powerUps = new ArrayList<>();
@@ -454,10 +426,7 @@ public class GUISelector implements SelectorV {
                 stackPaneMainImage.setUserData(powerUpCardV.getID());
                 stackPaneBackground.getChildren().add(stackPaneMainImage);
 
-                stackPaneMainImage.setOnMouseClicked(e->{
-                    this.cardID = (String)((StackPane)e.getSource()).getUserData();
-                    System.out.println("ID:" + this.cardID);
-                });
+                stackPaneMainImage.setOnMouseClicked(e-> this.cardID = (String)((StackPane)e.getSource()).getUserData());
                 makeNodeHoverable(stackPaneMainImage);
                 powerUps.add(stackPaneBackground);
             }
@@ -467,22 +436,19 @@ public class GUISelector implements SelectorV {
                 hBox.getChildren().add(powerUp);
                 HBox.setHgrow(powerUp, Priority.ALWAYS);
             }
-            hBox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
-            scrollContent.getChildren().add(hBox);
-
-            for (Node n: scrollContent.getChildren()) {
-                VBox.setVgrow(n, Priority.ALWAYS);
-            }
+            hBox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(2));
+            request.getChildren().add(hBox);
 
             //DONE BUTTON
-            StackPane doneButton = doneButton();
-            ((Button)doneButton.getChildren().get(0)).setOnAction(e->{
+            StackPane doneButton = new StackPane(new Label("done"));
+            makeNodeHoverable(doneButton);
+            doneButton.setOnMouseClicked(e->{
                 getGameSceneController().removeSelectorSection();
                 ViewControllerEventTwoString viewControllerEventTwoString = new ViewControllerEventTwoString(cardID, botSpawn);
                 getGameSceneController().sendToServer(viewControllerEventTwoString);
-                System.out.println("DONE");
             });
-            scrollContent.getChildren().add(doneButton);
+            VBox.setVgrow(doneButton,Priority.ALWAYS);
+            request.getChildren().add(doneButton);
 
             return request;
         }
@@ -506,12 +472,12 @@ public class GUISelector implements SelectorV {
         }
         @Override
         public void run(){
-            ScrollPane request = buildRequest();
+            VBox request = buildRequest();
             Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
         }
-        private ScrollPane buildRequest(){
-            ScrollPane request = buildBasicScrollPane();
-            VBox scrollContent = getScrollContent(request);
+        private VBox buildRequest(){
+            VBox request = new VBox();
+            request.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
 
             //possible requests
             List<String> requests = new ArrayList<>();
@@ -527,7 +493,7 @@ public class GUISelector implements SelectorV {
                 StackPane stackPane = new StackPane();
                 Label label = new Label(s);
 
-                scrollContent.getChildren().add(stackPane);
+                request.getChildren().add(stackPane);
                 stackPane.getChildren().add(label);
 
                 stackPane.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(requests.size()));
@@ -538,8 +504,6 @@ public class GUISelector implements SelectorV {
 
                 stackPane.setOnMouseClicked(e->{
                     this.chosenAction = (String)((StackPane)e.getSource()).getUserData();
-
-                    System.out.println(this.chosenAction);
 
                     ViewControllerEventString viewControllerEventString = new ViewControllerEventString(this.chosenAction);
 
@@ -560,10 +524,7 @@ public class GUISelector implements SelectorV {
 
     @Override
     public void askBotMove(SelectorEventPositions selectorEventPositions) {
-        CLISelector cliSelector= new CLISelector(networkConnection);
-        cliSelector.askBotMove(selectorEventPositions);
-        //TODO
-        //new Thread(new AskBotMove(selectorEventPositions.getPositions())).start();
+        new Thread(new AskBotMove(selectorEventPositions.getPositions())).start();
     }
     private class AskBotMove implements Runnable{
         private List<Position> positions;
@@ -572,16 +533,38 @@ public class GUISelector implements SelectorV {
         }
         @Override
         public void run() {
+
+            Platform.runLater(()->
+                getGameSceneController().changeSelectorSection(
+                        new StackPane(new Label("Choose where to move the bot in the map")),
+                        0.0,0.0,0.0,0.0
+                )
+            );
+
+            makeSquaresHoverableAndSendPositionEvent(positions);
+        }
+    }
+
+    private void makeSquaresHoverableAndSendPositionEvent(List<Position> positions){
+        StackPane[][] backgroundMap = getGameSceneController().getBackgroundsMap();
+        for (Position pos : positions) {
+
+            Platform.runLater(()->backgroundMap[pos.getX()][pos.getY()].getStyleClass().add(hoverableCssClass));
+            backgroundMap[pos.getX()][pos.getY()].setOnMouseClicked(e->{
+                ViewControllerEventPosition viewControllerEventPosition = new ViewControllerEventPosition(pos.getX(), pos.getY());
+                getGameSceneController().sendToServer(viewControllerEventPosition);
+                for (Position position : positions) {
+                    Platform.runLater(()->backgroundMap[position.getX()][position.getY()].getStyleClass().remove(hoverableCssClass));
+                }
+                getGameSceneController().removeSelectorSection();
+            });
         }
     }
 
     //##################################################################################################################
     @Override
     public void askRunAroundPosition(List<Position> positions) {
-        CLISelector cliSelector= new CLISelector(networkConnection);
-        cliSelector.askRunAroundPosition(positions);
-        //TODO
-        //new Thread(new AskRunAroundPosition(positions)).start();
+        new Thread(new AskRunAroundPosition(positions)).start();
     }
     private class AskRunAroundPosition implements Runnable{
         private List<Position> positions;
@@ -590,25 +573,16 @@ public class GUISelector implements SelectorV {
         }
         @Override
         public void run(){
-            ScrollPane request = buildRequest();
-            Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
-        }
-        private ScrollPane buildRequest(){
-            ScrollPane request = buildBasicScrollPane();
-            VBox scrollContent = getScrollContent(request);
 
-            StackPane stackPane = new StackPane(new Label("Choose where to move: "));
+            Platform.runLater(()->
+                getGameSceneController().changeSelectorSection(
+                        new StackPane(new Label("Choose where to move in the map")),
+                        0.0,0.0,0.0,0.0
+                )
+            );
 
-            stackPane.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
+            makeSquaresHoverableAndSendPositionEvent(positions);
 
-            scrollContent.getChildren().add(stackPane);
-
-            return request;
-        }
-        private void positionChosed(int x, int y){
-            ViewControllerEventPosition viewControllerEventPosition = new ViewControllerEventPosition(x,y);
-
-            getGameSceneController().sendToServer(viewControllerEventPosition);
         }
     }
 
@@ -627,16 +601,12 @@ public class GUISelector implements SelectorV {
         private VBox buildRequest(){
             //STRUCTURE
             VBox request = new VBox();
-            StackPane stackPane1 = new StackPane(new Label("move to another position and grab there"));
-            StackPane stackPane2 = new StackPane(new Label("grab where you are without moving"));
+            StackPane stackPane1 = new StackPane(new Label("move and grab"));
+            StackPane stackPane2 = new StackPane(new Label("grab where you are"));
 
             request.getChildren().addAll(stackPane1,stackPane2);
 
             //PROPERTIES
-            stackPane1.setUserData("move");
-            stackPane2.setUserData("grab");
-            stackPane1.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
-            stackPane2.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
             VBox.setVgrow(stackPane1, Priority.ALWAYS);
             VBox.setVgrow(stackPane2, Priority.ALWAYS);
             makeNodeHoverable(stackPane1);
@@ -644,12 +614,12 @@ public class GUISelector implements SelectorV {
 
             //EVENTS
             stackPane1.setOnMouseClicked(e->{
-                ViewControllerEventString viewControllerEventString = new ViewControllerEventString((String)((StackPane)e.getSource()).getUserData());
+                ViewControllerEventString viewControllerEventString = new ViewControllerEventString("move");
                 getGameSceneController().removeSelectorSection();
                 getGameSceneController().sendToServer(viewControllerEventString);
             });
             stackPane2.setOnMouseClicked(e->{
-                ViewControllerEventString viewControllerEventString = new ViewControllerEventString((String)((StackPane)e.getSource()).getUserData());
+                ViewControllerEventString viewControllerEventString = new ViewControllerEventString("grab");
                 getGameSceneController().removeSelectorSection();
                 getGameSceneController().sendToServer(viewControllerEventString);
             });
@@ -662,20 +632,7 @@ public class GUISelector implements SelectorV {
     //##################################################################################################################
     @Override
     public void askGrabStuffMove(List<Position> positions) {
-        CLISelector cliSelector= new CLISelector(networkConnection);
-        cliSelector.askGrabStuffMove(positions);
-        //TODO
-        //new Thread(new AskGrabStuffMove(positions)).start();
-    }
-    private class AskGrabStuffMove implements Runnable{
-        private List<Position> positions;
-        private AskGrabStuffMove (List<Position> positions){
-            this.positions=positions;
-        }
-        @Override
-        public void run(){
-
-        }
+        new Thread(new AskRunAroundPosition(positions)).start();
     }
 
     //##################################################################################################################
@@ -699,16 +656,15 @@ public class GUISelector implements SelectorV {
             VBox vBox = buildTitleWithContent("Choose what weapon to pick up", hBox);
 
             //PROPERTIES
-            hBox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
+            VBox.setVgrow(hBox, Priority.ALWAYS);
 
             for (int i = 0; i < hBox.getChildren().size() ; i++) {
-                StackPane mainStackPane = (StackPane)hBox.getChildren().get(i);
+                StackPane mainStackPane = (StackPane)((StackPane)hBox.getChildren().get(i)).getChildren().get(0);
                 makeNodeHoverable(mainStackPane);
                 mainStackPane.setUserData(toPickUp.get(i).getID());
                 //EVENTS
                 mainStackPane.setOnMouseClicked(e->{
                     String toPickUpID = (String)((StackPane)e.getSource()).getUserData();
-                    System.out.println("ID: " + toPickUpID);
                     ViewControllerEventString viewControllerEventString = new ViewControllerEventString(toPickUpID);
                     getGameSceneController().removeSelectorSection();
                     getGameSceneController().sendToServer(viewControllerEventString);
@@ -722,10 +678,7 @@ public class GUISelector implements SelectorV {
     //##################################################################################################################
     @Override
     public void askGrabStuffSwitchWeapon(List<WeaponCardV> toPickUp, List<WeaponCardV> toSwitch) {
-        CLISelector cliSelector= new CLISelector(networkConnection);
-        cliSelector.askGrabStuffSwitchWeapon(toPickUp, toSwitch);
-        //TODO
-        //new Thread(new AskGrabStuffSwitchWeapon(toPickUp, toSwitch)).start();
+        new Thread(new AskGrabStuffSwitchWeapon(toPickUp, toSwitch)).start();
     }
     private class AskGrabStuffSwitchWeapon implements Runnable{
         private List<WeaponCardV> toPickUp;
@@ -735,10 +688,13 @@ public class GUISelector implements SelectorV {
         private AskGrabStuffSwitchWeapon(List<WeaponCardV> toPickUp, List<WeaponCardV> toSwitch){
             this.toPickUp = toPickUp;
             this.toSwitch = toSwitch;
+            toPickUpID = toPickUp.get(0).getID();
+            toSwitchID = toSwitch.get(0).getID();
         }
         @Override
         public void run() {
             VBox request = buildRequest();
+            Platform.runLater(this::makeWeaponHoverable);
             Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
         }
         private VBox buildRequest(){
@@ -747,22 +703,49 @@ public class GUISelector implements SelectorV {
             VBox vBox = buildTitleWithContent("Choose one to pick up and one to discard from your hand", hBox);
 
             //PROPERTIES
-            hBox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
+            VBox.setVgrow(hBox, Priority.ALWAYS);
 
             //USER DATA
             for (int i = 0; i < hBox.getChildren().size() ; i++) {
-                StackPane mainStackPane = (StackPane)hBox.getChildren().get(i);
+                StackPane mainStackPane = (StackPane)((StackPane)hBox.getChildren().get(i)).getChildren().get(0);
                 makeNodeHoverable(mainStackPane);
                 mainStackPane.setUserData(toPickUp.get(i).getID());
-                //EVENTS
-                mainStackPane.setOnMouseClicked(e->{
-                    this.toPickUpID = (String)((StackPane)e.getSource()).getUserData();
-                    System.out.println("ID: " + this.toPickUpID);
-                    getGameSceneController().removeSelectorSection();
-                });
+                //EVENTSc
+                mainStackPane.setOnMouseClicked(e-> this.toPickUpID = (String)((StackPane)e.getSource()).getUserData());
             }
 
+            //done button
+            StackPane doneButton = new StackPane(new Label("DONE"));
+            makeNodeHoverable(doneButton);
+            doneButton.setOnMouseClicked(e->{
+                ViewControllerEventTwoString viewControllerEventTwoString = new ViewControllerEventTwoString(toPickUpID, toSwitchID);
+                getGameSceneController().removeSelectorSection();
+                unmakeWeaponHoverable();
+                getGameSceneController().sendToServer(viewControllerEventTwoString);
+            });
+            vBox.getChildren().add(doneButton);
+
             return vBox;
+        }
+        private void makeWeaponHoverable(){
+            for (StackPane weaponCardStackPane: getGameSceneController().getWeaponCardsMainImage()) {
+                for (WeaponCardV weaponCardV:toSwitch) {
+                    if(((WeaponCardV)weaponCardStackPane.getUserData()).getID().equals(weaponCardV.getID())){
+                        Platform.runLater(()->weaponCardStackPane.getStyleClass().add(hoverableCssClass));
+                        weaponCardStackPane.setOnMouseClicked(e-> this.toSwitchID = weaponCardV.getID());
+                    }
+                }
+            }
+        }
+
+        private void unmakeWeaponHoverable(){
+            for (StackPane weaponCardStackPane: getGameSceneController().getWeaponCardsMainImage()) {
+                for (WeaponCardV weaponCardV:toSwitch) {
+                    if(((WeaponCardV)weaponCardStackPane.getUserData()).getID().equals(weaponCardV.getID())){
+                        Platform.runLater(()->weaponCardStackPane.getStyleClass().remove(hoverableCssClass));
+                    }
+                }
+            }
         }
     }
 
@@ -788,17 +771,16 @@ public class GUISelector implements SelectorV {
             VBox vBox = buildTitleWithContent("Too many Power up cards, choose one o discard:", hBox);
 
             //PROPERTIES
-            hBox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
+            VBox.setVgrow(hBox,Priority.ALWAYS);
 
             //USER DATA
             for (int i = 0; i < hBox.getChildren().size() ; i++) {
-                StackPane mainStackPane = (StackPane)hBox.getChildren().get(i);
+                StackPane mainStackPane = (StackPane)((StackPane)hBox.getChildren().get(i)).getChildren().get(0);
                 makeNodeHoverable(mainStackPane);
                 mainStackPane.setUserData(i);
                 //EVENTS
                 mainStackPane.setOnMouseClicked(e->{
                     int chosen = (Integer) ((StackPane)e.getSource()).getUserData();
-                    System.out.println(chosen);
                     ViewControllerEventInt viewControllerEventInt = new ViewControllerEventInt(chosen);
                     getGameSceneController().sendToServer(viewControllerEventInt);
                     getGameSceneController().removeSelectorSection();
@@ -812,10 +794,7 @@ public class GUISelector implements SelectorV {
     //##################################################################################################################
     @Override
     public void askWhatReaload(List<WeaponCardV> toReload) {
-        CLISelector cliSelector= new CLISelector(networkConnection);
-        cliSelector.askWhatReaload(toReload);
-        //TODO
-        //new Thread(new AskWhatReaload(toReload)).start();
+        new Thread(new AskWhatReaload(toReload)).start();
     }
     private class AskWhatReaload implements Runnable{
         private List<WeaponCardV> toReload;
@@ -824,16 +803,51 @@ public class GUISelector implements SelectorV {
         }
         @Override
         public void run() {
+            VBox request = buildRequest();
+            Platform.runLater(this::makeWeaponsHoverable);
+            Platform.runLater(()->getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
+        }
+        private VBox buildRequest(){
+            VBox request = new VBox();
+            StackPane stackPane = new StackPane(new Label("choose what weapon to reload from your hand"));
+            request.getChildren().add(stackPane);
+
+            StackPane skip = new StackPane(new Label("don't reload"));
+            request.getChildren().add(skip);
+
+            VBox.setVgrow(skip, Priority.ALWAYS);
+            VBox.setVgrow(stackPane, Priority.ALWAYS);
+
+            makeNodeHoverable(skip);
+
+            skip.setOnMouseClicked(e->{
+                String choice = "SKIP";
+                getGameSceneController().sendToServer(new ViewControllerEventString(choice));
+                getGameSceneController().removeSelectorSection();
+            });
+
+            return request;
+        }
+        private void makeWeaponsHoverable(){
+            for (StackPane weaponCardStackPane: getGameSceneController().getWeaponCardsMainImage()) {
+                for (WeaponCardV weaponCardV:toReload) {
+                    if(((WeaponCardV)weaponCardStackPane.getUserData()).getID().equals(weaponCardV.getID())){
+                        Platform.runLater(()->weaponCardStackPane.getStyleClass().add(hoverableCssClass));
+                        weaponCardStackPane.setOnMouseClicked(e-> {
+                            String chosenId = weaponCardV.getID();
+                            getGameSceneController().sendToServer(new ViewControllerEventString(chosenId));
+                            getGameSceneController().removeSelectorSection();
+                        });
+                    }
+                }
+            }
         }
     }
 
     //##################################################################################################################
     @Override
     public void askSpawn(List<PowerUpCardV> powerUpCards) {
-        CLISelector cliSelector= new CLISelector(networkConnection);
-        cliSelector.askSpawn(powerUpCards);
-        //TODO
-        //new Thread(new AskSpawn(powerUpCards)).start();
+        new Thread(new AskSpawn(powerUpCards)).start();
     }
     private class AskSpawn implements Runnable{
         private List<PowerUpCardV> powerUpCards;
@@ -847,26 +861,23 @@ public class GUISelector implements SelectorV {
         }
         private VBox buildRequest(){
             HBox hBox = buildHBoxRequestOfDoubleStackPanes(powerUpCards.size());
-
-            //PROPERTIES
-            hBox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty());
+            VBox vBox = buildTitleWithContent("choose power up to discard and spawn to:", hBox);
 
             //USER DATA
             for (int i = 0; i < hBox.getChildren().size() ; i++) {
-                StackPane mainStackPane = (StackPane)hBox.getChildren().get(i);
-                makeNodeHoverable(mainStackPane);
-                mainStackPane.setUserData(powerUpCards.get(i).getID());
+                StackPane mainStackPane = (StackPane)((StackPane)hBox.getChildren().get(i)).getChildren().get(0);
                 //EVENTS
                 mainStackPane.setOnMouseClicked(e->{
                     String chosenId = (String) ((StackPane)e.getSource()).getUserData();
-                    ViewControllerEventString viewControllerEventString = new ViewControllerEventString(chosenId);
                     getGameSceneController().removeSelectorSection();
-                    getGameSceneController().sendToServer(viewControllerEventString);
-                    System.out.println("ID: " + chosenId);
+                    getGameSceneController().sendToServer(new ViewControllerEventString(chosenId));
                 });
+                makeNodeHoverable(mainStackPane);
+                mainStackPane.setUserData(powerUpCards.get(i).getID());
             }
 
-            VBox vBox = buildTitleWithContent("choose power up to discard and spawn to:", hBox);
+            //PROPERTIES
+            VBox.setVgrow(hBox, Priority.ALWAYS);
 
             return vBox;
         }
@@ -883,30 +894,28 @@ public class GUISelector implements SelectorV {
             Platform.runLater(()->getGameSceneController().changeSelectorSection(request, 0.0,0.0,0.0,0.0));
         }
         private VBox buildRequest(){
-            HBox hBox = new HBox();
+            VBox vBox = new VBox();
+
+            StackPane stackPane0 = new StackPane(new Label("WHat do you want to do:"));
             StackPane stackPane1 = new StackPane(new Label("Shoot"));
             StackPane stackPane2 = new StackPane(new Label("Move"));
 
             stackPane1.setUserData("shoot");
             stackPane2.setUserData("move");
 
-            makeNodeHoverable(stackPane1);
-            makeNodeHoverable(stackPane2);
+            vBox.getChildren().addAll(stackPane0, stackPane1, stackPane2);
 
-            hBox.getChildren().addAll(stackPane1, stackPane2);
-            HBox.setHgrow(stackPane1,Priority.ALWAYS);
-            HBox.setHgrow(stackPane2, Priority.ALWAYS);
 
-            for (Node n:hBox.getChildren()) {
-                StackPane stackPane = (StackPane)n;
+            List<StackPane> moveOrShootStackpanes = new ArrayList<>(Arrays.asList(stackPane1, stackPane2));
+            for (StackPane stackPane : moveOrShootStackpanes) {
+                makeNodeHoverable(stackPane);
+                VBox.setVgrow(stackPane, Priority.ALWAYS);
                 stackPane.setOnMouseClicked(e->{
                     ViewControllerEventString viewControllerEventString= new ViewControllerEventString((String)((StackPane)e.getSource()).getUserData());
                     getGameSceneController().removeSelectorSection();
                     getGameSceneController().sendToServer(viewControllerEventString);
                 });
             }
-
-            VBox vBox= buildTitleWithContent("WHat do you want to do:", hBox);
             return vBox;
         }
     }
@@ -923,12 +932,7 @@ public class GUISelector implements SelectorV {
 
     //##################################################################################################################
     @Override
-    public void askWhatWep(List<WeaponCardV> loadedCardInHand) {
-        CLISelector cliSelector= new CLISelector(networkConnection);
-        cliSelector.askWhatWep(loadedCardInHand);
-        //TODO
-        //new Thread(new AskWhatWep(loadedCardInHand)).start();
-    }
+    public void askWhatWep(List<WeaponCardV> loadedCardInHand) {new Thread(new AskWhatWep(loadedCardInHand)).start(); }
     private class AskWhatWep implements Runnable{
         private List<WeaponCardV> loadedCardInHand;
         private AskWhatWep (List<WeaponCardV> loadedCardInHand){
@@ -936,8 +940,31 @@ public class GUISelector implements SelectorV {
         }
         @Override
         public void run() {
-
+            Platform.runLater(this::makeWeaponHoverable);
+            VBox request = buildRequest();
+            Platform.runLater(()->getGameSceneController().changeSelectorSection(request, 0.0,0.0,0.0,0.0));
         }
+        private void makeWeaponHoverable(){
+            for (StackPane weaponCardStackPane: getGameSceneController().getWeaponCardsMainImage()) {
+                for (int i = 0; i < loadedCardInHand.size(); i++) {
+                    WeaponCardV weaponCardV = loadedCardInHand.get(i);
+                    if(weaponCardStackPane.getUserData() != null
+                            && ((WeaponCardV) weaponCardStackPane.getUserData()).getID().equals(weaponCardV.getID())) {
+                        Platform.runLater(() -> weaponCardStackPane.getStyleClass().add(hoverableCssClass));
+                        String chosen = i + "";
+                        weaponCardStackPane.setOnMouseClicked(e -> {
+                            getGameSceneController().sendToServer(new ViewControllerEventString(chosen));
+                            getGameSceneController().removeSelectorSection();
+                        });
+
+                    }
+                }
+            }
+        }
+        private VBox buildRequest(){
+            return new VBox(new StackPane(new Label("chose what weapon to use from your hand")));
+        }
+
     }
 
     //##################################################################################################################
@@ -952,23 +979,22 @@ public class GUISelector implements SelectorV {
         }
         @Override
         public void run() {
-            ScrollPane request = buildRequest();
+            VBox request = buildRequest();
             Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
         }
-        private ScrollPane buildRequest(){
-            ScrollPane request = buildBasicScrollPane();
-            VBox scrollContent = getScrollContent(request);
+        private VBox buildRequest(){
+            VBox request = new VBox();
 
             for (int i = 0; i<possibleEffects.size(); i++) {
                 EffectV effectV = possibleEffects.get(i);
 
                 //STRUCTURE
                 StackPane stackPane = new StackPane(new Label(effectV.getEffectName()));
-                scrollContent.getChildren().add(stackPane);
+                request.getChildren().add(stackPane);
 
                 //PROPERTIES
-                stackPane.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(possibleEffects.size()));
                 VBox.setVgrow(stackPane, Priority.ALWAYS);
+
                 stackPane.setUserData(i);
 
                 makeNodeHoverable(stackPane);
@@ -992,21 +1018,235 @@ public class GUISelector implements SelectorV {
     //##################################################################################################################
     @Override
     public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
-        CLISelector cliSelector= new CLISelector(networkConnection);
-        cliSelector.askEffectInputs(inputType, possibleInputs);
-        //TODO
-        //new Thread(new AskEffectInputs(inputType, possibleInputs)).start();
+        new Thread(new AskEffectInputs(inputType, possibleInputs)).start();
     }
     private class AskEffectInputs implements Runnable{
         private EffectInfoType inputType;
         private List<Object> possibleInputs;
+        private int numberOfRequests;
+        private List<Object> answer;
         private AskEffectInputs (EffectInfoType inputType, List<Object> possibleInputs){
             this.inputType = inputType;
             this.possibleInputs = possibleInputs;
         }
         @Override
         public void run() {
+            VBox request = buildRequest();
+            Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
+        }
 
+        private VBox buildRequest(){
+            VBox request = new VBox();
+
+            StackPane inputTypeStackPane = buildInputTypeTitle();
+
+            request.getChildren().add(inputTypeStackPane);
+            VBox.setVgrow(inputTypeStackPane, Priority.ALWAYS);
+
+            this.numberOfRequests = howManyRequest();
+
+            this.answer = new ArrayList<>();
+
+            if(possibleInputs.get(0).getClass().toString().contains("PlayerV")) {
+                buildPossiblePlayers();
+            }
+            else{
+                buildPossibleSquares();
+            }
+
+            return request;
+        }
+
+        private StackPane buildInputTypeTitle(){
+            Label inputTypeLabel;
+            switch (inputType){
+                case targetListByLastTargetSelectedSquare:
+                    inputTypeLabel = new Label("targetListByLastTargetSelectedSquare");
+                    break;
+                case singleTargetBySameSquareOfPlayer:
+                    inputTypeLabel = new Label("singleTargetBySameSquareOfPlayer");
+                    break;
+                case singleTargetByCardinalDirection:
+                    inputTypeLabel = new Label("singleTargetByCardinalDirection");
+                    break;
+                case twoTargetsByCardinalDirection:
+                    inputTypeLabel = new Label("twoTargetsByCardinalDirection");
+                    break;
+                case targetListByCardinalDirection:
+                    inputTypeLabel = new Label("targetListByCardinalDirection");
+                    break;
+                case targetBySameSquareOfPlayer:
+                    inputTypeLabel = new Label("targetBySameSquareOfPlayer");
+                    break;
+                case squareOfLastTargetSelected:
+                    inputTypeLabel = new Label("squareOfLastTargetSelected");
+                    break;
+                case multipleSquareSelect:
+                    inputTypeLabel = new Label("multipleSquareSelect");
+                    break;
+                case multipleTargets:
+                    inputTypeLabel = new Label("multipleTargets");
+                    break;
+                case singleRoom:
+                    inputTypeLabel = new Label("singleRoom");
+                    break;
+                case targetListBySquareOfLastTarget:
+                    inputTypeLabel = new Label("targetListBySquareOfLastTarget");
+                    break;
+                case targetListBySameSquareOfPlayer:
+                    inputTypeLabel = new Label("targetListBySameSquareOfPlayer");
+                    break;
+                case squareByLastTargetSelected:
+                    inputTypeLabel = new Label("squareByLastTargetSelected");
+                    break;
+                case targetListByDistance1:
+                    inputTypeLabel = new Label("targetListByDistance1");
+                    break;
+                case singleTargetBySquare:
+                    inputTypeLabel = new Label("singleTargetBySquare");
+                    break;
+                case targetListBySquare:
+                    inputTypeLabel = new Label("targetListBySquare");
+                    break;
+                case simpleSquareSelect:
+                    inputTypeLabel = new Label("simpleSquareSelect");
+                    break;
+                case targetListByRoom:
+                    inputTypeLabel = new Label("targetListByRoom");
+                    break;
+                case squareByTarget:
+                    inputTypeLabel = new Label("squareByTarget");
+                    break;
+                case threeTargets:
+                    inputTypeLabel = new Label("threeTargets");
+                    break;
+                case singleTarget:
+                    inputTypeLabel = new Label("singleTarget");
+                    break;
+                case playerSquare:
+                    inputTypeLabel = new Label("playerSquare");
+                    break;
+                case twoTargets:
+                    inputTypeLabel = new Label("twoTargets");
+                    break;
+                case player:
+                    inputTypeLabel = new Label("player");
+                    break;
+                case none:
+                    inputTypeLabel = new Label("none");
+                    break;
+                default:
+                    inputTypeLabel = new Label("unspecified inputType");
+                    GUIstarter.showError(this, "can't find inputType: " + inputType, null);
+                    break;
+            }
+            return new StackPane(inputTypeLabel);
+        }
+
+        private void buildPossiblePlayers(){
+            //todo: not sure is necessary, but if the function doesn't work use it
+            // for sureness we update the map so we surely have the correct players in the correct positions
+            // GUIOutputHandler.updateMap();
+
+            for (Object o: possibleInputs) {
+                PlayerV player = (PlayerV)o;
+
+                Platform.runLater(()->getPlayerStackPane(player).getStyleClass().add(hoverableCssClass));
+
+                getPlayerStackPane(player).setOnMouseClicked(e->{
+                    //add the selected square to the answer list
+                    answer.add(o);
+                    //remove the selected square from the possible squares (usefull for next request)
+                    possibleInputs.remove(o);
+                    //remove hoverable css class from the selected square
+                    Platform.runLater(()->getPlayerStackPane(player).getStyleClass().remove(hoverableCssClass));
+
+                    checkNextRequest();
+                });
+            }
+        }
+
+
+        private void buildPossibleSquares(){
+            StackPane[][] backgroundMap = getGameSceneController().getBackgroundsMap();
+            for (Object o: possibleInputs) {
+                SquareV square = (SquareV)o;
+
+                Platform.runLater(()->backgroundMap[square.getX()][square.getY()].getStyleClass().add(hoverableCssClass));
+
+                backgroundMap[square.getX()][square.getY()].setOnMouseClicked(e->{
+                    //add the selected square to the answer list
+                    answer.add(o);
+                    //remove the selected square from the possible squares (usefull for next request)
+                    possibleInputs.remove(o);
+                    //remove hoverable css class from the selected square
+                    Platform.runLater(()->backgroundMap[square.getX()][square.getY()].getStyleClass().remove(hoverableCssClass));
+
+                    checkNextRequest();
+                });
+            }
+        }
+
+        private void checkNextRequest(){
+            if(numberOfRequests == 1){ //no more request to do
+                sendToServerAndResetSelection();
+            }
+            else{
+                if(possibleInputs.isEmpty()){ //could make another choice, but there are no more possible inputs
+                    sendToServerAndResetSelection();
+                }
+                else { //can make another choice and there are more possible inputs
+                    this.numberOfRequests--;
+                    //can do another choice
+                    VBox request = new VBox();
+                    StackPane title = buildInputTypeTitle();
+                    VBox.setVgrow(title, Priority.ALWAYS);
+
+                    StackPane doneButton = new StackPane(new Label("DONE"));
+                    makeNodeHoverable(doneButton);
+                    VBox.setVgrow(doneButton, Priority.ALWAYS);
+                    doneButton.setOnMouseClicked(event -> sendToServerAndResetSelection());
+
+                    request.getChildren().addAll(title, doneButton);
+                    getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0);
+                }
+            }
+        }
+
+        private void sendToServerAndResetSelection(){
+            //sent to server
+            ViewControllerEventListOfObject viewControllerEventListOfObject = new ViewControllerEventListOfObject(answer);
+            getGameSceneController().sendToServer(viewControllerEventListOfObject);
+
+            //reset SelectorSection
+            getGameSceneController().removeSelectorSection();
+
+            //reset all hoverable elements in the map
+            if(possibleInputs.get(0).getClass().toString().contains("PlayerV")){
+                for (Object o:possibleInputs) {
+                    PlayerV playerV = (PlayerV)o;
+                    Platform.runLater(()->getPlayerStackPane(playerV).getStyleClass().remove(hoverableCssClass));
+                }
+            }
+            else{
+                StackPane[][] backgroundMap = getGameSceneController().getBackgroundsMap();
+                for (Object o:possibleInputs) {
+                    SquareV square = (SquareV)o;
+                    Platform.runLater(()->backgroundMap[square.getX()][square.getY()].getStyleClass().remove(hoverableCssClass));
+                }
+            }
+        }
+
+        private int howManyRequest(){
+            if(this.inputType.equals(EffectInfoType.twoTargets)){
+                return 2;
+            }
+            else if(this.inputType.equals(EffectInfoType.threeTargets)){
+                return 3;
+            }
+            else {
+                return 1;
+            }
         }
     }
 
@@ -1014,7 +1254,7 @@ public class GUISelector implements SelectorV {
     @Override
     public void askReconnectionNickname(ReconnectionEvent reconnectionEvent) {
         Platform.runLater(()-> {
-            Stage s = new Stage();
+            Stage s = new Stage(StageStyle.UNDECORATED);
 
             VBox v = new VBox();
             v.setStyle("-fx-padding: 100px;-fx-border-style: solid;-fx-background-color: #0e1d24;-fx-border-color: #ffb523;-fx-border-width: 5px");
@@ -1026,7 +1266,8 @@ public class GUISelector implements SelectorV {
             s.centerOnScreen();
 
             Label l1 = new Label("what was the nickname you where playing with?");
-            l1.setStyle("-fx-padding: 10px;-fx-font-weight: bold;-fx-font-size: 22px;-fx-text-fill: #ffb523;-fx-text-fill: #ffb523;-fx-font-family: monospace");
+            String l1Style = "-fx-padding: 10px;-fx-font-weight: bold;-fx-font-size: 22px;-fx-text-fill: #ffb523;-fx-font-family: monospace";
+            l1.setStyle(l1Style);
             StackPane stackPane = new StackPane(l1);
             stackPane.setStyle("-fx-padding: 20px");
 
@@ -1039,7 +1280,7 @@ public class GUISelector implements SelectorV {
                 Label nicknameLabel = new Label(nickname);
                 nicknameLabel.setStyle("-fx-background-color: #11353e");
                 StackPane nicknameStackPane = new StackPane();
-                nicknameStackPane.setStyle("-fx-padding: 40px");
+                nicknameStackPane.setStyle("-fx-padding: 35px");
                 hBox.getChildren().add(nicknameStackPane);
                 HBox.setHgrow(nicknameStackPane,Priority.ALWAYS);
                 makeNodeHoverable(nicknameStackPane);
@@ -1064,6 +1305,7 @@ public class GUISelector implements SelectorV {
             VBox.setVgrow(l1,Priority.ALWAYS);
             VBox.setVgrow(hBox,Priority.ALWAYS);
 
+            s.setAlwaysOnTop(true);
             s.show();
         });
     }
@@ -1090,7 +1332,7 @@ public class GUISelector implements SelectorV {
                 s.centerOnScreen();
 
                 Label l1 = new Label("Sorry, your nickname is already taken, please choose another one");
-                l1.setStyle("-fx-padding: 10px;-fx-font-weight: bold;-fx-font-size: 22px;-fx-text-fill: #ffb523;-fx-text-fill: #ffb523;-fx-font-family: monospace");
+                l1.setStyle("-fx-padding: 10px;-fx-font-weight: bold;-fx-font-size: 22px;-fx-text-fill: #ffb523;-fx-font-family: monospace");
 
                 v.getChildren().add(l1);
 
@@ -1104,15 +1346,12 @@ public class GUISelector implements SelectorV {
                     ((TextField)e.getSource()).setStyle(textFieldStyle+styleToAdd);
                 });
                 String onFocusToAdd=";-fx-border-width: 0px 0px 3px 0px;-fx-background-color: #11353e";
-                textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                        if (newPropertyValue) {
-                            textField.setStyle(textFieldStyle+onFocusToAdd);
-                        }
-                        else {
-                            textField.setStyle(textFieldStyle);
-                        }
+                textField.focusedProperty().addListener((arg0, oldPropertyValue, newPropertyValue) -> {
+                    if (newPropertyValue) {
+                        textField.setStyle(textFieldStyle+onFocusToAdd);
+                    }
+                    else {
+                        textField.setStyle(textFieldStyle);
                     }
                 });
                 textField.setOnMouseExited(e->{
@@ -1131,18 +1370,15 @@ public class GUISelector implements SelectorV {
                 button.setOnMouseExited(e-> ((Button)e.getSource()).setStyle(buttonStyle));
                 button.setOnMouseClicked(e->{
                     String newNickname = textField.getText();
-                    System.out.println(newNickname);
                     ViewModelGate.setMe(newNickname);
                     s.hide();
-                    new Thread(()->{
-                        ViewSelector.sendToServer(new ViewControllerEventNickname(ViewModelGate.getMe()));
-                    }).start();
+                    new Thread(()-> ViewSelector.sendToServer(new ViewControllerEventNickname(ViewModelGate.getMe()))).start();
                 });
 
                 StackPane stackPane1 = new StackPane(textField);
                 StackPane stackPane2 = new StackPane(button);
-                stackPane1.setStyle("-fx-padding: 40px");
-                stackPane2.setStyle("-fx-padding: 40px");
+                stackPane1.setStyle("-fx-padding: 30px");
+                stackPane2.setStyle("-fx-padding: 31px");
 
                 stackPane1.setAlignment(Pos.CENTER_RIGHT);
                 stackPane2.setAlignment(Pos.CENTER_LEFT);
@@ -1205,7 +1441,6 @@ public class GUISelector implements SelectorV {
             for (AmmoCubesV ammo:this.amountToPay) {
                 HBox hBox = buildHBoxRequestOfDoubleStackPanes(3);
                 for (int i = 0; i<ammo.getQuantity(); i++) {
-                    StackPane stackPaneBackground = (StackPane)hBox.getChildren().get(i);
                     //set styles
                     StackPane stackPaneMainImage = (StackPane)((StackPane) hBox.getChildren().get(i)).getChildren().get(0);
                     if(ammo.getColor().equals(AmmoCubesColor.red)){
@@ -1232,16 +1467,7 @@ public class GUISelector implements SelectorV {
             StackPane stackPane = new StackPane(new Label("option for paying"));
 
             if(canPayWithoutPowerUps){
-                StackPane possibility = new StackPane(new Label("use ammos from your Ammo box"));
-                vBox.getChildren().add(possibility);
-                stackPane.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(5));
-                makeNodeHoverable(possibility);
-                possibility.setOnMouseClicked(e->{
-                    //end, send event, close request
-                    ViewControllerEventPaymentInformation viewControllerEventPaymentInformation = new ViewControllerEventPaymentInformation(answer);
-                    getGameSceneController().removeSelectorSection();
-                    getGameSceneController().sendToServer(viewControllerEventPaymentInformation);
-                });
+                canPayWithoutPowerUps(vBox, stackPane);
             }
 
             for (PowerUpCardV p : possibilities) {
@@ -1252,29 +1478,15 @@ public class GUISelector implements SelectorV {
                 makeNodeHoverable(possibility);
                 possibility.setOnMouseClicked(e->{
                     AmmoCubesColor colorOfTheChosenPowerUp = ((PowerUpCardV)((StackPane)e.getSource()).getUserData()).getColor();
-                    answer.add((PowerUpCardV)((StackPane)e.getSource()).getUserData());
+                    answer.add(((StackPane)e.getSource()).getUserData());
                     //subtract one unit of the color of the power up chosen from the total cost to pay
-                    //also deletes the powerupcard from the possibilities
-                    for (AmmoCubesV ammo: amountToPay) {
-                        if(ammo.getColor().equals(colorOfTheChosenPowerUp)){
-                            ammo.setQuantity(ammo.getQuantity()-1);
-                            if(ammo.getQuantity()<=0){
-                                //remove the color from the amount topay
-                                amountToPay.remove(ammo);
-
-                                //delete All the power up card with the same color as the one of the power up chosen from the possibilities
-                                possibilities.removeIf(element -> element.getColor().equals(colorOfTheChosenPowerUp));
-
-                            }
-                            break;
-                        }
-                    }
+                    //also deletes the power up cards from the possibilities
+                    adjustAmountToPayAndPossibilities(colorOfTheChosenPowerUp);
 
                     //check stuff to do next:
-                    //      if have to pay anything else repeat
                     //      if don't have possibilities, end
+                    //      if have to pay anything else repeat
                     if( (possibilities.isEmpty()) || (amountToPay.isEmpty()) ){
-                        //ha finito di pagare tutto, oppure non ha più power up da scartare, quindi è forzato a pagare con la ammo box
                         //ens, send to server and remove request
                         ViewControllerEventPaymentInformation viewControllerEventPaymentInformation = new ViewControllerEventPaymentInformation(answer);
                         getGameSceneController().removeSelectorSection();
@@ -1287,7 +1499,39 @@ public class GUISelector implements SelectorV {
                     }
                 });
             }
+
+            for (Node n:vBox.getChildren()) {
+                VBox.setVgrow(n,Priority.ALWAYS);
+            }
             return vBox;
+        }
+        private void canPayWithoutPowerUps(VBox vBox, StackPane stackPane){
+            StackPane possibility = new StackPane(new Label("use ammos from your Ammo box"));
+            vBox.getChildren().add(possibility);
+            stackPane.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(5));
+            makeNodeHoverable(possibility);
+            possibility.setOnMouseClicked(e->{
+                //end, send event, close request
+                ViewControllerEventPaymentInformation viewControllerEventPaymentInformation = new ViewControllerEventPaymentInformation(answer);
+                getGameSceneController().removeSelectorSection();
+                getGameSceneController().sendToServer(viewControllerEventPaymentInformation);
+            });
+        }
+        private void adjustAmountToPayAndPossibilities(AmmoCubesColor colorOfTheChosenPowerUp){
+            for (AmmoCubesV ammo: amountToPay) {
+                if(ammo.getColor().equals(colorOfTheChosenPowerUp)){
+                    ammo.setQuantity(ammo.getQuantity()-1);
+                    if(ammo.getQuantity()<=0){
+                        //remove the color from the amount to pay
+                        amountToPay.remove(ammo);
+
+                        //delete All the power up card with the same color as the one of the power up chosen from the possibilities
+                        possibilities.removeIf(element -> element.getColor().equals(colorOfTheChosenPowerUp));
+
+                    }
+                    break;
+                }
+            }
         }
     }
 
@@ -1295,11 +1539,8 @@ public class GUISelector implements SelectorV {
     //##################################################################################################################
     @Override
     public void askPowerUpToUse(SelectorEventPowerUpCards selectorEventPowerUpCards) {
-        CLISelector cliSelector= new CLISelector(networkConnection);
-        cliSelector.askPowerUpToUse(selectorEventPowerUpCards);
-        //TODO
-        //List<PowerUpCardV> powerUpCardsV = selectorEventPowerUpCards.getPowerUpCards();
-        //new Thread(new AkPowerUpToUse(powerUpCardsV)).start();
+        List<PowerUpCardV> powerUpCardsV = selectorEventPowerUpCards.getPowerUpCards();
+        new Thread(new AkPowerUpToUse(powerUpCardsV)).start();
     }
     private class AkPowerUpToUse implements Runnable{
         private List<PowerUpCardV> powerUpCardsV;
@@ -1308,7 +1549,28 @@ public class GUISelector implements SelectorV {
         }
         @Override
         public void run(){
-
+            VBox request = buildRequest();
+            Platform.runLater(this::makePowerUpHoverable);
+            Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
+        }
+        private VBox buildRequest(){
+            return new VBox(new StackPane(new Label("choose the power up to use from your hand")));
+        }
+        private void makePowerUpHoverable(){
+            List<StackPane> powerUpCardsMainImages = getGameSceneController().getListOfPowerUpCardsMainImage();
+            for (StackPane stackPanePowerUp: powerUpCardsMainImages) {
+                for (PowerUpCardV powerUpCardV : powerUpCardsV) {
+                    if (((PowerUpCardV) stackPanePowerUp.getUserData()).getID().equals(powerUpCardV.getID())) {
+                        Platform.runLater(()->stackPanePowerUp.getStyleClass().add(hoverableCssClass));
+                        stackPanePowerUp.setOnMouseClicked(e -> {
+                            String answer1 = ((PowerUpCardV) stackPanePowerUp.getUserData()).getName();
+                            String answer2 = ((PowerUpCardV) stackPanePowerUp.getUserData()).getColor() + "";
+                            getGameSceneController().sendToServer(new ViewControllerEventTwoString(answer1, answer2));
+                            getGameSceneController().removeSelectorSection();
+                        });
+                    }
+                }
+            }
         }
     }
 
@@ -1321,54 +1583,38 @@ public class GUISelector implements SelectorV {
     private class AskWantToUsePowerUpOrNot implements Runnable{
         @Override
         public  void run(){
-            HBox request = buildRequest();
+            VBox request = buildRequest();
             Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
         }
-        private HBox buildRequest(){
+        private VBox buildRequest(){
 
-            HBox hbox = new HBox();
+            VBox request = new VBox();
 
-            StackPane left = new StackPane();
-            StackPane center = new StackPane();
-            StackPane right = new StackPane();
+            StackPane title = new StackPane(new Label("Want to use a Power Up?"));
+            StackPane stackPane1 = new StackPane(new Label("yes"));
+            StackPane stackPane2 = new StackPane(new Label("no"));
 
-            Label label = new Label("Want to use a Power Up? ");
+            request.getChildren().addAll(title,stackPane1,stackPane2);
 
-            Button yes = new Button("YES");
-            Button no = new Button("NO");
+            VBox.setVgrow(stackPane1,Priority.ALWAYS);
+            VBox.setVgrow(stackPane2, Priority.ALWAYS);
 
-            //STRUCTURE
-            hbox.getChildren().add(left);
-            hbox.getChildren().add(center);
-            hbox.getChildren().add(right);
-            left.getChildren().add(label);
-            center.getChildren().add(yes);
-            right.getChildren().add(no);
-
-            makeNodeHoverable(center);
-            makeNodeHoverable(right);
-
-            //PROPERTIES
-            hbox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(4));
-            HBox.setHgrow(left, Priority.ALWAYS);
-            HBox.setHgrow(center, Priority.ALWAYS);
-            HBox.setHgrow(right, Priority.ALWAYS);
+            makeNodeHoverable(stackPane1);
+            makeNodeHoverable(stackPane2);
 
             //EVENTS
-            yes.setOnMouseClicked(e-> {
+            stackPane1.setOnMouseClicked(e-> {
                 ViewControllerEventBoolean viewControllerEventBoolean = new ViewControllerEventBoolean(true);
                 getGameSceneController().removeSelectorSection();
                 getGameSceneController().sendToServer(viewControllerEventBoolean);
-                System.out.println("true");
             });
-            no.setOnMouseClicked(e-> {
+            stackPane2.setOnMouseClicked(e-> {
                 ViewControllerEventBoolean viewControllerEventBoolean = new ViewControllerEventBoolean(false);
                 getGameSceneController().removeSelectorSection();
                 getGameSceneController().sendToServer(viewControllerEventBoolean);
-                System.out.println("false");
             });
 
-            return hbox;
+            return request;
 
         }
     }
@@ -1377,11 +1623,8 @@ public class GUISelector implements SelectorV {
     //##################################################################################################################
     @Override
     public void askBotShoot(SelectorEventPlayers selectorEventPlayers) {
-        CLISelector cliSelector= new CLISelector(networkConnection);
-        cliSelector.askBotShoot(selectorEventPlayers);
-        //TODO
-        //List<PlayerV> playersV = selectorEventPlayers.getPlayerVList();
-        //new Thread(new AskBotShoot(playersV)).start();
+        List<PlayerV> playersV = selectorEventPlayers.getPlayerVList();
+        new Thread(new AskBotShoot(playersV)).start();
     }
     private class AskBotShoot implements Runnable{
         private List<PlayerV> playersV;
@@ -1389,8 +1632,33 @@ public class GUISelector implements SelectorV {
             this.playersV = playersV;
         }
         @Override
-        public void run(){
+        public void run() {
+            VBox request = buildRequest();
+            Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0, 0.0, 0.0, 0.0));
+        }
 
+        private VBox buildRequest() {
+            VBox request = new VBox();
+            StackPane stackPane = new StackPane(new Label("choose who you want to shoot in the map"));
+            VBox.setVgrow(stackPane,Priority.ALWAYS);
+
+            highlightPlayers();
+
+            return request;
+        }
+
+        private void highlightPlayers(){
+            for (PlayerV player: playersV) {
+                Platform.runLater(()->getPlayerStackPane(player).getStyleClass().add(hoverableCssClass));
+
+                getPlayerStackPane(player).setOnMouseClicked(e->{
+                    getGameSceneController().removeSelectorSection();
+                    getGameSceneController().sendToServer(new ViewControllerEventString(player.getNickname()));
+                    for (PlayerV p: playersV) {
+                        Platform.runLater(()->getPlayerStackPane(p).getStyleClass().remove(hoverableCssClass));
+                    }
+                });
+            }
         }
     }
 

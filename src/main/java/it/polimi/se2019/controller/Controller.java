@@ -93,10 +93,10 @@ public class  Controller{
 
         //initialize model
         out.println("<SERVER> Creating the Game.");
-        ModelGate.model = new Game();
+        ModelGate.setModel(new Game());
         out.println("<SERVER> Creating a PlayerList.");
         PlayersList pl = new PlayersList();
-        ModelGate.model.setPlayerList(pl);
+        ModelGate.getModel().setPlayerList(pl);
 
         //Setting the state pattern
          ViewControllerEventHandlerContext viewControllerEventHandlerContext = new ViewControllerEventHandlerContext();
@@ -104,7 +104,7 @@ public class  Controller{
         //Starting the Server socket
          SocketVirtualView socketVirtualView = new SocketVirtualView(viewControllerEventHandlerContext);
         socketVirtualView.startServer();
-        ViewControllerEventHandlerContext.socketVV = socketVirtualView;
+        ViewControllerEventHandlerContext.setSocketVV(socketVirtualView);
 
 
         //-----------------NEW-----------------//
@@ -115,12 +115,12 @@ public class  Controller{
         } catch (RemoteException e) {
             logger.log(Level.SEVERE, " EXCEPTION ", e);
         }
-        ViewControllerEventHandlerContext.RMIVV= rmiVirtualView;
+        ViewControllerEventHandlerContext.setRmiVirtualView(rmiVirtualView);
 
         //Registering the VirtualView as an observer of the model so it can receive the MVEs
         out.println("<SERVER> Registering the VirtualViews (rmi and socket) as observers of the Model");
-        ModelGate.model.setVirtualView(ViewControllerEventHandlerContext.socketVV, ViewControllerEventHandlerContext.RMIVV);
-        ModelGate.model.registerVirtualView();
+        ModelGate.getModel().setVirtualView(ViewControllerEventHandlerContext.getSocketVV(), ViewControllerEventHandlerContext.getRmiVirtualView());
+        ModelGate.getModel().registerVirtualView();
     }
 
     /** start the game with the GUI interface, once opened it the user will be given the possibility to switch to CLI mode*/
@@ -187,7 +187,7 @@ public class  Controller{
         Scanner br = new Scanner(System.in);
 
         out.println("\n\n");
-        out.println(GameConstant.AdrenalineTitle4);
+        out.println(GameConstant.ADRENALINE_TITLE_7);
         out.println("\n\n\n");
         out.println("\nWhat's your Nickname?");
 

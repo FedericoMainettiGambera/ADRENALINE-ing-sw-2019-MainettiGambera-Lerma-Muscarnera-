@@ -17,7 +17,7 @@ public class TestGrabStaffState{
     @Test
     public void testGrabStaffState() throws IOException{
 
-        ModelGate.model= fakeModel.create();
+        ModelGate.setModel(fakeModel.create());
             ViewControllerEventString viewControllerEventString=  new ViewControllerEventString("palla");
 
             GrabStuffState state=new GrabStuffState(1);

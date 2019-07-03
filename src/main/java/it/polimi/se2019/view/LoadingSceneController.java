@@ -210,6 +210,7 @@ public class LoadingSceneController implements Initializable {
             //hide old stage
             GUIstarter.getStage().setScene(scene);
             GUIstarter.getStage().centerOnScreen();
+            GUIstarter.getStage().setMaximized(true);
         });
     }
 }
