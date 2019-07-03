@@ -165,7 +165,7 @@ public class Game extends Observable implements Serializable {
     public void setKillshotTrack(KillShotTrack killshotTrack) {
         this.killshotTrack = killshotTrack;
         setChanged();
-        notifyObservers(new ModelViewEvent(this.killshotTrack.getNumberOfRemainingSkulls(), ModelViewEventTypes.newKillshotTrack));
+        notifyObservers(new ModelViewEvent(this.killshotTrack.getNumberOfRemainingSkulls(), ModelViewEventTypes.newKillshotTrack, this.killshotTrack.buildKillshotTrackV()));
     }
 
     /***/

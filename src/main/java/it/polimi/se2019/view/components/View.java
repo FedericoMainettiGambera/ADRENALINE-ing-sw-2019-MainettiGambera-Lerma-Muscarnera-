@@ -116,7 +116,7 @@ public class View implements Observer {
 
 
             case newKillshotTrack:
-                ViewModelGate.getModel().setKillshotTrack(new KillShotTrackV());
+                ViewModelGate.getModel().setKillshotTrack((KillShotTrackV)modelViewEvent.getExtraInformation1());
                 ViewModelGate.getModel().getKillshotTrack().setNumberOfStartingSkulls((int)modelViewEvent.getComponent());
 
                 OutputHandlerGate.getCorrectOutputHandler(this.userInterface).newKillshotTrack(modelViewEvent);
@@ -419,6 +419,7 @@ public class View implements Observer {
         }
         else if(orderedCardListV.getContext().contains("PowerUpInHand")){
             String nickname = orderedCardListV.getContext().split(":")[0];
+            System.out.println("giving cards to " + nickname);
             for (PlayerV p: ViewModelGate.getModel().getPlayers().getPlayers()) {
                 if(p.getNickname().equals(nickname)){
                     p.setPowerUpCardInHand(orderedCardListV);
@@ -428,6 +429,7 @@ public class View implements Observer {
         }
         else if(orderedCardListV.getContext().contains("WeaponInHand")){
             String nickname = orderedCardListV.getContext().split(":")[0];
+            System.out.println("giving cards to " + nickname);
             for (PlayerV p: ViewModelGate.getModel().getPlayers().getPlayers()) {
                 if(p.getNickname().equals(nickname)){
                     p.setWeaponCardInHand(orderedCardListV);
