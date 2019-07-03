@@ -11,7 +11,7 @@ public class Kill implements Serializable {
     /**Constructor:
      * only isSkull is true
      * */
-    public Kill(){
+    Kill(){
         isSkull=true;
         killingPlayer=null;
         isOverKill=false;
@@ -58,7 +58,7 @@ public class Kill implements Serializable {
     /**
      * @param player, the one who inflicted killing
      */
-    public void setKillingPlayer(Player player){
+    void setKillingPlayer(Player player){
         if(isSkull && player!=null) {
             killingPlayer = player;
             isSkull = false;
@@ -68,7 +68,7 @@ public class Kill implements Serializable {
 
     /**@return overKillingPlayer
      * */
-    public Player getOverKillingPlayer() {
+    Player getOverKillingPlayer() {
         if(!isSkull && this.overKillingPlayer!=null) {
             return overKillingPlayer;
         }
@@ -79,7 +79,7 @@ public class Kill implements Serializable {
     /**Keeps track of the OverkillingPlayer for scores purposes
      * @param player is the who inflicted overkilling
      */
-    public void setOverkillingPlayer(Player player) {
+    void setOverkillingPlayer(Player player) {
         if(!isSkull && player!=null) {
             isOverKill = true;
             overKillingPlayer = player;
@@ -91,7 +91,7 @@ public class Kill implements Serializable {
         return occurance;
     }
 
-    public void setOccurance(int occurance) {
+    void setOccurance(int occurance) {
         this.occurance = occurance;
     }
 }

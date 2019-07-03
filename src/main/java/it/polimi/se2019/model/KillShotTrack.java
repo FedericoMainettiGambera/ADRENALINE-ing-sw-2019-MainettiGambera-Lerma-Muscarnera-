@@ -1,8 +1,10 @@
 package it.polimi.se2019.model;
 
 
+import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
+import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.view.components.KillShotTrackV;
 import it.polimi.se2019.view.components.KillsV;
 import it.polimi.se2019.virtualView.VirtualView;
@@ -69,24 +71,13 @@ public class KillShotTrack extends Observable implements Serializable {
      * */
     public void deathOfPlayer(Player killingPlayer, boolean isOverKill){
 
-        //TODO: read following comment
-        //prendiamo per ipotesi un gioco a 5 startingSkulls e quindi una killshot track a 5 Kills
-        //durante il gioco muoiono le 5 persone e viene triggerata la FF
-        //se nella FF muore qualcuno quest'ultimo non viene inserito nella killshot track ! problema !
-        //è importante sistemare questa cosa perchè può fare la differenza nell'assegnazione dei punti nel FinalScoringState
-        //p.s. per testing rapido e vedere il problema si può far partire una partita Random con:
-        //  -bot che fa 12 danni a volta
-        //  -FF sempre attiva
-        //  -5 starting skulls
-        //  -shoot people bloccata
-
         if (numberOfRemainingSkulls>0) {
             try {
                 kills.get(startingSKulls-numberOfRemainingSkulls).setKillingPlayer(killingPlayer);
                 if (isOverKill) {
                     kills.get(startingSKulls-numberOfRemainingSkulls).setOverkillingPlayer(killingPlayer);
-                    kills.get(startingSKulls-numberOfRemainingSkulls).setOccurance(startingSKulls-numberOfRemainingSkulls);
                 }
+                kills.get(startingSKulls-numberOfRemainingSkulls).setOccurance(startingSKulls-numberOfRemainingSkulls);
                 numberOfRemainingSkulls--;
                 setChanged();
                 notifyObservers(new ModelViewEvent(this.buildKillshotTrackV(), ModelViewEventTypes.deathOfPlayer));
@@ -95,7 +86,15 @@ public class KillShotTrack extends Observable implements Serializable {
                 logger.severe("Error occured in KillShotTrack during deathOfPlayer: "+ e.getCause()+ Arrays.toString(e.getStackTrace()));
             }
         }
-        else throw new IllegalStateException("Exceeded the maximum number of skulls");
+        else{
+            Kill kill = new Kill();
+            kill.setOccurance(kills.size());
+            kill.setKillingPlayer(killingPlayer);
+            if(isOverKill){
+                kill.setOverkillingPlayer(killingPlayer);
+            }
+            kills.add(kill);
+        }
     }
     /**@return kills, a list of kill
      * */

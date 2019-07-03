@@ -1,6 +1,5 @@
 package it.polimi.se2019.ModelTest;
 
-import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Board;
 import it.polimi.se2019.model.Position;
 import it.polimi.se2019.model.Square;
@@ -8,7 +7,6 @@ import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.SquareTypes;
-import it.polimi.se2019.virtualView.Socket.SocketVirtualView;
 import it.polimi.se2019.virtualView.VirtualView;
 import org.junit.Test;
 
@@ -18,10 +16,7 @@ import java.lang.*;
 import static junit.framework.TestCase.assertEquals;
 
 public class TestBoard {
-    /*FOR MAVEN PURPOSE
-
-
-    @Test //TODO
+    @Test
     public void testDistanceFromTo(){
         testingDistance("map0");
         testingDistance("map1");
@@ -71,7 +66,7 @@ public class TestBoard {
         Board c;
         Board b = new Board(s,new VirtualView(), new VirtualView());
         map = b.getMap();
-//testin SpawnPointOfCOlorMethod
+        //testin SpawnPointOfCOlorMethod
         po3 = b.getSpawnpointOfColor(AmmoCubesColor.blue);
         assertEquals(pos2.getX(), po3.getX());
         assertEquals(pos2.getY(), po3.getY());
@@ -122,6 +117,4 @@ public class TestBoard {
 
 
     }
-
-    */
 }
