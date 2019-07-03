@@ -2,17 +2,14 @@ package it.polimi.se2019;
 
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.CardinalPoint;
-import it.polimi.se2019.model.enumerations.EffectInfoType;
 import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.SquareTypes;
+import it.polimi.se2019.model.enumerations.UsableInputTableRowType;
 import it.polimi.se2019.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static it.polimi.se2019.model.enumerations.UsableInputTableRowType.typePlayer;
-import static it.polimi.se2019.model.enumerations.UsableInputTableRowType.typeSquare;
 
 //TODO
 public class TestWeaponCard {
@@ -206,70 +203,24 @@ public class TestWeaponCard {
         playerList.getPlayers().add(user5);
 
         user1.setPosition(0, 0);
-        user2.setPosition(1, 0);
-        user3.setPosition(0 , 1);                 //   same position
-        user4.setPosition(2, 0);
-        user5.setPosition(2, 0);
+        user2.setPosition(1, 2);
+        user3.setPosition(1 , 3);                 //   same position
+        user4.setPosition(2, 2);
+        user5.setPosition(2, 3);
         ActionContext fakeContext = new ActionContext();
         fakeContext.setPlayer(user1);
         fakeContext.setPlayerList(playerList);
         fakeContext.setBoard(board);
 
         PreConditionMethodsInverted PIGATE = new PreConditionMethodsInverted();
-        List<Object> A = PIGATE.youCanSeeThatSquare(
-                fakeContext,
-                typeSquare,
-                new ActionDetails(),
-                null,
-                null,
-                null
+        List<Object> E = PIGATE.canBeeSeenFrom(
+                user2,fakeContext
+                );
+        List<Object> F = PIGATE.notTheirSquare(
+                fakeContext, UsableInputTableRowType.typeSquare, new ActionDetails(),null,null,null
         );
-        List<Object> B = PIGATE.notYourSquare(
-                fakeContext,
-                typeSquare,
-                new ActionDetails(),
-                null,
-                null,
-                null
-        );
-        List<Object> C = PIGATE.distanceFromOriginalPositionIs1NOPLAYER(
-                fakeContext,
-                typeSquare,
-                new ActionDetails(),
-                null,null,null
-        );
-        List<Object> inputs =  new ArrayList<>();
-        List<EffectInfoType> inputSlots = new ArrayList<>();
-        inputSlots.add(EffectInfoType.targetListBySquare);
-        inputSlots.add(EffectInfoType.targetListBySquare);
-        Object[] row = new Object[10];
-        row[0] = board.getSquare(1,0);
-        inputs.add(row);
-
-        List<Object> D = PIGATE.sameCardinalDirectionOfTargets(
-                fakeContext,
-                typePlayer,
-                new ActionDetails(),
-                inputs,inputSlots,null
-        );
-        List<Object> E = PIGATE.sameCardinalDirectionOfTargets(
-                fakeContext,
-                typePlayer,
-                new ActionDetails(),
-                new ArrayList<>(),new ArrayList<>(),null
-        );
-        List<Object> ret =
-                Effect.intersect(
-                                    A,
-                                    Effect.intersect(
-                                                        C,
-                                                        B
-                                                    )
-
-                                    );
         showMap(user1,playerList,board,E);
-        showMap(user1,playerList,board,D);
-
+        showMap(user1,playerList,board,F);
         }
 
 

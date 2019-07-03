@@ -1,5 +1,5 @@
 NAME
-PLASMA GUN
+Plasma Gun
 RELOAD COST
 b
 1
@@ -58,36 +58,6 @@ distanceFromOriginalPositionLessThan2
 END
 END
 
-NEW EFFECT
-EFFECT NAME
-xxx
-EXPECTED INPUT
-targetListBySquare
-TO
-1
-2
-END
-simpleSquareSelect
-TO
-1
-END
-END
-ACTIONS
-Move
-ACTION INFO
-PRECONDITION
-distanceFromOriginalPositionLessThan2
-END
-Action
-ACTION INFO
-PRECONDITION
-moveOtherPlayer
-END
-END
-
-
-
-
 
 NEW EFFECT
 EFFECT NAME
@@ -104,7 +74,7 @@ TO
 END
 singleTarget
 TO
-2
+3
 END
 END
 ACTIONS
@@ -113,17 +83,19 @@ ACTION INFO
 PRECONDITION
 distanceFromOriginalPositionLessThan2
 END
+Action
+ACTION INFO
+PRECONDITION
+youWillSeeFix
+END
 Damage
 ACTION INFO
 PRECONDITION
-youWillSee
+youCanSeeTP
 SET
 2
 END
 END
-
-
-
 
 
 NEW EFFECT

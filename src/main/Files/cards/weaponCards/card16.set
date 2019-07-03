@@ -38,40 +38,69 @@ END
 END
 
 NEW EFFECT
+MoveDuringEffect
 EFFECT NAME
-Rocket Jump
-USAGE COST
-b
-1
+Rocket Jump + Basic Effect
 EXPECTED INPUT
 player
 TO
-ALL
+1
 END
 simpleSquareSelect
 TO
-ALL
+1
+2
+6
+END
+singleTarget
+TO
+3
+4
+5
+END
+simpleSquareSelect
+TO
+5
 END
 END
 ACTIONS
-Action
-ACTION INFO
-PRECONDITION
-withRocketJump
-END
 Move
 ACTION INFO
 PRECONDITION
 distanceFromOriginalPositionLessThan2
 END
+Action
+ACTION INFO
+PRECONDITION
+youWillSeeFix
+END
+Action
+ACTION INFO
+PRECONDITION
+targetNotOnYourSquareTP
+END
+Damage
+ACTION INFO
+PRECONDITION
+alwaysTrue
+SET
+2
+END
+Move
+ACTION INFO
+PRECONDITION
+distanceFromOriginalPositionIs1
+END
+Action
+ACTION INFO
+PRECONDITION
+notTheirSquare
+END
 END
 
 NEW EFFECT
 EFFECT NAME
-Fragmenting Warhead
-USAGE COST
-y
-1
+Basic Effect + Rocket Jump
 EXPECTED INPUT
 singleTarget
 TO
@@ -81,7 +110,11 @@ simpleSquareSelect
 TO
 3
 END
-targetListBySquareOfLastTarget
+player
+TO
+4
+END
+simpleSquareSelect
 TO
 4
 END
@@ -104,11 +137,9 @@ ACTION INFO
 PRECONDITION
 distanceFromOriginalPositionIs1
 END
-Damage
+Move
 ACTION INFO
 PRECONDITION
-alwaysTrue
-SET
-1
+distanceFromOriginalPositionLessThan2
 END
 END

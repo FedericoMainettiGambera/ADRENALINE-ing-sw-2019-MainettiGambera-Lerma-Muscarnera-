@@ -776,6 +776,7 @@ public class GameSceneController implements Initializable {
             AnchorPane.setLeftAnchor(newSection, left);
         }
 
+        /*
         if(newSection.getClass().toString().contains("ScrollPane")){
             ((AnchorPane)((ScrollPane)newSection).getContent()).heightProperty().addListener(observable -> {
                 ((ScrollPane)newSection).setVvalue(0D);
@@ -783,6 +784,7 @@ public class GameSceneController implements Initializable {
                 //TODO why this doesn't work? can't find a solution
             });
         }
+        */
     }
 
     public void removeSelectorSection(){

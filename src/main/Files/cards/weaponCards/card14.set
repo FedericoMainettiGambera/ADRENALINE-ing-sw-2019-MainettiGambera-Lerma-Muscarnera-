@@ -31,7 +31,7 @@ END
 END
 
 NEW EFFECT
-moveDuringEffect
+MoveDuringEffect
 EFFECT NAME
 BasicEffect + ExtraGranade
 USAGE COST
