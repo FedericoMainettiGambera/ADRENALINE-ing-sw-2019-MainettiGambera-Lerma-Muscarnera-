@@ -603,7 +603,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
 
 
 
-    public static void showMap(){
+    private static void showMap(){
         if (ViewModelGate.getModel() != null && ViewModelGate.getModel().getBoard() != null && ViewModelGate.getModel().getBoard().getMap() != null) {
             SquareV[][] map = ViewModelGate.getModel().getBoard().getMap();
             List<String>[][] mapCLI = buildEmptyMap();
@@ -711,7 +711,9 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         }
     }
 
-    public static List<String>[][] buildEmptyMap(){
+    /**build a map without player in it
+     * @return  a list representing an empty map */
+     private static List<String>[][] buildEmptyMap(){
         List<String>[][] emptyMap = new ArrayList[3][4];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
@@ -721,7 +723,9 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         return emptyMap;
     }
 
-    public static List<String> buildEmptySquare(){
+    /**build an empty square
+     * @return a list representing an empty square*/
+    private static List<String> buildEmptySquare(){
         List<String> emptySquare = new ArrayList<>();
         emptySquare.add("MMMMMMMMMMMMMMMMMMMMMMMMMM");
         for (int i = 0; i < 10; i++) {
