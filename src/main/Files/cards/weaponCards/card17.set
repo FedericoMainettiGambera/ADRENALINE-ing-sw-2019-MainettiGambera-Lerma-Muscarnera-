@@ -9,16 +9,16 @@ b
 
 NEW EFFECT
 EXPECTED INPUT
-player
-TO
-3
-END
 singleTarget
 TO
 1
 2
 END
 squareByLastTargetSelected
+TO
+3
+END
+player
 TO
 3
 END
@@ -41,6 +41,100 @@ END
 Move
 ACTION INFO
 PRECONDITION
-distanceOfSquareFromPlayerExactlyOne
+alwaysTrue
+END
+END
+
+NEW EFFECT
+EFFECT NAME
+Rocket Fist Mode
+EXPECTED INPUT
+singleTarget
+TO
+1
+END
+squareByLastTargetSelected
+TO
+2
+END
+player
+TO
+2
+END
+END
+ACTIONS
+Damage
+ACTION INFO
+PRECONDITION
+distanceOfTargetFromPlayerSquareIs1
+SET
+1
+END
+Move
+ACTION INFO
+PRECONDITION
+alwaysTrue
+END
+END
+
+NEW EFFECT
+EFFECT NAME
+Rocket Fist Mode x2
+EXPECTED INPUT
+singleTarget
+TO
+1
+END
+squareByLastTargetSelected
+TO
+2
+END
+player
+TO
+2
+END
+singleTarget
+TO
+3
+4
+END
+squareByLastTargetSelected
+TO
+5
+END
+player
+TO
+5
+END
+END
+ACTIONS
+Damage
+ACTION INFO
+PRECONDITION
+distanceOfTargetFromPlayerSquareIs1
+SET
+1
+END
+Move
+ACTION INFO
+PRECONDITION
+alwaysTrue
+END
+Action
+ACTION INFO
+PRECONDITION
+sameCardinalDirectionOfTargets
+END
+Damage
+ACTION INFO
+PRECONDITION
+distanceOfTargetFromPlayerSquareLessThan2Moves
+SET
+2
+END
+Move
+ACTION INFO
+PRECONDITION
+alwaysTrue
 END
 END

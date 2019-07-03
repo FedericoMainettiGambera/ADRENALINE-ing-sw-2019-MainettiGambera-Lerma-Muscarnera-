@@ -34,7 +34,8 @@ ALL
 END
 simpleSquareSelect
 TO
-ALL
+2
+3
 END
 END
 ACTIONS
@@ -44,6 +45,11 @@ PRECONDITION
 targetOnYourSquare
 SET
 2
+END
+Action
+ACTION INFO
+PRECONDITION
+pureCardinalMovement
 END
 Move
 ACTION INFO

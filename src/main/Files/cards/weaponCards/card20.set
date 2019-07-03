@@ -31,14 +31,65 @@ Shadow Step + Basic Effect
 EXPECTED INPUT
 player
 TO
-ALL
+1
+2
+END
+simpleSquareSelect
+TO
+1
+2
+END
+singleTarget
+TO
+3
+END
+END
+ACTIONS
+Action
+ACTION INFO
+PRECONDITION
+distanceFromOriginalPositionIs1
+END
+Move
+ACTION INFO
+PRECONDITION
+squareHasTarget
+END
+Damage
+ACTION INFO
+PRECONDITION
+targetOnYourSquareTP
+SET
+1
+END
+END
+
+NEW EFFECT
+EFFECT NAME
+Basic Effect + Shadow Step
+EXPECTED INPUT
+singleTarget
+TO
+1
+END
+player
+TO
+2
 END
 simpleSquareSelect
 TO
 ALL
+2
 END
 END
 ACTIONS
+Damage
+ACTION INFO
+PRECONDITION
+targetOnYourSquare
+SET
+1
+END
 Move
 ACTION INFO
 PRECONDITION
@@ -50,8 +101,6 @@ PRECONDITION
 distanceFromOriginalPositionIs1
 END
 END
-
-
 
 // TODO : SLICE AND DICE NON SI CAPISCE NE IN INGLESE NE IN ITALIANO
 

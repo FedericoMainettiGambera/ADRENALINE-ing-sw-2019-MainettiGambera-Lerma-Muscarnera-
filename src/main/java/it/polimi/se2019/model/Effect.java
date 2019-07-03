@@ -241,8 +241,11 @@ public class Effect implements Serializable {
                 if(lastTarget != null)
                     cell.add(this.getActions().get(0).getActionInfo().getActionContext().getBoard().getSquare(lastTarget.getPosition()));
                 else {
-                    for(Player p: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
-                        cell.add(p);
+                    for (Square y[] : this.getActions().get(0).getActionInfo().getActionContext().getBoard().getMap()) {
+                        for(Square x: y) {
+                            if(x != null)
+                                cell.add(x);
+                        }
                     }
                 }
                 row.add(cell);
@@ -405,9 +408,15 @@ public class Effect implements Serializable {
                     if (back.equals(UsableInputTableRowType.typeSquare)) {
 
                         for (Object o : retVal.get(frontCounter).get(0)) {
-                            int X = ((Player) o).getTemporaryPosition().getX();
-                            int Y = ((Player) o).getTemporaryPosition().getY();
-
+                            int X;
+                            int Y;
+                            if (this.isMoveDuringEffect()) {
+                                X = ((Player) o).getTemporaryPosition().getX();
+                                Y = ((Player) o).getTemporaryPosition().getY();
+                            } else {
+                                X = ((Player) o).getPosition().getX();
+                                Y = ((Player) o).getPosition().getY();
+                            }
                             o = this.getActions().get(0).getActionInfo().getActionContext().getBoard().getSquare(X, Y);
 
                         }
@@ -434,7 +443,7 @@ public class Effect implements Serializable {
                                 Y = ((Player) o).getTemporaryPosition().getY(); // TODO if it gives problems remove "Temporary"
                             } else {
                                 X = ((Player) o).getPosition().getX();
-                                Y = ((Player) o).getPosition().getY(); // TODO if it gives problems remove "Temporary"
+                                Y = ((Player) o).getPosition().getY();
                             }
                             Position pos = new Position(X, Y);
                             if (!newRow.contains(this.getActions().get(0).getActionInfo().getActionContext().getBoard().getSquare(X, Y)))
@@ -900,9 +909,11 @@ public class Effect implements Serializable {
                     for(Player x: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
                         int a,b;
                         if(isMoveDuringEffect()) {
-                            a = x.getTemporaryPosition().getY();
+                            System.out.println("target su una posizione temporanea " + x.getTemporaryPosition().humanString());
+                            a = x.getTemporaryPosition().getX();
                             b = x.getTemporaryPosition().getY();
                         } else {
+                            System.out.println("target su una posizione fissata " + x.getPosition().humanString());
                             a = x.getPosition().getX();
                             b = x.getPosition().getY();
                         }
