@@ -13,7 +13,7 @@ public class TestPowerUpAskForInputState {
     public void testBase() throws Exception {
 
         Game game = fakeModel.create();
-        ModelGate.model=game;
+        ModelGate.setModel(game);
 
         game.buildDecks();
         PowerUpCard p = game.getPowerUpDeck().getCard("10");
