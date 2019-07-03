@@ -40,14 +40,14 @@ public class OrderedCardList<T> extends Observable implements Serializable {
     public void setContext(String context){
         this.context = context;
     }
-    /**@return
+    /**@return a reference to the cards
      * */
     public List<T> getCards() {
         return this.cards;
     }
 
     /**Problem with the Card.getID() method, so i had to cast the cards and do some weird hack to get around the problem.
-     * @param ID
+     * @param ID the card to be get
      * @return the card or null if the card doesn't exist.
      * */
     public T getCard(String ID){
@@ -65,17 +65,17 @@ public class OrderedCardList<T> extends Observable implements Serializable {
     }
 
     /**Add a card to the list, TO BE USED ONLY IN GAME CLASS DURING THE BUIDING OF THE DECKS
-     * @param card
+     * @param card the card to be added
      */
     public void addCard(T card){
         this.cards.add(card);
     }
 
     /**Remove card from the list
-     * @param ID
+     * @param ID the card to be removed
      * @return true if the card has been removed; false if it isn't;
      */
-    public boolean removeCard(String ID){
+     boolean removeCard(String ID){
         for (int i = 0; i < this.cards.size(); i++) {
             if( ((Card)this.cards.get(i)).getID().equals(ID) ){
                 this.cards.remove(i);
@@ -85,7 +85,8 @@ public class OrderedCardList<T> extends Observable implements Serializable {
         return false;
     }
 
-    public void checkDeckEnded(){
+    /**check if the deck is ended*/
+     void checkDeckEnded(){
         //reshuffles back powerup and ammo from the respective discards pile
         if(this.cards.size() == 0 && this.context.contains("powerUpDeck")){
             ModelGate.getModel().getPowerUpDiscardPile().moveAllCardsTo(this);
@@ -98,8 +99,8 @@ public class OrderedCardList<T> extends Observable implements Serializable {
     }
 
     /**Moves a specific card from this ordered card list to another one
-     * @param cardID
-     * @param to
+     * @param cardID the card to be moved
+     * @param to where to move the card
      * @return true if the card exist, false if it doesn't.
      * */
     public boolean moveCardTo(OrderedCardList to, String cardID) {
@@ -129,7 +130,7 @@ public class OrderedCardList<T> extends Observable implements Serializable {
     }
 
     /**Moves all cards from this ordered card list to another one
-     * @param to
+     * @param to where to move all of the cards
      * */
     public void moveAllCardsTo(OrderedCardList to) {
         for (int i = 0; i < this.cards.size(); i++) {
@@ -150,6 +151,8 @@ public class OrderedCardList<T> extends Observable implements Serializable {
         notifyObservers(new ModelViewEvent(this.buildDeckV(), ModelViewEventTypes.shufflingCards));
     }
 
+    /**build equivalent structure for view purpose
+     * @return a reference to said structure*/
     public OrderedCardListV buildDeckV(){
         if(this.context.equals("ammoDeck")||this.context.equals("ammoDiscardPile")||this.context.contains("normalSquare")){
 

@@ -44,6 +44,9 @@ public class ShootPeopleState implements State {
     }
 
 
+    /**@param playerToAsk  if the player can shoot,
+     * the next state to be set is the one in which the player will be allowed to choose a weapon
+     * */
     @Override
     public void askForInput(Player playerToAsk){
         this.playerToAsk = playerToAsk;

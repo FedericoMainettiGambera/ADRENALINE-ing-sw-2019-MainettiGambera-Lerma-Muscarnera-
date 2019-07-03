@@ -21,12 +21,16 @@ public class RunAroundState implements State{
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(RunAroundState.class.getName());
 
+    /**if it's action 1st or 2nd*/
     private int actionNumber;
-
+    /**the player to be asked the input*/
     private Player playerToAsk;
 
+    /**count down till AFK*/
     private Thread inputTimer;
 
+    /**constructor,
+     * @param actionNumber to set action number attribute*/
     public RunAroundState(int actionNumber){
         out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
@@ -100,7 +104,7 @@ public class RunAroundState implements State{
         }
     }
 
-    /**@param vce, where the state extrapulate the information to know where  player is going to be placed*/
+    /**@param vce, where the state extract the information to know where  player is going to be placed*/
     public void handleVce(ViewControllerEvent vce){
 
         out.println("<SERVER> player has answered before the timer ended.");

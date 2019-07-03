@@ -5,12 +5,19 @@ import it.polimi.se2019.virtualView.RMIREDO.VirtualViewSelectorRmi;
 import it.polimi.se2019.virtualView.Socket.VirtualViewSelectorSocket;
 import it.polimi.se2019.virtualView.VirtualViewSelector;
 
+/**this class implements method to get the right way to communicate with the client*/
 public class SelectorGate {
 
+    private SelectorGate(){
+        //not to initialize
+    }
+
+    /**instance a new selector for socket connections*/
      private static VirtualViewSelectorSocket selectorSocket = new VirtualViewSelectorSocket();
-
-     private static VirtualViewSelectorRmi selectorRmi = new VirtualViewSelectorRmi();
-
+       /**instance a new selector for rmi connections*/
+    private static VirtualViewSelectorRmi selectorRmi = new VirtualViewSelectorRmi();
+    /**@param p  the player to be asked some input
+     * @return the right selector for that player*/
     public static VirtualViewSelector getCorrectSelectorFor(Player p){
         if(p.getOos()!=null){
             return selectorSocket;

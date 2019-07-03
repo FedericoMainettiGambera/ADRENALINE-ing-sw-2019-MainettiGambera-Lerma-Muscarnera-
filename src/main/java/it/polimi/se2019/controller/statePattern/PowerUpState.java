@@ -138,7 +138,7 @@ return chosenPowerUp;
             }
             return cards;
         }
-        else{ //if(this.powerUpToUse.equals("damage")){ //for all power Up that are not Teleporter or newton
+        else{
             for (PowerUpCard pu: playerToAsk.getPowerUpCardsInHand().getCards()) {
                 if (!pu.getName().equalsIgnoreCase("teleporter") && !pu.getName().equalsIgnoreCase("newton")) {
                     pu.getSpecialEffect().passContext(playerToAsk, ModelGate.getModel().getPlayerList(), ModelGate.getModel().getBoard());

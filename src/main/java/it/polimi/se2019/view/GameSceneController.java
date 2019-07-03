@@ -50,6 +50,10 @@ public class GameSceneController implements Initializable {
     //create at run time... TODO.
 
 
+    public AnchorPane getInformationSection() {
+        return informationSection;
+    }
+
     //------------------------------------------------------------------
     //game section
     @FXML private AnchorPane gameSection;
@@ -545,6 +549,10 @@ public class GameSceneController implements Initializable {
 
         descr.setFill(Color.rgb(255, 127, 36));
         descr.setFont(Font.font("Courier"));
+
+        ammoMainImageBlue1.getStyleClass().add("ammoBlue");
+        ammoMainImageRed1.getStyleClass().add("ammoRed");
+        ammoMainImageYellow1.getStyleClass().add("ammoRed");
 
 
         if (ViewModelGate.getMe().equals(ViewModelGate.getModel().getPlayers().getStartingPlayer())) {

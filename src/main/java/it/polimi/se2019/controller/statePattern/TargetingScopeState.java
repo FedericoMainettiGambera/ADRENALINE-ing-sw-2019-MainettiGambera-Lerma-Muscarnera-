@@ -22,16 +22,22 @@ public class TargetingScopeState implements State{
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(TurnState.class.getName());
 
-    private Player playerToAsk;
-
-    private Thread inputTimer;
-
+    /**following state to be set*/
     private State nextState;
+    /**player to ask the input*/
+    private Player playerToAsk;
+    /**thread for the count down*/
+    private Thread inputTimer;
+    /**a list of the player that have just been damaged*/
     private List<Player> damagedPlayers;
-
+    /**a list of the targeting scope in hand*/
     private List<PowerUpCard> listOfTargetingScope;
+    /**a list of possible way to purchase*/
     private List<Object> possiblePayments;
 
+    /**constructor,
+     * @param nextState sets the nextState attribute
+     * @param damagedPlayers sets the damagedPlayer attribute*/
      TargetingScopeState(State nextState, List<Player> damagedPlayers){
         out.println("<SERVER> New state: " + this.getClass());
         this.nextState = nextState;

@@ -50,18 +50,24 @@ public class PowerUpAskForInputStateTest{
         squares.add(squareV);
         squares.add(squareV1);
 
+
+
         game.getCurrentPlayingPlayer().getPowerUpCardsInHand().addCard(game.getPowerUpDeck().getCard("1"));
         game.getCurrentPlayingPlayer().getPowerUpCardsInHand().addCard(game.getPowerUpDeck().getCard("2"));
-
         PowerUpState powerUpState=new PowerUpState("movement",new FinalScoringState());
+        PowerUpState powerUpState2=new PowerUpState("damage",new FinalScoringState());
+
 
         java.lang.reflect.Method findPowerUp= PowerUpState.class.getDeclaredMethod("setPlayerToAskAndGetHisCards", Player.class);
         findPowerUp.setAccessible(true);
 
         findPowerUp.invoke(powerUpState, game.getCurrentPlayingPlayer());
+//        findPowerUp.invoke(powerUpState2, game.getCurrentPlayingPlayer());
 
 
         game.setBoard(new Board("map0", null, null));
+
+        game.getCurrentPlayingPlayer().setPosition(0,0);
 
         Player player=new Player();
         player.setPosition(0,0);
@@ -83,7 +89,7 @@ public class PowerUpAskForInputStateTest{
 
         System.out.println(powerUpCard.getID()+powerUpCard.getName());
 
-        parseInput.invoke(state, viewControllerEvent);
+       // parseInput.invoke(state, viewControllerEvent);
 
         assertTrue((boolean)isToSend.invoke(state, powerUpCard.getSpecialEffect().getEffectInfo().getEffectInfoElement().get(0).getEffectInfoTypelist()));
         canIncrementRequest.invoke(state);
