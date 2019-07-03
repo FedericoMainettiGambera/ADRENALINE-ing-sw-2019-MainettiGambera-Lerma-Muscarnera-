@@ -14,6 +14,7 @@ import it.polimi.se2019.view.GUIstarter;
 import it.polimi.se2019.view.GameSceneController;
 import it.polimi.se2019.view.LoadingSceneController;
 import it.polimi.se2019.view.components.*;
+import it.polimi.se2019.view.outputHandler.GUIOutputHandler;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -75,26 +76,6 @@ public class GUISelector implements SelectorV {
         vBox.getChildren().addAll(stackPane,content);
 
         return vBox;
-    }
-
-    private StackPane getPlayerStackPane(PlayerV player){
-        StackPane squareStackPane = getGameSceneController().getMainImagesmap()[player.getX()][player.getY()];
-
-        //get the last child in the squareStackPane that is always an HBox of players
-        HBox playersHbox = (HBox)squareStackPane.getChildren().get(squareStackPane.getChildren().size()-1);
-
-        //finds the correct stackPane inside the hbox of players
-        for (Node n: playersHbox.getChildren() ) {
-            if(((PlayerV)n.getUserData()).getNickname().equals(player.getNickname())){
-                return (StackPane)n;
-            }
-        }
-        try {
-            throw new IllegalArgumentException("Player not found in the square");
-        } catch (Exception e) {
-            GUIstarter.showError(this, "couldn't find the player in the square", e);
-            return new StackPane(new Label("wrong player"));
-        }
     }
 
     //##################################################################################################################
@@ -1167,7 +1148,7 @@ public class GUISelector implements SelectorV {
             for (Object o: possibleInputs) {
                 PlayerV player = (PlayerV)o;
 
-                StackPane stackPanePlayer = getPlayerStackPane(player);
+                StackPane stackPanePlayer = GUIOutputHandler.getplayerStackPane(player.getNickname());
 
                 stackPanePlayer.getStyleClass().add(hoverableCssClass);
 
@@ -1255,7 +1236,7 @@ public class GUISelector implements SelectorV {
                     for (int i = 0; i < possibleInputs.size(); i++) {
                         PlayerV playerV = (PlayerV) possibleInputs.get(i);
                         PlayerEventHandler eventHandler = (PlayerEventHandler) possibleEventHandlers.get(i);
-                        StackPane playerStackPane = getPlayerStackPane(playerV);
+                        StackPane playerStackPane = GUIOutputHandler.getplayerStackPane(playerV.getNickname());
                         Platform.runLater(() -> playerStackPane.getStyleClass().remove(hoverableCssClass));
                         playerStackPane.removeEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
                     }
@@ -1694,7 +1675,7 @@ public class GUISelector implements SelectorV {
 
         private void highlightPlayers(){
             for (PlayerV player: playersV) {
-                StackPane playerStackpane = getPlayerStackPane(player);
+                StackPane playerStackpane = GUIOutputHandler.getplayerStackPane(player.getNickname());
                 playerStackpane.getStyleClass().add(hoverableCssClass);
 
                 EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
@@ -1704,7 +1685,7 @@ public class GUISelector implements SelectorV {
                         getGameSceneController().sendToServer(new ViewControllerEventString(player.getNickname()));
                         for (PlayerV p: playersV) {
                             Platform.runLater(()->{
-                                StackPane stackPaneP = getPlayerStackPane(p);
+                                StackPane stackPaneP = GUIOutputHandler.getplayerStackPane(p.getNickname());
                                 Platform.runLater(()->stackPaneP.getStyleClass().remove(hoverableCssClass));
                                 stackPaneP.removeEventHandler(MouseEvent.MOUSE_CLICKED,this);
                             });
