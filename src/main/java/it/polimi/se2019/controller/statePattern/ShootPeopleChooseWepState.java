@@ -46,7 +46,7 @@ public class ShootPeopleChooseWepState implements State {
 
         possibleCards.getCards().removeIf(element -> !element.isLoaded());
 
-        this.loadedCardInHand = (ArrayList)possibleCards.getCards();
+        this.loadedCardInHand = (ArrayList<WeaponCard>)possibleCards.getCards();
 
         if(!possibleCards.getCards().isEmpty()) {
             //ask input
@@ -60,7 +60,6 @@ public class ShootPeopleChooseWepState implements State {
             }
         }
         else{
-            //TODO check if this works:
             out.println("<SERVER> ----------------------------------------------------------------------------------------------------|");
             out.println("|         WARNING: This text should be displayed only if the player doesn't have any loaded playable weapon  |\n" +
                         "|                  and the FinalFrenzyHasBegun.                                                              |\n" +

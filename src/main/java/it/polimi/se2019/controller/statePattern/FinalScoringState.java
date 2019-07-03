@@ -126,7 +126,7 @@ public class FinalScoringState implements State {
     @Override
     public void handleAFK() {
         out.println("<SERVER> (" + this.getClass() + ") Handling AFK Player.");
-        //empty
+        //empty, never called
     }
 
 

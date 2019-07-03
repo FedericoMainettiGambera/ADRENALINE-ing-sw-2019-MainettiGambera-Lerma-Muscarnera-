@@ -104,5 +104,6 @@ public class FFSetUpState implements State {
     @Override
     public void handleAFK() {
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        //empty, never called
     }
 }

@@ -130,10 +130,8 @@ public class ShootPeopleAskForInputState implements State {
             askForInput(playerToAsk);
         }
         else {
-            // TODO DEBUG SOLUTION
             this.afterPayment();
-            //TODO REAL SOLUTION:
-            // ChooseHowToPayState.makePayment(playerToAsk, this.chosenEffect.getUsageCost());
+            ChooseHowToPayState.makePayment(playerToAsk, this.chosenEffect.getUsageCost());
         }
     }
 
@@ -163,7 +161,7 @@ public class ShootPeopleAskForInputState implements State {
      * @return the list of the players he has damaged, if there are any */
     public List<Player> damagePlayer(){
 
-        this.chosenWeaponCard.unload(); //TODO not sure about this, ask luca
+        this.chosenWeaponCard.unload();
         List<List<Player>> listListDamagedPlayer = this.chosenEffect.Exec();
 
         //transform the List<List<Player>> in List<Player>

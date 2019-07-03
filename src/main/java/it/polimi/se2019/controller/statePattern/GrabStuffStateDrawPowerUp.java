@@ -40,12 +40,11 @@ public class GrabStuffStateDrawPowerUp implements State {
         if(this.actionNumber == 1){
             if (ModelGate.getModel().hasFinalFrenzyBegun() && ModelGate.getModel().getCurrentPlayingPlayer().getBeforeorafterStartingPlayer() >= 0)
                 {
-                    state = new ReloadState(false);//TODO check reload state cuz its the last turn and you dont really need to reload
+                    state = new ReloadState(false);
                 }
               else  state = new TurnState(2);
         }
         if(this.actionNumber == 2){
-            //TODO not sure
             state = new ReloadState(false);
         }
         ViewControllerEventHandlerContext.setNextState(state);

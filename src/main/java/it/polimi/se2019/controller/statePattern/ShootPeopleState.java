@@ -61,7 +61,7 @@ public class ShootPeopleState implements State {
 
              }
         }
-       //FF aint begun & adrenaline action available
+       //FF hasn't begun & adrenaline action available
         else if(!ModelGate.getModel().hasFinalFrenzyBegun()&&ModelGate.getModel().getCurrentPlayingPlayer().hasAdrenalineShootAction()){
 
             noFFbutAdrenalineAction();

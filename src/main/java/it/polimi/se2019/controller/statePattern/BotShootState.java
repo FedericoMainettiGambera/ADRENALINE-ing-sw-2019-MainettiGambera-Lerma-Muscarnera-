@@ -131,8 +131,11 @@ public class BotShootState implements State{
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
-
-        //handle case timer ends before player answers
+        //pass turn
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
+            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+            ViewControllerEventHandlerContext.getState().doAction(null);
+        }
     }
 
 

@@ -99,8 +99,8 @@ public class ScoreKillsState implements State {
     /**in case a player happen to disconnect, we handle it*/
     @Override
     public void handleAFK() {
-        //TODO
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        //empty
     }
 
     /**@param deadPlayer is the player we need to score the damageTrack of

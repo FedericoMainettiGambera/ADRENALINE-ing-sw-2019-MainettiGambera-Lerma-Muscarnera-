@@ -37,7 +37,7 @@ public class PowerUpAskForInputState implements State {
     }
 
     private Integer inputRequestCounterF = 0;
-    public boolean canIncrementRequest(){
+    private boolean canIncrementRequest(){
         return inputRequestCounterF < this.chosenPowerUp.getSpecialEffect().requestedInputs().size() - 1;
     }
 
@@ -71,7 +71,7 @@ public class PowerUpAskForInputState implements State {
         }
     }
 
-    public void askMoreOrExec(){
+    private void askMoreOrExec(){
         if(canIncrementRequest()) {
             inputRequestCounterF++;
             askForInput(playerToAsk);
@@ -89,16 +89,16 @@ public class PowerUpAskForInputState implements State {
         }
     }
 
-    public boolean isToSend(EffectInfoType infoType) {
-        return (! ( infoType.equals(EffectInfoType.player) ||
+    private boolean isToSend(EffectInfoType infoType) {
+        return (!
+                (infoType.equals(EffectInfoType.player) ||
                 infoType.equals(EffectInfoType.playerSquare) ||
                 infoType.equals(EffectInfoType.targetListBySameSquareOfPlayer) ||
                 infoType.equals(EffectInfoType.singleRoom) ||
                 infoType.equals(EffectInfoType.squareOfLastTargetSelected) ||
                 infoType.equals(EffectInfoType.targetBySameSquareOfPlayer) ||
                 infoType.equals(EffectInfoType.targetListBySquareOfLastTarget) ||
-                infoType.equals(EffectInfoType.targetListByLastTargetSelectedSquare)
-        )
+                infoType.equals(EffectInfoType.targetListByLastTargetSelectedSquare))
         );
     }
 

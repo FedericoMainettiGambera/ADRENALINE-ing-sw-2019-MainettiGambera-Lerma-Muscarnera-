@@ -175,7 +175,12 @@ public class TagBackGranadeState implements State{
     /**pass to the following  state*/
     private void passToNextState(){
         ViewControllerEventHandlerContext.setNextState(this.nextState);
-        ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
+        if(this.nextState.getClass().toString().contains("ScoreKillState")){
+            ViewControllerEventHandlerContext.getState().doAction(null);
+        }
+        else {
+            ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
+        }
     }
 
     public void setListOfTagBackGranade(Player player){
@@ -194,9 +199,8 @@ public class TagBackGranadeState implements State{
      * */
     @Override
     public void handleAFK() {
-        //TODO
-        //this.playerToAsk.setAFKWithNotify(true);
+        this.currentPlayer.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
-
+        askNextDamagedPlayer();
     }
 }

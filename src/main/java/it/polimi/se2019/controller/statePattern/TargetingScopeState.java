@@ -221,7 +221,7 @@ public class TargetingScopeState implements State{
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
-        //TODO
-        //handle case timer ends before player answers
+        ViewControllerEventHandlerContext.setNextState(new TagBackGranadeState(new ScoreKillsState(), this.damagedPlayers, this.playerToAsk));
+        ViewControllerEventHandlerContext.getState().askForInput(null);
     }
 }

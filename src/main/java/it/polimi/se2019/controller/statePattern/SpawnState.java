@@ -41,7 +41,7 @@ public class SpawnState implements State {
         deadDrawPowerUp();
 
         //list of power up of the player to spawn
-        ArrayList<PowerUpCard> powerUpCards = (ArrayList)playerToSpawn.getPowerUpCardsInHand().getCards();
+        ArrayList<PowerUpCard> powerUpCards = (ArrayList<PowerUpCard>)playerToSpawn.getPowerUpCardsInHand().getCards();
         ArrayList<PowerUpCardV> powerUpCardsV = new ArrayList<>();
         for (PowerUpCard p: powerUpCards) {
             powerUpCardsV.add(p.buildPowerUpCardV());
@@ -76,7 +76,6 @@ public class SpawnState implements State {
 
     @Override
     public void handleAFK(){
-        //TODO
         this.playerToSpawn.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         out.println("<SERVER> randomly making player spawn using first card in hand.");
@@ -87,11 +86,11 @@ public class SpawnState implements State {
 
         String string="---------------------------------------------------------------------------------------------------------";
 
-        System.err.println(string);
-        System.err.println(string);
-        System.err.println("----------------------------------        SOMEONE DIED        -------------------------------------------");
-        System.err.println(string);
-        System.err.println(string);
+        out.println(string);
+        out.println(string);
+        out.println("----------------------------------        SOMEONE DIED        -------------------------------------------");
+        out.println(string);
+        out.println(string);
     }
 
     public void handleVce(ViewControllerEvent viewControllerEvent){

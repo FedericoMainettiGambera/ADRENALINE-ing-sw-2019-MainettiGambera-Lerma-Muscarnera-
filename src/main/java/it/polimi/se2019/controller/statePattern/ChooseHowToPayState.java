@@ -164,7 +164,6 @@ public class ChooseHowToPayState {
      * set the player AFK in case they don't send required input in a while
      * */
     public void handleAFK() {
-        //TODO
         this.payingPlayer.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
@@ -174,6 +173,12 @@ public class ChooseHowToPayState {
         afterPayment();
 
         out.println(donePaying);
+
+        //pass turn
+        if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
+            ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
+            ViewControllerEventHandlerContext.getState().doAction(null);
+        }
     }
 
     /**once the payment is completed, a new state is set, depending on which state in first place called this one*/

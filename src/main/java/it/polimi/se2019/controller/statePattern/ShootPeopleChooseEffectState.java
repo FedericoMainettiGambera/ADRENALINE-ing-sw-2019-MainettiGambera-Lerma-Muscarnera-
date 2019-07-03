@@ -31,7 +31,7 @@ public class ShootPeopleChooseEffectState implements State{
 
     private int actionNumber;
 
-    public ShootPeopleChooseEffectState(WeaponCard choosenWeaponCard, int actionNumber){
+    ShootPeopleChooseEffectState(WeaponCard choosenWeaponCard, int actionNumber){
         out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;
         this.choosenWeaponCard = choosenWeaponCard;
@@ -57,15 +57,15 @@ public class ShootPeopleChooseEffectState implements State{
     }
 
     @Override
-    public void doAction(ViewControllerEvent VCE){
+    public void doAction(ViewControllerEvent viewControllerEvent){
         this.inputTimer.interrupt();
         out.println("<SERVER> player has answered before the timer ended.");
 
         out.println("<SERVER> "+ this.getClass() +".doAction();");
 
-        ViewControllerEventInt VCEInt = (ViewControllerEventInt)VCE;
+        ViewControllerEventInt viewControllerEventInt = (ViewControllerEventInt)viewControllerEvent;
 
-        this.chosenEffect = this.possibleEffects.get(VCEInt.getInput());
+        this.chosenEffect = this.possibleEffects.get(viewControllerEventInt.getInput());
 
         out.println("<SERVER> Player has chosen effect: " + this.chosenEffect.getEffectName());
 
@@ -78,7 +78,7 @@ public class ShootPeopleChooseEffectState implements State{
     @Override
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
-        System.out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
         //pass turn
         if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());

@@ -43,7 +43,7 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
         //ask which power up to discard
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
-            SelectorGate.getCorrectSelectorFor(playerToAsk).askPowerUpToDiscard((ArrayList)playerToAsk.getPowerUpCardsInHand().getCards());
+            SelectorGate.getCorrectSelectorFor(playerToAsk).askPowerUpToDiscard(playerToAsk.getPowerUpCardsInHand().getCards());
             this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
@@ -124,6 +124,12 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
     public void handleAFK() {
         this.playerToAsk.setAFKWithNotify(true);
         out.println("<SERVER> ("+ this.getClass() +") Handling AFK Player.");
+        //discard power up
+        out.println("<SERVER> The player discards power up: " + ModelGate.getModel().getCurrentPlayingPlayer().getPowerUpCardsInHand().getFirstCard().getID() );
+        ModelGate.getModel().getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
+                ModelGate.getModel().getPowerUpDiscardPile(),
+                ModelGate.getModel().getCurrentPlayingPlayer().getPowerUpCardsInHand().getFirstCard().getID()
+        );
         //pass turn
         if(!ViewControllerEventHandlerContext.getState().getClass().toString().contains("FinalScoringState")) {
             ViewControllerEventHandlerContext.setNextState(new ScoreKillsState());
