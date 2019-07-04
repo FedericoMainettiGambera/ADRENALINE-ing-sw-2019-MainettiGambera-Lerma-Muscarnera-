@@ -36,6 +36,7 @@ public class WaitForPlayerInput implements Runnable{
     public void run() {
         out.println("                                            Thread: <SERVER> Waiting for " + playerToAsk.getNickname() + "'s input.");
         out.println("                                                             from class: " + this.callingClass);
+        out.println("                                                             ID: " + this.randomID);
 
 
         int i = 1;
