@@ -1098,6 +1098,8 @@ public class GUISelector implements SelectorV {
                 case twoTargets:
                     inputTypeLabel = new Label("select up to two players");
                     break;
+                case squareByLastTargetSelected:
+                    inputTypeLabel = new Label("select the square of the target");
                 default:
                     inputTypeLabel = new Label("unspecified inputType");
                     GUIstarter.showError(this, "can't find inputType: " + inputType, null);
@@ -1138,10 +1140,9 @@ public class GUISelector implements SelectorV {
             //refresh and reset map
             (new UpdateMap()).callRunInThisThread();
 
-            //rehighligh possible inputs, but without the last one selected
+            //delete the choice
             answer.add(o);
             possibleInputs.remove(o);
-            highlightPossibleInputs();
 
             if(numberOfRequests == 1){ //no more request to do
                 sendToServerAndResetSelection();
@@ -1152,6 +1153,10 @@ public class GUISelector implements SelectorV {
                 }
                 else { //can make another choice and there are more possible inputs
                     this.numberOfRequests--;
+
+                    //highlight possible inputs again, but without the last one selected
+                    highlightPossibleInputs();
+
                     //can do another choice
                     VBox request = new VBox();
                     StackPane title = buildInputTypeTitle();
@@ -1177,6 +1182,7 @@ public class GUISelector implements SelectorV {
             (new UpdateMap()).callRunInThisThread();
 
             //sent to server
+            System.out.println("SENDING ANSWER TO SERVER: " + answer.toString());
             ViewControllerEventListOfObject viewControllerEventListOfObject = new ViewControllerEventListOfObject(answer);
             getGameSceneController().sendToServer(viewControllerEventListOfObject);
         }
