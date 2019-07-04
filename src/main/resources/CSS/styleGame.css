@@ -446,6 +446,10 @@ SPECIFIC CLASSES
 .deathsBackground{
     -fx-background-color: default-color;
 }
+.deathsBackgroundFF{
+
+}
+
 .deathBackground{
     -fx-background-color: default-color;
 }

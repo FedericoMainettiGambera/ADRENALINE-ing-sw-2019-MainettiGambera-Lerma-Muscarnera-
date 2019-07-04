@@ -15,7 +15,6 @@ public class TestReload {
 
    /**we test the reload state class in the state pattern*/
 
-
         FakeModel fakeModel=new FakeModel();
 
         @Test
