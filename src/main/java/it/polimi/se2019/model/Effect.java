@@ -13,12 +13,21 @@ import java.util.logging.Logger;
 
 import static it.polimi.se2019.model.enumerations.EffectInfoType.*;
 
-/***/
+/**
+ * Effect class. it allows to store a set of atomic actions (Action class elements) and
+ * run them.
+ * @author Luca Muscarnera
+ * */
 public class Effect implements Serializable {
     public boolean isMoveDuringEffect() {
         return MoveDuringEffect;
     }
-
+    /** Some effects change the position of one or more player during the execution
+     *  of the effect itself. Because every position is - in a normal effect - changed
+     *  only during the call of Exec(), setting moveDuringEffect true will result in
+     *  position changing during the effect and not at the end of it.
+     * @param: moveDuringEffect the value of the moveDuringEffect field
+     * */
     public void setMoveDuringEffect(boolean moveDuringEffect) {
         MoveDuringEffect = moveDuringEffect;
     }
@@ -71,7 +80,15 @@ public class Effect implements Serializable {
         }
         return retVal;
     }
-    /** REFACTORING usableINPUT **/
+    /**
+     * This is a private method used to prepare the card for the input.
+     * The possible inputs of a card are calculated with a series of intersection,
+     * therefore need to initialize the "universal set" for that input, in order
+     * to prevent the loss of possible inputs during the following intersection
+     * of possibility.
+     *
+     * @return return the initliazed retVal for usableInputs **/
+
     private List<Object> retValRowsInitialize() {
         List<UsableInputTableRowType> rowType = new ArrayList<>();
         List<UsableInputTableRowType> frontEndRowType = new ArrayList<>();
@@ -357,6 +374,20 @@ public class Effect implements Serializable {
          returnArray.add(frontEndRowType);
         return returnArray;
     }
+    /**
+     * This private method allows to call a PreCondition InvertedMethod
+     * It is a simplified caller,in fact the it only takes three arguments
+     * of the six arguments needed by a PreConditionMethodInverted.
+     * This is due the fact that this method is made to be used in order
+     * to call simple PreConditionMethodInverted methods, that is to say
+     * the methods that don't need the to check the inputs and don't need
+     * to be contextualized in a effect.
+     * EXAMPLE: youCanSee -- it's result is not influenced by the effect
+     * where the method is called nor it's affected by the previous inputs
+     * of the user.
+     *
+     * @return  the called method's return value
+     * */
 
     private List<Object> callPIByName(String name,
                                       ActionContext actionContext,
@@ -395,7 +426,30 @@ public class Effect implements Serializable {
         }
         return (List<Object>) invertedPreConditionOutput;
     }
+
+    /** @param  n the number of the action to return
+     *  @return the Action of index n stored in this Effect
+     * */
     private Action getAction(int n) {return this.getActions().get(n);}
+
+    /** Some kind of inputs need an additive layer of processing between
+     * the input of the user and the input itself. For example, targetListBySquare
+     * receives a square from the user, but passes a list of Targets to the
+     * Effect. This problem was solved introducing the concept of BackRowType
+     * and FrontRowType; the BackRowType [ Player | Square ] represents the type
+     * of input actually passed to the effect, the FrontRowType  [ Player | Square ]
+     * represents the type of input sent by the user. This method adapt the input
+     * sent by the user (that is of the type in FrontRowType)
+     * in order to make it consistent with the BackRowType.
+     * The method has no return value and takes the RetVal list,wich is the return value
+     * of usable inputs , the rowType List - the table of BackRowType of a effect -, and the
+     * frontEndRowType - the table of FrontRowType - as params, working straight on them.
+     *
+     * @param retVal    return value of usable inputs
+     * @param rowType   rowType table in usable inputs
+     * @param frontEndRowType frontEndRowType table in usable inputs
+     *
+     */
     private void BackFrontEndAdaptor(List<List<List<Object>>> retVal, List<UsableInputTableRowType> rowType, List<UsableInputTableRowType>  frontEndRowType)
     {
         int frontCounter = 0;
@@ -444,7 +498,7 @@ public class Effect implements Serializable {
                             int Y;
                             if (this.isMoveDuringEffect()) {
                                 X = ((Player) o).getTemporaryPosition().getX();
-                                Y = ((Player) o).getTemporaryPosition().getY(); // TODO if it gives problems remove "Temporary"
+                                Y = ((Player) o).getTemporaryPosition().getY();
                             } else {
                                 X = ((Player) o).getPosition().getX();
                                 Y = ((Player) o).getPosition().getY();
@@ -475,6 +529,31 @@ public class Effect implements Serializable {
                 row.remove(me);
         }
     }
+
+    /**
+     * @param n sets N
+     * @return List of usable inputs for the Nth expected input by a card.
+     * */
+    public List<Object>       getUsableInputsRow(int n) {
+        return this.usableInputs().get(n).get(0);
+    }
+
+    /**
+     * This method is the "core" of the communication between user and Effect.
+     * It calculates a Matrix of possible inputs where every row represents all
+     * the possible inputs for one of the inputs defined in the section "Expected
+     * Input" of every Effect;
+     * and every cell represents the singular possible input for that "Expected Input".
+     * For extensional purpouse it was added an extra List layer between row and cell:
+     * the idea is to add the possibilty of different sets of usable inputs for every input.
+     *
+     * HOW TO USE
+     *              -- getting the second usable input for the third input of an effect
+     *              =   Effect1.usableInputs().get(2).get(0).get(1)
+     *  Notice that the second "get", in this version takes always 0 as argument.
+     *  It can also be used the method @getUsableInputsRow
+     * @return returns the full matrix of possible inputs for this Effect.
+     * */
     public List<List<List<Object>>> usableInputs() {
 
         // initialize rows of retVal
@@ -651,18 +730,23 @@ public class Effect implements Serializable {
         this.effectName = "no Effect Name";
     }
 
-
+    /**
+     * Default constructor
+     * */
     public Effect() {
         this.setName("Basic Effect");       // default name
         this.setMoveDuringEffect(false);
         this.usageCost = new AmmoList();    // default cost ( zero )
         this.filledInputs = new ArrayList<>();
         this.actions = new ArrayList<Action>();
-        this.effectName = "no Effect Name";
+        this.effectName = "Basic Effect";
     }
 
     /*-*****************************************************************************************************ATTRIBUTES*/
-    /***/
+    /**
+     * contains the description of the effect.
+     * */
+
     private String description;
 
     public void setDescription(String description) {
@@ -673,7 +757,9 @@ public class Effect implements Serializable {
         this.actions = actions;
     }
 
-    /***/
+    /**
+     * contains the list of actions that the effect has to do
+     * */
     private transient List<Action> actions;
 
     /*-********************************************************************************************************METHODS*/
@@ -708,6 +794,14 @@ public class Effect implements Serializable {
         setContext(context);
         return valuateAllPrecondition();
     }*/
+
+    /** Every Effect needs to run in a context. Every context is described by
+     * a Player, a PlayersList and a Board
+     *
+     * @param player the user in the context
+     * @param playersList the list of Players active in that context
+     * @param board the board in that context
+     * */
     public void passContext(Player player,PlayersList playersList,Board board) {
 
 
@@ -717,6 +811,9 @@ public class Effect implements Serializable {
             a.getActionInfo().getActionContext().setBoard(board);
         }
     }
+    /**
+     * @return the list of inputs requested by the effect in order to be executed
+     * */
     public List<EffectInfoType> requestedInputs() {
         List<EffectInfoType> returnValue = new ArrayList<>();
         for(EffectInfoElement a: getEffectInfo().getEffectInfoElement()) {
@@ -725,7 +822,13 @@ public class Effect implements Serializable {
         return returnValue;
     }
 
-
+    /**
+     * Every Effect has a list of inputs that it needs in order to work correctly.
+     * This method passes the data (input) to a certain input (e)
+     *
+     * @param e reference to the input
+     * @param input data of the input to send
+     * */
     public void handleRow(EffectInfoElement e ,Object[] input) {
         // ogni volta che una move viene riempita aggiorno la temporary poition
         Object[] buffer = new Object[10];
@@ -750,7 +853,7 @@ public class Effect implements Serializable {
         }*/
         int i = 0;
         int j = 0;
-        /** TODO add a method to add a row per volta */
+
         this.getActions().get(0).getActionInfo().getActionContext().getPlayer().getPlayerHistory().addRecord(
                 this.getOf(),
                 this,
@@ -817,7 +920,7 @@ public class Effect implements Serializable {
                                     if(! this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList().contains(x))
                                         this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
                                                 x
-                                        );      //TODO MOLTO ARRAMPICATA SUGLI SPECCHI COME SOLUZIONE IL !CONTAINS
+                                        );
                                 }
 
 
@@ -1078,6 +1181,11 @@ public class Effect implements Serializable {
         }
 
     }
+    /**
+    * Exeucutes the effect.
+    *
+    * @return list of player dmaged by a rinfoi
+    * */
     public List<List<Player>> Exec() {
 
         List<List<Player>> retVal = new ArrayList<>();

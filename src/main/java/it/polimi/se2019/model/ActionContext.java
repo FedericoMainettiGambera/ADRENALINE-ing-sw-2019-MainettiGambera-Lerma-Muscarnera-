@@ -3,6 +3,12 @@ package it.polimi.se2019.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+/** Every card needs a context to work fine. A context is bascally the triad composed by the Player,the
+ * PlayersList and the Board of the game. The effects access the aactionContext of the game to make players
+ * interact and to change stats of players.
+ *
+ *
+ *@Author Luca Muscarnera*/
 
 public class ActionContext  implements Serializable {
     public Player getPlayer() {

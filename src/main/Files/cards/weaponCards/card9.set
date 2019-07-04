@@ -35,10 +35,11 @@ EXPECTED INPUT
 singleTarget
 TO
 1
+2
 END
 singleTarget
 TO
-2
+3
 END
 END
 ACTIONS
@@ -48,6 +49,11 @@ PRECONDITION
 youCanSee
 SET
 2
+END
+Action
+ACTION INFO
+PRECONDITION
+canSeeSomeOne
 END
 Damage
 ACTION INFO
@@ -68,15 +74,17 @@ EXPECTED INPUT
 singleTarget
 TO
 1
-END
-singleTarget
-TO
 2
 END
 singleTarget
 TO
 3
 4
+END
+singleTarget
+TO
+5
+6
 END
 END
 ACTIONS
@@ -90,9 +98,21 @@ END
 Damage
 ACTION INFO
 PRECONDITION
-previousTargetCanSee
+canSeeSomeOneTharCanSeeSomeOne
 SET
 1
+END
+Action
+ACTION INFO
+PRECONDITION
+previousTargetCanSee
+END
+Damage
+ACTION INFO
+PRECONDITION
+notPreviousTarget
+SET
+2
 END
 Damage
 ACTION INFO
@@ -101,9 +121,11 @@ previousTargetCanSee
 SET
 2
 END
-Action
+Damage
 ACTION INFO
 PRECONDITION
 differentSingleTargets
+SET
+2
 END
 END

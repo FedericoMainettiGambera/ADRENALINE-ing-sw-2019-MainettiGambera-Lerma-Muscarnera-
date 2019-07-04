@@ -2,7 +2,12 @@ package it.polimi.se2019.model;
 
 import java.io.Serializable;
 
-/***/
+/**
+ * ActionContext,ActionDetails and PreConditionMethodName represent the whole information set
+ * that an Action needs to be executed. This class is made to group all these informations.
+ *
+ * @author Luca Muscarnera
+ * */
 public class ActionInfo implements Serializable {
     public static boolean notNullAndNotDefault(Object a) {
         if( !(((String) a ).equals("DEFAULT"))  && (a != null) ) {
