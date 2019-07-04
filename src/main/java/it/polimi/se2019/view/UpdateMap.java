@@ -85,7 +85,7 @@ public class UpdateMap implements Runnable{
         if (ammoCard != null) {
             StackPane ammoImage = new StackPane(new Label(ammoCard.getID())); //don't use a label, but set the image
             ammoImage.setUserData(ammoCard);
-            //TODO LUDO: ammoImage.addEventHandler(MouseEvent.MOUSE_ENTERED, getGameSceneController().getShowAmmo());
+            ammoImage.addEventHandler(MouseEvent.MOUSE_ENTERED, getGameSceneController().getShowAmmoCardEventHandler());
             squareContent.getChildren().add(ammoImage);
             VBox.setVgrow(ammoImage, Priority.ALWAYS);
         }
