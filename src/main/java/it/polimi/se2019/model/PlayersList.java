@@ -116,6 +116,10 @@ public class PlayersList extends Observable implements Serializable {
         if(ViewControllerEventHandlerContext.getSocketVV()!=null && ViewControllerEventHandlerContext.getRmiVirtualView()!=null) {
             player.addObserver(ViewControllerEventHandlerContext.getSocketVV());
             player.addObserver(ViewControllerEventHandlerContext.getRmiVirtualView());
+            player.getPowerUpCardsInHand().addObserver(ViewControllerEventHandlerContext.getSocketVV());
+            player.getPowerUpCardsInHand().addObserver(ViewControllerEventHandlerContext.getRmiVirtualView());
+            player.getWeaponCardsInHand().addObserver(ViewControllerEventHandlerContext.getSocketVV());
+            player.getWeaponCardsInHand().addObserver(ViewControllerEventHandlerContext.getRmiVirtualView());
         }
         setChanged();
         notifyObservers(new ModelViewEvent(this.buildPlayersListV(), ModelViewEventTypes.newPlayersList));

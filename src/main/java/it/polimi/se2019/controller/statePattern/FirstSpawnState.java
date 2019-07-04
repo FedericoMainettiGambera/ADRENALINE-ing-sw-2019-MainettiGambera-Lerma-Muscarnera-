@@ -10,6 +10,8 @@ import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.controller.WaitForPlayerInput;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventTwoString;
+import it.polimi.se2019.view.outputHandler.CLIOutputHandler;
+
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -139,10 +141,23 @@ public class FirstSpawnState implements State {
 
         //discard the power up card
         out.println("<SERVER> Discarding the chosen power up");
-        ModelGate.getModel().getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
+        if(ModelGate.getModel().getCurrentPlayingPlayer().getPowerUpCardsInHand().moveCardTo(
                 ModelGate.getModel().getPowerUpDiscardPile(),
                 cardChosen.getID()
-        );
+        )){
+            out.println("<SERVER> chosen power up has been discarded");
+            out.println("<SERVER> cards: ");
+            for (PowerUpCard p : ModelGate.getModel().getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards()) {
+                out.println("         " + p.getID() + ": " + p.getName());
+            }
+        }
+        else{
+            out.println("<SERVER> Couldn't discard the chosen power up");
+            out.println("<SERVER> cards: ");
+            for (PowerUpCard p : ModelGate.getModel().getCurrentPlayingPlayer().getPowerUpCardsInHand().getCards()) {
+                out.println("         " + p.getID() + ": " + p.getName());
+            }
+        }
     }
 
     /** set following state*/
@@ -151,7 +166,7 @@ public class FirstSpawnState implements State {
         ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
     }
     /**
-     * if player in not reachable we provide to set it AFK,
+     * if player in not rechable we provide to set it AFK,
      * it will anyhow spawn randomly
      * */
     @Override

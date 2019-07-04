@@ -392,7 +392,7 @@ public abstract class Person extends Observable implements Serializable {
         }
     }
 
-    /** add a specific amount of blood drops (damages) of the shootingPlayer to the (this) player board.
+    /** add a specific amount of blood drops (damages) off the shootingPlayer to the (this) player board.
      * if adding damages overkills the this player, it marks the shootingPlayer.
      * @param numberOfDamages
      * @param shootingPlayer

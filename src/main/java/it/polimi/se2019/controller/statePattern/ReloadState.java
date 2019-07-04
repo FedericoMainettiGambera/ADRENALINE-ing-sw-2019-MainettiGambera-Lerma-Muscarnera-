@@ -238,7 +238,7 @@ public class ReloadState implements State{
                     changeState(new BotMoveState(new WantToPlayPowerUpState()));
 
                 }
-                else {
+                else{
                     changeState(new WantToPlayPowerUpState());
 
                 }

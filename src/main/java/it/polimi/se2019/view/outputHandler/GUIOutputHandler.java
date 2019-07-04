@@ -52,10 +52,12 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         public void run(){
             Platform.runLater( ()->{
                 int i = 0;
+                if(ViewModelGate.getModel()==null&&ViewModelGate.getModel().getKillshotTrack()==null)
+                { return; }
                 if (ViewModelGate.getModel().getKillshotTrack().getKillsV() != null) {
                     if(ViewModelGate.getModel().getKillshotTrack().getKillsV().get(0).isSkull()) {
                         i = ViewModelGate.getModel().getKillshotTrack().getKillsV().size();
-                        setAllSkull(i); //TODO gli skull sono 8, se la size è 5 cosa te ne fai degli altri 3 che avanzano?
+                        setAllSkull(i);
                     } else {
                         for (KillsV killV : ViewModelGate.getModel().getKillshotTrack().getKillsV()){
                             if (killV.isSkull()) {
@@ -68,11 +70,12 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                             }
                             i++;
                         }
+
+                    }
                         assert i >= 5;
-                        if (i < getGameSceneController().getKills().size()) { //TODO non si capisce, stando al for di sopra: i == ...size()-1
+                        if (i < getGameSceneController().getKills().size()){
                             setEmpty(i);
                         }
-                    }
                 }
 
                     }
@@ -208,12 +211,13 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         @Override
         public void run() {
             Platform.runLater(()->{
+                if(ViewModelGate.getModel()==null&&ViewModelGate.getModel().getPlayers()==null&&ViewModelGate.getModel().getPlayers().getPlayer(ViewModelGate.getMe())==null)
+                { return; }
 
                 PlayerV me = ViewModelGate.getModel().getPlayers().getPlayer(ViewModelGate.getMe());
-
                 if (me.getPowerUpCardInHand() != null) {
                     int i = 0;
-                    for (PowerUpCardV powerUp : me.getPowerUpCardInHand().getCards()) { // TODO perchè usare un for each se poi usi un contatore?
+                    for (PowerUpCardV powerUp : me.getPowerUpCardInHand().getCards()){
                         if(i<2) {
                             getGameSceneController().getListOfPowerUpCardsMainImage().get(i).setUserData(powerUp);
                             removePrevious(getGameSceneController().getListOfPowerUpCardsMainImage().get(i));
@@ -227,7 +231,11 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                     }
                     if (i < getGameSceneController().getListOfPowerUpCardsMainImage().size()) {
                         for (int j = i; j < getGameSceneController().getListOfPowerUpCardsMainImage().size(); j++) {
+
+                            getGameSceneController().getListOfPowerUpCardsMainImage().get(i).setUserData(null);
+
                             removePrevious(getGameSceneController().getListOfPowerUpCardsMainImage().get(j));
+
                             getGameSceneController().getListOfPowerUpCardsMainImage().get(j).getStyleClass().add("emptyPowerUpCardMainImage");
                         }
                     }
@@ -238,9 +246,12 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
         /**@param target is the stack pane to remove previous css style from*/
         private void removePrevious(StackPane target) {
+
             target.getStyleClass().remove("emptyPowerUpCardMainImage");
-            int numberOfCards = 24;
-            for (int i = 1; i <= numberOfCards; i++) {
+
+            int numberOfCards = 23;
+
+            for (int i = 0; i <= numberOfCards; i++) {
                 target.getStyleClass().remove("powerUpCard" + i);
 
             }
@@ -270,12 +281,18 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         public void run() {
             Platform.runLater(()->{
 
+                if(ViewModelGate.getModel()==null&&ViewModelGate.getModel().getPlayers()==null&&ViewModelGate.getModel().getPlayers().getPlayer(ViewModelGate.getMe())==null)
+                { return; }
+
                 PlayerV me = ViewModelGate.getModel().getPlayers().getPlayer(ViewModelGate.getMe());
+
+                if(me.getWeaponCardInHand()==null)
+                { return; }
 
                 if (me.getWeaponCardInHand().getCards() != null){
                     int i=0;
 
-                    for (WeaponCardV weapon : me.getWeaponCardInHand().getCards()) { // TODO perchè usare un for each se poi usi un contatore?
+                    for (WeaponCardV weapon : me.getWeaponCardInHand().getCards()) {
                         if(i<3){
                             getGameSceneController().getWeaponCardsMainImage().get(i).setUserData(weapon);
                             removePrevious(getGameSceneController().getWeaponCardsMainImage().get(i));
@@ -344,11 +361,14 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         @Override
         public void run() {
             Platform.runLater(() -> {
-                for (PlayerV player : ViewModelGate.getModel().getPlayers().getPlayers()) { //TODO c'è un metodo nella PlayerListV fatto apposta..
-                    if (player.getNickname().equals(ViewModelGate.getMe())) {
-                        updateDamage(player);
-                    }
-                }
+
+                PlayerV player=ViewModelGate.getModel().getPlayers().getPlayer(ViewModelGate.getMe());
+                if(ViewModelGate.getModel()==null&&ViewModelGate.getModel().getPlayers()==null&&ViewModelGate.getModel().getPlayers().getPlayer(ViewModelGate.getMe())==null)
+                { return; }
+
+                updateDamage(player);
+
+
             });
         }
 
@@ -360,15 +380,15 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
             } else {
                 for (DamageSlotV damageSlot : player.getDamageTracker().getDamageSlotsList()) {
-                    //TODO non cosiderare la getDamagesMainImage() come un size "affidabile", considera che teoricamente sarebbero 12 slot
-                    // ma la getDamagesMainImage() sono 13... dobbiamo usare questo tredicesimo slot come luogo in cui indicare tutti gli extra damage oltre il 12
-                    if (i < getGameSceneController().getDamagesMainImage().size()) {
+
+                    if(i < getGameSceneController().getDamagesMainImage().size()-1) {
                         addDamages(damageSlot, i);
                         i++;
                     }
                     else{
-                        //TODO bisogna riempire il tredicesimo slot
-                        // la mia idea era metterci un label con scritto quanti extra damages ci sono, per esempio "+1" o "+2" etc.
+
+                       getGameSceneController().getDamagesMainImage().get(12).getChildren().add(new Label("+"+(player.getDamageTracker().getDamageSlotsList().size()-12)));
+                       break;
                     }
                 }
                 if (i < getGameSceneController().getDamagesMainImage().size()) {
@@ -431,13 +451,13 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         private void emptyDamages(int i) {
 
             if(ViewModelGate.getModel().isHasFinalFrenzyBegun()){
-                for (int j = i; j < getGameSceneController().getDamagesMainImage().size(); j++) {
+                for (int j = i; j < getGameSceneController().getDamagesMainImage().size()-1; j++) {
                     removePrevious(getGameSceneController().getDamagesMainImage().get(j));
                     getGameSceneController().getDamagesMainImage().get(j).getStyleClass().add("damageEmptyFF");
                 }
             }
             else{
-                for (int j = i; j < getGameSceneController().getDamagesMainImage().size(); j++) {
+                for (int j = i; j < getGameSceneController().getDamagesMainImage().size()-1; j++) {
                 removePrevious(getGameSceneController().getDamagesMainImage().get(j));
                 getGameSceneController().getDamagesMainImage().get(j).getStyleClass().add(damageEmpty);
                 }
@@ -485,8 +505,6 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         public void run() {
 
             Platform.runLater(this::run2);
-            //TODO lol, loved the "::", ma perchè lo stai facendo? cioè non capisco perchè non scrivi direttamente
-            // qui il codice della run2
 
         }
 
@@ -494,6 +512,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
          * update marks
          */
         private void updateMarks(PlayerV player) {
+            if(player.getMarksTracker()==null){return;}
 
             int i = 0;
             if (player.getMarksTracker().getMarkSlotsList().isEmpty() || player.getMarksTracker() == null) {
@@ -583,15 +602,17 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         }
 
         private void run2() {
-            for (PlayerV player : ViewModelGate.getModel().getPlayers().getPlayers()) {
 
-                if (player.getNickname().equals(ViewModelGate.getMe())) {
+            if(ViewModelGate.getModel()==null&&ViewModelGate.getModel().getPlayers()==null&&ViewModelGate.getModel().getPlayers().getPlayer(ViewModelGate.getMe())==null)
+            { return; }
+
+            PlayerV player=ViewModelGate.getModel().getPlayers().getPlayer(ViewModelGate.getMe());
 
                     updateMarks(player);
-                }
+
             }
         }
-    }
+
 
     /**
      * updates the death track of the player
@@ -617,26 +638,31 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         public void run() {
             Platform.runLater(() -> {
 
+                if(ViewModelGate.getModel()==null&&ViewModelGate.getModel().getPlayers()==null)
+                {return;}
+
                 for (PlayerV player : ViewModelGate.getModel().getPlayers().getPlayers()) {
 
                     if (player.getNickname().equals(ViewModelGate.getMe()) && (player.getNumberOfDeaths() != 0)) {
-                        removePrevious( getGameSceneController().getDeathMainImage().get(player.getNumberOfDeaths() - 1));
-                        getGameSceneController().getDeathMainImage().get(player.getNumberOfDeaths() - 1).getStyleClass().add("deathSkull");
+
+                        for (int i = 0; i < player.getNumberOfDeaths(); i++){
+                            removePrevious( getGameSceneController().getDeathMainImage().get(i));
+                            getGameSceneController().getDeathMainImage().get(i).getStyleClass().add("deathSkull");
+                        }
+                        for (int j =  player.getNumberOfDeaths(); j < getGameSceneController().getDeathMainImage().size(); j++) {
+                            removePrevious(getGameSceneController().getDeathMainImage().get(j));
+                            getGameSceneController().getDeathMainImage().get(j).getStyleClass().add("deathEmpty");
+                        }
+
                     }
                 }
 
-                if(ViewModelGate.getModel().isHasFinalFrenzyBegun()){ //TODO non usare questa variabile ma quella nel player.ishasFinalFrenzyBoard
+                if(ViewModelGate.getModel().getPlayers().getPlayer(ViewModelGate.getMe()).isHasFinalFrenzyBoard()){
+                    getGameSceneController().getPlayerDamagesAndDeathsVBox().getStyleClass().remove("deathsBackGround");
+                    getGameSceneController().getPlayerDamagesAndDeathsVBox().getStyleClass().add("FF");
+                }
 
-                    for(StackPane kills: getGameSceneController().getDamagesMainImage()) {
-                        removePrevious(kills);
-                        kills.getStyleClass().add("emptyDeathFF");
-                        //TODO riempi i label dei punti in 2,1,1,1,1,1---
-                    }
-                }
-                else{
-                    //TODO se non sei in final frenzy... comunque riempi i label dei punti nel solito 8,6,4,2,1,1,1
-                    //TODO però forse non è necessario perchè sono già inizializzati...
-                }
+
             });
         }
 
@@ -667,7 +693,6 @@ public class GUIOutputHandler implements OutputHandlerInterface {
      * this class implements a thread launched in updateNickname in order to set the player's NickName
      */
     private class UpdateNickname implements Runnable {
-        //TODO ma perchè ora ci sono delle gif invece dei color? ps mi van bene le gif
         /**
          * the said thread launched look for the right player and
          * sets their nickname,
@@ -679,6 +704,9 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
             Platform.runLater(() -> {
 
+                if(ViewModelGate.getModel()==null&&ViewModelGate.getModel().getPlayers()==null)
+                {return;}
+
                 for (PlayerV player : ViewModelGate.getModel().getPlayers().getPlayers()) {
 
                     if (player.getNickname().equals(ViewModelGate.getMe())) {
@@ -686,30 +714,34 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                         removePrevious();
                         getGameSceneController().getNicknameLabel().setText(player.getNickname());
                         getGameSceneController().getNicknameLabel().getStyleClass().add("nicknameStyle");
-                        PlayersColors color = player.getColor();
-                        switch (color) {
-                            case yellow:
-                                getGameSceneController().getNicknameBackGround().getStyleClass().add("nicknameBackgroundYellow");
-                                break;
-                            case blue:
-                                getGameSceneController().getNicknameBackGround().getStyleClass().add("nicknameBackgroundBlue");
-                                break;
-                            case green:
-                                getGameSceneController().getNicknameBackGround().getStyleClass().add("nicknameBackgroundGreen");
-                                break;
-                            case gray:
-                                getGameSceneController().getNicknameBackGround().getStyleClass().add("nicknameBackgroundGray");
-                                break;
-                            case purple:
-                                getGameSceneController().getNicknameBackGround().getStyleClass().add("nicknameBackgroundPurple");
-                                break;
-                            default:
-                                getGameSceneController().getNicknameBackGround().getStyleClass().add("nicknameBackground");
+                        if (player.getColor() != null){
+                            PlayersColors color = player.getColor();
+                            switch (color) {
+                                case yellow:
+                                    getGameSceneController().getNicknameBackGround().getStyleClass().add("nicknameBackgroundYellow");
+                                    break;
+                                case blue:
+                                    getGameSceneController().getNicknameBackGround().getStyleClass().add("nicknameBackgroundBlue");
+                                    break;
+                                case green:
+                                    getGameSceneController().getNicknameBackGround().getStyleClass().add("nicknameBackgroundGreen");
+                                    break;
+                                case gray:
+                                    getGameSceneController().getNicknameBackGround().getStyleClass().add("nicknameBackgroundGray");
+                                    break;
+                                case purple:
+                                    getGameSceneController().getNicknameBackGround().getStyleClass().add("nicknameBackgroundPurple");
+                                    break;
+                                default:
+                                    getGameSceneController().getNicknameBackGround().getStyleClass().add("nicknameBackground");
+                                    break;
+                            }
+
 
                         }
 
-
                     }
+
                 }
             });
         }
@@ -749,7 +781,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         @Override
         public void run() {
 
-            Platform.runLater(this::run2); //TODO ancora non capisco la run2, ma apprezzo i "::"
+            Platform.runLater(this::run2);
         }
 
         private String ammoEmpty = "ammoEmpty";
@@ -805,7 +837,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                 AmmoCubesColor color = ammo.getColor();
                 switch (color) {
                     case blue:
-                        while (b < ammo.getQuantity()) { //TODO usi tutto ma non i for i ahahahha, vabbiè
+                        while (b < ammo.getQuantity()) {
                             removePrevious(getGameSceneController().getAmmosMainImage(color).get(b));
                             (getGameSceneController().getAmmosMainImage(color).get(b).getStyleClass()).add("ammoBlue");
                             b++;
@@ -857,11 +889,16 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         /**
          * method that update the ammo box
          */
-        private void run2() { //TODO controlla che le cose nel model esistano prima di accederci, (p.s. non ci ho dato un occhio nelle altre update, controlla anche in quelle
+        private void run2() {
+
+            if(ViewModelGate.getModel()==null&&ViewModelGate.getModel().getPlayers()==null)
+            {return;}
+
             for (PlayerV player : ViewModelGate.getModel().getPlayers().getPlayers()) {
                 if (player.getNickname().equals(ViewModelGate.getMe())) {
-                    //TODO inversi l'ordine di questo if, perchè se fosse null, quando chiami la .getAmmoCubesList() ti darebbe nullPointerException
-                    if (player.getAmmoBox().getAmmoCubesList().isEmpty() || player.getAmmoBox() == null) {
+
+                    if (  player.getAmmoBox() == null||player.getAmmoBox().getAmmoCubesList().isEmpty()) {
+
                         emptyAmmos(0, "all");
                     } else {
                         addAmmos(player);
@@ -883,7 +920,6 @@ public class GUIOutputHandler implements OutputHandlerInterface {
      * @param stateEvent needed to know in which state the game is in a given moment
      */
     private void updateStateBar(StateEvent stateEvent) {
-        System.out.println("UPDATE STATE BAR"); //MOMENTANEO
 
 
         (new Thread(new UpdateStateBar((stateEvent)))).start();
@@ -1204,6 +1240,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     public void movingCardsAround(OrderedCardListV from, OrderedCardListV to, ModelViewEvent modelViewEvent) {
         // TODO LASCIATELO ALLA FINE LUCA
         //update changed cards
+        System.out.println();
         updatePlayer();
     }
 

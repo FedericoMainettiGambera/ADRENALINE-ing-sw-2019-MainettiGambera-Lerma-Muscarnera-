@@ -307,6 +307,11 @@ public class GameSceneController implements Initializable {
     }
     //3.1.2[0,1].2 - player deaths
     @FXML private HBox playerDeathsHbox;
+
+    public HBox getPlayerDamagesHbox() {
+        return playerDamagesHbox;
+    }
+
     /**each one of this stack pane contain a deathImage, for each slot, 7 in total, there is a death main image stack pane and
      * a death background image, both of them are update at runtime, according to the development of the game*/
     @FXML private StackPane deathBackground1;
@@ -985,6 +990,8 @@ public class GameSceneController implements Initializable {
             VBox.setVgrow(name,Priority.ALWAYS);
 
             StackPane image=new StackPane();
+            image.getStyleClass().add(setImage(playerV.getColor()));
+
             avatar.getChildren().add(image);
             VBox.setVgrow(image,Priority.ALWAYS);
 
@@ -992,49 +999,105 @@ public class GameSceneController implements Initializable {
 
             mainFrame.getChildren().add(avatar);
             VBox.setVgrow(avatar, Priority.ALWAYS);
-
             HBox markstracker=new HBox();
-            for (MarkSlotV markSlotV: playerV.getMarksTracker().getMarkSlotsList()) {
 
-                StackPane background=new StackPane();
-
-                StackPane mark=new StackPane();
-
-                background.getChildren().add(mark);
-
-                mark.getStyleClass().add(setMarkImage(ViewModelGate.getModel().getPlayers().getPlayer(markSlotV.getMarkingPlayer()).getColor()));
-
-                Label quantity= new Label();
-                quantity.setText(""+ markSlotV.getQuantity());
-                mark.getChildren().add(quantity);
+            if(playerV.getMarksTracker()==null || playerV.getMarksTracker().getMarkSlotsList()==null || playerV.getMarksTracker().getMarkSlotsList().isEmpty()){
+                for (int i = 0; i <4 ; i++) {
+                    StackPane backgroundEmpty=new StackPane();
+                    StackPane markempty=new StackPane();
+                    backgroundEmpty.getChildren().add(markempty);
+                    markempty.getStyleClass().add("markEmpty");
 
 
-
-                markstracker.getChildren().add(background);
-                HBox.setHgrow(mark, Priority.ALWAYS);
+                    markstracker.getChildren().add(backgroundEmpty);
+                    HBox.setHgrow(backgroundEmpty, Priority.ALWAYS);
+                }
             }
 
-            mainFrame.getChildren().add(markstracker);
-            VBox.setVgrow(markstracker, Priority.ALWAYS);
 
+          else {
+              int i=0;
+                for (MarkSlotV markSlotV : playerV.getMarksTracker().getMarkSlotsList()) {
+
+                    StackPane background = new StackPane();
+                    StackPane mark = new StackPane();
+                    background.getChildren().add(mark);
+                    mark.getStyleClass().add(setMarkImage(ViewModelGate.getModel().getPlayers().getPlayer(markSlotV.getMarkingPlayer()).getColor()));
+                    Label quantity = new Label();
+                    quantity.setText("" + markSlotV.getQuantity());
+                    mark.getChildren().add(quantity);
+
+                    markstracker.getChildren().add(background);
+                    HBox.setHgrow(background, Priority.ALWAYS);
+                    i++;
+                }
+
+                while(i<4){
+                    StackPane background1 = new StackPane();
+                    StackPane mark1 = new StackPane();
+                    background1.getChildren().add(mark1);
+                    mark1.getStyleClass().add("markEmpty");
+                    markstracker.getChildren().add(background1);
+                    HBox.setHgrow(background1, Priority.ALWAYS);
+                    i++;
+
+                }
+
+
+                mainFrame.getChildren().add(markstracker);
+                VBox.setVgrow(markstracker, Priority.ALWAYS);
+            }
 
             HBox damageTracker=new HBox();
-            for (DamageSlotV damageSlotV: playerV.getDamageTracker().getDamageSlotsList()) {
 
-                StackPane background=new StackPane();
+          if(playerV.getDamageTracker()==null || playerV.getDamageTracker().getDamageSlotsList()==null || playerV.getDamageTracker().getDamageSlotsList().isEmpty()){
+                for (int i = 0; i <12 ; i++) {
+                    StackPane backgroundEmptydamage=new StackPane();
+                    StackPane damageempty=new StackPane();
+                    backgroundEmptydamage.getChildren().add(damageempty);
 
-                StackPane damage=new StackPane();
+                    backgroundEmptydamage.getStyleClass().add("damageEmpty");
 
-                background.getChildren().add(damage);
+                    damageTracker.getChildren().add(backgroundEmptydamage);
 
-                damage.getStyleClass().add(setDamageImage(ViewModelGate.getModel().getPlayers().getPlayer(damageSlotV.getShootingPlayerNickname()).getColor()));
-
-                damageTracker.getChildren().add(background);
-                HBox.setHgrow(damage, Priority.ALWAYS);
+                    HBox.setHgrow(backgroundEmptydamage, Priority.ALWAYS);
+                }
             }
 
+           else {
+               int j=0;
+              for (DamageSlotV damageSlotV : playerV.getDamageTracker().getDamageSlotsList()) {
+
+                  StackPane background = new StackPane();
+
+                  StackPane damage = new StackPane();
+
+                  background.getChildren().add(damage);
+
+                  damage.getStyleClass().add(setDamageImage(ViewModelGate.getModel().getPlayers().getPlayer(damageSlotV.getShootingPlayerNickname()).getColor()));
+
+                  damageTracker.getChildren().add(background);
+                  HBox.setHgrow(background, Priority.ALWAYS);
+                  j++;
+
+              }
+
+              while(j<12){
+                  StackPane damageEmptyBack = new StackPane();
+                  StackPane damageEmpty2 = new StackPane();
+                  damageEmptyBack.getChildren().add(damageEmpty2);
+                  damageEmpty2.getStyleClass().add("damageEmpty");
+                  markstracker.getChildren().add(damageEmptyBack);
+                  HBox.setHgrow(damageEmptyBack, Priority.ALWAYS);
+                  j++;
+
+              }
+
+          }
+
             mainFrame.getChildren().add(damageTracker);
-            VBox.setVgrow(markstracker, Priority.ALWAYS);
+            VBox.setVgrow(damageTracker, Priority.ALWAYS);
+
 
 
 
@@ -1046,12 +1109,7 @@ public class GameSceneController implements Initializable {
             mainFrame.getChildren().add(deaths);
             System.out.println(mainFrame.getChildren().toString());
 
-            Platform.runLater(() -> {
-
-                changeInformationSection(mainFrame);
-
-
-            });
+            Platform.runLater(() -> changeInformationSection(mainFrame));
 
 
         }
@@ -1066,7 +1124,7 @@ public class GameSceneController implements Initializable {
                 case green:style="markGreen";break;
                 case gray:style="markGray";break;
                 case purple:style="markPurple";break;
-                default:style="markPlayer";
+                default:style="markEmpty";
                     break;
             }
             return style;
@@ -1251,28 +1309,10 @@ public class GameSceneController implements Initializable {
             }
 
 
-            Platform.runLater(()->{
-
-                changeInformationSection(mainFrame);
-
-            });
+            Platform.runLater(()-> changeInformationSection(mainFrame));
 
         }
 
-        private String setImage(PlayersColors color){
-            String style;
-
-            switch (color){
-                case yellow: style="playerYellow";break;
-                case blue:style="playerBlue";break;
-                case green:style="playerGreen";break;
-                case gray:style="playerGray";break;
-                case purple:style="playerPurple";break;
-                default:style="emptyPlayer";
-                    break;
-            }
-            return style;
-        }
 
         private List<PlayerV> getPlayers(int x, int y) {
             List<PlayerV> players = new ArrayList<>();
@@ -1288,6 +1328,20 @@ public class GameSceneController implements Initializable {
     }
 
 
+    private String setImage(PlayersColors color){
+        String style;
+
+        switch (color){
+            case yellow: style="nicknameBackgroundYellow";break;
+            case blue:style="nicknameBackgroundBlue";break;
+            case green:style="nicknameBackgroundGreen";break;
+            case gray:style="nicknameBackgroundGray";break;
+            case purple:style="nicknameBackgroundPurple";break;
+            default:style="emptyPlayer";
+                break;
+        }
+        return style;
+    }
     private void changeInformationSection(Node newSection){
 
         this.informationSection.getChildren().clear();

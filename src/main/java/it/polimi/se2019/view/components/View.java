@@ -14,6 +14,7 @@ import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.view.outputHandler.CLIOutputHandler;
 import it.polimi.se2019.view.outputHandler.GUIOutputHandler;
 import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
+import it.polimi.se2019.view.selector.CLISelector;
 import it.polimi.se2019.view.selector.ViewSelector;
 
 import java.io.PrintWriter;
@@ -419,18 +420,22 @@ public class View implements Observer {
         }
         else if(orderedCardListV.getContext().contains("powerUpInHand")){
             String nickname = orderedCardListV.getContext().split(":")[0];
+            System.out.println("STO AGGIORNANDO LE POWER UP DEL PLAYER "+nickname);
             for (PlayerV p: ViewModelGate.getModel().getPlayers().getPlayers()) {
                 if(p.getNickname().equals(nickname)){
                     p.setPowerUpCardInHand(orderedCardListV);
+                    CLIOutputHandler.showOrderedCardList(p.getPowerUpCardInHand());
                     return;
                 }
             }
         }
         else if(orderedCardListV.getContext().contains("weaponInHand")){
             String nickname = orderedCardListV.getContext().split(":")[0];
+            System.out.println("STO AAGGIORNANDO LE WEAPON CARD DELL PLAYER "+nickname);
             for (PlayerV p: ViewModelGate.getModel().getPlayers().getPlayers()) {
                 if(p.getNickname().equals(nickname)){
                     p.setWeaponCardInHand(orderedCardListV);
+                    CLIOutputHandler.showOrderedCardList(p.getWeaponCardInHand());
                     return;
                 }
             }
@@ -438,11 +443,15 @@ public class View implements Observer {
         else if(orderedCardListV.getContext().contains("normalSquare")){
             String x = orderedCardListV.getContext().split("-")[1];
             String y = orderedCardListV.getContext().split("-")[2];
+            System.out.println("STO AGGIUNGENDO LE AMMO ALLO SQUARE "+x+y);
             ((NormalSquareV)ViewModelGate.getModel().getBoard().getMap()[Integer.parseInt(x)][Integer.parseInt(y)]).setAmmoCards(orderedCardListV);
         }
         else if(orderedCardListV.getContext().contains("spawnPoint")){
+
             String x = orderedCardListV.getContext().split("-")[1];
             String y = orderedCardListV.getContext().split("-")[2];
+            System.out.println("STO AGGIUNGENDO LE WEAPO ALLO SQUARE "+x+y);
+
             ((SpawnPointSquareV)ViewModelGate.getModel().getBoard().getMap()[Integer.parseInt(x)][Integer.parseInt(y)]).setWeaponCards(orderedCardListV);        }
     }
 

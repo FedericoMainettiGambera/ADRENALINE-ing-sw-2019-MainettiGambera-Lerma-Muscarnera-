@@ -546,7 +546,7 @@
                                                    <children>
                                                       <StackPane fx:id="ammoBackgroundRed1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                                                          <children>
-                                                            <StackPane fx:id="ammoMainImageRed1">
+                                                            <StackPane fx:id="ammoMainImageRed1" styleClass="ammoRed">
                                                                <children>
                                                                   <Label text="RED" />
                                                                </children>
@@ -573,7 +573,7 @@
                                                       </StackPane>
                                                       <StackPane fx:id="ammoBackgroundYellow1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                                                          <children>
-                                                            <StackPane fx:id="ammoMainImageYellow1">
+                                                            <StackPane fx:id="ammoMainImageYellow1" styleClass="ammoYellow">
                                                                <children>
                                                                   <Label text="YELLOW" />
                                                                </children>
@@ -600,7 +600,7 @@
                                                       </StackPane>
                                                       <StackPane fx:id="ammoBackgroundBlue1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                                                          <children>
-                                                            <StackPane fx:id="ammoMainImageBlue1">
+                                                            <StackPane fx:id="ammoMainImageBlue1" styleClass="ammoBlue">
                                                                <children>
                                                                   <Label text="BLUE" />
                                                                </children>
