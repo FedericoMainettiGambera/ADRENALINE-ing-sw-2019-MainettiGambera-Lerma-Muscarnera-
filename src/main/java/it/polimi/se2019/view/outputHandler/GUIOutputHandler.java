@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 //TODO ludo sistema bene gli eventHandler che avevamo fatto, ora li ho implementati quindi puoi vedere come vengono mostrate le cose se fai una partita,
 // quello del player non sembra andare bene; se hai problemi di layout grafici perchè i componenti non si comportano come pensi, aspettami e ti aiuto
 
+//TODO a quanto pare sono obbligatori i tag @author nel javaDoc delle classi, luca sta facendo i suoi, se hai tempo e nulla da fare, beh...
 
 public class GUIOutputHandler implements OutputHandlerInterface {
 
