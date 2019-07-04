@@ -150,6 +150,22 @@ SPECIFIC CLASSES
 .emptyPlayerSectionBackground{/*probably not used*/
     -fx-background-color: default-color;
 }
+
+.playerYellow{/*probably not used*/
+    -fx-background-color: rgb(255,255,0);
+}
+.playerGreen{/*probably not used*/
+    -fx-background-color: rgb(0,255,0);
+}
+.playerPurple{/*probably not used*/
+    -fx-background-color: rgb(0,255,255);
+}
+.playerGray{/*probably not used*/
+    -fx-background-color: rgb(255,0,255);
+}
+.playerBlue{/*probably not used*/
+    -fx-background-color: rgb(0,0,255);
+}
 /*3.1-player HBox*/
 .playerSectionBackground{
     -fx-background-color: default-color;
@@ -176,76 +192,199 @@ SPECIFIC CLASSES
     -fx-background-color:  empty-color;
 }
 .powerUpCard1{
-     -fx-background-color: rgb(180,255,90);
+      -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg0.png);
+      -fx-background-color: dark-background;
+
+     -fx-background-size: contain;
+      -fx-background-repeat: no-repeat;
+                      -fx-background-position: center;
+
+
 }
 .powerUpCard2{
-     -fx-background-color: rgb(180,255,90);
+     -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg1.png);
+           -fx-background-color: dark-background;
+
+            -fx-background-size: contain;
+                 -fx-background-repeat: no-repeat;
+                                 -fx-background-position: center;
+
 }
  .powerUpCard3{
-     -fx-background-color: rgb(90,90,180);
+    -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg2.png);
+           -fx-background-size: contain;
+                -fx-background-repeat: no-repeat;
+          -fx-background-color: dark-background;
+                          -fx-background-position: center;
+
 }
 .powerUpCard4{
-      -fx-background-color: rgb(0,180,255);
+     -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg3.png);
+                -fx-background-size: contain;
+                     -fx-background-repeat: no-repeat;
+               -fx-background-color: dark-background;
+                               -fx-background-position: center;
+
 }
 .powerUpCard5{
-       -fx-background-color: rgb(255,1,32);
+       -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg4.png);
+                  -fx-background-size: contain;
+                       -fx-background-repeat: no-repeat;
+                 -fx-background-color: dark-background;
+                                 -fx-background-position: center;
+
+
 }
 .powerUpCard6{
-       -fx-background-color: rgb(180,32,12);
+      -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg5.png);
+                 -fx-background-size: contain;
+                      -fx-background-repeat: no-repeat;
+                -fx-background-color: dark-background;
+                                -fx-background-position: center;
+
 }
 .powerUpCard7{
-       -fx-background-color: rgb(0,10,20);
+       -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg6.png);
+                 -fx-background-size: contain;
+                      -fx-background-repeat: no-repeat;
+                 -fx-background-color: dark-background;
+                                 -fx-background-position: center;
+
 }
 .powerUpCard8{
-        -fx-background-color: rgb(10,20,30);
+        -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg7.png);
+                  -fx-background-size: contain;
+                       -fx-background-repeat: no-repeat;
+                  -fx-background-color: dark-background;
+                                  -fx-background-position: center;
+
 }
 .powerUpCard9{
-     -fx-background-color: rgb(20,30,40);
+     -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg8.png);
+                -fx-background-size: contain;
+                     -fx-background-repeat: no-repeat;
+               -fx-background-color: dark-background;
+                               -fx-background-position: center;
+
  }
  .powerUpCard10{
-     -fx-background-color: rgb(30,40,50);
+     -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg9.png);
+               -fx-background-size: contain;
+                    -fx-background-repeat: no-repeat;
+               -fx-background-color: dark-background;
+                               -fx-background-position: center;
+
 }
 .powerUpCard11{
-     -fx-background-color: rgb(60,70,80);
+     -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg10.png);
+               -fx-background-size: contain;
+                    -fx-background-repeat: no-repeat;
+               -fx-background-color: dark-background;
+                               -fx-background-position: center;
+
  }
 .powerUpCard12{
-      -fx-background-color: rgb(90,100,110);
+     -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg11.png);
+               -fx-background-size: contain;
+                    -fx-background-repeat: no-repeat;
+               -fx-background-color: dark-background;
+                               -fx-background-position: center;
+
 }
 .powerUpCard13{
-     -fx-background-color: rgb(100,110,120);
+     -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg12.png);
+               -fx-background-size: contain;
+                    -fx-background-repeat: no-repeat;
+               -fx-background-color: dark-background;
+                               -fx-background-position: center;
+
 }
 .powerUpCard14{
-     -fx-background-color: rgb(3,43,98);
+    -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg13.png);
+             -fx-background-size: contain;
+                  -fx-background-repeat: no-repeat;
+              -fx-background-color: dark-background;
+                              -fx-background-position: center;
+
 }
  .powerUpCard15{
-     -fx-background-color: rgb(190,90,180);
+     -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg14.png);
+              -fx-background-size: contain;
+                   -fx-background-repeat: no-repeat;
+               -fx-background-color: dark-background;
+                               -fx-background-position: center;
+
 }
 .powerUpCard16{
-      -fx-background-color: rgb(0,180,255);
+     -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg15.png);
+                -fx-background-size: contain;
+                     -fx-background-repeat: no-repeat;
+               -fx-background-color: dark-background;
+                               -fx-background-position: center;
+
 }
 .powerUpCard17{
-       -fx-background-color: rgb(255,0,0);
+       -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg16.png);
+                  -fx-background-size: contain;
+                       -fx-background-repeat: no-repeat;
+                 -fx-background-color: dark-background;
+                                 -fx-background-position: center;
+
 }
 .powerUpCard18{
-       -fx-background-color: rgb(180,55,0);
+      -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg17.png);
+                 -fx-background-size: contain;
+                      -fx-background-repeat: no-repeat;
+                -fx-background-color: dark-background;
+                                -fx-background-position: center;
+
 }
 .powerUpCard19{
-       -fx-background-color: rgb(0,90,18);
+      -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg18.png);
+                 -fx-background-size: contain;
+                      -fx-background-repeat: no-repeat;
+                -fx-background-color: dark-background;
+                                -fx-background-position: center;
+
 }
 .powerUpCard20{
-        -fx-background-color: rgb(0,10,255);
+        -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg19.png);
+                  -fx-background-size: contain;
+                       -fx-background-repeat: no-repeat;
+                  -fx-background-color: dark-background;
+                                  -fx-background-position: center;
+
 }
 .powerUpCard21{
-     -fx-background-color: rgb(25,1,2);
+     -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg20.png);
+               -fx-background-size: contain;
+                    -fx-background-repeat: no-repeat;
+               -fx-background-color: dark-background;
+                               -fx-background-position: center;
+
  }
  .powerUpCard22{
-     -fx-background-color: rgb(80,255,90);
+    -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg21.png);
+               -fx-background-size: contain;
+                    -fx-background-repeat: no-repeat;
+              -fx-background-color: dark-background;
+                              -fx-background-position: center;
+
 }
 .powerUpCard23{
-     -fx-background-color: rgb(9,90,180);
+    -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg22.png);
+              -fx-background-size: contain;
+                   -fx-background-repeat: no-repeat;
+              -fx-background-color: dark-background;
+                              -fx-background-position: center;
+
  }
 .powerUpCard24{
-      -fx-background-color: rgb(92,23,90);
+      -fx-background-image: url(../IMG/puCardImg23.png);
+                 -fx-background-size: contain;
+                      -fx-background-repeat: no-repeat;
+                -fx-background-color: dark-background;
+                -fx-background-position: center;
 }
 /*3.1.2-player main statistics*/
 .playerStatisticsBackground{
@@ -344,22 +483,33 @@ SPECIFIC CLASSES
 }
 
 .nicknameBackgroundGray{
- -fx-background-color: gray;
+-fx-background-image: url(../IMG/giphy.gif);
+          -fx-background-size: auto 100%;
+          -fx-background-color: dark-background;
 }
 
 .nicknameBackgroundYellow{
--fx-background-color: yellow;}
+-fx-background-image: url(../IMG/giphy-8.gif);
+          -fx-background-size: auto 100%;
+          -fx-background-color: dark-background;
+}
 
 .nicknameBackgroundGreen{
- -fx-background-color: green;
+          -fx-background-image: url(../IMG/giphy-7.gif);
+           -fx-background-size: auto 100%;
+           -fx-background-color: dark-background;
  }
 
 .nicknameBackgroundPurple{
- -fx-background-color: purple;
+ -fx-background-image: url(../IMG/giphy-5.gif);
+           -fx-background-size: auto 100%;
+           -fx-background-color: dark-background;
 }
 
 .nicknameBackgroundBlue{
- -fx-background-color: blue;
+ -fx-background-image: url(../IMG/giphy-2.gif);
+           -fx-background-size: auto 100%;
+           -fx-background-color: dark-background;
  }
 
 .nicknameStyle{
@@ -406,67 +556,173 @@ SPECIFIC CLASSES
 }
 /*example class for weaponCard */
 .weaponCard1{
-    -fx-background-color: rgb(0,100,200,1);
+     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg1.png);
+          -fx-background-color: dark-background;
+
+         -fx-background-size: contain;
+          -fx-background-repeat: no-repeat;
+                          -fx-background-position: center;
+
 }
 .weaponCard2{
-    -fx-background-color: rgb(10,110,190,1);
+     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg2.png);
+              -fx-background-color: dark-background;
+
+             -fx-background-size: contain;
+              -fx-background-repeat: no-repeat;
+                              -fx-background-position: center;
 }
 .weaponCard3{
-    -fx-background-color: rgb(20,120,180,1);
+    -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg3.png);
+             -fx-background-color: dark-background;
+
+            -fx-background-size: contain;
+             -fx-background-repeat: no-repeat;
+                             -fx-background-position: center;
 }
 .weaponCard4{
-    -fx-background-color: rgb(30,130,170,1);
+     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg4.png);
+              -fx-background-color: dark-background;
+
+             -fx-background-size: contain;
+              -fx-background-repeat: no-repeat;
+                              -fx-background-position: center;
 }
 .weaponCard5{
-     -fx-background-color: rgb(40,140,160,1);
+      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg5.png);
+               -fx-background-color: dark-background;
+
+              -fx-background-size: contain;
+               -fx-background-repeat: no-repeat;
+                               -fx-background-position: center;
  }
 .weaponCard6{
-     -fx-background-color: rgb(50,150,150,1);
+     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg6.png);
+              -fx-background-color: dark-background;
+
+             -fx-background-size: contain;
+              -fx-background-repeat: no-repeat;
+                              -fx-background-position: center;
  }
 .weaponCard7{
-     -fx-background-color: rgb(60,160,140,1);
+     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg7.png);
+              -fx-background-color: dark-background;
+
+             -fx-background-size: contain;
+              -fx-background-repeat: no-repeat;
+                              -fx-background-position: center;
  }
 .weaponCard8{
-     -fx-background-color: rgb(70,170,130,1);
+     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg8.png);
+              -fx-background-color: dark-background;
+
+             -fx-background-size: contain;
+              -fx-background-repeat: no-repeat;
+                              -fx-background-position: center;
  }
 .weaponCard9{
-    -fx-background-color: rgb(80,180,120,1);
+    -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg9.png);
+             -fx-background-color: dark-background;
+
+            -fx-background-size: contain;
+             -fx-background-repeat: no-repeat;
+                             -fx-background-position: center;
 }
 .weaponCard10{
-    -fx-background-color: rgb(90,190,110,1);
+    -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg10.png);
+             -fx-background-color: dark-background;
+
+            -fx-background-size: contain;
+             -fx-background-repeat: no-repeat;
+                             -fx-background-position: center;
 }
 .weaponCard11{
-    -fx-background-color: rgb(100,200,100,1);
+     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg11.png);
+              -fx-background-color: dark-background;
+
+             -fx-background-size: contain;
+              -fx-background-repeat: no-repeat;
+                              -fx-background-position: center;
 }
 .weaponCard12{
-    -fx-background-color: rgb(110,10,90,1);
+   -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg12.png);
+            -fx-background-color: dark-background;
+
+           -fx-background-size: contain;
+            -fx-background-repeat: no-repeat;
+                            -fx-background-position: center;
 }
 .weaponCard13{
-     -fx-background-color: rgb(120,20,80,1);
+      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg13.png);
+               -fx-background-color: dark-background;
+
+              -fx-background-size: contain;
+               -fx-background-repeat: no-repeat;
+                               -fx-background-position: center;
  }
 .weaponCard14{
-     -fx-background-color: rgb(130,30,70,1);
+      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg14.png);
+               -fx-background-color: dark-background;
+
+              -fx-background-size: contain;
+               -fx-background-repeat: no-repeat;
+                               -fx-background-position: center;
  }
 .weaponCard15{
-     -fx-background-color: rgb(140,40,60,1);
+      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg15.png);
+               -fx-background-color: dark-background;
+
+              -fx-background-size: contain;
+               -fx-background-repeat: no-repeat;
+                               -fx-background-position: center;
  }
 .weaponCard16{
-     -fx-background-color: rgb(150,50,50,1);
+     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg16.png);
+              -fx-background-color: dark-background;
+
+             -fx-background-size: contain;
+              -fx-background-repeat: no-repeat;
+                              -fx-background-position: center;
  }
 .weaponCard17{
-    -fx-background-color: rgb(160,60,40,1);
+    -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg17.png);
+             -fx-background-color: dark-background;
+
+            -fx-background-size: contain;
+             -fx-background-repeat: no-repeat;
+                             -fx-background-position: center;
 }
 .weaponCard18{
-    -fx-background-color: rgb(170,70,30,1);
+    -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg18.png);
+             -fx-background-color: dark-background;
+
+            -fx-background-size: contain;
+             -fx-background-repeat: no-repeat;
+                             -fx-background-position: center;
 }
 .weaponCard19{
-    -fx-background-color: rgb(180,80,20,1);
+    -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg19.png);
+             -fx-background-color: dark-background;
+
+            -fx-background-size: contain;
+             -fx-background-repeat: no-repeat;
+                             -fx-background-position: center;
 }
 .weaponCard20{
-    -fx-background-color: rgb(190,90,10,1);
+     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg20.png);
+              -fx-background-color: dark-background;
+
+             -fx-background-size: contain;
+              -fx-background-repeat: no-repeat;
+                              -fx-background-position: center;
 }
 .weaponCard21{
-     -fx-background-color: rgb(200,100,0,1);
+      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg21.png);
+               -fx-background-color: dark-background;
+
+              -fx-background-size: contain;
+               -fx-background-repeat: no-repeat;
+                               -fx-background-position: center;
  }
  /*example class for powerUp */
 

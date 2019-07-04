@@ -356,7 +356,7 @@ public class View implements Observer {
             case setAFK:
                 if (ViewModelGate.getModel().getPlayers() != null) {
                     for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                        if (p.getNickname().equals((String) modelViewEvent.getExtraInformation1())) {
+                        if (p.getNickname().equals( modelViewEvent.getExtraInformation1())) {
                             p.setIsAFK((boolean) modelViewEvent.getComponent());
                             break;
                         }
@@ -364,18 +364,18 @@ public class View implements Observer {
                 }
                 OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setAFK(modelViewEvent);
 
-                if(ViewModelGate.getMe().equals((String) modelViewEvent.getExtraInformation1() )){
+                if(ViewModelGate.getMe().equals( modelViewEvent.getExtraInformation1() )){
                     if((boolean)modelViewEvent.getComponent()) {
                         if (networkConnection.equalsIgnoreCase("SOCKET")) {
                             SocketNetworkHandler.disconnect();
-                        } else {
-
                         }
+
                         OutputHandlerGate.getCorrectOutputHandler(this.userInterface).disconnect();
                     }
                     else{
-                        //TODO player has been reset to not AFK.
-                         out.println("<CLIENT> you are no more AFK yay");
+                        if(this.userInterface.equalsIgnoreCase("CLI")) {
+                            out.println("<CLIENT> you are no more AFK yay");
+                        }
                     }
                 }
                 break;

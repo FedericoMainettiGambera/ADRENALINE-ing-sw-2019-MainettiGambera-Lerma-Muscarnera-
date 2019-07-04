@@ -2,17 +2,18 @@ package it.polimi.se2019.view;
 
 import it.polimi.se2019.controller.Controller;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
+import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.Event;
-import it.polimi.se2019.view.components.ViewModelGate;
-import it.polimi.se2019.view.outputHandler.GUIOutputHandler;
+import it.polimi.se2019.view.components.*;
 import it.polimi.se2019.view.selector.ViewSelector;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -42,12 +43,12 @@ public class GameSceneController implements Initializable {
     //1-selector section
     @FXML private AnchorPane selectorSection;
     @FXML private Label selectorLabel;
-    //create at run time... TODO.
+
 
     //------------------------------2
     //2-information section
     @FXML private AnchorPane informationSection;
-    //create at run time... TODO.
+
 
 
     public AnchorPane getInformationSection() {
@@ -500,6 +501,28 @@ public class GameSceneController implements Initializable {
         return mainImageMap;
     }
 
+    private static ShowPlayerEventHandler showPlayerEventHandler;
+
+    public ShowPlayerEventHandler getShowPlayerEventHandler(){
+        return this.showPlayerEventHandler;
+    }
+    private static ShowSquareEventHandler showSquareEventHandler;
+
+    public ShowSquareEventHandler getShowSquareEventHandler(){
+        return this.showSquareEventHandler;
+    }
+    private static ShowPowerUpCardsEventHandler showPowerUpCardsEventHandler;
+
+    public ShowPowerUpCardsEventHandler getShowPowerUpCardsEventHandler(){
+        return this.showPowerUpCardsEventHandler;
+    }
+    private static ShowWeaponCardsEventHandler showWeaponCardsEventHandler;
+
+    public ShowWeaponCardsEventHandler getShowWeaponCardsEventHandler(){
+        return this.showWeaponCardsEventHandler;
+    }
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
@@ -507,10 +530,6 @@ public class GameSceneController implements Initializable {
         //      1) all css classes to the corresponding element (we'll manipulates images with css classes)
         //      2) initialize the canvas
         //      3) add everything that is already setted in the ViewModel (for example the PlayerList, the current State, Timers, etc...)
-
-        //TODO
-        //  faccio in modo che le selezioni reindirizzate alla CLI siano automatiche..
-        Controller.setRandomGame(true);
 
         //making board auto-resize
         makeBoardAutoResizing();
@@ -550,9 +569,12 @@ public class GameSceneController implements Initializable {
         descr.setFill(Color.rgb(255, 127, 36));
         descr.setFont(Font.font("Courier"));
 
+        ammoMainImageBlue1.getStyleClass().clear();
         ammoMainImageBlue1.getStyleClass().add("ammoBlue");
+        ammoMainImageRed1.getStyleClass().clear();
         ammoMainImageRed1.getStyleClass().add("ammoRed");
-        ammoMainImageYellow1.getStyleClass().add("ammoRed");
+        ammoMainImageYellow1.getStyleClass().clear();
+        ammoMainImageYellow1.getStyleClass().add("ammoYellow");
 
 
         if (ViewModelGate.getMe().equals(ViewModelGate.getModel().getPlayers().getStartingPlayer())) {
@@ -692,8 +714,62 @@ public class GameSceneController implements Initializable {
         this.weaponCardMainImage1.getStyleClass().add(emptyWeaponCardMainImage);
         this.weaponCardMainImage2.getStyleClass().add(emptyWeaponCardMainImage);
         this.weaponCardMainImage3.getStyleClass().add(emptyWeaponCardMainImage);
+
+
+        showPlayerEventHandler=new ShowPlayerEventHandler();
+        showPowerUpCardsEventHandler=new ShowPowerUpCardsEventHandler();
+        showWeaponCardsEventHandler=new ShowWeaponCardsEventHandler();
+        showSquareEventHandler=new ShowSquareEventHandler();
+
+        for (StackPane powerUpCard: getListOfPowerUpCardsMainImage()){
+            powerUpCard.addEventHandler(MouseEvent.MOUSE_ENTERED,getShowPowerUpCardsEventHandler());
+        }
+        for (StackPane weaponCard : getWeaponCardsMainImage()) {
+            weaponCard.addEventHandler(MouseEvent.MOUSE_ENTERED, getShowWeaponCardsEventHandler());
+        }
+        for (StackPane kills: getDeathMainImage()) {
+            kills.addEventHandler(MouseEvent.MOUSE_ENTERED, getShowPlayerEventHandler());
+        }
+
+        for (StackPane damage: getDamagesMainImage()) {
+            damage.addEventHandler(MouseEvent.MOUSE_ENTERED, getShowPlayerEventHandler());
+        }
+
+        for (StackPane mark: getMarkMainImage()) {
+            mark.addEventHandler(MouseEvent.MOUSE_ENTERED, getShowPlayerEventHandler());
+        }
+
+        //initializePlayersImages();
+
     }
 
+
+    private void initializePlayersImages(){
+
+        PlayerV player= ViewModelGate.getModel().getPlayers().getPlayer(ViewModelGate.getMe());
+        PlayersColors color = player.getColor();
+        switch (color) {
+            case yellow:
+                getNicknameBackGround().getStyleClass().add("nicknameBackgroundYellow");
+                break;
+            case blue:
+                getNicknameBackGround().getStyleClass().add("nicknameBackgroundBlue");
+                break;
+            case green:
+               getNicknameBackGround().getStyleClass().add("nicknameBackgroundGreen");
+                break;
+            case gray:
+                getNicknameBackGround().getStyleClass().add("nicknameBackgroundGray");
+                break;
+            case purple:
+                getNicknameBackGround().getStyleClass().add("nicknameBackgroundPurple");
+                break;
+            default:
+                getNicknameBackGround().getStyleClass().add("nicknameBackground");
+
+        }
+
+    }
     private void makeBoardAutoResizing(){
         //this.boardBakcground resize based on this.boardSection
         this.boardSection.heightProperty().addListener((observable, oldvalue, newvalue) ->
@@ -816,6 +892,402 @@ public class GameSceneController implements Initializable {
     /**@return the playerSection*/
     public AnchorPane getPlayerSection(){
         return  this.playerSection;
+    }
+
+
+     private class ShowPlayerEventHandler implements EventHandler {
+
+         @Override
+         public void handle(javafx.event.Event event){
+             if((((Node)event.getSource()).getUserData())!=null) {
+                 PlayerV playerToShow = (PlayerV) ((Node) event.getSource()).getUserData();
+                 showPlayer(playerToShow);
+             }
+         }
+     }
+
+    private class ShowPowerUpCardsEventHandler implements EventHandler {
+
+        @Override
+        public void handle(javafx.event.Event event){
+            if((((Node)event.getSource()).getUserData())!=null) {
+                PowerUpCardV powerUpCardToShow = (PowerUpCardV) ((Node) event.getSource()).getUserData();
+                System.out.println("Showing power up: " + powerUpCardToShow.getID() + ", " + powerUpCardToShow.getName());
+                showPowerUpCard(powerUpCardToShow);
+            }
+        }
+    }
+
+    private class ShowWeaponCardsEventHandler implements EventHandler {
+
+        @Override
+        public void handle(javafx.event.Event event){
+
+            if((((Node)event.getSource()).getUserData())!=null) {
+                WeaponCardV weaponCardVtoShow = (WeaponCardV) ((Node) event.getSource()).getUserData();
+                showWeaponCard(weaponCardVtoShow);
+            }
+        }
+    }
+
+    private class ShowSquareEventHandler implements EventHandler {
+
+        @Override
+        public void handle(javafx.event.Event event){
+
+            if((((Node)event.getSource()).getUserData())!=null) {
+                SquareV squareToShow = (SquareV) ((Node) event.getSource()).getUserData();
+                showSquare(squareToShow);
+            }
+        }
+    }
+
+
+
+
+    void showPlayer(PlayerV playerV){
+        (new Thread(new ShowPlayer(playerV))).start();
+    }
+
+    private class ShowPlayer implements Runnable {
+        PlayerV playerV;
+
+
+        ShowPlayer(PlayerV playerV) {
+            this.playerV = playerV;
+            System.out.println(playerV.getNickname());
+        }
+
+        @Override
+        public void run() {
+            VBox mainFrame = new VBox();
+            Color color=setColor(playerV);
+
+
+            VBox avatar= new VBox();
+
+            Label name = new Label();
+            name.setText(playerV.getNickname());
+            name.setTextFill(color);
+            name.setFont(Font.font("Courier"));
+
+            avatar.getChildren().add(name);
+            VBox.setVgrow(name,Priority.ALWAYS);
+
+            StackPane image=new StackPane();
+            avatar.getChildren().add(image);
+            VBox.setVgrow(image,Priority.ALWAYS);
+
+            System.out.println(playerV.getNickname());
+
+            mainFrame.getChildren().add(avatar);
+            VBox.setVgrow(avatar, Priority.ALWAYS);
+
+            HBox markstracker=new HBox();
+            for (MarkSlotV markSlotV: playerV.getMarksTracker().getMarkSlotsList()) {
+
+                StackPane background=new StackPane();
+
+                StackPane mark=new StackPane();
+
+                background.getChildren().add(mark);
+
+                mark.getStyleClass().add(setMarkImage(ViewModelGate.getModel().getPlayers().getPlayer(markSlotV.getMarkingPlayer()).getColor()));
+
+                Label quantity= new Label();
+                quantity.setText(""+ markSlotV.getQuantity());
+                mark.getChildren().add(quantity);
+
+
+
+                markstracker.getChildren().add(background);
+                HBox.setHgrow(mark, Priority.ALWAYS);
+            }
+
+            mainFrame.getChildren().add(markstracker);
+            VBox.setVgrow(markstracker, Priority.ALWAYS);
+
+
+            HBox damageTracker=new HBox();
+            for (DamageSlotV damageSlotV: playerV.getDamageTracker().getDamageSlotsList()) {
+
+                StackPane background=new StackPane();
+
+                StackPane damage=new StackPane();
+
+                background.getChildren().add(damage);
+
+                damage.getStyleClass().add(setDamageImage(ViewModelGate.getModel().getPlayers().getPlayer(damageSlotV.getShootingPlayerNickname()).getColor()));
+
+                damageTracker.getChildren().add(background);
+                HBox.setHgrow(damage, Priority.ALWAYS);
+            }
+
+            mainFrame.getChildren().add(damageTracker);
+            VBox.setVgrow(markstracker, Priority.ALWAYS);
+
+
+
+            Label deaths=new Label();
+            deaths.setText("THE PLAYER DIED A NUMBER OF TIME EQUALS TO \n :  "+playerV.getNumberOfDeaths());
+            deaths.setTextFill(color);
+            deaths.setFont(Font.font("Courier"));
+
+            mainFrame.getChildren().add(deaths);
+            System.out.println(mainFrame.getChildren().toString());
+
+            Platform.runLater(() -> {
+
+                changeInformationSection(mainFrame);
+
+
+            });
+
+
+        }
+
+
+        private String setMarkImage(PlayersColors color){
+            String style;
+
+            switch (color){
+                case yellow: style="markYellow";break;
+                case blue:style="markBlue";break;
+                case green:style="markGreen";break;
+                case gray:style="markGray";break;
+                case purple:style="markPurple";break;
+                default:style="markPlayer";
+                    break;
+            }
+            return style;
+        }
+
+        private String setDamageImage(PlayersColors color){
+            String style;
+
+            switch (color){
+                case yellow: style="damageYellow";break;
+                case blue:style="damageBlue";break;
+                case green:style="damageGreen";break;
+                case gray:style="damageGray";break;
+                case purple:style="damagePurple";break;
+                default:style="damagePlayer";
+                    break;
+            }
+            return style;
+        }
+        private Color setColor(PlayerV playerV) {
+            Color color;
+
+            switch (playerV.getColor()){
+                case yellow: color=Color.rgb(255,166,0);break;
+                case blue:color=Color.rgb(0,0,255);break;
+                case green:color=Color.rgb(0,255,0);break;
+                case gray:color=Color.rgb(39,39,44);break;
+                case purple:color=Color.rgb(153,0,118);break;
+                default:color=Color.rgb(0,0,0);
+                    break;
+            }
+            return color;
+        }
+    }
+
+    void showWeaponCard(WeaponCardV weaponCard){
+
+        ( new Thread(new ShowWeaponCard(weaponCard))).start();
+    }
+
+
+    private class ShowWeaponCard implements Runnable{
+        WeaponCardV weaponCard;
+
+        ShowWeaponCard(WeaponCardV weaponCard){
+            this.weaponCard=weaponCard;
+        }
+
+        @Override
+        public void run(){
+
+            VBox vBox=new VBox();
+
+            StackPane card=new StackPane();
+            VBox.setVgrow(card,Priority.ALWAYS);
+
+
+
+            vBox.getChildren().add(card);
+            card.getStyleClass().add("weaponCard"+weaponCard.getID());
+
+            System.out.println(vBox.getChildren().toString());
+
+            Platform.runLater(()->{
+
+                changeInformationSection(vBox);
+
+            });
+
+        }
+
+    }
+
+
+    void showPowerUpCard(PowerUpCardV powerUpCard){
+
+        ( new Thread(new ShowPowerUpCard(powerUpCard))).start();
+    }
+
+
+    private class ShowPowerUpCard implements Runnable{
+        PowerUpCardV powerUpCard;
+
+        ShowPowerUpCard(PowerUpCardV powerUpCard){
+            this.powerUpCard=powerUpCard;
+        }
+        @Override
+        public void run(){
+            VBox vBox=new VBox();
+
+            StackPane card=new StackPane(new Label(powerUpCard.getName()));
+            VBox.setVgrow(card,Priority.ALWAYS);
+
+            vBox.getChildren().add(card);
+            card.getStyleClass().add("powerUpCard"+powerUpCard.getID());
+
+            Platform.runLater(()-> changeInformationSection(vBox));
+        }
+
+    }
+    void showSquare(SquareV squareV){
+        (new Thread(new ShowSquare(squareV))).start();
+    }
+
+
+    private class ShowSquare implements Runnable{
+        SquareV squareV;
+        ShowSquare(SquareV squareV){
+            this.squareV=squareV;
+        }
+
+        @Override
+        public void run(){
+
+            VBox mainFrame=new VBox();
+            HBox cards=new HBox();
+            HBox players=new HBox();
+
+            mainFrame.getChildren().addAll(cards, players);
+            VBox.setVgrow(cards, Priority.ALWAYS);
+            VBox.setVgrow(players, Priority.ALWAYS);
+
+
+            if(squareV.getClass().toString().contains("Normal")) {
+
+                List<AmmoCardV> listOfAmmos = ((NormalSquareV) squareV).getAmmoCards().getCards();
+
+                for (AmmoCardV ammo : listOfAmmos) {
+
+                    StackPane card = new StackPane();
+
+                    card.getStyleClass().add("ammoCard" + ammo.getID());
+                    cards.getChildren().add(card);
+
+                    HBox.setHgrow(card, Priority.ALWAYS);
+                }
+            }
+            else{
+
+                List<WeaponCardV> listOfWeapons=((SpawnPointSquareV)squareV).getWeaponCards().getCards();
+
+                for (WeaponCardV weaponCardV : listOfWeapons){
+
+                    StackPane card = new StackPane();
+
+                    card.getStyleClass().add("weaponCard" + weaponCardV.getID());
+                    cards.getChildren().add(card);
+
+                    HBox.setHgrow(card, Priority.ALWAYS);
+                }
+
+            }
+
+
+            List<PlayerV> playerVS=getPlayers(squareV.getX(), squareV.getY());
+
+            for (PlayerV playerV : playerVS){
+
+                PlayersColors color=playerV.getColor();
+
+                StackPane image = new StackPane();
+                Label name=new Label();
+
+                name.setText(playerV.getNickname());
+                name.setFont(Font.font("Courier"));
+
+                image.getStyleClass().add(setImage(color));
+
+                VBox player= new VBox();
+                player.getChildren().addAll(image, name);
+
+                VBox.setVgrow(name, Priority.ALWAYS);
+                VBox.setVgrow(image, Priority.ALWAYS);
+
+
+
+                players.getChildren().add(player);
+
+
+
+                HBox.setHgrow(player, Priority.ALWAYS);
+            }
+
+
+            Platform.runLater(()->{
+
+                changeInformationSection(mainFrame);
+
+            });
+
+        }
+
+        private String setImage(PlayersColors color){
+            String style;
+
+            switch (color){
+                case yellow: style="playerYellow";break;
+                case blue:style="playerBlue";break;
+                case green:style="playerGreen";break;
+                case gray:style="playerGray";break;
+                case purple:style="playerPurple";break;
+                default:style="emptyPlayer";
+                    break;
+            }
+            return style;
+        }
+
+        private List<PlayerV> getPlayers(int x, int y) {
+            List<PlayerV> players = new ArrayList<>();
+            for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
+                if (p.getY() != null && p.getX() != null && p.getX() == x && p.getY() == y) {
+                    players.add(p);
+                }
+            }
+            return players;
+        }
+
+
+    }
+
+
+    private void changeInformationSection(Node newSection){
+
+        this.informationSection.getChildren().clear();
+        this.informationSection.getChildren().add(newSection);
+
+        AnchorPane.setTopAnchor(newSection, 0.0);
+        AnchorPane.setRightAnchor(newSection, 0.0);
+        AnchorPane.setLeftAnchor(newSection, 0.0);
+        AnchorPane.setBottomAnchor(newSection, 0.0);
+
     }
 
 }

@@ -63,6 +63,7 @@ public class WantToPlayPowerUpState  implements State{
      * if else, the ScoreKillsState will be called*/
     @Override
     public void doAction(ViewControllerEvent viewControllerEvent) {
+
         this.inputTimer.interrupt();
 
         out.println("<SERVER> player has answered before the timer ended.");
