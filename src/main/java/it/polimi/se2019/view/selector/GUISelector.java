@@ -1408,9 +1408,12 @@ public class GUISelector implements SelectorV {
                         //setStyle
                         stackPaneMainImage.setStyle("-fx-background-color: blue");
                     }
-                    else{ //yellow
+                    else if(ammo.getColor().equals(AmmoCubesColor.yellow)){ //yellow
                         //setStyle
                         stackPaneMainImage.setStyle("-fx-background-color: yellow");
+                    }
+                    else{
+                        GUIstarter.showError(this, "COULDN'T FIND COLOR OF THE AMMO: " + ammo.getColor(), null);
                     }
                 }
                 hBox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(3));

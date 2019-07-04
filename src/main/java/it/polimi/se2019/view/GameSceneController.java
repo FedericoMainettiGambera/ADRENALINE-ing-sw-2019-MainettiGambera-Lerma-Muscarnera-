@@ -1,6 +1,7 @@
 package it.polimi.se2019.view;
 
 import it.polimi.se2019.controller.Controller;
+import it.polimi.se2019.model.AmmoCard;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.Event;
@@ -521,22 +522,30 @@ public class GameSceneController implements Initializable {
     public ShowPlayerEventHandler getShowPlayerEventHandler(){
         return this.showPlayerEventHandler;
     }
+
     private static ShowSquareEventHandler showSquareEventHandler;
 
     public ShowSquareEventHandler getShowSquareEventHandler(){
         return this.showSquareEventHandler;
     }
+
     private static ShowPowerUpCardsEventHandler showPowerUpCardsEventHandler;
 
     public ShowPowerUpCardsEventHandler getShowPowerUpCardsEventHandler(){
         return this.showPowerUpCardsEventHandler;
     }
+
     private static ShowWeaponCardsEventHandler showWeaponCardsEventHandler;
 
     public ShowWeaponCardsEventHandler getShowWeaponCardsEventHandler(){
         return this.showWeaponCardsEventHandler;
     }
 
+    private static ShowAmmoCardEventHandler showAmmoCardEventHandler;
+
+    public ShowAmmoCardEventHandler getShowAmmoCardEventHandler(){
+        return this.showAmmoCardEventHandler;
+    }
 
 
     @Override
@@ -735,6 +744,7 @@ public class GameSceneController implements Initializable {
         showPowerUpCardsEventHandler=new ShowPowerUpCardsEventHandler();
         showWeaponCardsEventHandler=new ShowWeaponCardsEventHandler();
         showSquareEventHandler=new ShowSquareEventHandler();
+        showAmmoCardEventHandler = new ShowAmmoCardEventHandler();
 
         for (StackPane powerUpCard: getListOfPowerUpCardsMainImage()){
             powerUpCard.addEventHandler(MouseEvent.MOUSE_ENTERED,getShowPowerUpCardsEventHandler());
@@ -953,6 +963,17 @@ public class GameSceneController implements Initializable {
             if((((Node)event.getSource()).getUserData())!=null) {
                 SquareV squareToShow = (SquareV) ((Node) event.getSource()).getUserData();
                 showSquare(squareToShow);
+            }
+        }
+    }
+
+    private class ShowAmmoCardEventHandler implements EventHandler{
+
+        @Override
+        public void handle(javafx.event.Event event) {
+            if((((Node)event.getSource()).getUserData())!=null) {
+                AmmoCardV ammoCardToShow = (AmmoCardV) ((Node) event.getSource()).getUserData();
+                showAmmoCard(ammoCardToShow);
             }
         }
     }
@@ -1230,6 +1251,34 @@ public class GameSceneController implements Initializable {
     }
 
 
+    void showAmmoCard(AmmoCardV ammoCard){
+        (new Thread(new ShowAmmoCard(ammoCard))).start();
+    }
+
+    private class ShowAmmoCard implements Runnable{
+        private AmmoCardV ammoCard;
+        ShowAmmoCard(AmmoCardV ammoCard){
+            this.ammoCard = ammoCard;
+        }
+
+        @Override
+        public void run() {
+            VBox mainFrame = new VBox();
+            StackPane backGroundStackPane = new StackPane();
+            StackPane mainImageStackPane = new StackPane();
+
+            backGroundStackPane.getChildren().add(mainImageStackPane);
+            mainFrame.getChildren().add(backGroundStackPane);
+
+            VBox.setVgrow(backGroundStackPane,Priority.ALWAYS);
+            VBox.setVgrow(mainImageStackPane, Priority.ALWAYS);
+
+            mainImageStackPane.getStyleClass().add("ammoCard" + ammoCard.getID());
+
+            Platform.runLater(()-> changeInformationSection(mainFrame));
+        }
+    }
+
     private class ShowSquare implements Runnable{
         SquareV squareV;
         ShowSquare(SquareV squareV){
@@ -1326,6 +1375,8 @@ public class GameSceneController implements Initializable {
 
 
     }
+
+
 
 
     private String setImage(PlayersColors color){

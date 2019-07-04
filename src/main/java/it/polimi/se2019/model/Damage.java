@@ -2,7 +2,12 @@ package it.polimi.se2019.model;
 
 import java.io.Serializable;
 
-/***/
+/**
+ * This is one of the three actions that are used to build all the effects of cards in the game.
+ * It gives a damage of a certain "quantity of damage" to a "target"
+ *
+ * @author LucaMuscarnera
+ * */
 public class Damage extends Action implements Serializable {
 
     @Override
@@ -16,18 +21,25 @@ public class Damage extends Action implements Serializable {
         getActionInfo().getActionDetails().getFileSelectedActionDetails().setDamage(Integer.parseInt((String)a));
     }
 
-    /***/
+    /**
+     * default constructor
+     * */
 
     public Damage() {
         super();
 
         //getActionInfo().setPreConditionMethodName("thereAreNotWallsBetweenTargetAndPlayer");
     }
+    /**
+     * @param actionInfo contains the actionInfo to put in the current action
+     * */
     public Damage(ActionInfo actionInfo) {
         super(actionInfo);
     }
 
-    /***/
+    /**
+     * Executes the damage
+     * */
     public void Exec() {
         /*@*/
         System.out.println("Eseguo azione");
@@ -50,6 +62,7 @@ public class Damage extends Action implements Serializable {
                     Player target = t;
 
                     int damageEntity = Integer.parseInt((String) getActionInfo().getActionDetails().getFileSelectedActionDetails().getFileSettingData().get(0));
+
                     System.out.println("colpisco " + t.getNickname() + ": " + damageEntity + " danno (i) " );
                     target.addDamages(shooter,
                             damageEntity);

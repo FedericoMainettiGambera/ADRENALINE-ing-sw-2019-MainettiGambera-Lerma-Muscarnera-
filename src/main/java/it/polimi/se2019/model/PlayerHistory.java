@@ -183,7 +183,7 @@ public class PlayerHistory {
         else
             return null;
     }
-    // TODO DEBUG METHOD
+
     public void show() {
         System.out.println("carta \t\t\t effetto \t\t input row     \t\t\t\t\t BI \t II \t TURNO ");
         for(PlayerHistoryElement p: historyElementList) {
@@ -191,7 +191,7 @@ public class PlayerHistory {
         }
 
     }
-    // TODO END DEBUG METHOD
+
     public PlayerHistory(Player owner) {
         this.owner = owner;
         this.startBlockId = 0;

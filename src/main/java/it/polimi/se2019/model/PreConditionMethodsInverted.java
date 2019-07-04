@@ -249,8 +249,6 @@ public class PreConditionMethodsInverted {
     }
 
 
-
-
     public List<Object> differentSingleTargets(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
         List<Object> retVal = new ArrayList<>();
         if(type.equals(typePlayer)) {
@@ -298,6 +296,7 @@ public class PreConditionMethodsInverted {
         }
         return retVal;
     }
+
     public List<Object> distanceOfTargetFromPlayerExactlyOne(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
         return distanceOfTargetFromPlayerSquareIs1(actionContext,type,actionDetails,inputs,inputSlots,contextEffect);
     }
@@ -591,7 +590,7 @@ public class PreConditionMethodsInverted {
                         }
                     }
                 }
-                System.out.println("direzione:" + direction);
+                //System.out.println("direzione:" + direction);
             }
         }
 
@@ -675,16 +674,16 @@ public class PreConditionMethodsInverted {
             if (type.equals(typeSquare)) {
 
                 if (actionDetails.getUserSelectedActionDetails().getTargetList().size() > 0) {
-                    System.out.println("// target list not empty");
-                    System.out.println("// pos: " + actionDetails.getUserSelectedActionDetails().getTarget().getTemporaryPosition().humanString());
+                    //System.out.println("// target list not empty");
+                    //System.out.println("// pos: " + actionDetails.getUserSelectedActionDetails().getTarget().getTemporaryPosition().humanString());
                     // Position chosenSquarePosition = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
                     for (Square[] R : actionContext.getBoard().getMap()) {
                         for (Square C : R) {
                             if (C != null) {
-                                System.out.println("> POSIZIONE  " + C.getCoordinates().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                                /*System.out.println("> POSIZIONE  " + C.getCoordinates().humanString() + ": " + actionContext.getBoard().distanceFromTo(
                                         C.getCoordinates(),
                                         actionDetails.getUserSelectedActionDetails().getTarget().getTemporaryPosition()
-                                ));
+                                ));*/
                                 if (actionContext.getBoard().distanceFromTo(
                                         C.getCoordinates(),
                                         actionDetails.getUserSelectedActionDetails().getTarget().getTemporaryPosition()
@@ -702,7 +701,7 @@ public class PreConditionMethodsInverted {
                                         }
                                     }*/
                                     if (!retVal.contains(C)) {
-                                        System.out.println("inserisco");
+                                        //System.out.println("inserisco");
                                         retVal.add(C);
                                     }
                                 }
@@ -712,7 +711,7 @@ public class PreConditionMethodsInverted {
                     }
                 } else {
 
-                    System.out.println("  // target list empty");
+                    //System.out.println("  // target list empty");
                     for (Square[] R : actionContext.getBoard().getMap()) {
                         for (Square C : R) {
                             if (C != null)
@@ -720,16 +719,16 @@ public class PreConditionMethodsInverted {
 
                                 for (Player P : actionContext.getPlayerList().getPlayersOnBoard()) {
                                     /*if(!P.equals(actionContext.getPlayer()))*/ {              // il player non ci interessa
-                                        System.out.println("> POSIZIONE  " + P.getTemporaryPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                                        /*System.out.println("> POSIZIONE  " + P.getTemporaryPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
                                                 P.getTemporaryPosition(),
                                                 C.getCoordinates()
-                                        ));
+                                        ));*/
                                         if (actionContext.getBoard().distanceFromTo(
                                                 C.getCoordinates(),
                                                 P.getTemporaryPosition()) == (1 + 0)) {
                                             if (!retVal.contains(C)) {
                                                 retVal.add(C);
-                                                System.out.println("aggiungo");
+                                                //System.out.println("aggiungo");
                                             }
                                         }
                                     }
@@ -743,14 +742,14 @@ public class PreConditionMethodsInverted {
             }
             if (type.equals(typePlayer)) {
                 if (actionDetails.getUserSelectedActionDetails().getChosenSquare() != null) {
-                    System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
-                    System.out.println("// square selezionato");
-                    System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
+                    //System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
+                    //System.out.println("// square selezionato");
+                    //System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
                     for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
-                        System.out.println("> POSIZIONE  " + C.getTemporaryPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                        /*System.out.println("> POSIZIONE  " + C.getTemporaryPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
                                 C.getTemporaryPosition(),
                                 actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates()
-                        ));
+                        ));*/
                         if (actionContext.getBoard().distanceFromTo(
                                 C.getTemporaryPosition(),
                                 actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates()
@@ -763,7 +762,7 @@ public class PreConditionMethodsInverted {
                     }
 
                 } else {
-                    System.out.println(";// square non ancora selezionato");
+                    //System.out.println(";// square non ancora selezionato");
                     for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
                         for (Square[] R : actionContext.getBoard().getMap()) {
                             for (Square T : R) {
@@ -781,10 +780,10 @@ public class PreConditionMethodsInverted {
                 }
             }
         }catch (Exception e) {
-            System.out.println("---- "+ e);
+            //System.out.println("---- "+ e);
 
         }
-        System.out.println("123 " + retVal);
+        //System.out.println("123 " + retVal);
         return retVal;
     }
 
@@ -796,16 +795,16 @@ public class PreConditionMethodsInverted {
             if (type.equals(typeSquare)) {
 
                 if (actionDetails.getUserSelectedActionDetails().getTargetList().size() > 0) {
-                    System.out.println("// target list not empty");
-                    System.out.println("// pos: " + actionDetails.getUserSelectedActionDetails().getTarget().getPosition().humanString());
+                    //System.out.println("// target list not empty");
+                    //System.out.println("// pos: " + actionDetails.getUserSelectedActionDetails().getTarget().getPosition().humanString());
                     // Position chosenSquarePosition = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
                     for (Square[] R : actionContext.getBoard().getMap()) {
                         for (Square C : R) {
                             if (C != null) {
-                                System.out.println("> POSIZIONE  " + C.getCoordinates().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                                /*System.out.println("> POSIZIONE  " + C.getCoordinates().humanString() + ": " + actionContext.getBoard().distanceFromTo(
                                         C.getCoordinates(),
                                         actionDetails.getUserSelectedActionDetails().getTarget().getPosition()
-                                ));
+                                ));*/
                                 if (actionContext.getBoard().distanceFromTo(
                                         C.getCoordinates(),
                                         actionDetails.getUserSelectedActionDetails().getTarget().getPosition()
@@ -823,7 +822,7 @@ public class PreConditionMethodsInverted {
                                         }
                                     }*/
                                     if (!retVal.contains(C)) {
-                                        System.out.println("inserisco");
+                                        //System.out.println("inserisco");
                                         retVal.add(C);
                                     }
                                 }
@@ -833,7 +832,7 @@ public class PreConditionMethodsInverted {
                     }
                 } else {
 
-                    System.out.println("  // target list empty");
+                    //System.out.println("  // target list empty");
                     for (Square[] R : actionContext.getBoard().getMap()) {
                         for (Square C : R) {
                             if (C != null)
@@ -841,16 +840,16 @@ public class PreConditionMethodsInverted {
 
                                 for (Player P : actionContext.getPlayerList().getPlayersOnBoard()) {
                                     /*if(!P.equals(actionContext.getPlayer()))*/ {              // il player non ci interessa
-                                        System.out.println("> POSIZIONE  " + P.getPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                                        /*System.out.println("> POSIZIONE  " + P.getPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
                                                 P.getPosition(),
                                                 C.getCoordinates()
-                                        ));
+                                        ));*/
                                         if (actionContext.getBoard().distanceFromTo(
                                                 C.getCoordinates(),
                                                 P.getPosition()) == (1 + 0)) {
                                             if (!retVal.contains(C)) {
                                                 retVal.add(C);
-                                                System.out.println("aggiungo");
+                                                //System.out.println("aggiungo");
                                             }
                                         }
                                     }
@@ -864,14 +863,14 @@ public class PreConditionMethodsInverted {
             }
             if (type.equals(typePlayer)) {
                 if (actionDetails.getUserSelectedActionDetails().getChosenSquare() != null) {
-                    System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
-                    System.out.println("// square selezionato");
-                    System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
+                    //System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
+                    //System.out.println("// square selezionato");
+                    //System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
                     for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
-                        System.out.println("> POSIZIONE  " + C.getPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                        /*System.out.println("> POSIZIONE  " + C.getPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
                                 C.getPosition(),
                                 actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates()
-                        ));
+                        ));*/
                         if (actionContext.getBoard().distanceFromTo(
                                 C.getPosition(),
                                 actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates()
@@ -884,7 +883,7 @@ public class PreConditionMethodsInverted {
                     }
 
                 } else {
-                    System.out.println(";// square non ancora selezionato");
+                    //System.out.println(";// square non ancora selezionato");
                     for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
                         for (Square[] R : actionContext.getBoard().getMap()) {
                             for (Square T : R) {
@@ -905,7 +904,7 @@ public class PreConditionMethodsInverted {
             System.out.println("---- "+ e);
 
         }
-        System.out.println("123 " + retVal);
+        //System.out.println("123 " + retVal);
         return retVal;
     }
     public List<Object> distanceFromOriginalPositionIs1NOPLAYER (ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
@@ -915,16 +914,16 @@ public class PreConditionMethodsInverted {
             if (type.equals(typeSquare)) {
 
                 if (actionDetails.getUserSelectedActionDetails().getTargetList().size() > 0) {
-                    System.out.println("// target list not empty");
-                    System.out.println("// pos: " + actionDetails.getUserSelectedActionDetails().getTarget().getPosition().humanString());
+                    //System.out.println("// target list not empty");
+                    //System.out.println("// pos: " + actionDetails.getUserSelectedActionDetails().getTarget().getPosition().humanString());
                     // Position chosenSquarePosition = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
                     for (Square[] R : actionContext.getBoard().getMap()) {
                         for (Square C : R) {
                             if (C != null) {
-                                System.out.println("> POSIZIONE  " + C.getCoordinates().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                                /*System.out.println("> POSIZIONE  " + C.getCoordinates().humanString() + ": " + actionContext.getBoard().distanceFromTo(
                                         C.getCoordinates(),
                                         actionDetails.getUserSelectedActionDetails().getTarget().getPosition()
-                                ));
+                                ));*/
                                 if (actionContext.getBoard().distanceFromTo(
                                         C.getCoordinates(),
                                         actionDetails.getUserSelectedActionDetails().getTarget().getPosition()
@@ -942,7 +941,7 @@ public class PreConditionMethodsInverted {
                                         }
                                     }*/
                                     if (!retVal.contains(C)) {
-                                        System.out.println("inserisco");
+                                        //System.out.println("inserisco");
                                         retVal.add(C);
                                     }
                                 }
@@ -952,7 +951,7 @@ public class PreConditionMethodsInverted {
                     }
                 } else {
 
-                    System.out.println("  // target list empty");
+                    //System.out.println("  // target list empty");
                     for (Square[] R : actionContext.getBoard().getMap()) {
                         for (Square C : R) {
                             if (C != null)
@@ -960,16 +959,16 @@ public class PreConditionMethodsInverted {
 
                                 for (Player P : actionContext.getPlayerList().getPlayersOnBoard()) {
                                     if(!P.equals(actionContext.getPlayer())) {              // il player non ci interessa
-                                        System.out.println("> POSIZIONE  " + P.getPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                                        /*System.out.println("> POSIZIONE  " + P.getPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
                                                 P.getPosition(),
                                                 C.getCoordinates()
-                                        ));
+                                        ));*/
                                         if (actionContext.getBoard().distanceFromTo(
                                                 C.getCoordinates(),
                                                 P.getPosition()) == (1 + 0)) {
                                             if (!retVal.contains(C)) {
                                                 retVal.add(C);
-                                                System.out.println("aggiungo");
+                                                //System.out.println("aggiungo");
                                             }
                                         }
                                     }
@@ -983,14 +982,14 @@ public class PreConditionMethodsInverted {
             }
             if (type.equals(typePlayer)) {
                 if (actionDetails.getUserSelectedActionDetails().getChosenSquare() != null) {
-                    System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
-                    System.out.println("// square selezionato");
-                    System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
+                    //System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
+                    //System.out.println("// square selezionato");
+                    //System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
                     for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
-                        System.out.println("> POSIZIONE  " + C.getPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                        /*System.out.println("> POSIZIONE  " + C.getPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
                                 C.getPosition(),
                                 actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates()
-                        ));
+                        ));*/
                         if (actionContext.getBoard().distanceFromTo(
                                 C.getPosition(),
                                 actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates()
@@ -1004,7 +1003,7 @@ public class PreConditionMethodsInverted {
                     if(retVal.contains(actionContext.getPlayer()))
                         retVal.remove(actionContext.getPlayer());
                 } else {
-                    System.out.println(";// square non ancora selezionato");
+                    //System.out.println(";// square non ancora selezionato");
                     for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
                         for (Square[] R : actionContext.getBoard().getMap()) {
                             for (Square T : R) {
@@ -1025,7 +1024,7 @@ public class PreConditionMethodsInverted {
             System.out.println("---- "+ e);
 
         }
-        System.out.println("123 " + retVal);
+        //System.out.println("123 " + retVal);
         return retVal;
     }
 
@@ -1037,17 +1036,17 @@ public class PreConditionMethodsInverted {
             if (type.equals(typeSquare)) {
 
                 if (actionDetails.getUserSelectedActionDetails().getTargetList().size() > 0) {
-                    System.out.println("// target list not empty");
-                    System.out.println("// pos: " + actionDetails.getUserSelectedActionDetails().getTarget().getPosition().humanString());
+                    //System.out.println("// target list not empty");
+                    //System.out.println("// pos: " + actionDetails.getUserSelectedActionDetails().getTarget().getPosition().humanString());
 
                     // Position chosenSquarePosition = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
                     for (Square[] R : actionContext.getBoard().getMap()) {
                         for (Square C : R) {
                             if (C != null) {
-                                System.out.println("> POSIZIONE  " + C.getCoordinates().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                                /*System.out.println("> POSIZIONE  " + C.getCoordinates().humanString() + ": " + actionContext.getBoard().distanceFromTo(
                                         C.getCoordinates(),
                                         actionDetails.getUserSelectedActionDetails().getTarget().getPosition()
-                                ));
+                                ));*/
                                 if (actionContext.getBoard().distanceFromTo(
                                         C.getCoordinates(),
                                         actionDetails.getUserSelectedActionDetails().getTarget().getPosition()
@@ -1065,7 +1064,7 @@ public class PreConditionMethodsInverted {
                                         }
                                     }*/
                                     if (!retVal.contains(C)) {
-                                        System.out.println("inserisco");
+                                        //System.out.println("inserisco");
                                         retVal.add(C);
                                     }
                                 }
@@ -1075,7 +1074,7 @@ public class PreConditionMethodsInverted {
                     }
                 } else {
 
-                    System.out.println("  // target list empty");
+                    //System.out.println("  // target list empty");
                     for (Square[] R : actionContext.getBoard().getMap()) {
                         for (Square C : R) {
                             if (C != null)
@@ -1083,16 +1082,16 @@ public class PreConditionMethodsInverted {
 
                                 for (Player P : actionContext.getPlayerList().getPlayersOnBoard()) {
                                     /* if(!P.equals(actionContext.getPlayer())) */ {              // il player non ci interessa
-                                        System.out.println("> POSIZIONE  " + P.getPosition().humanString() + " vs " + C.getCoordinates().humanString() + ":" + actionContext.getBoard().distanceFromTo(
+                                        /*System.out.println("> POSIZIONE  " + P.getPosition().humanString() + " vs " + C.getCoordinates().humanString() + ":" + actionContext.getBoard().distanceFromTo(
                                                 P.getPosition(),
                                                 C.getCoordinates()
-                                        ));
+                                        ));*/
                                         if (actionContext.getBoard().distanceFromTo(
                                                 C.getCoordinates(),
                                                 P.getPosition()) <= (2)) {
                                             if (!retVal.contains(C)) {
                                                 retVal.add(C);
-                                                System.out.println("aggiungo ");
+                                                //System.out.println("aggiungo ");
                                             }
                                         }
                                     }
@@ -1106,13 +1105,13 @@ public class PreConditionMethodsInverted {
             }
             if (type.equals(typePlayer)) {
                 if (actionDetails.getUserSelectedActionDetails().getChosenSquare() != null) {
-                    System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
-                    System.out.println("// square selezionato");
+                    //System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
+                    //System.out.println("// square selezionato");
                     for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
-                        System.out.println("> POSIZIONE  " + C.getPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                        /*System.out.println("> POSIZIONE  " + C.getPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
                                 C.getPosition(),
                                 actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates()
-                        ));
+                        ));*/
                         if (actionContext.getBoard().distanceFromTo(
                                 C.getPosition(),
                                 actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates()
@@ -1125,7 +1124,7 @@ public class PreConditionMethodsInverted {
                     }
 
                 } else {
-                    System.out.println(";// square non ancora selezionato");
+                    //System.out.println(";// square non ancora selezionato");
                     for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
                         for (Square[] R : actionContext.getBoard().getMap()) {
                             for (Square T : R) {
@@ -1147,7 +1146,7 @@ public class PreConditionMethodsInverted {
             System.out.println("---- "+ e);
 
         }
-        System.out.println("123 " + retVal);
+        //System.out.println("123 " + retVal);
         return retVal;
     }
 
@@ -1158,17 +1157,17 @@ public class PreConditionMethodsInverted {
             if (type.equals(typeSquare)) {
 
                 if (actionDetails.getUserSelectedActionDetails().getTargetList().size() > 0) {
-                    System.out.println("// target list not empty");
-                    System.out.println("// pos: " + actionDetails.getUserSelectedActionDetails().getTarget().getTemporaryPosition().humanString());
+                    //System.out.println("// target list not empty");
+                    //System.out.println("// pos: " + actionDetails.getUserSelectedActionDetails().getTarget().getTemporaryPosition().humanString());
 
                     // Position chosenSquarePosition = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
                     for (Square[] R : actionContext.getBoard().getMap()) {
                         for (Square C : R) {
                             if (C != null) {
-                                System.out.println("> POSIZIONE  " + C.getCoordinates().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                                /*System.out.println("> POSIZIONE  " + C.getCoordinates().humanString() + ": " + actionContext.getBoard().distanceFromTo(
                                         C.getCoordinates(),
                                         actionDetails.getUserSelectedActionDetails().getTarget().getTemporaryPosition()
-                                ));
+                                ));*/
                                 if (actionContext.getBoard().distanceFromTo(
                                         C.getCoordinates(),
                                         actionDetails.getUserSelectedActionDetails().getTarget().getTemporaryPosition()
@@ -1186,7 +1185,7 @@ public class PreConditionMethodsInverted {
                                         }
                                     }*/
                                     if (!retVal.contains(C)) {
-                                        System.out.println("inserisco");
+                                        //System.out.println("inserisco");
                                         retVal.add(C);
                                     }
                                 }
@@ -1196,7 +1195,7 @@ public class PreConditionMethodsInverted {
                     }
                 } else {
 
-                    System.out.println("  // target list empty");
+                    //System.out.println("  // target list empty");
                     for (Square[] R : actionContext.getBoard().getMap()) {
                         for (Square C : R) {
                             if (C != null)
@@ -1204,16 +1203,16 @@ public class PreConditionMethodsInverted {
 
                                 for (Player P : actionContext.getPlayerList().getPlayersOnBoard()) {
                                     /* if(!P.equals(actionContext.getPlayer())) */ {              // il player non ci interessa
-                                        System.out.println("> POSIZIONE  " + P.getTemporaryPosition().humanString() + " vs " + C.getCoordinates().humanString() + ":" + actionContext.getBoard().distanceFromTo(
+                                        /*System.out.println("> POSIZIONE  " + P.getTemporaryPosition().humanString() + " vs " + C.getCoordinates().humanString() + ":" + actionContext.getBoard().distanceFromTo(
                                                 P.getTemporaryPosition(),
                                                 C.getCoordinates()
-                                        ));
+                                        ));*/
                                         if (actionContext.getBoard().distanceFromTo(
                                                 C.getCoordinates(),
                                                 P.getTemporaryPosition()) <= (2)) {
                                             if (!retVal.contains(C)) {
                                                 retVal.add(C);
-                                                System.out.println("aggiungo ");
+                                                //System.out.println("aggiungo ");
                                             }
                                         }
                                     }
@@ -1227,13 +1226,13 @@ public class PreConditionMethodsInverted {
             }
             if (type.equals(typePlayer)) {
                 if (actionDetails.getUserSelectedActionDetails().getChosenSquare() != null) {
-                    System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
-                    System.out.println("// square selezionato");
+                    //System.out.println(actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates().humanString());
+                    //System.out.println("// square selezionato");
                     for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
-                        System.out.println("> POSIZIONE  " + C.getTemporaryPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
+                        /*System.out.println("> POSIZIONE  " + C.getTemporaryPosition().humanString() + ": " + actionContext.getBoard().distanceFromTo(
                                 C.getTemporaryPosition(),
                                 actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates()
-                        ));
+                        ));*/
                         if (actionContext.getBoard().distanceFromTo(
                                 C.getTemporaryPosition(),
                                 actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates()
@@ -1246,7 +1245,7 @@ public class PreConditionMethodsInverted {
                     }
 
                 } else {
-                    System.out.println(";// square non ancora selezionato");
+                    //System.out.println(";// square non ancora selezionato");
                     for (Player C : actionContext.getPlayerList().getPlayersOnBoard()) {
                         for (Square[] R : actionContext.getBoard().getMap()) {
                             for (Square T : R) {
@@ -1268,7 +1267,7 @@ public class PreConditionMethodsInverted {
             System.out.println("---- "+ e);
 
         }
-        System.out.println("123 " + retVal);
+        //System.out.println("123 " + retVal);
         return retVal;
     }
 
@@ -1284,7 +1283,7 @@ public class PreConditionMethodsInverted {
                 int Distance = (A.getX() - B.getX()) * (A.getX() - B.getX()) +
                         (A.getY() - B.getY()) * (A.getY() - B.getY());
 
-                System.out.println("# La distanza con "+ target.getNickname() + " è " + Distance);
+                //System.out.println("# La distanza con "+ target.getNickname() + " è " + Distance);
                 if (Distance == 1) {
                     retVal.add(target);
                 }
@@ -1297,7 +1296,7 @@ public class PreConditionMethodsInverted {
                 }
             }
         }
-        System.out.println(retVal);
+        //System.out.println(retVal);
         return retVal;
     }
     public List<Object> previousEffectTarget(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
@@ -1308,18 +1307,18 @@ public class PreConditionMethodsInverted {
             actionContext.getPlayer().getPlayerHistory().getTurnChunkR(thisTurn).show();
             targets = actionContext.getPlayer().getPlayerHistory().getTurnChunkR(thisTurn).getTargets();
         } catch ( Exception e) {}
-        for(Player p: targets)
-            System.out.println(p.getNickname());
+        /*for(Player p: targets)
+            System.out.println(p.getNickname());*/
 
         List<Object> retVal = new ArrayList<>();
-        System.out.println("tipo input " + type);
+        //System.out.println("tipo input " + type);
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            System.out.println("A");
+            //System.out.println("A");
             for (Player t : targets)
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
-            System.out.println("B");
+            //System.out.println("B");
             for (Square y[] : actionContext.getBoard().getMap()) {
                 for (Square x : y) {
                     if(x!=null)
@@ -1332,14 +1331,14 @@ public class PreConditionMethodsInverted {
 
     public List<Object> alwaysTrue(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
         List<Object> retVal = new ArrayList<>();
-        System.out.println("tipo input " + type);
+        //System.out.println("tipo input " + type);
         if (type.equals(UsableInputTableRowType.typePlayer)) {
-            System.out.println("A");
+         //   System.out.println("A");
             for (Player t : actionContext.getPlayerList().getPlayersOnBoard())
                 retVal.add(t);
         }
         if (type.equals(typeSquare)) {
-            System.out.println("B");
+        //    System.out.println("B");
             for (Square y[] : actionContext.getBoard().getMap()) {
                 for (Square x : y) {
                     if(x!=null)
@@ -1357,14 +1356,14 @@ public class PreConditionMethodsInverted {
 
     public List<Object> atLeastOneMoveAway(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
         List<Object> retVal = new ArrayList<>();
-        System.out.println("# verifico che la distanza sia almeno uno");
+        //System.out.println("# verifico che la distanza sia almeno uno");
         Player user = actionContext.getPlayer();
         for(Player target: actionContext.getPlayerList().getPlayersOnBoard()) {
             try {
-                System.out.println("# la distanza è " + actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition()));
+          //      System.out.println("# la distanza è " + actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition()));
                 if (actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition()) > 1)
                 {
-                    System.out.println("#aggiungo " + target.getNickname());
+            //        System.out.println("#aggiungo " + target.getNickname());
                     retVal.add(target);
                 }
             } catch (Exception e) { System.out.println("---- " + e);}
@@ -1454,11 +1453,11 @@ public class PreConditionMethodsInverted {
 
     public List<Object> notFirstNorSecondExecuted(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect)
     {
-        // TODO: passare il record corrente della playerHistory
+
         int minimum = 2 ;
         List<Object> retVal = new ArrayList<>();
         boolean fill = false;
-        System.out.println("TURNO >> " + actionContext.getPlayer().getTurnID());
+        //System.out.println("TURNO >> " + actionContext.getPlayer().getTurnID());
         try {
             actionContext.getPlayer().getPlayerHistory().show();
         }catch(Exception e) {
@@ -1467,17 +1466,17 @@ public class PreConditionMethodsInverted {
         PlayerHistory historyCurrentTurn = actionContext.getPlayer().getPlayerHistory().getTurnChunkR(
                 actionContext.getPlayer().getTurnID()
         );
-        System.out.println("turno corrente ----------------------------");
+        //System.out.println("turno corrente ----------------------------");
         historyCurrentTurn.show();
-        System.out.println("split per blocco --------------------------");
+        //System.out.println("split per blocco --------------------------");
         for(List<PlayerHistoryElement> l : historyCurrentTurn.rawDataSplittenByBlockId()) {
             System.out.println("{");
             for(PlayerHistoryElement r: l)
             {
                 r.show();
             }
-            System.out.println("}");
-            System.out.println("--------");
+        //    System.out.println("}");
+        //    System.out.println("--------");
         }
         if((historyCurrentTurn.rawDataSplittenByBlockId().size()) >= minimum)
         {
@@ -1501,20 +1500,76 @@ public class PreConditionMethodsInverted {
         if(type.equals(UsableInputTableRowType.typePlayer)) {
             if(fill) {
                 for(Player p: actionContext.getPlayerList().getPlayersOnBoard()) {
-                    System.out.println("aggiungo " + p.getNickname());
+         //           System.out.println("aggiungo " + p.getNickname());
                     retVal.add(p);
                 }
             }
         }
         return retVal;
     }
-    public List<Object> previousTargetCanSee(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
+    public boolean DoesHeSeesAnyone(Player t,ActionContext actionContext) {
+        for (Player j : actionContext.getPlayerList().getPlayersOnBoard()) {
+            if (!j.equals(t)) {
+                if (!j.equals(actionContext.getPlayer())) {
+                    List<Object> squares = canBeeSeenFrom(j, actionContext);
+                    if (squares.contains(actionContext.getBoard().getSquare(t.getPosition()))) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    public List<Object> canSeeSomeOne(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
         List<Object> retVal = new ArrayList<>();
-        System.out.println("in " + actionContext.getPlayer().getPlayerHistory().getSize());
+        for(Player t:actionContext.getPlayerList().getPlayersOnBoard()) {
+            if(!t.equals(actionContext.getPlayer()))
+                if(DoesHeSeesAnyone(t,actionContext)) {
+                    retVal.add(t);
+                }
+        }
+        return retVal;
+    }
+    public List<Object> canSeeSomeOneTharCanSeeSomeOne(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
+        List<Object> retVal = new ArrayList<>();
+        List<Object> firstLayer = canSeeSomeOne(actionContext,type,actionDetails,inputs,
+                inputSlots,contextEffect);
+        Player me = actionContext.getPlayer();
+        for(Object o : firstLayer) {
+            Player current = (Player) o;
+            for(Player p: actionContext.getPlayerList().getPlayersOnBoard()) {
+                if(!p.equals(current))
+                    if(!p.equals(me))
+                        if(canBeeSeenFrom(p,actionContext).contains(
+                                actionContext.getBoard().getSquare(current.getPosition())
+                        ))
+                            if(DoesHeSeesAnyone(p,actionContext))
+                            retVal.add(o);
+
+            }
+        }
+        return retVal;
+    }
+        public List<Object> previousTargetCanSee(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
+        List<Object> retVal = new ArrayList<>();
+        //System.out.println("in " + actionContext.getPlayer().getPlayerHistory().getSize());
         PreConditionMethods preConditionMethods = new PreConditionMethods();
         Player lastTarget = null;
+            actionContext.
+                    getPlayer().
+                    getPlayerHistory().show();
         if(actionContext.getPlayer().getPlayerHistory().getSize() > 0)
-            lastTarget =  (Player) ((Object[])actionContext.getPlayer().getPlayerHistory().getLast().getInput())[0];
+            if(
+                    ((Object[]) actionContext.getPlayer().getPlayerHistory().getLast().getInput())[0] != null)
+            if(((Object[])
+                    actionContext.
+                    getPlayer().
+                    getPlayerHistory()
+                    .getLast().
+                            getInput())[0]
+                    .getClass().
+                            equals(Player.class))
+                lastTarget =  (Player) ((Object[])actionContext.getPlayer().getPlayerHistory().getLast().getInput())[0];
 
         for (Player p : actionContext.getPlayerList().getPlayersOnBoard()) {
             ActionDetails actionDetails1 = new ActionDetails();
@@ -1525,23 +1580,29 @@ public class PreConditionMethodsInverted {
             actionContext1.setBoard(actionContext.getBoard());
 
 
-            if(lastTarget == null) {retVal.add(p);System.out.println("niente target prima " );}
+            if(lastTarget == null) {
+                    if(DoesHeSeesAnyone(p,actionContext))
+                        if(!p.equals(actionContext.getPlayer()))
+                            retVal.add(p);
+
+            }
             else {
-                System.out.println((actionContext.getPlayer().getPlayerHistory().getSize()) + " giri di controllo");
+                //System.out.println((actionContext.getPlayer().getPlayerHistory().getSize()) + " giri di controllo");
                 actionContext1.setPlayer(lastTarget);
                 actionContext1.setPlayerList(actionContext.getPlayerList());
                 actionContext1.setBoard(actionContext.getBoard());
 
 
                 if (preConditionMethods.youCanSee(actionDetails1, actionContext1)) {
-                    System.out.println("i visibili dall'ultimo : " + p.getNickname());
+                    //System.out.println("i visibili dall'ultimo : " + p.getNickname());
+                    if(!p.equals(actionContext.getPlayer()))
                     retVal.add(p);
                 }
                 if(retVal.contains(lastTarget))
                     retVal.remove(lastTarget);
             }
         }
-        System.out.println("fine");
+        //System.out.println("fine");
         return retVal;
     }
     public List<Object> youCantSee(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
@@ -1840,7 +1901,7 @@ public class PreConditionMethodsInverted {
         int minimum = 1;
         List<Object> retVal = new ArrayList<>();
         boolean fill = false;
-        System.out.println("TURNO >> " + actionContext.getPlayer().getTurnID());
+        //System.out.println("TURNO >> " + actionContext.getPlayer().getTurnID());
         try {
             actionContext.getPlayer().getPlayerHistory().show();
         }catch(Exception e) {
@@ -1849,17 +1910,17 @@ public class PreConditionMethodsInverted {
         PlayerHistory historyCurrentTurn = actionContext.getPlayer().getPlayerHistory().getTurnChunkR(
                 actionContext.getPlayer().getTurnID()
         );
-        System.out.println("turno corrente ----------------------------");
+        //System.out.println("turno corrente ----------------------------");
         historyCurrentTurn.show();
-        System.out.println("split per blocco --------------------------");
+        //System.out.println("split per blocco --------------------------");
         for(List<PlayerHistoryElement> l : historyCurrentTurn.rawDataSplittenByBlockId()) {
-            System.out.println("{");
+            //System.out.println("{");
             for(PlayerHistoryElement r: l)
             {
                 r.show();
             }
-            System.out.println("}");
-            System.out.println("--------");
+            //System.out.println("}");
+            //System.out.println("--------");
         }
         if((historyCurrentTurn.rawDataSplittenByBlockId().size()) >= minimum)
         {
@@ -1867,7 +1928,7 @@ public class PreConditionMethodsInverted {
                 fill = true;
         }
 
-        System.out.println(fill);
+        //System.out.println(fill);
 
         if(type.equals(typeSquare)) {
             if(fill) {
@@ -1899,9 +1960,9 @@ public class PreConditionMethodsInverted {
         for(Player target: actionContext.getPlayerList().getPlayersOnBoard())
             if(actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition()) > 2)
                 retVal.add(target);
-        System.out.println("***");
-        System.out.println(retVal);
-        System.out.println("***");
+        //System.out.println("***");
+        //System.out.println(retVal);
+        //System.out.println("***");
         return retVal;
     }
     public List<Object> notPreviousTarget(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect)
@@ -1941,7 +2002,7 @@ public class PreConditionMethodsInverted {
             if (type.equals(typeSquare)) {
 
                 if (actionDetails.getUserSelectedActionDetails().getTargetList().size() > 0) {
-                    System.out.println("// target list not empty");
+                    //System.out.println("// target list not empty");
 
                     // Position chosenSquarePosition = actionDetails.getUserSelectedActionDetails().getChosenSquare().getCoordinates();
                     for (Square[] R : actionContext.getBoard().getMap()) {
@@ -1960,7 +2021,7 @@ public class PreConditionMethodsInverted {
                     }
                 } else {
 
-                    System.out.println("  // target list empty");
+                    //System.out.println("  // target list empty");
                     for (Square[] R : actionContext.getBoard().getMap()) {
                         for (Square C : R) {
                             if(C!=null)
@@ -1996,7 +2057,7 @@ public class PreConditionMethodsInverted {
             System.out.println("---- "+ e);
 
         }
-        System.out.println("123 " + retVal);
+        //System.out.println("123 " + retVal);
         return retVal;
     }
     public List<Object> distanceOfTargetFromPlayerSquareIs1(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect)  {
