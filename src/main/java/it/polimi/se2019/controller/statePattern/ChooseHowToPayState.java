@@ -39,7 +39,6 @@ public class ChooseHowToPayState {
         out.println("<SERVER> Started a payment process for player: " + payingPlayer.getNickname());
 
         this.payingPlayer = payingPlayer;
-
         this.toPay = toPay;
         this.leftToPay = new AmmoList();
         for (AmmoCubes a: toPay.getAmmoCubesList()) {

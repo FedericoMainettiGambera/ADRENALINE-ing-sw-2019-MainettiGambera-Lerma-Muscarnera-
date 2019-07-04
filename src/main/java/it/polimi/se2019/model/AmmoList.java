@@ -83,16 +83,18 @@ public class AmmoList implements Serializable {
      * */
     public boolean canPayAmmoCubes(AmmoList cost){
         /*checks if the payment can be done*/
+
         for(int i = 0; i < cost.getAmmoCubesList().size(); i++){
             for(int j = 0; j < ammoCubesList.size(); j++){
                 if(cost.getAmmoCubesList().get(i).getColor() == ammoCubesList.get(j).getColor()){
-                    if(ammoCubesList.get(j).canSubQuantity( cost.getAmmoCubesList().get(i).getQuantity() )){
-                        return true;
+
+                    if(!ammoCubesList.get(j).canSubQuantity( cost.getAmmoCubesList().get(i).getQuantity() )){
+                        return false;
                     }
                 }
             }
         }
-        return false;
+        return true;
     }
 
     /**subtract a specified amount of ammos to the current this.ammoCubesList of the player.

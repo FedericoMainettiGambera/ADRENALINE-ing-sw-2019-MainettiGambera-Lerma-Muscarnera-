@@ -113,11 +113,13 @@ public class OrderedCardList<T> extends Observable implements Serializable {
                 System.err.println("<SERVER-OrderedCardList> Couldn't move the card properly, only added the card to the destination, but not removed from the origin");
             }
 
-            setChanged();
+
             OrderedCardListV cards = this.buildDeckV();
             OrderedCardListV cards2 = to.buildDeckV();
             ModelViewEvent modelViewEvent = new ModelViewEvent(cards, ModelViewEventTypes.movingCardsAround, cards2);
 
+
+            setChanged();
             notifyObservers(modelViewEvent);
 
 
