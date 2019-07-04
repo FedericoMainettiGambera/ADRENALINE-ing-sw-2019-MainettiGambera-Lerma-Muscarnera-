@@ -57,7 +57,7 @@ public class FinalScoringState implements State {
             scoreTokens(player);
         }
 
-        if (ModelGate.getModel().getKillshotTrack().returnKills().get(0).getKillingPlayer() == null){
+        if (ModelGate.getModel()==null||ModelGate.getModel().getKillshotTrack()==null||ModelGate.getModel().getKillshotTrack().returnKills()==null||ModelGate.getModel().getKillshotTrack().returnKills().get(0)==null||ModelGate.getModel().getKillshotTrack().returnKills().get(0).getKillingPlayer() == null){
             score = 0;
         } else score = 8;
 

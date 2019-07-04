@@ -142,17 +142,16 @@ public class ShootPeopleAskForInputState implements State {
 
         List<Player> damagedPlayer=damagePlayer();
 
-        State nextState = null;
+        State nextState;
 
         if(this.actionNumber == 2){
             nextState = (new ReloadState(false));
         }
-        else if(this.actionNumber == 1){
+        else{
             nextState = (new TurnState(2));
         }
 
-        ViewControllerEventHandlerContext.setNextState(nextState);
-        //ViewControllerEventHandlerContext.setNextState(new TargetingScopeState(nextState, damagedPlayer));
+        ViewControllerEventHandlerContext.setNextState(new TargetingScopeState(nextState, damagedPlayer));
         ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
 
     }
