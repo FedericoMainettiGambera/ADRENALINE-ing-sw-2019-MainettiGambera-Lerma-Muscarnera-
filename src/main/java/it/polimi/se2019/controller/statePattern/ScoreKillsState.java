@@ -56,7 +56,7 @@ public class ScoreKillsState implements State {
         }
 
         //we finished spawn all dead players
-        if(deadPlayers.isEmpty()){
+        if(this.deadPlayers.isEmpty()){
             carrefour();
         }
 

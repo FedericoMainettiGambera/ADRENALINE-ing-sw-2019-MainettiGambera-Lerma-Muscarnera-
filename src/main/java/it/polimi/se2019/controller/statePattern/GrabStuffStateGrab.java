@@ -62,6 +62,7 @@ public class GrabStuffStateGrab implements State {
         }
 
         ViewControllerEventHandlerContext.setNextState(state);
+
        if(state.toString().contains("GrabStuffStateDrawPowerUp")){
            ViewControllerEventHandlerContext.getState().doAction(null);
 
