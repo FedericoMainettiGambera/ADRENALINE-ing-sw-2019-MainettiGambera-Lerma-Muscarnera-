@@ -35,7 +35,7 @@ import java.util.logging.Logger;
 
         //if (rmiInterface.numberOfConnection().getNumber() + 1 < 3) {
         try {
-            //TODO here it has some problem sometimes
+
             if (rmiInterface.numberOfConnection() <= GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME) {
 
                 client = new Client(rmiInterface, rmiInterface.getRmiIdentifier());
@@ -70,7 +70,7 @@ import java.util.logging.Logger;
 
     public static void disconnect(){
 
-        //todo
+
         //from internet:
         //Your client's disconnect method should be calling the server's unregister method
         // (ie it should be basically the same as the client's connect method) rather than

@@ -31,10 +31,6 @@ public class CLISelector implements SelectorV {
         this.networkConnection = networkConnection;
     }
 
-    public static void showTitleRequest(String title){
-        //TODO
-    }
-
     public static void showListOfRequests(List<String> requests){
 
         int maxLenght = 10;
@@ -123,7 +119,7 @@ public class CLISelector implements SelectorV {
     public static int askNumber(int rangeInit, int rangeEnd){
         if(Controller.isRandomGame()){
             try {
-                TimeUnit.MILLISECONDS.sleep(300);   // time to respond TODO CHANGED FROM 300
+                TimeUnit.MILLISECONDS.sleep(400);
             } catch (InterruptedException e) {
                 logger.log(Level.SEVERE, "EXCEPTION", e);
                 Thread.currentThread().interrupt();
@@ -810,7 +806,6 @@ public class CLISelector implements SelectorV {
             Scanner br = new Scanner(System.in);
 
             out.println("\n<CLIENT> Do you want to:");
-            //TODO
             CLISelector.showListOfRequests(Arrays.asList("if you want to move, reload and shoot","if you want to stay still, reload and shot", "TODO !!" ));
             out.println("remember, you can move up to "+numberOfMoves + " squares.");
 

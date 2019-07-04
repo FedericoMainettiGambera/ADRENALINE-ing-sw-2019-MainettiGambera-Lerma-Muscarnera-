@@ -1,6 +1,5 @@
 package it.polimi.se2019.view.outputHandler;
 
-import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
@@ -19,55 +18,18 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextFlow;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
 public class GUIOutputHandler implements OutputHandlerInterface {
-    // prendi le informazioni da view.modelGate
-    /*
-     * viewModelGate.getModel()
-     *                           entri nel model letteralmente
-     * viewModelGate.getMe()
-     *                           stringa che rappresenta il nick name del player corrente
-     * */
-    // dopo che hai fatto l'accesso alla struttura dati devi aggiornare la grafica
-    /*
-     * getGameSceneController()
-     *                           ti ritorna il controller con cui puoi modificare la grafica
-     *                           ES.
-     *                           getGameSceneController().getKillBackground1().getStyleClass()
-     *
-     *                           ritorna il puntatore alle classi css dell oggetto KillBackground1
-     *  */
-
-    /*
-     * creo la lista di kills
-     * per ogni kill %n% nella lista di kills
-     *       aggiorna la css class in gekKillMainImage %n%
-     * */
-    // tutte le update devono lavorare tramite thread
-    // creo una classe con lo stesso nome del metodo
-    // es.
-    //
-    // private void update%xxx% () {
-    //      Platform.runLater( () -> {
-    //      controllo con viewModelGate
-    //      getGameSceneController().metodidicambiamentodellascena1(...)
-    //      getGameSceneController().metodidicambiamentodellascena2(...)
-    //      ...
-    //      getGameSceneController().metodidicambiamentodellascenan(...)
-    //      })
-    // }
-    // }
 
     /**
      * launches a UpdateKillShotTrack thread
      */
     private void updateKillShotTrack() {
-        System.out.println("UPDATE KILLSHOT TRACK");
+
         (new Thread(new UpdateKillShotTrack())).start();
     }
 
@@ -184,7 +146,6 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                     break;
 
             }
-            System.out.println("killshot"+slot.getKillingPlayer()+slot.isSkull()+"");
 
 
         }
@@ -197,7 +158,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                 removePrevious(getGameSceneController().getKills().get(i));
                 getGameSceneController().getKills().get(i).getStyleClass().add("skull");
             }
-            System.out.println("killshot"+numberOfStartingSkulls);
+
 
         }
 
@@ -214,7 +175,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
 
     private void updatePlayer() {
-        System.out.println("UPDATE PLAYER");
+
         updatePowerUpCards();
         updateWeaponCards();
         updatePlayerBoard();
@@ -248,11 +209,13 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                 if (me.getPowerUpCardInHand() != null) {
                     int i = 0;
                     for (PowerUpCardV powerUp : me.getPowerUpCardInHand().getCards()) {
-                        getGameSceneController().getListOfPowerUpCardsMainImage().get(i).setUserData(powerUp);
-                        removePrevious(getGameSceneController().getListOfPowerUpCardsMainImage().get(i));
-                        getGameSceneController().getListOfPowerUpCardsMainImage().get(i).getStyleClass().add("powerUpCard" + powerUp.getID());
-                        System.out.println(me.getNickname()+"ha"+powerUp.getID()+"");
-                        i++;
+                        if(i<2) {
+                            getGameSceneController().getListOfPowerUpCardsMainImage().get(i).setUserData(powerUp);
+                            removePrevious(getGameSceneController().getListOfPowerUpCardsMainImage().get(i));
+                            getGameSceneController().getListOfPowerUpCardsMainImage().get(i).getStyleClass().add("powerUpCard" + powerUp.getID());
+                            System.out.println(me.getNickname() + "ha" + powerUp.getID() + "");
+                            i++;
+                        }
                     }
                     if (i < getGameSceneController().getListOfPowerUpCardsMainImage().size()) {
                         for (int j = i; j < getGameSceneController().getListOfPowerUpCardsMainImage().size(); j++) {
@@ -305,13 +268,14 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
                 if (me.getWeaponCardInHand().getCards() != null){
                     int i=0;
-                    for (WeaponCardV weapon : me.getWeaponCardInHand().getCards()){
 
+                    for (WeaponCardV weapon : me.getWeaponCardInHand().getCards()) {
+                        if(i<3){
                         getGameSceneController().getWeaponCardsMainImage().get(i).setUserData(weapon);
                         removePrevious(getGameSceneController().getWeaponCardsMainImage().get(i));
-                        getGameSceneController().getWeaponCardsMainImage().get(i).getStyleClass().add("weaponCard"+weapon.getID());
-                        System.out.println(me.getNickname()+"ha"+weapon.getID()+"");
+                        getGameSceneController().getWeaponCardsMainImage().get(i).getStyleClass().add("weaponCard" + weapon.getID());
                         i++;
+                    }
                     }
 
                     if(i<getGameSceneController().getWeaponCardsMainImage().size()){
@@ -341,7 +305,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     /**update the player board calling the specific functions */
     private void updatePlayerBoard() {
-        System.out.println("UPDATE PLAYER BOARD"); //MOMENTANEO
+
         updateDamage();
         updateMarks();
         updateDeaths();
@@ -355,7 +319,6 @@ public class GUIOutputHandler implements OutputHandlerInterface {
      * update the damage track of the player
      */
     private void updateDamage() {
-        System.out.println("UPDATE DAMAGES"); //MOMENTANEO
         (new Thread(new UpdateDamage())).start();
     }
 
@@ -384,7 +347,9 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         private void updateDamage(PlayerV player) {
             int i = 0;
             if (player.getDamageTracker() == null || player.getDamageTracker().getDamageSlotsList().isEmpty()) {
-                emptyDamages(i);
+
+              emptyDamages(i);
+
             } else {
                 for (DamageSlotV damageSlot : player.getDamageTracker().getDamageSlotsList()) {
                     if (i < getGameSceneController().getDamagesMainImage().size()) {
@@ -406,6 +371,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
          * @param damageSlot is the damageSlotV whose style is meant to be replaced
          */
         private void addDamages(DamageSlotV damageSlot, int i) {
+
 
             PlayersColors color = damageSlot.getShootingPlayerColor();
             for(PlayerV player : ViewModelGate.getModel().getPlayers().getPlayers()) {
@@ -449,10 +415,17 @@ public class GUIOutputHandler implements OutputHandlerInterface {
          */
         private void emptyDamages(int i) {
 
-            for (int j = i; j < getGameSceneController().getDamagesMainImage().size(); j++) {
+            if(ViewModelGate.getModel().isHasFinalFrenzyBegun()){
+                for (int j = i; j < getGameSceneController().getDamagesMainImage().size(); j++) {
+                    removePrevious(getGameSceneController().getDamagesMainImage().get(j));
+                    getGameSceneController().getDamagesMainImage().get(j).getStyleClass().add("damageEmptyFF");
+                }
+            }
+            else{
+                for (int j = i; j < getGameSceneController().getDamagesMainImage().size(); j++) {
                 removePrevious(getGameSceneController().getDamagesMainImage().get(j));
                 getGameSceneController().getDamagesMainImage().get(j).getStyleClass().add(damageEmpty);
-
+                }
             }
         }
 
@@ -477,7 +450,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
      * update the marks track of the client
      */
     private void updateMarks() {
-        System.out.println("UPDATE MARKS"); //MOMENTANEO
+
         (new Thread(new UpdateMarks())).start();
     }
 
@@ -606,7 +579,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
      * updates the death track of the player
      */
     private void updateDeaths() {
-        System.out.println("UPDATE DEATHS"); //MOMENTANEO
+
         (new Thread(new UpdateDeaths())).start();
     }
 
@@ -630,21 +603,29 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                 for (PlayerV player : ViewModelGate.getModel().getPlayers().getPlayers()) {
 
                     if (player.getNickname().equals(ViewModelGate.getMe()) && (player.getNumberOfDeaths() != 0)) {
-                        removePrevious(player);
+                        removePrevious( getGameSceneController().getDeathMainImage().get(player.getNumberOfDeaths() - 1));
                         getGameSceneController().getDeathMainImage().get(player.getNumberOfDeaths() - 1).getStyleClass().add("deathSkull");
 
+                    }
+                }
+
+                if(ViewModelGate.getModel().isHasFinalFrenzyBegun()){
+
+                    for(StackPane kills: getGameSceneController().getDamagesMainImage()) {
+                        removePrevious(kills);
+                        kills.getStyleClass().add("emptyDeathFF");
                     }
                 }
             });
         }
 
         /**
-         * @param player is the needed to get the index of the deathSlot from which previous style class is removed
+         * @param kills is the needed  deathSlot from which previous style class is removed
          */
-        private void removePrevious(PlayerV player) {
+        private void removePrevious(StackPane kills) {
 
-            getGameSceneController().getDeathMainImage().get(player.getNumberOfDeaths() - 1).getStyleClass().remove("deathEmpty");
-            getGameSceneController().getDeathMainImage().get(player.getNumberOfDeaths() - 1).getStyleClass().remove("deathSkull");
+           kills.getStyleClass().remove("deathEmpty");
+           kills.getStyleClass().remove("deathSkull");
 
 
         }
@@ -656,7 +637,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
      * update the player's nickname
      */
     private void updateNickname() {
-        System.out.println("UPDATE NICKNAME"); //MOMENTANEO
+
         (new Thread(new UpdateNickname())).start();
     }
 
@@ -727,7 +708,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
      * update the ammo boxe
      */
     private void updateAmmobox() {
-        System.out.println("UPDATE AMMO BOX"); //MOMENTANEO
+
         (new Thread(new UpdateAmmobox())).start();
     }
 
@@ -792,7 +773,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
         /**
          * @param player the player who ammo box needs to be updated,
-         *               this function add the dued ammunitions
+         *               this function add the due ammunitions
          */
         private void addAmmos(PlayerV player) {
 
@@ -870,12 +851,11 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
 
     private void updateMap()   {
-        System.out.println("UPDATE MAP: started"); //MOMENTANEO
         new Thread(new UpdateMap()).start();
     }
 
     private static List<StackPane> listOfPlayersStackPane = new ArrayList<>();
-    public static List<StackPane> getListOfPlayersStackPane(){
+    private static List<StackPane> getListOfPlayersStackPane(){
         return listOfPlayersStackPane;
     }
     public static StackPane getplayerStackPane(String nickname){
@@ -886,7 +866,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         }
         return null;
     }
-    public static void setPlayerStackPane(String nickname, StackPane newStackPane){
+    private static void setPlayerStackPane(String nickname, StackPane newStackPane){
         if(getplayerStackPane(nickname)==null){
             getListOfPlayersStackPane().add(newStackPane);
         }
@@ -924,10 +904,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             }
         }
         private void showEmptySquare(StackPane mainImage){
-            Platform.runLater(()->{
-                //nothing (?) TODO
-                mainImage.getChildren().removeAll(mainImage.getChildren());
-            });
+            Platform.runLater(()-> mainImage.getChildren().removeAll(mainImage.getChildren()));
         }
         private void showNormalSquare(NormalSquareV square, StackPane mainImage){
             List<PlayerV> playersToShow = getPlayers(square.getX(), square.getY());
@@ -1258,8 +1235,8 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     @Override
     public void setFinalFrenzy(ModelViewEvent modelViewEvent) {
-        // shot ViewModelGate.getModel().isFinalFrenzy()
-        //updateStateBar(modelViewEvent);
+
+        //updateStateBar();
     }
 
     @Override
@@ -1271,7 +1248,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     @Override
     public void newKillshotTrack(ModelViewEvent modelViewEvent) {
-        //update killshotTrack
+
         updateKillShotTrack();
     }
 
@@ -1350,7 +1327,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     @Override
     public void newNickname(ModelViewEvent modelViewEvent) {
         //update Players
-        updatePlayer();
+        updateNickname();
     }
 
     @Override
@@ -1363,37 +1340,37 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     public void newScore(ModelViewEvent modelViewEvent) {
         //update players
         // probably empty
-        updatePlayer();
+
     }
 
     @Override
     public void addDeathCounter(ModelViewEvent modelViewEvent) {
         //update plaers
-        updatePlayer();
+        updateDeaths();
     }
 
     @Override
     public void setFinalFrenzyBoard(ModelViewEvent modelViewEvent) {
-        //update Players
-        updatePlayer();
+      updateDamage();
+      updateDeaths();
     }
 
     @Override
     public void newAmmoBox(ModelViewEvent modelViewEvent) {
         //update players
-        updatePlayer();
+        updateAmmobox();
     }
 
     @Override
     public void newDamageTracker(ModelViewEvent modelViewEvent) {
         //update players
-        updatePlayer();
+        updateDamage();
     }
 
     @Override
     public void newMarksTracker(ModelViewEvent modelViewEvent) {
         //update players
-        updatePlayer();
+        updateMarks();
     }
 
     @Override
