@@ -22,12 +22,11 @@ public class PlayersListV implements Serializable {
 
     public PlayerV getPlayer(String nickame){
         for (PlayerV player:players){
-
             if(player.getNickname().equals(nickame)){
                 return player;
             }
         }
-    return null;
+        return null;
     }
 
     public String getCurrentPlayingPlayer() {
