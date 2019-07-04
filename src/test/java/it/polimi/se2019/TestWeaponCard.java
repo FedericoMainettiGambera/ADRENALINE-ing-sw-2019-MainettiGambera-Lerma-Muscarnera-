@@ -203,24 +203,48 @@ public class TestWeaponCard {
         playerList.getPlayers().add(user5);
 
         user1.setPosition(0, 0);
-        user2.setPosition(1, 2);
-        user3.setPosition(1 , 3);                 //   same position
-        user4.setPosition(2, 2);
-        user5.setPosition(2, 3);
+        user2.setPosition(1, 3);
+        user3.setPosition(0 , 2);                 //   same position
+        user4.setPosition(1, 0);
+        user5.setPosition(2, 1);
         ActionContext fakeContext = new ActionContext();
         fakeContext.setPlayer(user1);
         fakeContext.setPlayerList(playerList);
         fakeContext.setBoard(board);
-
-        PreConditionMethodsInverted PIGATE = new PreConditionMethodsInverted();
-        List<Object> E = PIGATE.canBeeSeenFrom(
-                user2,fakeContext
+        List<List<Object>> maps = new ArrayList<>();
+        for(int i = 0; i< 10;i++) {
+            PreConditionMethodsInverted PIGATE = new PreConditionMethodsInverted();
+            for(Player p: fakeContext.getPlayerList().getPlayersOnBoard()) {
+                Square s = fakeContext.getBoard().getSquare(
+                        (int)  (Math.random()*3 - 1),
+                        (int)  (Math.random()*4 - 1)
                 );
-        List<Object> F = PIGATE.notTheirSquare(
-                fakeContext, UsableInputTableRowType.typeSquare, new ActionDetails(),null,null,null
+                do {
+                    if(s!=null)
+                        p.setPositionWithoutNotify(s.getCoordinates());
+
+                    s = fakeContext.getBoard().getSquare(
+                            (int)  (Math.random()*3 - 1),
+                            (int)  (Math.random()*4 - 1)
+                            );
+                    System.out.println("mappa " + i + " " + p.getNickname() + " :"+ s.getCoordinates().humanString());
+                } while(s==null);
+            }
+            List<Object> m = (PIGATE.canSeeSomeOneTharCanSeeSomeOne(
+                    fakeContext, UsableInputTableRowType.typePlayer, new ActionDetails(), null, null, null
+            ));
+            System.out.println("<<<<<<<<<<<");
+            showMap(user1,playerList,board,m);
+        }
+
+        /*List<Boolean> x = new ArrayList<>();
+        for(Player t: playerList.getPlayersOnBoard())
+        x.add(
+                PIGATE.DoesHeSeesAnyone(
+                        t,fakeContext
+                )
         );
-        showMap(user1,playerList,board,E);
-        showMap(user1,playerList,board,F);
+        System.out.println(x);*/
         }
 
 

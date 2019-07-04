@@ -10,7 +10,7 @@ import java.util.List;
 public class PreConditionMethods implements Serializable {
 
     /**EFFECT CHOOSE PRE CONDITION*/
-    /*TODO gestione dall'input*/
+
     public boolean isScannerMode(ActionDetails actionDetails,ActionContext actionContext) {return  true;}
     public boolean isPunisherMode(ActionDetails actionDetails,ActionContext actionContext) {return true;}
     public boolean isReaperMode(ActionDetails actionDetails, ActionContext actionContext) {return true;}
@@ -37,7 +37,7 @@ public class PreConditionMethods implements Serializable {
                 break;
             }
 
-            System.out.println(p.getContextEffect().toString()  + " in " + p.getContextCard().toString() + " with input " + p.getInput());
+            //System.out.println(p.getContextEffect().toString()  + " in " + p.getContextCard().toString() + " with input " + p.getInput());
             counter++;
         }                                                                                                // non può essere eseguito per primo
         if(counter <= 1) return false;
@@ -54,7 +54,7 @@ public class PreConditionMethods implements Serializable {
                 break;
             }
 
-            System.out.println(p.getContextEffect().toString()  + " in " + p.getContextCard().toString() + " with input " + p.getInput());
+            //System.out.println(p.getContextEffect().toString()  + " in " + p.getContextCard().toString() + " with input " + p.getInput());
             counter++;
         }                                                                                                // non può essere eseguito per primo
         if(counter <= 1) return false;
@@ -84,9 +84,7 @@ public class PreConditionMethods implements Serializable {
         return false;
     }
     public boolean alwaysTrue(ActionDetails actionDetails, ActionContext actionContext) {
-        /*@*/ System.out.println("verifico alwaysTrue, sempre vera!" + actionContext.getPlayer().getNickname());
         return true;
-
     }
 
 
@@ -101,7 +99,7 @@ public class PreConditionMethods implements Serializable {
     public boolean previousTargetCanSee(ActionDetails actionDetails, ActionContext actionContext)  {
 
         Player me = (Player) ((Object[][]) actionContext.getPlayer().getPlayerHistory().getRecord(actionContext.getPlayer().getPlayerHistory().getSize() - 2).getInput())[0][0];
-        System.out.println("# verificando se il target " + actionDetails.getUserSelectedActionDetails().getTarget().getNickname() + "   sia visibile a " +  me.getNickname() + "...");
+        //System.out.println("# verificando se il target " + actionDetails.getUserSelectedActionDetails().getTarget().getNickname() + "   sia visibile a " +  me.getNickname() + "...");
         Position playerPosition = me.getPosition();
         Square   playerSquare   = actionContext.getBoard().getMap()[playerPosition.getY()][playerPosition.getX()];
         List<Player> targets = actionDetails.getUserSelectedActionDetails().getTargetList();
@@ -156,22 +154,23 @@ public class PreConditionMethods implements Serializable {
                     colors.add(westSide.getColor());
                 if(southSide != null)
                     colors.add(southSide.getColor());
-                System.out.println("colori disoonibili : " + colors);
+                //System.out.println("colori disoonibili : " + colors);
                 if(!colors.contains(targetSquare.getColor()))
                     retVal = false;
 
 
             }
             if(retVal) {
-                System.out.println("visibile");
-            } else System.out.println("non visibile");
+                //System.out.println("visibile");
+            } else {
+                //System.out.println("non visibile");
+            }
             return retVal;
         }
 
     }
 
     public boolean youCanSee(ActionDetails actionDetails, ActionContext actionContext) {
-        System.out.println("# verificando se il target sia visibile...");
         Player me = actionContext.getPlayer();
         Position playerPosition = me.getPosition();
         Square   playerSquare   = actionContext.getBoard().getSquare(playerPosition);
@@ -181,7 +180,7 @@ public class PreConditionMethods implements Serializable {
                   !playerSquare.getSide(CardinalPoint.south).equals(SquareSide.door)  &&
                      !playerSquare.getSide(CardinalPoint.west).equals(SquareSide.door) &&
                          !playerSquare.getSide(CardinalPoint.east).equals(SquareSide.door) ) {
-           System.out.println("/*posizione senza porte*/");
+           //System.out.println("/*posizione senza porte*/");
             boolean retVal = true;
             for (Player t : targets) {
                 Square targetSquare = actionContext.getBoard().getSquare(t.getPosition());
@@ -197,7 +196,7 @@ public class PreConditionMethods implements Serializable {
             if(playerSquare.getSide(CardinalPoint.north).equals(SquareSide.door)) {
             //    if(playerPosition.getX() > 0)
                 if(playerPosition.getX() > 0) {
-                    System.out.println("porta a nord");
+                    //System.out.println("porta a nord");
                     northSide = actionContext.getBoard().getSquare(playerPosition.getX() - 1, playerPosition.getY());
                 }
             }
@@ -205,7 +204,7 @@ public class PreConditionMethods implements Serializable {
             if(playerSquare.getSide(CardinalPoint.east).equals(SquareSide.door)) {
             //    if(playerPosition.getY() < 2)
                 if(playerPosition.getY() < 3) {
-                    System.out.println("porta a est to " + (playerPosition.getX() + 1) + " " + playerPosition.getY());
+                    //System.out.println("porta a est to " + (playerPosition.getX() + 1) + " " + playerPosition.getY());
                     eastSide = actionContext.getBoard().getSquare(playerPosition.getX(), playerPosition.getY() + 1);
                 }
             }
@@ -213,14 +212,14 @@ public class PreConditionMethods implements Serializable {
             if(playerSquare.getSide(CardinalPoint.west).equals(SquareSide.door)) {
             //    if(playerPosition.getY() > 0)
                 if(playerPosition.getY() > 0) {
-                    System.out.println("porta a ovest");
+                    //System.out.println("porta a ovest");
                     westSide = actionContext.getBoard().getSquare(playerPosition.getX(), playerPosition.getY() - 1);
                 }
             }
             if(playerSquare.getSide(CardinalPoint.south).equals(SquareSide.door)) {
             //    if(playerPosition.getX() < 3)
                 if(playerPosition.getX() < 2) {
-                    System.out.println("porta a sud");
+                    //System.out.println("porta a sud");
                     southSide = actionContext.getBoard().getSquare(playerPosition.getX() + 1, playerPosition.getY());
                 }
             }
@@ -238,15 +237,15 @@ public class PreConditionMethods implements Serializable {
                     colors.add(westSide.getColor());
                 if(southSide != null)
                     colors.add(southSide.getColor());
-                System.out.println("colori disoonibili : " + colors);
+                //System.out.println("colori disoonibili : " + colors);
                 if(!colors.contains(targetSquare.getColor()))
                     retVal = false;
 
 
             }
-            if(retVal) {
+           /* if(retVal) {
                 System.out.println("visibile");
-            } else System.out.println("non visibile");
+            } else System.out.println("non visibile");*/
             return retVal;
         }
 
@@ -604,7 +603,6 @@ public class PreConditionMethods implements Serializable {
         return (actionContext.getBoard().distanceFromTo(target.getPosition(), user.getPosition()) >= 2);
     }
     public boolean notEndingTurn(ActionDetails actionDetails,ActionContext actionContext) {
-        // TODO: dipende dallo shootstate
         return true;
     }
     public boolean youCantSee(ActionDetails actionDetails,ActionContext actionContext) {

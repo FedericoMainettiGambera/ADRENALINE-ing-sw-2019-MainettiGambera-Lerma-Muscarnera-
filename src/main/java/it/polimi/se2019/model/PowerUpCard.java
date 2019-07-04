@@ -10,7 +10,11 @@ import java.util.List;
 
 import static it.polimi.se2019.model.enumerations.AmmoCubesColor.yellow;
 
-/***/
+/**
+ * This class describes the logic behind powerup cards.
+ * @author LucaMuscarnera
+ *
+ * */
 public class PowerUpCard extends Card implements Serializable {
 
     /***/

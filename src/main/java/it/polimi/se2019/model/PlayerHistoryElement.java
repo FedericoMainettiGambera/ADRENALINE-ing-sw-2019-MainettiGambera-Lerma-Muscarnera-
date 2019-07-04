@@ -32,15 +32,25 @@ public class PlayerHistoryElement {
     private int blockId;
     private int inputId;
 
-    // TODO DEBUG METHOD
 
     public void show() {
-        System.out.println(((WeaponCard) this.getContextCard()).getName() + "\t\t" + this.getContextEffect().getName() + "\t\t" + this.getInput() +
-                "\t\t\t" + this.getBlockId() + "\t" + this.getInputId() + "\t" + this.getTurnId());
+        if( this.getContextCard() != null &&
+            this.getContextEffect() != null )
+        System.out.println((
+                (WeaponCard) this.getContextCard()).getName() +
+                "\t\t" +
+                this.getContextEffect().getName() +
+                "\t\t" +
+                this.getInput() +
+                "\t\t\t" +
+                this.getBlockId() +
+                "\t" + this.getInputId() +
+                "\t" + this.getTurnId()
+        );
                         //   nome carta                                            // nome effetto                             // input row             // BI                       // II
     }
 
-    // TODO END DEBUG METHOD
+
     public Card getContextCard() {
         return contextCard;
     }
