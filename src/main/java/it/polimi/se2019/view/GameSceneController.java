@@ -501,6 +501,16 @@ public class GameSceneController implements Initializable {
         return mainImageMap;
     }
 
+    public StackPane[][] getMainStackPaneMap(){
+        StackPane[][] mainStackPaneMap = getMainImagesmap();
+        for (int i = 0; i < mainStackPaneMap.length; i++) {
+            for (int j = 0; j < mainStackPaneMap[0].length; j++) {
+                mainStackPaneMap[i][j] = (StackPane)mainStackPaneMap[i][j].getChildren().get(0);
+            }
+        }
+        return mainStackPaneMap;
+    }
+
     private static ShowPlayerEventHandler showPlayerEventHandler;
 
     public ShowPlayerEventHandler getShowPlayerEventHandler(){

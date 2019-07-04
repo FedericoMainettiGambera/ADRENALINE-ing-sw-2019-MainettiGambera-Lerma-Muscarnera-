@@ -7,6 +7,7 @@ import it.polimi.se2019.model.events.stateEvent.StateEvent;
 import it.polimi.se2019.view.GUIstarter;
 import it.polimi.se2019.view.GameSceneController;
 import it.polimi.se2019.view.LoadingSceneController;
+import it.polimi.se2019.view.UpdateMap;
 import it.polimi.se2019.view.components.*;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
@@ -854,134 +855,6 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         new Thread(new UpdateMap()).start();
     }
 
-    private static List<StackPane> listOfPlayersStackPane = new ArrayList<>();
-    private static List<StackPane> getListOfPlayersStackPane(){
-        return listOfPlayersStackPane;
-    }
-    public static StackPane getplayerStackPane(String nickname){
-        for (StackPane stackPane: getListOfPlayersStackPane()) {
-            if(stackPane.getUserData().equals(nickname)){
-                return stackPane;
-            }
-        }
-        return null;
-    }
-    private static void setPlayerStackPane(String nickname, StackPane newStackPane){
-        if(getplayerStackPane(nickname)==null){
-            getListOfPlayersStackPane().add(newStackPane);
-        }
-        else {
-            getListOfPlayersStackPane().set(getListOfPlayersStackPane().indexOf(getplayerStackPane(nickname)), newStackPane);
-        }
-    }
-
-    private class UpdateMap implements Runnable{
-        @Override
-        public void run() {
-            if (ViewModelGate.getModel() != null && ViewModelGate.getModel().getBoard() != null && ViewModelGate.getModel().getBoard().getMap() != null) {
-                SquareV[][] map = ViewModelGate.getModel().getBoard().getMap();
-                StackPane[][] mainImagesMap = getGameSceneController().getMainImagesmap();
-                for (int i = 0; i < map.length; i++) { //map.length == 3
-                    for (int j = 0; j < map[0].length; j++) { // map[0].lenght == 4
-                        SquareV currentSquareV = map[i][j];
-                        System.out.println("UPDATE MAP: updating [" + i + "][" + j + "]");
-                        StackPane currentMainImageSquare = mainImagesMap[i][j];
-                        if(currentSquareV==null){
-                            //empty square
-                            showEmptySquare(currentMainImageSquare);
-                        }
-                        else if(currentSquareV.getClass().toString().contains("NormalSquare")){
-                            //normal square
-                            showNormalSquare((NormalSquareV) currentSquareV, currentMainImageSquare);
-                        }
-                        else{
-                            //spawn point square
-                            showSpawnPoint((SpawnPointSquareV) currentSquareV, currentMainImageSquare);
-                        }
-                        System.out.println("UPDATE MAP: updated  [" + i + "][" + j + "]");
-                    }
-                }
-            }
-        }
-        private void showEmptySquare(StackPane mainImage){
-            Platform.runLater(()-> mainImage.getChildren().removeAll(mainImage.getChildren()));
-        }
-        private void showNormalSquare(NormalSquareV square, StackPane mainImage){
-            List<PlayerV> playersToShow = getPlayers(square.getX(), square.getY());
-            Platform.runLater(()->{
-                VBox squareContent = new VBox();
-                mainImage.getChildren().add(squareContent);
-
-                    AmmoCardV ammoCard = null;
-                    if (!square.getAmmoCards().getCards().isEmpty()) {
-                        ammoCard = square.getAmmoCards().getCards().get(0);
-                    }
-                    if (ammoCard != null) {
-                        StackPane ammoImage = new StackPane(new Label(ammoCard.getID())); //don't use a label, but set the image
-                        ammoImage.setUserData(ammoCard);
-                        squareContent.getChildren().add(ammoImage);
-                        VBox.setVgrow(ammoImage, Priority.ALWAYS);
-                    }
-
-                    HBox playersHBox = buildPlayers(playersToShow);
-                    if (!playersHBox.getChildren().isEmpty()) {
-                        squareContent.getChildren().add(playersHBox);
-                        VBox.setVgrow(playersHBox, Priority.ALWAYS);
-                    }
-                });
-            }
-
-            private void showSpawnPoint(SpawnPointSquareV square, StackPane mainImage) {
-                List<PlayerV> playersToShow = getPlayers(square.getX(), square.getY());
-                Platform.runLater(() -> {
-                    VBox squareContent = new VBox();
-                    mainImage.getChildren().add(squareContent);
-
-                    List<WeaponCardV> weaponCardVS = square.getWeaponCards().getCards();
-                    if (!weaponCardVS.isEmpty()) {
-                        HBox weaponsHBox = new HBox();
-                        for (WeaponCardV w : weaponCardVS) {
-                            StackPane weaponImage = new StackPane(new Label(w.getName())); //don't use a label, but set the image
-                            weaponImage.setUserData(w);
-                            weaponsHBox.getChildren().add(weaponImage);
-                            HBox.setHgrow(weaponImage, Priority.ALWAYS);
-                        }
-                        squareContent.getChildren().add(weaponsHBox);
-                        VBox.setVgrow(weaponsHBox, Priority.ALWAYS);
-                    }
-
-                    HBox playersHBox = buildPlayers(playersToShow);
-                    if (!playersHBox.getChildren().isEmpty()) {
-                        squareContent.getChildren().add(playersHBox);
-                        VBox.setVgrow(playersHBox, Priority.ALWAYS);
-                    }
-                });
-            }
-
-            private List<PlayerV> getPlayers(int x, int y) {
-                List<PlayerV> players = new ArrayList<>();
-                for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                    if (p.getY() != null && p.getX() != null && p.getX() == x && p.getY() == y) {
-                        players.add(p);
-                    }
-                }
-                return players;
-            }
-
-        private HBox buildPlayers(List<PlayerV> playersToShow){
-            HBox hBox = new HBox();
-            hBox.setUserData("players");
-            for (PlayerV p: playersToShow) {
-                StackPane playerStackPane = new StackPane(new Label(p.getNickname())); //don't use a label, but set the image
-                playerStackPane.setUserData(p.getNickname());
-                setPlayerStackPane(p.getNickname(), playerStackPane);
-                hBox.getChildren().add(playerStackPane);
-                HBox.setHgrow(playerStackPane, Priority.ALWAYS);
-            }
-            return hBox;
-        }
-
-    }
 
     /**
      * launches a UpdateStateBar thread

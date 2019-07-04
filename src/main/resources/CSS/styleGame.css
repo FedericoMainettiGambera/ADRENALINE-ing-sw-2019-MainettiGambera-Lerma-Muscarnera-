@@ -193,7 +193,6 @@ SPECIFIC CLASSES
 }
 .powerUpCard1{
       -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg0.png);
-      -fx-background-color: dark-background;
 
      -fx-background-size: contain;
       -fx-background-repeat: no-repeat;
@@ -203,7 +202,6 @@ SPECIFIC CLASSES
 }
 .powerUpCard2{
      -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg1.png);
-           -fx-background-color: dark-background;
 
             -fx-background-size: contain;
                  -fx-background-repeat: no-repeat;
@@ -212,9 +210,9 @@ SPECIFIC CLASSES
 }
  .powerUpCard3{
     -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg2.png);
-           -fx-background-size: contain;
+
+            -fx-background-size: contain;
                 -fx-background-repeat: no-repeat;
-          -fx-background-color: dark-background;
                           -fx-background-position: center;
 
 }
@@ -222,7 +220,6 @@ SPECIFIC CLASSES
      -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg3.png);
                 -fx-background-size: contain;
                      -fx-background-repeat: no-repeat;
-               -fx-background-color: dark-background;
                                -fx-background-position: center;
 
 }
@@ -230,7 +227,6 @@ SPECIFIC CLASSES
        -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg4.png);
                   -fx-background-size: contain;
                        -fx-background-repeat: no-repeat;
-                 -fx-background-color: dark-background;
                                  -fx-background-position: center;
 
 
@@ -239,7 +235,6 @@ SPECIFIC CLASSES
       -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg5.png);
                  -fx-background-size: contain;
                       -fx-background-repeat: no-repeat;
-                -fx-background-color: dark-background;
                                 -fx-background-position: center;
 
 }
@@ -255,7 +250,6 @@ SPECIFIC CLASSES
         -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg7.png);
                   -fx-background-size: contain;
                        -fx-background-repeat: no-repeat;
-                  -fx-background-color: dark-background;
                                   -fx-background-position: center;
 
 }
@@ -263,7 +257,6 @@ SPECIFIC CLASSES
      -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg8.png);
                 -fx-background-size: contain;
                      -fx-background-repeat: no-repeat;
-               -fx-background-color: dark-background;
                                -fx-background-position: center;
 
  }
@@ -271,7 +264,6 @@ SPECIFIC CLASSES
      -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg9.png);
                -fx-background-size: contain;
                     -fx-background-repeat: no-repeat;
-               -fx-background-color: dark-background;
                                -fx-background-position: center;
 
 }
@@ -279,7 +271,6 @@ SPECIFIC CLASSES
      -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg10.png);
                -fx-background-size: contain;
                     -fx-background-repeat: no-repeat;
-               -fx-background-color: dark-background;
                                -fx-background-position: center;
 
  }
@@ -287,7 +278,6 @@ SPECIFIC CLASSES
      -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg11.png);
                -fx-background-size: contain;
                     -fx-background-repeat: no-repeat;
-               -fx-background-color: dark-background;
                                -fx-background-position: center;
 
 }
@@ -295,7 +285,6 @@ SPECIFIC CLASSES
      -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg12.png);
                -fx-background-size: contain;
                     -fx-background-repeat: no-repeat;
-               -fx-background-color: dark-background;
                                -fx-background-position: center;
 
 }
@@ -303,7 +292,6 @@ SPECIFIC CLASSES
     -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg13.png);
              -fx-background-size: contain;
                   -fx-background-repeat: no-repeat;
-              -fx-background-color: dark-background;
                               -fx-background-position: center;
 
 }
@@ -311,7 +299,6 @@ SPECIFIC CLASSES
      -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg14.png);
               -fx-background-size: contain;
                    -fx-background-repeat: no-repeat;
-               -fx-background-color: dark-background;
                                -fx-background-position: center;
 
 }
@@ -319,7 +306,6 @@ SPECIFIC CLASSES
      -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg15.png);
                 -fx-background-size: contain;
                      -fx-background-repeat: no-repeat;
-               -fx-background-color: dark-background;
                                -fx-background-position: center;
 
 }
@@ -327,7 +313,6 @@ SPECIFIC CLASSES
        -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg16.png);
                   -fx-background-size: contain;
                        -fx-background-repeat: no-repeat;
-                 -fx-background-color: dark-background;
                                  -fx-background-position: center;
 
 }
@@ -335,7 +320,6 @@ SPECIFIC CLASSES
       -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg17.png);
                  -fx-background-size: contain;
                       -fx-background-repeat: no-repeat;
-                -fx-background-color: dark-background;
                                 -fx-background-position: center;
 
 }
@@ -343,7 +327,6 @@ SPECIFIC CLASSES
       -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg18.png);
                  -fx-background-size: contain;
                       -fx-background-repeat: no-repeat;
-                -fx-background-color: dark-background;
                                 -fx-background-position: center;
 
 }
@@ -351,7 +334,6 @@ SPECIFIC CLASSES
         -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg19.png);
                   -fx-background-size: contain;
                        -fx-background-repeat: no-repeat;
-                  -fx-background-color: dark-background;
                                   -fx-background-position: center;
 
 }
@@ -359,7 +341,6 @@ SPECIFIC CLASSES
      -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg20.png);
                -fx-background-size: contain;
                     -fx-background-repeat: no-repeat;
-               -fx-background-color: dark-background;
                                -fx-background-position: center;
 
  }
@@ -367,7 +348,6 @@ SPECIFIC CLASSES
     -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg21.png);
                -fx-background-size: contain;
                     -fx-background-repeat: no-repeat;
-              -fx-background-color: dark-background;
                               -fx-background-position: center;
 
 }
@@ -375,17 +355,9 @@ SPECIFIC CLASSES
     -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg22.png);
               -fx-background-size: contain;
                    -fx-background-repeat: no-repeat;
-              -fx-background-color: dark-background;
                               -fx-background-position: center;
 
  }
-.powerUpCard24{
-      -fx-background-image: url(../IMG/puCardImg23.png);
-                 -fx-background-size: contain;
-                      -fx-background-repeat: no-repeat;
-                -fx-background-color: dark-background;
-                -fx-background-position: center;
-}
 /*3.1.2-player main statistics*/
 .playerStatisticsBackground{
     -fx-background-color: default-color;
@@ -557,7 +529,6 @@ SPECIFIC CLASSES
 /*example class for weaponCard */
 .weaponCard1{
      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg1.png);
-          -fx-background-color: dark-background;
 
          -fx-background-size: contain;
           -fx-background-repeat: no-repeat;
@@ -566,7 +537,6 @@ SPECIFIC CLASSES
 }
 .weaponCard2{
      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg2.png);
-              -fx-background-color: dark-background;
 
              -fx-background-size: contain;
               -fx-background-repeat: no-repeat;
@@ -574,7 +544,6 @@ SPECIFIC CLASSES
 }
 .weaponCard3{
     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg3.png);
-             -fx-background-color: dark-background;
 
             -fx-background-size: contain;
              -fx-background-repeat: no-repeat;
@@ -582,7 +551,6 @@ SPECIFIC CLASSES
 }
 .weaponCard4{
      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg4.png);
-              -fx-background-color: dark-background;
 
              -fx-background-size: contain;
               -fx-background-repeat: no-repeat;
@@ -590,7 +558,6 @@ SPECIFIC CLASSES
 }
 .weaponCard5{
       -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg5.png);
-               -fx-background-color: dark-background;
 
               -fx-background-size: contain;
                -fx-background-repeat: no-repeat;
@@ -598,7 +565,6 @@ SPECIFIC CLASSES
  }
 .weaponCard6{
      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg6.png);
-              -fx-background-color: dark-background;
 
              -fx-background-size: contain;
               -fx-background-repeat: no-repeat;
@@ -606,7 +572,6 @@ SPECIFIC CLASSES
  }
 .weaponCard7{
      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg7.png);
-              -fx-background-color: dark-background;
 
              -fx-background-size: contain;
               -fx-background-repeat: no-repeat;
@@ -614,7 +579,6 @@ SPECIFIC CLASSES
  }
 .weaponCard8{
      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg8.png);
-              -fx-background-color: dark-background;
 
              -fx-background-size: contain;
               -fx-background-repeat: no-repeat;
@@ -622,7 +586,6 @@ SPECIFIC CLASSES
  }
 .weaponCard9{
     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg9.png);
-             -fx-background-color: dark-background;
 
             -fx-background-size: contain;
              -fx-background-repeat: no-repeat;
@@ -630,7 +593,6 @@ SPECIFIC CLASSES
 }
 .weaponCard10{
     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg10.png);
-             -fx-background-color: dark-background;
 
             -fx-background-size: contain;
              -fx-background-repeat: no-repeat;
@@ -638,7 +600,6 @@ SPECIFIC CLASSES
 }
 .weaponCard11{
      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg11.png);
-              -fx-background-color: dark-background;
 
              -fx-background-size: contain;
               -fx-background-repeat: no-repeat;
@@ -646,7 +607,6 @@ SPECIFIC CLASSES
 }
 .weaponCard12{
    -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg12.png);
-            -fx-background-color: dark-background;
 
            -fx-background-size: contain;
             -fx-background-repeat: no-repeat;
@@ -654,7 +614,6 @@ SPECIFIC CLASSES
 }
 .weaponCard13{
       -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg13.png);
-               -fx-background-color: dark-background;
 
               -fx-background-size: contain;
                -fx-background-repeat: no-repeat;
@@ -662,7 +621,6 @@ SPECIFIC CLASSES
  }
 .weaponCard14{
       -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg14.png);
-               -fx-background-color: dark-background;
 
               -fx-background-size: contain;
                -fx-background-repeat: no-repeat;
@@ -670,7 +628,6 @@ SPECIFIC CLASSES
  }
 .weaponCard15{
       -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg15.png);
-               -fx-background-color: dark-background;
 
               -fx-background-size: contain;
                -fx-background-repeat: no-repeat;
@@ -678,7 +635,6 @@ SPECIFIC CLASSES
  }
 .weaponCard16{
      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg16.png);
-              -fx-background-color: dark-background;
 
              -fx-background-size: contain;
               -fx-background-repeat: no-repeat;
@@ -686,7 +642,6 @@ SPECIFIC CLASSES
  }
 .weaponCard17{
     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg17.png);
-             -fx-background-color: dark-background;
 
             -fx-background-size: contain;
              -fx-background-repeat: no-repeat;
@@ -694,7 +649,6 @@ SPECIFIC CLASSES
 }
 .weaponCard18{
     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg18.png);
-             -fx-background-color: dark-background;
 
             -fx-background-size: contain;
              -fx-background-repeat: no-repeat;
@@ -702,7 +656,6 @@ SPECIFIC CLASSES
 }
 .weaponCard19{
     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg19.png);
-             -fx-background-color: dark-background;
 
             -fx-background-size: contain;
              -fx-background-repeat: no-repeat;
@@ -710,7 +663,6 @@ SPECIFIC CLASSES
 }
 .weaponCard20{
      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg20.png);
-              -fx-background-color: dark-background;
 
              -fx-background-size: contain;
               -fx-background-repeat: no-repeat;
@@ -718,7 +670,6 @@ SPECIFIC CLASSES
 }
 .weaponCard21{
       -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg21.png);
-               -fx-background-color: dark-background;
 
               -fx-background-size: contain;
                -fx-background-repeat: no-repeat;
