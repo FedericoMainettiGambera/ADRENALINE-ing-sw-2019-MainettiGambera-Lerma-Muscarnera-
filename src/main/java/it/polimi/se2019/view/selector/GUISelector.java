@@ -1128,7 +1128,6 @@ public class GUISelector implements SelectorV {
         private class PlayerEventHandler implements EventHandler {
             private Object o;
             private StackPane playerStackPane;
-            private StackPane[][] backgroundMap = getGameSceneController().getBackgroundsMap();
             private PlayerEventHandler(Object o, StackPane playerStackPane){
                 this.o=o;
                 this.playerStackPane = playerStackPane;
@@ -1154,6 +1153,7 @@ public class GUISelector implements SelectorV {
 
                 StackPane stackPanePlayer = GUIOutputHandler.getplayerStackPane(player.getNickname());
 
+                assert stackPanePlayer != null;
                 stackPanePlayer.getStyleClass().add(hoverableCssClass);
 
                 PlayerEventHandler eventHandler = new PlayerEventHandler(o, stackPanePlayer);
@@ -1705,10 +1705,7 @@ public class GUISelector implements SelectorV {
     //##################################################################################################################
     @Override
     public void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV) {
-        CLISelector cliSelector= new CLISelector(networkConnection);
-        cliSelector.askTargetingScope(listOfTargetingScopeV, possiblePaymentsV, damagedPlayersV);
-        //TODO
-        //new Thread(new AskTargetingScope(listOfTargetingScopeV, possiblePaymentsV, damagedPlayersV)).start();
+        new Thread(new AskTargetingScope(listOfTargetingScopeV, possiblePaymentsV, damagedPlayersV)).start();
     }
     private class AskTargetingScope implements Runnable{
         private List<PowerUpCardV> listOfTargetingScopeV;
@@ -1719,18 +1716,109 @@ public class GUISelector implements SelectorV {
             this.possiblePaymentsV = possiblePaymentsV;
             this.damagedPlayersV = damagedPlayersV;
         }
+        private List<Object> answer = new ArrayList<>();
+        private int chosenTargetingScope;
+        private int chosenPayingMethod;
+        private int chosenPlayertoHit;
+
         @Override
         public void run(){
+            VBox request = buildRequest();
+            Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0,0.0,0.0,0.0));
+        }
+
+        private VBox buildRequest(){
+            VBox request = new VBox(new StackPane(new Label("Do you want to use Targeting Scope?")));
+            HBox hBox = new HBox();
+            for (int i = 0; i<listOfTargetingScopeV.size(); i++) {
+                PowerUpCardV powerUp= listOfTargetingScopeV.get(i);
+
+                StackPane powerUpStackPane = new StackPane();
+
+                makeNodeHoverable(powerUpStackPane);
+                HBox.setHgrow(powerUpStackPane, Priority.ALWAYS);
+
+                hBox.getChildren().add(powerUpStackPane);
+
+                powerUpStackPane.setUserData(i);
+
+                powerUpStackPane.setOnMouseClicked(e->{
+                    this.chosenTargetingScope = (Integer)((StackPane)e.getSource()).getUserData();
+
+                    VBox requestHowToPay = new VBox();
+
+                    StackPane howToPay = new StackPane(new Label("How do you want to pay?"));
+                    requestHowToPay.getChildren().add(howToPay);
+
+                    for (int j = 0; j<possiblePaymentsV.size(); j++) {
+                        Object o = possiblePaymentsV.get(j);
+                        StackPane possiblePaymentStackPane;
+                        if (o.getClass().toString().contains("AmmoCube")) {
+                            possiblePaymentStackPane = new StackPane(new Label("pay using a " + ((AmmoCubesV) o).getColor() + " ammo from the ammo box"));
+                        } else {
+                            possiblePaymentStackPane = new StackPane(new Label("pay a " + ((PowerUpCardV) o).getColor() + " ammo discarding power up "));
+                        }
+                        requestHowToPay.getChildren().add(possiblePaymentStackPane);
+                        VBox.setVgrow(possiblePaymentStackPane, Priority.ALWAYS);
+                        makeNodeHoverable(possiblePaymentStackPane);
+                        possiblePaymentStackPane.setUserData(j);
+                        possiblePaymentStackPane.setOnMouseClicked(event->{
+                            this.chosenPayingMethod = (Integer)((StackPane)e.getSource()).getUserData();
+                            VBox requestTarget = new VBox(new StackPane(new Label("who do you want to hit?")));
+                            for (int k = 0; k < damagedPlayersV.size(); k++) {
+                                PlayerV damagedPlayer = damagedPlayersV.get(k);
+                                StackPane playerToChoose = new StackPane(new Label(damagedPlayer.getNickname()));
+                                makeNodeHoverable(playerToChoose);
+                                playerToChoose.setUserData(k);
+                                requestTarget.getChildren().add(playerToChoose);
+                                VBox.setVgrow(playerToChoose, Priority.ALWAYS);
+                                playerToChoose.setOnMouseClicked(ev->{
+                                    this.chosenPlayertoHit = (Integer)((StackPane)e.getSource()).getUserData();
+                                    getGameSceneController().removeSelectorSection();
+                                    this.answer = new ArrayList<>();
+                                    this.answer.add(chosenTargetingScope);
+                                    this.answer.add(chosenPayingMethod);
+                                    this.answer.add(chosenPlayertoHit);
+
+                                    ViewControllerEventListOfObject viewControllerEventListOfObject = new ViewControllerEventListOfObject(answer);
+                                    getGameSceneController().sendToServer(viewControllerEventListOfObject);
+                                });
+                            }
+                        });
+                    }
+
+                    getGameSceneController().changeSelectorSection(requestHowToPay, 0.0,0.0,0.0,0.0);
+                });
+            }
+            request.getChildren().add(hBox);
+            hBox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide((double)2/(double)3));
+
+            StackPane skip = new StackPane(new Label("skip"));
+            VBox.setVgrow(skip, Priority.ALWAYS);
+            makeNodeHoverable(skip);
+            skip.setOnMouseClicked(e->{
+                //end, send event and remove selector section
+                this.chosenTargetingScope = (Integer)((StackPane)e.getSource()).getUserData();
+                this.chosenPayingMethod = 0;
+                this.chosenPlayertoHit = 0;
+                this.answer = new ArrayList<>();
+                this.answer.add(chosenTargetingScope);
+                this.answer.add(chosenPayingMethod);
+                this.answer.add(chosenPlayertoHit);
+
+                ViewControllerEventListOfObject viewControllerEventListOfObject = new ViewControllerEventListOfObject(answer);
+                getGameSceneController().sendToServer(viewControllerEventListOfObject);
+                getGameSceneController().removeSelectorSection();
+            });
+            request.getChildren().add(skip);
+            return request;
         }
     }
 
     //##################################################################################################################
     @Override
     public void askTagBackGranade(List<PowerUpCardV> listOfTagBackGranade) {
-        CLISelector cliSelector= new CLISelector(networkConnection);
-        cliSelector.askTagBackGranade(listOfTagBackGranade);
-        //TODO
-        //new Thread(new AskTagBackGranade(listOfTagBackGranade)).start();
+        new Thread(new AskTagBackGranade(listOfTagBackGranade)).start();
     }
     private class AskTagBackGranade implements Runnable{
         private List<PowerUpCardV> listOfTagBackGranade;
@@ -1739,7 +1827,46 @@ public class GUISelector implements SelectorV {
         }
         @Override
         public void run(){
+            VBox request = buildRequest();
+            Platform.runLater(()-> getGameSceneController().changeSelectorSection(request, 0.0,0.0,0.0,0.0));
+        }
+        private VBox buildRequest(){
+            VBox request = new VBox(new StackPane(new Label("do you want to use a tag back granade?")));
 
+            HBox hBox = new HBox();
+            for (int i = 0; i<listOfTagBackGranade.size(); i++) {
+                PowerUpCardV powerUp= listOfTagBackGranade.get(i);
+
+                StackPane powerUpStackPane = new StackPane();
+
+                makeNodeHoverable(powerUpStackPane);
+                HBox.setHgrow(powerUpStackPane, Priority.ALWAYS);
+
+                hBox.getChildren().add(powerUpStackPane);
+
+                powerUpStackPane.setUserData(i);
+
+                powerUpStackPane.setOnMouseClicked(e->{
+                    getGameSceneController().removeSelectorSection();
+                    int choice = (Integer)((StackPane)e.getSource()).getUserData();
+                    ViewControllerEventInt viewControllerEventInt = new ViewControllerEventInt(choice);
+                    ViewSelector.sendToServer(viewControllerEventInt);
+                });
+            }
+            request.getChildren().add(hBox);
+            hBox.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide((double)2/(double)3));
+
+            StackPane skip = new StackPane(new Label("skip"));
+            VBox.setVgrow(skip, Priority.ALWAYS);
+            makeNodeHoverable(skip);
+            skip.setOnMouseClicked(e->{
+                getGameSceneController().removeSelectorSection();
+                ViewControllerEventInt viewControllerEventInt = new ViewControllerEventInt(listOfTagBackGranade.size());
+                ViewSelector.sendToServer(viewControllerEventInt);
+            });
+            request.getChildren().add(skip);
+
+            return request;
         }
     }
 
