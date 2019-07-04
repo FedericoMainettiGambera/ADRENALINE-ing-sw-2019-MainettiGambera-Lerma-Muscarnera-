@@ -517,6 +517,259 @@ SPECIFIC CLASSES
 .ammoYellow{
     -fx-background-color: yellow;
 }
+.ammoCard1{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB1.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard2{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB2.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard3{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB3.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard4{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB4.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard5{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB5.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard6{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB6.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard7{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB7.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard8{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB8.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard9{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB9.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard10{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB10.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard11{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB11.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard12{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB12.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard13{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB13.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard14{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB14.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard15{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB15.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard16{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB16.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard17{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB17.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard18{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB18.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard19{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB19.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard20{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB20.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard21{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB21.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard22{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB22.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard23{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB23.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard24{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB24.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard25{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB25.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard26{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB26.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard27{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB27.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard28{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB28.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard29{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB29.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard30{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB30.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard31{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB31.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard32{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB32.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard33{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB33.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard34{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB34.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard35{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB35.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.ammoCard36{
+    -fx-background-image: url(../IMG/AmmoCardsImages/AB36.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
 /*3.1.3-player weapon cards*/
 .weaponCardsBackground{
     -fx-background-color:default-color;

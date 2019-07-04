@@ -1,15 +1,12 @@
 package it.polimi.se2019.controller.statePattern;
 
-import it.polimi.se2019.controller.ModelGate;
-import it.polimi.se2019.controller.SelectorGate;
-import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
+import it.polimi.se2019.controller.*;
 import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.enumerations.SquareTypes;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventGameSetUp;
-import it.polimi.se2019.controller.WaitForPlayerInput;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -114,6 +111,22 @@ public class GameSetUpState implements State {
         try {
             out.println("<SERVER> Creating Map: " + viewControllerEventGameSetUp.getMapChoice());
             ModelGate.getModel().setBoard(new Board(viewControllerEventGameSetUp.getMapChoice(), ModelGate.getModel().getSocketVirtualView(), ModelGate.getModel().getRMIVirtualView()));
+            Square[][] map = ModelGate.getModel().getBoard().getMap();
+            for (int i = 0; i < map.length; i++) {
+                for (int j = 0; j < map[0].length; j++) {
+                    if(map[i][j] != null) {
+                        if (map[i][j].getClass().toString().contains("NormalSquare")) {
+                            NormalSquare normalSquare = (NormalSquare) map[i][j];
+                            normalSquare.getAmmoCards().addObserver(ModelGate.getModel().getRMIVirtualView());
+                            normalSquare.getAmmoCards().addObserver(ModelGate.getModel().getSocketVirtualView());
+                        } else {
+                            SpawnPointSquare spawnPointSquare = (SpawnPointSquare) map[i][j];
+                            spawnPointSquare.getWeaponCards().addObserver(ModelGate.getModel().getRMIVirtualView());
+                            spawnPointSquare.getWeaponCards().addObserver(ModelGate.getModel().getSocketVirtualView());
+                        }
+                    }
+                }
+            }
         }
         catch (IOException|NullPointerException e){
             logger.severe("Creating map went wrong"+e.getCause()+ Arrays.toString(e.getStackTrace()));
