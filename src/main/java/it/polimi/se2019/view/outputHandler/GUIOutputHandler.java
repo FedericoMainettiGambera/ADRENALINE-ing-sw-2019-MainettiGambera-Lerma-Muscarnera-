@@ -18,6 +18,13 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import java.util.concurrent.TimeUnit;
 
+//TODO ciao ludo, ti lascio dei todo da controllare
+
+//TODO intelliJ di luca non gli permette di fare gli uml, l'idea sarebbe che domani per le 16 ci trovassimo tutti e 3 al poli a lavorare
+// e io gli prestavo il pc pe rfare gli uml, che dal mio si riesce
+
+//TODO buonanotte
+
 //TODO ludo sistema bene gli eventHandler che avevamo fatto, ora li ho implementati quindi puoi vedere come vengono mostrate le cose se fai una partita,
 // quello del player non sembra andare bene; se hai problemi di layout grafici perchè i componenti non si comportano come pensi, aspettami e ti aiuto
 
