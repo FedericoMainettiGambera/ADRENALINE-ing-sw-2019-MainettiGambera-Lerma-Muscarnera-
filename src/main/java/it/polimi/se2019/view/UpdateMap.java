@@ -311,7 +311,7 @@ public class UpdateMap implements Runnable{
                         HBox weaponsHBox = new HBox();
                         for (WeaponCardV weapon : weaponCardVS) {
                             StackPane weaponImage = new StackPane(); //don't use a label, but set the image
-                            weaponImage.getStyleClass().add("weaponCards" + weapon.getID());
+                            weaponImage.getStyleClass().add("weaponCard" + weapon.getID());
                             weaponImage.setUserData(weapon);
                             weaponImage.addEventHandler(MouseEvent.MOUSE_ENTERED, ((GameSceneController) GUIstarter.getStageController()).getShowWeaponCardsEventHandler());
                             weaponsHBox.getChildren().add(weaponImage);
