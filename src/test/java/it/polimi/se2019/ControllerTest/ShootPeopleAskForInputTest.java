@@ -35,7 +35,6 @@ public class ShootPeopleAskForInputTest{
         list.add(new PlayerV());
 
         ViewControllerEvent viewControllerEvent=new ViewControllerEventListOfObject(list);
-        assertTrue(shootPeopleAskForInputState.isToSend(((effect.getEffectInfo().getEffectInfoElement().get(0).getEffectInfoTypelist()))));
 
 
     }
