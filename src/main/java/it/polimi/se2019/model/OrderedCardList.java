@@ -128,6 +128,10 @@ public class OrderedCardList<T> extends Observable implements Serializable {
         }
         else{
             System.err.println("<SERVER-OrderedCardList> Couldn't move the card properly, the card is null.");
+            System.err.println("ID : " + cardID);
+            for (T card : this.cards) {
+                System.out.println("    " + ((Card)card).getID());
+            }
             return false;
         }
     }

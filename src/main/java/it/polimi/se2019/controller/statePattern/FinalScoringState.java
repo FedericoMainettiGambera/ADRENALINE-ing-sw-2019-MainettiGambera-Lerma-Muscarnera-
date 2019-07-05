@@ -183,27 +183,28 @@ public class FinalScoringState implements State {
         //takes the killshot track, check which name there's on the first kill and look for it through the whole killshot track,
         //removing each occurance and scoring the points in "quantity", saving the last occurance of it for tiebreaks, do it again till the list is empty.
 
-        for (Player p : ModelGate.getModel().getPlayerList().getPlayers()){
+        for (Player p : ModelGate.getModel().getPlayerList().getPlayers()) {
 
             graduatory.add(new PlayerPoint(p));
 
+            if (ModelGate.getModel() != null && ModelGate.getModel().getKillshotTrack() != null && ModelGate.getModel().getKillshotTrack().returnKills() != null){
+                for (Kill kill : ModelGate.getModel().getKillshotTrack().returnKills()) {
 
-            for (Kill kill : ModelGate.getModel().getKillshotTrack().returnKills()) {
+                    if ((!kill.isSkull()) && p.getNickname().equals(kill.getKillingPlayer().getNickname())) {
 
-                if ((!kill.isSkull()) && p.getNickname().equals(kill.getKillingPlayer().getNickname())) {
+                        graduatory.get(k).quantity += 1;
 
-                    graduatory.get(k).quantity += 1;
+                        if (graduatory.get(k).numberOfSkullTaken < kill.getOccurance()) {
+                            graduatory.get(k).numberOfSkullTaken = kill.getOccurance();
+                        }
 
-                    if (graduatory.get(k).numberOfSkullTaken < kill.getOccurance()) {
-                        graduatory.get(k).numberOfSkullTaken = kill.getOccurance();
+                        if (kill.isOverKill()) {
+                            graduatory.get(k).overkill += 1;
+                        }
+
                     }
-
-                    if (kill.isOverKill()) {
-                        graduatory.get(k).overkill += 1;
-                    }
-
                 }
-            }
+        }
        k=k+1;
 
         }

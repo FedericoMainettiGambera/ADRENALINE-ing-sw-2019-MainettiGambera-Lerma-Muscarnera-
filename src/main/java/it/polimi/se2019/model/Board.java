@@ -206,13 +206,13 @@ public class Board{
         char type2;
         String line = null;
         int s =0;
-        FileReader fileReader;
+
 
 
         //apre file
         try{
-            fileReader = new FileReader("Files/map");
-            bufferedReader = new BufferedReader(fileReader);
+            InputStream in=getClass().getResourceAsStream("/Files/map");
+            bufferedReader = new BufferedReader(new InputStreamReader(in));
             line = bufferedReader.readLine();
         } catch (IOException e) {
             logger.log(Level.SEVERE, "EXCEPTION ", e );
