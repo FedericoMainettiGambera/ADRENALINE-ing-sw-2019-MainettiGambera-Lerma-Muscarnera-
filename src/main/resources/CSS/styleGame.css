@@ -393,7 +393,7 @@ SPECIFIC CLASSES
     -fx-background-color: gray;
 }
 .markEmpty{
-    -fx-background-color: notempty-color;
+    -fx-background-color: empty-color;
 }
 /*3.1.2[0,1]- player damages & deaths*/
 .playerDamageAndDeathsBackground{
