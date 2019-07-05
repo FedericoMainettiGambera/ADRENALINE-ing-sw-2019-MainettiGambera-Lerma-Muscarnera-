@@ -31,6 +31,10 @@ public class  ViewControllerEventHandlerContext implements Observer{
         stackOfStatesAndTimers += "\n" + o.getClass().toString();
         //System.err.println(stackOfStatesAndTimers);
     }
+
+    public static void addStringToElementStackPane(String s){
+        stackOfStatesAndTimers+= "\n" + s;
+    }
     public static void printStackOfStatesAndTImers(){
         System.err.println(stackOfStatesAndTimers);
     }
