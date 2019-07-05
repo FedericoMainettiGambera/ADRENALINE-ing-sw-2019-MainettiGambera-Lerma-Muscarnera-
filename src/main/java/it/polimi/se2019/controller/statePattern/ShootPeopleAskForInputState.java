@@ -166,7 +166,9 @@ public class ShootPeopleAskForInputState implements State {
 
         this.chosenWeaponCard.unload();
         List<List<Player>> listListDamagedPlayer = this.chosenEffect.Exec();
-
+        ViewControllerEventHandlerContext.addStringToElementStackPane(
+                "KEYWORD: boom boom!!! | " + this.chosenWeaponCard.getID() + " | " + this.chosenEffect.getEffectName() + "|" + this.chosenEffect.getName()
+        );
         //transform the List<List<Player>> in List<Player>
         List<Player> damagedPlayer = new ArrayList<>();
         for (List<Player> listOfPlayer: listListDamagedPlayer) {

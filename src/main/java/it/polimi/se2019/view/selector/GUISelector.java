@@ -774,7 +774,7 @@ public class GUISelector implements SelectorV {
         private VBox buildRequest(){
             HBox hBox = buildHBoxRequestOfDoubleStackPanes(toDiscard.size());
 
-            VBox vBox = buildTitleWithContent("Too many Power up cards, choose one o discard:", hBox);
+            VBox vBox = buildTitleWithContent("Too many Power up cards, choose one to discard", hBox);
 
             //PROPERTIES
             VBox.setVgrow(hBox,Priority.ALWAYS);
@@ -1100,6 +1100,7 @@ public class GUISelector implements SelectorV {
                     break;
                 case squareByLastTargetSelected:
                     inputTypeLabel = new Label("select the square of the target");
+                    break;
                 default:
                     inputTypeLabel = new Label("unspecified inputType");
                     GUIstarter.showError(this, "can't find inputType: " + inputType, null);

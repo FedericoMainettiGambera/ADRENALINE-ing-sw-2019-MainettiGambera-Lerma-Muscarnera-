@@ -3,10 +3,7 @@ package it.polimi.se2019.controller.statePattern;
 import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.SelectorGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
-import it.polimi.se2019.model.AmmoList;
-import it.polimi.se2019.model.NormalSquare;
-import it.polimi.se2019.model.Player;
-import it.polimi.se2019.model.WeaponCard;
+import it.polimi.se2019.model.*;
 import it.polimi.se2019.model.enumerations.SquareTypes;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventString;
@@ -201,6 +198,24 @@ public class ReloadState implements State{
                     );
                     out.println("<SERVER> Added Ammo card to square [" + i + "][" + j + "]");
 
+                }
+                //TODO check if correct...
+                else if(ModelGate.getModel().getBoard().getMap()[i][j]!=null && (ModelGate.getModel().getBoard().getMap()[i][j].getSquareType() == SquareTypes.spawnPoint)){
+                    int counter = ((SpawnPointSquare) ModelGate.getModel().getBoard().getMap()[i][j]).getWeaponCards().getCards().size();
+                    if (counter<3){
+                        for (int k = counter; k < 3; k++) {
+                            if(ModelGate.getModel().getWeaponDeck().getCards().size()>0) {
+                                ModelGate.getModel().getWeaponDeck().moveCardTo(
+                                        ((SpawnPointSquare) ModelGate.getModel().getBoard().getMap()[i][j]).getWeaponCards(),
+                                        ModelGate.getModel().getAmmoDeck().getFirstCard().getID()
+                                );
+                                out.println("<SERVER> Added Ammo card to square [" + i + "][" + j + "]");
+                            }
+                            else{
+                                out.println("<SERVER> Should add a card to the square, but the deck is empty.");
+                            }
+                        }
+                    }
                 }
             }
         }

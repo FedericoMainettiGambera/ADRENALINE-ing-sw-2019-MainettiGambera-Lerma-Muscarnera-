@@ -121,8 +121,19 @@ public class Player extends Person implements Serializable {
         if(!this.isAFK) {
             notifyObservers(modelViewEvent);
         }
+
+        int numberOfAFKPlayers = 0;
+        for (Player p:ModelGate.getModel().getPlayerList().getPlayers()) {
+            if(p.isAFK){
+                numberOfAFKPlayers++;
+            }
+        }
+        System.out.println("#############################################################");
+        System.out.println("          <MODELGATE>   NUMBER OF AFK PLAYERS: " + numberOfAFKPlayers );
+        System.out.println("##############################################################");
+
         if(ModelGate.getModel().getPlayerList().isMinimumPlayerNotAFK()){
-            System.out.println("<SERVER> too many AFK players. Game is Corrupted. From method Player.setAFKWithNotify(...)");
+            System.out.println("<SERVER> too many AFK players(" + numberOfAFKPlayers + "). Game is Corrupted. From method Player.setAFKWithNotify(...)");
             ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
             ViewControllerEventHandlerContext.getState().doAction(null);
         }
@@ -142,8 +153,19 @@ public class Player extends Person implements Serializable {
         if(!this.isAFK) {
             notifyObservers(modelViewEvent);
         }
+
+        int numberOfAFKPlayers = 0;
+        for (Player p:ModelGate.getModel().getPlayerList().getPlayers()) {
+            if(p.isAFK){
+                numberOfAFKPlayers++;
+            }
+        }
+        System.out.println("#############################################################");
+        System.out.println("          <MODELGATE>   NUMBER OF AFK PLAYERS: " + numberOfAFKPlayers );
+        System.out.println("##############################################################");
+
         if(ModelGate.getModel().getPlayerList().isMinimumPlayerNotAFK()){
-            System.out.println("<SERVER> too many AFK players. Game is Corrupted. From method Player.setAFKWithoutNotify(...)");
+            System.out.println("<SERVER> too many AFK players(" + numberOfAFKPlayers + "). Game is Corrupted. From method Player.setAFKWithoutNotify(...)");
             ViewControllerEventHandlerContext.setNextState(new FinalScoringState());
             ViewControllerEventHandlerContext.getState().doAction(null);
         }

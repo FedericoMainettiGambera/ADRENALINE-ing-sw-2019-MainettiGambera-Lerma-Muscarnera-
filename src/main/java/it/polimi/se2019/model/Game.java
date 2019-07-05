@@ -16,7 +16,9 @@ import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/** takes track of the entire state of the game*/
+/** takes track of the entire state of the game
+ * @author LudoLerma
+ *@author FedericoMainettiGambera */
 public class Game extends Observable implements Serializable {
 
     private static Logger logger=Logger.getLogger(Game.class.getName());
@@ -186,7 +188,7 @@ public class Game extends Observable implements Serializable {
         int fileCount = Objects.requireNonNull(directory.list()).length;
         for(int i = 1; i< fileCount+1; i++) {
             try {
-                int id = /*1 + i %*/ i;
+                int id = /*1 + i %*/ 5;
                 WeaponCard card= new WeaponCard("" + id);
                 card.reload();
                 tempWeaponDeck.addCard(card);

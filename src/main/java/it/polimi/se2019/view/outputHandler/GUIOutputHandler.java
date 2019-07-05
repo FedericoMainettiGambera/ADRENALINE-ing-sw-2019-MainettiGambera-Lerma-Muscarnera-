@@ -16,10 +16,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
+
 public class GUIOutputHandler implements OutputHandlerInterface {
+
+    //TODO tutte le update map sarebbero meglio se fossero senza delete del layer di eventi
 
     /**
      * launches a UpdateKillShotTrack thread
@@ -29,7 +35,6 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     }
 
     private class UpdateKillShotTrack implements Runnable {
-
         @Override
         /**
          * fills the StackPanes composing the kill shot track,
@@ -768,137 +773,79 @@ public class GUIOutputHandler implements OutputHandlerInterface {
          */
         @Override
         public void run() {
+            Platform.runLater(()-> {
 
-            Platform.runLater(this::run2);
-        }
+                if(ViewModelGate.getModel()!= null && ViewModelGate.getModel().getPlayers() != null) {
+                    PlayerV playerToShow = ViewModelGate.getModel().getPlayers().getPlayer(ViewModelGate.getMe());
 
-        private String ammoEmpty = "ammoEmpty";
+                    if (playerToShow != null && playerToShow.getAmmoBox() != null && playerToShow.getAmmoBox().getAmmoCubesList() != null) {
+                        //updates Red
+                        for (AmmoCubesV ammoCubes: playerToShow.getAmmoBox().getAmmoCubesList()) {
+                            if(ammoCubes.getColor().equals(AmmoCubesColor.red)){
 
-        /**
-         * empty all the ammolists
-         */
-        private void emptyAmmos(int i, String color) {
+                                List<StackPane> redStackPanes = getGameSceneController().getAmmosMainImage(AmmoCubesColor.red);
 
-            switch (color) {
-                case "blue":
-                    for (int j = i; j < getGameSceneController().getAmmosMainImage(AmmoCubesColor.blue).size(); j++) {
-                        removePrevious(getGameSceneController().getDamagesMainImage().get(j));
-                        getGameSceneController().getAmmosMainImage(AmmoCubesColor.blue).get(j).getStyleClass().add(ammoEmpty);
-                    }
-                    break;
-                case "red":
-                    for (int j = i; j < getGameSceneController().getAmmosMainImage(AmmoCubesColor.red).size(); j++) {
-                        removePrevious(getGameSceneController().getDamagesMainImage().get(j));
-                        getGameSceneController().getAmmosMainImage(AmmoCubesColor.red).get(j).getStyleClass().add(ammoEmpty);
-                    }
-                    break;
-                case "yellow":
-                    for (int j = i; j < getGameSceneController().getAmmosMainImage(AmmoCubesColor.yellow).size(); j++) {
-                        removePrevious(getGameSceneController().getDamagesMainImage().get(j));
-                        getGameSceneController().getAmmosMainImage(AmmoCubesColor.yellow).get(j).getStyleClass().add(ammoEmpty);
-                    }
-                    break;
+                                for (int i = 0; i < ammoCubes.getQuantity() ; i++) { //not sure about quantity or quantity-1
+                                    removeAllPreviousCssClass(redStackPanes.get(i));
+                                    redStackPanes.get(i).getStyleClass().add("ammoRed");
+                                }
+                                for (int i = ammoCubes.getQuantity(); i < redStackPanes.size(); i++) {
+                                    removeAllPreviousCssClass(redStackPanes.get(i));
+                                    redStackPanes.get(i).getStyleClass().add("emptyAmmo");
+                                }
 
-
-                default:
-                    for (AmmoCubesColor colors : AmmoCubesColor.values()) {
-                        for (StackPane ammo : getGameSceneController().getAmmosMainImage(colors)) {
-                            removePrevious(ammo);
-                            ammo.getStyleClass().add(ammoEmpty);
+                            }
                         }
-                    }
-                    break;
+                        //updates blue
+                        for (AmmoCubesV ammoCubes: playerToShow.getAmmoBox().getAmmoCubesList()) {
+                            if(ammoCubes.getColor().equals(AmmoCubesColor.blue)){
 
-            }
-        }
+                                List<StackPane> blueStackPane = getGameSceneController().getAmmosMainImage(AmmoCubesColor.blue);
 
-        /**
-         * @param player the player who ammo box needs to be updated,
-         *               this function add the due ammunitions
-         */
-        private void addAmmos(PlayerV player) {
+                                for (int i = 0; i < ammoCubes.getQuantity() ; i++) { //not sure about quantity or quantity-1
+                                    removeAllPreviousCssClass(blueStackPane.get(i));
+                                    blueStackPane.get(i).getStyleClass().add("ammoBlue");
+                                }
+                                for (int i = ammoCubes.getQuantity(); i < blueStackPane.size(); i++) {
+                                    removeAllPreviousCssClass(blueStackPane.get(i));
+                                    blueStackPane.get(i).getStyleClass().add("emptyAmmo");
+                                }
 
-            int b = 0;
-            int r = 0;
-            int y = 0;
-            for (AmmoCubesV ammo : player.getAmmoBox().getAmmoCubesList()) {
-                AmmoCubesColor color = ammo.getColor();
-                switch (color) {
-                    case blue:
-                        while (b < ammo.getQuantity()) {
-                            removePrevious(getGameSceneController().getAmmosMainImage(color).get(b));
-                            (getGameSceneController().getAmmosMainImage(color).get(b).getStyleClass()).add("ammoBlue");
-                            b++;
+                            }
                         }
-                        break;
-                    case red:
-                        while (r < ammo.getQuantity()) {
-                            removePrevious(getGameSceneController().getAmmosMainImage(color).get(r));
-                            (getGameSceneController().getAmmosMainImage(color).get(r).getStyleClass()).add("ammoRed");
-                            r++;
+                        //updates yellow
+                        for (AmmoCubesV ammoCubes: playerToShow.getAmmoBox().getAmmoCubesList()) {
+                            if(ammoCubes.getColor().equals(AmmoCubesColor.yellow)){
+
+                                List<StackPane> yellowStackPane = getGameSceneController().getAmmosMainImage(AmmoCubesColor.yellow);
+
+                                for (int i = 0; i < ammoCubes.getQuantity() ; i++) { //not sure about quantity or quantity-1
+                                    removeAllPreviousCssClass(yellowStackPane.get(i));
+                                    yellowStackPane.get(i).getStyleClass().add("ammoYellow");
+                                }
+                                for (int i = ammoCubes.getQuantity(); i < yellowStackPane.size(); i++) {
+                                    removeAllPreviousCssClass(yellowStackPane.get(i));
+                                    yellowStackPane.get(i).getStyleClass().add("emptyAmmo");
+                                }
+
+                            }
                         }
-                        break;
-                    case yellow:
-                        while (y < ammo.getQuantity()) {
-                            removePrevious(getGameSceneController().getAmmosMainImage(color).get(y));
-                            (getGameSceneController().getAmmosMainImage(color).get(y).getStyleClass()).add("ammoYellow");
-                            y++;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-            if (b < getGameSceneController().getAmmosMainImage(AmmoCubesColor.blue).size()) {
-                emptyAmmos(b, "blue");
-            }
-            if (r < getGameSceneController().getAmmosMainImage(AmmoCubesColor.red).size()) {
-                emptyAmmos(r, "red");
-            }
-            if (y < getGameSceneController().getAmmosMainImage(AmmoCubesColor.yellow).size()) {
-                emptyAmmos(y, "yellow");
-            }
-
-        }
-
-        /**
-         * @param ammo whose previous style class is removed
-         */
-        private void removePrevious(StackPane ammo) {
-
-            ammo.getStyleClass().remove("ammoBlue");
-            ammo.getStyleClass().remove("ammoRed");
-            ammo.getStyleClass().remove("ammoYellow");
-            ammo.getStyleClass().remove("ammoEmpty");
-
-
-        }
-
-        /**
-         * method that update the ammo box
-         */
-        private void run2() {
-
-            if(ViewModelGate.getModel()==null&&ViewModelGate.getModel().getPlayers()==null)
-            {return;}
-
-            for (PlayerV player : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                if (player.getNickname().equals(ViewModelGate.getMe())) {
-
-                    if (  player.getAmmoBox() == null||player.getAmmoBox().getAmmoCubesList().isEmpty()) {
-
-                        emptyAmmos(0, "all");
-                    } else {
-                        addAmmos(player);
                     }
                 }
-            }
+            });
+        }
+
+        public void removeAllPreviousCssClass(StackPane stackPane){
+            stackPane.getStyleClass().remove("ammoRed");
+            stackPane.getStyleClass().remove("ammoBlue");
+            stackPane.getStyleClass().remove("ammoYellow");
+            stackPane.getStyleClass().remove("emptyAmmo");
         }
     }
 
 
     private void updateMap()   {
-        new Thread(new UpdateMap()).start();
+        Platform.runLater(()-> (new UpdateMap()).updateMapWithoutNewEventLayer());
     }
 
 
@@ -1071,7 +1018,6 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                         break;
                 }
 
-                //TODO magari la cambieremo perchè sinceramente non mi piace molto la textArea, forse meglio usare Label di fila che sono resizable
                 Text player;
                 Text descr = new Text(description);
 
@@ -1229,6 +1175,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         // TODO LASCIATELO ALLA FINE LUCA
         //update changed cards
         System.out.println();
+        updateMap();
         updatePlayer();
     }
 
