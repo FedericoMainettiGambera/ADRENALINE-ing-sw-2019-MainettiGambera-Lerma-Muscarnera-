@@ -51,7 +51,7 @@ public class SocketVirtualView extends VirtualView{
     public void startServer(){
         ConnectionHandlerVirtualView connectionHandler = new ConnectionHandlerVirtualView(this.serverSocket, this.controller);
         connectionHandler.start();
-        System.out.println("<SERVER-socket> FOR SOCKETS CLIENTS. Running Server on: " + this.serverSocket.getInetAddress().getHostAddress() + ":" + this.serverSocket.getLocalPort());
+        System.out.println("<SERVER-socket>. Running Server on: " + this.serverSocket.getInetAddress().getHostAddress() + ":" + this.serverSocket.getLocalPort());
     }
 
     /**Anytime the model is updated, the server sends the changes to all client*/
