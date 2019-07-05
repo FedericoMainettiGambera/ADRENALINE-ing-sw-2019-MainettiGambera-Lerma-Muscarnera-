@@ -10,23 +10,32 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 
+/**implements the timer
+ * @author LudoLerma
+ *@author FedericoMainettiGambera*/
 public class WaitForPlayerInput implements Runnable{
 
     private static PrintWriter out= new PrintWriter(System.out, true);
 
 
+    /**attribute that contain the player the input is expected from*/
     private Player playerToAsk;
 
+    /**a random ID for the thread launched that implements a count down till AFK STATUS*/
     private int randomID;
 
+    /**the class that called the waitForInput*/
     private String callingClass;
-
+    /**reference to the socket server*/
     private SocketVirtualView socketVirtualView = ViewControllerEventHandlerContext.getSocketVV();
-
+    /**reference to rmi server*/
     private RmiVirtualView rmiVirtualView = ViewControllerEventHandlerContext.getRmiVirtualView();
-
+    /**what to be asked*/
     private String ask;
-
+    /**constructor,
+     * @param p to initialize playerToAsk attribute
+     * @param ask to initialize ask attribute
+     * @param callingClass to initialize callingClass attribute*/
     public WaitForPlayerInput(Player p, String callingClass, String ask){
         this.playerToAsk = p;
         this.callingClass = callingClass;
@@ -36,6 +45,7 @@ public class WaitForPlayerInput implements Runnable{
         ViewControllerEventHandlerContext.addElementTOStackOfStatesAndTimers(this, "new timer started with id (" + this.randomID + ") for class (" + this.callingClass + ")" + "for player (" + this.playerToAsk.getNickname() + ")");
     }
 
+    /**prints the count down with the initialized parameters to context  it*/
     @Override
     public void run() {
         out.println("                                            Thread: <SERVER> Waiting for " + playerToAsk.getNickname() + "'s input.");

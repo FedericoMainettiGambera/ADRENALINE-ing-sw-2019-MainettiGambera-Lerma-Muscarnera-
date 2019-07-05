@@ -4,7 +4,10 @@ package it.polimi.se2019.model.enumerations;
 import java.util.HashMap;
 import java.util.Map;
 
-/***/
+/**color of the player
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public enum PlayersColors {
     blue(0),
     yellow(1),

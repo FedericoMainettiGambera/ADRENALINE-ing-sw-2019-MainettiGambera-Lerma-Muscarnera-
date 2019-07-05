@@ -21,7 +21,11 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/**game logic brain
+ /**starts the server
+ * @author LudoLerma
+ * @author FedericoMainettiGambera
+ * */
 public class  Controller{
 
     private Controller(){

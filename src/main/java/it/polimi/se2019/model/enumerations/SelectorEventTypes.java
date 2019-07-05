@@ -1,8 +1,11 @@
 package it.polimi.se2019.model.enumerations;
 
+/**the type of selectorEventTypes event
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public enum SelectorEventTypes {
     askGameSetUp,
-    askPlayerSetUp,
     askFirstSpawnPosition,
     askTurnAction,
     askRunAroundPosition,
@@ -14,7 +17,6 @@ public enum SelectorEventTypes {
     askWhatReaload,
     askSpawn,
     askShootOrMove,
-    askShootReloadMove,
     askWhatWep,
     askWhatEffect,
     askEffectInputs,

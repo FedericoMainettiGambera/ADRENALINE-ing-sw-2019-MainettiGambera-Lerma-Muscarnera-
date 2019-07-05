@@ -17,6 +17,8 @@ import java.util.logging.Logger;
 
 /**
  * this state allows the bot to be moved
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
  * */
 public class BotMoveState implements State {
 

@@ -17,7 +17,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/** */
+/** asks whether the user want to use a power up or not
+ * and collects the answer
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public class PowerUpAskForInputState implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);

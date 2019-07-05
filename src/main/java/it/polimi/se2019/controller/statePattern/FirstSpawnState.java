@@ -17,7 +17,10 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**implements the very first spawn of each player*/
+/**implements the very first spawn of each player
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public class FirstSpawnState implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);

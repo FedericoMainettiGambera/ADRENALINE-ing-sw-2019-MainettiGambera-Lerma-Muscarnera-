@@ -14,7 +14,9 @@ import java.net.Socket;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+/**listens to events from the clients
+ * @author LudoLerma &
+ * @author FedericoMainettiGambera*/
 public class ClientListenerVirtualView extends Observable implements Runnable{
 
     private Socket socket;
@@ -26,6 +28,7 @@ public class ClientListenerVirtualView extends Observable implements Runnable{
 
 
     private static Logger logger=Logger.getLogger(ClientListenerVirtualView.class.getName());
+
 
     public ClientListenerVirtualView(Socket socket, ObjectInputStream ois, ViewControllerEventHandlerContext controller){
         this.socket = socket;

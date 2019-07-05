@@ -16,7 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-/**Implements the spawn of the players who died*/
+/**Implements the spawn of the players who died
+ *
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public class SpawnState implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);

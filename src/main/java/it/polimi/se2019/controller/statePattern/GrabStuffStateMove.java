@@ -15,7 +15,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-/**this class allows the user to move somewhere else to grab*/
+/**this class allows the user to move somewhere else to grab
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public class GrabStuffStateMove implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);

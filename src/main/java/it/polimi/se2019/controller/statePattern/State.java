@@ -3,7 +3,10 @@ package it.polimi.se2019.controller.statePattern;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 
-/**state interface, offers three methods*/
+/**state interface, offers three methods
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public interface State {
 
     /**@param playerToAsk the player to be asked the input*/

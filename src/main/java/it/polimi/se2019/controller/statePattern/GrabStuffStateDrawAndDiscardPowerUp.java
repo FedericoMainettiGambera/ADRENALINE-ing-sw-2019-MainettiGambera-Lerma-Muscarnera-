@@ -13,7 +13,10 @@ import java.util.Arrays;
 import java.util.logging.Logger;
 
 /**in case a ammo card drew made it possible to draw a power up and user already holds too many,
- *the state pattern will get here*/
+ *the state pattern will get here
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public class GrabStuffStateDrawAndDiscardPowerUp implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);

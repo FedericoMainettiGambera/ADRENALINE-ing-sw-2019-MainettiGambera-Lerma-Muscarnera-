@@ -14,7 +14,10 @@ import java.util.Arrays;
 import java.util.logging.Logger;
 
 
-/** this class set up the game options as desired by the user*/
+/** this class set up the game options as desired by the user
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public class GameSetUpState implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);

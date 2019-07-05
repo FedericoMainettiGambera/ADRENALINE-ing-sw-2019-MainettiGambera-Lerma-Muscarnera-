@@ -18,7 +18,9 @@ import it.polimi.se2019.controller.WaitForPlayerInput;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.view.components.PowerUpCardV;
 
-/**implements the tag back grenade functionality*/
+/**implements the tag back grenade functionality ...
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera*/
 public class TagBackGranadeState implements State{
 
     private static PrintWriter out= new PrintWriter(System.out, true);

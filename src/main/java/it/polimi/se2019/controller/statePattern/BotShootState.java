@@ -19,6 +19,8 @@ import java.util.logging.Logger;
 
 /**
  * this class makes possible for the bot to shoot
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
  * */
 public class BotShootState implements State{
 

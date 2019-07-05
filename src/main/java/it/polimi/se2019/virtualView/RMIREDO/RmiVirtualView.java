@@ -25,19 +25,25 @@ public class RmiVirtualView extends VirtualView implements RmiInterface{
 
     private static final Logger logger= Logger.getLogger(RmiVirtualView.class.getName());
 
+    /**handle the controller*/
     private ViewControllerEventHandlerContext controller;
 
+    /**new player created*/
     private static Player newPlayer;
 
+    /**@return newPlayer*/
     public static Player getNewPlayer() {
         return newPlayer;
     }
 
+    /**constructor,
+     * @param controller needed to initialize controller attribute*/
     public RmiVirtualView(ViewControllerEventHandlerContext controller){
         this.controller = controller;
     }
 
-    /** start the rmi server*/
+    /** starts the rmi server
+     * @throws RemoteException, as requested from rmi implementations */
     public void startRMI() throws RemoteException {
 
         RmiInterface rmiInterface = new RmiVirtualView(controller);
@@ -50,6 +56,7 @@ public class RmiVirtualView extends VirtualView implements RmiInterface{
 
     }
 
+    /**@param o it's the object to send to all clients*/
     public void sendAllClient(Object o){
         if(ModelGate.getModel().getPlayerList()!=null && ModelGate.getModel().getPlayerList().getPlayers()!=null){
             for (Player p : ModelGate.getModel().getPlayerList().getPlayers()) {
@@ -58,6 +65,8 @@ public class RmiVirtualView extends VirtualView implements RmiInterface{
         }
     }
 
+    /**@param o it's the object to send to the client
+     * @param playerToSend is the specific client to send the object to*/
      static void sendToClient(Player playerToSend, Object o){
 
 
@@ -70,6 +79,8 @@ public class RmiVirtualView extends VirtualView implements RmiInterface{
             }
     }
 
+    /**@param playerToSend is player to send the event
+     * @param o to, it sends the event to client even if the player is AFK*/
      static void sendToClientEvenAFK(Player playerToSend, Object o) {
 
         try {
@@ -80,18 +91,25 @@ public class RmiVirtualView extends VirtualView implements RmiInterface{
     }
 
         /**
-         * this update is called from the notify of the Model, it sends MVEs to all clients*/
+         * this update is called from the notify of the Model, it sends MVEs to all clients
+         * @param arg object to send to all client */
     @Override
     public void update(Observable o, Object arg){
         //send to all client the object arg
         sendAllClient(arg);
     }
 
+    /**@param p the new player to set newPlayer attribute in class*/
      static void setNewPlayer(Player p){
         newPlayer = p;
     }
 
 
+    /**send
+     * @param o to parse the event received and act consequentially
+     *          it may be a nickname, so a newconnection or a reconnection
+     *          or a normal event, so a specific
+     * */
     @Override
     public void send(Object o){
         if(o.getClass().toString().contains("ViewControllerEventNickname")){
@@ -111,6 +129,9 @@ public class RmiVirtualView extends VirtualView implements RmiInterface{
         }
     }
 
+    /**@param client contains the reference to the client's interface
+     * needed to communicate to them
+     * */
     @Override
     public void connect(RmiInterface client) {
         //fa partire un thread: RmiCOnnectionHandlerVirtualView

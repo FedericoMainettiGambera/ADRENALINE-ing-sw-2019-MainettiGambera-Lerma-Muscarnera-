@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
-/**this state is meant to score the kill shot track  and provide a final ranking. It is, obviously, only called once, at the end of the game*/
+/*** @author LudoLerma
+ * @author FedericoMainettiGambera
+ * this state is meant to score the kill shot track  and provide a final ranking. It is, obviously, only called once, at the end of the game*/
 public class FinalScoringState implements State {
 
     private static PrintWriter out = new PrintWriter(System.out, true);

@@ -15,7 +15,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**this class allows the user to grab a weapon*/
+/**this class allows the user to grab a weapon
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public class GrabStuffStateGrabWeapon implements  State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);

@@ -10,7 +10,9 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 
 import java.io.PrintWriter;
 
-/**this class implements the GrabStuffStateGrab which makes possible for the users to grab ammo card or weapon card*/
+/*** @author LudoLerma
+ * @author FedericoMainettiGambera
+ * this class implements the GrabStuffStateGrab which makes possible for the users to grab ammo card or weapon card*/
 public class GrabStuffStateGrab implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);

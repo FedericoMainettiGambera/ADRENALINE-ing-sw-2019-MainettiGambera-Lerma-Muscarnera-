@@ -18,6 +18,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**implements reloading weapons
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public class ReloadState implements State{
 
     private static PrintWriter out= new PrintWriter(System.out, true);
