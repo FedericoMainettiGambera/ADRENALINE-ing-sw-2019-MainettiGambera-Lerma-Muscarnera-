@@ -981,196 +981,145 @@ public class GameSceneController implements Initializable {
     private class ShowPlayer implements Runnable {
         PlayerV playerV;
 
-
         ShowPlayer(PlayerV playerV) {
             this.playerV = playerV;
             System.out.println(playerV.getNickname());
         }
 
+        private String getColorStringWithFirstCapitalLetter(PlayersColors color){
+            if(color.equals(PlayersColors.gray)){
+                return "Gray";
+            }
+            else if(color.equals(PlayersColors.green)){
+                return "Green";
+            }
+            else if(color.equals(PlayersColors.blue)){
+                return "Blue";
+            }
+            else if(color.equals(PlayersColors.purple)){
+                return "Purple";
+            }
+            else{
+                return "Yellow";
+            }
+        }
         @Override
         public void run() {
-            VBox mainFrame = new VBox();
-            Color color=setColor(playerV);
+            VBox mainVbox = new VBox(); //contains everything
 
+            //nickname / color
+            Label nicknameLabel = new Label(playerV.getNickname());
+            StackPane nickname = new StackPane(nicknameLabel);
+            nickname.getStyleClass().add("nicknameBackground"+getColorStringWithFirstCapitalLetter(playerV.getColor()));
+            nicknameLabel.getStyleClass().add("nicknameStyle");
+            mainVbox.getChildren().add(nickname);
 
-            VBox avatar= new VBox();
+            HBox hBox = new HBox(); //contains vbox of damages and markd and vbox of ammos
+            VBox.setVgrow(hBox, Priority.ALWAYS);
+            mainVbox.getChildren().add(hBox);
 
-            Label name = new Label();
-            name.setText(playerV.getNickname());
-            name.setTextFill(color);
-            name.setFont(Font.font("Courier"));
+            VBox vBoxMarksAndDamages = new VBox(); //contains marks and damages
+            HBox.setHgrow(vBoxMarksAndDamages, Priority.ALWAYS);
+            hBox.getChildren().add(vBoxMarksAndDamages);
+            vBoxMarksAndDamages.setStyle("-fx-border-color: blue");
 
-            avatar.getChildren().add(name);
-            VBox.setVgrow(name,Priority.ALWAYS);
+            //marks
+            HBox hBoxMarks = new HBox();
+            VBox.setVgrow(hBoxMarks,Priority.ALWAYS);
+            vBoxMarksAndDamages.getChildren().add(hBoxMarks);
+            hBoxMarks.getStyleClass().add("marksBackground");
+            int numberOfFullMarksSlots = playerV.getMarksTracker().getMarkSlotsList().size();
+            for (int i = 0; i < numberOfFullMarksSlots; i++) { // full marks
+                StackPane markSlot = new StackPane(new Label(""+ playerV.getMarksTracker().getMarkSlotsList().get(i).getQuantity()));
+                HBox.setHgrow(markSlot,Priority.ALWAYS);
+                hBoxMarks.getChildren().add(markSlot);
+                PlayerV markingPlayer = ViewModelGate.getModel().getPlayers().getPlayer(playerV.getMarksTracker().getMarkSlotsList().get(i).getMarkingPlayer());
+                markSlot.getStyleClass().add("mark"+getColorStringWithFirstCapitalLetter(markingPlayer.getColor()));
+            }
+            for (int i = numberOfFullMarksSlots; i < 5; i++) { //empty marks
+                StackPane markSlot = new StackPane(new Label());
+                HBox.setHgrow(markSlot,Priority.ALWAYS);
+                hBoxMarks.getChildren().add(markSlot);
+                markSlot.getStyleClass().add("markEmpty");
+            }
 
-            StackPane image=new StackPane();
-            image.getStyleClass().add(setImage(playerV.getColor()));
+            //damages
+            HBox hBoxDamages = new HBox();
+            VBox.setVgrow(hBoxDamages,Priority.ALWAYS);
+            vBoxMarksAndDamages.getChildren().add(hBoxDamages);
+            hBoxDamages.getStyleClass().add("damagesBackground");
+            int numberOfFullDamageSlots = playerV.getDamageTracker().getDamageSlotsList().size();
+            for (int i = 0; i < 12 && i<numberOfFullDamageSlots; i++) { //full damages
+                StackPane damageSlotBackground = new StackPane();
+                StackPane damageSlotMainImage = new StackPane();
+                damageSlotBackground.getChildren().add(damageSlotMainImage);
+                HBox.setHgrow(damageSlotBackground,Priority.ALWAYS);
+                hBoxMarks.getChildren().add(damageSlotBackground);
+                PlayersColors markingPlayerColor= playerV.getDamageTracker().getDamageSlotsList().get(i).getShootingPlayerColor();
+                damageSlotMainImage.getStyleClass().add("damage"+getColorStringWithFirstCapitalLetter(markingPlayerColor));
+            }
+            for (int i = numberOfFullDamageSlots; i < 12 ; i++) { //empty damages
+                StackPane damageSlotBackground = new StackPane();
+                StackPane damageSlotMainImage = new StackPane();
+                damageSlotBackground.getChildren().add(damageSlotMainImage);
+                HBox.setHgrow(damageSlotBackground,Priority.ALWAYS);
+                hBoxMarks.getChildren().add(damageSlotBackground);
+                damageSlotMainImage.getStyleClass().add("damageEmpty");
+            }
+            StackPane damageSlot13 = new StackPane();
+            HBox.setHgrow(damageSlot13, Priority.ALWAYS);
+            hBoxDamages.getChildren().add(damageSlot13);
+            if(numberOfFullDamageSlots>=12){
+                damageSlot13.getChildren().add(new Label("" + (numberOfFullDamageSlots-12)));
+            }
 
-            avatar.getChildren().add(image);
-            VBox.setVgrow(image,Priority.ALWAYS);
-
-            System.out.println(playerV.getNickname());
-
-            mainFrame.getChildren().add(avatar);
-            VBox.setVgrow(avatar, Priority.ALWAYS);
-            HBox markstracker=new HBox();
-
-            if(playerV.getMarksTracker()==null || playerV.getMarksTracker().getMarkSlotsList()==null || playerV.getMarksTracker().getMarkSlotsList().isEmpty()){
-                for (int i = 0; i <4 ; i++) {
-                    StackPane backgroundEmpty=new StackPane();
-                    StackPane markempty=new StackPane();
-                    backgroundEmpty.getChildren().add(markempty);
-                    markempty.getStyleClass().add("markEmpty");
-
-
-                    markstracker.getChildren().add(backgroundEmpty);
-                    HBox.setHgrow(backgroundEmpty, Priority.ALWAYS);
+            VBox vBoxAmmoCubes = new VBox(); //contains ammo cubes
+            HBox.setHgrow(vBoxAmmoCubes, Priority.ALWAYS);
+            hBox.getChildren().add(vBoxAmmoCubes);
+            //ammo box
+            for (AmmoCubesColor ammoCubesColor: AmmoCubesColor.values()) {
+                HBox ammosHBox = new HBox();
+                VBox.setVgrow(ammosHBox,Priority.ALWAYS);
+                vBoxAmmoCubes.getChildren().add(ammosHBox);
+                int quantity = 0;
+                for (AmmoCubesV a: playerV.getAmmoBox().getAmmoCubesList()) {
+                    if(a.getColor().equals(ammoCubesColor)){
+                        quantity = a.getQuantity();
+                    }
+                }
+                for (int i = 0; i < quantity; i++) { //ammo full
+                    StackPane ammo = new StackPane();
+                    HBox.setHgrow(ammo, Priority.ALWAYS);
+                    ammosHBox.getChildren().add(ammo);
+                }
+                for (int i = quantity; i < 3; i++) { //ammo empty
+                    StackPane ammo = new StackPane();
+                    HBox.setHgrow(ammo, Priority.ALWAYS);
+                    ammosHBox.getChildren().add(ammo);
                 }
             }
 
-
-          else {
-              int i=0;
-                for (MarkSlotV markSlotV : playerV.getMarksTracker().getMarkSlotsList()) {
-
-                    StackPane background = new StackPane();
-                    StackPane mark = new StackPane();
-                    background.getChildren().add(mark);
-                    mark.getStyleClass().add(setMarkImage(ViewModelGate.getModel().getPlayers().getPlayer(markSlotV.getMarkingPlayer()).getColor()));
-                    Label quantity = new Label();
-                    quantity.setText("" + markSlotV.getQuantity());
-                    mark.getChildren().add(quantity);
-
-                    markstracker.getChildren().add(background);
-                    HBox.setHgrow(background, Priority.ALWAYS);
-                    i++;
-                }
-
-                while(i<4){
-                    StackPane background1 = new StackPane();
-                    StackPane mark1 = new StackPane();
-                    background1.getChildren().add(mark1);
-                    mark1.getStyleClass().add("markEmpty");
-                    markstracker.getChildren().add(background1);
-                    HBox.setHgrow(background1, Priority.ALWAYS);
-                    i++;
-
-                }
-
-
-                mainFrame.getChildren().add(markstracker);
-                VBox.setVgrow(markstracker, Priority.ALWAYS);
+            //number of deaths / final frenzy board
+            if(!playerV.isHasFinalFrenzyBoard()) {
+                StackPane deaths = new StackPane(new Label("deaths: " + playerV.getNumberOfDeaths()));
+                mainVbox.getChildren().add(deaths);
+            }
+            else{
+                StackPane deaths = new StackPane(new Label("deaths: " + playerV.getNumberOfDeaths() + " and has Final Frenzy board"));
+                mainVbox.getChildren().add(deaths);
             }
 
-            HBox damageTracker=new HBox();
-
-          if(playerV.getDamageTracker()==null || playerV.getDamageTracker().getDamageSlotsList()==null || playerV.getDamageTracker().getDamageSlotsList().isEmpty()){
-                for (int i = 0; i <12 ; i++) {
-                    StackPane backgroundEmptydamage=new StackPane();
-                    StackPane damageempty=new StackPane();
-                    backgroundEmptydamage.getChildren().add(damageempty);
-
-                    backgroundEmptydamage.getStyleClass().add("damageEmpty");
-
-                    damageTracker.getChildren().add(backgroundEmptydamage);
-
-                    HBox.setHgrow(backgroundEmptydamage, Priority.ALWAYS);
-                }
+            HBox hBoxWeapons = new HBox(); //contains weapons
+            VBox.setVgrow(hBoxWeapons,Priority.ALWAYS);
+            mainVbox.getChildren().add(hBoxWeapons);
+            //weapon cards
+            for (WeaponCardV weapon: playerV.getWeaponCardInHand().getCards()) {
+                StackPane weaponStackPane = new StackPane(new Label(weapon.getName()));
+                HBox.setHgrow(weaponStackPane,Priority.ALWAYS);
+                hBoxWeapons.getChildren().add(weaponStackPane);
             }
 
-           else {
-               int j=0;
-              for (DamageSlotV damageSlotV : playerV.getDamageTracker().getDamageSlotsList()) {
-
-                  StackPane background = new StackPane();
-
-                  StackPane damage = new StackPane();
-
-                  background.getChildren().add(damage);
-
-                  damage.getStyleClass().add(setDamageImage(ViewModelGate.getModel().getPlayers().getPlayer(damageSlotV.getShootingPlayerNickname()).getColor()));
-
-                  damageTracker.getChildren().add(background);
-                  HBox.setHgrow(background, Priority.ALWAYS);
-                  j++;
-
-              }
-
-              while(j<12){
-                  StackPane damageEmptyBack = new StackPane();
-                  StackPane damageEmpty2 = new StackPane();
-                  damageEmptyBack.getChildren().add(damageEmpty2);
-                  damageEmpty2.getStyleClass().add("damageEmpty");
-                  markstracker.getChildren().add(damageEmptyBack);
-                  HBox.setHgrow(damageEmptyBack, Priority.ALWAYS);
-                  j++;
-
-              }
-
-          }
-
-            mainFrame.getChildren().add(damageTracker);
-            VBox.setVgrow(damageTracker, Priority.ALWAYS);
-
-
-
-
-            Label deaths=new Label();
-            deaths.setText("THE PLAYER DIED A NUMBER OF TIME EQUALS TO \n :  "+playerV.getNumberOfDeaths());
-            deaths.setTextFill(color);
-            deaths.setFont(Font.font("Courier"));
-
-            mainFrame.getChildren().add(deaths);
-            System.out.println(mainFrame.getChildren().toString());
-
-            Platform.runLater(() -> changeInformationSection(mainFrame));
-
-
-        }
-
-
-        private String setMarkImage(PlayersColors color){
-            String style;
-
-            switch (color){
-                case yellow: style="markYellow";break;
-                case blue:style="markBlue";break;
-                case green:style="markGreen";break;
-                case gray:style="markGray";break;
-                case purple:style="markPurple";break;
-                default:style="markEmpty";
-                    break;
-            }
-            return style;
-        }
-
-        private String setDamageImage(PlayersColors color){
-            String style;
-
-            switch (color){
-                case yellow: style="damageYellow";break;
-                case blue:style="damageBlue";break;
-                case green:style="damageGreen";break;
-                case gray:style="damageGray";break;
-                case purple:style="damagePurple";break;
-                default:style="damagePlayer";
-                    break;
-            }
-            return style;
-        }
-        private Color setColor(PlayerV playerV) {
-            Color color;
-
-            switch (playerV.getColor()){
-                case yellow: color=Color.rgb(255,166,0);break;
-                case blue:color=Color.rgb(0,0,255);break;
-                case green:color=Color.rgb(0,255,0);break;
-                case gray:color=Color.rgb(39,39,44);break;
-                case purple:color=Color.rgb(153,0,118);break;
-                default:color=Color.rgb(0,0,0);
-                    break;
-            }
-            return color;
+            Platform.runLater(() -> changeInformationSection(mainVbox));
         }
     }
 
@@ -1199,8 +1148,6 @@ public class GameSceneController implements Initializable {
 
             vBox.getChildren().add(card);
             card.getStyleClass().add("weaponCard"+weaponCard.getID());
-
-            System.out.println(vBox.getChildren().toString());
 
             Platform.runLater(()->{
 
