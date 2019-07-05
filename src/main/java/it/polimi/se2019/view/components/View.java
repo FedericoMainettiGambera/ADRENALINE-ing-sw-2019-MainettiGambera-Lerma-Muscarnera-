@@ -9,12 +9,10 @@ import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.selectorEvents.*;
 import it.polimi.se2019.model.events.stateEvent.StateEvent;
 import it.polimi.se2019.model.events.timerEvent.TimerEvent;
-import it.polimi.se2019.networkHandler.RMIREDO.RmiNetworkHandler;
 import it.polimi.se2019.networkHandler.Socket.SocketNetworkHandler;
 import it.polimi.se2019.view.outputHandler.CLIOutputHandler;
 import it.polimi.se2019.view.outputHandler.GUIOutputHandler;
 import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
-import it.polimi.se2019.view.selector.CLISelector;
 import it.polimi.se2019.view.selector.ViewSelector;
 
 import java.io.PrintWriter;
@@ -22,17 +20,24 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+/**calls the correct output handler to modify the view
+ *@author FedericoMainettiGambera
+ *  @author LudoLerma
+ * */
 public class View implements Observer {
 
+    /**reference to the correct view selector */
     private ViewSelector selector;
-
+    /**rmi or socket*/
     private String networkConnection;
-
+    /**gui or cli*/
     private String userInterface;
 
     private static PrintWriter out=new PrintWriter(System.out, true);
 
-
+    /**constructor,
+     * @param networkConnection to initialize network connection attribute
+     * @param userInterface to initialize userinterface attrubute*/
     public View(String networkConnection, String userInterface){
         this.userInterface = userInterface;
 
@@ -54,7 +59,8 @@ public class View implements Observer {
         OutputHandlerGate.getCorrectOutputHandler(this.userInterface).gameCreated();
 
     }
-
+    /**update the correct components depending on the type of event received
+     * @param arg the event received*/
     @Override
     public void update(Observable o, Object arg){
         SelectorEvent selectorEvent = null;
@@ -95,7 +101,9 @@ public class View implements Observer {
             }
         }
     }
-
+    /**@param modelViewEvent this function calls the correct component and modifies it
+     *                        depending on the information
+     * stored in the modelViewEvent*/
     public void callCorrectComponent(ModelViewEvent modelViewEvent)  {
         ModelViewEventTypes information = modelViewEvent.getInformation();
 
@@ -104,7 +112,6 @@ public class View implements Observer {
             //from Game class
             case setFinalFrenzy:
                 ViewModelGate.getModel().setFinalFrenzy((boolean)modelViewEvent.getComponent());
-
                 OutputHandlerGate.getCorrectOutputHandler(this.userInterface).setFinalFrenzy(modelViewEvent);
                 break;
 
@@ -404,7 +411,8 @@ public class View implements Observer {
         }
 
     }
-
+    /**@param orderedCardListV is parsed to get the context out of it,
+     * the right ordered card list is updated*/
     public void setOrderedCardListV(OrderedCardListV orderedCardListV){
         if(orderedCardListV.getContext().contains("powerUpDeck")){
             ViewModelGate.getModel().setPowerUpDeck(orderedCardListV);
@@ -454,7 +462,8 @@ public class View implements Observer {
 
             ((SpawnPointSquareV)ViewModelGate.getModel().getBoard().getMap()[Integer.parseInt(x)][Integer.parseInt(y)]).setWeaponCards(orderedCardListV);        }
     }
-
+    /**@param selectorEvent this function call the correct selector for the
+     *                      selectorevent received */
     public void callCorrectSelector(SelectorEvent selectorEvent){
         SelectorEventTypes selectorEventTypes = selectorEvent.getSelectorEventTypes();
         switch (selectorEventTypes) {

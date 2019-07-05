@@ -19,6 +19,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**implements the request to the user and the collection of the answers
+ * in cli
+ * @author FedericoMainettiGambera
+ * @author LudoLerma
+ * */
 public class CLISelector implements SelectorV {
 
     private static final Logger logger=Logger.getLogger(CLISelector.class.getName());
@@ -31,6 +36,8 @@ public class CLISelector implements SelectorV {
         this.networkConnection = networkConnection;
     }
 
+    /**print a list of request in a nice way
+     * @param requests the said list*/
     public static void showListOfRequests(List<String> requests){
 
         int maxLenght = 10;
@@ -115,7 +122,8 @@ public class CLISelector implements SelectorV {
         System.out.println(s);
     }
 
-
+/**@param rangeEnd ask a number in the given range
+ * @param rangeInit */
     public static int askNumber(int rangeInit, int rangeEnd){
         if(Controller.isRandomGame()){
             try {
@@ -1250,17 +1258,30 @@ public class CLISelector implements SelectorV {
     }
 
 
+    /**implements the request of using targeting scope*/
     private class AskTargetingScope extends Thread{
+        /**a list of the powerup of targeting scope type the player holds in hand*/
         private List<PowerUpCardV> listOfTargetingScopeV;
+        /**the possible in which the player can pay*/
         private List<Object> possiblePaymentsV;
+        /**a list of the mostly recent damaged player */
         private List<PlayerV> damagedPlayersV;
 
+        /**constructor
+         * @param possiblePaymentsV to initialize possiblePayments
+         * @param listOfTargetingScopeV to initialize listOfTargetingScopeV
+         * @param damagedPlayersV to initialize damagedPlayersV
+         * */
         private AskTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV){
             this.listOfTargetingScopeV =listOfTargetingScopeV;
             this.possiblePaymentsV = possiblePaymentsV;
             this.damagedPlayersV = damagedPlayersV;
         }
 
+        /**
+         * starts a thread to ask the player whether they wants to use the targeting scope card or not
+         * and to show them the details of the usage
+         * */
         @Override
         public void run(){
 
@@ -1308,6 +1329,11 @@ public class CLISelector implements SelectorV {
             ViewSelector.sendToServer(viewControllerEventListOfObject);
         }
     }
+    /**launches a thread of AskTargetingScope class
+     * @param damagedPlayersV above mentioned
+     * @param listOfTargetingScopeV above mentioned
+     * @param possiblePaymentsV above mentioned
+     * */
     @Override
     public void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV) {
         AskTargetingScope ats = new AskTargetingScope(listOfTargetingScopeV, possiblePaymentsV, damagedPlayersV);
@@ -1316,11 +1342,18 @@ public class CLISelector implements SelectorV {
 
 
 
+    /**implements the request of using tag back grenade*/
     private class AskTagBackGranade extends Thread{
+        /**listOfTagBackGranade the list of power ups the user can use*/
         private List<PowerUpCardV> listOfTagBackGranade;
+        /**construcor,
+         * @param listOfTagBackGranade the list of power ups the user can use
+         * */
         public AskTagBackGranade(List<PowerUpCardV> listOfTagBackGranade){
             this.listOfTagBackGranade = listOfTagBackGranade;
         }
+        /**a thread that asks the player whether he wants to use the tagback grenade or not
+         * and collects the answer*/
         @Override
         public void run(){
             out.println("<CLIENT> do you want to use tagback granade?");
@@ -1337,6 +1370,9 @@ public class CLISelector implements SelectorV {
             ViewSelector.sendToServer(viewControllerEventInt);
         }
     }
+    /**launches a thread of AskTagBackGranade class
+     * @param listOfTagBackGranade to be passed to the constructor of the class
+     * */
     @Override
     public void askTagBackGranade(List<PowerUpCardV> listOfTagBackGranade) {
         AskTagBackGranade atbg = new AskTagBackGranade(listOfTagBackGranade);

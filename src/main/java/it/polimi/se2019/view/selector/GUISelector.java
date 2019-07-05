@@ -30,7 +30,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
+/**Gui selector, asks the input to the client
+ * @author LudoLerma
+ * @author FedericoMainetttiGambera
+ * */
 public class GUISelector implements SelectorV {
 
     private String networkConnection;
