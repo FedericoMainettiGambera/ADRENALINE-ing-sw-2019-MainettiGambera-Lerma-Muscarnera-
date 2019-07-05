@@ -184,7 +184,7 @@ public class Game extends Observable implements Serializable {
 
         //builds weapon cards
         OrderedCardList<WeaponCard> tempWeaponDeck = new OrderedCardList<>("weaponDeck");
-        File directory = new File("src/main/Files/cards/weaponCards");     // insert here path to weapon cards folder
+        File directory = new File("Files/cards/weaponCards");     // insert here path to weapon cards folder
         int fileCount = Objects.requireNonNull(directory.list()).length;
         for(int i = 1; i< fileCount+1; i++) {
             try {
@@ -201,7 +201,7 @@ public class Game extends Observable implements Serializable {
         }
 
         OrderedCardList<PowerUpCard> tempPowerUpDeck = new OrderedCardList<>("powerUpDeck");
-        directory = new File("src/main/Files/cards/powerUpCards");          // insert here path to power up cards folder
+        directory = new File("Files/cards/powerUpCards");          // insert here path to power up cards folder
         fileCount = Objects.requireNonNull(directory.list()).length;
         List<AmmoCubesColor> Colors = new ArrayList<>();
         Colors.add(AmmoCubesColor.red);
@@ -231,7 +231,7 @@ public class Game extends Observable implements Serializable {
 
 
         OrderedCardList<AmmoCard> tempAmmoDeck = new OrderedCardList<>("ammoDeck");
-        directory = new File("src/main/Files/cards/ammoCards");          // insert here path to ammo cards folder
+
         int count = 36;
         for(int i = 1; i<= count;i++) {
             System.out.println("<SERVER> building Ammo cards ID: " +i);
