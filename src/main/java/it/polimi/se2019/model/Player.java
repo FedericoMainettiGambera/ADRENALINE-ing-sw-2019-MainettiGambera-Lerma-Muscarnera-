@@ -99,7 +99,7 @@ public class Player extends Person implements Serializable {
     /**set the player AFK and communicates it to them
      * @param isAFK boolean*/
     public void setAFKWithNotify(boolean isAFK){
-        ViewControllerEventHandlerContext.addStringToElementStackPane(":::::::::::::::::::::::::    " + this.getNickname() + " SETTED AFK " + "    :::::::::::::::::::::::::");
+        ViewControllerEventHandlerContext.addStringToElementStackPane("-------------------------------    " + this.getNickname() + " SETTED AFK " + "    -------------------------------");
         //notify everybody, even the one just set AFK
         regulateNumberOfConnection(isAFK);
         this.isAFK = isAFK;
@@ -131,7 +131,7 @@ public class Player extends Person implements Serializable {
     /**set the player AFK without communicating it to them
      * @param isAFK boolean*/
     public void setAFKWIthoutNotify(boolean isAFK){
-        ViewControllerEventHandlerContext.addStringToElementStackPane(":::::::::::::::::::::::::    " + this.getNickname() + " SETTED AFK " + "    :::::::::::::::::::::::::");
+        ViewControllerEventHandlerContext.addStringToElementStackPane("-------------------------------    " + this.getNickname() + " SETTED AFK " + "    -------------------------------");
 
         //notify everybody except the one just setted AFK
         regulateNumberOfConnection(isAFK);

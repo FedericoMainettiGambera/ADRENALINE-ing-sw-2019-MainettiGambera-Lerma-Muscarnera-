@@ -33,6 +33,7 @@ public class FFSetUpState implements State {
      * */
     @Override
     public void doAction(ViewControllerEvent vce) {
+        ViewControllerEventHandlerContext.addStringToElementStackPane("-------------------------------    FINAL FRENZY BEGUN    -------------------------------");
 
         prepareForFF();
 
