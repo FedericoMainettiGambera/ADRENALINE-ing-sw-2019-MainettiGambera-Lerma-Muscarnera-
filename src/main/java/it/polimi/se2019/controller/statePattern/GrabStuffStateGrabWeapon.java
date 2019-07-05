@@ -211,13 +211,14 @@ public class GrabStuffStateGrabWeapon implements  State {
             out.println("<SERVER> Picking up new card: " + toDraw.getID());
             squareWeapons.moveCardTo(playerWeapons, toDraw.getID());
 
+            //TODO deleted and moved this part to SpawnState
             //replacing new card
-            if (!ModelGate.getModel().getWeaponDeck().getCards().isEmpty()) {
-                out.println("<SERVER> Replacing picked up card in the spawn point with card: " + ModelGate.getModel().getWeaponDeck().getFirstCard().getID());
-                ModelGate.getModel().getWeaponDeck().moveCardTo(squareWeapons, ModelGate.getModel().getWeaponDeck().getFirstCard().getID());
-            } else {
-                out.println("<SERVER> The weapon deck is empty, so the space left in the SpawnPoint from the picked up card is not replaced.");
-            }
+            //if (!ModelGate.getModel().getWeaponDeck().getCards().isEmpty()) {
+            //    out.println("<SERVER> Replacing picked up card in the spawn point with card: " + ModelGate.getModel().getWeaponDeck().getFirstCard().getID());
+            //    ModelGate.getModel().getWeaponDeck().moveCardTo(squareWeapons, ModelGate.getModel().getWeaponDeck().getFirstCard().getID());
+            //} else {
+            //    out.println("<SERVER> The weapon deck is empty, so the space left in the SpawnPoint from the picked up card is not replaced.");
+            //}
             return toDraw;
         }
     }
