@@ -172,7 +172,7 @@ public class PreConditionMethodsInverted {
                             actionContext.getPlayer().setPosition(c.getCoordinates());
                             // chiamo you can see
                             int n = youCanSee(actionContext, typePlayer, actionDetails, inputs, inputSlots, contextEffect).size() - 1; // numero di player visibili meno il player
-                            System.out.println("<SERVER> BUFFER DI YOUWILLSEE " + n);
+                            //System.out.println("<SERVER> BUFFER DI YOUWILLSEE " + n);
                             // ripristino il contesto
                             actionContext.getPlayer().setPosition(oldPosition);
                             // (return di you can see).size > 0 --> aggiungo C  a retVal
@@ -235,7 +235,7 @@ public class PreConditionMethodsInverted {
                             actionContext.getPlayer().setPosition(c.getCoordinates());
                             // chiamo you can see
                             int n = youCanSee(actionContext, typePlayer, actionDetails, inputs, inputSlots, contextEffect).size() - 1; // numero di player visibili meno il player
-                            System.out.println("<SERVER> BUFFER DI YOUWILLSEE " + n);
+                            //System.out.println("<SERVER> BUFFER DI YOUWILLSEE " + n);
                             // ripristino il contesto
                             actionContext.getPlayer().setPosition(oldPosition);
                             // (return di you can see).size > 0 --> aggiungo C  a retVal
@@ -1970,11 +1970,16 @@ public class PreConditionMethodsInverted {
 
         List<Object> retVal = new ArrayList<>();
 
-        Player lastTarget;
-        if(actionContext.getPlayer().getPlayerHistory().getSize() > 0)
+        Object lastTarget;
+        if(((List<Object>)inputs).size() > 0)
+        lastTarget = ((Object[])((List<Object>)inputs).get( ((List<Object>)inputs).size() - 1))[0];
+        else
+        lastTarget = null;
+
+        /*if(actionContext.getPlayer().getPlayerHistory().getSize() > 0)
             lastTarget =  (Player) ((Object[])actionContext.getPlayer().getPlayerHistory().getLast().getInput())[0];
         else
-            lastTarget = null;
+            lastTarget = null;*/
 
         if(type.equals(typeSquare)) {
             for(Square s[] : actionContext.getBoard().getMap()){

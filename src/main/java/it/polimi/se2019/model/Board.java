@@ -407,7 +407,7 @@ public class Board{
         List<Position> positionsList=new ArrayList<>();
         List<Player> players=new ArrayList<>();
 
-        System.out.println("<SERVER-model> checking players in room: " + ModelGate.getModel().getBoard().getSquare(pos).getColor());
+        //System.out.println("<SERVER-model> checking players in room: " + ModelGate.getModel().getBoard().getSquare(pos).getColor());
 
         List<Square> squareList= ModelGate.getModel().getBoard().getRoomFromPosition(pos);
         for (Square square : squareList){
@@ -422,9 +422,9 @@ public class Board{
             }
         }
 
-        System.out.println("<SERVER-model> players found are:");
+        //System.out.println("<SERVER-model> players found are:");
         for (Player p: players) {
-            System.out.println("               " + p.getNickname());
+            //System.out.println("               " + p.getNickname());
         }
 
         return players;
@@ -432,28 +432,28 @@ public class Board{
 
     public static List<Player> getCanSeePlayerFrom(Position pos){
 
-        System.out.println("<SERVER> searching for the players that can be seen from position " +pos.humanString());
+        //System.out.println("<SERVER> searching for the players that can be seen from position " +pos.humanString());
 
         //takes all players in the bot's room
-        System.out.println("         checking current position room");
+        //System.out.println("         checking current position room");
         List<Player> players = new ArrayList<>(getPlayersInRoom(pos));
 
         Square botSquare=ModelGate.getModel().getBoard().getSquare(pos);
 
         //takes all players in the adjacent rooms:
-        System.out.println("         checking north room");
+        //System.out.println("         checking north room");
         if(botSquare.getSide(CardinalPoint.north).equals(SquareSide.door)){
             players.addAll(getPlayersInRoom(new Position(pos.getX()-1, pos.getY())));
         }
-        System.out.println("         checking south room");
+        //System.out.println("         checking south room");
         if(botSquare.getSide(CardinalPoint.south).equals(SquareSide.door)){
             players.addAll(getPlayersInRoom(new Position(pos.getX()+1, pos.getY())));
         }
-        System.out.println("         checking east room");
+        //System.out.println("         checking east room");
         if(botSquare.getSide(CardinalPoint.east).equals(SquareSide.door)){
             players.addAll(getPlayersInRoom(new Position(pos.getX(), pos.getY()+1)));
         }
-        System.out.println("         checking west room");
+        //System.out.println("         checking west room");
         if(botSquare.getSide(CardinalPoint.west).equals(SquareSide.door)){
             players.addAll(getPlayersInRoom(new Position(pos.getX(), pos.getY()-1)));
         }

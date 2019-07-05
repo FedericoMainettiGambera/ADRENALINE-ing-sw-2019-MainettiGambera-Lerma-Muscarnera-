@@ -42,7 +42,7 @@ public class Damage extends Action implements Serializable {
      * */
     public void Exec() {
         /*@*/
-        System.out.println("Eseguo azione");
+        //System.out.println("Eseguo azione");
         /*@*/
         // rimozione dell'eventuale player
         if( getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList().contains(getActionInfo().getActionContext().getPlayer()))
@@ -63,12 +63,12 @@ public class Damage extends Action implements Serializable {
 
                     int damageEntity = Integer.parseInt((String) getActionInfo().getActionDetails().getFileSelectedActionDetails().getFileSettingData().get(0));
 
-                    System.out.println("colpisco " + t.getNickname() + ": " + damageEntity + " danno (i) " );
+                    //System.out.println("colpisco " + t.getNickname() + ": " + damageEntity + " danno (i) " );
                     target.addDamages(shooter,
                             damageEntity);
                 } else {
 
-                    System.out.println("non puoi colpirti da solo!");
+                    //System.out.println("non puoi colpirti da solo!");
                 }
              }
         }
