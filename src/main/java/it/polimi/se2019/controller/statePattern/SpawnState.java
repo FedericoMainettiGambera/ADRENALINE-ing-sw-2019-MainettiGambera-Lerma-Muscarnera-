@@ -100,6 +100,7 @@ public class SpawnState implements State {
         out.println("----------------------------------        SOMEONE DIED        -------------------------------------------");
         out.println(string);
         out.println(string);
+        ViewControllerEventHandlerContext.addStringToElementStackPane("----------------------------------        SOMEONE DIED        -------------------------------------------");
     }
 
     /**@param viewControllerEvent is parsed, depending on which power up the player discarded,

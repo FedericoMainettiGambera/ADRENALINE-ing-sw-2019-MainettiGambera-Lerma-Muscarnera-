@@ -1,6 +1,7 @@
 package it.polimi.se2019.controller.statePattern;
 
 import it.polimi.se2019.controller.ModelGate;
+import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Kill;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
@@ -78,6 +79,7 @@ public class FinalScoringState implements State {
 
            } else out.println("mhh something went wrong with scoring points");
 
+        ViewControllerEventHandlerContext.printStackOfStatesAndTImers();
         System.exit(0);
     }
 
