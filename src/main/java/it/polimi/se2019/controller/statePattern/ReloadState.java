@@ -141,7 +141,7 @@ public class ReloadState implements State{
 
         SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
         SelectorGate.getCorrectSelectorFor(playerToAsk).askWhatReaload(toReload);
-        this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString(), "ask ask what reload"));
+        this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString(), "ask what reload"));
         this.inputTimer.start();
     }
 
