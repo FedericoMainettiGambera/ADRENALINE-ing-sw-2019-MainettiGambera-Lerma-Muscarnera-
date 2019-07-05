@@ -1,7 +1,9 @@
 package it.polimi.se2019.view.components;
 
 import java.io.Serializable;
-
+/**equivalent view class of MarkSlot class in the model
+ * @author FedericoMainettiGambera
+ * @author LudoLerma*/
 public class MarkSlotV implements Serializable {
     private int quantity;
 

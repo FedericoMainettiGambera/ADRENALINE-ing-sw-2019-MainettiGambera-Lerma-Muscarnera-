@@ -3,7 +3,9 @@ package it.polimi.se2019.view.components;
 import it.polimi.se2019.model.Player;
 
 import java.io.Serializable;
-
+/**equivalent view class of Kills class in the model
+ * @author FedericoMainettiGambera
+ * @author LudoLerma*/
 public class KillsV implements Serializable {
     private boolean isSkull;
 

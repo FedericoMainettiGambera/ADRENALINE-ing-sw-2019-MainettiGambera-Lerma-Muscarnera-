@@ -2,7 +2,10 @@ package it.polimi.se2019.view.components;
 
 
 import java.util.List;
-
+/**equivalent class in the view
+ *  of the weaponCard class in the model
+ *   @author FedericoMainettiGambera
+ *  @author LudoLerma*/
 public class WeaponCardV extends CardV {
     private AmmoListV pickUpCost;
 

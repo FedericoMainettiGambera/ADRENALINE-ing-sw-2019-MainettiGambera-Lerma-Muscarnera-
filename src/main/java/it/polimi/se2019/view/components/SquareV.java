@@ -5,7 +5,9 @@ import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.SquareTypes;
 
 import java.io.Serializable;
-
+/**equivalent view class of Square class in the model
+ *  @author FedericoMainettiGambera
+ *  @author LudoLerma*/
 public class SquareV implements Serializable {
     private SquareSide north;
 

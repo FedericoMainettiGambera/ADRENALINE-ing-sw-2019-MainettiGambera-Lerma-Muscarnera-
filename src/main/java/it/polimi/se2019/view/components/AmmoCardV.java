@@ -1,7 +1,9 @@
 package it.polimi.se2019.view.components;
-
+/**equivalent view class of the AmmoCard class in the model
+ * @author FedericoMainettiGambera
+ * @author LudoLerma*/
 public class AmmoCardV extends CardV{
-/**equivalent view attributes of the AmmoCard class in the model */
+
     private boolean isPowerUp;
 
     private AmmoListV ammoList;

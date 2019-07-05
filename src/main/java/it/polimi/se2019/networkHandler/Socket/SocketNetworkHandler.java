@@ -12,21 +12,28 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
 
+/**client side of socket
+ * @author LudoLerma
+ * @author FedericoMainettiGambera*/
 public class SocketNetworkHandler extends NetworkHandler implements Observer{
     private static final Logger logger=Logger.getLogger(SocketNetworkHandler.class.getName());
 
+    /**socket of the server*/
     private static Socket socket;
-
+    /**where to send the objects*/
      private static ObjectOutputStream oos;
-
+    /**@return oos*/
     public static ObjectOutputStream getOos() {
         return oos;
     }
-
+    /**from where the object are received*/
     private static ObjectInputStream ois;
 
 
-
+    /**constructor,
+     * @param inetAddress to get addresses
+     * @param view to be passed to serverListenerNetworkHandler
+     * @param port port on which the connection in built*/
     public SocketNetworkHandler(InetAddress inetAddress, int port, View view) throws IOException {
 
         if(Controller.getUserInterface().equalsIgnoreCase("CLI")) {
@@ -47,7 +54,10 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
         new Thread(sl).start();
     }
 
-
+    /**update
+     * @param port port of the socket
+     * @param inetAddress  address of the socket
+     * the socket*/
    private static void  updateStreamsAndSocket(InetAddress inetAddress, int port) throws IOException {
 
         socket = new Socket(inetAddress, port);
@@ -56,7 +66,8 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
 
 
     }
-
+    /**@param arg the object to be converted to viewcontrollerevent
+     *             and sent to server*/
     @Override
     public void update(Observable o, Object arg) {
         ViewControllerEvent viewControllerEvent = (ViewControllerEvent) arg;
@@ -66,7 +77,8 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
             OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
         }
     }
-
+    /**in case of disconnection
+     * the socket will be closed*/
     public static void disconnect() {
         //note that closing the socket will close the input streams and output streams too.
         try {

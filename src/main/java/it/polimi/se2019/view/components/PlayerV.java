@@ -4,7 +4,9 @@ import it.polimi.se2019.model.enumerations.PlayersColors;
 import javafx.beans.property.*;
 
 import java.io.Serializable;
-
+/**equivalent view class of Player class in the model
+ * @author FedericoMainettiGambera
+ * @author LudoLerma*/
 public class PlayerV implements Serializable {
 
     private OrderedCardListV<WeaponCardV> weaponCardInHand;

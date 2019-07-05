@@ -3,7 +3,9 @@ package it.polimi.se2019.view.components;
 import it.polimi.se2019.model.EffectInfo;
 
 import java.io.Serializable;
-
+/**equivalent view class of Effect class in the model
+ * @author FedericoMainettiGambera
+ * @author LudoLerma*/
 public class EffectV implements Serializable {
     private String effectName;
     private EffectInfo effectInfo;

@@ -3,7 +3,9 @@ package it.polimi.se2019.view.components;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 
 import java.io.Serializable;
-
+/**equivalent view class of the AmmoCube class in the model
+ * @author FedericoMainettiGambera
+ * @author LudoLerma*/
 public class AmmoCubesV implements Serializable {
     private int quantity;
 

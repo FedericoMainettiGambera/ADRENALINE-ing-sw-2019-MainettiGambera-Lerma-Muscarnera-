@@ -2,7 +2,9 @@ package it.polimi.se2019.view.components;
 
 import java.io.Serializable;
 import java.util.List;
-
+/**equivalent view class of OrderedCardList class in the model
+ * @author FedericoMainettiGambera
+ * @author LudoLerma*/
 public class OrderedCardListV<T> implements Serializable {
 
     private List<T> cards;

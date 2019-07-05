@@ -64,13 +64,15 @@ public class InitialSceneController implements Initializable {
         return ((InitialSceneController)GUIstarter.getStageController());
     }
 
+    /**when the start button is pressed, the input inserted are parsed*/
     @FXML
     public void onStartButtonPressed(){
         Platform.runLater(new Thread(()-> getInitialSceneController().parseInputs()));
     }
 
     /**parse the input inserted in the initial scene
-     * such as the ip, the port, the nickname and the method connection*/
+     * such as the ip, the port, the nickname and the method connection
+     * and attempt a connection*/
     private void parseInputs(){
         //disable buttons
         this.startButton.setDisable(true);
@@ -129,7 +131,8 @@ public class InitialSceneController implements Initializable {
         })).start();
     }
 
-    /**in case some of the input isn't correct, this function is called*/
+    /**in case some of the input isn't correct, this function is called
+     * it shows a message of error near by the wrong field inserted*/
     private void wrongInputs(){
         //reset title
         String titleLabelContent = "ADRENALINE LOG-IN:";
@@ -160,7 +163,8 @@ public class InitialSceneController implements Initializable {
         this.cliHyperlink.setDisable(false);
     }
     /**in case the connection attempt fails,
-     * this function is called*/
+     * this function is called,
+     * it enable the user to make a second attempt*/
     private void connectionFailed(){
         String errorLabelContent = "Connection wasn't possible, retry!";
         this.logLabel.setText(errorLabelContent);
@@ -202,6 +206,7 @@ public class InitialSceneController implements Initializable {
         }
     }
 
+    /**if the Cli hyperlink is pressed, the stage is hidden and the cli mode game is started*/
     @FXML
     public void onCLIHyperlinkPressed(){
         //close stage:

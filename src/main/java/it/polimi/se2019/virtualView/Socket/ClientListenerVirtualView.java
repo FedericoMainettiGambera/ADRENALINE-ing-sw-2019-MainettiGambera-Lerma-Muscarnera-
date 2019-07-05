@@ -19,33 +19,39 @@ import java.util.logging.Logger;
  * @author FedericoMainettiGambera*/
 public class ClientListenerVirtualView extends Observable implements Runnable{
 
-    private Socket socket;
-
+    /**if the socket is active*/
     private boolean isSocketLive;
 
+    /**to receive input from client*/
     private ObjectInputStream ois;
+    /**oos to communicate with client*/
     private ObjectOutputStream oos;
 
 
     private static Logger logger=Logger.getLogger(ClientListenerVirtualView.class.getName());
 
-
+    /**@param controller to be notified when an event comes
+     * @param ois the stream from which listens to the event that arrives
+     * @param socket current socket
+     * constructor*/
     public ClientListenerVirtualView(Socket socket, ObjectInputStream ois, ViewControllerEventHandlerContext controller){
-        this.socket = socket;
+        Socket socket1 = socket;
         this.isSocketLive = true;
         this.ois = ois;
         this.addObserver(controller);
     }
 
-    public void closeSocket() throws IOException {
-        this.socket.close();
-        this.isSocketLive = false;
-    }
 
+
+    /**@param oos sets the oos attribute*/
     public void passOos(ObjectOutputStream oos){
         this.oos = oos;
     }
 
+    /**converts the object received to a vieweventhandler and notify the observers
+     * it happens in a thread because the server needs to keep listening to all the incoming events
+     * in case the event is a reconnection event, the resetplayer function is called with
+     * the event as a parameter*/
     @Override
     public void run(){
         while(isSocketLive) {
@@ -77,7 +83,9 @@ public class ClientListenerVirtualView extends Observable implements Runnable{
             }
         }
     }
-
+    /**@param reconnectionEvent, contains the name of the afk player,
+     * they are set not afk and their connection restored
+     * */
     public void resetPlayer(ReconnectionEvent reconnectionEvent){
         String nickname = reconnectionEvent.getListOfAFKPlayers().get(0);
         String networkConnection = reconnectionEvent.getListOfAFKPlayers().get(1);
