@@ -290,8 +290,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     @Override
     public void cantReachServer() {
         showGeneralStatusOfTheGame();
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> WE ARE SORRY BUT SOMETHING WENT WRONG.");
-        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("         Please, try to reconnect to the same server to continue game.");
+        OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> SERVER IS UNREACHABLE");
         showConnectionInfo();
         System.exit(0);
     }
