@@ -391,7 +391,11 @@ SPECIFIC CLASSES
 }
 /*3.1.2[0,0]- players marks*/
 .marksBackground{
-    -fx-background-color: default-color;
+    -fx-background-image: url(../IMG/trackers/markbar.png);
+
+                    -fx-background-size: contain;
+                         -fx-background-repeat: no-repeat;
+                                         -fx-background-position: center;
 }
 .markBackground{
     -fx-background-color: default-color;
@@ -420,7 +424,11 @@ SPECIFIC CLASSES
 }
 /*3.1.2[0,1].1 - player damages*/
 .damagesBackground{
-    -fx-background-color: default-color;
+    -fx-background-image: url(../IMG/trackers/bar.png);
+
+                    -fx-background-size: contain;
+                         -fx-background-repeat: no-repeat;
+                                         -fx-background-position: center;
 }
 .damageBackground{
     -fx-background-color: default-color;
@@ -483,7 +491,11 @@ SPECIFIC CLASSES
 }
 /*3.1.2[0,1].2 - player deaths*/
 .deathsBackground{
-    -fx-background-color: default-color;
+    -fx-background-image: url(../IMG/deaths/deaths.png);
+
+                    -fx-background-size: contain;
+                         -fx-background-repeat: no-repeat;
+                                         -fx-background-position: center;
 }
 .deathsBackgroundFF{
 
@@ -543,13 +555,25 @@ SPECIFIC CLASSES
     -fx-background-color: empty-color;
 }
 .ammoRed{
-    -fx-background-color: red;
+     -fx-background-image: url(../IMG/ammos/r.png);
+
+                -fx-background-size: contain;
+                     -fx-background-repeat: no-repeat;
+                                     -fx-background-position: center;
 }
 .ammoBlue{
-    -fx-background-color: blue;
+   -fx-background-image: url(../IMG/ammos/b.png);
+
+                   -fx-background-size: contain;
+                        -fx-background-repeat: no-repeat;
+                                        -fx-background-position: center;
 }
 .ammoYellow{
-    -fx-background-color: yellow;
+    -fx-background-image: url(../IMG/ammos/y.png);
+
+                    -fx-background-size: contain;
+                         -fx-background-repeat: no-repeat;
+                                         -fx-background-position: center;
 }
 .ammoCard1{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB1.png);
