@@ -13,6 +13,7 @@ GENERAL CLASSES
     light-primary-color: #CFD8DC;
     text-primary-color: #FFFFFF;
     accent-color: #ffb523;
+    accent-color-hover: rgba(255, 181, 35, 0.33);
     accent-colorrgb: rgb(255, 181, 38);
     accent-color-darker: #cb921d;
     primary-text-color: #212121;
@@ -36,13 +37,18 @@ GENERAL CLASSES
 
 /*TODO*/
 .hoverableNode{
-    -fx-padding: 20fede;
+    -fx-padding: 6px;
+    -fx-border-insets:6px;
+    -fx-background-insets: 6px;
     -fx-border-color: accent-color;
-    -fx-border-width: 5px;
+    -fx-border-width: 4px;
 }
 .hoverableNode:hover{
-    -fx-border-width: 10px;
-    -fx-padding: 40;
+    -fx-padding: 4px;
+    -fx-border-insets:4px;
+    -fx-background-insets:4px;
+    -fx-border-width: 6px;
+    -fx-background-color: accent-color-hover;
 }
 
 .label{
@@ -1010,6 +1016,8 @@ SPECIFIC CLASSES
 }
 .squareStyle{
     -fx-border-width: 1px;
-    -fx-padding: 10;
+    -fx-padding: 5px;
+    -fx-border-insets: 5px;
+    -fx-background-insets: 5px;
     -fx-border-color: accent-color;
 }

@@ -185,12 +185,12 @@
                                                  <RowConstraints percentHeight="33.333333" vgrow="ALWAYS" />
                                                </rowConstraints>
                                                 <children>
-                                                   <StackPane fx:id="squareBackground00" styleClass="squareStyle">
+                                                   <StackPane fx:id="squareBackground00" styleClass="squareStyle"  >
                                                       <children>
                                                          <StackPane fx:id="getSquareMainImage00"/>
                                                       </children>
                                                    </StackPane>
-                                                   <StackPane fx:id="squareBackground01" styleClass="squareStyle" GridPane.columnIndex="1">
+                                                   <StackPane fx:id="squareBackground01"  styleClass="squareStyle" GridPane.columnIndex="1">
                                                       <children>
                                                          <StackPane fx:id="getSquareMainImage01" />
                                                       </children>
@@ -200,12 +200,12 @@
                                                          <StackPane fx:id="getSquareMainImage02" />
                                                       </children>
                                                    </StackPane>
-                                                   <StackPane fx:id="squareBackground03" styleClass="squareStyle"  GridPane.columnIndex="3">
+                                                   <StackPane fx:id="squareBackground03"  styleClass="squareStyle" GridPane.columnIndex="3">
                                                       <children>
                                                          <StackPane fx:id="getSquareMainImage03" />
                                                       </children>
                                                    </StackPane>
-                                                   <StackPane fx:id="squareBackground10" styleClass="squareStyle"  GridPane.rowIndex="1">
+                                                   <StackPane fx:id="squareBackground10"  styleClass="squareStyle" GridPane.rowIndex="1">
                                                       <children>
                                                          <StackPane fx:id="getSquareMainImage10" />
                                                       </children>
@@ -220,12 +220,12 @@
                                                          <StackPane fx:id="getSquareMainImage12" />
                                                       </children>
                                                    </StackPane>
-                                                   <StackPane fx:id="squareBackground13" styleClass="squareStyle"  GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                                   <StackPane fx:id="squareBackground13"  styleClass="squareStyle" GridPane.columnIndex="3" GridPane.rowIndex="1">
                                                       <children>
                                                          <StackPane fx:id="getSquareMainImage13" />
                                                       </children>
                                                    </StackPane>
-                                                   <StackPane fx:id="squareBackground20" styleClass="squareStyle"   GridPane.rowIndex="2">
+                                                   <StackPane fx:id="squareBackground20"  styleClass="squareStyle"  GridPane.rowIndex="2">
                                                       <children>
                                                          <StackPane fx:id="getSquareMainImage20" />
                                                       </children>
@@ -235,12 +235,12 @@
                                                          <StackPane fx:id="getSquareMainImage21" />
                                                       </children>
                                                    </StackPane>
-                                                   <StackPane fx:id="squareBackground22" styleClass="squareStyle"  GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                                   <StackPane fx:id="squareBackground22"  styleClass="squareStyle" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                                       <children>
                                                          <StackPane fx:id="getSquareMainImage22" />
                                                       </children>
                                                    </StackPane>
-                                                   <StackPane fx:id="squareBackground23" styleClass="squareStyle"  GridPane.columnIndex="3" GridPane.rowIndex="2">
+                                                   <StackPane fx:id="squareBackground23"  styleClass="squareStyle" GridPane.columnIndex="3" GridPane.rowIndex="2">
                                                       <children>
                                                          <StackPane fx:id="getSquareMainImage23" />
                                                       </children>
