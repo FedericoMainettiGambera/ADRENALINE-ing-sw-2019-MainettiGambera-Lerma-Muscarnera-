@@ -389,20 +389,20 @@ public class GameSceneController implements Initializable {
 
             switch(color) {
                 case blue:
-                ammos.add(ammoMainImageBlue1);
-                ammos.add(ammoMainImageBlue1);
-                ammos.add(ammoMainImageBlue1);
-                break;
+                    ammos.add(ammoMainImageBlue1);
+                    ammos.add(ammoMainImageBlue2);
+                    ammos.add(ammoMainImageBlue3);
+                    break;
                 case red:
-                ammos.add(ammoMainImageRed1);
-                ammos.add(ammoMainImageRed2);
-                ammos.add(ammoMainImageRed3);
-                break;
+                    ammos.add(ammoMainImageRed1);
+                    ammos.add(ammoMainImageRed2);
+                    ammos.add(ammoMainImageRed3);
+                    break;
                 case yellow:
-                ammos.add(ammoMainImageYellow1);
-                ammos.add(ammoMainImageYellow2);
-                ammos.add(ammoMainImageYellow3);
-                break;
+                    ammos.add(ammoMainImageYellow1);
+                    ammos.add(ammoMainImageYellow2);
+                    ammos.add(ammoMainImageYellow3);
+                    break;
                 default:
                     break;
 
@@ -592,13 +592,6 @@ public class GameSceneController implements Initializable {
 
         descr.setFill(Color.rgb(255, 127, 36));
         descr.setFont(Font.font("Courier"));
-
-        ammoMainImageBlue1.getStyleClass().clear();
-        ammoMainImageBlue1.getStyleClass().add("ammoBlue");
-        ammoMainImageRed1.getStyleClass().clear();
-        ammoMainImageRed1.getStyleClass().add("ammoRed");
-        ammoMainImageYellow1.getStyleClass().clear();
-        ammoMainImageYellow1.getStyleClass().add("ammoYellow");
 
 
         if (ViewModelGate.getMe().equals(ViewModelGate.getModel().getPlayers().getStartingPlayer())) {

@@ -1,5 +1,6 @@
 package it.polimi.se2019.view;
 
+import it.polimi.se2019.model.NormalSquare;
 import it.polimi.se2019.view.components.*;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class UpdateMap implements Runnable{
 
-    private GameSceneController getGameSceneController() {
+    private static GameSceneController getGameSceneController() {
         return ((GameSceneController) GUIstarter.getStageController());
     }
 
@@ -130,7 +131,7 @@ public class UpdateMap implements Runnable{
         }
     }
 
-    private List<PlayerV> getPlayers(int x, int y) {
+    private static List<PlayerV> getPlayers(int x, int y) {
         List<PlayerV> players = new ArrayList<>();
         for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
             if (p.getY() != null && p.getX() != null && p.getX() == x && p.getY() == y) {
@@ -144,6 +145,22 @@ public class UpdateMap implements Runnable{
         HBox hBox = new HBox();
         for (PlayerV p: playersToShow) {
             StackPane playerStackPane = new StackPane(new Label(p.getNickname())); //don't use a label, but set the image
+            playerStackPane.setUserData(p);
+            playerStackPane.addEventHandler(MouseEvent.MOUSE_ENTERED, getGameSceneController().getShowPlayerEventHandler());
+            setPlayerStackPane(new PlayerStackPanesTracker(p.getNickname(), playerStackPane));
+            hBox.getChildren().add(playerStackPane);
+            HBox.setHgrow(playerStackPane, Priority.ALWAYS);
+        }
+        return hBox;
+    }
+
+    private HBox buildPlayersWithSameEvents(List<PlayerV> playersToShow){
+        HBox hBox = new HBox();
+        for (PlayerV p: playersToShow) {
+            StackPane playerStackPane = new StackPane(new Label(p.getNickname())); //don't use a label, but set the image
+            if(getPlayerStackPane(p.getNickname())!=null){
+                playerStackPane = getPlayerStackPane(p.getNickname());
+            }
             playerStackPane.setUserData(p);
             playerStackPane.addEventHandler(MouseEvent.MOUSE_ENTERED, getGameSceneController().getShowPlayerEventHandler());
             setPlayerStackPane(new PlayerStackPanesTracker(p.getNickname(), playerStackPane));
@@ -191,4 +208,126 @@ public class UpdateMap implements Runnable{
         System.out.println("        playersStackPaneListTracker.size() : " + playersStackPaneList.size());
         playersStackPaneList.add(newPlayerStackPanesTracker);
     }
+
+    public static void updatePlayers(){
+        /*
+        SquareV[][] map = ViewModelGate.getModel().getBoard().getMap();
+
+        StackPane[][] mainImagesMap = ((GameSceneController) GUIstarter.getStageController()).getMainImagesmap();
+
+        StackPane[][] eventListenerMap = new StackPane[map.length][map[0].length];
+
+        //get current layer of Listener Map or if there is nothing add the layer
+        for (int i = 0; i < map.length; i++) { //map.length == 3
+            for (int j = 0; j < map[0].length; j++) { // map[0].lenght == 4
+                eventListenerMap[i][j] = new StackPane();
+
+                if(mainImagesMap[i][j].getChildren().isEmpty() || !mainImagesMap[i][j].getChildren().get(0).getClass().toString().contains("StackPane")) {
+                    eventListenerMap[i][j] = (StackPane)mainImagesMap[i][j].getChildren().get(0);
+                }
+            }
+        }
+
+        //removes all stackPanes of the players and place them in the new correct positions
+        for (int i = 0; i < map.length; i++) { //map.length == 3
+            for (int j = 0; j < map[0].length; j++) { // map[0].lenght == 4
+                StackPane currentStackPaneSquare = eventListenerMap[i][j];
+
+            }
+        }
+        for (PlayerStackPanesTracker playerStackPaneTracker : playersStackPaneList) {
+
+        }
+        */
+    }
+
+    public void updateMapWithoutNewEventLayer(){
+        SquareV[][] map = ViewModelGate.getModel().getBoard().getMap();
+
+        StackPane[][] mainImagesMap = ((GameSceneController) GUIstarter.getStageController()).getMainImagesmap();
+
+        StackPane[][] eventListenerMap = new StackPane[map.length][map[0].length];
+
+        //get current layer of Listener Map or if there is nothing add the layer
+        for (int i = 0; i < map.length; i++) { //map.length == 3
+            for (int j = 0; j < map[0].length; j++) { // map[0].lenght == 4
+                if(!mainImagesMap[i][j].getChildren().isEmpty() && mainImagesMap[i][j].getChildren().get(0).getClass().toString().contains("StackPane")) {
+                    eventListenerMap[i][j] = (StackPane)mainImagesMap[i][j].getChildren().get(0);
+                }
+                else{
+                    eventListenerMap[i][j] = new StackPane();
+                    mainImagesMap[i][j].getChildren().add(eventListenerMap[i][j]);
+                }
+            }
+        }
+
+        //builds new map on top of the eventListener layer
+        for (int i = 0; i < map.length; i++) { //map.length == 3
+            for (int j = 0; j < map[0].length; j++) { // map[0].lenght == 4
+                SquareV currentSquareV = map[i][j];
+                StackPane currentStackPaneSquare = eventListenerMap[i][j];
+                if ((currentSquareV != null) && (currentSquareV.getClass().toString().contains("NormalSquare"))) {
+                    //normal square
+                    //show new ammo card
+                    VBox squareContent = new VBox();
+
+                    currentStackPaneSquare.getChildren().add(squareContent);
+
+                    //place ammo card if there is
+                    AmmoCardV ammoCard = null;
+                    if (!((NormalSquareV)currentSquareV).getAmmoCards().getCards().isEmpty()) {
+                        ammoCard = ((NormalSquareV)currentSquareV).getAmmoCards().getCards().get(0);
+                    }
+                    if (ammoCard != null) {
+                        StackPane ammoImage = new StackPane(new Label(ammoCard.getID())); //don't use a label, but set the image
+                        ammoImage.setUserData(ammoCard);
+                        ammoImage.addEventHandler(MouseEvent.MOUSE_ENTERED, ((GameSceneController) GUIstarter.getStageController()).getShowAmmoCardEventHandler());
+                        squareContent.getChildren().add(ammoImage);
+                        VBox.setVgrow(ammoImage, Priority.ALWAYS);
+                    }
+
+                    List<PlayerV> playersToShow = getPlayers(((NormalSquareV)currentSquareV).getX(), ((NormalSquareV)currentSquareV).getY());
+                    HBox playersHBox = buildPlayersWithSameEvents(playersToShow);
+                    if (!playersHBox.getChildren().isEmpty()) {
+                        squareContent.getChildren().add(playersHBox);
+                        VBox.setVgrow(playersHBox, Priority.ALWAYS);
+                    }
+                    //else: no card to show
+                } else  if(currentSquareV != null){
+                    //spawn point square
+                    //show new weapons cards
+                    VBox squareContent = new VBox();
+
+                    currentStackPaneSquare.getChildren().add(squareContent);
+
+                    //places weapon cards on the square
+                    List<WeaponCardV> weaponCardVS = ((SpawnPointSquareV)currentSquareV).getWeaponCards().getCards();
+                    if (!weaponCardVS.isEmpty()) {
+                        HBox weaponsHBox = new HBox();
+                        for (WeaponCardV weapon : weaponCardVS) {
+                            StackPane weaponImage = new StackPane(new Label(weapon.getName())); //don't use a label, but set the image
+                            weaponImage.setUserData(weapon);
+                            weaponImage.addEventHandler(MouseEvent.MOUSE_ENTERED, ((GameSceneController) GUIstarter.getStageController()).getShowWeaponCardsEventHandler());
+                            weaponsHBox.getChildren().add(weaponImage);
+                            HBox.setHgrow(weaponImage, Priority.ALWAYS);
+                        }
+                        squareContent.getChildren().add(weaponsHBox);
+                        VBox.setVgrow(weaponsHBox, Priority.ALWAYS);
+                    }
+
+                    List<PlayerV> playersToShow = getPlayers(((SpawnPointSquareV)currentSquareV).getX(), ((SpawnPointSquareV)currentSquareV).getY());
+                    HBox playersHBox = buildPlayersWithSameEvents(playersToShow);
+                    if (!playersHBox.getChildren().isEmpty()) {
+                        squareContent.getChildren().add(playersHBox);
+                        VBox.setVgrow(playersHBox, Priority.ALWAYS);
+                    }
+                }
+                //else: is a null square-> show nothing.
+            }
+        }
+
+
+    }
+
+
 }

@@ -189,7 +189,7 @@ public class GameSetUpState implements State {
                 //set starting ammocubes
                 out.println("<SERVER> setting starting ammo cubes");
                 for (AmmoCubesColor color : AmmoCubesColor.values()) {
-                    p.getPlayerBoard().addAmmoCubes(color, GameConstant.NUMBER_OF_STARTING_AMMOS);
+                    p.addAmmoCubes(color, GameConstant.NUMBER_OF_STARTING_AMMOS);
                 }
             }
         }

@@ -340,27 +340,25 @@ public abstract class Person extends Observable implements Serializable {
      * @param quantity
      * @return
      * */
-    public boolean payAmmoCubes(AmmoCubesColor color, int quantity){
-        if(this.board.payAmmoCubes(color, quantity)) {
-            setChanged();
-            notifyObservers(new ModelViewEvent(this.board.getAmmoBox().buildAmmoListV(), ModelViewEventTypes.newAmmoBox, nickname));
-            return true;
-        }
-        else return false;
+    public void payAmmoCubes(AmmoCubesColor color, int quantity){
+        AmmoList ammoList = new AmmoList();
+        AmmoCubes ammoCubes = new AmmoCubes(color);
+        ammoCubes.setQuantity(quantity);
+        ammoList.getAmmoCubesList().add(ammoCubes);
+        payAmmoCubes(ammoList);
     }
     /**subtract a specific amount of ammos
      * Before doing any operation checks if it is possible to subtract the specified amount.
      * @param cost
      * @return
      * */
-    public boolean payAmmoCubes(AmmoList cost){
-        if(this.board.payAmmoCubes(cost)){
-            setChanged();
-            notifyObservers(new ModelViewEvent(this.board.getAmmoBox().buildAmmoListV(), ModelViewEventTypes.newAmmoBox, nickname));
-            return true;
-        }
-        else{
-            return false;
+    public void payAmmoCubes(AmmoList cost){
+        for (AmmoCubes ammoToPay: cost.getAmmoCubesList()) {
+            for (AmmoCubes mineAmmos:this.getPlayerBoard().getAmmoBox().getAmmoCubesList()) {
+                if(mineAmmos.getColor().equals(ammoToPay.getColor())){
+                    mineAmmos.setQuantity(mineAmmos.getQuantity() - ammoToPay.getQuantity());
+                }
+            }
         }
     }
     /**checks if it is possible to subtract a specific amount of ammos
