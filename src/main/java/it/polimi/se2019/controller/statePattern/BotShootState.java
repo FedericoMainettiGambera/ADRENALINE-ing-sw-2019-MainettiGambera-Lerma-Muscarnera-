@@ -115,7 +115,7 @@ public class BotShootState implements State{
         Player player=ModelGate.getModel().getPlayerList().getPlayer(vceString.getInput());
 
 
-        player.addDamages(ModelGate.getModel().getPlayerList().getPlayer(botNickname),1);
+        player.addDamages(ModelGate.getModel().getPlayerList().getPlayer(botNickname),12);
 
         out.println("<SERVER> bot giving damage to: "+ vceString.getInput());
 

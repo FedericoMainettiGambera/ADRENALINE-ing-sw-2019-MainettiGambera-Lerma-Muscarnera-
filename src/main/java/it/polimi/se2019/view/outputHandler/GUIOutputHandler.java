@@ -31,8 +31,6 @@ import java.util.concurrent.TimeUnit;
  * */
 public class GUIOutputHandler implements OutputHandlerInterface {
 
-    //TODO tutte le update map sarebbero meglio se fossero senza delete del layer di eventi
-
     /**
      * launches a UpdateKillShotTrack thread
      */
@@ -1327,6 +1325,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         //show pop up for disconnection TODO
     }
 
+    /**count the incoming modelviewevent */
     int counter=0;
     /**@param modelViewEvent , final scoring has finally arrived, the scene needs to be set again*/
     @Override
@@ -1356,7 +1355,6 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
 
       else{
-            getGameSceneController().getSelectorSection().getChildren().clear();
             getGameSceneController().changeSelectorSection(ranking, 0.0,0.0,0.0,0.0);
         }
     }

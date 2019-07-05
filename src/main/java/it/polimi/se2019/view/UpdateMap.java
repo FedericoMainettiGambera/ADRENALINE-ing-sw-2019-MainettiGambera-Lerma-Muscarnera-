@@ -1,6 +1,5 @@
 package it.polimi.se2019.view;
 
-import it.polimi.se2019.model.NormalSquare;
 import it.polimi.se2019.view.components.*;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
