@@ -1,7 +1,9 @@
 package it.polimi.se2019.view.components;
 
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
-
+/**equivalent view class of PowerUpCard class in the model
+ * @author FedericoMainettiGambera
+ *@author LudoLerma */
 public class PowerUpCardV extends CardV {
     private AmmoCubesColor color;
 

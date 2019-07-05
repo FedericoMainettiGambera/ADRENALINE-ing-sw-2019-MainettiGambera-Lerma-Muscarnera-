@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import javafx.scene.image.Image;
 
+/**equivalent view class of Board class in the model
+ * @author FedericoMainettiGambera
+ * @author LudoLerma*/
 public class BoardV implements Serializable {
     private SquareV[][] map;
     private String chosenMap;

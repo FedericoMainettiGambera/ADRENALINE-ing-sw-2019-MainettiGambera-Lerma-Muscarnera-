@@ -18,7 +18,10 @@ import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**implements rmi server*/
+/**implements rmi server
+ * @author LudoLerma
+ * @author Federico Mainetti Gambera
+ * */
 public class RmiVirtualView extends VirtualView implements RmiInterface{
 
     private PrintWriter out=new PrintWriter(System.out, true);

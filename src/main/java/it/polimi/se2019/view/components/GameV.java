@@ -2,7 +2,9 @@ package it.polimi.se2019.view.components;
 
 
 import java.io.Serializable;
-
+/**equivalent view class of Game class in the model
+ *  @author FedericoMainettiGambera
+ * @author LudoLerma*/
 public class GameV implements Serializable {
     private KillShotTrackV killshotTrack;
 

@@ -2,7 +2,9 @@ package it.polimi.se2019.view.components;
 
 import java.io.Serializable;
 import java.util.List;
-
+/**equivalent view class of DamageTracker class in the model
+ * @author FedericoMainettiGambera
+ * @author LudoLerma*/
 public class DamageTrackerV implements Serializable {
     private List<DamageSlotV> damageSlotsList;
 

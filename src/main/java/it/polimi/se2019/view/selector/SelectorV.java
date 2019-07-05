@@ -10,7 +10,9 @@ import it.polimi.se2019.view.components.PowerUpCardV;
 import it.polimi.se2019.view.components.WeaponCardV;
 import java.util.ArrayList;
 import java.util.List;
-
+/**interface with the method implemented by cli and gui selector
+ * @author FedericoMainettiGambera
+ * @author LudoLerma */
 public interface SelectorV {
 
      void askGameSetUp(boolean canBot);

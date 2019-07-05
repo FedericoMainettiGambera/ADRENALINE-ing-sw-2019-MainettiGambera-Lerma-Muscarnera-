@@ -18,9 +18,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
+/**this class controls the fxml of the loading scene
+ * @author LudoLerma
+ * @author FedericoMainettiGambera*/
 public class LoadingSceneController implements Initializable {
 
-    //stackPanes
+    /**stackPanes representing the users*/
     @FXML
     private StackPane stackPaneUser1;
     @FXML
@@ -32,7 +35,7 @@ public class LoadingSceneController implements Initializable {
     @FXML
     private StackPane stackPaneUser5;
 
-    //Labels
+    /**Labels with the nicknames of the users*/
     @FXML
     private Label labelUser1;
     @FXML
@@ -44,20 +47,24 @@ public class LoadingSceneController implements Initializable {
     @FXML
     private Label labelUser5;
 
-    //progress
+    /**the progress bar label*/
     @FXML
     private Label labelProgress;
+    /**the progress bar*/
     @FXML
     private ProgressBar progressBar;
 
-    //progressionBar
+    /**the progress bar goal*/
     private double progressionBarGoal;
-
+    /***/
     private static final String USER_INACTIVE = "userLabelInactive";
+    /***/
     private static final String USER_ACTIVE = "userLabelActive";
 
 
-
+    /**initialize the loading scene controller
+     * launches a thread from progressionBarThread class
+     * calls newPlayersList() function*/
     @Override
     public void initialize(URL location, ResourceBundle resources){
         progressionBarGoal=0.0;
@@ -66,6 +73,7 @@ public class LoadingSceneController implements Initializable {
         newPlayersList();
     }
 
+    /**depending on the number of connections initialize the stackPaneUsers*/
     public void newPlayersList(){
         if(ViewModelGate.getModel()==null || ViewModelGate.getModel().getPlayers() == null || ViewModelGate.getModel().getPlayers().getPlayers() == null){
             return;
@@ -87,6 +95,8 @@ public class LoadingSceneController implements Initializable {
             Platform.runLater(new SetUser5());
         }
     }
+    /**initialize a stackPane representing a user with a css style class
+     * there is one for each possible user that may connect*/
     private class SetUser1 extends Thread{
         @Override
         public void run(){
@@ -100,6 +110,8 @@ public class LoadingSceneController implements Initializable {
             }
         }
     }
+    /**initialize a stackPane representing a user with a css style class
+     * there is one for each possible user that may connect*/
     private class SetUser2 extends Thread{
         @Override
         public void run(){
@@ -114,6 +126,8 @@ public class LoadingSceneController implements Initializable {
 
         }
     }
+    /**initialize a stackPane representing a user with a css style class
+     * there is one for each possible user that may connect*/
     private class SetUser3 extends Thread{
         @Override
         public void run(){
@@ -127,6 +141,8 @@ public class LoadingSceneController implements Initializable {
             }
         }
     }
+    /**initialize a stackPane representing a user with a css style class
+     * there is one for each possible user that may connect*/
     private class SetUser4 extends Thread{
         @Override
         public void run(){
@@ -141,6 +157,8 @@ public class LoadingSceneController implements Initializable {
             }
         }
     }
+    /**initialize a stackPane representing a user with a css style class
+     * there is one for each possible user that may connect*/
     private class SetUser5 extends Thread{
         @Override
         public void run(){
@@ -156,7 +174,7 @@ public class LoadingSceneController implements Initializable {
         }
     }
 
-
+    /**a class that implements a thread that takes care of incrementing the progression bar*/
     private class ProgressBarThread implements Runnable{
         @Override
         public void run(){
@@ -181,6 +199,9 @@ public class LoadingSceneController implements Initializable {
     }
 
 
+    /**modify the progress of the progression bar depending on the
+     * @param currentTime in reference to the
+     * @param totalTime to pass */
     public void modifyProgress(int currentTime, int totalTime){
         if(currentTime == totalTime || progressionBarGoal>=1){
             this.progressBar.setProgress(1.0);
@@ -192,6 +213,7 @@ public class LoadingSceneController implements Initializable {
     }
 
 
+    /**change the scene to the game scene*/
     public void changeScene(){
         Platform.runLater(()->{
             FXMLLoader fxmlLoader = new FXMLLoader();

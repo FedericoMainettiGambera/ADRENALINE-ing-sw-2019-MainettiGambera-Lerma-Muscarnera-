@@ -12,21 +12,25 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
 
+/**client side of socket
+ * @author LudoLerma
+ * @author FedericoMainettiGambera*/
 public class SocketNetworkHandler extends NetworkHandler implements Observer{
     private static final Logger logger=Logger.getLogger(SocketNetworkHandler.class.getName());
 
+    /***/
     private static Socket socket;
-
+    /***/
      private static ObjectOutputStream oos;
-
+    /***/
     public static ObjectOutputStream getOos() {
         return oos;
     }
-
+    /***/
     private static ObjectInputStream ois;
 
 
-
+    /***/
     public SocketNetworkHandler(InetAddress inetAddress, int port, View view) throws IOException {
 
         if(Controller.getUserInterface().equalsIgnoreCase("CLI")) {
@@ -47,7 +51,7 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
         new Thread(sl).start();
     }
 
-
+    /***/
    private static void  updateStreamsAndSocket(InetAddress inetAddress, int port) throws IOException {
 
         socket = new Socket(inetAddress, port);
@@ -56,7 +60,7 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
 
 
     }
-
+    /***/
     @Override
     public void update(Observable o, Object arg) {
         ViewControllerEvent viewControllerEvent = (ViewControllerEvent) arg;
@@ -66,7 +70,7 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
             OutputHandlerGate.getCorrectOutputHandler(OutputHandlerGate.getUserIterface()).cantReachServer();
         }
     }
-
+    /***/
     public static void disconnect() {
         //note that closing the socket will close the input streams and output streams too.
         try {

@@ -18,42 +18,40 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/** @author LudoLerma &
-        * @author FedericoMainettiGambera*/
+/**this class handles the connection received by the socket server, it sorts them out depending on whether they are new connection
+ * or reconnection
+ * @author LudoLerma
+ * @author FedericoMainettiGambera*/
 public class ConnectionHandlerVirtualView extends Thread {
 
     private static final Logger logger=Logger.getLogger(ConnectionHandlerVirtualView.class.getName());
 
+    /**socket of the server*/
     private ServerSocket serverSocket;
-
+    /**indicates if the server is active*/
     private boolean isServerSocketLive;
-
+    /**a temporary socket*/
     private Socket tempSocket;
-
+    /**reference to the controller*/
     private ViewControllerEventHandlerContext controller;
 
     private String exception = "EXCEPTION";
 
-    //private int numberOfConnections;
 
-
+    /**constructor,
+     * @param controller to initialize controller attribute
+     * @param serverSocket to inizialize serverSocket attribute */
     public ConnectionHandlerVirtualView(ServerSocket serverSocket, ViewControllerEventHandlerContext controller){
         this.serverSocket = serverSocket;
         this.isServerSocketLive = true;
         this.tempSocket = null;
         this.controller = controller;
-        //this.numberOfConnections = 0;
     }
 
-    public void CloseServerSocket() throws IOException{
-        this.serverSocket.close();
-        this.isServerSocketLive = false;
-    }
-
+    /** a thread is taking care of listening to every new connection that overcome*/
     @Override
     public void run(){
 
-        //while(this.isServerSocketLive && numberOfConnections <= GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME-1){
         while((this.isServerSocketLive && ModelGate.getModel().getNumberOfClientsConnected() <= GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME -1)){
             try{
                 this.tempSocket = serverSocket.accept();
@@ -76,14 +74,17 @@ public class ConnectionHandlerVirtualView extends Thread {
 
     }
 
-
+    /** the new connection is a reconnection, if the game has already begun
+     * so we understand if the name the user logged in with is one of the AFK player's nickname,
+     * if else, it is not possible to reconnect*/
     private class Reconnection extends Thread {
         private Socket tempSocket;
-
+       /**construcor,
+        * @param tempSocket to initialize tempSocket attribute*/
         public Reconnection(Socket tempSocket) {
             this.tempSocket = tempSocket;
         }
-
+        /**chekcs if it's possible for this to be a reconnection */
         @Override
         public void run() {
             if(ModelGate.getModel().getPlayerList().isSomeoneAFK()){
@@ -118,17 +119,22 @@ public class ConnectionHandlerVirtualView extends Thread {
             }
         }
     }
-
+    /**if the game still isn't started, the connection received must be a new one
+     *a new player is created */
     private class NewConnection extends Thread{
         private Socket tempSocket;
         public NewConnection(Socket tempSocket){
             this.tempSocket=tempSocket;
         }
+        /**creates a new player
+         * /**it is necessary that each player has a different nickname
+         *      * @param viewControllerEventNickname contains the nickname chosen from a player, here it is
+         *      * checked if the nickname is available, whether it is or not, a boolean value is returned
+         *      * @return boolean value*/
         @Override
         public void run() {
 
             System.out.println("<SERVER-socket> New Connection from: " + this.tempSocket.getInetAddress().getHostAddress());
-            //System.out.println("<SERVER-socket> Number of Connections: " + this.numberOfConnections);
 
             //ObjectOutputStream
             System.out.println("<SERVER-socket> Creating a Player.");

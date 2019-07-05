@@ -2,7 +2,9 @@ package it.polimi.se2019.view.components;
 
 import java.io.Serializable;
 import java.util.List;
-
+/**equivalent view class of the AmmoList class in the model
+ * @author FedericoMainettiGambera
+ * @author LudoLerma*/
 public class AmmoListV implements Serializable {
     private List<AmmoCubesV> ammoCubesList;
 

@@ -17,7 +17,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**@author LudoLerma &
- * @author FedericoMainettiGambera*/
+ * @author FedericoMainettiGambera
+ * implements the server in socket*/
 public class SocketVirtualView extends VirtualView{
 
     private static final Logger logger=Logger.getLogger(SocketVirtualView.class.getName());
@@ -60,7 +61,7 @@ public class SocketVirtualView extends VirtualView{
         //used for MVEs, here they are all to all the clients.
         this.sendAllClient(arg);
     }
-
+    /**@param o it's the object to send to all clients*/
     public void sendAllClient(Object o) {
         if(ModelGate.getModel().getPlayerList()!=null && ModelGate.getModel().getPlayerList().getPlayers()!=null){
             for (Player p : ModelGate.getModel().getPlayerList().getPlayers()) {
@@ -68,7 +69,8 @@ public class SocketVirtualView extends VirtualView{
             }
         }
     }
-
+    /**@param o it's the object to send to the client
+     * @param playerToSend is the specific client to send the object to*/
     public static void sendToClient(Player playerToSend, Object o){
         try{
             if(!playerToSend.isAFK() && playerToSend.getOos()!=null&&!playerToSend.isBot()) {
@@ -80,7 +82,8 @@ public class SocketVirtualView extends VirtualView{
             playerToSend.setAFKWIthoutNotify(true);
         }
     }
-
+    /**@param playerToSend is player to send the event
+     * @param o to, it sends the event to client even if the player is AFK*/
     public static void sendToClientEvenAFK(Player playerToSend, Object o){
         try{
             playerToSend.getOos().writeObject(o);

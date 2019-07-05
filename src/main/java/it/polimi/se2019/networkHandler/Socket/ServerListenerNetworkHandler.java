@@ -14,15 +14,21 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/**listens to event received from the server
+ * @author FedericoMainettigambera
+ * @author LudoLerma */
 public class ServerListenerNetworkHandler extends Observable implements Runnable {
 
     private static final Logger logger= Logger.getLogger(ServerListenerNetworkHandler.class.getName());
-
+    /**socket of the client*/
     private Socket socket;
-
+    /**from which the object is received */
     private ObjectInputStream ois;
-
+    /**constructor
+     * @param socket to set socket attribute
+     * @param view to set ois attribute
+     * @param ois to set view attribute
+     * */
     ServerListenerNetworkHandler(Socket socket, ObjectInputStream ois, View view){
 
         this.socket = socket;
@@ -30,7 +36,7 @@ public class ServerListenerNetworkHandler extends Observable implements Runnable
         this.addObserver(view);
     }
 
-
+    /***/
     @Override
     public void run() {
         while(this.socket.isConnected()){

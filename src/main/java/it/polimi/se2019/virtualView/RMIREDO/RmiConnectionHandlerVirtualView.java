@@ -16,10 +16,13 @@ import java.util.logging.Logger;
 
 import static it.polimi.se2019.model.Game.setNumberOfClientsConnected;
 
-/**this class handles the connection received by the server, it sorts them out depending on whether they are new connection
- * or reconnection */
+/**this class handles the connection received by the rmi server, it sorts them out depending on whether they are new connection
+ * or reconnection
+ * @author LudoLerma
+ * @author FedericoMainettiGambera*/
 public class RmiConnectionHandlerVirtualView implements Runnable{
 
+    /**interface of the client*/
     private RmiInterface client;
 
     private static final Logger logger=Logger.getLogger(RmiConnectionHandlerVirtualView.class.getName());
@@ -52,6 +55,7 @@ public class RmiConnectionHandlerVirtualView implements Runnable{
     private class Reconnection extends Thread {
         RmiInterface tempinterface;
 
+        /**constructor*/
         Reconnection(){
             tempinterface=client;
         }
@@ -91,6 +95,7 @@ public class RmiConnectionHandlerVirtualView implements Runnable{
             //empty
         }
 
+        /**creates a new player*/
         @Override
         public void run() {
 
@@ -113,7 +118,7 @@ public class RmiConnectionHandlerVirtualView implements Runnable{
 
     /**it is necessary that each player has a different nickname
      * @param viewControllerEventNickname contains the nickname chosen from a player, here it is
-     * checked if the nickname is available, whether it is or not, a boolean ir returned
+     * checked if the nickname is available, whether it is or not, a boolean value is returned
      * @return boolean value*/
      static boolean handleNewConnectionNickname(ViewControllerEventNickname viewControllerEventNickname){
         //the viewControllerEventNickname represents the nickname received from the client
