@@ -118,7 +118,7 @@ public class GUISelector implements SelectorV {
         }
         private ScrollPane buildBasicScrollPane(){
             ScrollPane scrollPane = new ScrollPane();
-            scrollPane.getStyleClass().add("selectorSection");
+            scrollPane.getStyleClass().add("scrollPaneInGameSetUp");
             AnchorPane requestContainer = new AnchorPane();
             VBox scrollContent = new VBox();
 
@@ -168,6 +168,7 @@ public class GUISelector implements SelectorV {
             numberOfSkullsRequest.prefHeightProperty().bind(getGameSceneController().getSelectorSection().heightProperty().divide(4));
 
             StackPane doneButton = new StackPane(new Label("DONE"));
+            doneButton.getStyleClass().add("doneButton");
             makeNodeHoverable(doneButton);
             //EVENTS
             doneButton.setOnMouseClicked(e->{
@@ -224,6 +225,7 @@ public class GUISelector implements SelectorV {
         private HBox isFinalFrenzyRequest(){
             //ELEMENTS
             HBox hbox = new HBox();
+            hbox.getStyleClass().add("hBoxRadioButtonsBackgroundInGameSetUp");
 
             StackPane left = new StackPane();
             StackPane center = new StackPane();
@@ -262,6 +264,7 @@ public class GUISelector implements SelectorV {
         private HBox isBotRequest() {
             //ELEMENTS
             HBox hbox = new HBox();
+            hbox.getStyleClass().add("hBoxRadioButtonsBackgroundInGameSetUp");
 
             StackPane left = new StackPane();
             StackPane center = new StackPane();
@@ -303,7 +306,7 @@ public class GUISelector implements SelectorV {
             Label label = new Label("Choose number of starting skulls: ");
 
             HBox hbox = new HBox();
-
+            hbox.getStyleClass().add("hBoxRadioButtonsBackgroundInGameSetUp");
             List<StackPane> stackpanes = new ArrayList<>();
             List<RadioButton> radioButtons = new ArrayList<>();
             for (int i = 0; i < 4; i++) {
@@ -389,7 +392,6 @@ public class GUISelector implements SelectorV {
 
                 request.getChildren().addAll(title, red, blue, yellow);
 
-
                 makeNodeHoverable(red);
                 makeNodeHoverable(blue);
                 makeNodeHoverable(yellow);
@@ -415,7 +417,9 @@ public class GUISelector implements SelectorV {
             List<StackPane> powerUps = new ArrayList<>();
             for (PowerUpCardV powerUpCardV: this.powerUpCards) {
                 StackPane stackPaneBackground = new StackPane();
+                stackPaneBackground.getStyleClass().add("powerUpCardBackground");
                 StackPane stackPaneMainImage = new StackPane();
+                stackPaneMainImage.getStyleClass().add("powerUpCard"+powerUpCardV.getID());
                 stackPaneMainImage.setUserData(powerUpCardV.getID());
                 stackPaneBackground.getChildren().add(stackPaneMainImage);
 
@@ -434,6 +438,8 @@ public class GUISelector implements SelectorV {
 
             //DONE BUTTON
             StackPane doneButton = new StackPane(new Label("done"));
+            doneButton.getStyleClass().add("doneButton");
+
             makeNodeHoverable(doneButton);
             doneButton.setOnMouseClicked(e->{
                 getGameSceneController().removeSelectorSection();
@@ -708,16 +714,21 @@ public class GUISelector implements SelectorV {
 
             //USER DATA
             for (int i = 0; i < hBox.getChildren().size() ; i++) {
+                StackPane backGroundPane = ((StackPane)hBox.getChildren().get(i));
+                backGroundPane.getStyleClass().add("weaponCardBackground");
                 StackPane mainStackPane = (StackPane)((StackPane)hBox.getChildren().get(i)).getChildren().get(0);
+                mainStackPane.getStyleClass().add("weaponCard" + toPickUp.get(i).getID());
                 makeNodeHoverable(mainStackPane);
                 mainStackPane.setUserData(toPickUp.get(i).getID());
-                //EVENTSc
+                //EVENTS
                 mainStackPane.setOnMouseClicked(e-> this.toPickUpID = (String)((StackPane)e.getSource()).getUserData());
             }
 
             //done button
             StackPane doneButton = new StackPane(new Label("DONE"));
             makeNodeHoverable(doneButton);
+            doneButton.getStyleClass().add("doneButton");
+
             doneButton.setOnMouseClicked(e->{
                 ViewControllerEventTwoString viewControllerEventTwoString = new ViewControllerEventTwoString(toPickUpID, toSwitchID);
                 getGameSceneController().removeSelectorSection();
@@ -779,7 +790,10 @@ public class GUISelector implements SelectorV {
 
             //USER DATA
             for (int i = 0; i < hBox.getChildren().size() ; i++) {
+                StackPane backgroundPane = (StackPane)hBox.getChildren().get(i);
+                backgroundPane.getStyleClass().add("powerUpCardBackground");
                 StackPane mainStackPane = (StackPane)((StackPane)hBox.getChildren().get(i)).getChildren().get(0);
+                mainStackPane.getStyleClass().add("powerUpCard" + toDiscard.get(i).getID());
                 makeNodeHoverable(mainStackPane);
                 mainStackPane.setUserData(i);
                 //EVENTS
@@ -818,10 +832,15 @@ public class GUISelector implements SelectorV {
 
             HBox hBox = new HBox();
             for (WeaponCardV weapon:toReload) {
+                StackPane weaponStackPaneBackground = new StackPane();
+                weaponStackPaneBackground.getStyleClass().add("weaponCardBackground");
                 StackPane weaponStackPane = new StackPane();
+                weaponStackPane.getStyleClass().add("weaponCard" + weapon.getID());
+                weaponStackPaneBackground.getChildren().add(weaponStackPane);
+
                 weaponStackPane.setUserData(weapon.getID());
-                hBox.getChildren().add(weaponStackPane);
-                HBox.setHgrow(weaponStackPane, Priority.ALWAYS);
+                hBox.getChildren().add(weaponStackPaneBackground);
+                HBox.setHgrow(weaponStackPaneBackground, Priority.ALWAYS);
                 makeNodeHoverable(weaponStackPane);
                 weaponStackPane.setOnMouseClicked(e->{
                     String choice = (String)((StackPane)e.getSource()).getUserData();
@@ -871,16 +890,20 @@ public class GUISelector implements SelectorV {
             HBox hBox = new HBox();
             for (int i = 0; i < powerUpCards.size() ; i++) {
                 PowerUpCardV powerUp = powerUpCards.get(i);
+                StackPane powerUpStackPaneBackground = new StackPane();
+                powerUpStackPaneBackground.getStyleClass().add("powerUpBackground");
                 StackPane powerUpStackPane = new StackPane();
+                powerUpStackPaneBackground.getChildren().add(powerUpStackPane);
+                powerUpStackPane.getStyleClass().add("powerUp"+powerUp.getID());
                 powerUpStackPane.setUserData(powerUp.getID());
-                HBox.setHgrow(powerUpStackPane,Priority.ALWAYS);
+                HBox.setHgrow(powerUpStackPaneBackground,Priority.ALWAYS);
                 powerUpStackPane.setOnMouseClicked(e->{
                     String chosenId = (String) ((StackPane)e.getSource()).getUserData();
                     getGameSceneController().removeSelectorSection();
                     getGameSceneController().sendToServer(new ViewControllerEventString(chosenId));
                 });
                 makeNodeHoverable(powerUpStackPane);
-                hBox.getChildren().add(powerUpStackPane);
+                hBox.getChildren().add(powerUpStackPaneBackground);
             }
 
             VBox.setVgrow(hBox, Priority.ALWAYS);
@@ -956,9 +979,13 @@ public class GUISelector implements SelectorV {
             HBox hBox = new HBox();
             for (int i = 0; i < loadedCardInHand.size(); i++) {
                 WeaponCardV weaponCardV = loadedCardInHand.get(i);
+                StackPane weaponStackPaneBackground = new StackPane();
+                weaponStackPaneBackground.getStyleClass().add("weaponCardBackground");
                 StackPane weaponStackPane = new StackPane();
-                hBox.getChildren().add(weaponStackPane);
-                HBox.setHgrow(weaponStackPane, Priority.ALWAYS);
+                weaponStackPane.getStyleClass().add("weaponCard" + weaponCardV.getID());
+                weaponStackPaneBackground.getChildren().add(weaponStackPane);
+                hBox.getChildren().add(weaponStackPaneBackground);
+                HBox.setHgrow(weaponStackPaneBackground, Priority.ALWAYS);
                 makeNodeHoverable(weaponStackPane);
                 weaponStackPane.setUserData(i);
                 weaponStackPane.setOnMouseClicked(e->{
@@ -1031,13 +1058,11 @@ public class GUISelector implements SelectorV {
     private class AskEffectInputs implements Runnable{
         private EffectInfoType inputType;
         private List<Object> possibleInputs;
-        private List<Object> possibleEventHandlers;
         private int numberOfRequests;
         private List<Object> answer;
         private AskEffectInputs (EffectInfoType inputType, List<Object> possibleInputs){
             this.inputType = inputType;
             this.possibleInputs = possibleInputs;
-            this.possibleEventHandlers = new ArrayList<>();
         }
         @Override
         public void run() {
@@ -1164,6 +1189,8 @@ public class GUISelector implements SelectorV {
 
                     StackPane doneButton = new StackPane(new Label("DONE"));
                     makeNodeHoverable(doneButton);
+                    doneButton.getStyleClass().add("doneButton");
+
                     VBox.setVgrow(doneButton, Priority.ALWAYS);
                     doneButton.setOnMouseClicked(event -> sendToServerAndResetSelection());
 
@@ -1181,7 +1208,6 @@ public class GUISelector implements SelectorV {
             (new UpdateMap()).callRunInThisThread();
 
             //sent to server
-            System.out.println("SENDING ANSWER TO SERVER: " + answer.toString());
             ViewControllerEventListOfObject viewControllerEventListOfObject = new ViewControllerEventListOfObject(answer);
             getGameSceneController().sendToServer(viewControllerEventListOfObject);
         }
@@ -1227,13 +1253,20 @@ public class GUISelector implements SelectorV {
             List<String> nicknames = reconnectionEvent.getListOfAFKPlayers();
             for (String nickname: nicknames) {
                 Label nicknameLabel = new Label(nickname);
-                nicknameLabel.setStyle("-fx-text-fill: #ffb523;-fx-background-color: #11353e");
+                nicknameLabel.setStyle("-fx-text-fill: white;-fx-background-color: black");
                 StackPane nicknameStackPane = new StackPane();
                 nicknameStackPane.setStyle("-fx-padding: 35px");
                 hBox.getChildren().add(nicknameStackPane);
                 HBox.setHgrow(nicknameStackPane,Priority.ALWAYS);
                 nicknameStackPane.setUserData(nickname);
-                makeNodeHoverable(nicknameStackPane);
+                nicknameLabel.setOnMouseEntered(e->{
+                    nicknameStackPane.setStyle("-fx-padding: 60px");
+
+                });
+                nicknameLabel.setOnMouseEntered(e->{
+                    nicknameStackPane.setStyle("-fx-padding: 35px");
+
+                });
                 nicknameStackPane.setOnMouseClicked(e->{
                     String nicknameChosen = (String) ((StackPane)e.getSource()).getUserData();
                     s.hide();
@@ -1401,15 +1434,15 @@ public class GUISelector implements SelectorV {
                     StackPane stackPaneMainImage = (StackPane)((StackPane) hBox.getChildren().get(i)).getChildren().get(0);
                     if(ammo.getColor().equals(AmmoCubesColor.red)){
                         //setStyle
-                        stackPaneMainImage.setStyle("-fx-background-color: red");
+                        stackPaneMainImage.getStyleClass().add("ammoRed");
                     }
                     else if (ammo.getColor().equals(AmmoCubesColor.blue)){
                         //setStyle
-                        stackPaneMainImage.setStyle("-fx-background-color: blue");
+                        stackPaneMainImage.getStyleClass().add("ammoBlue");
                     }
                     else if(ammo.getColor().equals(AmmoCubesColor.yellow)){ //yellow
                         //setStyle
-                        stackPaneMainImage.setStyle("-fx-background-color: yellow");
+                        stackPaneMainImage.getStyleClass().add("ammoYellow");
                     }
                     else{
                         GUIstarter.showError(this, "COULDN'T FIND COLOR OF THE AMMO: " + ammo.getColor(), null);
@@ -1657,12 +1690,18 @@ public class GUISelector implements SelectorV {
             for (int i = 0; i<listOfTargetingScopeV.size(); i++) {
                 PowerUpCardV powerUp= listOfTargetingScopeV.get(i);
 
+                StackPane powerUpBackground = new StackPane();
                 StackPane powerUpStackPane = new StackPane();
 
-                makeNodeHoverable(powerUpStackPane);
-                HBox.setHgrow(powerUpStackPane, Priority.ALWAYS);
+                powerUpBackground.getStyleClass().add("powerUpBackground");
+                powerUpStackPane.getStyleClass().add("powerUpCard" + powerUp.getID());
 
-                hBox.getChildren().add(powerUpStackPane);
+                powerUpBackground.getChildren().add(powerUpStackPane);
+
+                makeNodeHoverable(powerUpStackPane);
+                HBox.setHgrow(powerUpBackground, Priority.ALWAYS);
+
+                hBox.getChildren().add(powerUpBackground);
 
                 powerUpStackPane.setUserData(i);
 
@@ -1761,7 +1800,12 @@ public class GUISelector implements SelectorV {
             for (int i = 0; i<listOfTagBackGranade.size(); i++) {
                 PowerUpCardV powerUp= listOfTagBackGranade.get(i);
 
+                StackPane powerUpBackground = new StackPane();
                 StackPane powerUpStackPane = new StackPane();
+                powerUpBackground.getStyleClass().add("powerUpCardBackground");
+                powerUpStackPane.getStyleClass().add("powerUpCard" + powerUp.getID());
+
+                powerUpBackground.getChildren().add(powerUpStackPane);
 
                 makeNodeHoverable(powerUpStackPane);
                 HBox.setHgrow(powerUpStackPane, Priority.ALWAYS);

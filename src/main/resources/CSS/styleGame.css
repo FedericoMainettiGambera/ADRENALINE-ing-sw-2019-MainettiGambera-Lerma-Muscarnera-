@@ -45,6 +45,10 @@ GENERAL CLASSES
     -fx-padding: 40px;
 }
 
+.label{
+    -fx-background-color: dark-primary-color;
+}
+
 /*radiobutton*/
 .radio-button{
     -fx-font-size: 15px;
@@ -75,9 +79,6 @@ GENERAL CLASSES
     -fx-font-weight: bold;
 }
 
-.selectorSection{
-    -fx-background-color: dark-primary-color;
-}
 
 
 /*------------------------------------------------------------------------------------------------------------------------------------*/
@@ -90,6 +91,18 @@ SPECIFIC CLASSES
 
 /*------------------------------1*/
 /*1-selector section*/
+.selectorSection{
+    -fx-background-color: dark-primary-color;
+}
+.doneButton{
+
+}
+.hBoxRadioButtonsBackgroundInGameSetUp{
+
+}
+.scrollPaneInGameSetUp{
+
+}
 
 /*------------------------------2*/
 /*2-information section*/
