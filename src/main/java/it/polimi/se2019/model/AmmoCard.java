@@ -64,7 +64,7 @@ public class AmmoCard extends Card implements Serializable {
             isPowerUp = true;
             AmmoCubesColor A = null;
             AmmoCubesColor B= null;
-            System.out.println(idParsed);
+            //System.out.println(idParsed);
             if(idParsed <= 9) {
                 A = Colors.get(idParsed - 7);
                 B = Colors.get(idParsed - 7);

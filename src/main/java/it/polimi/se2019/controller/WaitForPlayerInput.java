@@ -33,6 +33,7 @@ public class WaitForPlayerInput implements Runnable{
         Random rand = new Random();
         this.randomID = rand.nextInt(50000);
         this.ask=ask;
+        ViewControllerEventHandlerContext.addElementTOStackOfStatesAndTimers(this, "new timer started with id (" + this.randomID + ") for class (" + this.callingClass + ")" + "for player (" + this.playerToAsk.getNickname() + ")");
     }
 
     @Override
@@ -66,6 +67,7 @@ public class WaitForPlayerInput implements Runnable{
         out.println("                                                                        from class: " + this.callingClass);
         out.println("                                                                        VCEHC at the moment is: " + ViewControllerEventHandlerContext.getState().getClass());
 
+        ViewControllerEventHandlerContext.printStackOfStatesAndTImers();
         if(this.callingClass.getClass().toString().contains("ChooseHowToPayState")){
             ViewControllerEventHandlerContext.getPaymentProcess().handleAFK();
         }

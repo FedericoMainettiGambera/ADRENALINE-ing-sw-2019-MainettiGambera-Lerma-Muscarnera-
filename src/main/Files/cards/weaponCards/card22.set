@@ -3,6 +3,37 @@ XXX
 RELOAD COST
 y
 1
+NEW EFFECT
+EFFECT NAME
+singleTarget
+TO
+1
+END
+singleTarget
+TO
+2
+END
+singleTarget
+TO
+3
+END
+END
+ACTIONS
+Action
+ACTION INFO
+PRECONDITION
+alwaysTrue
+END
+Action
+ACTION INFO
+PRECONDITION
+notPreviousTarget
+END
+Action
+ACTION INFO
+PRECONDITION
+notPreviousTarget
+END
 
 NEW EFFECT
 EFFECT NAME

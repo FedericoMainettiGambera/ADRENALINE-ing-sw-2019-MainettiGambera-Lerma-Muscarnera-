@@ -1,10 +1,7 @@
 package it.polimi.se2019;
 
 import it.polimi.se2019.model.*;
-import it.polimi.se2019.model.enumerations.CardinalPoint;
-import it.polimi.se2019.model.enumerations.SquareSide;
-import it.polimi.se2019.model.enumerations.SquareTypes;
-import it.polimi.se2019.model.enumerations.UsableInputTableRowType;
+import it.polimi.se2019.model.enumerations.*;
 import it.polimi.se2019.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
@@ -247,6 +244,67 @@ public class TestWeaponCard {
         System.out.println(x);*/
         }
 
+    @Test
+    public  void testFilledInputs() throws Exception
+    {
+        Board board = new Board("2",new VirtualView(),new VirtualView());
+        for(Square[] r: board.getMap()) {
+            for (Square c: r)
+                System.out.println(c);
+            System.out.println("\n");
+        }
+        List<Player> user = new ArrayList<>();
+        user.add(new Player());user.add(new Player());user.add(new Player());user.add(new Player());user.add(new Player());
+        Player user1 = user.get(0);
+        Player user2 = user.get(1);
+        Player user3 = user.get(2);
+        Player user4 = user.get(3);
+        Player user5 = user.get(4);
+
+        user1.setNickname("Aldo");
+        user2.setNickname("Bruno");
+        user3.setNickname("Carlo");
+        user4.setNickname("Dario");
+        user5.setNickname("Elena");
+
+        PlayersList playerList = new PlayersList();
+        playerList.getPlayers().add(user1);
+        playerList.getPlayers().add(user2);
+        playerList.getPlayers().add(user3);
+        playerList.getPlayers().add(user4);
+        playerList.getPlayers().add(user5);
+
+        user1.setPosition(0, 0);
+        user2.setPosition(1, 3);
+        user3.setPosition(0 , 2);                 //   same position
+        user4.setPosition(1, 0);
+        user5.setPosition(2, 1);
+        ActionContext fakeContext = new ActionContext();
+        fakeContext.setPlayer(user1);
+        fakeContext.setPlayerList(playerList);
+        fakeContext.setBoard(board);
+
+        PreConditionMethodsInverted piGate = new PreConditionMethodsInverted();
+        List<Object> filledInputs = new ArrayList<>();
+        Object[] row = new Object[10];
+        row[0] = user2;
+        filledInputs.add(row);
+        row[0] = user3;
+        filledInputs.add(row);
+        List<EffectInfoType> i = new ArrayList<>();
+        i.add(EffectInfoType.singleTarget);
+        i.add(EffectInfoType.singleTarget);
+
+        List<Object> o = piGate.notPreviousTarget(
+                fakeContext,
+                UsableInputTableRowType.typePlayer,
+                new ActionDetails(),
+                filledInputs,
+                i,
+                null
+        );
+        showMap(user1,playerList,board,o);
+            }
 
     /*
     @Test

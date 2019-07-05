@@ -20,7 +20,7 @@ public class GameConstant implements Serializable {
     public static final int COUNTDOWN_IN_SECONDS_FOR_CONNECTION_QUEUE = 10;
 
     /**time for the user to insert an input before they are set AFK*/
-    public static final int TIME_TO_INSERT_INPUT_IN_SECONDS = 60;
+    public static final int TIME_TO_INSERT_INPUT_IN_SECONDS = 5;
 
     /**maximum number of skulls tha can be placed  on the kill shot track*/
     public static final int MAX_STARTING_SKULLS = 8;
