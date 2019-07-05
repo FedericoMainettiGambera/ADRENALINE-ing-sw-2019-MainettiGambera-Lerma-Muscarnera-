@@ -67,7 +67,7 @@ public class PowerUpState implements State {
             }
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askPowerUpToUse(powerUpCardsV);
-            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString(), "ask power up to use"));
             this.inputTimer.start();
         } catch (Exception e) {
             logger.severe("Exception Occurred: "+e.getClass()+" "+e.getCause());

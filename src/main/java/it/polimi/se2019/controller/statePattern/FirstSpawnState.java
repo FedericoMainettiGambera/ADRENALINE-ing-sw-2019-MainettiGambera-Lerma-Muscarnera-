@@ -49,12 +49,13 @@ public class FirstSpawnState implements State {
             if(ModelGate.getModel().isBotActive()&&ModelGate.getModel().getPlayerList().getPlayer(botNickname).getPosition()==null){
                 out.println("<SERVER> asking player to spawn himself and the bot");
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askFirstSpawnPosition(playerToAsk.getPowerUpCardsInHand().getCards(), true);
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString(), "ask ask first spawn position with bot"));
             }
             else{
                 out.println("<SERVER> asking player to spawn himself");
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askFirstSpawnPosition(playerToAsk.getPowerUpCardsInHand().getCards(), false);
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString(), "ask first spawn position without bot"));
             }
-            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
             this.inputTimer.start();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "EXCEPTION ", e);

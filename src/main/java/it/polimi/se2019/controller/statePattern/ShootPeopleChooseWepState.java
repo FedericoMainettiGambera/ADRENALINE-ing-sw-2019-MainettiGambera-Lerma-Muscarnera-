@@ -58,7 +58,7 @@ public class ShootPeopleChooseWepState implements State {
             try {
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askWhatWep(loadedCardInHand);
-                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString(), "ask what wep for shoot"));
                 this.inputTimer.start();
             } catch (Exception e) {
                 logger.severe("Exception Occured" + e.getClass() + e.getCause());

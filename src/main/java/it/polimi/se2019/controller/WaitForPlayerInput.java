@@ -25,11 +25,14 @@ public class WaitForPlayerInput implements Runnable{
 
     private RmiVirtualView rmiVirtualView = ViewControllerEventHandlerContext.getRmiVirtualView();
 
-    public WaitForPlayerInput(Player p, String callingClass){
+    private String ask;
+
+    public WaitForPlayerInput(Player p, String callingClass, String ask){
         this.playerToAsk = p;
         this.callingClass = callingClass;
         Random rand = new Random();
         this.randomID = rand.nextInt(50000);
+        this.ask=ask;
     }
 
     @Override
@@ -37,6 +40,7 @@ public class WaitForPlayerInput implements Runnable{
         out.println("                                            Thread: <SERVER> Waiting for " + playerToAsk.getNickname() + "'s input.");
         out.println("                                                             from class: " + this.callingClass);
         out.println("                                                             ID: " + this.randomID);
+        out.println("                                                             relative ask: " + this.ask);
 
 
         int i = 1;

@@ -47,7 +47,7 @@ public class GameSetUpState implements State {
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askGameSetUp(false);
             }
             else SelectorGate.getCorrectSelectorFor(playerToAsk).askGameSetUp(true);
-            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString(), "ask game set up"));
             this.inputTimer.start();
         } catch (Exception e) {
             logger.severe("Exception occurred:"+" "+ " "+ Arrays.toString(e.getStackTrace())+e.getClass()+e.getCause());

@@ -73,7 +73,7 @@ public class TagBackGranadeState implements State{
                         SelectorGate.getCorrectSelectorFor(currentPlayer).setPlayerToAsk(currentPlayer);
                         //ask him what TagBackgranade want to use or if he wants to "skip" the tagbackgranade state
                         SelectorGate.getCorrectSelectorFor(currentPlayer).askTagBackGranade(listOfTagBackGranadesV);
-                        this.inputTimer = new Thread(new WaitForPlayerInput(this.currentPlayer, this.getClass().toString()));
+                        this.inputTimer = new Thread(new WaitForPlayerInput(this.currentPlayer, this.getClass().toString(), "ask tag back grenade"));
                         this.inputTimer.start();
                     } catch (Exception e) {
                        logger.log(Level.SEVERE, "EXCEPTION", e);

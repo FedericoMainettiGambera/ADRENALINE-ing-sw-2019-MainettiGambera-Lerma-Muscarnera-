@@ -68,7 +68,7 @@ public class PowerUpAskForInputState implements State {
 
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(this.playerToAsk);
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askEffectInputs(inputType, this.chosenPowerUp.getSpecialEffect().usableInputs().get(inputRequestCounterF).get(0));
-                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString(), "ask effect input for power up"));
                 this.inputTimer.start();
             } catch (Exception e) {
                 logger.log(Level.SEVERE, "EXCEPTION", e);

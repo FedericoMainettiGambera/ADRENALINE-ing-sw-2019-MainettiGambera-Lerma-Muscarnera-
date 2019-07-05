@@ -44,7 +44,7 @@ public class WantToPlayPowerUpState  implements State{
             try {
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askWantToUsePowerUpOrNot();
-                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString(), "ask want to use power up"));
                 this.inputTimer.start();
             } catch (Exception e) {
                 logger.severe("Exception Occurred: "+e.getClass()+" "+e.getCause());
