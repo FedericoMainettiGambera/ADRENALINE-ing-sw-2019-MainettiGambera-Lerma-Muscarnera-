@@ -162,8 +162,10 @@ public class UpdateMap implements Runnable{
             StackPane playerStackPane = new StackPane(new Label(p.getNickname())); //don't use a label, but set the image
             if(getPlayerStackPane(p.getNickname())!=null){
                 playerStackPane = getPlayerStackPane(p.getNickname());
+                assert playerStackPane != null;
+                playerStackPane.setUserData(p);
             }
-            playerStackPane.setUserData(p);
+
             playerStackPane.addEventHandler(MouseEvent.MOUSE_ENTERED, getGameSceneController().getShowPlayerEventHandler());
             setPlayerStackPane(new PlayerStackPanesTracker(p.getNickname(), playerStackPane));
             hBox.getChildren().add(playerStackPane);

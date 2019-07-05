@@ -1282,6 +1282,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                 TimeUnit.MILLISECONDS.sleep(1000);
             } catch (InterruptedException e) {
                 GUIstarter.showError(this, "timer error while waiting for loading scene to set", null);
+                Thread.currentThread().interrupt();
             }
             updateMap();
             updateKillShotTrack();

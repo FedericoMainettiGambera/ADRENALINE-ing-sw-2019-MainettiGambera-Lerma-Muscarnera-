@@ -160,11 +160,6 @@ public class PreConditionMethods implements Serializable {
 
 
             }
-            if(retVal) {
-                //System.out.println("visibile");
-            } else {
-                //System.out.println("non visibile");
-            }
             return retVal;
         }
 
