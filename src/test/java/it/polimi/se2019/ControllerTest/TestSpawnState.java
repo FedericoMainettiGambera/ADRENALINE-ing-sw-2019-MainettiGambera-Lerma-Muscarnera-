@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import static junit.framework.TestCase.assertEquals;
 
 public class TestSpawnState{
-
+/*
    private FakeModel fakeModel=new FakeModel();
 
    @Test
@@ -56,5 +56,5 @@ public class TestSpawnState{
 
 
    }
-
+*/
 }
