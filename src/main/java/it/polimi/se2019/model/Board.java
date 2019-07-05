@@ -56,6 +56,11 @@ public class Board{
     private Square[][] board;
     private BufferedReader bufferedReader;
     private Square[] spawnPointslist = new Square[3];
+
+    public String getChosenMap() {
+        return chosenMap;
+    }
+
     private String chosenMap;
 
     /** from a specified

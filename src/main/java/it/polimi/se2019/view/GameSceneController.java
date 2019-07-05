@@ -459,6 +459,11 @@ public class GameSceneController implements Initializable {
     //------------------------------4
     /**4-board section*/
     @FXML private AnchorPane boardSection;
+
+    public StackPane getBoardBackGround() {
+        return boardBackGround;
+    }
+
     @FXML private StackPane boardBackGround;
     @FXML private GridPane board; //  (4 x 3)
 
@@ -589,26 +594,20 @@ public class GameSceneController implements Initializable {
         String emptyKillSlot="emptyKillSlot";
 
         getConnection().setText("CONNECTION: "+Controller.getNetworkConnection());
-        getConnection().setTextFill(Color.rgb(255, 127, 36));
-        getConnection().setFont(Font.font("Courier"));
 
         getIp().setText("IP: "+Controller.getIp());
-        getIp().setTextFill(Color.rgb(255, 127, 36));
-        getIp().setFont(Font.font("Courier"));
 
         getPort().setText("PORT: "+Controller.getPort());
-        getPort().setTextFill(Color.rgb(255, 127, 36));
-        getPort().setFont(Font.font("Courier"));
 
         getStateTitle().setText("SETTING UP THE GAME");
-        getStateTitle().setTextFill(Color.rgb(255, 127, 36));
-        getStateTitle().setFont(Font.font("Courier"));
+        getStateTitle().setTextFill(Color.rgb(255, 181, 38));
+        getStateTitle().setFont(Font.font("Monospace"));
 
         Text player;
         Text descr=new Text(" \n setting up the Game!");
 
-        descr.setFill(Color.rgb(255, 127, 36));
-        descr.setFont(Font.font("Courier"));
+        descr.setFill(Color.rgb(255, 181, 38));
+        descr.setFont(Font.font("Monospace"));
 
 
         if (ViewModelGate.getMe().equals(ViewModelGate.getModel().getPlayers().getStartingPlayer())) {
@@ -617,12 +616,13 @@ public class GameSceneController implements Initializable {
             player = new Text(ViewModelGate.getModel().getPlayers().getStartingPlayer()+"  is ");
         }
 
-        player.setFill(Color.rgb(255, 127, 36));
-        player.setFont(Font.font("Courier"));
+        player.setFill(Color.rgb(255, 181, 38));
+        player.setFont(Font.font("Monospace"));
 
         getStateDescription().getChildren().clear();
         getStateDescription().getChildren().addAll(player,descr);
 
+        /*
         //killshot track default css classes
         this.killshotTrackSection.getStyleClass().add("emptyKillShotTrackBackground");
         this.killshotTrackVBox.getStyleClass().add("killShotTrackBackground");
@@ -748,7 +748,7 @@ public class GameSceneController implements Initializable {
         this.weaponCardMainImage1.getStyleClass().add(emptyWeaponCardMainImage);
         this.weaponCardMainImage2.getStyleClass().add(emptyWeaponCardMainImage);
         this.weaponCardMainImage3.getStyleClass().add(emptyWeaponCardMainImage);
-
+        */
 
         showPlayerEventHandler=new ShowPlayerEventHandler();
         showPowerUpCardsEventHandler=new ShowPowerUpCardsEventHandler();
@@ -790,15 +790,12 @@ public class GameSceneController implements Initializable {
         double totalWidth = this.boardSection.getWidth();
         double totalHeight = this.boardSection.getHeight();
 
-        //System.out.println("width: " + totalWidth + ", height: " + totalHeight);
-
         double topSpacing;
         double rightSpacing;
         double bottomSpacing;
         double leftSpacing;
 
         if(totalWidth < (totalHeight)*((double)4/(double)3)){ //full width, calculate height
-            //System.out.println("FULL WIDTH because:    totalWidth = " + totalWidth +"   <   (totalHeight*((double)4/(double)3)) = " + (totalHeight*((double)4/(double)3)));
             rightSpacing = 0.0;
             leftSpacing = 0.0;
 
@@ -808,7 +805,6 @@ public class GameSceneController implements Initializable {
             bottomSpacing = topSpacing;
         }
         else{ //full height, calculate width
-            //System.out.println("FULL HEIGHT because:    totalWidth = " + totalWidth +"   >=   (totalHeight = " + totalHeight + ")*((double)4/(double)3)) = " + (totalHeight*((double)4/(double)3)));
             topSpacing = 0.0;
             bottomSpacing = 0.0;
 
@@ -818,12 +814,6 @@ public class GameSceneController implements Initializable {
             leftSpacing = rightSpacing;
         }
 
-        //System.out.println(
-        //        "top: " + topSpacing + "\n" +
-        //        "right: " + rightSpacing + "\n" +
-        //        "bottom: " + bottomSpacing + "\n" +
-        //        "left: " + leftSpacing
-        //);
 
         AnchorPane.setTopAnchor(this.boardBackGround, topSpacing);
         AnchorPane.setRightAnchor(this.boardBackGround,rightSpacing);
@@ -890,11 +880,6 @@ public class GameSceneController implements Initializable {
     /**@return selectorSection*/
     public AnchorPane getSelectorSection(){
         return this.selectorSection;
-    }
-
-    /**@return the playerSection*/
-    public AnchorPane getPlayerSection(){
-        return  this.playerSection;
     }
 
     /**this class implements a eventHandler for showing players data in the information section*/
