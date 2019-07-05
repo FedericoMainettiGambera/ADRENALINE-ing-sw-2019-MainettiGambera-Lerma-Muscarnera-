@@ -39,6 +39,20 @@ GENERAL CLASSES
 }
 
 
+.split-pane:horizontal > .split-pane-divider {
+    -fx-border-color: transparent accent-color transparent accent-color;
+    -fx-background-color: transparent, derive(accent-color,20%);
+}
+.split-pane:vertical > .split-pane-divider {
+    -fx-border-color: transparent accent-color transparent accent-color;
+    -fx-background-color: transparent, derive(accent-color,20%);
+}
+
+.split-pane {
+    -fx-padding: 1 0 0 0;
+}
+
+
 .blueBackground{
     -fx-background-color: dark-primary-color;
 }
