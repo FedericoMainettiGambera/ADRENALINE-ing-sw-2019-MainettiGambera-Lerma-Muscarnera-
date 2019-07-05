@@ -26,28 +26,34 @@
                                  <children>
                                     <StackPane HBox.hgrow="ALWAYS">
                                        <children>
-                                          <VBox>
+                                          <VBox fx:id="gameInfoVBox">
                                              <children>
                                                 <StackPane VBox.vgrow="NEVER">
                                                    <children>
                                                       <Label text="GAME INFO" />
                                                    </children>
                                                 </StackPane>
-                                                <StackPane alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                                <StackPane VBox.vgrow="ALWAYS">
                                                    <children>
                                                       <Label fx:id="connection" text="CONNECTION:" />
                                                    </children>
                                                 </StackPane>
-                                                <StackPane alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                                <StackPane VBox.vgrow="ALWAYS">
                                                    <children>
                                                       <Label fx:id="ip" text="IP:" />
                                                    </children>
                                                 </StackPane>
-                                                <StackPane alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                                <StackPane VBox.vgrow="ALWAYS">
                                                    <children>
                                                       <Label fx:id="port" text="PORT:" />
                                                    </children>
                                                 </StackPane>
+                                                <StackPane VBox.vgrow="ALWAYS">
+                                                   <children>
+                                                      <Label fx:id="currentPlayingPlayerLabel" text="TURN OF:" />
+                                                   </children>
+                                                </StackPane>
+
                                              </children>
                                           </VBox>
                                        </children>

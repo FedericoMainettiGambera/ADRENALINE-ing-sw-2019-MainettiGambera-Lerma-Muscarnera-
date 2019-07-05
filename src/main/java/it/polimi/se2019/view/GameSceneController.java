@@ -66,6 +66,16 @@ public class GameSceneController implements Initializable {
     /***/
     @FXML private AnchorPane stateSection;
     /**a label that reports the chosen connection method*/
+
+    @FXML private VBox gameInfoVBox;
+    public VBox getGameInfoVbox(){
+        return this.gameInfoVBox;
+    }
+
+    @FXML private Label currentPlayingPlayerLabel;
+    public Label getCurrentPlayingPlayerLabel(){
+        return currentPlayingPlayerLabel;
+    }
     @FXML private Label connection;
     /**@return connection*/
     public Label getConnection() {
@@ -999,7 +1009,13 @@ public class GameSceneController implements Initializable {
             VBox mainVbox = new VBox(); //contains everything
 
             //nickname / color
-            Label nicknameLabel = new Label(playerV.getNickname());
+            Label nicknameLabel;
+            if(!playerV.isAFK()) {
+                nicknameLabel= new Label(playerV.getNickname());
+            }
+            else {
+                nicknameLabel = new Label("AFK: " + playerV.getNickname());
+            }
             StackPane nickname = new StackPane(nicknameLabel);
             nickname.getStyleClass().add("nicknameBackground"+getColorStringWithFirstCapitalLetter(playerV.getColor()));
             nicknameLabel.getStyleClass().add("nicknameStyle");
@@ -1045,8 +1061,8 @@ public class GameSceneController implements Initializable {
                 damageSlotBackground.getChildren().add(damageSlotMainImage);
                 HBox.setHgrow(damageSlotBackground,Priority.ALWAYS);
                 hBoxDamages.getChildren().add(damageSlotBackground);
-                PlayersColors markingPlayerColor= playerV.getDamageTracker().getDamageSlotsList().get(i).getShootingPlayerColor();
-                damageSlotMainImage.getStyleClass().add("damage"+getColorStringWithFirstCapitalLetter(markingPlayerColor));
+                PlayersColors shootingPlayerColor= playerV.getDamageTracker().getDamageSlotsList().get(i).getShootingPlayerColor();
+                damageSlotMainImage.getStyleClass().add("damage"+getColorStringWithFirstCapitalLetter(shootingPlayerColor));
             }
             for (int i = numberOfFullDamageSlots; i < 12 ; i++) { //empty damages
                 StackPane damageSlotBackground = new StackPane();

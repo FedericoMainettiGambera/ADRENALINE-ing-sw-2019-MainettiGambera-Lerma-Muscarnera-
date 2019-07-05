@@ -9,9 +9,12 @@ import it.polimi.se2019.view.GameSceneController;
 import it.polimi.se2019.view.LoadingSceneController;
 import it.polimi.se2019.view.UpdateMap;
 import it.polimi.se2019.view.components.*;
+import it.polimi.se2019.view.selector.GUISelector;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -43,8 +46,9 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         public void run(){
             Platform.runLater( ()->{
                 int i = 0;
-                if(ViewModelGate.getModel()==null&&ViewModelGate.getModel().getKillshotTrack()==null)
-                { return; }
+                if(ViewModelGate.getModel()==null&&ViewModelGate.getModel().getKillshotTrack()==null) {
+                    return;
+                }
                 if (ViewModelGate.getModel().getKillshotTrack().getKillsV() != null) {
                     if(ViewModelGate.getModel().getKillshotTrack().getKillsV().get(0).isSkull()) {
                         i = ViewModelGate.getModel().getKillshotTrack().getKillsV().size();
@@ -54,6 +58,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                             if (killV.isSkull()) {
                                 removePrevious(getGameSceneController().getKills().get(i));
                                 getGameSceneController().getKills().get(i).getStyleClass().add("skull");
+                                getGameSceneController().getKills().get(i).setUserData(null);
                             } else {
                                 getGameSceneController().getKills().get(i).setUserData(ViewModelGate.getModel().getPlayers().getPlayer(killV.getKillingPlayer()));
                                 removePrevious(getGameSceneController().getKills().get(i));
@@ -61,17 +66,13 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                             }
                             i++;
                         }
-
                     }
-                        assert i >= 5;
-                        if (i < getGameSceneController().getKills().size()){
-                            setEmpty(i);
-                        }
+                    assert i >= 5;
+                    if (i < getGameSceneController().getKills().size()){
+                        setEmpty(i);
+                    }
                 }
-
-                    }
-
-            );
+            });
         }
 
         /**
@@ -202,8 +203,9 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         @Override
         public void run() {
             Platform.runLater(()->{
-                if(ViewModelGate.getModel()==null&&ViewModelGate.getModel().getPlayers()==null&&ViewModelGate.getModel().getPlayers().getPlayer(ViewModelGate.getMe())==null)
-                { return; }
+                if(ViewModelGate.getModel()==null&&ViewModelGate.getModel().getPlayers()==null&&ViewModelGate.getModel().getPlayers().getPlayer(ViewModelGate.getMe())==null) {
+                    return;
+                }
 
                 PlayerV me = ViewModelGate.getModel().getPlayers().getPlayer(ViewModelGate.getMe());
                 if (me.getPowerUpCardInHand() != null) {
@@ -213,11 +215,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                             getGameSceneController().getListOfPowerUpCardsMainImage().get(i).setUserData(powerUp);
                             removePrevious(getGameSceneController().getListOfPowerUpCardsMainImage().get(i));
                             getGameSceneController().getListOfPowerUpCardsMainImage().get(i).getStyleClass().add("powerUpCard" + powerUp.getID());
-                            System.out.println("power up card main image numero " + i + " è " + powerUp.getName() + ", ID: " + powerUp.getID());
                             i++;
-                        }
-                        else{
-                            System.out.println("power up card main image numero " + i + " è " + powerUp.getName() + ", ID: " + powerUp.getID());
                         }
                     }
                     if (i < getGameSceneController().getListOfPowerUpCardsMainImage().size()) {
@@ -288,7 +286,6 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                             getGameSceneController().getWeaponCardsMainImage().get(i).setUserData(weapon);
                             removePrevious(getGameSceneController().getWeaponCardsMainImage().get(i));
                             getGameSceneController().getWeaponCardsMainImage().get(i).getStyleClass().add("weaponCard" + weapon.getID());
-                            System.out.println("weapon card main image numero " + i + " è " + weapon.getName() + ", ID: " + weapon.getID());
                             i++;
                         }
                         else{
@@ -299,6 +296,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                     if(i<getGameSceneController().getWeaponCardsMainImage().size()){
                         for (int j = i; j < getGameSceneController().getWeaponCardsMainImage().size(); j++) {
                             removePrevious(getGameSceneController().getWeaponCardsMainImage().get(j));
+                            getGameSceneController().getWeaponCardsMainImage().get(j).setUserData(null);
                             getGameSceneController().getWeaponCardsMainImage().get(j).getStyleClass().add("emptyWeaponCardMainImage");
                         }
                     }
@@ -365,93 +363,41 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
         private void updateDamage(PlayerV player) {
             int i = 0;
-            if (player.getDamageTracker() == null || player.getDamageTracker().getDamageSlotsList().isEmpty()) {
-
-              emptyDamages(i);
-
-            } else {
-                for (DamageSlotV damageSlot : player.getDamageTracker().getDamageSlotsList()) {
-
-                    if(i < getGameSceneController().getDamagesMainImage().size()-1) {
-                        addDamages(damageSlot, i);
-                        i++;
-                    }
-                    else{
-
-                       getGameSceneController().getDamagesMainImage().get(12).getChildren().add(new Label("+"+(player.getDamageTracker().getDamageSlotsList().size()-12)));
-                       break;
-                    }
+            if (player.getDamageTracker() != null) {
+                List<StackPane> damagesStackpanes = getGameSceneController().getDamagesMainImage();
+                int totalNumberOfDamages = player.getDamageTracker().getDamageSlotsList().size();
+                for (int j = 0; j < totalNumberOfDamages && j < 12; j++) { //full damages
+                    PlayerV shootingPlayer = ViewModelGate.getModel().getPlayers().getPlayer(player.getDamageTracker().getDamageSlotsList().get(i).getShootingPlayerNickname());
+                    damagesStackpanes.get(i).setUserData(shootingPlayer);
+                    removePrevious(damagesStackpanes.get(i));
+                    damagesStackpanes.get(i).getStyleClass().add("damage" + getColorStringWithFirstCapitalLetter(shootingPlayer.getColor()));
                 }
-                if (i < getGameSceneController().getDamagesMainImage().size()) {
-                    emptyDamages(i);
+                for (int j = totalNumberOfDamages; j < 12; j++) { // empty damages
+                    damagesStackpanes.get(i).setUserData(null);
+                    removePrevious(damagesStackpanes.get(i));
+                    damagesStackpanes.get(i).getStyleClass().add("damageEmpty");
+                }
+                if (totalNumberOfDamages >= 12) {
+                    damagesStackpanes.get(i).getChildren().clear();
+                    damagesStackpanes.get(i).getChildren().add(new Label("+" + (totalNumberOfDamages - 12)));
                 }
             }
         }
-
-
-        /**
-         * set the damage image with the right css style class after having removed the previous one
-         *
-         * @param i          is to get the corresponding stack pane
-         * @param damageSlot is the damageSlotV whose style is meant to be replaced
-         */
-        private void addDamages(DamageSlotV damageSlot, int i) {
-
-
-            PlayersColors color = damageSlot.getShootingPlayerColor();
-
-            for(PlayerV player : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                if (player.getNickname().equals(damageSlot.getShootingPlayerNickname())) {
-                    getGameSceneController().getDamagesMainImage().get(i).setUserData(player);
-                }
+        private String getColorStringWithFirstCapitalLetter(PlayersColors color){
+            if(color.equals(PlayersColors.gray)){
+                return "Gray";
             }
-
-
-            switch (color) {
-                case blue:
-                    removePrevious(getGameSceneController().getDamagesMainImage().get(i));
-                    (getGameSceneController().getDamagesMainImage().get(i).getStyleClass()).add("damageBlue");
-                    break;
-                case purple:
-                    removePrevious(getGameSceneController().getDamagesMainImage().get(i));
-                    (getGameSceneController().getDamagesMainImage().get(i).getStyleClass()).add("damagePurple");
-                    break;
-                case gray:
-                    removePrevious(getGameSceneController().getDamagesMainImage().get(i));
-                    (getGameSceneController().getDamagesMainImage().get(i).getStyleClass()).add("damageGray");
-                    break;
-                case green:
-                    removePrevious(getGameSceneController().getDamagesMainImage().get(i));
-                    (getGameSceneController().getDamagesMainImage().get(i).getStyleClass()).add("damageGreen");
-                    break;
-                case yellow:
-                    removePrevious(getGameSceneController().getDamagesMainImage().get(i));
-                    (getGameSceneController().getDamagesMainImage().get(i).getStyleClass()).add("damageYellow");
-                    break;
-                default:
-                    removePrevious(getGameSceneController().getDamagesMainImage().get(i));
-                    (getGameSceneController().getDamagesMainImage().get(i).getStyleClass()).add(damageEmpty);
+            else if(color.equals(PlayersColors.green)){
+                return "Green";
             }
-        }
-
-        private String damageEmpty = "damageEmpty";
-
-        /**
-         * applies the "damageEmpty" style sheet to all of the damage images
-         */
-        private void emptyDamages(int i) {
-
-            if(ViewModelGate.getModel().isHasFinalFrenzyBegun()){
-                for (int j = i; j < getGameSceneController().getDamagesMainImage().size()-1; j++) {
-                    removePrevious(getGameSceneController().getDamagesMainImage().get(j));
-                    getGameSceneController().getDamagesMainImage().get(j).getStyleClass().add("damageEmptyFF");
-                }
+            else if(color.equals(PlayersColors.blue)){
+                return "Blue";
+            }
+            else if(color.equals(PlayersColors.purple)){
+                return "Purple";
             }
             else{
-                for (int j = i; j < getGameSceneController().getDamagesMainImage().size()-1; j++) {
-                removePrevious(getGameSceneController().getDamagesMainImage().get(j));
-                getGameSceneController().getDamagesMainImage().get(j).getStyleClass().add(damageEmpty);
-                }
+                return "Yellow";
             }
         }
 
@@ -465,7 +411,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             damage.getStyleClass().remove("damageYellow");
             damage.getStyleClass().remove("damageGreen");
             damage.getStyleClass().remove("damageGray");
-            damage.getStyleClass().remove(damageEmpty);
+            damage.getStyleClass().remove("damageEmpty");
 
 
         }
@@ -532,6 +478,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             for (PlayerV player : ViewModelGate.getModel().getPlayers().getPlayers()) {
                 if (player.getNickname().equals(markSlot.getMarkingPlayer())) {
                     getGameSceneController().getDamagesMainImage().get(i).setUserData(player);
+                    break;
                 }
             }
 
@@ -574,7 +521,8 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             for (int j = i; j < getGameSceneController().getMarkMainImage().size(); j++) {
                 removePrevious(getGameSceneController().getMarkMainImage().get(j));
                 getGameSceneController().getMarkMainImage().get(j).getStyleClass().add(markEmpty);
-
+                ((Label) (getGameSceneController().getMarkMainImage().get(i).getChildren().get(0))).setText("");
+                getGameSceneController().getMarkMainImage().get(j).setUserData(null);
             }
         }
 
@@ -639,20 +587,23 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                         for (int i = 0; i < player.getNumberOfDeaths(); i++){
                             removePrevious( getGameSceneController().getDeathMainImage().get(i));
                             getGameSceneController().getDeathMainImage().get(i).getStyleClass().add("deathSkull");
+                            ((Label) getGameSceneController().getDeathMainImage().get(i).getChildren().get(0)).setText("");
                         }
                         for (int j =  player.getNumberOfDeaths(); j < getGameSceneController().getDeathMainImage().size(); j++) {
                             removePrevious(getGameSceneController().getDeathMainImage().get(j));
                             getGameSceneController().getDeathMainImage().get(j).getStyleClass().add("deathEmpty");
+                            if(player.isHasFinalFrenzyBoard()) {
+                                ((Label) getGameSceneController().getDeathMainImage().get(j).getChildren().get(0)).setText("" + (Math.max(1, 2-j)));
+                            }
+                            else{
+                                int points = 8 - (2*j);
+                                ((Label) getGameSceneController().getDeathMainImage().get(j).getChildren().get(0)).setText("" + (Math.max(1, points)));
+                            }
                         }
 
+                        break;
                     }
                 }
-
-                if(ViewModelGate.getModel().getPlayers().getPlayer(ViewModelGate.getMe()).isHasFinalFrenzyBoard()){
-                    getGameSceneController().getPlayerDamagesAndDeathsVBox().getStyleClass().remove("deathsBackGround");
-                    getGameSceneController().getPlayerDamagesAndDeathsVBox().getStyleClass().add("FF");
-                }
-
 
             });
         }
@@ -703,7 +654,12 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                     if (player.getNickname().equals(ViewModelGate.getMe())) {
 
                         removePrevious();
-                        getGameSceneController().getNicknameLabel().setText(player.getNickname());
+                        if(!player.isAFK()) {
+                            getGameSceneController().getNicknameLabel().setText(player.getNickname());
+                        }
+                        else{
+                            getGameSceneController().getNicknameLabel().setText("AFK: " + player.getNickname());
+                        }
                         getGameSceneController().getNicknameLabel().getStyleClass().add("nicknameStyle");
                         if (player.getColor() != null){
                             PlayersColors color = player.getColor();
@@ -1098,20 +1054,29 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     @Override
     public void setFinalFrenzy(ModelViewEvent modelViewEvent) {
-
-        //updateStateBar();
+        if (ViewModelGate.getModel().isFinalFrenzy()) {
+            StackPane stackPane = new StackPane(new Label("FINAL FRENZY: ACIVE"));
+            VBox.setVgrow(stackPane, Priority.ALWAYS);
+            getGameSceneController().getGameInfoVbox().getChildren().add(stackPane);
+        }
+        else{
+            StackPane stackPane = new StackPane(new Label("FINAL FRENZY: NON-ACTIVE"));
+            VBox.setVgrow(stackPane, Priority.ALWAYS);
+            getGameSceneController().getGameInfoVbox().getChildren().add(stackPane);
+        }
     }
 
     @Override
     public void finalFrenzyBegun(ModelViewEvent modelViewEvent) {
         if (ViewModelGate.getModel().isHasFinalFrenzyBegun()) {
-            //show final frenzy has begun TODO
+            StackPane stackPane = new StackPane(new Label("FINAL FRENZY: BEGUN"));
+            VBox.setVgrow(stackPane, Priority.ALWAYS);
+            getGameSceneController().getGameInfoVbox().getChildren().add(stackPane);
         }
     }
 
     @Override
     public void newKillshotTrack(ModelViewEvent modelViewEvent) {
-
         updateKillShotTrack();
     }
 
@@ -1124,10 +1089,8 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             return;
         }
         if (GUIstarter.getStageController().getClass().toString().contains("LoadingSceneController")) {
-            showPlayerListInLoadingScene(); // TODO
+            showPlayerListInLoadingScene();
         } else {
-            //TODO:
-            //    show playerlist during game..
             updatePlayer();
             updateMap();
             updateKillShotTrack();
@@ -1155,63 +1118,52 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     @Override
     public void newBoard(ModelViewEvent modelViewEvent) {
-        //update map
         updateMap();
     }
 
     @Override
     public void deathOfPlayer(ModelViewEvent modelViewEvent) {
-        //update killshot track
         updateKillShotTrack();
-        //update playerList
-        // TODO
         updatePlayer();
+        updateMap(); // TODO non ne sono sicuro
     }
 
     @Override
     public void movingCardsAround(OrderedCardListV from, OrderedCardListV to, ModelViewEvent modelViewEvent) {
-        // TODO LASCIATELO ALLA FINE LUCA
-        //update changed cards
-        System.out.println();
         updateMap();
         updatePlayer();
     }
 
     @Override
     public void shufflingCards(ModelViewEvent modelViewEvent) {
-        // TODO LASCIATELO ALLA FINE LUCA
-        updatePlayer();
+        //empty
     }
 
     @Override
     public void newColor(ModelViewEvent modelViewEvent) {
-        //update players
         updatePlayer();
     }
 
     @Override
     public void newNickname(ModelViewEvent modelViewEvent) {
-        //update Players
         updateNickname();
     }
 
     @Override
     public void newPosition(ModelViewEvent modelViewEvent) {
-        //update map
         updateMap();
     }
 
     @Override
     public void newScore(ModelViewEvent modelViewEvent) {
-        //update players
-        // probably empty
-
+        //empty
     }
 
     @Override
     public void addDeathCounter(ModelViewEvent modelViewEvent) {
-        //update plaers
         updateDeaths();
+        updateKillShotTrack();
+        updateMap(); //TODO not sure
     }
 
     @Override
@@ -1222,75 +1174,83 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     @Override
     public void newAmmoBox(ModelViewEvent modelViewEvent) {
-        //update players
         updateAmmobox();
     }
 
     @Override
     public void newDamageTracker(ModelViewEvent modelViewEvent) {
-        //update players
         updateDamage();
     }
 
     @Override
     public void newMarksTracker(ModelViewEvent modelViewEvent) {
-        //update players
         updateMarks();
     }
 
     @Override
     public void setCurrentPlayingPlayer(ModelViewEvent modelViewEvent) {
-        //update statebar
-        //updateStateBar(modelViewEvent);
+        getGameSceneController().getCurrentPlayingPlayerLabel().setText("TURN OF: " + ViewModelGate.getModel().getPlayers().getCurrentPlayingPlayer());
     }
 
     @Override
     public void setStartingPlayer(ModelViewEvent modelViewEvent) {
-        //update statebar
-        //updateStateBar(modelViewEvent);
+        //empty
     }
 
     @Override
     public void newPlayer(ModelViewEvent modelViewEvent) {
-        //empty.. ?
+        //empty..
     }
 
     @Override
     public void setAFK(ModelViewEvent modelViewEvent) {
-        //update players
-        updatePlayer();
+        if(GUIstarter.getStageController().getClass().toString().contains("GameSceneController")) {
+            updatePlayer();
+            updateMap(); //TODO not sure
+        }
     }
 
     @Override
     public void showInputTimer(int currentTime, int totalTime) {
-        //update state section
         updateProgressIndicator(currentTime, totalTime);
     }
 
     @Override
     public void showConnectionTimer(int currentTime, int totalTime) {
         if (GUIstarter.getStageController().getClass().toString().contains("LoadingSceneController")) {
-            ((LoadingSceneController) GUIstarter.getStageController()).modifyProgress(currentTime, totalTime);
+            getLoadingSceneController().modifyProgress(currentTime, totalTime);
         }
     }
 
     @Override
     public void cantReachServer() {
-        //show error pop up
-        // TODO
-        GUIstarter.showError(this, "can't reach server", null);
+        GUIstarter.showError(this, "SERVER IS UNREACHABLE", null);
     }
 
     @Override
     public void succesfullReconnection() {
-        //TODO
-        //start the GAME.fxml
-        //update everything in the gui
+        if(GUIstarter.getStageController().getClass().toString().contains("LoadingSceneController")) {
+            getLoadingSceneController().changeScene();
+
+            try {
+                TimeUnit.MILLISECONDS.sleep(1000);
+            } catch (InterruptedException e) {
+                GUIstarter.showError(this, "timer error while waiting for loading scene to set", null);
+            }
+            updateMap();
+            updateKillShotTrack();
+            updatePlayer();
+        }
+        else{
+            updateMap();
+            updateKillShotTrack();
+            updatePlayer();
+        }
     }
 
     @Override
     public void disconnect() {
-        //show pop up for disconnection TODO
+        GUIstarter.showError(this, " YOU HAVE BEEN DISCONNECTED. PLEASE TRY TO RECONNECT AT THE SAME IP ADDRESS AND PORT.", null);
     }
 
     @Override
