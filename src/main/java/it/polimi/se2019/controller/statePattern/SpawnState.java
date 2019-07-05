@@ -57,7 +57,7 @@ public class SpawnState implements State {
         try {
             SelectorGate.getCorrectSelectorFor(playerToSpawn).setPlayerToAsk(playerToSpawn);
             SelectorGate.getCorrectSelectorFor(playerToSpawn).askSpawn(powerUpCardsV);
-            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToSpawn, this.getClass().toString()));
+            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToSpawn, this.getClass().toString(), "ask ask spawn"));
             this.inputTimer.start();
         } catch (Exception e) {
             logger.severe("Exception Occurred: "+e.getClass()+" "+e.getCause());

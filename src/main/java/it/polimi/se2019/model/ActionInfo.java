@@ -35,7 +35,7 @@ public class ActionInfo implements Serializable {
     private  PreConditionMethods preConditionMethods;
     public  boolean preCondition()  {
         try {
-            System.out.println("## (" +  getActionContext().getPlayer().getNickname() +") verifico " + this.preConditionMethodName + " in " +  actionContext.getPlayer().toString() + ":" + actionContext.getActionContextFilteredInputs().size());
+            //System.out.println("## (" +  getActionContext().getPlayer().getNickname() +") verifico " + this.preConditionMethodName + " in " +  actionContext.getPlayer().toString() + ":" + actionContext.getActionContextFilteredInputs().size());
             //System.out.println(".");
             java.lang.reflect.Method method;
             //System.out.println(".");
@@ -52,7 +52,7 @@ public class ActionInfo implements Serializable {
             return (boolean) returnValue;
         }
         catch(Exception E) {
-            System.out.println("eccezione! " + E.toString());
+            //System.out.println("eccezione! " + E.toString());
             return false;
 
         }

@@ -112,7 +112,7 @@ public class ChooseHowToPayState {
                     Player tempPlayer = SelectorGate.getCorrectSelectorFor(payingPlayer).getPlayerToAsk();
                     SelectorGate.getCorrectSelectorFor(payingPlayer).setPlayerToAsk(payingPlayer);
                     SelectorGate.getCorrectSelectorFor(payingPlayer).askPaymentInformation(selectorEventPaymentInformation);
-                    this.inputTimer = new Thread(new WaitForPlayerInput(this.payingPlayer, this.getClass().toString()));
+                    this.inputTimer = new Thread(new WaitForPlayerInput(this.payingPlayer, this.getClass().toString(), "ask payment information"));
                     this.inputTimer.start();
                     SelectorGate.getCorrectSelectorFor(payingPlayer).setPlayerToAsk(tempPlayer); //Restore the original playerToAsk so it doesn't get in the way of the State Pattern
                 } catch (Exception e) {

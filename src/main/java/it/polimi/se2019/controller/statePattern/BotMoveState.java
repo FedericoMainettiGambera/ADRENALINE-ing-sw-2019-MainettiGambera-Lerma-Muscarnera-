@@ -61,7 +61,7 @@ public class BotMoveState implements State {
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askBotMove(possiblePositions);
-            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString(), "ask bot move"));
             this.inputTimer.start();
         } catch (Exception e) {
             logger.severe("Exception occurred  "+e.getClass()+"  "+e.getCause()+ Arrays.toString(e.getStackTrace()));

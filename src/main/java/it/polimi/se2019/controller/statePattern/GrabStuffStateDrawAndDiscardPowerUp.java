@@ -48,7 +48,7 @@ public class GrabStuffStateDrawAndDiscardPowerUp implements State {
         try {
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askPowerUpToDiscard(playerToAsk.getPowerUpCardsInHand().getCards());
-            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString(), "ask power up to discard"));
             this.inputTimer.start();
         } catch (Exception e) {
             logger.severe("Exception occured"+" "+e.getCause()+" "+ e.getClass()+ Arrays.toString(e.getStackTrace()));

@@ -131,8 +131,8 @@ public class ReloadState implements State{
 
         ViewControllerEventHandlerContext.setNextState(new ShootPeopleChooseWepState(this.actionNumber));
         ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
-        /*Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
-        t.start();*/
+        //Thread t = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+        //t.start();
     }
 
     /**ask the player which weapon they want to reload beetwen the one indicated in the
@@ -141,7 +141,7 @@ public class ReloadState implements State{
 
         SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
         SelectorGate.getCorrectSelectorFor(playerToAsk).askWhatReaload(toReload);
-        this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+        this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString(), "ask ask what reload"));
         this.inputTimer.start();
     }
 
@@ -219,6 +219,7 @@ public class ReloadState implements State{
             out.println("<SERVER> Reloading and paying reload cost for weapon card: " + viewControllerEventString.getInput());
 
             //reload the card
+            System.out.println("<SERVER> reloading card: " + ModelGate.getModel().getCurrentPlayingPlayer().getWeaponCardsInHand().getCard(viewControllerEventString.getInput()).getID() );
             ModelGate.getModel().getCurrentPlayingPlayer().getWeaponCardsInHand().getCard(viewControllerEventString.getInput()).reload();
 
             //payment

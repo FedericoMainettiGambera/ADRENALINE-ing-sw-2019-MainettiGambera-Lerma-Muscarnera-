@@ -65,7 +65,7 @@ END
 Mark
 ACTION INFO
 PRECONDITION
-differentSingleTargets
+notPreviousTarget
 SET
 1
 END

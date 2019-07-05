@@ -19,6 +19,7 @@ public class SelectorGate {
     /**@param p  the player to be asked some input
      * @return the right selector for that player*/
     public static VirtualViewSelector getCorrectSelectorFor(Player p){
+        ViewControllerEventHandlerContext.addElementTOStackOfStatesAndTimers(new SelectorGate(), "requestes virtualViewSelector to ask something to a player");
         if(p.getOos()!=null){
             return selectorSocket;
         }

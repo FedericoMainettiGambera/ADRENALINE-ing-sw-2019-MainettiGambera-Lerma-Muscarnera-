@@ -108,7 +108,7 @@ public class ShootPeopleState implements State {
             //asking where to move
             SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
             SelectorGate.getCorrectSelectorFor(playerToAsk).askRunAroundPosition(possiblePositions);
-            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString(), "ask run around for shoot"));
             this.inputTimer.start();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "EXCEPTION", e);

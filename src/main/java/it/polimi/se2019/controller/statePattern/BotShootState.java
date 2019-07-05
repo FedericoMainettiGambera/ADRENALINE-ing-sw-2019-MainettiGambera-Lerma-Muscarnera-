@@ -70,7 +70,7 @@ public class BotShootState implements State{
             try {
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askBotShoot(playersV);
-                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString(), "ask bot shoot"));
                 this.inputTimer.start();
             } catch (Exception e) {
                 logger.severe("Exception occurred  " + e.getClass() + "  " + e.getCause() + Arrays.toString(e.getStackTrace()));

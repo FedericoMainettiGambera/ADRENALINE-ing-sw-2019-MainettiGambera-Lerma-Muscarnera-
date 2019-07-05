@@ -49,7 +49,7 @@ public class TurnState implements State {
             else{
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askTurnAction(this.actionNumber, canUsePowerUp(ModelGate.getModel().getCurrentPlayingPlayer()), false);
             }
-            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+            this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString(), "ask turn state"));
             this.inputTimer.start();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "EXCEPTION", e);

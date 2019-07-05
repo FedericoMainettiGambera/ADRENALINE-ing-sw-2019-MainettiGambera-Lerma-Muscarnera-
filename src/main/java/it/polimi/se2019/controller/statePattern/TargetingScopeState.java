@@ -81,7 +81,7 @@ public class TargetingScopeState implements State{
             try {
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askTargetingScope(listOfTargetingScopeV, possiblePaymentsV, damagedPlayersV);
-                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString(), "ask targeting scope"));
                 this.inputTimer.start();
             } catch (Exception e) {
                logger.log(Level.SEVERE, "EXCEPTION", e);

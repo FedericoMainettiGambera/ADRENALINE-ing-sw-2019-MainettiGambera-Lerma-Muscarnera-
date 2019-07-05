@@ -21,6 +21,19 @@ public class  ViewControllerEventHandlerContext implements Observer{
         return state;
     }
 
+    private static String stackOfStatesAndTimers = "Stack of states amd timers";
+
+    public static void addElementTOStackOfStatesAndTimers(Object o, String s){
+        stackOfStatesAndTimers += "\n" + o.getClass().toString() + " | " + s;
+        //System.err.println(stackOfStatesAndTimers);
+    }
+    public static void addElementTOStackOfStatesAndTimers(Object o){
+        stackOfStatesAndTimers += "\n" + o.getClass().toString();
+        //System.err.println(stackOfStatesAndTimers);
+    }
+    public static void printStackOfStatesAndTImers(){
+        System.err.println(stackOfStatesAndTimers);
+    }
 
     private static ChooseHowToPayState paymentProcess;
 
@@ -30,6 +43,7 @@ public class  ViewControllerEventHandlerContext implements Observer{
 
     public static void setPaymentProcess(ChooseHowToPayState paymentProcess) {
         ViewControllerEventHandlerContext.paymentProcess = paymentProcess;
+        addElementTOStackOfStatesAndTimers(paymentProcess, "payment process setted");
     }
 
     private static SocketVirtualView socketVV;
@@ -57,6 +71,7 @@ public class  ViewControllerEventHandlerContext implements Observer{
         String[] stringSplittedState= nextState.getClass().toString().split("\\.");
         String stateString = stringSplittedState[stringSplittedState.length-1];
         ModelGate.getModel().setCurrentState(stateString);
+        addElementTOStackOfStatesAndTimers(nextState, "nextState setted");
     }
 
     @Override
@@ -64,9 +79,11 @@ public class  ViewControllerEventHandlerContext implements Observer{
         ViewControllerEvent viewControllerEvent = (ViewControllerEvent) arg;
         if(viewControllerEvent.getClass().toString().contains("PaymentInformation")){
             getPaymentProcess().doPayment((ViewControllerEventPaymentInformation)viewControllerEvent);
+            addElementTOStackOfStatesAndTimers(arg, "payment received, notifying the state: " + getState().getClass().toString());
         }
         else {
             getState().doAction(viewControllerEvent);
+            addElementTOStackOfStatesAndTimers(arg, "answer received, notifying the state: " + getState().getClass().toString());
         }
     }
 }

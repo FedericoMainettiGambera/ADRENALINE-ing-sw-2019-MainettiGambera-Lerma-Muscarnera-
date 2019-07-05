@@ -100,7 +100,7 @@ public class GrabStuffStateGrabWeapon implements  State {
                 try {
                     SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                     SelectorGate.getCorrectSelectorFor(playerToAsk).askGrabStuffGrabWeapon(toPickUp);
-                    this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+                    this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString(), "ask grab stuff grab weapon"));
                     this.inputTimer.start();
                 } catch (Exception e) {
                     logger.severe("Exception Occurred"+" "+e.getClass()+" "+e.getCause());
@@ -131,7 +131,7 @@ public class GrabStuffStateGrabWeapon implements  State {
             try {
                 SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
                 SelectorGate.getCorrectSelectorFor(playerToAsk).askGrabStuffSwitchWeapon(toPickUp, toDiscard);
-                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString()));
+                this.inputTimer = new Thread(new WaitForPlayerInput(this.playerToAsk, this.getClass().toString(), "ask grab stuff switch weapon"));
                 this.inputTimer.start();
             } catch (Exception e) {
                 logger.severe("Exception Occurred"+" "+e.getClass()+" "+e.getCause()+ Arrays.toString(e.getStackTrace()));
