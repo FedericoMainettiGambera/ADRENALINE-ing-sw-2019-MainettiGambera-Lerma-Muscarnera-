@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.TextFlow?>
 
-<HBox fx:id="root" prefHeight="770" prefWidth="1300" stylesheets="@../CSS/styleGame.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.GameSceneController">
+<HBox styleClass="blueBackground" fx:id="root" prefHeight="770" prefWidth="1300" stylesheets="@../CSS/styleGame.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.GameSceneController">
    <children>
-      <SplitPane dividerPositions="0.7" HBox.hgrow="ALWAYS">
+      <SplitPane styleClass="blueBackground" dividerPositions="0.7" HBox.hgrow="ALWAYS">
         <items>
-            <AnchorPane fx:id="gameSection" >
+            <AnchorPane styleClass="blueBackground" fx:id="gameSection" >
                <children>
                   <SplitPane dividerPositions="0.1, 0.7" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <items>
