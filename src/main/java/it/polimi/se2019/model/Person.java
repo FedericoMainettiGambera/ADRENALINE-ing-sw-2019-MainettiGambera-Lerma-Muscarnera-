@@ -360,6 +360,8 @@ public abstract class Person extends Observable implements Serializable {
                 }
             }
         }
+        setChanged();
+        notifyObservers(new ModelViewEvent(this.board.getAmmoBox().buildAmmoListV(), ModelViewEventTypes.newAmmoBox, nickname));
     }
     /**checks if it is possible to subtract a specific amount of ammos
      * @param color

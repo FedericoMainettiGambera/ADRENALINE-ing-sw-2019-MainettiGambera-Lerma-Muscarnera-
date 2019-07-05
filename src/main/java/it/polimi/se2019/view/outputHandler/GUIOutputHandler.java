@@ -25,8 +25,6 @@ import java.util.concurrent.TimeUnit;
 
 public class GUIOutputHandler implements OutputHandlerInterface {
 
-    //TODO tutte le update map sarebbero meglio se fossero senza delete del layer di eventi
-
     /**
      * launches a UpdateKillShotTrack thread
      */

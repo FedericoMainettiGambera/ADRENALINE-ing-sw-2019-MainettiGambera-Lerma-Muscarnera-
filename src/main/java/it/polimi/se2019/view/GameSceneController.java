@@ -523,12 +523,6 @@ public class GameSceneController implements Initializable {
         return this.showPlayerEventHandler;
     }
 
-    private static ShowSquareEventHandler showSquareEventHandler;
-
-    public ShowSquareEventHandler getShowSquareEventHandler(){
-        return this.showSquareEventHandler;
-    }
-
     private static ShowPowerUpCardsEventHandler showPowerUpCardsEventHandler;
 
     public ShowPowerUpCardsEventHandler getShowPowerUpCardsEventHandler(){
@@ -736,7 +730,6 @@ public class GameSceneController implements Initializable {
         showPlayerEventHandler=new ShowPlayerEventHandler();
         showPowerUpCardsEventHandler=new ShowPowerUpCardsEventHandler();
         showWeaponCardsEventHandler=new ShowWeaponCardsEventHandler();
-        showSquareEventHandler=new ShowSquareEventHandler();
         showAmmoCardEventHandler = new ShowAmmoCardEventHandler();
 
         for (StackPane powerUpCard: getListOfPowerUpCardsMainImage()){
@@ -948,18 +941,6 @@ public class GameSceneController implements Initializable {
         }
     }
 
-    private class ShowSquareEventHandler implements EventHandler {
-
-        @Override
-        public void handle(javafx.event.Event event){
-
-            if((((Node)event.getSource()).getUserData())!=null) {
-                SquareV squareToShow = (SquareV) ((Node) event.getSource()).getUserData();
-                showSquare(squareToShow);
-            }
-        }
-    }
-
     private class ShowAmmoCardEventHandler implements EventHandler{
 
         @Override
@@ -974,7 +955,7 @@ public class GameSceneController implements Initializable {
 
 
 
-    void showPlayer(PlayerV playerV){
+    private void showPlayer(PlayerV playerV){
         (new Thread(new ShowPlayer(playerV))).start();
     }
 
@@ -983,7 +964,6 @@ public class GameSceneController implements Initializable {
 
         ShowPlayer(PlayerV playerV) {
             this.playerV = playerV;
-            System.out.println(playerV.getNickname());
         }
 
         private String getColorStringWithFirstCapitalLetter(PlayersColors color){
@@ -1001,6 +981,17 @@ public class GameSceneController implements Initializable {
             }
             else{
                 return "Yellow";
+            }
+        }
+        private String getColorStringWithFirstCapitalLetter(AmmoCubesColor color){
+            if(color.equals(AmmoCubesColor.yellow)){
+                return "Yellow";
+            }
+            else if(color.equals(AmmoCubesColor.red)){
+                return "Red";
+            }
+            else {
+                return "Blue";
             }
         }
         @Override
@@ -1021,7 +1012,6 @@ public class GameSceneController implements Initializable {
             VBox vBoxMarksAndDamages = new VBox(); //contains marks and damages
             HBox.setHgrow(vBoxMarksAndDamages, Priority.ALWAYS);
             hBox.getChildren().add(vBoxMarksAndDamages);
-            vBoxMarksAndDamages.setStyle("-fx-border-color: blue");
 
             //marks
             HBox hBoxMarks = new HBox();
@@ -1054,7 +1044,7 @@ public class GameSceneController implements Initializable {
                 StackPane damageSlotMainImage = new StackPane();
                 damageSlotBackground.getChildren().add(damageSlotMainImage);
                 HBox.setHgrow(damageSlotBackground,Priority.ALWAYS);
-                hBoxMarks.getChildren().add(damageSlotBackground);
+                hBoxDamages.getChildren().add(damageSlotBackground);
                 PlayersColors markingPlayerColor= playerV.getDamageTracker().getDamageSlotsList().get(i).getShootingPlayerColor();
                 damageSlotMainImage.getStyleClass().add("damage"+getColorStringWithFirstCapitalLetter(markingPlayerColor));
             }
@@ -1063,14 +1053,14 @@ public class GameSceneController implements Initializable {
                 StackPane damageSlotMainImage = new StackPane();
                 damageSlotBackground.getChildren().add(damageSlotMainImage);
                 HBox.setHgrow(damageSlotBackground,Priority.ALWAYS);
-                hBoxMarks.getChildren().add(damageSlotBackground);
+                hBoxDamages.getChildren().add(damageSlotBackground);
                 damageSlotMainImage.getStyleClass().add("damageEmpty");
             }
             StackPane damageSlot13 = new StackPane();
             HBox.setHgrow(damageSlot13, Priority.ALWAYS);
             hBoxDamages.getChildren().add(damageSlot13);
             if(numberOfFullDamageSlots>=12){
-                damageSlot13.getChildren().add(new Label("" + (numberOfFullDamageSlots-12)));
+                damageSlot13.getChildren().add(new Label("+" + (numberOfFullDamageSlots-12)));
             }
 
             VBox vBoxAmmoCubes = new VBox(); //contains ammo cubes
@@ -1091,32 +1081,42 @@ public class GameSceneController implements Initializable {
                     StackPane ammo = new StackPane();
                     HBox.setHgrow(ammo, Priority.ALWAYS);
                     ammosHBox.getChildren().add(ammo);
+                    ammo.getStyleClass().add("ammo"+getColorStringWithFirstCapitalLetter(ammoCubesColor));
                 }
                 for (int i = quantity; i < 3; i++) { //ammo empty
                     StackPane ammo = new StackPane();
                     HBox.setHgrow(ammo, Priority.ALWAYS);
                     ammosHBox.getChildren().add(ammo);
+                    ammo.getStyleClass().add("emptyAmmo");
                 }
             }
 
             //number of deaths / final frenzy board
             if(!playerV.isHasFinalFrenzyBoard()) {
-                StackPane deaths = new StackPane(new Label("deaths: " + playerV.getNumberOfDeaths()));
+                StackPane deaths = new StackPane(new Label("number of deaths: " + playerV.getNumberOfDeaths()));
                 mainVbox.getChildren().add(deaths);
             }
             else{
-                StackPane deaths = new StackPane(new Label("deaths: " + playerV.getNumberOfDeaths() + " and has Final Frenzy board"));
+                StackPane deaths = new StackPane(new Label("died " + playerV.getNumberOfDeaths() + " and has Final Frenzy board"));
                 mainVbox.getChildren().add(deaths);
             }
 
             HBox hBoxWeapons = new HBox(); //contains weapons
-            VBox.setVgrow(hBoxWeapons,Priority.ALWAYS);
+            VBox.setVgrow(hBoxWeapons, Priority.ALWAYS);
             mainVbox.getChildren().add(hBoxWeapons);
-            //weapon cards
-            for (WeaponCardV weapon: playerV.getWeaponCardInHand().getCards()) {
-                StackPane weaponStackPane = new StackPane(new Label(weapon.getName()));
-                HBox.setHgrow(weaponStackPane,Priority.ALWAYS);
-                hBoxWeapons.getChildren().add(weaponStackPane);
+            if(!playerV.getWeaponCardInHand().getCards().isEmpty()) {
+                //weapon cards
+                for (WeaponCardV weapon : playerV.getWeaponCardInHand().getCards()) {
+                    StackPane weaponStackPane = new StackPane(new Label(weapon.getName()));
+                    HBox.setHgrow(weaponStackPane, Priority.ALWAYS);
+                    hBoxWeapons.getChildren().add(weaponStackPane);
+                    weaponStackPane.getStyleClass().add("weaponCard"+weapon.getID());
+                }
+            }
+            else{
+                StackPane emptyWeapon = new StackPane(new Label("no weapons"));
+                HBox.setHgrow(emptyWeapon, Priority.ALWAYS);
+                hBoxWeapons.getChildren().add(emptyWeapon);
             }
 
             Platform.runLater(() -> changeInformationSection(mainVbox));
@@ -1149,11 +1149,7 @@ public class GameSceneController implements Initializable {
             vBox.getChildren().add(card);
             card.getStyleClass().add("weaponCard"+weaponCard.getID());
 
-            Platform.runLater(()->{
-
-                changeInformationSection(vBox);
-
-            });
+            Platform.runLater(()-> changeInformationSection(vBox));
 
         }
 
@@ -1186,10 +1182,6 @@ public class GameSceneController implements Initializable {
         }
 
     }
-    void showSquare(SquareV squareV){
-        (new Thread(new ShowSquare(squareV))).start();
-    }
-
 
     void showAmmoCard(AmmoCardV ammoCard){
         (new Thread(new ShowAmmoCard(ammoCard))).start();
@@ -1219,120 +1211,6 @@ public class GameSceneController implements Initializable {
         }
     }
 
-    private class ShowSquare implements Runnable{
-        SquareV squareV;
-        ShowSquare(SquareV squareV){
-            this.squareV=squareV;
-        }
-
-        @Override
-        public void run(){
-
-            VBox mainFrame=new VBox();
-            HBox cards=new HBox();
-            HBox players=new HBox();
-
-            mainFrame.getChildren().addAll(cards, players);
-            VBox.setVgrow(cards, Priority.ALWAYS);
-            VBox.setVgrow(players, Priority.ALWAYS);
-
-
-            if(squareV.getClass().toString().contains("Normal")) {
-
-                List<AmmoCardV> listOfAmmos = ((NormalSquareV) squareV).getAmmoCards().getCards();
-
-                for (AmmoCardV ammo : listOfAmmos) {
-
-                    StackPane card = new StackPane();
-
-                    card.getStyleClass().add("ammoCard" + ammo.getID());
-                    cards.getChildren().add(card);
-
-                    HBox.setHgrow(card, Priority.ALWAYS);
-                }
-            }
-            else{
-
-                List<WeaponCardV> listOfWeapons=((SpawnPointSquareV)squareV).getWeaponCards().getCards();
-
-                for (WeaponCardV weaponCardV : listOfWeapons){
-
-                    StackPane card = new StackPane();
-
-                    card.getStyleClass().add("weaponCard" + weaponCardV.getID());
-                    cards.getChildren().add(card);
-
-                    HBox.setHgrow(card, Priority.ALWAYS);
-                }
-
-            }
-
-
-            List<PlayerV> playerVS=getPlayers(squareV.getX(), squareV.getY());
-
-            for (PlayerV playerV : playerVS){
-
-                PlayersColors color=playerV.getColor();
-
-                StackPane image = new StackPane();
-                Label name=new Label();
-
-                name.setText(playerV.getNickname());
-                name.setFont(Font.font("Courier"));
-
-                image.getStyleClass().add(setImage(color));
-
-                VBox player= new VBox();
-                player.getChildren().addAll(image, name);
-
-                VBox.setVgrow(name, Priority.ALWAYS);
-                VBox.setVgrow(image, Priority.ALWAYS);
-
-
-
-                players.getChildren().add(player);
-
-
-
-                HBox.setHgrow(player, Priority.ALWAYS);
-            }
-
-
-            Platform.runLater(()-> changeInformationSection(mainFrame));
-
-        }
-
-
-        private List<PlayerV> getPlayers(int x, int y) {
-            List<PlayerV> players = new ArrayList<>();
-            for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
-                if (p.getY() != null && p.getX() != null && p.getX() == x && p.getY() == y) {
-                    players.add(p);
-                }
-            }
-            return players;
-        }
-
-
-    }
-
-
-
-
-    private String setImage(PlayersColors color){
-        String style;
-
-        switch (color){
-            case yellow: style="nicknameBackgroundYellow";break;
-            case blue:style="nicknameBackgroundBlue";break;
-            case green:style="nicknameBackgroundGreen";break;
-            case gray:style="nicknameBackgroundGray";break;
-            case purple:style="nicknameBackgroundPurple";break;
-            default:style="emptyPlayer";
-                break;
-        }
-        return style;
-    }
     private void changeInformationSection(Node newSection){
 
         this.informationSection.getChildren().clear();
