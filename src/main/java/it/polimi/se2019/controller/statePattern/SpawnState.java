@@ -100,7 +100,7 @@ public class SpawnState implements State {
         out.println("----------------------------------        SOMEONE DIED        -------------------------------------------");
         out.println(string);
         out.println(string);
-        ViewControllerEventHandlerContext.addStringToElementStackPane("----------------------------------        SOMEONE DIED        -------------------------------------------");
+        ViewControllerEventHandlerContext.addStringToElementStackPane("----------------------------------        " + playerToSpawn.getNickname() + " DIED        -------------------------------------------");
     }
 
     /**@param viewControllerEvent is parsed, depending on which power up the player discarded,
@@ -140,8 +140,6 @@ public class SpawnState implements State {
     /**the dead player is make draw a power up in order to spawn*/
     public void deadDrawPowerUp(){
 
-        printDied();
-
         out.println("<SERVER> ("+ this.getClass() +") Asking input to Player \"" + deadPlayers.get(0).getNickname() + "\"");
 
         if(!this.deadPlayers.isEmpty()) {
@@ -154,6 +152,6 @@ public class SpawnState implements State {
                     ModelGate.getModel().getPowerUpDeck().getFirstCard().getID()
             );
         }
-
+        printDied();
     }
 }
