@@ -27,8 +27,8 @@ GENERAL CLASSES
 
     /*-fx-background-color: dark-primary-color;
     -fx-border-width: 1px;
-    -fx-border-color: accent-color;*/
-    /*-fx-padding: 2;*/
+    -fx-border-color: accent-color;
+    -fx-padding: 2;*/
 
     -fx-font-family: monospace;
     -fx-text-fill: accent-color;
@@ -36,17 +36,19 @@ GENERAL CLASSES
 
 /*TODO*/
 .hoverableNode{
-    -fx-padding: 20px;
+    -fx-padding: 20fede;
     -fx-border-color: accent-color;
     -fx-border-width: 5px;
 }
 .hoverableNode:hover{
     -fx-border-width: 10px;
-    -fx-padding: 40px;
+    -fx-padding: 40;
 }
 
 .label{
     -fx-background-color: dark-primary-color;
+    -fx-border-width: 1px;
+    -fx-border-color: accent-color;
 }
 
 /*radiobutton*/
@@ -1005,4 +1007,9 @@ SPECIFIC CLASSES
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+}
+.squareStyle{
+    -fx-border-width: 1px;
+    -fx-padding: 10;
+    -fx-border-color: accent-color;
 }
