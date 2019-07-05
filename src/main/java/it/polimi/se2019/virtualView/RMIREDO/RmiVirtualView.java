@@ -4,7 +4,6 @@ import it.polimi.se2019.controller.ModelGate;
 import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.Player;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventNickname;
-import it.polimi.se2019.virtualView.RMI.RMIInterface;
 
 import it.polimi.se2019.virtualView.VirtualView;
 
