@@ -211,7 +211,7 @@ public class Board{
 
         //apre file
         try{
-            fileReader = new FileReader("src/main/Files/map");
+            fileReader = new FileReader("Files/map");
             bufferedReader = new BufferedReader(fileReader);
             line = bufferedReader.readLine();
         } catch (IOException e) {
