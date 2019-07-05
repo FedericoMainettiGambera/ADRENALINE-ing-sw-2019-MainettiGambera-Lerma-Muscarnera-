@@ -151,8 +151,7 @@ public class ShootPeopleAskForInputState implements State {
             nextState = (new TurnState(2));
         }
 
-        ViewControllerEventHandlerContext.setNextState(nextState);
-        //ViewControllerEventHandlerContext.setNextState(new TargetingScopeState(nextState, damagedPlayer));
+        ViewControllerEventHandlerContext.setNextState(new TargetingScopeState(nextState, damagedPlayer));
         ViewControllerEventHandlerContext.getState().askForInput(ModelGate.getModel().getCurrentPlayingPlayer());
 
     }
