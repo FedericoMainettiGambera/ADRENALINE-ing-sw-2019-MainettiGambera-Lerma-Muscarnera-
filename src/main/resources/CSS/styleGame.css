@@ -167,7 +167,11 @@ SPECIFIC CLASSES
     -fx-background-color: empty-color;
 }
 .skull{
-    -fx-background-color: notempty-color;
+    -fx-background-image: url(../IMG/deaths/skull.png);
+
+        -fx-background-size: contain;
+         -fx-background-repeat: no-repeat;
+                         -fx-background-position: center;
 }
 .killGreen{
     -fx-background-color: green;
