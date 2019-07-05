@@ -521,7 +521,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             for (int j = i; j < getGameSceneController().getMarkMainImage().size(); j++) {
                 removePrevious(getGameSceneController().getMarkMainImage().get(j));
                 getGameSceneController().getMarkMainImage().get(j).getStyleClass().add(markEmpty);
-                ((Label) (getGameSceneController().getMarkMainImage().get(i).getChildren().get(0))).setText("");
+                ((Label) (getGameSceneController().getMarkMainImage().get(j).getChildren().get(0))).setText("");
                 getGameSceneController().getMarkMainImage().get(j).setUserData(null);
             }
         }
@@ -1036,7 +1036,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     @Override
     public void gameCreated() {
-        //probably empty
+        //empty
     }
 
     @Override
@@ -1054,25 +1054,29 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     @Override
     public void setFinalFrenzy(ModelViewEvent modelViewEvent) {
-        if (ViewModelGate.getModel().isFinalFrenzy()) {
-            StackPane stackPane = new StackPane(new Label("FINAL FRENZY: ACIVE"));
-            VBox.setVgrow(stackPane, Priority.ALWAYS);
-            getGameSceneController().getGameInfoVbox().getChildren().add(stackPane);
-        }
-        else{
-            StackPane stackPane = new StackPane(new Label("FINAL FRENZY: NON-ACTIVE"));
-            VBox.setVgrow(stackPane, Priority.ALWAYS);
-            getGameSceneController().getGameInfoVbox().getChildren().add(stackPane);
-        }
+        Platform.runLater(()->{
+            if (ViewModelGate.getModel().isFinalFrenzy()) {
+                StackPane stackPane = new StackPane(new Label("FINAL FRENZY: ACIVE"));
+                VBox.setVgrow(stackPane, Priority.ALWAYS);
+                getGameSceneController().getGameInfoVbox().getChildren().add(stackPane);
+            }
+            else{
+                StackPane stackPane = new StackPane(new Label("FINAL FRENZY: NON-ACTIVE"));
+                VBox.setVgrow(stackPane, Priority.ALWAYS);
+                getGameSceneController().getGameInfoVbox().getChildren().add(stackPane);
+            }
+        });
     }
 
     @Override
     public void finalFrenzyBegun(ModelViewEvent modelViewEvent) {
-        if (ViewModelGate.getModel().isHasFinalFrenzyBegun()) {
-            StackPane stackPane = new StackPane(new Label("FINAL FRENZY: BEGUN"));
-            VBox.setVgrow(stackPane, Priority.ALWAYS);
-            getGameSceneController().getGameInfoVbox().getChildren().add(stackPane);
-        }
+        Platform.runLater(()-> {
+            if (ViewModelGate.getModel().isHasFinalFrenzyBegun()) {
+                StackPane stackPane = new StackPane(new Label("FINAL FRENZY: BEGUN"));
+                VBox.setVgrow(stackPane, Priority.ALWAYS);
+                getGameSceneController().getGameInfoVbox().getChildren().add(stackPane);
+            }
+        });
     }
 
     @Override
@@ -1189,7 +1193,11 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
     @Override
     public void setCurrentPlayingPlayer(ModelViewEvent modelViewEvent) {
-        getGameSceneController().getCurrentPlayingPlayerLabel().setText("TURN OF: " + ViewModelGate.getModel().getPlayers().getCurrentPlayingPlayer());
+        Platform.runLater(()-> {
+            if (GUIstarter.getStageController().getClass().toString().contains("GameSceneController")) {
+                getGameSceneController().getCurrentPlayingPlayerLabel().setText("TURN OF: " + ViewModelGate.getModel().getPlayers().getCurrentPlayingPlayer());
+            }
+        });
     }
 
     @Override
