@@ -288,14 +288,14 @@ public class TestWeaponCard {
         List<Object> filledInputs = new ArrayList<>();
         Object[] row = new Object[10];
         row[0] = user2;
-        filledInputs.add(row);
+        //filledInputs.add(row);
         row[0] = user3;
-        filledInputs.add(row);
+        //filledInputs.add(row);
         List<EffectInfoType> i = new ArrayList<>();
         i.add(EffectInfoType.singleTarget);
         i.add(EffectInfoType.singleTarget);
 
-        List<Object> o = piGate.notPreviousTarget(
+        List<Object> o = piGate.youCanSee(
                 fakeContext,
                 UsableInputTableRowType.typePlayer,
                 new ActionDetails(),

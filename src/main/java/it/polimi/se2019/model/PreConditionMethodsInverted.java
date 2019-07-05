@@ -1848,6 +1848,11 @@ public class PreConditionMethodsInverted {
         }
         return retVal;
     }
+    public List<Object> youCanSeeNYS(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
+      List<Object> retVal = this.youCanSee(actionContext,type,actionDetails,inputs,inputSlots,contextEffect);
+      retVal.remove(actionContext.getPlayer());
+      return retVal;
+    }
 
     public List<Object> distanceOfTargetFromPlayerSquareLessThan2Moves(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect)  {
         List<Object> retVal = new ArrayList<>();
@@ -1991,11 +1996,20 @@ public class PreConditionMethodsInverted {
 
         }
         if(type.equals(typePlayer)) {
-            for(Player p:actionContext.getPlayerList().getPlayersOnBoard())
-                retVal.add(p);
+            if(lastTarget == null) {
+                if(actionContext.getPlayerList().getPlayersOnBoard().size() > 2) {  // tolgo il player per questo > e non >=
+                    for (Player p : actionContext.getPlayerList().getPlayersOnBoard())
+                        retVal.add(p);
+                } else {
+                    retVal = new ArrayList<>(); // non ci sono due target  diversi
+                }
 
-            if(lastTarget!=null)
+            }
+            if(lastTarget!=null) {
+                for (Player p : actionContext.getPlayerList().getPlayersOnBoard())
+                    retVal.add(p);
                 retVal.remove(lastTarget);
+            }
         }
 
         return retVal;

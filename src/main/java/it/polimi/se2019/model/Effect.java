@@ -680,14 +680,14 @@ public class Effect implements Serializable {
         {
             //System.out.println("<SERVER> inizio l'intersezione partendo da " + retVal.get(i).get(0));
             for(int a = 0; a < intermediateList.get(i).size(); a++) {
-                //System.out.println("<SERVER> interseco con " + "[" + i +"," + a + " (" +  destinations.get(i).get(a) +  ")" + "] " );
+                System.out.println("<SERVER> interseco con " + "[" + i +"," + a + " (" +  destinations.get(i).get(a) +  ")" + "] " );
                 for(Object o : (List<Object>) intermediateList.get(i).get(a)) {
                     if(o.getClass().equals(Player.class))
                         System.out.println(((Player)o).getNickname());
                     if(o.getClass().equals(Square.class))
                         System.out.println(((Square) o).getCoordinates().humanString());
                 }
-                //System.out.println("         si tratta del dominio di " + getAction(destinations.get(i).get(a)).getActionInfo().getPreConditionMethodName()) ;
+                System.out.println("         si tratta del dominio di " + getAction(destinations.get(i).get(a)).getActionInfo().getPreConditionMethodName()) ;
                 retVal.get(i).set(0,
                         intersect(
                                 retVal.get(i).get(0),
