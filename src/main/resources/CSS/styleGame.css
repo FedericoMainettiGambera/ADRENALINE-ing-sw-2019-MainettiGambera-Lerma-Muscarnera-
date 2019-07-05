@@ -21,17 +21,17 @@ GENERAL CLASSES
     divider-color: #BDBDBD;
 
     text-and-highlight-color: #ff00f0;
-    default-color: #00f3ff;
+    default-color: transparent;
     empty-color: transparent;
     notempty-color: rgb(255, 181, 35);
-    selectable-color: rgba(0, 254, 255, 0.33);
+    selectable-color: rgba(0, 254, 255, 0.58);
     selectable-color-hover: rgba(0, 254, 255,0.33);
 
-    /*-fx-background-color: dark-primary-color;
     -fx-border-width: 1px;
-    -fx-border-color: accent-color;
-    -fx-padding: 2;*/
+    -fx-border-color: rgba(255, 181, 38, 0.33);;
     -fx-background-color: transparent;
+
+
 
     -fx-font-family: monospace;
     -fx-text-fill: accent-color;
@@ -60,20 +60,15 @@ GENERAL CLASSES
 /*TODO*/
 .hoverableNode{
     -fx-padding: 6px;
-    -fx-border-insets:6px;
-    -fx-background-insets: 6px;
     -fx-border-color: selectable-color;
     -fx-border-width: 9px;
 }
 .hoverableNode:hover{
-    -fx-padding: 4px;
-    -fx-border-insets:4px;
-    -fx-background-insets:4px;
-    -fx-border-width: 7px;
+    -fx-border-color: accent-color;
     -fx-background-color: selectable-color-hover;
 }
 .hoverableNode:pressed{
-    -fx-border-color: rgba(146, 255, 88);
+    -fx-border-color: rgb(146, 255, 88);
     -fx-background-color: rgba(146, 255, 88,0.33);
 }
 
@@ -150,7 +145,7 @@ SPECIFIC CLASSES
 /*------------------------------2*/
 /*2-killshot track section*/
 .emptyKillShotTrackBackground{ /*probably not used*/
-    -fx-background-color: default-color;
+    -fx-background-color: empty-color;
 }
 /*2.1-killshot track VBox*/
 .killShotTrackBackground{
@@ -625,31 +620,27 @@ SPECIFIC CLASSES
 }
 
 .nicknameBackgroundGray{
--fx-background-image: url(../IMG/giphy.gif);
-          -fx-background-size: auto 100%;
+    -fx-background-color: gray;
 }
 
 .nicknameBackgroundYellow{
--fx-background-image: url(../IMG/giphy-8.gif);
-          -fx-background-size: auto 100%;
+    -fx-background-color: yellow;
 }
 
 .nicknameBackgroundGreen{
-          -fx-background-image: url(../IMG/giphy-7.gif);
-           -fx-background-size: auto 100%;
+    -fx-background-color: green;
  }
 
 .nicknameBackgroundPurple{
- -fx-background-image: url(../IMG/giphy-5.gif);
-           -fx-background-size: auto 100%;
+    -fx-background-color: purple;
 }
 
 .nicknameBackgroundBlue{
- -fx-background-image: url(../IMG/giphy-2.gif);
-           -fx-background-size: auto 100%;
+    -fx-background-color: blue;
  }
 
 .nicknameStyle{
+    -fx-font-size: 20px;
 }
 /*3.1.2[1,1]- player ammo box*/
 .ammoBoxBackground{
