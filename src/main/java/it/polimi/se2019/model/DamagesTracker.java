@@ -12,6 +12,7 @@ import java.util.List;
  * THIS CLASS SHOULD NEVER BE DIRECTLY ACCESSED, INSTEAD USE METHODS FROM THE "Person" CLASS.
  * The DamagesTracker class keeps track of the damages taken from a player.
  * @author FedericoMainettiGambera
+ * @author LudoLerma
  * */
 public class DamagesTracker implements Serializable {
 
@@ -31,7 +32,7 @@ public class DamagesTracker implements Serializable {
     /*Do not to use this methods directly. Instead use methods from the "Person" class.*/
 
     /**avoid this method if possible, do not access directly attributes, but use method that interact with them for you.
-     * @return
+     * @return a list of the damageSlots in the damageTracker
      * */
     public List<DamageSlot> getDamageSlotsList() {
         return damageSlotsList;
@@ -59,6 +60,7 @@ public class DamagesTracker implements Serializable {
 
     /**add Damages
      * @param damageSlot
+     * @deprecated
      * */
     public void addDamage(DamageSlot damageSlot){
         if(damageSlot == null){
@@ -67,11 +69,14 @@ public class DamagesTracker implements Serializable {
         damageSlotsList.add(damageSlot);
     }
 
-    public DamageSlot getLastDamageSlot() {
+    /**@return the last damageSlot in the list*/
+     DamageSlot getLastDamageSlot() {
         return damageSlotsList.get(damageSlotsList.size()-1);
     }
 
-    public DamageSlot getDamageSlot(int slotNumber){
+    /**@return a specific damageSlot
+     * @param slotNumber the index of the slot to be returned*/
+     DamageSlot getDamageSlot(int slotNumber){
         if(damageSlotsList.size()>= slotNumber) {
             return damageSlotsList.get(slotNumber);
         }
@@ -85,6 +90,8 @@ public class DamagesTracker implements Serializable {
         this.damageSlotsList = new ArrayList<>();
     }
 
+    /**build equivalent structor for view purpose with just the needed information
+     * @return a reference to it*/
     public DamageTrackerV buildDamageTrackerV(){
         DamageTrackerV damageTrackerV = new DamageTrackerV();
         List<DamageSlotV> listOfDamageSlotV = new ArrayList<>();

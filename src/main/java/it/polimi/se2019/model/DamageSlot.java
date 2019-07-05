@@ -7,6 +7,7 @@ import java.io.Serializable;
  * The DamageSlot class keeps track of a single damage taken from a player.
  * It represents a blood drop in the Game.
  * @author FedericoMainettiGambera
+ * @author LudoLerma
  * */
 public class DamageSlot implements Serializable {
 

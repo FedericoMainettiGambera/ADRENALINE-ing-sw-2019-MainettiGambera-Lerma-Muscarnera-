@@ -18,7 +18,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+/** @author LudoLerma &
+        * @author FedericoMainettiGambera*/
 public class ConnectionHandlerVirtualView extends Thread {
 
     private static final Logger logger=Logger.getLogger(ConnectionHandlerVirtualView.class.getName());

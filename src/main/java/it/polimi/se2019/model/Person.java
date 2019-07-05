@@ -13,6 +13,7 @@ import java.util.Observable;
 /**Abstract class that represents a character.
  * There are all the methods needed to do any action required during the game.
  * @author FedericoMainettiGambera
+ * @author LudoLerma
  * */
 public abstract class Person extends Observable implements Serializable {
 
@@ -31,6 +32,7 @@ public abstract class Person extends Observable implements Serializable {
     /**nickname*/
     protected String nickname;
 
+    /**indicates if board is in the finalFrenzy mode or not*/
     private boolean hasFinalFrenzyBoard;
 
     /**color*/
@@ -50,12 +52,15 @@ public abstract class Person extends Observable implements Serializable {
 
     /*-********************************************************************************************************METHODS*/
 
+    /**@param color
+     * the color to be set*/
     public void setColor(PlayersColors color) {
         this.color = color;
         setChanged();
         notifyObservers(new ModelViewEvent(color, ModelViewEventTypes.newColor, nickname));
     }
 
+    /**@param nickname to set nickname attribute*/
     public void setNickname(String nickname){
         setChanged();
         notifyObservers(new ModelViewEvent(nickname, ModelViewEventTypes.newNickname, this.nickname));
@@ -64,8 +69,8 @@ public abstract class Person extends Observable implements Serializable {
 
     /*POSITION*/
     /**sets person position
-     * @param x
-     * @param y
+     * @param x the x coordinate on map
+     * @param y the y coordinate on map
      * */
     public void setPosition(int x, int y){
         try{
@@ -79,6 +84,8 @@ public abstract class Person extends Observable implements Serializable {
         }
     }
 
+    /**@param position to set position and temporaryPosition attributes
+     * with notify to the observers*/
     public void setPosition(Position position){
         this.position = position;
         this.temporaryPosition = position;
@@ -86,6 +93,8 @@ public abstract class Person extends Observable implements Serializable {
         notifyObservers(new ModelViewEvent(position, ModelViewEventTypes.newPosition, this.nickname));
     }
 
+    /**@param pos to set position attribute
+     * without notify to the observers*/
     public void setPositionWithoutNotify(Position pos){
         this.position = pos;
     }
@@ -97,7 +106,7 @@ public abstract class Person extends Observable implements Serializable {
     }
 
     /*POINTS*/
-    /***/
+    /**@param points to be added*/
     public void addPoints(int points) {
         this.score+=points;
         System.out.println("<SERVER-model> player " + this.getNickname() + " has " + this.score + " points");
@@ -105,32 +114,32 @@ public abstract class Person extends Observable implements Serializable {
         notifyObservers(new ModelViewEvent(score, ModelViewEventTypes.newScore, nickname));
     }
 
-    /***/
 
+    /**@return temporaryPosition*/
     public Position getTemporaryPosition() {
         return temporaryPosition;
     }
-
+    /**@param  temporaryPosition to set temporaryPosition attribute*/
     public void setTemporaryPosition(Position temporaryPosition) {
         this.temporaryPosition = temporaryPosition;
     }
 
-    /***/
+    /**a temporary position of the player*/
     private Position temporaryPosition;
 
-    /***/
+    /**@return score*/
     public int getScore(){
         return score;
     }
 
     /*NICKNAME*/
-    /***/
+    /**@return nickname*/
     public String getNickname(){
       return this.nickname;
     }
 
     /*COLOR*/
-    /***/
+    /**@return color*/
     public PlayersColors getColor(){
         return color;
     }
@@ -138,7 +147,7 @@ public abstract class Person extends Observable implements Serializable {
     /*PLAYER BOARD*/
     /**returns the player board.
      * This method should be used as less as possible, look for the right method instead.
-     * @return
+     * @return player board
      * */
     public PlayerBoard getPlayerBoard() { return board; }
 
@@ -154,7 +163,7 @@ public abstract class Person extends Observable implements Serializable {
     }
 
     /**return the number of times the player has died.
-     * @return
+     * @return int
      * */
     public int getDeathCounter() {
         return this.board.getDeathCounter();
@@ -178,9 +187,9 @@ public abstract class Person extends Observable implements Serializable {
                 }
             }
             System.out.println("<SERVER-model> PointsList:");
-            String s = "               ";
+            StringBuilder s = new StringBuilder("               ");
             for (Integer i:pointsList) {
-                s+= i + "   ";
+                s.append(i).append("   ");
             }
             System.out.println(s);
             return pointsList;
@@ -194,15 +203,18 @@ public abstract class Person extends Observable implements Serializable {
                 pointsList.add(1);
             }
             System.out.println("<SERVER-model> PointsList of player " + this.getNickname());
-            String s = "               ";
+            StringBuilder s = new StringBuilder("               ");
             for (Integer i:pointsList) {
-                s+= i + "   ";
+                s.append(i).append("   ");
             }
             System.out.println(s);
             return pointsList;
         }
     }
 
+    /**set the hasFinalFrenzyBoard attribute true,
+     * reset the death counter
+     * notify observers*/
     public void makePlayerBoardFinalFrenzy(){
         this.hasFinalFrenzyBoard = true;
         this.board.resetDeathCounter();
@@ -210,10 +222,12 @@ public abstract class Person extends Observable implements Serializable {
         notifyObservers(new ModelViewEvent(this.hasFinalFrenzyBoard, ModelViewEventTypes.setFinalFrenzyBoard, nickname));
     }
 
+    /**@return hasFinalFrenzyBoard*/
     public boolean isHasFinalFrenzyBoard() {
         return hasFinalFrenzyBoard;
     }
 
+    /**@return a list of player in order of rank*/
     public ArrayList<Player> getPlayersDamageRank(){
 
         class PlayerScore{
@@ -242,14 +256,18 @@ public abstract class Person extends Observable implements Serializable {
             }
 
             public boolean contains(Player player){
-                for (int i = 0; i < list.size() ; i++) {
-                    if(list.get(i).player == player){
+                for (PlayerScore playerScore : list) {
+                    if (playerScore.player == player) {
                         return true;
                     }
                 }
                 return false;
             }
 
+            /**swap to elements of a list
+             * @param i index of the first element
+             * @param j index of the second element
+             * @param list the list*/
             public void swapElements(ArrayList<PlayerScore> list, int i, int j){
                 Collections.swap(list, i, j);
             }
@@ -292,23 +310,24 @@ public abstract class Person extends Observable implements Serializable {
         }
 
         System.out.println("<SERVER-model> list of players ordered by number of damage made to " + this.nickname);
-        String s = "               ";
+        StringBuilder s = new StringBuilder("               ");
         for (Player p : finalResult) {
-            s+= p.getNickname() + "   ";
+            s.append(p.getNickname()).append("   ");
         }
         System.out.println(s);
 
         return finalResult;
     }
-
+    /**@return the damage slot of
+     * @param i index i*/
     public DamageSlot getDamageSlot(int i){
         return this.board.getDamagesSlot(i);
     }
-
+    /**@return the last damage slot*/
     public DamageSlot getLastDamageSlot(){
         return this.board.getDamagesTracker().getLastDamageSlot();
     }
-
+    /**@return board*/
     public PlayerBoard getBoard(){
         return this.board;
     }
@@ -316,8 +335,8 @@ public abstract class Person extends Observable implements Serializable {
 
 
     /**adding ammo to the player ammo box
-     * @param color
-     * @param quantity
+     * @param color color of the ammos
+     * @param quantity amount of ammos
      * */
     public void addAmmoCubes(AmmoCubesColor color, int quantity) {
         this.board.addAmmoCubes(color, quantity);
@@ -326,7 +345,7 @@ public abstract class Person extends Observable implements Serializable {
     }
 
     /**adding ammo to the player ammo box
-     * @param ammoList
+     * @param ammoList from which the ammos are taken to be add
      */
     public void addAmmoCubes(AmmoList ammoList){
         this.board.addAmmoCubes(ammoList);
@@ -336,9 +355,8 @@ public abstract class Person extends Observable implements Serializable {
 
     /**subtract a specific amount of ammos.
      * Before doing any operation checks if it is possible to subtract the specified amount.
-     * @param color
-     * @param quantity
-     * @return
+     * @param color the color of the ammos
+     * @param quantity the quantity to be paid
      * */
     public void payAmmoCubes(AmmoCubesColor color, int quantity){
         AmmoList ammoList = new AmmoList();
@@ -349,8 +367,7 @@ public abstract class Person extends Observable implements Serializable {
     }
     /**subtract a specific amount of ammos
      * Before doing any operation checks if it is possible to subtract the specified amount.
-     * @param cost
-     * @return
+     * @param cost amount
      * */
     public void payAmmoCubes(AmmoList cost){
         for (AmmoCubes ammoToPay: cost.getAmmoCubesList()) {
@@ -364,38 +381,27 @@ public abstract class Person extends Observable implements Serializable {
         notifyObservers(new ModelViewEvent(this.board.getAmmoBox().buildAmmoListV(), ModelViewEventTypes.newAmmoBox, nickname));
     }
     /**checks if it is possible to subtract a specific amount of ammos
-     * @param color
-     * @param quantity
-     * @return
+     * @param color color of the ammos
+     * @param quantity of ammos
+     * @return boolean value
      * */
     public boolean canPayAmmoCubes(AmmoCubesColor color, int quantity){
         boolean canPay= this.board.canPayAmmoCubes(color,quantity);
-        if(canPay){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return canPay;
     }
 
     /**checks if it is possible to subtract a specific amount of ammos
-     * @param cost
-     * @return
+     * @param cost the amount
+     * @return boolean value
      * */
     public boolean canPayAmmoCubes(AmmoList cost){
-        boolean canPay = this.board.canPayAmmoCubes(cost);
-        if(canPay){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return this.board.canPayAmmoCubes(cost);
     }
 
-    /** add a specific amount of blood drops (damages) off the shootingPlayer to the (this) player board.
+    /** add a specific amount of blood drops (damages) of the shootingPlayer to the (this) player board.
      * if adding damages overkills the this player, it marks the shootingPlayer.
-     * @param numberOfDamages
-     * @param shootingPlayer
+     * @param numberOfDamages the specific amount
+     * @param shootingPlayer the shooting player
      * */
     public void addDamages (Player shootingPlayer, int numberOfDamages){
         this.board.addDamages(shootingPlayer,numberOfDamages);
@@ -415,44 +421,32 @@ public abstract class Person extends Observable implements Serializable {
     }
 
     /**checks if the player has received at least 11 damages (is dead)
-     * @return */
+     * @return boolean value*/
     public boolean isDead(){
-        if(this.board.getDamagesTracker().getDamageSlotsList().size()>10){
-            return true;
-        }
-        return false;
+        return this.board.getDamagesTracker().getDamageSlotsList().size() > 10;
     }
 
     /**checks if the player has received at least 12 damages (is overKilled)
-     * @return */
+     * @return boolean value*/
     public boolean isOverkilled(){
-        if(this.board.getDamagesTracker().getDamageSlotsList().size()>11){
-            return true;
-        }
-        return false;
+        return this.board.getDamagesTracker().getDamageSlotsList().size() > 11;
     }
 
     /**checks if the player has received at least 3 damages
-     * @return */
+     * @return boolean value*/
     public boolean hasAdrenalineGrabAction(){
-        if(this.board.getDamagesTracker().getDamageSlotsList().size()>2){
-            return true;
-        }
-        return false;
+        return this.board.getDamagesTracker().getDamageSlotsList().size() > 2;
     }
 
     /**checks if the player has received at least 6
-     * @return */
+     * @return boolean value*/
     public boolean hasAdrenalineShootAction(){
-        if(this.board.getDamagesTracker().getDamageSlotsList().size()>5){
-            return true;
-        }
-        return false;
+        return this.board.getDamagesTracker().getDamageSlotsList().size() > 5;
     }
 
     /**add a specific amount of marks from the markingPlayer to (this) player board
-     * @param markingPlayer
-     * @param quantity
+     * @param markingPlayer  the marking player
+     * @param quantity amount to be added
      * */
     public void addMarksFrom(Player markingPlayer, int quantity){
         this.board.addMarksFrom(markingPlayer,quantity);
@@ -460,23 +454,24 @@ public abstract class Person extends Observable implements Serializable {
         notifyObservers(new ModelViewEvent(this.board.getMarksTracker().buildMarksTrackerV(), ModelViewEventTypes.newMarksTracker, nickname));
     }
 
-    /**return the number of marks the player has received from the markingPlayer
-     * @param markingPlayer
-     * @return
+    /**
+     * @param markingPlayer the marking player to return marks of
+     * @return the number of marks the player has received from the markingPlayer
      * */
     public int getMarksFrom(Player markingPlayer){
         return this.board.getMarksFrom(markingPlayer);
     }
 
     /**delete all the marks received from the markingPlayer
-     * @param markingPlayer
+     * @param markingPlayer the player to delete the marks from
      * */
     public void deleteMarksFromPlayer(Player markingPlayer){
         this.board.deleteMarksFromPlayer(markingPlayer);
     }
 
-    /**takes all the marks from a player and tranform them in dadmages
+    /**takes all the marks from a player and transforms them in damages
      * @param shootingPlayer
+     * @deprecated
      * */
     public void applyMarksFromPlayer(Player shootingPlayer){
         addDamages(shootingPlayer, this.getMarksFrom(shootingPlayer));

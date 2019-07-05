@@ -12,13 +12,15 @@ import static it.polimi.se2019.model.enumerations.CardinalPoint.east;
 import static it.polimi.se2019.model.enumerations.CardinalPoint.south;
 
 
-/***/
+/**this class implements a spawnPointSquare
+ * @author LudoLerma
+ * @author FedericoMainettiGambera*/
 public class SpawnPointSquare extends Square implements Serializable {
 
     /**constructor
-     * @param X to set x value on board
+     * @param x to set x value on board
      * @param color to set the color of the square
-     * @param Y  to set y value on board
+     * @param y  to set y value on board
      * @param east to set what there is of the east
      * @param north to set what there is on the north
      * @param south to set what there is on the south

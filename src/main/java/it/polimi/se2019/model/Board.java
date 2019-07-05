@@ -25,7 +25,9 @@ import static it.polimi.se2019.model.enumerations.CardinalPoint.*;
 
 
 
-/**build and keep the board of the game*/
+/**build and keep the board of the game
+ * @author LudoLerma
+ * @author FedericoMainettiGambera*/
 public class Board{
 
     private final static Logger logger=Logger.getLogger(Board.class.getName());
@@ -189,6 +191,7 @@ public class Board{
 
     /**@param chosenMap indicates which map has been chosen to play with
      * this function build the map from a given file
+     * @return a reference to the map
      * */
     private Square[][] buildMap(String chosenMap) throws IOException{
         Square[][] map = new Square[3][4];
@@ -361,7 +364,8 @@ public class Board{
         return possiblePositions;
     }
 
-    /**make the board understandable for human user*/
+    /**make the board understandable for human user
+     * @return a string*/
     public String toString(){
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < this.board.length; i++) {
@@ -430,6 +434,8 @@ public class Board{
         return players;
     }
 
+    /**@param pos the position from the check may be effectuated
+     * @return a list of players that can be seen from that position*/
     public static List<Player> getCanSeePlayerFrom(Position pos){
 
         //System.out.println("<SERVER> searching for the players that can be seen from position " +pos.humanString());

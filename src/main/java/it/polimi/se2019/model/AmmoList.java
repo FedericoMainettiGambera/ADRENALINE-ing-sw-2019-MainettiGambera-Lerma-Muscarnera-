@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * The AmmoList class keeps track of the current number of ammos a player has.
  * @author FedericoMainettiGambera
+ * @author LudoLerma
  * */
 public class AmmoList implements Serializable {
 
@@ -55,10 +56,8 @@ public class AmmoList implements Serializable {
                 return;
             }
         }
-        int i=0;
+
         this.ammoCubesList.add(new AmmoCubes(color));
-        //while( i<this.ammoCubesList.size()){i++;}
-        //System.out.println(i);
         this.getAmmoCubesList().get(ammoCubesList.size() - 1).addQuantity(quantity);
 
     }
@@ -68,27 +67,27 @@ public class AmmoList implements Serializable {
      * @param quantity of ammos
      * @return boolean value that indicates if the player can pay or not
      * */
-    public boolean canPayAmmoCubes(AmmoCubesColor color, int quantity){
-        for(int i = 0; i < this.ammoCubesList.size(); i++){
-            if(this.ammoCubesList.get(i).getColor()==color){
-                return this.ammoCubesList.get(i).canSubQuantity(quantity);
-            }
-        }
+     boolean canPayAmmoCubes(AmmoCubesColor color, int quantity){
+         for (AmmoCubes ammoCubes : this.ammoCubesList) {
+             if (ammoCubes.getColor() == color) {
+                 return ammoCubes.canSubQuantity(quantity);
+             }
+         }
         return false;
     }
 
     /**checks if an amount of ammos can be payed with the current this.ammoCubesList status
-     * @param cost
-     * @return
+     * @param cost the ammo list to be paid
+     * @return boolean value that indicates if the cost can be paid for
      * */
-    public boolean canPayAmmoCubes(AmmoList cost){
+     boolean canPayAmmoCubes(AmmoList cost){
         /*checks if the payment can be done*/
 
         for(int i = 0; i < cost.getAmmoCubesList().size(); i++){
-            for(int j = 0; j < ammoCubesList.size(); j++){
-                if(cost.getAmmoCubesList().get(i).getColor() == ammoCubesList.get(j).getColor()){
+            for (AmmoCubes ammoCubes : ammoCubesList) {
+                if (cost.getAmmoCubesList().get(i).getColor() == ammoCubes.getColor()) {
 
-                    if(!ammoCubesList.get(j).canSubQuantity( cost.getAmmoCubesList().get(i).getQuantity() )){
+                    if (!ammoCubes.canSubQuantity(cost.getAmmoCubesList().get(i).getQuantity())) {
                         return false;
                     }
                 }
@@ -103,17 +102,17 @@ public class AmmoList implements Serializable {
      * @param color color of the ammo to pay
      * @return boolean
      * */
-    public boolean payAmmoCubes(AmmoCubesColor color, int quantity){
+     boolean payAmmoCubes(AmmoCubesColor color, int quantity){
         if(!canPayAmmoCubes(color, quantity)){
             return false;
         }
-        for(int i = 0; i < this.ammoCubesList.size(); i++){
-            if(this.ammoCubesList.get(i).getColor()==color){
-                if(this.ammoCubesList.get(i).subQuantity(quantity)){
-                    return true;
-                }
-            }
-        }
+         for (AmmoCubes ammoCubes : this.ammoCubesList) {
+             if (ammoCubes.getColor() == color) {
+                 if (ammoCubes.subQuantity(quantity)) {
+                     return true;
+                 }
+             }
+         }
         /*error case*/
         return false;
     }
@@ -123,15 +122,15 @@ public class AmmoList implements Serializable {
      * @param cost indicates how many ammos you need to pay
      * @return boolean
      * */
-    public boolean payAmmoCubes(AmmoList cost) {
+     boolean payAmmoCubes(AmmoList cost) {
         if(!canPayAmmoCubes(cost)){
             return false;
         }
         /*makes the payment*/
         for(int i = 0; i < cost.getAmmoCubesList().size(); i++){
-            for(int j = 0; j < ammoCubesList.size(); j++){
-                if(cost.getAmmoCubesList().get(i).getColor() == ammoCubesList.get(j).getColor()){
-                    ammoCubesList.get(j).subQuantity(cost.getAmmoCubesList().get(i).getQuantity());
+            for (AmmoCubes ammoCubes : ammoCubesList) {
+                if (cost.getAmmoCubesList().get(i).getColor() == ammoCubes.getColor()) {
+                    ammoCubes.subQuantity(cost.getAmmoCubesList().get(i).getQuantity());
                 }
             }
             /*to return true at the end*/
@@ -144,15 +143,15 @@ public class AmmoList implements Serializable {
     }
 /**make the list of ammo cubes readable by humans*/
     public String toString(){
-        String s = "     ";
-        for (int i = 0; i < this.ammoCubesList.size() ; i++) {
-            s += this.ammoCubesList.get(i).getColor() + ": " + this.ammoCubesList.get(i).getQuantity() + "\n    ";
+        StringBuilder s = new StringBuilder("     ");
+        for (AmmoCubes ammoCubes : this.ammoCubesList) {
+            s.append(ammoCubes.getColor()).append(": ").append(ammoCubes.getQuantity()).append("\n    ");
         }
-        return s;
+        return s.toString();
     }
 
     /**build ad equivalent class of this in the view for safeness and graphical reason
-     * return ammoListV */
+     * @return ammoListV */
     public AmmoListV buildAmmoListV(){
         AmmoListV ammoListV = new AmmoListV();
         List<AmmoCubesV> listOfAmmoCubesV = new ArrayList<>();

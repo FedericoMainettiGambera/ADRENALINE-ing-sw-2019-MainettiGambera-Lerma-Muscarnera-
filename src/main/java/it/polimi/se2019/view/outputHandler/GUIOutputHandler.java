@@ -11,6 +11,7 @@ import it.polimi.se2019.view.UpdateMap;
 import it.polimi.se2019.view.components.*;
 import it.polimi.se2019.view.selector.GUISelector;
 import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
@@ -25,7 +26,10 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
-
+/**GuiOutPutHandler class,
+ * @author LudoLerma
+ * @author FedericoMainettiGambera
+ * */
 public class GUIOutputHandler implements OutputHandlerInterface {
 
     /**
@@ -789,6 +793,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             });
         }
 
+        /**@param stackPane the stack pane from which previous css style class needs to be removed*/
         public void removeAllPreviousCssClass(StackPane stackPane){
             stackPane.getStyleClass().remove("ammoRed");
             stackPane.getStyleClass().remove("ammoBlue");
@@ -797,7 +802,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         }
     }
 
-
+    /**launches a thread to update the map*/
     private void updateMap()   {
         Platform.runLater(()-> (new UpdateMap()).updateMapWithoutNewEventLayer());
     }
@@ -982,6 +987,11 @@ public class GUIOutputHandler implements OutputHandlerInterface {
                 } else {
                     player = new Text(ViewModelGate.getModel().getPlayers().getCurrentPlayingPlayer() + "  is ");
                 }
+
+                if(stateEvent.getState().contains("SpawnState")||stateEvent.getState().contains("FFSetUp")||stateEvent.getState().contains("FinalScoring")||stateEvent.getState().contains("ScoreKills")){
+                    player = new Text(" ");
+                }
+
                 player.setFill(Color.rgb(255, 158, 30));
                 player.setFont((Font.font("Courier")));
                 descr.setFill(Color.rgb(255, 158, 30));
@@ -997,7 +1007,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     }
 
     /**
-     * launch a UpdateProgressIndicator thread
+     * launches a UpdateProgressIndicator thread
      *
      * @param currentTime the time that has passed till a given moment
      * @param totalTime   the total time of the count down
@@ -1026,19 +1036,22 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         }
     }
 
+    /**@return the game scene Controller*/
     private GameSceneController getGameSceneController() {
         return ((GameSceneController) GUIstarter.getStageController());
     }
 
+    /**@return the loading scene controller*/
     private LoadingSceneController getLoadingSceneController() {
         return ((LoadingSceneController) GUIstarter.getStageController());
     }
 
+    /***/
     @Override
     public void gameCreated() {
         //empty
     }
-
+    /**@param stateEvent , the state has changed, update the scene*/
     @Override
     public void stateChanged(StateEvent stateEvent) {
         if (stateEvent.getState().contains("GameSetUpState")) {
@@ -1051,7 +1064,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         }
     }
 
-
+    /**@param modelViewEvent , */
     @Override
     public void setFinalFrenzy(ModelViewEvent modelViewEvent) {
         Platform.runLater(()->{
@@ -1067,7 +1080,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             }
         });
     }
-
+    /**@param modelViewEvent , final frenzy has begun*/
     @Override
     public void finalFrenzyBegun(ModelViewEvent modelViewEvent) {
         Platform.runLater(()-> {
@@ -1078,12 +1091,13 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             }
         });
     }
-
+    /**@param modelViewEvent , kill shot track are updated */
     @Override
     public void newKillshotTrack(ModelViewEvent modelViewEvent) {
         updateKillShotTrack();
     }
 
+    /**@param modelViewEvent , a new player has joined the game, update the scene*/
     @Override
     public void newPlayersList(ModelViewEvent modelViewEvent) {
         try {
@@ -1101,6 +1115,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         }
     }
 
+    /**show the player that is connecting to the game in the loading scene */
     private void showPlayerListInLoadingScene() {
         //we are in the loading scene and should update it
         boolean done = false;
@@ -1120,11 +1135,13 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     }
 
 
+    /**@param modelViewEvent, the board is changed, update the map */
     @Override
     public void newBoard(ModelViewEvent modelViewEvent) {
         updateMap();
     }
 
+    /**@param modelViewEvent , a player died, update the players and the kill shot track*/
     @Override
     public void deathOfPlayer(ModelViewEvent modelViewEvent) {
         updateKillShotTrack();
@@ -1132,65 +1149,72 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         updateMap(); // TODO non ne sono sicuro
     }
 
+    /**@param modelViewEvent , cards have been moved*/
     @Override
     public void movingCardsAround(OrderedCardListV from, OrderedCardListV to, ModelViewEvent modelViewEvent) {
         updateMap();
         updatePlayer();
     }
 
+    /**@param modelViewEvent , cards have been shuffled */
     @Override
     public void shufflingCards(ModelViewEvent modelViewEvent) {
         //empty
     }
 
+    /**@param modelViewEvent , color has been set, update the player*/
     @Override
     public void newColor(ModelViewEvent modelViewEvent) {
         updatePlayer();
     }
 
+    /**@param modelViewEvent , a new nickName has ben set, update Nicknames */
     @Override
     public void newNickname(ModelViewEvent modelViewEvent) {
         updateNickname();
     }
 
+    /**@param modelViewEvent , a new position has been set, update the map */
     @Override
     public void newPosition(ModelViewEvent modelViewEvent) {
         updateMap();
     }
 
+    /**@param modelViewEvent ,  a new score*/
     @Override
     public void newScore(ModelViewEvent modelViewEvent) {
         //empty
     }
-
+    /**@param modelViewEvent , some one death counter has incremented, update the deaths */
     @Override
     public void addDeathCounter(ModelViewEvent modelViewEvent) {
         updateDeaths();
         updateKillShotTrack();
         updateMap(); //TODO not sure
     }
-
+    /**@param modelViewEvent , final frenzy boards have been set, update the damages and the deaths*/
     @Override
     public void setFinalFrenzyBoard(ModelViewEvent modelViewEvent) {
       updateDamage();
       updateDeaths();
     }
 
+    /**@param modelViewEvent , ammo box has changed, update it*/
     @Override
     public void newAmmoBox(ModelViewEvent modelViewEvent) {
         updateAmmobox();
     }
-
+    /**@param modelViewEvent , damage tracker has changed, update it*/
     @Override
     public void newDamageTracker(ModelViewEvent modelViewEvent) {
         updateDamage();
     }
-
+    /**@param modelViewEvent , marks tracker has changed, update it*/
     @Override
     public void newMarksTracker(ModelViewEvent modelViewEvent) {
         updateMarks();
     }
-
+    /**@param modelViewEvent , current playin player has changed */
     @Override
     public void setCurrentPlayingPlayer(ModelViewEvent modelViewEvent) {
         Platform.runLater(()-> {
@@ -1200,16 +1224,17 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         });
     }
 
+    /**@param modelViewEvent ,*/
     @Override
     public void setStartingPlayer(ModelViewEvent modelViewEvent) {
         //empty
     }
-
+    /**@param modelViewEvent , */
     @Override
     public void newPlayer(ModelViewEvent modelViewEvent) {
         //empty..
     }
-
+    /**@param modelViewEvent , a player has been set AFK, update the players */
     @Override
     public void setAFK(ModelViewEvent modelViewEvent) {
         if(GUIstarter.getStageController().getClass().toString().contains("GameSceneController")) {
@@ -1217,12 +1242,15 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             updateMap(); //TODO not sure
         }
     }
-
+    /**@param currentTime needed to implement the timer
+     * @param totalTime needed for implement the timer
+     * update the timer*/
     @Override
     public void showInputTimer(int currentTime, int totalTime) {
         updateProgressIndicator(currentTime, totalTime);
     }
-
+    /**@param currentTime needed to update the progression bar from loading scene
+     * @param totalTime needed to update the progression bar from loading scene*/
     @Override
     public void showConnectionTimer(int currentTime, int totalTime) {
         if (GUIstarter.getStageController().getClass().toString().contains("LoadingSceneController")) {
@@ -1230,11 +1258,13 @@ public class GUIOutputHandler implements OutputHandlerInterface {
         }
     }
 
+    /**shows an error  because the player can't reach the server, */
     @Override
     public void cantReachServer() {
         GUIstarter.showError(this, "SERVER IS UNREACHABLE", null);
     }
 
+    /** reconnection succeded event */
     @Override
     public void succesfullReconnection() {
         if(GUIstarter.getStageController().getClass().toString().contains("LoadingSceneController")) {
@@ -1255,16 +1285,47 @@ public class GUIOutputHandler implements OutputHandlerInterface {
             updatePlayer();
         }
     }
-
+    /**disconnection event */
     @Override
     public void disconnect() {
         GUIstarter.showError(this, " YOU HAVE BEEN DISCONNECTED. PLEASE TRY TO RECONNECT AT THE SAME IP ADDRESS AND PORT.", null);
     }
 
+    /**count the incoming modelviewevent */
+    int counter=0;
+    /**@param modelViewEvent , final scoring has finally arrived, the scene needs to be set again*/
     @Override
     public void finalScoring(ModelViewEvent modelViewEvent) {
-        //final scene TODO
+        VBox ranking= new VBox();
+
+        if(counter<ViewModelGate.getModel().getPlayers().getPlayers().size()){
+            if(counter==0) {
+                StackPane title = new StackPane(new Label("\nFINAL RANKING\n"));
+                StackPane first=new StackPane(new Label(" " + modelViewEvent.getExtraInformation2() + " :" + modelViewEvent.getComponent() + "  with  " + modelViewEvent.getExtraInformation2()));
+
+                ranking.getChildren().add(title);
+                ranking.getChildren().add(first);
+                VBox.setVgrow(title, Priority.ALWAYS);
+                VBox.setVgrow(first, Priority.ALWAYS);
+
+            }
+            else{
+
+
+                StackPane player=new StackPane(new Label(" " + modelViewEvent.getExtraInformation2() + " :" + modelViewEvent.getComponent() + "  with  " + modelViewEvent.getExtraInformation2()));
+                ranking.getChildren().add(player);
+                VBox.setVgrow(player, Priority.ALWAYS);
+            }
+
+        }
+
+
+      else{
+            getGameSceneController().changeSelectorSection(ranking, 0.0,0.0,0.0,0.0);
+        }
     }
+
+
 
 
 }

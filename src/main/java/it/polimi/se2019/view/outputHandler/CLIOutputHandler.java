@@ -16,7 +16,9 @@ import it.polimi.se2019.view.components.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-/** this class handle the CLI Outputs, it receives Events of various kind(MOSTLY MODELVIEW EVENTS) and manage to show the right output to the right client view*/
+/** this class handle the CLI Outputs, it receives Events of various kind(MOSTLY MODELVIEW EVENTS) and manage to show the right output to the right client view
+ * @author FedericoMainettiGambera
+ * @author LudoLerma */
 
 public class CLIOutputHandler implements OutputHandlerInterface{
 
@@ -24,6 +26,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     private String clientMve="<CLIENT> MVE: ";
     private String space="              ";
 
+    /**@param message to be printed on the userInterface*/
     public void updateUserInterface(String message) {
         System.out.println(message);
     }
@@ -34,19 +37,23 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         updateUserInterface("<CLIENT> created GameV and PlayerListV");
     }
 
-    /** Anytime a client changes his state, every client gets to know it */
+    /** Anytime a client changes his state, every client gets to know it
+     * @param stateEvent the state in a given time*/
     @Override
     public void stateChanged(StateEvent stateEvent) {
         updateUserInterface("<CLIENT> state changed: " + stateEvent.getState());
     }
 
-    /***/
+    /**@param modelViewEvent boolean value
+     *                        inform the client if final fenzy is active*/
     @Override
     public void setFinalFrenzy(ModelViewEvent modelViewEvent) {
         updateUserInterface(clientMve + modelViewEvent.getInformation());
         updateUserInterface("              FINAL FRENZY: " + ViewModelGate.getModel().isFinalFrenzy());
     }
 
+    /**@param modelViewEvent
+     *                        informs the client if the final frenzy has begun*/
     @Override
     public void finalFrenzyBegun(ModelViewEvent modelViewEvent) {
         updateUserInterface(clientMve + modelViewEvent.getInformation());
@@ -58,24 +65,26 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         }
     }
 
+    /**@param modelViewEvent shows the player the updated killshot track*/
     @Override
     public void newKillshotTrack(ModelViewEvent modelViewEvent) {
         updateUserInterface(clientMve + modelViewEvent.getInformation());
         showKillshotTrack();
     }
-
+    /**@param modelViewEvent, informs the client there is a newPlayerList*/
     @Override
     public void newPlayersList(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         showPlayerList();
     }
-
+    /**@param modelViewEvent , informs the client the map has been updated*/
     @Override
     public void newBoard(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         showMap();
     }
 
+    /**@param modelViewEvent , informs the player that someone died*/
     @Override
     public void deathOfPlayer(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
@@ -83,6 +92,9 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         showPlayerList();
     }
 
+    /**@param modelViewEvent informations about the context the cards are moved to be shown to the client
+     * @param from the list from the cards are moved
+     * @param to the list to the cards are moved*/
     @Override
     public void movingCardsAround(OrderedCardListV from, OrderedCardListV to, ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
@@ -101,6 +113,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         }
     }
 
+    /**@param modelViewEvent informs the client that a specific list of cards have been shuffled*/
     @Override
     public void shufflingCards(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
@@ -108,7 +121,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(space + "cards shuffled: " + (cards.getContext()));
         showOrderedCardList(cards);
     }
-
+    /**@param modelViewEvent informs the client which player has which color*/
     @Override
     public void newColor(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
@@ -119,7 +132,9 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             }
         }
     }
-
+    /**@param modelViewEvent contains a nickname,
+     *                       informs the client of a new nickname event
+     * show the new player list*/
     @Override
     public void newNickname(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
@@ -127,6 +142,8 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         showPlayerList();
     }
 
+    /**@param modelViewEvent contains a position
+     *  infroms the client that a player has changed position*/
     @Override
     public void newPosition(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve+ modelViewEvent.getInformation());
@@ -138,7 +155,8 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         }
         showMap();
     }
-
+    /**@param modelViewEvent contains a player and a score,
+     * informs the players that the score is changed*/
     @Override
     public void newScore(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
@@ -150,6 +168,8 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         }
     }
 
+    /**@param modelViewEvent contains information needed to
+     * display the client the death of a player occured*/
     @Override
     public void addDeathCounter(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
@@ -162,6 +182,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         }
     }
 
+    /**@param modelViewEvent , inform the players that a certain player has changed his board to final frenzy board*/
     @Override
     public void setFinalFrenzyBoard(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
@@ -173,7 +194,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             }
         }
     }
-
+    /**@param modelViewEvent, informs the players that a certain player has changed his ammobox */
     @Override
     public void newAmmoBox(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
@@ -185,7 +206,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             }
         }
     }
-
+    /**@param modelViewEvent informs the players that a certain player has chaned his damage tracker*/
     @Override
     public void newDamageTracker(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
@@ -198,7 +219,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         }
     }
 
-
+    /**@param modelViewEvent informa the player that a certain player has changed his marks tracker*/
     @Override
     public void newMarksTracker(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve+ modelViewEvent.getInformation());
@@ -211,26 +232,29 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         }
     }
 
-
+    /**@param modelViewEvent inform the players current playing player has changed */
     @Override
     public void setCurrentPlayingPlayer(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              Current playing player is: " + modelViewEvent.getComponent());
     }
 
+    /**@param modelViewEvent informs the player about who is the startin player */
     @Override
     public void setStartingPlayer(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve+ modelViewEvent.getInformation());
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("              Starting player is: " + ViewModelGate.getModel().getPlayers().getStartingPlayer());
     }
 
+    /**@param modelViewEvent informs the players a new  player arrived*/
     @Override
     public void newPlayer(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve + modelViewEvent.getInformation());
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(space + "new player added: " + ((PlayerV) modelViewEvent.getComponent()).getNickname());
         showPlayerList();
     }
-
+    /**@param modelViewEvent informs a player that they have been set AFK,
+     * informs all of the player that one player has been set AFK*/
     @Override
     public void setAFK(ModelViewEvent modelViewEvent) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(clientMve+ modelViewEvent.getInformation());
@@ -247,16 +271,22 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         }
     }
 
+    /**@param currentTime current time at the time the showinputtimer was called
+     * @param totalTime total time to count till
+     * shows a timer for the input*/
     @Override
     public void showInputTimer(int currentTime, int totalTime) {
         //OutputHandlerGate.getCLIOutputHandler().updateUserInterface("<CLIENT> " + "Input-Timer-of-"+totalTime+"-seconds: " + currentTime + " second has passed.");
     }
-
+    /**@param currentTime current time at the time the showinputtimer was called
+     * @param totalTime total time to count till
+     * shows a timer for the connections*/
     @Override
     public void showConnectionTimer(int currentTime, int totalTime) {
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("                                 <CLIENT" + "Connection-Timer-of-"+totalTime+"-seconds> " + currentTime + " seconds passed.");
     }
-
+    /**
+     * informs the player the server can't be reached*/
     @Override
     public void cantReachServer() {
         showGeneralStatusOfTheGame();
@@ -265,6 +295,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         System.exit(0);
     }
 
+    /**informs the player they have been successfully reconnected to the server*/
     @Override
     public void succesfullReconnection() {
         showGeneralStatusOfTheGame();
@@ -272,7 +303,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("         Your model is up-to-date");
         showConnectionInfo();
     }
-
+    /**informs the player they have been disconnected from the server*/
     @Override
     public void disconnect() {
         showGeneralStatusOfTheGame();
@@ -282,12 +313,14 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         System.exit(0);
     }
 
+    /**@param modelViewEvent informs the players about the final ranking*/
     @Override
     public void finalScoring(ModelViewEvent modelViewEvent){
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface(modelViewEvent.getComponent()+" has arrived "+modelViewEvent.getExtraInformation2()+" with  "+modelViewEvent.getExtraInformation1()+" points   !!!");
 
     }
 
+    /**show the general status of the game with all of the information about the component of it */
     public static void showGeneralStatusOfTheGame(){
         if(ViewModelGate.getModel()!=null) {
 
@@ -300,7 +333,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             showPlayerList();
         }
     }
-
+    /**shows the connection details*/
     private static void showConnectionInfo(){
         if(Controller.getNetworkConnection() != null && Controller.getIp() != null && Controller.getPort() != null){
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("\n<<<<<<<<<<<< CONNECTION INFO >>>>>>>>>>>>");
@@ -309,7 +342,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("  PORT: " + Controller.getPort());
         }
     }
-
+    /**shows the game set up details and who you are playing as*/
     public static void showGameInfo(){
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("\n<<<<<<<<<<<< GAME INFO >>>>>>>>>>>>");
 
@@ -341,7 +374,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             }
         }
     }
-
+    /**shows a killshot track*/
     public static void showKillshotTrack(){
         //remember the killShot track works from the end to the start ( the first dead player is the last in the list)
         OutputHandlerGate.getCLIOutputHandler().updateUserInterface("\n<<<<<<<<<<<< KILLSHOT TRACK >>>>>>>>>>>> ");
@@ -376,7 +409,8 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("Sorry, the model is null");
         }
     }
-
+    /**shows a ordered card list
+     * @param cards the card list to be shown*/
     public static void showOrderedCardList(OrderedCardListV cards){
         StringBuilder s = new StringBuilder();
         if(((!cards.getContext().split(":")[0].equals(ViewModelGate.getMe())) && (cards.getContext().contains(":powerUpInHand")))
@@ -457,7 +491,8 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             OutputHandlerGate.getCLIOutputHandler().updateUserInterface("Sorry, the Model, or the PlayerList or ListOfPlayers are null");
         }
     }
-
+    /**shows the status of a player with all of the information about his player board
+     * @param playerToShow  the player to be shown the status of*/
     public static void showPlayerStatus(PlayerV playerToShow){
         List<String> stringPlayer = new ArrayList<>();
 
@@ -510,7 +545,8 @@ public class CLIOutputHandler implements OutputHandlerInterface{
 
 
     }
-
+    /**shows the player
+     * @param playerToShow ammoBox*/
     public static String ammoString(PlayerV playerToShow){
         if( playerToShow != null && playerToShow.getAmmoBox()!= null && playerToShow.getAmmoBox().getAmmoCubesList()!=null) {
             StringBuilder ammos = new StringBuilder("AMMO: [");
@@ -524,7 +560,10 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             return "Sorry, the player or the ammoBox or the AmmoCubesList are null";
         }
     }
-
+    /**dispaly
+     * @param playerToShow total of
+     *                     deaths
+     * */
     public static String deathsString(PlayerV playerToShow){
         StringBuilder deaths;
         int point;
@@ -549,7 +588,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         deaths.append("]");
         return deaths.toString();
     }
-
+    /**@param playerToShow the player to be shown the damages of*/
     public static String damageString(PlayerV playerToShow){
         if(playerToShow!=null && playerToShow.getDamageTracker()!=null && playerToShow.getDamageTracker().getDamageSlotsList()!=null) {
             StringBuilder damage = new StringBuilder("DAMAGE: [");
@@ -585,7 +624,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             return "Sorry, the player or the damageTracker or the damageSlotList  are null";
         }
     }
-
+    /**@param playerToShow the player to be shown the marks of*/
     public static String markString(PlayerV playerToShow){
         if(playerToShow!=null && playerToShow.getMarksTracker()!=null && playerToShow.getMarksTracker().getMarkSlotsList()!=null) {
             StringBuilder mark = new StringBuilder("MARKS: [");
@@ -601,7 +640,7 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     }
 
 
-
+    /**shows the map*/
     private static void showMap(){
         if (ViewModelGate.getModel() != null && ViewModelGate.getModel().getBoard() != null && ViewModelGate.getModel().getBoard().getMap() != null) {
             SquareV[][] map = ViewModelGate.getModel().getBoard().getMap();

@@ -3,7 +3,10 @@ package it.polimi.se2019.model;
 
 import java.io.Serializable;
 
-/***/
+/**a class that store the costants of the game
+ * @author LudoLerma
+ * @author FedericoMainettiGambera
+ * */
 public class GameConstant implements Serializable {
 
     /***/

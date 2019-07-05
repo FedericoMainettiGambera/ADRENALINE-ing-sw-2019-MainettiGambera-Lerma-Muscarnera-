@@ -13,7 +13,9 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-/**represent a player */
+/**represent a player
+ * @author LudoLerma
+ * @author FedericoMainettiGambera*/
 public class Player extends Person implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
@@ -297,7 +299,8 @@ public class Player extends Person implements Serializable {
     public boolean isBotUsed() {
         return botUsed;
     }
-    /**build the equivalent structure for view usage*/
+    /**build the equivalent structure for view usage
+     * @return a reference to said structure*/
     public PlayerV buildPlayerV(){
         PlayerV playerV = new PlayerV();
         playerV.setMarksTracker(this.getBoard().getMarksTracker().buildMarksTrackerV());

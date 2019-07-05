@@ -5,7 +5,7 @@ import it.polimi.se2019.model.enumerations.SelectorEventTypes;
 import it.polimi.se2019.view.components.WeaponCardV;
 import java.util.List;
 
-/**implements the possibilty to switch two weapons
+/**implements the possibility to switch two weapons
  * @author LudoLerma
  * @author FedericoMainettiGambera*/
 public class SelectorEventDoubleWeaponCards extends SelectorEvent {

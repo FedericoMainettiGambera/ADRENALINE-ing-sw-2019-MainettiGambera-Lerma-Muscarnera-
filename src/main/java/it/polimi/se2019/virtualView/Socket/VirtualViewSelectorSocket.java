@@ -11,7 +11,10 @@ import it.polimi.se2019.virtualView.VirtualViewSelector;
 import java.util.ArrayList;
 import java.util.List;
 
-/**implements all kind of events that may be send to the client implemented for socket connection*/
+/**implements all kind of events that may be send to the client implemented for socket connection
+ * * @author LudoLerma &
+ *  * @author FedericoMainettiGambera*/
+
 public class VirtualViewSelectorSocket extends VirtualViewSelector implements Selector {
 
     private Player playerToAsk;

@@ -8,6 +8,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**implements a countDown
+ * @author FedericoMainettiGambera
+ * @author LudoLerma */
 public class ConnectionGameCountDown implements Runnable {
 
    /**the number of connection when the game is instanced*/

@@ -1,10 +1,8 @@
 package it.polimi.se2019.model;
 
 
-import it.polimi.se2019.controller.ViewControllerEventHandlerContext;
 import it.polimi.se2019.model.enumerations.ModelViewEventTypes;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
-import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import it.polimi.se2019.view.components.KillShotTrackV;
 import it.polimi.se2019.view.components.KillsV;
 import it.polimi.se2019.virtualView.VirtualView;
@@ -16,7 +14,9 @@ import java.util.List;
 import java.util.Observable;
 import java.util.logging.Logger;
 
-/**regular killshot track*/
+/**regular killshot track
+ * @author LudoLerma
+ * @author FedericoMainettiGambera*/
 public class KillShotTrack extends Observable implements Serializable {
 
     private static Logger logger=Logger.getLogger(KillShotTrack.class.getName());
@@ -24,6 +24,7 @@ public class KillShotTrack extends Observable implements Serializable {
     /* **************************************************************************CONSTRUCTOR*/
 
 
+    /**the number of starting skulls*/
     private int startingSKulls;
 
     /**
@@ -116,7 +117,7 @@ public class KillShotTrack extends Observable implements Serializable {
 
     /**Build the equivalent structure for view purposes
      * tracks down just as much information as needed for view to show
-     @return killShotTrackV
+     @return  a reference to killShotTrackV
      * */
      KillShotTrackV buildKillshotTrackV(){
         KillShotTrackV killShotTrackV = new KillShotTrackV();

@@ -6,6 +6,7 @@ import java.io.Serializable;
  * THIS CLASS SHOULD NEVER BE DIRECTLY ACCESSED, INSTEAD USE METHODS FROM THE "Person" CLASS.
  * The MarksSlots class keeps track of the number of marks a player has received from another player.
  * @author FedericoMainettiGambera
+ * @author LudoLerma
  * */
 public class MarkSlots implements Serializable {
 
@@ -42,7 +43,8 @@ public class MarkSlots implements Serializable {
         return markingPlayer;
     }
 
-    /**add a specified amount of marks, but makes sure that it never exceed GameConstant.MAX_NUMBER_OF_MARK_FROM_PLAYER*/
+    /**add a specified amount of marks, but makes sure that it never exceed GameConstant.MAX_NUMBER_OF_MARK_FROM_PLAYER
+     * @param quantity specified amount*/
      void addQuantity(int quantity){
         if(this.quantity+quantity <= GameConstant.MAX_NUMBER_OF_MARK_FROM_PLAYER) {
             this.quantity += quantity;

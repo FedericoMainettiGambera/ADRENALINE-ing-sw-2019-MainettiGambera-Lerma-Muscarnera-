@@ -18,37 +18,48 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**this class controls the initial scene of the game
+ * @author LudoLerma
+ * @author FedericoMainettiGambera*/
 public class InitialSceneController implements Initializable {
 
+    /**label with the title*/
     @FXML private Label titleLabel;
-
+    /**textfield where to input the nickname*/
     @FXML private TextField nicknameTextField;
+    /**content of the nicknameTextFiels*/
     private String nicknameContent = "";
-
+    /**a toggle group for selecting the connection methods*/
     private ToggleGroup networkConnectionToggleGroup;
+    /**rmi radioButton*/
     @FXML private RadioButton rmiRadio;
+    /**socket radio button*/
     @FXML private RadioButton socketRadio;
     private String netWorkConnection = "";
-
+    /**textfield where to insert the ip*/
     @FXML private TextField ipTextField;
+    /**content of the textfield of where to insert the ip*/
     private String ipContent = "";
+    /**textfield where to insert the port*/
     @FXML private TextField portTextField;
+    /**content of the portTextField*/
     private String portContent = "";
-
+    /**button to start the game*/
     @FXML private Button startButton;
-
+    /**the label of the log*/
     @FXML private Label logLabel;
-
+    /**read rules hyperlink*/
     @FXML private Hyperlink readRulesHyperlink;
+    /**hyperlink for passing in cli modality*/
     @FXML private Hyperlink cliHyperlink;
-
+    /**initialize the scene*/
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.networkConnectionToggleGroup = new ToggleGroup();
         this.rmiRadio.setToggleGroup(this.networkConnectionToggleGroup);
         this.socketRadio.setToggleGroup(this.networkConnectionToggleGroup);
     }
-
+    /**@return the initialSceneController*/
     private InitialSceneController getInitialSceneController(){
         return ((InitialSceneController)GUIstarter.getStageController());
     }
@@ -58,6 +69,8 @@ public class InitialSceneController implements Initializable {
         Platform.runLater(new Thread(()-> getInitialSceneController().parseInputs()));
     }
 
+    /**parse the input inserted in the initial scene
+     * such as the ip, the port, the nickname and the method connection*/
     private void parseInputs(){
         //disable buttons
         this.startButton.setDisable(true);
@@ -90,7 +103,7 @@ public class InitialSceneController implements Initializable {
             this.netWorkConnection = "";
         }
 
-        //clear the log label
+
         this.logLabel.setText("");
 
         (new Thread(()->{
@@ -116,7 +129,7 @@ public class InitialSceneController implements Initializable {
         })).start();
     }
 
-
+    /**in case some of the input isn't correct, this function is called*/
     private void wrongInputs(){
         //reset title
         String titleLabelContent = "ADRENALINE LOG-IN:";
@@ -146,7 +159,8 @@ public class InitialSceneController implements Initializable {
         this.readRulesHyperlink.setDisable(false);
         this.cliHyperlink.setDisable(false);
     }
-
+    /**in case the connection attempt fails,
+     * this function is called*/
     private void connectionFailed(){
         String errorLabelContent = "Connection wasn't possible, retry!";
         this.logLabel.setText(errorLabelContent);
@@ -158,7 +172,8 @@ public class InitialSceneController implements Initializable {
         this.readRulesHyperlink.setDisable(false);
         this.cliHyperlink.setDisable(false);
     }
-
+    /**in case the connection attempt succeds,
+     * this function is called and the loading scene is called*/
     private void connectionSuccessful() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getClassLoader().getResource("FXML/LOADINGSCENE1.fxml"));
@@ -200,19 +215,20 @@ public class InitialSceneController implements Initializable {
         //TODO show rules
         GUIstarter.showError(this,"TODO: show PDFs of the rules", null);
     }
-
+    /**if the user hit the enter key, the game is started*/
     @FXML
     public void onEnterPressed(KeyEvent event){
         if(!this.startButton.isDisabled() && event.getCode().equals(KeyCode.ENTER)) {
             this.onStartButtonPressed();
         }
     }
-
+    /**if the rmi connection is selected, the port text field is disabled*/
     @FXML
     public void onRMISelected(){
         this.portTextField.setDisable(true);
     }
 
+    /**if the socket connection is selected, the port text field is abled*/
     @FXML
     public void onSocketSelected(){
         this.portTextField.setDisable(false);

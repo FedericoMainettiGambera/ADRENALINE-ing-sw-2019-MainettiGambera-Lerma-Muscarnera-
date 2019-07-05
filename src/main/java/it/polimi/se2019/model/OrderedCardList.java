@@ -14,6 +14,7 @@ import java.util.*;
 /**this class is an ordered card list of a specified type of cards, it is used to represents WeaponCards and
  * PowerUpCards in game decks or players hands.
  * @author FedericoMainettiGambera
+ * @author LudoLerma
  * */
 public class OrderedCardList<T> extends Observable implements Serializable {
 

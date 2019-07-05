@@ -4,13 +4,12 @@ package it.polimi.se2019.model;
 import it.polimi.se2019.model.enumerations.CardinalPoint;
 import it.polimi.se2019.model.enumerations.SquareSide;
 import it.polimi.se2019.model.enumerations.SquareTypes;
-import it.polimi.se2019.virtualView.VirtualView;
-
 import java.io.Serializable;
-import java.util.Observable;
 
 
-/***/
+/**abstract class for Square
+ * @author FedericoMainettiGambera
+ * @author LudoLerma */
 public abstract class Square implements Serializable {
 
     /**constructor

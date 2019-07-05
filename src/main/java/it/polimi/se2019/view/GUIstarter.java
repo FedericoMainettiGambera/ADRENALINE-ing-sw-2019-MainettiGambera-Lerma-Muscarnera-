@@ -13,28 +13,37 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-
+/**this class starts the GUI
+ * @author LudoLerma &
+ *     @author FedericoMainettiGambera*/
 public class GUIstarter extends Application {
 
+    /**the main stage*/
     private static Stage stage;
+    /**the controller of the stage*/
     private static Object stageController;
 
+    /**@return stage*/
     static Stage getStage(){
         return stage;
     }
 
+    /**@param stage to set stage attribute*/
     static void setStage(Stage stage){
         GUIstarter.stage = stage;
     }
-
+    /**@return stageController*/
     public static Object getStageController(){
         return stageController;
     }
-
+    /**@param stageController  to set stageController attribute*/
     static void setStageController(Object stageController){
         GUIstarter.stageController = stageController;
     }
 
+    /**@param primaryStage the stage to be started
+     * this method load the fxml of the initial scene and show it on the primary stage
+     * */
     @Override
     public void start(Stage primaryStage) {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -62,11 +71,15 @@ public class GUIstarter extends Application {
 
     }
 
-    //instead of having directly a main class here, the controller launches this method.
+    /**instead of having directly a main class here, the controller launches this method.*/
     public static void begin(){
         launch();
     }
 
+    /**@param callingClass the class in which an error occurred
+     * @param e the exception that occurred
+     * @param error the string representing the error
+     * this method shows an error*/
     public static void showError(Object callingClass, String error, Exception e){
         //show a pop up with the given message and exception
         if (Platform.isFxApplicationThread()) {
@@ -76,6 +89,10 @@ public class GUIstarter extends Application {
         }
     }
 
+    /**@param callingClass the class in which an error occurred
+     * @param e the exception that occurred
+     * @param error the string representing the error
+     * this method build a message of error*/
     private static void buildMessage(Object callingClass, String error, Exception e){
         Stage s = new Stage();
         VBox v = new VBox();

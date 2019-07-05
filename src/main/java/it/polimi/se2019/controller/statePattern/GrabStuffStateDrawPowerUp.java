@@ -13,7 +13,9 @@ import java.io.PrintWriter;
  *  * @author FedericoMainettiGambera
  *  */
 public class GrabStuffStateDrawPowerUp implements State {
+   /**if it's action number 1 or number 2*/
     private int actionNumber;
+
     private static PrintWriter out= new PrintWriter(System.out, true);
 
     /** @param actionNumber indicates if this is the first or the second action*/

@@ -16,7 +16,8 @@ import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/***/
+/**@author LudoLerma &
+ * @author FedericoMainettiGambera*/
 public class SocketVirtualView extends VirtualView{
 
     private static final Logger logger=Logger.getLogger(SocketVirtualView.class.getName());
