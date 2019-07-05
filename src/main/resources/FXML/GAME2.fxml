@@ -88,79 +88,55 @@
                         <AnchorPane>
                            <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                               <children>
-                                 <AnchorPane fx:id="killshotTrackSection" HBox.hgrow="SOMETIMES">
+                                 <AnchorPane minWidth="50" fx:id="killshotTrackSection" HBox.hgrow="SOMETIMES">
                                     <children>
                                        <VBox fx:id="killshotTrackVBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                           <children>
                                              <StackPane fx:id="killBackground1" VBox.vgrow="ALWAYS">
                                                 <children>
                                                    <StackPane fx:id="killMainImage1" >
-                                                      <children>
-                                                         <Label text="kill" />
-                                                      </children>
                                                    </StackPane>
                                                 </children>
                                              </StackPane>
                                              <StackPane fx:id="killBackground2" VBox.vgrow="ALWAYS" >
                                                 <children>
                                                    <StackPane fx:id="killMainImage2">
-                                                      <children>
-                                                         <Label text="kill" />
-                                                      </children>
                                                    </StackPane>
                                                 </children>
                                              </StackPane>
                                              <StackPane fx:id="killBackground3" VBox.vgrow="ALWAYS" >
                                                 <children>
                                                    <StackPane fx:id="killMainImage3" >
-                                                      <children>
-                                                         <Label text="kill" />
-                                                      </children>
                                                    </StackPane>
                                                 </children>
                                              </StackPane>
                                              <StackPane fx:id="killBackground4" VBox.vgrow="ALWAYS">
                                                 <children>
                                                    <StackPane fx:id="killMainImage4">
-                                                      <children>
-                                                         <Label text="kill" />
-                                                      </children>
                                                    </StackPane>
                                                 </children>
                                              </StackPane>
                                              <StackPane fx:id="killBackground5" VBox.vgrow="ALWAYS">
                                                 <children>
                                                    <StackPane fx:id="killMainImage5">
-                                                      <children>
-                                                         <Label text="kill" />
-                                                      </children>
                                                    </StackPane>
                                                 </children>
                                              </StackPane>
                                              <StackPane fx:id="killBackground6" VBox.vgrow="ALWAYS">
                                                 <children>
                                                    <StackPane fx:id="killMainImage6">
-                                                      <children>
-                                                         <Label text="kill" />
-                                                      </children>
                                                    </StackPane>
                                                 </children>
                                              </StackPane>
                                              <StackPane fx:id="killBackground7" VBox.vgrow="ALWAYS">
                                                 <children>
                                                    <StackPane fx:id="killMainImage7">
-                                                      <children>
-                                                         <Label text="kill" />
-                                                      </children>
                                                    </StackPane>
                                                 </children>
                                              </StackPane>
                                              <StackPane fx:id="killBackground8" VBox.vgrow="ALWAYS">
                                                 <children>
                                                    <StackPane fx:id="killMainImage8">
-                                                      <children>
-                                                         <Label text="kill" />
-                                                      </children>
                                                    </StackPane>
                                                 </children>
                                              </StackPane>

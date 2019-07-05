@@ -84,7 +84,8 @@ public class UpdateMap implements Runnable{
             ammoCard = square.getAmmoCards().getCards().get(0);
         }
         if (ammoCard != null) {
-            StackPane ammoImage = new StackPane(new Label(ammoCard.getID())); //don't use a label, but set the image
+            StackPane ammoImage = new StackPane(); //don't use a label, but set the image
+            ammoImage.getStyleClass().add("ammoCard" + ammoCard.getID());
             ammoImage.setUserData(ammoCard);
             ammoImage.addEventHandler(MouseEvent.MOUSE_ENTERED, getGameSceneController().getShowAmmoCardEventHandler());
             squareContent.getChildren().add(ammoImage);
@@ -112,7 +113,8 @@ public class UpdateMap implements Runnable{
         if (!weaponCardVS.isEmpty()) {
             HBox weaponsHBox = new HBox();
             for (WeaponCardV weapon : weaponCardVS) {
-                StackPane weaponImage = new StackPane(new Label(weapon.getName())); //don't use a label, but set the image
+                StackPane weaponImage = new StackPane(); //don't use a label, but set the image
+                weaponImage.getStyleClass().add("weaponCard" + weapon.getID());
                 weaponImage.setUserData(weapon);
                 weaponImage.addEventHandler(MouseEvent.MOUSE_ENTERED, getGameSceneController().getShowWeaponCardsEventHandler());
                 weaponsHBox.getChildren().add(weaponImage);
@@ -279,7 +281,8 @@ public class UpdateMap implements Runnable{
                         ammoCard = ((NormalSquareV)currentSquareV).getAmmoCards().getCards().get(0);
                     }
                     if (ammoCard != null) {
-                        StackPane ammoImage = new StackPane(new Label(ammoCard.getID())); //don't use a label, but set the image
+                        StackPane ammoImage = new StackPane(); //don't use a label, but set the image
+                        ammoImage.getStyleClass().add("ammoCard" + ammoCard.getID());
                         ammoImage.setUserData(ammoCard);
                         ammoImage.addEventHandler(MouseEvent.MOUSE_ENTERED, ((GameSceneController) GUIstarter.getStageController()).getShowAmmoCardEventHandler());
                         squareContent.getChildren().add(ammoImage);
@@ -305,7 +308,8 @@ public class UpdateMap implements Runnable{
                     if (!weaponCardVS.isEmpty()) {
                         HBox weaponsHBox = new HBox();
                         for (WeaponCardV weapon : weaponCardVS) {
-                            StackPane weaponImage = new StackPane(new Label(weapon.getName())); //don't use a label, but set the image
+                            StackPane weaponImage = new StackPane(); //don't use a label, but set the image
+                            weaponImage.getStyleClass().add("weaponCards" + weapon.getID());
                             weaponImage.setUserData(weapon);
                             weaponImage.addEventHandler(MouseEvent.MOUSE_ENTERED, ((GameSceneController) GUIstarter.getStageController()).getShowWeaponCardsEventHandler());
                             weaponsHBox.getChildren().add(weaponImage);
