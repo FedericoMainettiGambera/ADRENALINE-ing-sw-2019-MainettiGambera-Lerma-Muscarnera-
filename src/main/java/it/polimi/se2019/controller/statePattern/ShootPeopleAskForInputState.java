@@ -130,7 +130,7 @@ public class ShootPeopleAskForInputState implements State {
             askForInput(playerToAsk);
         }
         else {
-            this.afterPayment();
+            //this.afterPayment();
             ChooseHowToPayState.makePayment(playerToAsk, this.chosenEffect.getUsageCost());
         }
     }
