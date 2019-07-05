@@ -98,49 +98,14 @@ public class Effect implements Serializable {
         for(EffectInfoElement e: this.getEffectInfo().getEffectInfoElement()) {
             if(e.getEffectInfoTypelist() == targetListBySquareOfLastTarget) {
                 rowType.add(UsableInputTableRowType.typePlayer);
-                frontEndRowType.add(null);
+                frontEndRowType.add(UsableInputTableRowType.typeSquare);
+
 
                 List<Object> cell = new ArrayList<>();
-                Player currentPlayer = this.getActions().get(0).getActionInfo().getActionContext().getPlayer();
-                Object lastRow;
-                Object lastTarget;
-
-                boolean addAll = false;
-                if(currentPlayer.getPlayerHistory().getTurnChunkR(currentPlayer.getTurnID()) != null) {
-                    PlayerHistory currentHistory =  currentPlayer.getPlayerHistory().getTurnChunkR(currentPlayer.getTurnID());
-                    //System.out.println("<SERVER> showing player history ");
-
-                    currentHistory.show();
-                    if( currentHistory.getSize() > 0 ) {
-                        lastRow = currentPlayer.getPlayerHistory().getTurnChunkR(currentPlayer.getTurnID()).getLast().getInput();
-                        lastTarget = ((Player) (((Object[]) lastRow)[0]));
-                    } else{
-                        addAll = true;
-                        lastTarget = null;
-                    }
-                } else {
-                    addAll = true;
-                    lastTarget = null;
-                }
-                ///System.out.println(lastTarget);
-                if(addAll) {
-                    for(Player p: getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard())
-                        cell.add(p);
-                } else {
-                    //System.out.println(lastTarget);
-                    Square lastTargetSquare = this.getActions().get(0).getActionInfo().getActionContext().getBoard().getSquare(
-                            ((Player) lastTarget).getPosition()
-                    );
-                    for (Player t : this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard()) {
-                        if(t.getPosition().equalPositions(
-                                lastTargetSquare.getCoordinates()
-                        ))  {
-                            cell.add((Object) t);
-                        }
-                    }
-                }
-
+                for(Player t: this.getActions().get(0).getActionInfo().getActionContext().getPlayerList().getPlayersOnBoard())
+                    cell.add((Object) t);
                 List<List<Object>> row = new ArrayList<>();
+
                 row.add(cell);
                 retVal.add(row);
 
@@ -369,9 +334,9 @@ public class Effect implements Serializable {
         }
 
         List<Object> returnArray = new ArrayList<>();
-         returnArray.add(retVal);
-         returnArray.add(rowType);
-         returnArray.add(frontEndRowType);
+        returnArray.add(retVal);
+        returnArray.add(rowType);
+        returnArray.add(frontEndRowType);
         return returnArray;
     }
     /**
@@ -593,7 +558,7 @@ public class Effect implements Serializable {
                 }
             }   else {
                 for( Integer to : inputDest)
-                     destinations.get(i).add(to - 1);
+                    destinations.get(i).add(to - 1);
             }
 
         }
@@ -610,29 +575,29 @@ public class Effect implements Serializable {
         // per ogni input input
         for(int i = 0; i < this.requestedInputs().size();i++) {
             EffectInfoType input = requestedInputs().get(i);
-                // per ogni azione a collegata all'input
+            // per ogni azione a collegata all'input
 
-                     for(Integer a: destinations.get(i)) {
-                         //System.out.println("<SERVER> ["  + i +"," + a + "] calling " +  getAction(a).getActionInfo().getPreConditionMethodName() );
-                         intermediateList.get(i).add(
+            for(Integer a: destinations.get(i)) {
+                //System.out.println("<SERVER> ["  + i +"," + a + "] calling " +  getAction(a).getActionInfo().getPreConditionMethodName() );
+                intermediateList.get(i).add(
 
-                            new ArrayList<>()
+                        new ArrayList<>()
 
-                         );
-                         List<Object> PIresult = callPIByName(
-                                 getAction(a).getActionInfo().getPreConditionMethodName(),
-                                 getAction(0).getActionInfo().getActionContext(),
-                                 rowType.get(i),
-                                 getAction(a).getActionInfo().getActionDetails()
-                         );
+                );
+                List<Object> PIresult = callPIByName(
+                        getAction(a).getActionInfo().getPreConditionMethodName(),
+                        getAction(0).getActionInfo().getActionContext(),
+                        rowType.get(i),
+                        getAction(a).getActionInfo().getActionDetails()
+                );
 
                                  /*for(Object o: PIresult)
                                      ((List<Object>) (intermediateList.get(i).get(
                                              intermediateList.get(i).size() - 1
                                      ))).add(o);*/
-                         intermediateList.get(i).set(
-                                 intermediateList.get(i).size() - 1,
-                                 PIresult);
+                intermediateList.get(i).set(
+                        intermediateList.get(i).size() - 1,
+                        PIresult);
                                     /*System.out.println("<SERVER> output: "+ i + "," + (intermediateList.get(i).size() - 1) + ":"+ intermediateList.get(i).get(
                                             intermediateList.get(i).size() - 1
                                     ));*/
@@ -650,7 +615,7 @@ public class Effect implements Serializable {
                 //
                 //              )
 
-                    }
+            }
         }
         //      # filtro
         //      per ogni lista(i)
@@ -662,17 +627,17 @@ public class Effect implements Serializable {
         int n = 0;
         int m = 0;
         for(List<Object> A: intermediateList )
-            {
-                //System.out.println("<SERVER> input " + n);
-                for(Object B: A) {
-                  //  System.out.println("<SERVER> \t \t \t azione " + m + "° dell'input ; " + destinations.get(n).get(m) + "° totale :" + B);
-                  //  System.out.println("\t \t \t \t \t \t precondizione di sopra : " + getAction(destinations.get(n).get(m) ).getActionInfo().getPreConditionMethodName());
-                  //  System.out.println("\t \t \t \t \t \t " + B);
-                    m++;
-                }
-                m = 0;
-                n++;
+        {
+            //System.out.println("<SERVER> input " + n);
+            for(Object B: A) {
+                //  System.out.println("<SERVER> \t \t \t azione " + m + "° dell'input ; " + destinations.get(n).get(m) + "° totale :" + B);
+                //  System.out.println("\t \t \t \t \t \t precondizione di sopra : " + getAction(destinations.get(n).get(m) ).getActionInfo().getPreConditionMethodName());
+                //  System.out.println("\t \t \t \t \t \t " + B);
+                m++;
             }
+            m = 0;
+            n++;
+        }
 
         // </log>
         // intersezione soluzioni
@@ -727,7 +692,7 @@ public class Effect implements Serializable {
     }
 
 
-// DEBUG
+    // DEBUG
     public void setFilledInputs(List<Object> filledInputs) {
         this.filledInputs = filledInputs;
     }
@@ -994,9 +959,9 @@ public class Effect implements Serializable {
                     );
 
                     if(input[1] != null)
-                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
-                            (Player)input[1]
-                    );
+                        this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
+                                (Player)input[1]
+                        );
 
                     for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
 
@@ -1010,14 +975,14 @@ public class Effect implements Serializable {
                             (Player)input[0]
                     );
                     if(input[1] != null)
-                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
-                            (Player)input[1]
-                    );
+                        this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
+                                (Player)input[1]
+                        );
 
                     if(input[2] != null)
-                    this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
-                            (Player)input[2]
-                    );
+                        this.getActions().get(position).getActionInfo().getActionDetails().getUserSelectedActionDetails().addTarget(
+                                (Player)input[2]
+                        );
 
                     for(Action a: this.getActions()) /*aggiunge la cronologia degli input ad ogni azione*/ {
 
@@ -1203,10 +1168,10 @@ public class Effect implements Serializable {
 
     }
     /**
-    * Exeucutes the effect.
-    *
-    * @return list of player dmaged by a rinfoi
-    * */
+     * Exeucutes the effect.
+     *
+     * @return list of player dmaged by a rinfoi
+     * */
     public List<List<Player>> Exec() {
 
         List<List<Player>> retVal = new ArrayList<>();
@@ -1217,19 +1182,19 @@ public class Effect implements Serializable {
         System.out.println("inizializzo effetto");
 
 
-            for (Action a : this.actions) {
-                /*@*/ System.out.println("esecuzione > " + a.toString());
-                //System.out.println("> " + a.getActionInfo().getActionContext().getActionContextFilteredInputs().get(0));
-                a.Exec();
-                /*refreshing the context of the action*/
-                if(a.getClass().equals(Damage.class)) {
-                    retVal.add(new ArrayList<>());
-                    for(Player p: a.getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList()){
-                        if(p != null)
-                            retVal.get(retVal.size() - 1).add(p);
-                    }
+        for (Action a : this.actions) {
+            /*@*/ System.out.println("esecuzione > " + a.toString());
+            //System.out.println("> " + a.getActionInfo().getActionContext().getActionContextFilteredInputs().get(0));
+            a.Exec();
+            /*refreshing the context of the action*/
+            if(a.getClass().equals(Damage.class)) {
+                retVal.add(new ArrayList<>());
+                for(Player p: a.getActionInfo().getActionDetails().getUserSelectedActionDetails().getTargetList()){
+                    if(p != null)
+                        retVal.get(retVal.size() - 1).add(p);
                 }
             }
+        }
 
         System.out.println("######## EXEC FINITA ###########");
 
