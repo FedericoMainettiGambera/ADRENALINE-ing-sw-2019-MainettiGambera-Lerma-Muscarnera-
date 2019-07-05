@@ -7,8 +7,26 @@ RELOAD COST
 r
 1
 
+NEW EFFECT
+EXPECTED INPUT
+singleTarget
+TO
+ALL
+END
+END
+ACTIONS
+Damage
+ACTION INFO
+PRECONDITION
+youCanSee
+SET
+1
+END
+END
 
 NEW EFFECT
+EFFECT NAME
+Basic Effect x2
 EXPECTED INPUT
 twoTargets
 TO
@@ -35,6 +53,7 @@ y
 EXPECTED INPUT
 singleTarget
 TO
+1
 2
 END
 singleTarget
@@ -47,7 +66,7 @@ ACTIONS
 Action
 ACTION INFO
 PRECONDITION
-isFocusShot
+youCanSeeTwoTargets
 END
 Damage
 ACTION INFO
@@ -66,7 +85,7 @@ END
 Action
 ACTION INFO
 PRECONDITION
-differentSingleTargets
+notPreviousTarget
 END
 END
 

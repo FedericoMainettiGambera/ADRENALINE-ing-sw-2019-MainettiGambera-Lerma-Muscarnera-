@@ -297,7 +297,14 @@ public class PreConditionMethodsInverted {
         return retVal;
     }
 
-    public List<Object> distanceOfTargetFromPlayerExactlyOne(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
+
+    public List<Object> youCanSeeTwoTargets(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
+        List<Object> retVal = new ArrayList<>();
+        if(youCanSee(actionContext,type,actionDetails,inputs,inputSlots,contextEffect).size() > 2)
+            retVal = alwaysTrue(actionContext,type,actionDetails,inputs,inputSlots,contextEffect);
+        return retVal;
+    }
+        public List<Object> distanceOfTargetFromPlayerExactlyOne(ActionContext actionContext, UsableInputTableRowType type, ActionDetails actionDetails, Object inputs, List<EffectInfoType> inputSlots,Effect contextEffect) {
         return distanceOfTargetFromPlayerSquareIs1(actionContext,type,actionDetails,inputs,inputSlots,contextEffect);
     }
 
