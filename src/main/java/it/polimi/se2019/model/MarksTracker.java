@@ -11,6 +11,7 @@ import java.util.List;
  * THIS CLASS SHOULD NEVER BE DIRECTLY ACCESSED, INSTEAD USE METHODS FROM THE "Person" CLASS.
  * The MarksTracker class keeps track of the number of marks a player has received from each player in game.
  * @author FedericoMainettiGambera
+ * @author LudoLerma
  * */
 public class MarksTracker implements Serializable {
 
@@ -81,7 +82,8 @@ public class MarksTracker implements Serializable {
         }
     }
 
-    /**builds the equivalent structure for view purposes*/
+    /**builds the equivalent structure for view purposes
+     * @return a reference to said structure*/
      MarksTrackerV buildMarksTrackerV(){
         MarksTrackerV marksTrackerV = new MarksTrackerV();
         List<MarkSlotV> listOfMarksSlotV = new ArrayList<>();

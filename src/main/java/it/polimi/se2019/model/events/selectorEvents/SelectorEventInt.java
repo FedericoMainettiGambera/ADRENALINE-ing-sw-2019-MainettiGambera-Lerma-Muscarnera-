@@ -1,7 +1,7 @@
 package it.polimi.se2019.model.events.selectorEvents;
 
 import it.polimi.se2019.model.enumerations.SelectorEventTypes;
-
+/**@deprecated */
 public class SelectorEventInt extends SelectorEvent {
 
     private int number;

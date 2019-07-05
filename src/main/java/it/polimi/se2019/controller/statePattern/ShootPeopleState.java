@@ -29,10 +29,14 @@ public class ShootPeopleState implements State {
 
     private int actionNumber;
 
+    /**the player to ask the input to*/
     private Player playerToAsk;
 
+    /**the timer till the count down to AFK status*/
     private Thread inputTimer;
 
+    /**constructor,
+     * @param actionNumber  to set actionNumber attribute*/
     public ShootPeopleState(int actionNumber){
         out.println("<SERVER> New state: " + this.getClass());
         this.actionNumber = actionNumber;

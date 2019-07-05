@@ -19,24 +19,29 @@ import it.polimi.se2019.view.outputHandler.OutputHandlerGate;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.List;
-
+/**address the selectorEvent to the right interface
+ * @author LudoLerma
+ * @author FedericoMainetttiGambera
+ * */
 public class ViewSelector implements SelectorV {
-
+   /**network connection type*/
     private static String networkConnection;
-
+    /**cli or gui*/
     private String userInterface;
-
+    /**a reference to the cli selector*/
     private it.polimi.se2019.view.selector.CLISelector CLISelector;
-
+    /**a reference to the gui selector*/
     private it.polimi.se2019.view.selector.GUISelector GUISelector;
-
+    /**@param userInterface needed to set userInterface attribute
+     *@param networConnection needed to set networkConnection attribute
+     * constructor */
     public ViewSelector(String networConnection, String userInterface){
         networkConnection = networConnection;
         this.userInterface = userInterface;
         this.CLISelector = new CLISelector(networkConnection);
         this.GUISelector = new GUISelector(networkConnection);
     }
-
+    /**@return the correct selector*/
     public SelectorV getCorrectSelector(){
         if(this.userInterface.equalsIgnoreCase("CLI")){
             return this.CLISelector;
@@ -45,7 +50,7 @@ public class ViewSelector implements SelectorV {
             return this.GUISelector;
         }
     }
-
+    /**@param o object to be send*/
     public static void sendToServer(Object o){
         if(networkConnection.equals("SOCKET")){
             try {
@@ -62,73 +67,73 @@ public class ViewSelector implements SelectorV {
             }
         }
     }
-
+    /***/
     @Override
     public void askGameSetUp(boolean canBot) {
         this.getCorrectSelector().askGameSetUp(canBot);
     }
-
+    /***/
     @Deprecated
     @Override
     public void askPlayerSetUp() {
         this.getCorrectSelector().askPlayerSetUp();
     }
-
+    /***/
     @Override
     public void askFirstSpawnPosition(List<PowerUpCardV> powerUpCards, boolean spawnBot) {
         this.getCorrectSelector().askFirstSpawnPosition(powerUpCards, spawnBot);
     }
-
+    /***/
     @Override
     public void askTurnAction(int actionNumber, boolean canUsePowerUp, boolean canUseBot) {
         this.getCorrectSelector().askTurnAction(actionNumber, canUsePowerUp, canUseBot);
     }
-
+    /***/
     @Override
     public void askBotMove(SelectorEventPositions selectorEventPositions) {
         this.getCorrectSelector().askBotMove(selectorEventPositions);
     }
-
+    /***/
     @Override
     public void askRunAroundPosition(List<Position> positions) {
         this.getCorrectSelector().askRunAroundPosition(positions);
     }
-
+    /***/
     @Override
     public void askGrabStuffAction() {
         this.getCorrectSelector().askGrabStuffAction();
     }
-
+    /***/
     @Override
     public void askGrabStuffMove(List<Position> positions) {
         this.getCorrectSelector().askGrabStuffMove(positions);
     }
-
+    /***/
     @Override
     public void askGrabStuffGrabWeapon(List<WeaponCardV> toPickUp) {
         this.getCorrectSelector().askGrabStuffGrabWeapon(toPickUp);
     }
-
+    /***/
     @Override
     public void askGrabStuffSwitchWeapon(List<WeaponCardV> toPickUp, List<WeaponCardV> toSwitch) {
         this.getCorrectSelector().askGrabStuffSwitchWeapon(toPickUp, toSwitch);
     }
-
+    /***/
     @Override
     public void askPowerUpToDiscard(List<PowerUpCardV> toDiscard) {
         this.getCorrectSelector().askPowerUpToDiscard(toDiscard);
     }
-
+    /***/
     @Override
     public void askWhatReaload(List<WeaponCardV> toReload) {
         this.getCorrectSelector().askWhatReaload(toReload);
     }
-
+    /***/
     @Override
     public void askSpawn(List<PowerUpCardV> powerUpCards) {
         this.getCorrectSelector().askSpawn(powerUpCards);
     }
-
+    /***/
     @Override
     public void askShootOrMove(){
         this.getCorrectSelector().askShootOrMove();
@@ -140,37 +145,37 @@ public class ViewSelector implements SelectorV {
     public void askShootReloadMove() {
         this.getCorrectSelector().askShootReloadMove();
     }
-
+    /***/
     @Override
     public void askWhatWep(List<WeaponCardV> loadedCardInHand) {
         this.getCorrectSelector().askWhatWep(loadedCardInHand);
     }
-
+    /***/
     @Override
     public void askWhatEffect(List<EffectV> possibleEffects) {
         this.getCorrectSelector().askWhatEffect(possibleEffects);
     }
-
+    /***/
     @Override
     public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
         this.getCorrectSelector().askEffectInputs(inputType, possibleInputs);
     }
-
+    /***/
     @Override
     public void askReconnectionNickname(ReconnectionEvent reconnectionEvent) {
         this.getCorrectSelector().askReconnectionNickname(reconnectionEvent);
     }
-
+    /***/
     @Override
     public void askNickname() {
         this.getCorrectSelector().askNickname();
     }
-
+    /***/
     @Override
     public void askPaymentInformation(SelectorEventPaymentInformation selectorEventPaymentInformation) {
         this.getCorrectSelector().askPaymentInformation(selectorEventPaymentInformation);
     }
-
+    /***/
     @Override
     public void askPowerUpToUse(SelectorEventPowerUpCards powerUpCards) {
         this.getCorrectSelector().askPowerUpToUse(powerUpCards);

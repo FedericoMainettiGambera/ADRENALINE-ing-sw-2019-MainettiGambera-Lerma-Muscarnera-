@@ -135,7 +135,8 @@ public class TagBackGranadeState implements State{
         return false;
     }
 
-    /**@param viewControllerEvent from the user needed to extrapolate the information about the willing of the user to
+    /**
+     * @param viewControllerEvent from the user needed to extrapolate the information about the willing of the user to
      * use tagback granade, if they want to use it, a damage of the chosen color is added to the shooting player,
      */
     public void giveMark(ViewControllerEvent viewControllerEvent){
@@ -165,7 +166,7 @@ public class TagBackGranadeState implements State{
         }
 
     }
-
+    /**ask the next damaged player on the list if he wants to use tagback grenade*/
     private void askNextDamagedPlayer(){
         //remove the currentPlayer from this.listOfDamagedPlayers
         this.damagedPlayers.remove(currentPlayer);
@@ -185,6 +186,7 @@ public class TagBackGranadeState implements State{
         }
     }
 
+    /**@param player set the lists of the tagback grenade available to be used*/
     public void setListOfTagBackGranade(Player player){
         List<PowerUpCard> listOfTagBackGranade = new ArrayList<>();
         for (PowerUpCard p : player.getPowerUpCardsInHand().getCards()) {

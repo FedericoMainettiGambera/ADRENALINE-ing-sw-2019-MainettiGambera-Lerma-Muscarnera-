@@ -12,7 +12,10 @@ import java.io.Serializable;
 import static it.polimi.se2019.model.enumerations.CardinalPoint.east;
 import static it.polimi.se2019.model.enumerations.CardinalPoint.south;
 
-/**implements a normal square*/
+/**implements a normal square
+ * @author LudoLerma
+ * @author FedericoMainettiGambera
+ * */
 public class NormalSquare extends Square implements Serializable {
 
     /**constructor

@@ -4,26 +4,29 @@ import java.io.Serializable;
 
 /**This class represents the current status of a player's hand.
  * It holds power ups and weapons.
- * @author FedericoMainettiGambera*/
+ * @author FedericoMainettiGambera
+ * @author LudoLerma */
 public class PlayerHand implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
-    /**Constructor:
-     * create two OrderedCardList, one for the powerUps and the other for the weapons
-     * */
 
+
+
+    /**a string containing the nickname of the player*/
     private String nickname;
-
+    /**@return  nickname*/
     public String getNickname() {
         return nickname;
     }
-
+    /**@param nickname  to set the nickname attribute*/
     public void setNickname(String nickname) {
         this.nickname=nickname;
         this.powerUpCards.setContext(nickname+":powerUpInHand");
         this.weaponCards.setContext(nickname+":weaponInHand");
     }
-
+    /**Constructor:
+     * create two OrderedCardList, one for the powerUps and the other for the weapons
+     * */
     public PlayerHand() {
         powerUpCards = new OrderedCardList<>(nickname+":powerUpInHand");
         weaponCards = new OrderedCardList<>(nickname+":weaponInHand");
@@ -42,7 +45,7 @@ public class PlayerHand implements Serializable {
     public OrderedCardList<WeaponCard> getWeaponCards() {
         return weaponCards;
     }
-
+    /**@return a list of the weapon cards usable */
     public OrderedCardList<WeaponCard> usableWeapons() {
         OrderedCardList<WeaponCard> retVal = new OrderedCardList<WeaponCard>(null);
 

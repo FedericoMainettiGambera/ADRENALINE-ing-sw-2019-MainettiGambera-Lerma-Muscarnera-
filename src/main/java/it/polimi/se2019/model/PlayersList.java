@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-/**keeps track of the Players playing the current game*/
+/**keeps track of the Players playing the current game
+ * @author LudoLerma
+ * @author FedericoMainettiGambera*/
 public class PlayersList extends Observable implements Serializable {
 
     /*-****************************************************************************************************CONSTRUCTOR*/
@@ -26,38 +28,41 @@ public class PlayersList extends Observable implements Serializable {
     /**list of players*/
     private List<Player> players;
 
+    /**reference to the current playing player*/
     private Player currentPlayingPlayer;
-
+    /**reference to the starting player*/
     private Player startingPlayer;
 
     /*-********************************************************************************************************METHODS*/
-
+    /**@return currentPlayingPlayer*/
     public Player getCurrentPlayingPlayer() {
         return this.currentPlayingPlayer;
     }
-
+    /**@param currentPlayingPlayer to set currentPlayingPlayer attribute*/
     public void setCurrentPlayingPlayer(Player currentPlayingPlayer){
         currentPlayingPlayer.incrementTurnID();
         this.currentPlayingPlayer = currentPlayingPlayer;
         setChanged();
         notifyObservers(new ModelViewEvent(this.currentPlayingPlayer.getNickname(), ModelViewEventTypes.setCurrentPlayingPlayer));
     }
-
+    /**@return the startingPlayer*/
     public Player getStartingPlayer(){
         return this.startingPlayer;
     }
-
+    /**@param startingPlayer to set startingPlayer attribute*/
     public void setStartingPlayer(Player startingPlayer){
         this.startingPlayer = startingPlayer;
         setChanged();
         notifyObservers(new ModelViewEvent(this.startingPlayer.getNickname(), ModelViewEventTypes.setStartingPlayer));
     }
+    /**@param p a list of players to be added to the playerList*/
     public void setAll(List<Object> p) {
         this.players = new ArrayList<>();
         for(Object x: p)
             players.add((Player) x);
     }
 
+    /**set the next playing player*/
     public void setNextPlayingPlayer(){
         for(int i = 0; i < this.players.size(); i++){
             if(this.players.get(i).getNickname().equals(this.currentPlayingPlayer.getNickname())){
@@ -76,6 +81,8 @@ public class PlayersList extends Observable implements Serializable {
 
     }
 
+    /**@return a boolean value that indicates if there is a minimum number of player that are not AFK in order to keep
+     * playing the game*/
     public boolean isMinimumPlayerNotAFK(){
         int numberOfPlayerNotAFK = 0;
         for (Player p: this.players) {
@@ -86,6 +93,8 @@ public class PlayersList extends Observable implements Serializable {
         return numberOfPlayerNotAFK < GameConstant.MIN_NUMBER_OF_PLAYER_PER_GAME;
     }
 
+    /**checks if all of the players are AFK
+     * @return boolean value*/
     public boolean areAllAFK(){
         boolean areAllAFK = true;
         for (Player p: this.players) {
@@ -97,6 +106,10 @@ public class PlayersList extends Observable implements Serializable {
         return areAllAFK;
     }
 
+    /**checks if there is some player AFK,
+     * if there is at least one
+     * @return true
+     * else falseM*/
     public boolean isSomeoneAFK(){
         boolean isSOmeoneAFK = false;
         for (Player p: this.players) {
@@ -129,19 +142,21 @@ public class PlayersList extends Observable implements Serializable {
      * @return the desired player from the playersList
      * */
     public Player getPlayer(String nickname) {
-        for(int i = 0; i < this.players.size(); i++){
-            if(this.players.get(i).getNickname().equals(nickname)){
-                return this.players.get(i);
+        for (Player player : this.players) {
+            if (player.getNickname().equals(nickname)) {
+                return player;
             }
         }
         /*Player with that nickname doesn't exist*/
         return null; // ?
     }
 
+    /**@return players*/
     public List<Player> getPlayers(){
         return this.players;
     }
 
+    /**@return the players that are on the board already */
     public List<Player> getPlayersOnBoard(){
         ArrayList<Player> playersOnBoard = new ArrayList<>();
         for (Player p: this.players) {
@@ -159,6 +174,8 @@ public class PlayersList extends Observable implements Serializable {
     }
 
 
+    /**build the equivalent structure for view purposes
+     * @return a reference to said structure*/
     public PlayersListV buildPlayersListV(){
         PlayersListV playersListV = new PlayersListV();
         List<PlayerV> listOfPlayerV = new ArrayList<>();

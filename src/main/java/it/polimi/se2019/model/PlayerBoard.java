@@ -9,6 +9,7 @@ import java.io.Serializable;
  * The PlayerBoard class represents a player's board and keeps track of the current ammunitions, the current damage
  * taken and the number of marks and deaths.
  * @author FedericoMainettiGambera
+ * @author LudoLerma
  * */
 public class PlayerBoard implements Serializable {
 

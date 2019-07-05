@@ -1,7 +1,6 @@
 package it.polimi.se2019.view;
 
 import it.polimi.se2019.controller.Controller;
-import it.polimi.se2019.model.AmmoCard;
 import it.polimi.se2019.model.enumerations.AmmoCubesColor;
 import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.model.events.Event;
@@ -27,27 +26,30 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**the controller of the main scene
+ * * @author LudoLerma &
+ *  * @author FedericoMainettiGambera*/
 public class GameSceneController implements Initializable {
 
-    //root
+    /**root*/
     @FXML
     private HBox root;
 
 
 
-    //------------------------------------------------------------------
-    //interactive section
+
+    /**interactive section*/
     @FXML private VBox interactiveSection;
 
 
-    //------------------------------1
-    //1-selector section
+
+    /**1-selector section*/
     @FXML private AnchorPane selectorSection;
     @FXML private Label selectorLabel;
 
 
-    //------------------------------2
-    //2-information section
+
+    /**2-information section*/
     @FXML private AnchorPane informationSection;
 
 
@@ -57,13 +59,11 @@ public class GameSceneController implements Initializable {
     }
 
     //------------------------------------------------------------------
-    //game section
+    /**game section*/
     @FXML private AnchorPane gameSection;
 
 
-    //------------------------------1
-    //1-state section
-    /***/
+    /**1-state section*/
     @FXML private AnchorPane stateSection;
     /**a label that reports the chosen connection method*/
     @FXML private Label connection;
@@ -102,17 +102,16 @@ public class GameSceneController implements Initializable {
         return stateDescription;
     }
 
-
+    /**progession indicator*/
     @FXML private ProgressIndicator progressIndicator;
     public ProgressIndicator getProgressIndicator(){
         return this.progressIndicator;
     }
 
 
-    //------------------------------2
-    //2-killshot track section
+    /**2-killshot track section*/
     @FXML private AnchorPane killshotTrackSection;
-    //2.1-killshot track VBox
+    /**2.1-killshot track VBox*/
     @FXML private VBox killshotTrackVBox;
 
     /**@return a list of StackPanes */
@@ -133,7 +132,7 @@ public class GameSceneController implements Initializable {
 
     }
 
-    //2.1.n-killshot n-th kill background & main image
+    /**2.1.n-killshot n-th kill background & main image*/
     //n=1
 
     @FXML private StackPane killBackground1;
@@ -163,18 +162,18 @@ public class GameSceneController implements Initializable {
 
 
 
-    //------------------------------3
-    //3-player section
+
+    /**3-player section*/
     @FXML private AnchorPane playerSection;
 
-    //3.1-player HBox
+    /**3.1-player HBox*/
     @FXML private HBox playerHBox;
 
-    //3.1.1-players power up cards
+    /**3.1.1-players power up cards*/
     @FXML private VBox powerUpCardsVBox;
-    //3.1.1.1-power up cards title
+    /**3.1.1.1-power up cards title*/
     @FXML private StackPane powerUpCardsTitle;
-    //3.1.1.2-power up cards images
+    /**3.1.1.2-power up cards images*/
     @FXML private HBox powerUpCardsBackground;
    /**StackPanes that contain a image representing one of the various Power Up Cards and their backgrounds*/
     @FXML private StackPane powerUpCardBackground1;
@@ -227,14 +226,16 @@ public class GameSceneController implements Initializable {
 
     }
 
-    //3.1.2[0,1]- player damages & deaths
+    /**3.1.2[0,1]- player damages & deaths*/
     @FXML private VBox playerDamagesAndDeathsVBox;
 
+    /**@return playerDamagesAndDeathsVBox*/
     public VBox getPlayerDamagesAndDeathsVBox(){
         return playerDamagesAndDeathsVBox;}
 
-    //3.1.2[0,1].1 - player damages
+    /**3.1.2[0,1].1 - player damages*/
     @FXML private HBox playerDamagesHbox;
+    /**@return playerDamagesHbox*/
     public HBox getPlayerHBox(){
         return  playerDamagesHbox;
     }
@@ -288,6 +289,7 @@ public class GameSceneController implements Initializable {
         return damages;
     }
 
+    /**@return damages*/
     public List<StackPane> getDamagesBackGroundImages(){
         List<StackPane> damages=new ArrayList<>();
         damages.add(damageBackground1);
@@ -306,9 +308,10 @@ public class GameSceneController implements Initializable {
         return damages;
 
     }
-    //3.1.2[0,1].2 - player deaths
+    /**3.1.2[0,1].2 - player deaths*/
     @FXML private HBox playerDeathsHbox;
 
+    /**@return playerDamagesHbox*/
     public HBox getPlayerDamagesHbox() {
         return playerDamagesHbox;
     }
@@ -345,12 +348,12 @@ public class GameSceneController implements Initializable {
         return deathList;
     }
 
-    //3.1.2[1,0]- player nickname
+    /**3.1.2[1,0]- player nickname*/
     /**this attribute contains a StackPane in which the label containing the player's Nickname will be framed*/
     @FXML private StackPane playerNicknameBackground;
     /** a label containing the player's nickname*/
     @FXML private Label playerNickname;
-
+    /**@return Label*/
     public Label getNicknameLabel(){
         return playerNickname;
     }
@@ -410,11 +413,11 @@ public class GameSceneController implements Initializable {
         return ammos;
     }
 
-    //3.1.3-player weapon cards
+    /**3.1.3-player weapon cards*/
     @FXML private VBox weaponCardsVBox;
-    //3.1.3.1-weapon cards title
+    /**3.1.3.1-weapon cards title*/
     @FXML private StackPane weaponCardsTitle;
-    //3.1.3.2-weapon cards images
+    /**3.1.3.2-weapon cards images*/
     @FXML private HBox weaponCardsBackground;
     /**each of those stack panes may represents one of the various weapon card and their background
      * they represent the one the player is holding*/
@@ -436,13 +439,14 @@ public class GameSceneController implements Initializable {
 
         return weapons;
     }
+    /**@return the weaponCardsBackGround*/
     public List<StackPane> getWeaponCardsBackground(){
         return new ArrayList<>(Arrays.asList(weaponCardBackground1, weaponCardBackground2, weaponCardBackground3));
     }
 
 
     //------------------------------4
-    //4-board section
+    /**4-board section*/
     @FXML private AnchorPane boardSection;
     @FXML private StackPane boardBackGround;
     @FXML private GridPane board; //  (4 x 3)
@@ -460,6 +464,7 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane squareBackground22;
     @FXML private StackPane squareBackground23;
 
+    /**@return backGroundMap*/
     public StackPane[][] getBackgroundsMap(){
         StackPane[][] backgroundMap = new StackPane[3][4];
         backgroundMap[0][0] = this.squareBackground00;
@@ -489,7 +494,7 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane getSquareMainImage21;
     @FXML private StackPane getSquareMainImage22;
     @FXML private StackPane getSquareMainImage23;
-
+    /**@return mainImageMap*/
     public StackPane[][] getMainImagesmap(){
         StackPane[][] mainImageMap = new StackPane[3][4];
         mainImageMap[0][0] = this.getSquareMainImage00;
@@ -507,6 +512,7 @@ public class GameSceneController implements Initializable {
         return mainImageMap;
     }
 
+    /**@return mainStackPaneMap*/
     public StackPane[][] getMainStackPaneMap(){
         StackPane[][] mainStackPaneMap = getMainImagesmap();
         for (int i = 0; i < mainStackPaneMap.length; i++) {
@@ -517,37 +523,38 @@ public class GameSceneController implements Initializable {
         return mainStackPaneMap;
     }
 
+    /***/
     private static ShowPlayerEventHandler showPlayerEventHandler;
-
+    /***/
     public ShowPlayerEventHandler getShowPlayerEventHandler(){
         return this.showPlayerEventHandler;
     }
-
+    /***/
     private static ShowSquareEventHandler showSquareEventHandler;
-
+    /***/
     public ShowSquareEventHandler getShowSquareEventHandler(){
         return this.showSquareEventHandler;
     }
-
+    /***/
     private static ShowPowerUpCardsEventHandler showPowerUpCardsEventHandler;
-
+    /***/
     public ShowPowerUpCardsEventHandler getShowPowerUpCardsEventHandler(){
         return this.showPowerUpCardsEventHandler;
     }
-
+    /***/
     private static ShowWeaponCardsEventHandler showWeaponCardsEventHandler;
-
+    /***/
     public ShowWeaponCardsEventHandler getShowWeaponCardsEventHandler(){
         return this.showWeaponCardsEventHandler;
     }
-
+    /***/
     private static ShowAmmoCardEventHandler showAmmoCardEventHandler;
-
+    /***/
     public ShowAmmoCardEventHandler getShowAmmoCardEventHandler(){
         return this.showAmmoCardEventHandler;
     }
 
-
+    /***/
     @Override
     public void initialize(URL location, ResourceBundle resources){
         //initialize everything:
@@ -757,37 +764,9 @@ public class GameSceneController implements Initializable {
             mark.addEventHandler(MouseEvent.MOUSE_ENTERED, getShowPlayerEventHandler());
         }
 
-        //initializePlayersImages();
 
     }
-
-
-    private void initializePlayersImages(){
-
-        PlayerV player= ViewModelGate.getModel().getPlayers().getPlayer(ViewModelGate.getMe());
-        PlayersColors color = player.getColor();
-        switch (color) {
-            case yellow:
-                getNicknameBackGround().getStyleClass().add("nicknameBackgroundYellow");
-                break;
-            case blue:
-                getNicknameBackGround().getStyleClass().add("nicknameBackgroundBlue");
-                break;
-            case green:
-               getNicknameBackGround().getStyleClass().add("nicknameBackgroundGreen");
-                break;
-            case gray:
-                getNicknameBackGround().getStyleClass().add("nicknameBackgroundGray");
-                break;
-            case purple:
-                getNicknameBackGround().getStyleClass().add("nicknameBackgroundPurple");
-                break;
-            default:
-                getNicknameBackGround().getStyleClass().add("nicknameBackground");
-
-        }
-
-    }
+    /***/
     private void makeBoardAutoResizing(){
         //this.boardBakcground resize based on this.boardSection
         this.boardSection.heightProperty().addListener((observable, oldvalue, newvalue) ->
@@ -797,6 +776,7 @@ public class GameSceneController implements Initializable {
                 resizeBoard()
         );
     }
+    /***/
     private void resizeBoard(){
         double totalWidth = this.boardSection.getWidth();
         double totalHeight = this.boardSection.getHeight();
@@ -857,7 +837,7 @@ public class GameSceneController implements Initializable {
             ViewSelector.sendToServer(this.event);
         }
     }
-
+    /***/
     public void changeSelectorSection(Node newSection, Double top, Double right, Double bottom, Double left){
         //delete old section, if any exist
         this.selectorSection.getChildren().clear();
@@ -888,7 +868,7 @@ public class GameSceneController implements Initializable {
         }
         */
     }
-
+    /***/
     public void removeSelectorSection(){
         this.selectorSection.getChildren().clear();
 
@@ -902,7 +882,7 @@ public class GameSceneController implements Initializable {
         AnchorPane.setLeftAnchor(stackPane, 0.0);
 
     }
-
+    /***/
     public AnchorPane getSelectorSection(){
         return this.selectorSection;
     }
@@ -912,9 +892,9 @@ public class GameSceneController implements Initializable {
         return  this.playerSection;
     }
 
-
+    /***/
      private class ShowPlayerEventHandler implements EventHandler {
-
+        /***/
          @Override
          public void handle(javafx.event.Event event){
              if((((Node)event.getSource()).getUserData())!=null) {
@@ -923,9 +903,9 @@ public class GameSceneController implements Initializable {
              }
          }
      }
-
+    /***/
     private class ShowPowerUpCardsEventHandler implements EventHandler {
-
+        /***/
         @Override
         public void handle(javafx.event.Event event){
             if((((Node)event.getSource()).getUserData())!=null) {
@@ -935,9 +915,9 @@ public class GameSceneController implements Initializable {
             }
         }
     }
-
+    /***/
     private class ShowWeaponCardsEventHandler implements EventHandler {
-
+        /***/
         @Override
         public void handle(javafx.event.Event event){
 
@@ -947,9 +927,9 @@ public class GameSceneController implements Initializable {
             }
         }
     }
-
+    /***/
     private class ShowSquareEventHandler implements EventHandler {
-
+        /***/
         @Override
         public void handle(javafx.event.Event event){
 
@@ -959,9 +939,9 @@ public class GameSceneController implements Initializable {
             }
         }
     }
-
+    /***/
     private class ShowAmmoCardEventHandler implements EventHandler{
-
+        /***/
         @Override
         public void handle(javafx.event.Event event) {
             if((((Node)event.getSource()).getUserData())!=null) {
@@ -973,19 +953,19 @@ public class GameSceneController implements Initializable {
 
 
 
-
+    /***/
     void showPlayer(PlayerV playerV){
         (new Thread(new ShowPlayer(playerV))).start();
     }
-
+    /***/
     private class ShowPlayer implements Runnable {
         PlayerV playerV;
-
+        /***/
         ShowPlayer(PlayerV playerV) {
             this.playerV = playerV;
             System.out.println(playerV.getNickname());
         }
-
+        /***/
         private String getColorStringWithFirstCapitalLetter(PlayersColors color){
             if(color.equals(PlayersColors.gray)){
                 return "Gray";
@@ -1002,7 +982,7 @@ public class GameSceneController implements Initializable {
             else{
                 return "Yellow";
             }
-        }
+        }/***/
         @Override
         public void run() {
             VBox mainVbox = new VBox(); //contains everything
@@ -1122,20 +1102,20 @@ public class GameSceneController implements Initializable {
             Platform.runLater(() -> changeInformationSection(mainVbox));
         }
     }
-
+    /***/
     void showWeaponCard(WeaponCardV weaponCard){
 
         ( new Thread(new ShowWeaponCard(weaponCard))).start();
     }
 
-
+    /***/
     private class ShowWeaponCard implements Runnable{
         WeaponCardV weaponCard;
-
+        /***/
         ShowWeaponCard(WeaponCardV weaponCard){
             this.weaponCard=weaponCard;
         }
-
+        /***/
         @Override
         public void run(){
 
@@ -1159,16 +1139,16 @@ public class GameSceneController implements Initializable {
 
     }
 
-
+    /***/
     void showPowerUpCard(PowerUpCardV powerUpCard){
 
         ( new Thread(new ShowPowerUpCard(powerUpCard))).start();
     }
 
-
+    /***/
     private class ShowPowerUpCard implements Runnable{
         PowerUpCardV powerUpCard;
-
+        /***/
         ShowPowerUpCard(PowerUpCardV powerUpCard){
             this.powerUpCard=powerUpCard;
         }
@@ -1186,21 +1166,22 @@ public class GameSceneController implements Initializable {
         }
 
     }
+    /***/
     void showSquare(SquareV squareV){
         (new Thread(new ShowSquare(squareV))).start();
     }
 
-
+    /***/
     void showAmmoCard(AmmoCardV ammoCard){
         (new Thread(new ShowAmmoCard(ammoCard))).start();
     }
-
+    /***/
     private class ShowAmmoCard implements Runnable{
         private AmmoCardV ammoCard;
         ShowAmmoCard(AmmoCardV ammoCard){
             this.ammoCard = ammoCard;
         }
-
+        /***/
         @Override
         public void run() {
             VBox mainFrame = new VBox();
@@ -1218,7 +1199,7 @@ public class GameSceneController implements Initializable {
             Platform.runLater(()-> changeInformationSection(mainFrame));
         }
     }
-
+    /**@deprecated */
     private class ShowSquare implements Runnable{
         SquareV squareV;
         ShowSquare(SquareV squareV){
@@ -1302,7 +1283,10 @@ public class GameSceneController implements Initializable {
 
         }
 
-
+        /**@param x coordinate x of square
+         * @param y coordinate y of the square
+         * @return players in the given square
+         * */
         private List<PlayerV> getPlayers(int x, int y) {
             List<PlayerV> players = new ArrayList<>();
             for (PlayerV p : ViewModelGate.getModel().getPlayers().getPlayers()) {
@@ -1318,7 +1302,8 @@ public class GameSceneController implements Initializable {
 
 
 
-
+    /**@param color contains the a playerscolor
+     * @return String that represents the corresponding backGround*/
     private String setImage(PlayersColors color){
         String style;
 
@@ -1333,6 +1318,7 @@ public class GameSceneController implements Initializable {
         }
         return style;
     }
+    /**@param newSection change the current information section with the one specified*/
     private void changeInformationSection(Node newSection){
 
         this.informationSection.getChildren().clear();

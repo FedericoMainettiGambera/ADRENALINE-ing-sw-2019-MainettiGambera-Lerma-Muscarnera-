@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**Position is a pure class, it can't be modified.
  * @author FedericoMainettiGambera
+ * @author LudoLerma
  * */
 public class Position implements Serializable {
 
@@ -48,6 +49,8 @@ public class Position implements Serializable {
     }
 
 
+    /**@return a boolean value
+     * @param position to be compared with this one*/
     public boolean equalPositions(Position position){
         return this.X == position.getX() && this.Y == position.getY();
     }

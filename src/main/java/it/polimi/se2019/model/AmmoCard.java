@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** information regarding ammunition are stored and mostly handled in this class
- * @author FedericoMainettiGambera */
+ * @author FedericoMainettiGambera
+ * @author LudoLerma */
 public class AmmoCard extends Card implements Serializable {
 
     /**constructor any ammunition is initialized  with a list of ammos(ie "1 yellow, 1 blue"),

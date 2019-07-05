@@ -8,7 +8,8 @@ import java.io.Serializable;
 import java.util.Observable;
 
 /**this class holds all the information needed to update the view when the Model changes
- * @author FedericoMainettiGambera*/
+ * @author FedericoMainettiGambera
+ * @author LudoLerma */
 public class ModelViewEvent extends Event implements Serializable {
 
     /**the object of the model that changed and which changement need to be notified to the client*/
@@ -22,7 +23,8 @@ public class ModelViewEvent extends Event implements Serializable {
 
     /**constructor
      * @param component to set the component attribute
-     * @param information to set the information attribute */
+     * @param information to set the information attribute
+     * set the eventType as ModelViewEvent*/
     public ModelViewEvent(Object component, ModelViewEventTypes information){
         this.setEventType(EventTypes.ModelViewEvent);
         this.component = component;
@@ -54,16 +56,17 @@ public class ModelViewEvent extends Event implements Serializable {
         this.extraInformation2 = extraInformation2;
     }
 
+    /**@return extraInformation2*/
     public Object getExtraInformation2() {
         return extraInformation2;
     }
-
+    /**@return extraInformation1*/
     public Object getExtraInformation1(){ return  this.extraInformation1;}
-
+    /**@return component*/
     public Object getComponent(){
         return this.component;
     }
-
+    /**@reurn information*/
     public ModelViewEventTypes getInformation(){
         return this.information;
     }

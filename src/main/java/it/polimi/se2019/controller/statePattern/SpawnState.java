@@ -36,6 +36,9 @@ public class SpawnState implements State {
     private Thread inputTimer;
 
 
+    /**constructor,
+     * @param deadPlayers to initialize the deadPlayers attribute
+     * */
     public SpawnState(List<Player> deadPlayers){
         out.println("<SERVER> New state: " + this.getClass());
         this.deadPlayers = deadPlayers;

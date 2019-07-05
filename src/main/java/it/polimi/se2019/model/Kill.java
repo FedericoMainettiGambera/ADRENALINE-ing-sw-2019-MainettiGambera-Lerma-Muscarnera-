@@ -4,7 +4,10 @@ package it.polimi.se2019.model;
 import java.io.Serializable;
 import java.util.Observable;
 
-/** each instance of this class represents a single box of the killshot track */
+/** each instance of this class represents a single box of the killshot track
+ * @author LudoLerma
+ * @author FedericoMainettiGambera
+ * */
 public class Kill implements Serializable {
     /*-****************************************************************************************************CONSTRUCTOR*/
 

@@ -20,30 +20,33 @@ public class SelectorEventPaymentInformation extends SelectorEvent implements Se
     /**the amount to be paid*/
     private AmmoListV amount;
     /**constructor,
-     * @param selectorEventType
-     * @param amount
+     * @param selectorEventType the type of event
+     * @param amount to set the amount attribute
      * */
     public SelectorEventPaymentInformation(SelectorEventTypes selectorEventType, AmmoListV amount) {
         super(selectorEventType);
         possibilities = new ArrayList<>();
         this.amount = amount;
     }
+    /**@param canPayWithoutPowerUps  set the canPayWithoutPowerUps attribute*/
     public void setCanPayWithoutPowerUps(boolean canPayWithoutPowerUps){
         this.canPayWithoutPowerUps = canPayWithoutPowerUps;
     }
-
+    /**@return  amount */
     public AmmoListV getAmount() {
         return amount;
     }
-
+    /**@return canPayWithoutPowerUps attribute*/
     public boolean canPayWithoutPowerUps() {
         return canPayWithoutPowerUps;
     }
 
+    /**@return the possibilities attribute*/
     public List<PowerUpCardV> getPossibilities() {
         return possibilities;
     }
 
+    /**@param p a powerup card to be add to the possibilities list*/
     public void addPossibility(PowerUpCardV p){
         possibilities.add(p);
     }

@@ -3,7 +3,9 @@ package it.polimi.se2019.view.outputHandler;
 import it.polimi.se2019.model.events.modelViewEvents.ModelViewEvent;
 import it.polimi.se2019.model.events.stateEvent.StateEvent;
 import it.polimi.se2019.view.components.OrderedCardListV;
-
+/**all of the functions implemented by both GUI and CLI outputHandlers
+ * @author LudoLerma
+ * @author FedericoMainettiGambera*/
 public interface OutputHandlerInterface {
      void gameCreated();
      void stateChanged(StateEvent stateEvent);
