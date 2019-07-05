@@ -1138,6 +1138,11 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     /**@param modelViewEvent, the board is changed, update the map */
     @Override
     public void newBoard(ModelViewEvent modelViewEvent) {
+        if(modelViewEvent.getExtraInformation1()!=null) {
+            Platform.runLater(() -> {
+                getGameSceneController().getBoardBackGround().getStyleClass().add((String)modelViewEvent.getExtraInformation1());
+            });
+        }
         updateMap();
     }
 

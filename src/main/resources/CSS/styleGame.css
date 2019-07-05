@@ -13,6 +13,7 @@ GENERAL CLASSES
     light-primary-color: #CFD8DC;
     text-primary-color: #FFFFFF;
     accent-color: #ffb523;
+    accent-colorrgb: rgb(255, 181, 38);
     accent-color-darker: #cb921d;
     primary-text-color: #212121;
     secondary-text-color: #757575;
@@ -20,24 +21,28 @@ GENERAL CLASSES
 
     text-and-highlight-color: #ff00f0;
     default-color: #00f3ff;
-    empty-color: rgb(255, 255, 255);
+    empty-color: transparent;
     notempty-color: rgb(255, 181, 35);
     selectable-color: rgb(146, 255, 88);
 
-    -fx-background-color: dark-primary-color;
+    /*-fx-background-color: dark-primary-color;
     -fx-border-width: 1px;
-    -fx-border-color: accent-color;
+    -fx-border-color: accent-color;*/
     /*-fx-padding: 2;*/
 
     -fx-font-family: monospace;
     -fx-text-fill: accent-color;
 }
 
-.weirdPadding{
-    -fx-padding: 4px;
+/*TODO*/
+.hoverableNode{
+    -fx-padding: 20px;
+    -fx-border-color: accent-color;
+    -fx-border-width: 5px;
 }
-.weirdPadding:hover{
-    -fx-padding: 10px;
+.hoverableNode:hover{
+    -fx-border-width: 10px;
+    -fx-padding: 40px;
 }
 
 /*radiobutton*/
@@ -70,7 +75,9 @@ GENERAL CLASSES
     -fx-font-weight: bold;
 }
 
-
+.selectorSection{
+    -fx-background-color: dark-primary-color;
+}
 
 
 /*------------------------------------------------------------------------------------------------------------------------------------*/
@@ -242,7 +249,6 @@ SPECIFIC CLASSES
        -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg6.png);
                  -fx-background-size: contain;
                       -fx-background-repeat: no-repeat;
-                 -fx-background-color: dark-background;
                                  -fx-background-position: center;
 
 }
@@ -425,19 +431,39 @@ SPECIFIC CLASSES
     -fx-background-color: default-color;
 }
 .damageGreen{
-    -fx-background-color: green;
+    -fx-background-image: url(../IMG/Drops/greenDrop.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
 }
 .damageYellow{
-    -fx-background-color: yellow;
+    -fx-background-image: url(../IMG/Drops/yellowDrop.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
 }
 .damageBlue{
-    -fx-background-color: blue;
+    -fx-background-image: url(../IMG/Drops/blueDrop.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
 }
 .damagePurple{
-    -fx-background-color: purple;
+    -fx-background-image: url(../IMG/Drops/purpleDrop.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
 }
 .damageGray{
-    -fx-background-color: gray;
+    -fx-background-image: url(../IMG/Drops/grayDrop.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
 }
 .damageEmpty{
     -fx-background-color: empty-color;
@@ -469,31 +495,26 @@ SPECIFIC CLASSES
 .nicknameBackgroundGray{
 -fx-background-image: url(../IMG/giphy.gif);
           -fx-background-size: auto 100%;
-          -fx-background-color: dark-background;
 }
 
 .nicknameBackgroundYellow{
 -fx-background-image: url(../IMG/giphy-8.gif);
           -fx-background-size: auto 100%;
-          -fx-background-color: dark-background;
 }
 
 .nicknameBackgroundGreen{
           -fx-background-image: url(../IMG/giphy-7.gif);
            -fx-background-size: auto 100%;
-           -fx-background-color: dark-background;
  }
 
 .nicknameBackgroundPurple{
  -fx-background-image: url(../IMG/giphy-5.gif);
            -fx-background-size: auto 100%;
-           -fx-background-color: dark-background;
 }
 
 .nicknameBackgroundBlue{
  -fx-background-image: url(../IMG/giphy-2.gif);
            -fx-background-size: auto 100%;
-           -fx-background-color: dark-background;
  }
 
 .nicknameStyle{
@@ -944,3 +965,31 @@ SPECIFIC CLASSES
 
 /*------------------------------3*/
 /*4-board section*/
+.map0{
+    -fx-background-image: url(../IMG/maps/map0.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.map1{
+    -fx-background-image: url(../IMG/maps/map1.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.map2{
+    -fx-background-image: url(../IMG/maps/map2.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.map3{
+    -fx-background-image: url(../IMG/maps/map3.png);
+
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}

@@ -188,7 +188,7 @@ public class Game extends Observable implements Serializable {
         int fileCount = Objects.requireNonNull(directory.list()).length;
         for(int i = 1; i< fileCount+1; i++) {
             try {
-                int id = /*1 + i %*/ 5;
+                int id = /*1 + i %*/ i;
                 WeaponCard card= new WeaponCard("" + id);
                 card.reload();
                 tempWeaponDeck.addCard(card);
@@ -303,7 +303,7 @@ public class Game extends Observable implements Serializable {
     public void setBoard(Board board) {
         this.board = board;
         setChanged();
-        notifyObservers(new ModelViewEvent(this.board.buildBoardV(), ModelViewEventTypes.newBoard));
+        notifyObservers(new ModelViewEvent(this.board.buildBoardV(), ModelViewEventTypes.newBoard, this.board.getChosenMap()));
     }
 
     /**@return ammoDiscardPile*/

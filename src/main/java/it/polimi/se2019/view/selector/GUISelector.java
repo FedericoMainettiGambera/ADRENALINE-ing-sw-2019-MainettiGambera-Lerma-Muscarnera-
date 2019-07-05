@@ -35,7 +35,7 @@ public class GUISelector implements SelectorV {
 
     private String networkConnection;
 
-    private String hoverableCssClass = "weirdPadding";
+    private String hoverableCssClass = "hoverableNode";
 
     GUISelector(String networkConnection){
         this.networkConnection = networkConnection;
@@ -47,11 +47,9 @@ public class GUISelector implements SelectorV {
 
     private void makeNodeHoverable(Node node){
         node.getStyleClass().add(hoverableCssClass);
-        node.setOnMouseEntered(e-> {
-            ((Node)e.getSource()).setStyle("-fx-background-color: #ffb523");
-
-        });
-        node.setOnMouseExited(e-> ((Node)e.getSource()).setStyle("-fx-background-color: #0e1d24"));
+    }
+    private void unmakeNodeHoverable(Node node){
+        node.getStyleClass().remove(hoverableCssClass);
     }
 
     private VBox getScrollContent(ScrollPane scrollPane){
@@ -117,6 +115,7 @@ public class GUISelector implements SelectorV {
         }
         private ScrollPane buildBasicScrollPane(){
             ScrollPane scrollPane = new ScrollPane();
+            scrollPane.getStyleClass().add("selectorSection");
             AnchorPane requestContainer = new AnchorPane();
             VBox scrollContent = new VBox();
 
@@ -199,6 +198,8 @@ public class GUISelector implements SelectorV {
                 StackPane mapBackground = new StackPane(mapMainImage);
 
                 mapMainImage.setId("map" + i);
+
+                mapMainImage.getStyleClass().add("map"+i);
 
                 //EVENTS
                 mapMainImage.setOnMouseClicked(e -> this.choosenMap = ((Node)e.getSource()).getId());
@@ -532,7 +533,6 @@ public class GUISelector implements SelectorV {
                 StackPane[][] mainStackPanes = getGameSceneController().getMainStackPaneMap();
                 for (Position pos : positions) {
                     StackPane mainStackPane  = mainStackPanes[pos.getX()][pos.getY()];
-                    mainStackPane.getStyleClass().add(hoverableCssClass);
                     makeNodeHoverable(mainStackPane);
                     EventHandler clickEventHandler = event -> {
                         ViewControllerEventPosition viewControllerEventPosition = new ViewControllerEventPosition(pos.getX(), pos.getY());
@@ -569,7 +569,6 @@ public class GUISelector implements SelectorV {
                 StackPane[][] mainStackPanes = getGameSceneController().getMainStackPaneMap();
                 for (Position pos : positions) {
                     StackPane mainStackPane  = mainStackPanes[pos.getX()][pos.getY()];
-                    mainStackPane.getStyleClass().add(hoverableCssClass);
                     makeNodeHoverable(mainStackPane);
                     EventHandler clickEventHandler = event -> {
                         ViewControllerEventPosition viewControllerEventPosition = new ViewControllerEventPosition(pos.getX(), pos.getY());
@@ -719,7 +718,13 @@ public class GUISelector implements SelectorV {
             doneButton.setOnMouseClicked(e->{
                 ViewControllerEventTwoString viewControllerEventTwoString = new ViewControllerEventTwoString(toPickUpID, toSwitchID);
                 getGameSceneController().removeSelectorSection();
-                unmakeWeaponHoverable();
+                for (StackPane weaponCardStackPane: getGameSceneController().getWeaponCardsMainImage()) {
+                    for (WeaponCardV weaponCardV:toSwitch) {
+                        if(((WeaponCardV)weaponCardStackPane.getUserData()).getID().equals(weaponCardV.getID())){
+                            Platform.runLater(()->unmakeNodeHoverable(weaponCardStackPane));
+                        }
+                    }
+                }
                 getGameSceneController().sendToServer(viewControllerEventTwoString);
             });
             vBox.getChildren().add(doneButton);
@@ -730,7 +735,7 @@ public class GUISelector implements SelectorV {
             for (StackPane weaponCardStackPane: getGameSceneController().getWeaponCardsMainImage()) {
                 for (WeaponCardV weaponCardV:toSwitch) {
                     if(((WeaponCardV)weaponCardStackPane.getUserData()).getID().equals(weaponCardV.getID())){
-                        weaponCardStackPane.getStyleClass().add(hoverableCssClass);
+                        makeNodeHoverable(weaponCardStackPane);
                         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
                             @Override
                             public void handle(MouseEvent event) {
@@ -739,16 +744,6 @@ public class GUISelector implements SelectorV {
                             }
                         };
                         weaponCardStackPane.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
-                    }
-                }
-            }
-        }
-
-        private void unmakeWeaponHoverable(){
-            for (StackPane weaponCardStackPane: getGameSceneController().getWeaponCardsMainImage()) {
-                for (WeaponCardV weaponCardV:toSwitch) {
-                    if(((WeaponCardV)weaponCardStackPane.getUserData()).getID().equals(weaponCardV.getID())){
-                        Platform.runLater(()->weaponCardStackPane.getStyleClass().remove(hoverableCssClass));
                     }
                 }
             }
@@ -1524,7 +1519,7 @@ public class GUISelector implements SelectorV {
                         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
                             @Override
                             public void handle(MouseEvent event) {
-                                Platform.runLater(()-> stackPanePowerUp.getStyleClass().remove(hoverableCssClass));
+                                Platform.runLater(()-> unmakeNodeHoverable(stackPanePowerUp));
                                 String answer1 = ((PowerUpCardV) stackPanePowerUp.getUserData()).getName();
                                 String answer2 = ((PowerUpCardV) stackPanePowerUp.getUserData()).getColor() + "";
                                 getGameSceneController().sendToServer(new ViewControllerEventTwoString(answer1, answer2));
