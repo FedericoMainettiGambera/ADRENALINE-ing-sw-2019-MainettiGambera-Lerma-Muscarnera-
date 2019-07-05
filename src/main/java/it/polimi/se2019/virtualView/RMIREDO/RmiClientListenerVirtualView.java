@@ -8,16 +8,26 @@ import it.polimi.se2019.model.events.reconnectionEvent.ReconnectionEvent;
 import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 
 import java.util.Observable;
-
+/**listens to events from the clients
+ * @author LudoLerma &
+ * @author FedericoMainettiGambera*/
 public class RmiClientListenerVirtualView extends Observable implements Runnable {
 
+    /**attribute to save object received from the client*/
     private Object objectReceived;
 
+    /**@param controller to be notified when an event comes
+     * @param o the event arrived
+     * constructor*/
     public RmiClientListenerVirtualView(Object o, ViewControllerEventHandlerContext controller){
         this.objectReceived = o;
         this.addObserver(controller);
     }
 
+    /**converts the object received to a vieweventhandler and notify the observers
+     * it happens in a thread because the server needs to keep listening to all the incoming events
+     * in case the event is a reconnection event, the resetplayer function is called with
+     * the event as a parameter*/
     @Override
     public void run(){
         ViewControllerEvent viewControllerEvent;
@@ -36,9 +46,11 @@ public class RmiClientListenerVirtualView extends Observable implements Runnable
         }
     }
 
+    /**@param reconnectionEvent, contains the name of the afk player,
+     * they are set not afk and their connection restored
+     * */
     public void resetPlayer(ReconnectionEvent reconnectionEvent){
         String nickname = reconnectionEvent.getListOfAFKPlayers().get(0);
-        String networkConnection = reconnectionEvent.getListOfAFKPlayers().get(1);
 
         System.out.println("<SERVER-socket> received the Reconnection event for player: " + nickname);
 

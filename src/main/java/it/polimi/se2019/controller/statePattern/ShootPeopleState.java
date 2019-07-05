@@ -19,6 +19,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**implements the shoot people state
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public class ShootPeopleState implements State {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(ShootPeopleState.class.getName());

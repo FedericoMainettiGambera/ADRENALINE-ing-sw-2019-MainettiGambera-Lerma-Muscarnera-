@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**implements the usage of power ups
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public class PowerUpState implements State {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(TurnState.class.getName());

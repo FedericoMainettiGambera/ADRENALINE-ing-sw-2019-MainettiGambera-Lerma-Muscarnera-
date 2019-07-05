@@ -5,7 +5,12 @@ import it.polimi.se2019.virtualView.RMIREDO.VirtualViewSelectorRmi;
 import it.polimi.se2019.virtualView.Socket.VirtualViewSelectorSocket;
 import it.polimi.se2019.virtualView.VirtualViewSelector;
 
-/**this class implements method to get the right way to communicate with the client*/
+/**this class implements method to get the right way to communicate with the client
+ *
+ * /**starts the server
+ *  * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  * */
 public class SelectorGate {
 
     private SelectorGate(){

@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**When the turn of any user comes to an end, we score the dead players and make them spawn */
+/**When the turn of any user comes to an end, we score the dead players and make them spawn
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public class ScoreKillsState implements State {
     private static PrintWriter out= new PrintWriter(System.out, true);
 
@@ -56,7 +59,7 @@ public class ScoreKillsState implements State {
         }
 
         //we finished spawn all dead players
-        if(deadPlayers.isEmpty()){
+        if(this.deadPlayers.isEmpty()){
             carrefour();
         }
 

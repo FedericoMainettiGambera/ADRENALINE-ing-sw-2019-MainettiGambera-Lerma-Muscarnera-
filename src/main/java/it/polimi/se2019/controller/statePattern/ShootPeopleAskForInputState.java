@@ -18,7 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/**this state implements functions to ask the user a specific input for a given effect*/
+/**this state implements functions to ask the user a specific input for a given effect
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public class ShootPeopleAskForInputState implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);
@@ -142,12 +145,12 @@ public class ShootPeopleAskForInputState implements State {
 
         List<Player> damagedPlayer=damagePlayer();
 
-        State nextState = null;
+        State nextState;
 
         if(this.actionNumber == 2){
             nextState = (new ReloadState(false));
         }
-        else if(this.actionNumber == 1){
+        else{
             nextState = (new TurnState(2));
         }
 

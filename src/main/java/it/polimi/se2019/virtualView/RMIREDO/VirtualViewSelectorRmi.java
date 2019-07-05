@@ -15,32 +15,33 @@ import it.polimi.se2019.virtualView.VirtualViewSelector;
 import java.util.ArrayList;
 import java.util.List;
 
+/**implements all kind of events that may be send to the client implemented for rmi connection*/
 public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selector{
 
+    /**player to be asked the input*/
     private Player playerToAsk;
 
+    /**@param playerToAsk to initialize the attribute playerToAsk*/
     public void setPlayerToAsk(it.polimi.se2019.model.Player playerToAsk){
         this.playerToAsk = playerToAsk;
     }
 
+    /**@return playerToAsk*/
     public Player getPlayerToAsk() {
         return playerToAsk;
     }
 
-    //guarda Socket per completare tutte queste @Override
-    //      deve usare metodi di rmivirtualview sendtoclient
 
+
+    /**@param canBot, if there are less than 5 players, the bot is allowed to be set,
+     * this function asks all of the needed information to set up the game*/
     @Override
     public  void askGameSetUp(boolean canBot) {
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEventBoolean(SelectorEventTypes.askGameSetUp, canBot));
     }
 
-    @Deprecated
-    @Override
-    public void askPlayerSetUp() {
-        RmiVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.askPlayerSetUp));
-    }
-
+    /**@param powerUpCards the cards beetwen the player need to choose in order to spawn
+     * @param spawnBot contains the information on whether to spawn the bot or not */
     @Override
     public void askFirstSpawnPosition(List<PowerUpCard> powerUpCards, boolean spawnBot) {
         ArrayList<PowerUpCardV> powerUpCardsV= new ArrayList<>();
@@ -50,31 +51,41 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCardsAndBoolean(SelectorEventTypes.askFirstSpawnPosition, powerUpCardsV, spawnBot));
     }
 
+    /**@param actionNumber if it's 1st or 2nd action
+     * @param canUseBot if the player is allowed to use the bot
+     * @param canUsePowerUp if there is any of the power ups the player can use*/
     @Override
     public void askTurnAction(int actionNumber, boolean canUsePowerUp, boolean canUseBot) {
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEventTurnAction(SelectorEventTypes.askTurnAction, actionNumber, canUsePowerUp, canUseBot));
     }
 
+    /**@param positions the list of position the player can move to to be asked to the user
+     * */
     @Override
     public void askRunAroundPosition(List<Position> positions) {
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEventPositions(SelectorEventTypes.askRunAroundPosition, positions));
     }
 
+    /**@param positions the position the bot can move to be asked to the user*/
     @Override
     public void askBotMove(List<Position> positions) {
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEventPositions(SelectorEventTypes.askBotMove, positions));
     }
 
+    /**the player is asked if he wants to move or if he wants to stay still to grab*/
     @Override
     public void askGrabStuffAction() {
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.askGrabStuffAction));
     }
 
+    /**@param positions where the player can move to in order to grab*/
     @Override
     public void askGrabStuffMove(List<Position> positions) {
         RmiVirtualView.sendToClient(playerToAsk, (new SelectorEventPositions(SelectorEventTypes.askGrabStuffMove, positions)));
     }
 
+    /**@param toPickUp the list of the weapon card the player can grab, it is sent to the client
+     * so that they can choose one*/
     @Override
     public void askGrabStuffGrabWeapon(List<WeaponCard> toPickUp) {
         ArrayList<WeaponCardV> weaponCardsV= new ArrayList<>();
@@ -85,6 +96,9 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
         RmiVirtualView.sendToClient(playerToAsk, selectorEventWeaponCards);
     }
 
+    /**@param toPickUp the weapons that can be picked up
+     * @param toSwitch the weapons the player can swith in order to be allowed to pick up one of the previous
+     * */
     @Override
     public void askGrabStuffSwitchWeapon(List<WeaponCard> toPickUp, List<WeaponCard> toSwitch) {
         ArrayList<WeaponCardV> weaponCardsVtoSwitch= new ArrayList<>();
@@ -98,6 +112,7 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEventDoubleWeaponCards(SelectorEventTypes.askGrabStuffSwitchWeapon, weaponCardsVtoPickUp, weaponCardsVtoSwitch));
     }
 
+    /**@param toDiscard a list of powerups card to be discarded by the user*/
     @Override
     public void askPowerUpToDiscard(List<PowerUpCard> toDiscard) {
         ArrayList<PowerUpCardV> powerUpCardsV= new ArrayList<>();
@@ -107,6 +122,7 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askPowerUpToDiscard, powerUpCardsV));
     }
 
+    /**@param toReload a list of weapon card that can be reloaded by the user*/
     @Override
     public void askWhatReaload(List<WeaponCard> toReload) {
          List<WeaponCardV> weaponCardsV= new ArrayList<>();
@@ -116,23 +132,21 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEventWeaponCards(SelectorEventTypes.askWhatReaload,weaponCardsV));
     }
 
+    /**@param powerUpCards the list of power ups the player has to choose beetwen  */
     @Override
     public void askSpawn(List<PowerUpCardV> powerUpCards) {
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askSpawn, powerUpCards));
     }
 
+    /**asks the player whether they want to shoot or they want to move
+     * */
     @Override
     public void askShootOrMove(){
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.askShootOrMove));
     }
 
-    /** @deprecated */
-    @Deprecated
-    @Override
-    public void askShootReloadMove(){
-        RmiVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.askShootReloadMove));
-    }
-
+    /**@param loadedCardInHand the weapon cards the player can use to shoot
+     * */
     @Override
     public void askWhatWep(List<WeaponCard> loadedCardInHand) {
         List<WeaponCardV> weaponCardsV= new ArrayList<>();
@@ -142,6 +156,10 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEventWeaponCards(SelectorEventTypes.askWhatWep, weaponCardsV));
     }
 
+    /**asks the player which of the
+     * @param possibleEffects to be used
+     *                        they want to use
+     * */
     @Override
     public void askWhatEffect(List<Effect> possibleEffects) {
         List<EffectV> effectsV = new ArrayList<>();
@@ -151,6 +169,8 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEventEffect(SelectorEventTypes.askWhatEffect, effectsV));
     }
 
+    /**@param inputType the type of the input
+     * @param possibleInputs the possible inputs to be used*/
     @Override
     public void askEffectInputs(EffectInfoType inputType, List<Object> possibleInputs) {
         List<Object> possibleInputsV = new ArrayList<>();
@@ -176,42 +196,54 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
             }
         }
     }
-
+    /**ask the nickname the user wants to reconnect with
+     * @param RE unused*/
     @Override
     public void askReconnectionNickname(ReconnectionEvent RE) {
         //must be empty...
     }
 
+    /**ask the nickname to the user*/
     @Override
     public void askNickname() {
         //must be empty
     }
 
+    /**@param selectorEventPaymentInformation */
     @Override
     public void askPaymentInformation(SelectorEventPaymentInformation selectorEventPaymentInformation) {
         RmiVirtualView.sendToClient(playerToAsk, selectorEventPaymentInformation);
     }
 
+    /**ask the player which power up he wants to use between the ones contained in
+     * @param powerUpCards*/
     @Override
     public void askPowerUpToUse(List<PowerUpCardV> powerUpCards) {
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askPowerUpToUse,(ArrayList<PowerUpCardV>)powerUpCards));
     }
 
+    /**ask the player if he wants to use a power up or not*/
     @Override
     public void askWantToUsePowerUpOrNot() {
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEvent(SelectorEventTypes.wantToUsePowerUpOrNot));
     }
 
+    /**@param playerVList contains all of the player the bot can shoot
+     * the user needs to choose one*/
     @Override
     public void askBotShoot(List<PlayerV> playerVList){
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEventPlayers(SelectorEventTypes.askBotShoot, playerVList));
     }
 
+    /**@param listOfTargetingScopeV contains all of the targeting scope the player is holding in his hand and that he can or
+     * may want to use*/
     @Override
     public void askTargetingScope(List<PowerUpCardV> listOfTargetingScopeV, List<Object> possiblePaymentsV, List<PlayerV> damagedPlayersV) {
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEventTargetingScope(SelectorEventTypes.askTargetingScope, listOfTargetingScopeV, possiblePaymentsV, damagedPlayersV));
     }
 
+    /**@param listOfTagBackGranadesV contains all of the tagback grenade the player is holding in his hand and that he can or
+     * may want to use*/
     @Override
     public void askTagBackGranade(List<PowerUpCardV> listOfTagBackGranadesV){
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askTagBackGranade, (ArrayList<PowerUpCardV>)listOfTagBackGranadesV));

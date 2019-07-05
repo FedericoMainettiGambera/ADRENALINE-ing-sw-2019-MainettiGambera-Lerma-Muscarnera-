@@ -10,7 +10,11 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventBoo
 import java.io.PrintWriter;
 import java.util.logging.Logger;
 
-/**called after ReloadState and before ScoreKillsState*/
+/**called after ReloadState and before ScoreKillsState
+ /**starts the server
+ * @author LudoLerma
+ * @author FedericoMainettiGambera
+ * */
 public class WantToPlayPowerUpState  implements State{
 
     private static PrintWriter out= new PrintWriter(System.out, true);

@@ -8,7 +8,10 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 import java.io.PrintWriter;
 
 /**in case a ammo card drew made it possible to draw a power up,
- *the state pattern will get here*/
+ *the state pattern will get here
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public class GrabStuffStateDrawPowerUp implements State {
     private int actionNumber;
     private static PrintWriter out= new PrintWriter(System.out, true);

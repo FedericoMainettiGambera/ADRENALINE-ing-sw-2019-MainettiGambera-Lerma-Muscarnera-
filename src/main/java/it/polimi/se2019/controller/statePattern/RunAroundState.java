@@ -17,6 +17,8 @@ import java.util.logging.Logger;
 
 /**
  * allows player to move around the map
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
  * */
 public class RunAroundState implements State{
     private static PrintWriter out= new PrintWriter(System.out, true);

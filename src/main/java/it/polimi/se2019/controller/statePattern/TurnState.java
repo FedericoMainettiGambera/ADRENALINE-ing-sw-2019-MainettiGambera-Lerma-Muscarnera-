@@ -12,7 +12,11 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEventStr
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+/**
+ * implements the turn state actions
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public class TurnState implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);

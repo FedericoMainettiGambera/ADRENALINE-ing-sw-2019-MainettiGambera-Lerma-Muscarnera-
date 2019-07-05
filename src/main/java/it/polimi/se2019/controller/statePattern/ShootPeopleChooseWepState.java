@@ -15,7 +15,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
-/**allow users to shoot*/
+/**allow users to shoot
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public class ShootPeopleChooseWepState implements State {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(ShootPeopleChooseWepState.class.getName());

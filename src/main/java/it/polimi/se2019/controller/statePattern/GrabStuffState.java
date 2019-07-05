@@ -12,7 +12,9 @@ import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**this class it's a carrefour for the two actions that the choosing to grab put on your way: move and grab or stay still and grab*/
+/*** @author LudoLerma
+ * @author FedericoMainettiGambera
+ * this class it's a carrefour for the two actions that the choosing to grab put on your way: move and grab or stay still and grab*/
 public class GrabStuffState implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);

@@ -56,6 +56,7 @@ public class RmiConnectionHandlerVirtualView implements Runnable{
             tempinterface=client;
         }
 
+        /**chekcs if it's possible for this to be a reconnection */
         @Override
         public void run() {
             if(ModelGate.getModel().getPlayerList().isSomeoneAFK()){

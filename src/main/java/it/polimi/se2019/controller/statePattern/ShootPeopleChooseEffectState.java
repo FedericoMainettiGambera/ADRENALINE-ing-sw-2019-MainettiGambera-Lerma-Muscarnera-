@@ -13,7 +13,10 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-/**give the user the possibility to choose the effect of the weapon he chose that he wants to use*/
+/**give the user the possibility to choose the effect of the weapon he chose that he wants to use
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public class ShootPeopleChooseEffectState implements State{
 
     private static PrintWriter out= new PrintWriter(System.out, true);

@@ -1,5 +1,9 @@
 package it.polimi.se2019.model.enumerations;
 
+/**all of the type of ModelViewEvents
+ * *
+ *  * @author FedericoMainettiGambera
+ *  */
 public enum ModelViewEventTypes {
     setFinalFrenzy,
     finalFrenzyBegun,

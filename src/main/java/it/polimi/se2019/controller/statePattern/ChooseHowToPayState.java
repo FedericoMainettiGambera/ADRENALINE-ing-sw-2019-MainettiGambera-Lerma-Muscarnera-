@@ -17,7 +17,10 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
-/**this class allows payment*/
+/**this class allows payment
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public class ChooseHowToPayState {
     private static PrintWriter out= new PrintWriter(System.out, true);
     private static final Logger logger = Logger.getLogger(ChooseHowToPayState.class.getName());

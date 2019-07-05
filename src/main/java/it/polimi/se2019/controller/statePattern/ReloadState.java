@@ -15,6 +15,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**implements reloading weapons
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public class ReloadState implements State{
 
     private static PrintWriter out= new PrintWriter(System.out, true);
@@ -134,7 +138,7 @@ public class ReloadState implements State{
 
     /**ask the player which weapon they want to reload beetwen the one indicated in the
      * @param toReload, the parameter given*/
-    private void askWhichWep(List<WeaponCard> toReload) throws Exception {
+    private void askWhichWep(List<WeaponCard> toReload){
 
         SelectorGate.getCorrectSelectorFor(playerToAsk).setPlayerToAsk(playerToAsk);
         SelectorGate.getCorrectSelectorFor(playerToAsk).askWhatReaload(toReload);

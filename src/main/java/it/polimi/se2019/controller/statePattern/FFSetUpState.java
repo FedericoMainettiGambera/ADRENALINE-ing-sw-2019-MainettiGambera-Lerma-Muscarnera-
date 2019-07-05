@@ -9,7 +9,10 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**implements the needed action to get the game ready for final frenzy */
+/**implements the needed action to get the game ready for final frenzy
+ * * @author LudoLerma
+ *  * @author FedericoMainettiGambera
+ *  */
 public class FFSetUpState implements State {
 
     private static PrintWriter out= new PrintWriter(System.out, true);

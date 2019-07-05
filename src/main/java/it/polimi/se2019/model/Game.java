@@ -16,7 +16,9 @@ import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/** takes track of the entire state of the game*/
+/** takes track of the entire state of the game
+ * @author LudoLerma
+ *@author FedericoMainettiGambera */
 public class Game extends Observable implements Serializable {
 
     private static Logger logger=Logger.getLogger(Game.class.getName());
