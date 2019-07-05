@@ -1100,6 +1100,7 @@ public class GUISelector implements SelectorV {
                     break;
                 case squareByLastTargetSelected:
                     inputTypeLabel = new Label("select the square of the target");
+                    break;
                 default:
                     inputTypeLabel = new Label("unspecified inputType");
                     GUIstarter.showError(this, "can't find inputType: " + inputType, null);
