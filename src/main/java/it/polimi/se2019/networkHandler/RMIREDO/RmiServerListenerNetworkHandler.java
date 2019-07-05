@@ -7,6 +7,7 @@ import java.util.Observable;
 /**listens to server event to be sent to client
  * @author LudoLerma
  * @author FedericoMainettiGambera*/
+
 public class RmiServerListenerNetworkHandler extends Observable implements Runnable {
 
     /**the object received from the server*/
@@ -19,7 +20,7 @@ public class RmiServerListenerNetworkHandler extends Observable implements Runna
         this.objectReceived = objectReceived;
     }
 
-    /**isneds all the received object from server to view*/
+    /**sends all the received object from server to view*/
     @Override
     public void run() {
 

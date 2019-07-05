@@ -71,7 +71,7 @@ public class RmiNetworkHandler extends UnicastRemoteObject implements RmiInterfa
         RmiNetworkHandler.server.connect(this);
 
     }
-    /**@param o the object to be send to the server*/
+    /**@param o the object received from to the server*/
     @Override
     public void send(Object o) {
 

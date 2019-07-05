@@ -36,7 +36,7 @@ public class ServerListenerNetworkHandler extends Observable implements Runnable
         this.addObserver(view);
     }
 
-    /***/
+    /**sends all the received object from server to view*/
     @Override
     public void run() {
         while(this.socket.isConnected()){
