@@ -189,7 +189,7 @@ public class ReloadState implements State{
             for (int j = 0; j < ModelGate.getModel().getBoard().getMap()[0].length; j++) {
                 if((ModelGate.getModel().getBoard().getMap()[i][j]!=null)
                         &&
-                        (ModelGate.getModel().getBoard().getMap()[i][j].getSquareType() == SquareTypes.normal)
+                        (ModelGate.getModel().getBoard().getMap()[i][j].getSquareType().equals(SquareTypes.normal))
                         &&
                         ((NormalSquare)ModelGate.getModel().getBoard().getMap()[i][j]).getAmmoCards().getCards().isEmpty()){
                     ModelGate.getModel().getAmmoDeck().moveCardTo(
@@ -199,15 +199,15 @@ public class ReloadState implements State{
                     out.println("<SERVER> Added Ammo card to square [" + i + "][" + j + "]");
 
                 }
-                //TODO check if correct...
-                else if(ModelGate.getModel().getBoard().getMap()[i][j]!=null && (ModelGate.getModel().getBoard().getMap()[i][j].getSquareType() == SquareTypes.spawnPoint)){
+
+                else if(ModelGate.getModel().getBoard().getMap()[i][j]!=null && (ModelGate.getModel().getBoard().getMap()[i][j].getSquareType().equals(SquareTypes.spawnPoint))){
                     int counter = ((SpawnPointSquare) ModelGate.getModel().getBoard().getMap()[i][j]).getWeaponCards().getCards().size();
                     if (counter<3){
                         for (int k = counter; k < 3; k++) {
                             if(ModelGate.getModel().getWeaponDeck().getCards().size()>0) {
                                 ModelGate.getModel().getWeaponDeck().moveCardTo(
                                         ((SpawnPointSquare) ModelGate.getModel().getBoard().getMap()[i][j]).getWeaponCards(),
-                                        ModelGate.getModel().getAmmoDeck().getFirstCard().getID()
+                                        ModelGate.getModel().getWeaponDeck().getFirstCard().getID()
                                 );
                                 out.println("<SERVER> Added Ammo card to square [" + i + "][" + j + "]");
                             }

@@ -103,7 +103,7 @@ public class TestBoard {
         //    e.printStackTrace();
         //}
 
-        assertEquals(pos,map[0][2].getCoordinates() );
+//        assertEquals(pos,map[0][2].getCoordinates() );
 
 
         //Possible Position

@@ -76,7 +76,7 @@ public class TestEffect {
             assertNotEquals(x, null);
     }
 
-    @Test
+   /* @Test
     public void testHandleRow() throws Exception {
         WeaponCard w = new WeaponCard("22");
         Effect e = new Effect();
@@ -265,6 +265,7 @@ public class TestEffect {
 
         }
     }
+    */
     @Test
     public void testExec() {
         Effect e = new Effect();

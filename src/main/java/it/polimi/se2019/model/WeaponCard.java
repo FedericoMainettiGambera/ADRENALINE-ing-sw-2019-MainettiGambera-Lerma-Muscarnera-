@@ -83,7 +83,8 @@ public class WeaponCard extends Card implements Serializable {
         this.effects = new ArrayList<>();
         this.reloadCost = new AmmoList();
 
-        BufferedReader reader = new BufferedReader(new FileReader("src/main/Files/cards/weaponCards/card"+ID+".set"));
+        InputStream in=getClass().getResourceAsStream("/Files/cards/weaponCards/card"+ID+".set");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         try {
             String line = reader.readLine();
             while (line != null) {

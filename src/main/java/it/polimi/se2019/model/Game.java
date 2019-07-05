@@ -184,8 +184,7 @@ public class Game extends Observable implements Serializable {
 
         //builds weapon cards
         OrderedCardList<WeaponCard> tempWeaponDeck = new OrderedCardList<>("weaponDeck");
-        File directory = new File("Files/cards/weaponCards");     // insert here path to weapon cards folder
-        int fileCount = Objects.requireNonNull(directory.list()).length;
+        int fileCount=21;
         for(int i = 1; i< fileCount+1; i++) {
             try {
                 int id = /*1 + i %*/ i;
@@ -199,10 +198,10 @@ public class Game extends Observable implements Serializable {
                 return;
             }
         }
+        tempWeaponDeck.removeCard("18");
 
         OrderedCardList<PowerUpCard> tempPowerUpDeck = new OrderedCardList<>("powerUpDeck");
-        directory = new File("Files/cards/powerUpCards");          // insert here path to power up cards folder
-        fileCount = Objects.requireNonNull(directory.list()).length;
+        fileCount=4;
         List<AmmoCubesColor> Colors = new ArrayList<>();
         Colors.add(AmmoCubesColor.red);
         Colors.add(AmmoCubesColor.yellow);
