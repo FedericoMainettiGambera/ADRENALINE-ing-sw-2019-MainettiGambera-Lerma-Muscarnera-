@@ -622,7 +622,7 @@ public class GameSceneController implements Initializable {
         getStateDescription().getChildren().clear();
         getStateDescription().getChildren().addAll(player,descr);
 
-        /*
+
         //killshot track default css classes
         this.killshotTrackSection.getStyleClass().add("emptyKillShotTrackBackground");
         this.killshotTrackVBox.getStyleClass().add("killShotTrackBackground");
@@ -748,7 +748,7 @@ public class GameSceneController implements Initializable {
         this.weaponCardMainImage1.getStyleClass().add(emptyWeaponCardMainImage);
         this.weaponCardMainImage2.getStyleClass().add(emptyWeaponCardMainImage);
         this.weaponCardMainImage3.getStyleClass().add(emptyWeaponCardMainImage);
-        */
+
 
         showPlayerEventHandler=new ShowPlayerEventHandler();
         showPowerUpCardsEventHandler=new ShowPowerUpCardsEventHandler();
