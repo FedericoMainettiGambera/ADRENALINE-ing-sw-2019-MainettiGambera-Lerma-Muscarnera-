@@ -262,7 +262,7 @@
                                        <children>
                                           <StackPane fx:id="powerUpCardsTitle"  >
                                              <children>
-                                                <Label text="powerUpCards" />
+                                                <Label text="Power up" />
                                              </children>
                                           </StackPane>
                                           <HBox fx:id="powerUpCardsBackground"  VBox.vgrow="ALWAYS">
@@ -569,7 +569,7 @@
                                        <children>
                                           <StackPane fx:id="weaponCardsTitle">
                                              <children>
-                                                <Label text="weaponCards" />
+                                                <Label text="weapons" />
                                              </children>
                                           </StackPane>
                                           <HBox fx:id="weaponCardsBackground" VBox.vgrow="ALWAYS">
