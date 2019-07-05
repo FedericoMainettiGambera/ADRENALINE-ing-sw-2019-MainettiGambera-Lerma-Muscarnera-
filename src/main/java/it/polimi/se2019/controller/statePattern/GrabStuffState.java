@@ -78,7 +78,8 @@ public class GrabStuffState implements State {
         }
     }
 
-    /**@param viewControllerEvent, this function extrapolate the needed info from the event*/
+    /**@param viewControllerEvent, this function extrapolate the needed info from the event
+     * @return a string*/
     private String readInput(ViewControllerEvent viewControllerEvent){
 
         out.println("<SERVER> player has answered before the timer ended.");

@@ -63,7 +63,7 @@ public class GrabStuffStateMove implements State {
 
     /**@param playerToAsk is the player to ask the input to,
      *                     after having calculated all the possible positions
-     * @return a List<Position> of them all*/
+     * @return a List of them all*/
     private List<Position> calculateAndPrintPossiblePosition(Player playerToAsk){
 
         this.playerToAsk = playerToAsk;

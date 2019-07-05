@@ -49,7 +49,8 @@ public class ChooseHowToPayState {
         }
     }
 
-    /**check if you can pay using power ups*/
+    /**check if you can pay using power ups
+     * @return boolean value*/
     public boolean canPaySomethingWithPowerUps(){
         for (AmmoCubes a: toPay.getAmmoCubesList()) {
             for (PowerUpCard p: payingPlayer.getPowerUpCardsInHand().getCards()) {
@@ -61,7 +62,8 @@ public class ChooseHowToPayState {
         return false;
     }
 
-    /**check if you can pay using your ammos, your power ups or both of them*/
+    /**check if you can pay using your ammos, your power ups or both of them
+     * @return boolean value*/
     public boolean canPayInSomeWay(){
         //create an ammo list that represents the total budget of the player (AmmoBox + powerUps)
 

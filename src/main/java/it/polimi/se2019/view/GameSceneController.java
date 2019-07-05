@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**the controller of the main scene
- * @author LudoLerma &
+ * @author LudoLerma
  *   @author FedericoMainettiGambera*/
 public class GameSceneController implements Initializable {
 
@@ -142,7 +142,7 @@ public class GameSceneController implements Initializable {
 
     }
 
-    /**2.1.n-killshot n-th kill background & main image*/
+    /**2.1.n-killshot n-th kill background and main image*/
     //n=1
 
     @FXML private StackPane killBackground1;
@@ -821,7 +821,8 @@ public class GameSceneController implements Initializable {
         AnchorPane.setLeftAnchor(this.boardBackGround,leftSpacing);
     }
 
-    /**sends an Event to the server in a new Thread, using the SendToServerThread class*/
+    /**sends an Event to the server in a new Thread, using the SendToServerThread class
+     * @param event to be sent*/
     public void sendToServer(Event event){
         (new SendToServerThread(event)).start();
     }
