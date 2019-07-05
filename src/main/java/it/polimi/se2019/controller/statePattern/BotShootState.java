@@ -107,6 +107,7 @@ public class BotShootState implements State{
      * if the bot has the adrenaline action unblocked, he gives them a mark too
      * then we set the bot used and ask the damaged player if he wants to use a
      * specific power up
+     * @return a list of players
      * */
     private List<Player> parseVce(ViewControllerEvent vce){
 

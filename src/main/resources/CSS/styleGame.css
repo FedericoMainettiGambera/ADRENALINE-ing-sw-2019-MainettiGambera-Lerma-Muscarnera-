@@ -251,7 +251,9 @@ SPECIFIC CLASSES
 }
 .powerUpCard0{
       -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg0.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
      -fx-background-size: contain;
       -fx-background-repeat: no-repeat;
                       -fx-background-position: center;
@@ -260,7 +262,9 @@ SPECIFIC CLASSES
 }
 .powerUpCard1{
      -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg1.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
             -fx-background-size: contain;
                  -fx-background-repeat: no-repeat;
                                  -fx-background-position: center;
@@ -268,7 +272,9 @@ SPECIFIC CLASSES
 }
  .powerUpCard2{
     -fx-background-image: url(../IMG/PowerUpCardsImages/puCardImg2.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
             -fx-background-size: contain;
                 -fx-background-repeat: no-repeat;
                           -fx-background-position: center;
@@ -279,6 +285,9 @@ SPECIFIC CLASSES
                 -fx-background-size: contain;
                      -fx-background-repeat: no-repeat;
                                -fx-background-position: center;
+                               -fx-padding: 10px;
+                                   -fx-border-insets: 10px;
+                                   -fx-background-insets: 10px;
 
 }
 .powerUpCard4{
@@ -286,6 +295,9 @@ SPECIFIC CLASSES
                   -fx-background-size: contain;
                        -fx-background-repeat: no-repeat;
                                  -fx-background-position: center;
+                                 -fx-padding: 10px;
+                                     -fx-border-insets: 10px;
+                                     -fx-background-insets: 10px;
 
 
 }
@@ -294,6 +306,9 @@ SPECIFIC CLASSES
                  -fx-background-size: contain;
                       -fx-background-repeat: no-repeat;
                                 -fx-background-position: center;
+                                -fx-padding: 10px;
+                                    -fx-border-insets: 10px;
+                                    -fx-background-insets: 10px;
 
 }
 .powerUpCard6{
@@ -301,6 +316,9 @@ SPECIFIC CLASSES
                  -fx-background-size: contain;
                       -fx-background-repeat: no-repeat;
                                  -fx-background-position: center;
+                                 -fx-padding: 10px;
+                                     -fx-border-insets: 10px;
+                                     -fx-background-insets: 10px;
 
 }
 .powerUpCard7{
@@ -308,6 +326,9 @@ SPECIFIC CLASSES
                   -fx-background-size: contain;
                        -fx-background-repeat: no-repeat;
                                   -fx-background-position: center;
+                                  -fx-padding: 10px;
+                                      -fx-border-insets: 10px;
+                                      -fx-background-insets: 10px;
 
 }
 .powerUpCard8{
@@ -315,6 +336,9 @@ SPECIFIC CLASSES
                 -fx-background-size: contain;
                      -fx-background-repeat: no-repeat;
                                -fx-background-position: center;
+                               -fx-padding: 10px;
+                                   -fx-border-insets: 10px;
+                                   -fx-background-insets: 10px;
 
  }
  .powerUpCard9{
@@ -322,6 +346,9 @@ SPECIFIC CLASSES
                -fx-background-size: contain;
                     -fx-background-repeat: no-repeat;
                                -fx-background-position: center;
+                               -fx-padding: 10px;
+                                   -fx-border-insets: 10px;
+                                   -fx-background-insets: 10px;
 
 }
 .powerUpCard10{
@@ -329,6 +356,9 @@ SPECIFIC CLASSES
                -fx-background-size: contain;
                     -fx-background-repeat: no-repeat;
                                -fx-background-position: center;
+                               -fx-padding: 10px;
+                                   -fx-border-insets: 10px;
+                                   -fx-background-insets: 10px;
 
  }
 .powerUpCard11{
@@ -336,6 +366,9 @@ SPECIFIC CLASSES
                -fx-background-size: contain;
                     -fx-background-repeat: no-repeat;
                                -fx-background-position: center;
+                               -fx-padding: 10px;
+                                   -fx-border-insets: 10px;
+                                   -fx-background-insets: 10px;
 
 }
 .powerUpCard12{
@@ -343,6 +376,9 @@ SPECIFIC CLASSES
                -fx-background-size: contain;
                     -fx-background-repeat: no-repeat;
                                -fx-background-position: center;
+                               -fx-padding: 10px;
+                                   -fx-border-insets: 10px;
+                                   -fx-background-insets: 10px;
 
 }
 .powerUpCard13{
@@ -350,6 +386,9 @@ SPECIFIC CLASSES
              -fx-background-size: contain;
                   -fx-background-repeat: no-repeat;
                               -fx-background-position: center;
+                              -fx-padding: 10px;
+                                  -fx-border-insets: 10px;
+                                  -fx-background-insets: 10px;
 
 }
  .powerUpCard14{
@@ -357,6 +396,9 @@ SPECIFIC CLASSES
               -fx-background-size: contain;
                    -fx-background-repeat: no-repeat;
                                -fx-background-position: center;
+                               -fx-padding: 10px;
+                                   -fx-border-insets: 10px;
+                                   -fx-background-insets: 10px;
 
 }
 .powerUpCard15{
@@ -364,6 +406,9 @@ SPECIFIC CLASSES
                 -fx-background-size: contain;
                      -fx-background-repeat: no-repeat;
                                -fx-background-position: center;
+                               -fx-padding: 10px;
+                                   -fx-border-insets: 10px;
+                                   -fx-background-insets: 10px;
 
 }
 .powerUpCard16{
@@ -371,6 +416,9 @@ SPECIFIC CLASSES
                   -fx-background-size: contain;
                        -fx-background-repeat: no-repeat;
                                  -fx-background-position: center;
+                                 -fx-padding: 10px;
+                                     -fx-border-insets: 10px;
+                                     -fx-background-insets: 10px;
 
 }
 .powerUpCard17{
@@ -378,6 +426,9 @@ SPECIFIC CLASSES
                  -fx-background-size: contain;
                       -fx-background-repeat: no-repeat;
                                 -fx-background-position: center;
+                                -fx-padding: 10px;
+                                    -fx-border-insets: 10px;
+                                    -fx-background-insets: 10px;
 
 }
 .powerUpCard18{
@@ -385,6 +436,9 @@ SPECIFIC CLASSES
                  -fx-background-size: contain;
                       -fx-background-repeat: no-repeat;
                                 -fx-background-position: center;
+                                -fx-padding: 10px;
+                                    -fx-border-insets: 10px;
+                                    -fx-background-insets: 10px;
 
 }
 .powerUpCard19{
@@ -392,6 +446,9 @@ SPECIFIC CLASSES
                   -fx-background-size: contain;
                        -fx-background-repeat: no-repeat;
                                   -fx-background-position: center;
+                                  -fx-padding: 10px;
+                                      -fx-border-insets: 10px;
+                                      -fx-background-insets: 10px;
 
 }
 .powerUpCard20{
@@ -399,6 +456,9 @@ SPECIFIC CLASSES
                -fx-background-size: contain;
                     -fx-background-repeat: no-repeat;
                                -fx-background-position: center;
+                               -fx-padding: 10px;
+                                   -fx-border-insets: 10px;
+                                   -fx-background-insets: 10px;
 
  }
  .powerUpCard21{
@@ -406,6 +466,9 @@ SPECIFIC CLASSES
                -fx-background-size: contain;
                     -fx-background-repeat: no-repeat;
                               -fx-background-position: center;
+                              -fx-padding: 10px;
+                                  -fx-border-insets: 10px;
+                                  -fx-background-insets: 10px;
 
 }
 .powerUpCard22{
@@ -413,6 +476,9 @@ SPECIFIC CLASSES
               -fx-background-size: contain;
                    -fx-background-repeat: no-repeat;
                               -fx-background-position: center;
+                              -fx-padding: 10px;
+                                  -fx-border-insets: 10px;
+                                  -fx-background-insets: 10px;
 
  }
 
@@ -421,6 +487,9 @@ SPECIFIC CLASSES
                -fx-background-size: contain;
                     -fx-background-repeat: no-repeat;
                                -fx-background-position: center;
+                               -fx-padding: 10px;
+                                   -fx-border-insets: 10px;
+                                   -fx-background-insets: 10px;
 
   }
 /*3.1.2-player main statistics*/
@@ -615,252 +684,324 @@ SPECIFIC CLASSES
 }
 .ammoCard1{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB1.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard2{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB2.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard3{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB3.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard4{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB4.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard5{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB5.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard6{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB6.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard7{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB7.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard8{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB8.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard9{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB9.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard10{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB10.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard11{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB11.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard12{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB12.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard13{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB13.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard14{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB14.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard15{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB15.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard16{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB16.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard17{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB17.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard18{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB18.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard19{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB19.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard20{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB20.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard21{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB21.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard22{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB22.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard23{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB23.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard24{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB24.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard25{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB25.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard26{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB26.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard27{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB27.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard28{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB28.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard29{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB29.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard30{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB30.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard31{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB31.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard32{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB32.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard33{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB33.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard34{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB34.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard35{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB35.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .ammoCard36{
     -fx-background-image: url(../IMG/AmmoCardsImages/AB36.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
@@ -891,6 +1032,9 @@ SPECIFIC CLASSES
 .weaponCard1{
      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg1.png);
 
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
          -fx-background-size: contain;
           -fx-background-repeat: no-repeat;
                           -fx-background-position: center;
@@ -898,140 +1042,180 @@ SPECIFIC CLASSES
 }
 .weaponCard2{
      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg2.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
              -fx-background-size: contain;
               -fx-background-repeat: no-repeat;
                               -fx-background-position: center;
 }
 .weaponCard3{
     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg3.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
             -fx-background-size: contain;
              -fx-background-repeat: no-repeat;
                              -fx-background-position: center;
 }
 .weaponCard4{
      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg4.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
              -fx-background-size: contain;
               -fx-background-repeat: no-repeat;
                               -fx-background-position: center;
 }
 .weaponCard5{
       -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg5.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
               -fx-background-size: contain;
                -fx-background-repeat: no-repeat;
                                -fx-background-position: center;
  }
 .weaponCard6{
      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg6.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
              -fx-background-size: contain;
               -fx-background-repeat: no-repeat;
                               -fx-background-position: center;
  }
 .weaponCard7{
      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg7.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
              -fx-background-size: contain;
               -fx-background-repeat: no-repeat;
                               -fx-background-position: center;
  }
 .weaponCard8{
      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg8.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
              -fx-background-size: contain;
               -fx-background-repeat: no-repeat;
                               -fx-background-position: center;
  }
 .weaponCard9{
     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg9.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
             -fx-background-size: contain;
              -fx-background-repeat: no-repeat;
                              -fx-background-position: center;
 }
 .weaponCard10{
     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg10.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
             -fx-background-size: contain;
              -fx-background-repeat: no-repeat;
                              -fx-background-position: center;
 }
 .weaponCard11{
      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg11.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
              -fx-background-size: contain;
               -fx-background-repeat: no-repeat;
                               -fx-background-position: center;
 }
 .weaponCard12{
    -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg12.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
            -fx-background-size: contain;
             -fx-background-repeat: no-repeat;
                             -fx-background-position: center;
 }
 .weaponCard13{
       -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg13.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
               -fx-background-size: contain;
                -fx-background-repeat: no-repeat;
                                -fx-background-position: center;
  }
 .weaponCard14{
       -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg14.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
               -fx-background-size: contain;
                -fx-background-repeat: no-repeat;
                                -fx-background-position: center;
  }
 .weaponCard15{
       -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg15.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
               -fx-background-size: contain;
                -fx-background-repeat: no-repeat;
                                -fx-background-position: center;
  }
 .weaponCard16{
      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg16.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
              -fx-background-size: contain;
               -fx-background-repeat: no-repeat;
                               -fx-background-position: center;
  }
 .weaponCard17{
     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg17.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
             -fx-background-size: contain;
              -fx-background-repeat: no-repeat;
                              -fx-background-position: center;
 }
 .weaponCard18{
     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg18.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
             -fx-background-size: contain;
              -fx-background-repeat: no-repeat;
                              -fx-background-position: center;
 }
 .weaponCard19{
     -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg19.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
             -fx-background-size: contain;
              -fx-background-repeat: no-repeat;
                              -fx-background-position: center;
 }
 .weaponCard20{
      -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg20.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
              -fx-background-size: contain;
               -fx-background-repeat: no-repeat;
                               -fx-background-position: center;
 }
 .weaponCard21{
       -fx-background-image: url(../IMG/WeaponCardsImages/wpCardImg21.png);
-
+-fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
               -fx-background-size: contain;
                -fx-background-repeat: no-repeat;
                                -fx-background-position: center;

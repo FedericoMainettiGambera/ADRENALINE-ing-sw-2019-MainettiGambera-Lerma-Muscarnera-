@@ -215,7 +215,9 @@ public class ShootPeopleAskForInputState implements State {
     }
 
 /** @param infoType a string extrapolated from the effect that allows
- * this function to acknowledges the right type of the effect chosen by the user*/
+ * this function to acknowledges the right type of the effect chosen by the user
+ * @return boolean value
+ * */
     public boolean isToSend(EffectInfoType infoType){
         if(infoType.equals(EffectInfoType.player) ||
                 infoType.equals(EffectInfoType.playerSquare)||

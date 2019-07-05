@@ -43,7 +43,8 @@ public class ShootPeopleState implements State {
     }
 
 
-    /** @param state is the state to be set*/
+    /** @param state is the state to be set
+     * @param player is the player to ask the input to*/
     private void changeState(State state, Player player){
 
         ViewControllerEventHandlerContext.setNextState(state);

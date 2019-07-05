@@ -26,7 +26,8 @@ public class ScoreKillsState implements State {
         out.println("<SERVER> New state: " + this.getClass());
     }
 
-    /**this state may need a list of the dead players*/
+    /**this state  need a list of the dead players
+     * @param deadPlayers the list of dead players*/
     public ScoreKillsState(List<Player> deadPlayers){
         this.deadPlayers = deadPlayers;
         out.println("<SERVER> New state: " + this.getClass());

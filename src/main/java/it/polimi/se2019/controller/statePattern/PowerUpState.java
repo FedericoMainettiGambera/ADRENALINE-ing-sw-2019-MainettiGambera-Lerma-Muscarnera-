@@ -128,7 +128,8 @@ return chosenPowerUp;
     }
 
     /**this function understand if the power up card is of type movement of or damage and set their context consequentially
-     * also add them to the usable cards if they result to be so*/
+     * also add them to the usable cards if they result to be so
+     * @return a list of power up cards*/
     private List<PowerUpCard> findPowerUp(){
         List<PowerUpCard> cards = new ArrayList<>();
         if(this.powerUpToUse.equals("movement")){ //for Teleporter and newton
