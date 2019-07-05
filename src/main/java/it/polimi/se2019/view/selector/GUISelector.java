@@ -1550,7 +1550,7 @@ public class GUISelector implements SelectorV {
             List<StackPane> powerUpCardsMainImages = getGameSceneController().getListOfPowerUpCardsMainImage();
             for (StackPane stackPanePowerUp: powerUpCardsMainImages) {
                 for (PowerUpCardV powerUpCardV : powerUpCardsV) {
-                    if (((PowerUpCardV) stackPanePowerUp.getUserData()).getID().equals(powerUpCardV.getID())) {
+                    if ((stackPanePowerUp.getUserData())!=null && ((PowerUpCardV) stackPanePowerUp.getUserData()).getID().equals(powerUpCardV.getID())) {
                         stackPanePowerUp.getStyleClass().add(hoverableCssClass);
                         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
                             @Override
