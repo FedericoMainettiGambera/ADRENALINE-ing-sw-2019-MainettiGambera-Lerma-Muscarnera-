@@ -12,7 +12,7 @@ import javafx.scene.input.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 /**Update the map
- * @author LudoLerma &
+ * @author LudoLerma
  *   @author FedericoMainettiGambera*/
 public class UpdateMap implements Runnable{
 

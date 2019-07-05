@@ -7,7 +7,7 @@ public class AmmoCardV extends CardV{
     private boolean isPowerUp;
 
     private AmmoListV ammoList;
- /** */
+ /** @return  isPowerUp*/
     public boolean isPowerUp() {
         return isPowerUp;
     }

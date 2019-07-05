@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**implements all kind of events that may be send to the client implemented for socket connection
- * * @author LudoLerma &
+ * * @author LudoLerma
  *  * @author FedericoMainettiGambera*/
 
 public class VirtualViewSelectorSocket extends VirtualViewSelector implements Selector {
@@ -205,14 +205,14 @@ public class VirtualViewSelectorSocket extends VirtualViewSelector implements Se
     public void askNickname() {
         //must be empty
     }
-    /**@param selectorEventPaymentInformation */
+    /**@param selectorEventPaymentInformation specific event */
     @Override
     public void askPaymentInformation(SelectorEventPaymentInformation selectorEventPaymentInformation) {
         SocketVirtualView.sendToClient(playerToAsk, selectorEventPaymentInformation);
     }
 
     /**ask the player which power up he wants to use between the ones contained in
-     * @param powerUpCards*/
+     * @param powerUpCards list of power ups*/
     @Override
     public void askPowerUpToUse(List<PowerUpCardV> powerUpCards) {
         SocketVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askPowerUpToUse,powerUpCards));

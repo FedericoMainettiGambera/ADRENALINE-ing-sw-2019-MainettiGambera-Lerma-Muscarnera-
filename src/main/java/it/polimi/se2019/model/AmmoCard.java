@@ -36,7 +36,8 @@ public class AmmoCard extends Card implements Serializable {
         return ammunitions;
     }
 
-    /**return the boolean value of isPowerUp*/
+    /**return the boolean value of isPowerUp
+     * @return isPowerUp*/
     public boolean isPowerUp() {
         return isPowerUp;
     }
@@ -91,7 +92,8 @@ public class AmmoCard extends Card implements Serializable {
 
 
     }
-    /**build the equivalent class in the view, but with just the minimum information needed*/
+    /**build the equivalent class in the view, but with just the minimum information needed
+     * @return reference to it*/
     public AmmoCardV buildAmmoCardV(){
         AmmoCardV ammoCardV=new AmmoCardV();
         ammoCardV.setAmmoList(this.ammunitions.buildAmmoListV());

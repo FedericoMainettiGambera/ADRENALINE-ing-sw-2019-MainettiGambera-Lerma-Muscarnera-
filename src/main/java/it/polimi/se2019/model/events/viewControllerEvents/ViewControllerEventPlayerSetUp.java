@@ -21,7 +21,7 @@ public class ViewControllerEventPlayerSetUp extends ViewControllerEvent {
     public String getNickname(){
         return this.nickname;
     }
-    /**@®return color*/
+    /**@return color*/
     public PlayersColors getColor(){
         return this.color;
     }

@@ -209,14 +209,14 @@ public class VirtualViewSelectorRmi extends VirtualViewSelector implements Selec
         //must be empty
     }
 
-    /**@param selectorEventPaymentInformation */
+    /**@param selectorEventPaymentInformation a specific event */
     @Override
     public void askPaymentInformation(SelectorEventPaymentInformation selectorEventPaymentInformation) {
         RmiVirtualView.sendToClient(playerToAsk, selectorEventPaymentInformation);
     }
 
     /**ask the player which power up he wants to use between the ones contained in
-     * @param powerUpCards*/
+     * @param powerUpCards the power up cards the player can use*/
     @Override
     public void askPowerUpToUse(List<PowerUpCardV> powerUpCards) {
         RmiVirtualView.sendToClient(playerToAsk, new SelectorEventPowerUpCards(SelectorEventTypes.askPowerUpToUse,(ArrayList<PowerUpCardV>)powerUpCards));

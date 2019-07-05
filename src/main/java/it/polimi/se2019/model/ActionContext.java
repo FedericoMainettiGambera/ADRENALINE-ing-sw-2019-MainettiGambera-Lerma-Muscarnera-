@@ -8,7 +8,7 @@ import java.util.List;
  * interact and to change stats of players.
  *
  *
- *@Author Luca Muscarnera*/
+ *@author Luca Muscarnera*/
 
 public class ActionContext  implements Serializable {
     public Player getPlayer() {

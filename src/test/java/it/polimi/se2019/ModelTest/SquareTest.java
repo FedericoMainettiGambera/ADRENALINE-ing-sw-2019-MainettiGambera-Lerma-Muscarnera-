@@ -27,7 +27,8 @@ public class SquareTest{
     private SpawnPointSquare spawnPointSquare=new SpawnPointSquare(1,1,null,SquareSide.nothing,SquareSide.nothing,SquareSide.wall,
             SquareTypes.spawnPoint,'r');
 
-    /**tests the methods of normal square and Spawn point square who didn't get to be tested somewhere else*/
+    /**tests the methods of normal square and Spawn point square who didn't get to be tested somewhere else
+     * @throws Exception different kind of exception may occur*/
     @Test
     public void testWhatsLeft() throws Exception{
 

@@ -9,7 +9,7 @@ import it.polimi.se2019.model.events.viewControllerEvents.ViewControllerEvent;
 
 import java.util.Observable;
 /**listens to events from the clients
- * @author LudoLerma &
+ * @author LudoLerma
  * @author FedericoMainettiGambera*/
 public class RmiClientListenerVirtualView extends Observable implements Runnable {
 

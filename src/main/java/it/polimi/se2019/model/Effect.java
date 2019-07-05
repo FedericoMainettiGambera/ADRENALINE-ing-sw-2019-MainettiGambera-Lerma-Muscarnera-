@@ -26,7 +26,7 @@ public class Effect implements Serializable {
      *  of the effect itself. Because every position is - in a normal effect - changed
      *  only during the call of Exec(), setting moveDuringEffect true will result in
      *  position changing during the effect and not at the end of it.
-     * @param: moveDuringEffect the value of the moveDuringEffect field
+     * @param moveDuringEffect the value of the moveDuringEffect field
      * */
     public void setMoveDuringEffect(boolean moveDuringEffect) {
         MoveDuringEffect = moveDuringEffect;

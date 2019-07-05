@@ -53,6 +53,7 @@ public class FakeModel{
 
     /**
      * arbitrary way to get the game instance,
+     * @return a reference to the game
      * @throws IOException that may occur while initializing the model
      * */
      static Game getFakeModel() throws IOException {

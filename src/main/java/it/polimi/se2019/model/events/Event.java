@@ -11,7 +11,7 @@ public abstract class Event {
     public void setEventType(EventTypes eventType){
         this.eventType = eventType;
     }
-    /***/
+    /**@deprecated */
     public EventTypes getEventType(){
         return this.eventType;
     }

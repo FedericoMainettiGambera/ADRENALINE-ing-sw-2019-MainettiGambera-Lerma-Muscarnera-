@@ -51,7 +51,7 @@ public abstract class Square implements Serializable {
 /**color of the square*/
     private char color;
 
-    /**@®return the asked side
+    /**@return the asked side
      * @param cardinalPoint may be one of the 4 cardinal point*/
     public SquareSide getSide(CardinalPoint cardinalPoint){
         if(cardinalPoint == CardinalPoint.north){

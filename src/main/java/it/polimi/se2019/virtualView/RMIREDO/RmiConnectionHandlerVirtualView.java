@@ -29,7 +29,8 @@ public class RmiConnectionHandlerVirtualView implements Runnable{
     private PrintWriter out=new PrintWriter(System.out, true);
 
     /** constructor, initialize a private variable client with the new client,
-     * it is of rmiInterface type because bidirectional rmi is implemented*/
+     * it is of rmiInterface type because bidirectional rmi is implemented
+     * @param client to set client attribute*/
     RmiConnectionHandlerVirtualView(RmiInterface client){
         this.client = client;
     }

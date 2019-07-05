@@ -67,8 +67,8 @@ public class KillShotTrack extends Observable implements Serializable {
     /*-*********************************************************************************************************METHODS*/
 
     /**as the number of skull is set once for all at the beginning of the game, it is only allowed to delete'em
-     * @param isOverKill @tracks down if player committed an overkill
-     * @param killingPlayer @tracks down whom committed a kill
+     * @param isOverKill tracks down if player committed an overkill
+     * @param killingPlayer tracks down whom committed a kill
      * */
     public void deathOfPlayer(Player killingPlayer, boolean isOverKill){
 

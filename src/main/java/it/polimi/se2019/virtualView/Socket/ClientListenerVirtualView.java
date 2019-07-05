@@ -15,7 +15,7 @@ import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**listens to events from the clients
- * @author LudoLerma &
+ * @author LudoLerma
  * @author FedericoMainettiGambera*/
 public class ClientListenerVirtualView extends Observable implements Runnable{
 

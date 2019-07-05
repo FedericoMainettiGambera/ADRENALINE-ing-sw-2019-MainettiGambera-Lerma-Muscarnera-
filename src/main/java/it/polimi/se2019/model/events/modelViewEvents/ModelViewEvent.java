@@ -66,7 +66,7 @@ public class ModelViewEvent extends Event implements Serializable {
     public Object getComponent(){
         return this.component;
     }
-    /**@reurn information*/
+    /**@return information*/
     public ModelViewEventTypes getInformation(){
         return this.information;
     }

@@ -220,7 +220,8 @@ public class InitialSceneController implements Initializable {
         //TODO show rules
         GUIstarter.showError(this,"TODO: show PDFs of the rules", null);
     }
-    /**if the user hit the enter key, the game is started*/
+    /**if the user hit the enter key, the game is started
+     * @param event key event*/
     @FXML
     public void onEnterPressed(KeyEvent event){
         if(!this.startButton.isDisabled() && event.getCode().equals(KeyCode.ENTER)) {

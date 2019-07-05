@@ -546,7 +546,8 @@ public class CLIOutputHandler implements OutputHandlerInterface{
 
     }
     /**shows the player
-     * @param playerToShow ammoBox*/
+     * @param playerToShow ammoBox
+     * @return  a string*/
     public static String ammoString(PlayerV playerToShow){
         if( playerToShow != null && playerToShow.getAmmoBox()!= null && playerToShow.getAmmoBox().getAmmoCubesList()!=null) {
             StringBuilder ammos = new StringBuilder("AMMO: [");
@@ -562,7 +563,8 @@ public class CLIOutputHandler implements OutputHandlerInterface{
     }
     /**dispaly
      * @param playerToShow total of
-     *                     deaths
+     *  deaths
+     *  @return a string
      * */
     public static String deathsString(PlayerV playerToShow){
         StringBuilder deaths;
@@ -588,7 +590,9 @@ public class CLIOutputHandler implements OutputHandlerInterface{
         deaths.append("]");
         return deaths.toString();
     }
-    /**@param playerToShow the player to be shown the damages of*/
+    /**@param playerToShow the player to be shown the damages of
+     * @return  a string representing those damages
+     * */
     public static String damageString(PlayerV playerToShow){
         if(playerToShow!=null && playerToShow.getDamageTracker()!=null && playerToShow.getDamageTracker().getDamageSlotsList()!=null) {
             StringBuilder damage = new StringBuilder("DAMAGE: [");
@@ -624,7 +628,8 @@ public class CLIOutputHandler implements OutputHandlerInterface{
             return "Sorry, the player or the damageTracker or the damageSlotList  are null";
         }
     }
-    /**@param playerToShow the player to be shown the marks of*/
+    /**@param playerToShow the player to be shown the marks of
+     * @return  a string representing those marks*/
     public static String markString(PlayerV playerToShow){
         if(playerToShow!=null && playerToShow.getMarksTracker()!=null && playerToShow.getMarksTracker().getMarkSlotsList()!=null) {
             StringBuilder mark = new StringBuilder("MARKS: [");

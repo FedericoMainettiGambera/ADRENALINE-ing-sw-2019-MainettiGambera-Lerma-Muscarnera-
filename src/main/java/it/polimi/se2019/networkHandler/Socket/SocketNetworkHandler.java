@@ -33,7 +33,8 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
     /**constructor,
      * @param inetAddress to get addresses
      * @param view to be passed to serverListenerNetworkHandler
-     * @param port port on which the connection in built*/
+     * @param port port on which the connection in built
+     * @throws IOException socket*/
     public SocketNetworkHandler(InetAddress inetAddress, int port, View view) throws IOException {
 
         if(Controller.getUserInterface().equalsIgnoreCase("CLI")) {
@@ -57,7 +58,9 @@ public class SocketNetworkHandler extends NetworkHandler implements Observer{
     /**update
      * @param port port of the socket
      * @param inetAddress  address of the socket
-     * the socket*/
+     * the socket
+     * @throws IOException for sockets reason
+     * */
    private static void  updateStreamsAndSocket(InetAddress inetAddress, int port) throws IOException {
 
         socket = new Socket(inetAddress, port);

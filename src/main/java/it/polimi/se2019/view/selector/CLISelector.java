@@ -123,7 +123,8 @@ public class CLISelector implements SelectorV {
     }
 
 /**@param rangeEnd ask a number in the given range
- * @param rangeInit */
+ * @param rangeInit  beginning of the range
+ * @return a int which represents the user's choice*/
     public static int askNumber(int rangeInit, int rangeEnd){
         if(Controller.isRandomGame()){
             try {
@@ -375,7 +376,11 @@ public class CLISelector implements SelectorV {
         /**implements a dedicated thread that manages to ask the user
          *what they want to do between the action available during their turn
          * collects the answer
-         * and sends it to the server using a specific event*/
+         * and sends it to the server using a specific event
+         * @param canUseBot boolean
+         * @param canUsePowerUp boolean
+         * @param actionNumber 1st or 2nd
+         * */
         public AskTurnAction(int actionNumber, boolean canUsePowerUp, boolean canUseBot){
             this.actionNumber = actionNumber;
             this.canUsePowerUp = canUsePowerUp;

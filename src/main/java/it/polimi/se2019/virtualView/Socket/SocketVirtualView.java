@@ -16,7 +16,7 @@ import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**@author LudoLerma &
+/**@author LudoLerma
  * @author FedericoMainettiGambera
  * implements the server in socket*/
 public class SocketVirtualView extends VirtualView{

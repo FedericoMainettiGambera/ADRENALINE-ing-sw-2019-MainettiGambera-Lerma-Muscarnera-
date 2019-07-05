@@ -43,6 +43,7 @@ public class RmiNetworkHandler extends UnicastRemoteObject implements RmiInterfa
      * @param ip to set ip attribute
      * @param port to set port attribute
      * @param view to set view attribute
+     *throws IOException, socket
      *looks for the registry and get a reference to the server
      * */
     public RmiNetworkHandler(String ip, int port, View view) throws IOException {

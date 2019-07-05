@@ -237,7 +237,7 @@ public class GameSceneController implements Initializable {
 
     }
 
-    /**3.1.2[0,1]- player damages & deaths*/
+    /**3.1.2[0,1]- player damages  deaths*/
     @FXML private VBox playerDamagesAndDeathsVBox;
 
     /**@return playerDamagesAndDeathsVBox*/

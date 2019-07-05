@@ -59,7 +59,7 @@ public class DamagesTracker implements Serializable {
     }
 
     /**add Damages
-     * @param damageSlot
+     * @param damageSlot the damage slot to add the damage to
      * @deprecated
      * */
     public void addDamage(DamageSlot damageSlot){

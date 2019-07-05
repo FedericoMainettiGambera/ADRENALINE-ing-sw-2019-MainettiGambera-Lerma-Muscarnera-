@@ -19,7 +19,7 @@ public class WeaponCard extends Card implements Serializable {
 
     /***/
 
-   public WeaponCard(String ID, AmmoList reloadCost, List<Effect> effects) {
+      public WeaponCard(String ID, AmmoList reloadCost, List<Effect> effects) {
         super(ID);
         this.isLoaded = true;
         this.effects = effects;

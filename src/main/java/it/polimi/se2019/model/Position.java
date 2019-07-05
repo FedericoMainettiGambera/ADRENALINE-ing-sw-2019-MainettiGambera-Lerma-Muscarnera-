@@ -16,8 +16,8 @@ public class Position implements Serializable {
 
     /**Constructor:
      * sets X and Y.
-     * @param X must be >= 0
-     * @param Y must be >= 0
+     * @param X bigger or equals to than 0
+     * @param Y bigger or equals to than 0
      * @throws IllegalArgumentException coordinqates cant be negative
      * */
     public Position(int X, int Y) throws IllegalArgumentException {

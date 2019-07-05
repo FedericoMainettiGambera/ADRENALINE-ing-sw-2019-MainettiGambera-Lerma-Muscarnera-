@@ -81,6 +81,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
         /**
          * remove the previous css style class
+         * @param target, the stackpane from which the css style must be removed
          */
         private void removePrevious(StackPane target) {      // removePrevious(%1%,%2%,...,%n%)
 
@@ -451,6 +452,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
         /**
          * update marks
+         * @param player the player to update the marks of
          */
         private void updateMarks(PlayerV player) {
             if(player.getMarksTracker()==null){return;}
@@ -519,6 +521,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
         /**
          * applies the "markEmpty" css style class to all of the marks
+         * @param i  index
          */
         private void emptyMarks(int i) {
 

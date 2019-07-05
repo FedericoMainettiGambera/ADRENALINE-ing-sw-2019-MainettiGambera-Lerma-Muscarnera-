@@ -45,7 +45,7 @@ public class RmiVirtualView extends VirtualView implements RmiInterface{
     }
 
     /** starts the rmi server
-     * @throws RemoteException, as requested from rmi implementations */
+     throws RemoteException, rmi */
     public void startRMI() throws RemoteException {
 
         RmiInterface rmiInterface = new RmiVirtualView(controller);

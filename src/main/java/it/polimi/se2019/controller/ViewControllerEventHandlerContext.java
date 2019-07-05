@@ -50,7 +50,8 @@ public class  ViewControllerEventHandlerContext implements Observer{
         return paymentProcess;
     }
 
-    /**contain information on the payment process*/
+    /**contain information on the payment process
+     * @param paymentProcess reference to the payment process*/
     public static void setPaymentProcess(ChooseHowToPayState paymentProcess) {
         ViewControllerEventHandlerContext.paymentProcess = paymentProcess;
         addElementTOStackOfStatesAndTimers(paymentProcess, "payment process setted");

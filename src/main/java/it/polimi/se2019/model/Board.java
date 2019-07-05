@@ -39,7 +39,8 @@ public class Board{
     /** constructor
      * @param chosenMap indicates the one map chosen between the 4 available
      * @param vvrmi it keeps a connection with the RMI system
-     * @param vvsocket it keeps a connection with the Socket System */
+     * @param vvsocket it keeps a connection with the Socket System
+     * */
     public Board(String chosenMap, VirtualView vvsocket, VirtualView vvrmi) throws IOException{
         this.vvsocket = vvsocket;
         this.vvrmi = vvrmi;
@@ -80,6 +81,7 @@ public class Board{
     /**
      * function used in controller to get the SpawnSquare where players want to spawn
      * @param color of the spawn point the player want to spawn in
+     * @return the said position
      * */
     public Position getSpawnpointOfColor(AmmoCubesColor color){
         int g=0;
@@ -197,6 +199,7 @@ public class Board{
     /**@param chosenMap indicates which map has been chosen to play with
      * this function build the map from a given file
      * @return a reference to the map
+     * throws IOException, files
      * */
     private Square[][] buildMap(String chosenMap) throws IOException{
         Square[][] map = new Square[3][4];

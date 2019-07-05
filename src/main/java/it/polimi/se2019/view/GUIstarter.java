@@ -14,7 +14,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 /**this class starts the GUI
- * @author LudoLerma &
+ * @author LudoLerma
  *     @author FedericoMainettiGambera*/
 public class GUIstarter extends Application {
 
