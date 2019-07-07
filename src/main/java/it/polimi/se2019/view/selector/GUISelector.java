@@ -386,9 +386,9 @@ public class GUISelector implements SelectorV {
             //BOT REQUEST
             if(spawnBot){
                 StackPane title = new StackPane(new Label("Choose where you want to spawn the bot"));
-                StackPane red = new StackPane(new Label("red"));
-                StackPane blue = new StackPane(new Label("blue"));
-                StackPane yellow = new StackPane(new Label("yellow"));
+                StackPane red = new StackPane(new Label("red spawn point"));
+                StackPane blue = new StackPane(new Label("blue spawn point"));
+                StackPane yellow = new StackPane(new Label("yellow spawn point"));
 
                 request.getChildren().addAll(title, red, blue, yellow);
 
@@ -1648,7 +1648,6 @@ public class GUISelector implements SelectorV {
                 StackPane playerStackpane = UpdateMap.getPlayerStackPane(player.getNickname());
                 makeNodeHoverable(playerStackpane);
 
-                System.out.println("Ludo PlayerStack pane: " + playerStackpane.getChildren().toString());
                 playerStackpane.addEventHandler(MouseEvent.MOUSE_CLICKED, e->{
                     getGameSceneController().removeSelectorSection();
                     //refresh map

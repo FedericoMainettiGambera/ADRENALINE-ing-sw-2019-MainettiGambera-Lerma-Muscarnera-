@@ -234,7 +234,7 @@
                            <children>
                               <HBox fx:id="playerHBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <VBox fx:id="powerUpCardsVBox" minWidth="200" HBox.hgrow="ALWAYS">
+                                    <VBox fx:id="powerUpCardsVBox" minWidth="135" HBox.hgrow="ALWAYS">
                                        <children>
                                           <StackPane fx:id="powerUpCardsTitle"  >
                                              <children>
@@ -401,7 +401,7 @@
                                                                <children>
                                                                   <StackPane fx:id="deathMainImage1">
                                                                      <children>
-                                                                        <Label text="8" />
+                                                                        <Label text="" />
                                                                      </children>
                                                                   </StackPane>
                                                                </children>
@@ -410,7 +410,7 @@
                                                                <children>
                                                                   <StackPane fx:id="deathMainImage2">
                                                                      <children>
-                                                                        <Label text="6" />
+                                                                        <Label text="" />
                                                                      </children>
                                                                   </StackPane>
                                                                </children>
@@ -419,7 +419,7 @@
                                                                <children>
                                                                   <StackPane fx:id="deathMainImage3">
                                                                      <children>
-                                                                        <Label text="4" />
+                                                                        <Label text="" />
                                                                      </children>
                                                                   </StackPane>
                                                                </children>
@@ -428,7 +428,7 @@
                                                                <children>
                                                                   <StackPane fx:id="deathMainImage4">
                                                                      <children>
-                                                                        <Label text="2" />
+                                                                        <Label text="" />
                                                                      </children>
                                                                   </StackPane>
                                                                </children>
@@ -437,7 +437,7 @@
                                                                <children>
                                                                   <StackPane fx:id="deathMainImage5">
                                                                      <children>
-                                                                        <Label text="1" />
+                                                                        <Label text="" />
                                                                      </children>
                                                                   </StackPane>
                                                                </children>
@@ -446,16 +446,7 @@
                                                                <children>
                                                                   <StackPane fx:id="deathMainImage6">
                                                                      <children>
-                                                                        <Label text="1" />
-                                                                     </children>
-                                                                  </StackPane>
-                                                               </children>
-                                                            </StackPane>
-                                                            <StackPane fx:id="deathBackground7" HBox.hgrow="ALWAYS">
-                                                               <children>
-                                                                  <StackPane fx:id="deathMainImage7">
-                                                                     <children>
-                                                                        <Label text="1" />
+                                                                        <Label text="" />
                                                                      </children>
                                                                   </StackPane>
                                                                </children>
@@ -541,7 +532,7 @@
                                           </GridPane>
                                        </children>
                                     </StackPane>
-                                    <VBox fx:id="weaponCardsVBox" layoutX="10.0" layoutY="10.0" minWidth="300.0" HBox.hgrow="ALWAYS">
+                                    <VBox fx:id="weaponCardsVBox" layoutX="10.0" layoutY="10.0" minWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <StackPane fx:id="weaponCardsTitle">
                                              <children>
