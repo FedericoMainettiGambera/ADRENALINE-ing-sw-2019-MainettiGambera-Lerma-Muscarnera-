@@ -578,7 +578,7 @@ public class GameSceneController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources){
         //making board auto-resize
-        makeBoardAutoResizing();
+         makeBoardAutoResizing();
 
 
         //making selector section and info section resizable
