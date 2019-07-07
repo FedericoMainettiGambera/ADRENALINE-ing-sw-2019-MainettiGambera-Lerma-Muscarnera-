@@ -589,8 +589,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
 
                 for (PlayerV player : ViewModelGate.getModel().getPlayers().getPlayers()) {
 
-                    if (player.getNickname().equals(ViewModelGate.getMe()) && (player.getNumberOfDeaths() != 0)) {
-
+                    if (player.getNickname().equals(ViewModelGate.getMe())) {
                         for (int i = 0; i < player.getNumberOfDeaths(); i++){
                             removePrevious( getGameSceneController().getDeathMainImage().get(i));
                             getGameSceneController().getDeathMainImage().get(i).getStyleClass().add("deathSkull");
@@ -1154,7 +1153,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     public void deathOfPlayer(ModelViewEvent modelViewEvent) {
         updateKillShotTrack();
         updatePlayer();
-        updateMap(); // TODO non ne sono sicuro
+        updateMap();
     }
 
     /**@param modelViewEvent , cards have been moved*/
@@ -1168,6 +1167,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     @Override
     public void shufflingCards(ModelViewEvent modelViewEvent) {
         //empty
+        updateDeaths();
     }
 
     /**@param modelViewEvent , color has been set, update the player*/
@@ -1198,7 +1198,7 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     public void addDeathCounter(ModelViewEvent modelViewEvent) {
         updateDeaths();
         updateKillShotTrack();
-        updateMap(); //TODO not sure
+        updateMap();
     }
     /**@param modelViewEvent , final frenzy boards have been set, update the damages and the deaths*/
     @Override

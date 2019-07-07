@@ -341,8 +341,6 @@ public class GameSceneController implements Initializable {
     @FXML private StackPane deathMainImage5;
     @FXML private StackPane deathBackground6;
     @FXML private StackPane deathMainImage6;
-    @FXML private StackPane deathBackground7;
-    @FXML private StackPane deathMainImage7;
 
     /**@return deathList, a list of all of the deathImages*/
     public List<StackPane> getDeathMainImage(){
@@ -354,7 +352,6 @@ public class GameSceneController implements Initializable {
         deathList.add(deathMainImage4);
         deathList.add(deathMainImage5);
         deathList.add(deathMainImage6);
-        deathList.add(deathMainImage7);
 
         return deathList;
     }
@@ -704,14 +701,12 @@ public class GameSceneController implements Initializable {
         this.deathBackground4.getStyleClass().add(deathBackground);
         this.deathBackground5.getStyleClass().add(deathBackground);
         this.deathBackground6.getStyleClass().add(deathBackground);
-        this.deathBackground7.getStyleClass().add(deathBackground);
         this.deathMainImage1.getStyleClass().add(deathSkull);
         this.deathMainImage2.getStyleClass().add(deathSkull);
         this.deathMainImage3.getStyleClass().add(deathSkull);
         this.deathMainImage4.getStyleClass().add(deathSkull);
         this.deathMainImage5.getStyleClass().add(deathSkull);
         this.deathMainImage6.getStyleClass().add(deathSkull);
-        this.deathMainImage7.getStyleClass().add(deathSkull);
         //nickname
         this.playerNicknameBackground.getStyleClass().add("nicknameBackground");
         String ammoBackground="ammoBackground";

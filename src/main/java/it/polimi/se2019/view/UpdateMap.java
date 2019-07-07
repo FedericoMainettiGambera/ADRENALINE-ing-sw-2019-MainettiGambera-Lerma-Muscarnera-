@@ -1,5 +1,6 @@
 package it.polimi.se2019.view;
 
+import it.polimi.se2019.model.enumerations.PlayersColors;
 import it.polimi.se2019.view.components.*;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
@@ -146,7 +147,10 @@ public class UpdateMap implements Runnable{
     private HBox buildPlayers(List<PlayerV> playersToShow){
         HBox hBox = new HBox();
         for (PlayerV p: playersToShow) {
-            StackPane playerStackPane = new StackPane(new Label(p.getNickname())); //don't use a label, but set the image
+            Label nickname = new Label(p.getNickname());
+            nickname.getStyleClass().add("nicknameBackground" + getStringFromColor(p.getColor()));
+            StackPane playerStackPane = new StackPane();
+            playerStackPane.getChildren().add(nickname);
             playerStackPane.setUserData(p);
             playerStackPane.addEventHandler(MouseEvent.MOUSE_ENTERED, getGameSceneController().getShowPlayerEventHandler());
             setPlayerStackPane(new PlayerStackPanesTracker(p.getNickname(), playerStackPane));
@@ -156,10 +160,29 @@ public class UpdateMap implements Runnable{
         return hBox;
     }
 
+    private String getStringFromColor(PlayersColors color){
+        switch (color){
+            case purple:
+                return "Purple";
+            case blue:
+                return "Blue";
+            case gray:
+                return "Gray";
+            case green:
+                return "Green";
+            case yellow:
+                return "Yellow";
+        }
+        return "";
+    }
+
     private HBox buildPlayersWithSameEvents(List<PlayerV> playersToShow){
         HBox hBox = new HBox();
         for (PlayerV p: playersToShow) {
-            StackPane playerStackPane = new StackPane(new Label(p.getNickname())); //don't use a label, but set the image
+            Label nickname = new Label(p.getNickname());
+            nickname.getStyleClass().add("nicknameBackground" + getStringFromColor(p.getColor()));
+            StackPane playerStackPane = new StackPane();
+            playerStackPane.getChildren().add(nickname);
             if(getPlayerStackPane(p.getNickname())!=null){
                 playerStackPane = getPlayerStackPane(p.getNickname());
                 assert playerStackPane != null;
@@ -194,7 +217,6 @@ public class UpdateMap implements Runnable{
     public static StackPane getPlayerStackPane(String nickname){
         for (PlayerStackPanesTracker playerStackPanesTracker: playersStackPaneList) {
             if(playerStackPanesTracker.getNickname().equals(nickname)){
-                System.out.println("        returning player stackPane: " +playerStackPanesTracker.getPlayerStackPane().getChildren().toString());
                 return playerStackPanesTracker.getPlayerStackPane();
             }
         }
@@ -205,11 +227,9 @@ public class UpdateMap implements Runnable{
             if(oldStackPanesTracker.getNickname().equals(newPlayerStackPanesTracker.getNickname())){
                 playersStackPaneList.remove(oldStackPanesTracker);
                 playersStackPaneList.add(newPlayerStackPanesTracker);
-                System.out.println("        playersStackPaneListTracker.size() : " + playersStackPaneList.size());
                 return;
             }
         }
-        System.out.println("        playersStackPaneListTracker.size() : " + playersStackPaneList.size());
         playersStackPaneList.add(newPlayerStackPanesTracker);
     }
 
@@ -275,6 +295,7 @@ public class UpdateMap implements Runnable{
                     //show new ammo card
                     VBox squareContent = new VBox();
 
+                    currentStackPaneSquare.getChildren().clear();
                     currentStackPaneSquare.getChildren().add(squareContent);
 
                     //place ammo card if there is
@@ -303,6 +324,7 @@ public class UpdateMap implements Runnable{
                     //show new weapons cards
                     VBox squareContent = new VBox();
 
+                    currentStackPaneSquare.getChildren().clear();
                     currentStackPaneSquare.getChildren().add(squareContent);
 
                     //places weapon cards on the square
