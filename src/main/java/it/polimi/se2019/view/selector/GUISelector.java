@@ -669,6 +669,7 @@ public class GUISelector implements SelectorV {
                 StackPane mainStackPane = (StackPane)((StackPane)hBox.getChildren().get(i)).getChildren().get(0);
                 makeNodeHoverable(mainStackPane);
                 mainStackPane.setUserData(toPickUp.get(i).getID());
+                mainStackPane.getStyleClass().add("weaponCard" + toPickUp.get(i).getID());
                 //EVENTS
                 mainStackPane.setOnMouseClicked(e->{
                     String toPickUpID = (String)((StackPane)e.getSource()).getUserData();
