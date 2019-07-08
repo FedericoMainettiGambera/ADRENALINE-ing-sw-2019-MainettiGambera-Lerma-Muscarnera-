@@ -1305,13 +1305,17 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     /**@param modelViewEvent , final scoring has finally arrived, the scene needs to be set again*/
     @Override
     public void finalScoring(ModelViewEvent modelViewEvent){
-        if(counter == 0){
-            getGameSceneController().removeSelectorSection();
-            getGameSceneController().changeSelectorSection(new VBox(), 0.0,0.0,0.0,0.0);
-        }
-        StackPane rank=new StackPane(new Label(" " + modelViewEvent.getExtraInformation2() + " :" + modelViewEvent.getComponent() + "  with  " + modelViewEvent.getExtraInformation2()));
-        ((VBox)getGameSceneController().getSelectorSection().getChildren().get(0)).getChildren().add(rank);
-        counter++;
+
+        Platform.runLater(()->{
+            if(counter == 0){
+                getGameSceneController().removeSelectorSection();
+                getGameSceneController().changeSelectorSection(new VBox(), 0.0,0.0,0.0,0.0);
+            }
+            StackPane rank=new StackPane(new Label(" " + modelViewEvent.getExtraInformation2() + " :" + modelViewEvent.getComponent() + "  with  " + modelViewEvent.getExtraInformation2()));
+            ((VBox)getGameSceneController().getSelectorSection().getChildren().get(0)).getChildren().add(rank);
+            counter++;
+        });
+
     }
 
 
