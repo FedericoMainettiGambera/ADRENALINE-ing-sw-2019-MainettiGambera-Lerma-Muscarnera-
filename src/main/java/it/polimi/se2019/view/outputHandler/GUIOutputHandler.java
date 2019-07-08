@@ -1304,34 +1304,14 @@ public class GUIOutputHandler implements OutputHandlerInterface {
     int counter=0;
     /**@param modelViewEvent , final scoring has finally arrived, the scene needs to be set again*/
     @Override
-    public void finalScoring(ModelViewEvent modelViewEvent) {
-        VBox ranking= new VBox();
-
-        if(counter<ViewModelGate.getModel().getPlayers().getPlayers().size()){
-            if(counter==0) {
-                StackPane title = new StackPane(new Label("\nFINAL RANKING\n"));
-                StackPane first=new StackPane(new Label(" " + modelViewEvent.getExtraInformation2() + " :" + modelViewEvent.getComponent() + "  with  " + modelViewEvent.getExtraInformation2()));
-
-                ranking.getChildren().add(title);
-                ranking.getChildren().add(first);
-                VBox.setVgrow(title, Priority.ALWAYS);
-                VBox.setVgrow(first, Priority.ALWAYS);
-
-            }
-            else{
-
-
-                StackPane player=new StackPane(new Label(" " + modelViewEvent.getExtraInformation2() + " :" + modelViewEvent.getComponent() + "  with  " + modelViewEvent.getExtraInformation2()));
-                ranking.getChildren().add(player);
-                VBox.setVgrow(player, Priority.ALWAYS);
-            }
-
+    public void finalScoring(ModelViewEvent modelViewEvent){
+        if(counter == 0){
+            getGameSceneController().removeSelectorSection();
+            getGameSceneController().changeSelectorSection(new VBox(), 0.0,0.0,0.0,0.0);
         }
-
-
-      else{
-            getGameSceneController().changeSelectorSection(ranking, 0.0,0.0,0.0,0.0);
-        }
+        StackPane rank=new StackPane(new Label(" " + modelViewEvent.getExtraInformation2() + " :" + modelViewEvent.getComponent() + "  with  " + modelViewEvent.getExtraInformation2()));
+        ((VBox)getGameSceneController().getSelectorSection().getChildren().get(0)).getChildren().add(rank);
+        counter++;
     }
 
 
