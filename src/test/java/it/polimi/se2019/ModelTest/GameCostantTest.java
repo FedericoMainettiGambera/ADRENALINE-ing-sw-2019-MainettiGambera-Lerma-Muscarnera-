@@ -15,7 +15,7 @@ public class GameCostantTest{
         assertEquals(5, GameConstant.MIN_STARTING_SKULLS);
         assertEquals(3, GameConstant.MAX_NUMBER_OF_MARK_FROM_PLAYER);
         assertEquals(5, GameConstant.MAX_NUMBER_OF_PLAYER_PER_GAME);
-        assertEquals(1, GameConstant.MIN_NUMBER_OF_PLAYER_PER_GAME);
+        assertEquals(3, GameConstant.MIN_NUMBER_OF_PLAYER_PER_GAME);
 
 
 

@@ -26,8 +26,8 @@ public class TestPlayer {
 
 
         player.setPlayerHistory(playerHistory);
-        player.setAFKWIthoutNotify(true);
-        player.setAFKWithNotify(true);
+       // player.setAFKWIthoutNotify(true);
+       // player.setAFKWithNotify(true);
         player.setAFKWIthoutNotify(false);
         player.setAFKWithNotify(false);
         player.setRmiInterface(null);

@@ -16,6 +16,9 @@ public class FakeModel{
     private Player player1=new Player();
     private Player player2=new Player();
     private Player player3=new Player();
+
+
+
     /**above mentioned player list*/
     private PlayersList playersList=new PlayersList();
 
@@ -48,6 +51,11 @@ public class FakeModel{
         playersList.addPlayer(player2);
         player3.setNickname("C");
         playersList.addPlayer(player3);
+
+
+
+
+
 
     }
 
