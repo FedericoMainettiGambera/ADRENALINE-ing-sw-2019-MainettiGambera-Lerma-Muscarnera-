@@ -4,7 +4,12 @@
 
 This project is the digitalization of an awesome board game called "Adrenaline". You can host the server directly on your computer and play online with your friends.
 
-The entire application is written in **Java**.
+The entire application is written in **Java**, if you are intrested in the code you can:
+- check the **code base** and all the **tests** in the src folder
+- read the **documentation** in the delivery/final/JavaDoc/javadoc documentaion/JavaDoc Documentation folder
+- check the **UML** in the delivery/final/UML folder
+- check **sonar reports** in the delivery/final/Sonar folder
+- whatch a game be played by bots using the CLI (see below).
 
 ## About Adrenaline board game
 ![ADRENALINE LOGO](https://github.com/FedericoMainettiGambera/ADRENALINE/blob/master/img/pic3476604.jpg "Logo ADRENALINE")
@@ -44,6 +49,8 @@ If preferred the game can be also played in the terminal with the command line i
 
 <img src="https://github.com/FedericoMainettiGambera/ADRENALINE/blob/master/img/startClientscreenshotCLI.JPG" width="600">
 
+The CLI also will ask you if you want a bot to play instead of you (warning: it makes his moves really fast!). This option has been really useful to test the game during the development process.
+
 **UPDATE:**
 
 In Java 11, JavaFX was removed from the SDK. It is now in its own separate module, and if you want to use it in your application you will need to specifically include it or downgrade to an older sdk.
@@ -58,7 +65,7 @@ remember that if any of the path has spaces you must put it in quotes ("..").
 
 3. **How to configure clients?**
 
-The client applications will ask you all the informations the game needs to set up a match, just follow the instruction and have fun. 
+The client applications will ask you all the informations the game needs to set up a match, just follow the instructions and have fun. 
 
 Also the windows and every section of the gui is resizable to better fit your preferences, here it is an example of what an "empty table" looks like:
 
