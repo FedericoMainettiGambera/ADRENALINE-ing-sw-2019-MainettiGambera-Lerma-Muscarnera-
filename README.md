@@ -18,7 +18,7 @@ In the future, war has left the world in complete destruction and split the peop
 
 Play a first-person shooter on your gaming table. Grab some ammo, grab a gun, and start shooting. Build up an arsenal for a killer turn. Combat resolution is quick and diceless. And if you get shot, you get faster!
 
-## How to start to play?
+## How to start playing?
 
 1. **How to start server application?**
 
